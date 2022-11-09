@@ -68,7 +68,7 @@ class SupportRequest extends BaseModel
     public static function system_status()
     {
         $out = [];
-        $services = ['dhcpd', 'xinetd', 'ntpd', 'named', 'firewalld'];
+        $services = ['dhcpd', 'tftp', 'time-nmsprime', 'ntpd', 'named', 'firewalld'];
         foreach ($services as $service) {
             exec("systemctl status $service", $out[$service]);
         }
