@@ -53,7 +53,7 @@ class RadGroupReply extends \BaseModel
         ],
     ];
 
-    // freeradius-mysql does not use softdeletes
+    // freeradius-postgresql does not use softdeletes
     public static function bootSoftDeletes()
     {
     }

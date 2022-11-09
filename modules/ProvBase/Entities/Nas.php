@@ -30,7 +30,7 @@ class Nas extends \BaseModel
     public $timestamps = false;
     protected $forceDeleting = true;
 
-    // freeradius-mysql does not use softdeletes
+    // freeradius-postgresql does not use softdeletes
     public static function bootSoftDeletes()
     {
     }
