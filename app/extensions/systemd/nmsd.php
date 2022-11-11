@@ -48,7 +48,7 @@ while (1) {
         if (! exec("ps -aux | grep $service.php | grep -v grep")) {	// when nothing is returned the script isnt running
             unlink($dir.$service);
 
-            exec('/opt/remi/php80/root/usr/bin/php -f '.$dir_scripts.$service.'.php &>/dev/null &');
+            exec('php -f '.$dir_scripts.$service.'.php &>/dev/null &');
         }
     }
 

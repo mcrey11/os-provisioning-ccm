@@ -1,7 +1,3 @@
-# source environment variables to use php 8
-source /etc/profile.d/modules.sh
-module load php80
-
 # TODO: Remove this code section after NMSPrime v3.2
 # The whole code just does the initial steps that need to be done before Laravel can be used again with Pgsql
 # these files cause an error on install, hence we have to remove it (would be done anyway during cleanup)
@@ -106,14 +102,14 @@ fi
 
 cd '/var/www/nmsprime'
 
-systemctl restart httpd php80-php-fpm nmsprimed
+systemctl restart httpd php-fpm nmsprimed
 
 rm -f storage/framework/sessions/*
 chown -R apache storage bootstrap/cache
 
 systemd-tmpfiles --create
 
-/opt/remi/php80/root/usr/bin/php artisan clear-compiled
-/opt/remi/php80/root/usr/bin/php artisan optimize:clear
-/opt/remi/php80/root/usr/bin/php artisan optimize
-/opt/remi/php80/root/usr/bin/php artisan migrate
+php artisan clear-compiled
+php artisan optimize:clear
+php artisan optimize
+php artisan migrate

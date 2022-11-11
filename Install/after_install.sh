@@ -1,7 +1,3 @@
-# source environment variables to use php 8.0
-source /etc/profile.d/modules.sh
-module load php80
-
 #
 # variables
 #
@@ -35,10 +31,6 @@ chown root:apache /etc/httpd/ssl/httpd.key
 # reload apache config
 systemctl start httpd
 systemctl enable httpd
-
-# start fpm
-systemctl start php80-php-fpm
-systemctl enable php80-php-fpm
 
 #
 # firewalld
@@ -78,7 +70,7 @@ sed -e "s|^;date.timezone =.*|date.timezone = $zone|" \
     -e 's/^memory_limit =.*/memory_limit = 1024M/' \
     -e 's/^upload_max_filesize =.*/upload_max_filesize = 100M/' \
     -e 's/^post_max_size =.*/post_max_size = 100M/' \
-    -i /etc/{,opt/remi/php80/}php.ini
+    -i /etc/php.ini
 
 sed -e "s|^#APP_TIMEZONE=|APP_TIMEZONE=$zone|" \
     -e "s/^DB_PASSWORD=$/DB_PASSWORD=$pw/" \
@@ -107,22 +99,22 @@ mkdir -p -m755 "$dir/storage/app/tmp/"
 mkdir -p -m755 "$dir/storage/app/public/base/bg-images/"
 chown -R apache "$dir/storage/"
 rm -rf /var/www/nmsprime/bootstrap/cache/*
-/opt/remi/php80/root/usr/bin/php artisan clear-compiled
-/opt/remi/php80/root/usr/bin/php artisan optimize
-/opt/remi/php80/root/usr/bin/php artisan storage:link
+php artisan clear-compiled
+php artisan optimize
+php artisan storage:link
 
 # key:generate needs .env in root dir – create symlink to our env file
 ln -srf "$env/global.env" "$dir/.env"
-/opt/remi/php80/root/usr/bin/php artisan key:generate
+php artisan key:generate
 # remove the symlink and create empty .env with comment
 rm -f "$dir/.env"
 echo "# Use $env/*.env files for configuration" > "$dir/.env"
 
-/opt/remi/php80/root/usr/bin/php artisan migrate
+php artisan migrate
 # create default user roles to be later assigned to users
-/opt/remi/php80/root/usr/bin/php artisan auth:roles
+php artisan auth:roles
 
-/opt/remi/php80/root/usr/bin/php artisan config:cache
+php artisan config:cache
 
 # Note: needs to run last. storage/logs is only available after artisan optimize
 chown -R apache storage bootstrap/cache

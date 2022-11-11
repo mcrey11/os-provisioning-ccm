@@ -1,7 +1,3 @@
-# source environment variables to use php 8.0
-source /etc/profile.d/modules.sh
-module load php80
-
 cd '/var/www/nmsprime'
 
 # Run artisan commands only after all installed NMSPrime modules have been upgraded
@@ -32,29 +28,29 @@ if [ $lastModule -eq 1 ]; then
     rm -rf /var/www/nmsprime/modules/*/Resources/lang
 
     rm -f /var/www/nmsprime/config/excel.php
-    /opt/remi/php80/root/usr/bin/php artisan optimize:clear
-    /opt/remi/php80/root/usr/bin/php artisan module:publish
-    /opt/remi/php80/root/usr/bin/php artisan migrate
-    /opt/remi/php80/root/usr/bin/php artisan module:migrate
-    /opt/remi/php80/root/usr/bin/php artisan bouncer:clean
-    /opt/remi/php80/root/usr/bin/php artisan auth:nms
-    /opt/remi/php80/root/usr/bin/php artisan optimize
+    php artisan optimize:clear
+    php artisan module:publish
+    php artisan migrate
+    php artisan module:migrate
+    php artisan bouncer:clean
+    php artisan auth:nms
+    php artisan optimize
 
     # on HA machines: clean up
     [ -e /var/www/nmsprime/modules/ProvHA/Console/CleanUpSlaveCommand.php ] &&
-        /opt/remi/php80/root/usr/bin/php artisan module:list | grep -i provha | grep -i enabled &&
-        /opt/remi/php80/root/usr/bin/php artisan provha:clean_up_slave
+        php artisan module:list | grep -i provha | grep -i enabled &&
+        php artisan provha:clean_up_slave
 
     # on HA machines: process migrations
     [ -e /var/www/nmsprime/modules/ProvHA/Console/MigrateSlaveCommand.php ] &&
-    /opt/remi/php80/root/usr/bin/php artisan module:list | grep -i provha | grep -i enabled &&
-    /opt/remi/php80/root/usr/bin/php artisan provha:migrate_slave
+    php artisan module:list | grep -i provha | grep -i enabled &&
+    php artisan provha:migrate_slave
 
     # reread supervisor config and restart affected processes
-    /usr/bin/supervisorctl update
+    supervisorctl update
 
     # finally: rebuild dhcpd/named config
-    /opt/remi/php80/root/usr/bin/php artisan nms:dhcp
+    php artisan nms:dhcp
 
     laravelModules=$(php /var/www/nmsprime/artisan module:list | cut -d'|' -f2)
     if echo "$laravelModules" | grep -q "ProvMon"; then

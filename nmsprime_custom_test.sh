@@ -13,7 +13,6 @@ rm -f phpunit/*.htm
 DEBUG=" --debug"
 DEBUG=""
 
-PHPUNIT="source scl_source enable php80; vendor/bin/phpunit"
 PHPUNIT="vendor/bin/phpunit"
 
 OPTS=""

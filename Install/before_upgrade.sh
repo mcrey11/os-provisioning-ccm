@@ -1,8 +1,5 @@
 # TODO: Remove this whole code after NMSPrime v3.2
 # The whole code just does the initial steps that need to be done before Laravel can be used again with Pgsql
-# source environment variables to use php 8
-source /etc/profile.d/modules.sh
-module load php80
 
 #
 # Postgresql
