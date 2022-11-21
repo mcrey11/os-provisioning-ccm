@@ -78,9 +78,9 @@ sed -e "s|^#APP_TIMEZONE=|APP_TIMEZONE=$zone|" \
 
 # mysql_secure_installation - necessary for cacti
 mysql -u root << EOF
-UPDATE mysql.user SET Password=PASSWORD('$root_pw') WHERE User='root';
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-DELETE FROM mysql.user WHERE User='';
+UPDATE mysql.global_priv SET priv=json_set(priv, '$.authentication_string', PASSWORD('$root_pw')) WHERE User='root';
+DELETE FROM mysql.global_priv WHERE User='';
+DELETE FROM mysql.global_priv WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
 FLUSH PRIVILEGES;
