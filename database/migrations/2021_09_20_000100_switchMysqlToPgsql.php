@@ -35,7 +35,7 @@ class SwitchMysqltoPgsql extends BaseMigration
     {
         // Don't run migration on fresh installation (mysql nmsprime DB does not exist)
         $mysqlRootConf = DB::connection('mysql-root')->getConfig();
-        $ret = system('mysql -u '.$mysqlRootConf['username'].' -p'.$mysqlRootConf['password'].' --exec="SHOW DATABASES LIKE \'nmsprime\'"');
+        $ret = system('mysql -u '.$mysqlRootConf['username'].' -p'.$mysqlRootConf['password'].' --execute="SHOW DATABASES LIKE \'nmsprime\'"');
 
         if (! $ret) {
             // Fresh installation - mysql nmsprime DB doesn't exist
