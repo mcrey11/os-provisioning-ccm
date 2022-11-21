@@ -90,6 +90,8 @@ class InstallInitRadiusAndAcs extends BaseMigration
             exec("systemctl enable $service.service");
             exec("systemctl start $service.service");
         }
+
+        \Artisan::call('nms:raddb-repopulate');
     }
 
     /**
