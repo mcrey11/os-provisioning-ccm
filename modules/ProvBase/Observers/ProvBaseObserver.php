@@ -72,9 +72,9 @@ class ProvBaseObserver
         if (array_key_exists('random_ip_allocation', $changes)) {
             $queryPath = storage_path('app/config/provbase/radius/queries.conf');
             if ($model->random_ip_allocation) {
-                $query = 'allocate_find = "SELECT framedipaddress FROM ${ippool_table} WHERE pool_name = \'%{control:Pool-Name}\' AND expiry_time IS NULL ORDER BY RAND() LIMIT 1 FOR UPDATE"';
+                $query = 'allocate_find = "SELECT framedipaddress FROM ${ippool_table} WHERE pool_name = \'%{control:${pool_name}}\' AND expiry_time < \'now\'::timestamp(0) ORDER BY RANDOM() LIMIT 1 FOR UPDATE"';
             } else {
-                $query = 'allocate_find = "SELECT framedipaddress FROM ${ippool_table} WHERE pool_name = \'%{control:Pool-Name}\' AND (expiry_time < NOW() OR expiry_time IS NULL) ORDER BY (username <> \'%{User-Name}\'), (callingstationid <> \'%{Calling-Station-Id}\'), expiry_time LIMIT 1 FOR UPDATE"';
+                $query = 'allocate_find = "SELECT framedipaddress FROM ${ippool_table} WHERE pool_name = \'%{control:${pool_name}}\' AND ( expiry_time < \'now\'::timestamp(0) OR ( nasipaddress = \'%{NAS-IP-Address}\' AND pool_key = \'${pool_key}\' ) ) ORDER BY (username <> \'%{SQL-User-Name}\'), (callingstationid <> \'%{Calling-Station-Id}\'), expiry_time LIMIT 1 FOR UPDATE"';
             }
             file_put_contents($queryPath, $query."\n");
             exec('sudo systemctl restart radiusd.service');

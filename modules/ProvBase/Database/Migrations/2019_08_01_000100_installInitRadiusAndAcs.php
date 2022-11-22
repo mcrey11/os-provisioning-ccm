@@ -71,6 +71,7 @@ class InstallInitRadiusAndAcs extends BaseMigration
         \Artisan::call('nms:raddb-repopulate');
 
         // Adjust radiusd sqlippool IP lease duration
+        // use allocate_find query as specified via GlobalConfig (see app/config/provbase/radius/queries.conf)
         $leaseTime = Modules\ProvBase\Entities\ProvBase::first()->dhcp_def_lease_time;
         $queryPath = storage_path('app/config/provbase/radius/queries.conf');
         exec("sed -i -e 's/^\s*lease_duration\s*=.*/\tlease_duration = $leaseTime/' -e '/^\s*\$INCLUDE/i\\\\t\$INCLUDE $queryPath' /etc/raddb/mods-available/sqlippool");
