@@ -85,6 +85,9 @@ class InstallInitRadiusAndAcs extends BaseMigration
         // Disable RADIUS detail logging
         exec("sed -i 's/^\s*detail/#\tdetail/' /etc/raddb/sites-enabled/default");
 
+        // Generate radiusd TLS certificates
+        exec('/etc/raddb/certs/bootstrap');
+
         // Enable and Start Genie-ACS and Radius
         foreach (['mongod', 'genieacs-cwmp', 'genieacs-fs', 'genieacs-nbi', 'genieacs-ui', 'radiusd'] as $service) {
             exec("systemctl enable $service.service");
