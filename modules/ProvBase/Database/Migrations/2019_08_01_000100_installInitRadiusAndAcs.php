@@ -80,6 +80,7 @@ class InstallInitRadiusAndAcs extends BaseMigration
         exec("ln -srf /etc/raddb/mods-available/sqlippool $link");
         system("sed -i 's/dialect = \"mysql\"/dialect = \"postgresql\"/' $link");
         exec("chgrp -h radiusd $link");
+        exec("sed -i 's/dialect = \"mysql\"/dialect = \"postgresql\"/' $link");
         exec("sed -i -e '/^accounting {/a\\\\tsqlippool' -e '/^post-auth {/a\\\\tsqlippool' /etc/raddb/sites-enabled/default");
 
         // Disable RADIUS detail logging
