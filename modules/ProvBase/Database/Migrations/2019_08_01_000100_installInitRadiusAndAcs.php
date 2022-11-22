@@ -89,6 +89,9 @@ class InstallInitRadiusAndAcs extends BaseMigration
         // Disable RADIUS detail logging
         exec("sed -i 's/^\s*detail/#\tdetail/' /etc/raddb/sites-enabled/default");
 
+        // fix missing backslash in upstream package (see freeradius-server #eef3669)
+        exec("sed -i 's/},$/}, \\\\/' /etc/raddb/mods-config/sql/main/postgresql/queries.conf");
+
         // Generate radiusd TLS certificates
         exec('/etc/raddb/certs/bootstrap');
 
