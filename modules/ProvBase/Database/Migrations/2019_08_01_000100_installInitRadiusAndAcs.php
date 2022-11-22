@@ -75,6 +75,8 @@ class InstallInitRadiusAndAcs extends BaseMigration
         $leaseTime = Modules\ProvBase\Entities\ProvBase::first()->dhcp_def_lease_time;
         $queryPath = storage_path('app/config/provbase/radius/queries.conf');
         exec("sed -i -e 's/^\s*lease_duration\s*=.*/\tlease_duration = $leaseTime/' -e '/^\s*\$INCLUDE/i\\\\t\$INCLUDE $queryPath' /etc/raddb/mods-available/sqlippool");
+        // comment existing allocate_find query
+        exec("sed -i '/^allocate_find/,/^#$/{s/^/#/}' /etc/raddb/mods-config/sql/ippool/postgresql/queries.conf");
 
         // Enable sqlippool
         $link = '/etc/raddb/mods-enabled/sqlippool';
