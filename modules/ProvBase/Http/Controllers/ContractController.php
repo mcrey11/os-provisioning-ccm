@@ -209,7 +209,7 @@ class ContractController extends \BaseController
      *
      * @author Patrick Reichel
      */
-    public function viewFormFieldsLFOOto($model)
+    public function viewFormFieldsLfoOto($model)
     {
         $fields = [
             [
