@@ -34,6 +34,7 @@ return [
     ],
     'Birthday'                  => 'Birthday',
     'Business'                  => 'Business',
+    'canNotBeRestored' => 'can not be restored',
     'City'                      => 'City',
     'Choose Infrastructure file' => 'Choose Infrastructure file',
     'Company'                   => 'Company',

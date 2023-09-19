@@ -819,6 +819,7 @@ return [
     'ProvVoip' => 'VoIP',
     'rcd' => 'Requested collection date',
     'redirectNote' => 'You are not logged in and tried to access an internal page. After a successful login you are redirected to',
+    'restore' => 'Restore',
     'settlementrun' => 'Settlement run',
     'showChanges' => 'Show the change|Show :num changes',
     'statsSummary' => [

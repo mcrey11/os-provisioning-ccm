@@ -34,14 +34,6 @@ class GuiLogController extends BaseController
      */
     public function view_form_fields($model = null)
     {
-        $models = BaseModel::get_models();
-        $cannotRestore = ['Invoice', 'SettlementRun'];
-        $restorable = ! in_array($model->model, $cannotRestore);
-        $isForceDeleteDisabled = ! $model->getDefaultProperty($models[$model->model], 'forceDeleting');
-        $isModelTrashed = $isForceDeleteDisabled ?
-            $models[$model->model]::withTrashed()->find($model->model_id)->trashed() :
-            false;
-
         $fields = [
             ['form_type' => 'text', 'name' => 'username', 'description' => 'Username'],
             ['form_type' => 'text', 'name' => 'method', 'description' => 'Method'],
@@ -50,36 +42,65 @@ class GuiLogController extends BaseController
             ['form_type' => 'textarea', 'name' => 'text', 'description' => 'Changed Attributes'],
         ];
 
+        if ($buttonField = $this->restoreButtonField($model)) {
+            $fields[] = $buttonField;
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Edit view field with link (button) to changed/created model or restore button
+     *
+     * @return array
+     */
+    private function restoreButtonField($model)
+    {
+        $models = BaseModel::get_models();
+        $isForceDeleteDisabled = ! $model->getDefaultProperty($models[$model->model], 'forceDeleting');
+        $isModelTrashed = $isForceDeleteDisabled ?
+            $models[$model->model]::withTrashed()->find($model->model_id)->trashed() :
+            false;
+
+        $unRestoreables = ['Invoice', 'SettlementRun'];
+        $isRestorable = ! in_array($model->model, $unRestoreables);
+
+        // addition in edit view to create link for restoring deleted models
+        if ($isModelTrashed) {
+            $field = [
+                'form_type' => 'html',
+                'name' => 'deleted_at',
+                'description' => trans('view.restore'),
+            ];
+
+            $route = null;
+            $text = $model->model;
+            if ($isRestorable) {
+                $route = route('Guilog.restore', [$model->id]);
+            } else {
+                $text .= ' '.trans('messages.canNotBeRestored');
+            }
+
+            $field['html'] = view('GuiLog.restoreButton', compact('route', 'text'));
+
+            return $field;
+        }
+
         // add link of changed Model in edit view - Note: check if route exists is necessary because CccUser.edit is
         // not available for instance
         if ($models && \Route::getRoutes()->hasNamedRoute($model->model.'.edit') && ! $isModelTrashed) {
             $route = route($model->model.'.edit', [$model->model_id]);
+            $text = $model->model.' '.$model->model_id;
 
-            $fields[] = [
+            $field = [
                 'form_type' => 'html',
                 'name' => 'link',
                 'description' => 'Link',
-                'html' => '<div class="col-md-7 order-3">
-                        <a class="btn btn-default btn-block" href="'.$route.'">'.$model->model.' '.$model->model_id.'</a>
-                    </div>',
+                'html' => view('GuiLog.restoreButton', compact('route', 'text')),
             ];
+
+            return $field;
         }
-
-        // addition in edit view to create link for restoring deleted models
-        if ($isModelTrashed && $restorable) {
-            $route = route('Guilog.restore', [$model->id]);
-
-            $fields[] = [
-                'form_type' => 'html',
-                'name' => 'deleted_at',
-                'description' => 'Restore',
-                'html' => '<div class="col-md-7 order-3">
-                        <a class="btn btn-default btn-block" href="'.$route.'"> Restore '.$model->model.'</a>
-                    </div>',
-            ];
-        }
-
-        return $fields;
     }
 
     /**

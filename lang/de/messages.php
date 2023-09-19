@@ -34,6 +34,7 @@ return [
     ],
     'Birthday'                  => 'Geburtstag',
     'Business'                  => 'Berufs-/Geschäftsbezeichnung',
+    'canNotBeRestored' => 'kann nicht wiederhergestellt werden',
     'City'                      => 'Stadt',
     'Choose Infrastructure file' => 'Infrastruktur-Datei auswählen',
     'Company'                   => 'Firma',
