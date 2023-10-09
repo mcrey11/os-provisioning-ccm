@@ -656,6 +656,9 @@ return [
     'Credit' => 'Gutschrift',
     'critical' => 'kritisch',
     'Debit' => 'Lastschrift',
+    'debt' => [
+        'relatedInvoice' => 'Gehört zu Rechnung',
+    ],
     'debtImport' => 'OP-Import',
     'Detach all' => 'Alle :model entfernen',
     'Diagrams' => 'Diagramme',

@@ -657,6 +657,9 @@ return [
     'critical' => 'critical',
     'Debit' => 'Debit',
     'debtImport' => 'Debt Import',
+    'debt' => [
+        'relatedInvoice' => 'Belongs to invoice',
+    ],
     'Detach all' => 'Detach all :model',
     'Diagrams' => 'Diagrams',
     'Discard' => 'Discard',
