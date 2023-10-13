@@ -654,6 +654,7 @@ return [
     'CoreMon' => 'Headend Monitoring',
     'createFor' => 'Erstellen für',
     'Credit' => 'Gutschrift',
+    'creditAmount' => 'Preis oder  Betrag der Gutschrift',
     'critical' => 'kritisch',
     'Debit' => 'Lastschrift',
     'debt' => [

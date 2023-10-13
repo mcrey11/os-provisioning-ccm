@@ -359,9 +359,9 @@ class ImportTvCustomersCommand extends Command
             return;
         }
 
-        // $credit_amount = str_replace('EUR', '', $credit);
-        // $credit_amount = str_replace(',', '.', $credit);
-        // $credit_amount = trim($credit_amount);
+        // $creditAmount = str_replace('EUR', '', $credit);
+        // $creditAmount = str_replace(',', '.', $credit);
+        // $creditAmount = trim($creditAmount);
 
         if (date('Y') == date('Y', strtotime($contract->contract_start)) || date('Y') == date('Y', strtotime($contract->contract_end))) {
             $this->importantTodos[] = "Please check Amplifier credit for Contract $contract->number as it's calculated partly for the year";
@@ -374,7 +374,7 @@ class ImportTvCustomersCommand extends Command
             'valid_from_fixed' 	=> 1,
             'valid_to' 			=> $contract->contract_end,
             'valid_to_fixed' 	=> 1,
-            // 'credit_amount' 	=> $credit_amount,
+            // 'credit_amount' 	=> $creditAmount,
             'costcenter_id' 	=> $this->option('ccContract'),
         ]);
 
