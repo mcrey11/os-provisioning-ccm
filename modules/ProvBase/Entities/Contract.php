@@ -222,6 +222,8 @@ class Contract extends \BaseModel
             $ret[] = 'contact_id';
         }
 
+        $ret[] = 'created_at';
+
         return $ret;
     }
 
