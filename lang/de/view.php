@@ -336,82 +336,13 @@ return [
     'Button_delete'             => 'Schnellauswahl um auf allen Seiten Elemente zu löschen.',
     'Button_close'              => 'Schließen',
     'Button_downloadCSV'        => 'CSV herunterladen',
-    'Button_Create Product'     => 'Neues Produkt',
-    'Button_Create SettlementRun' => 'Abrechnungslauf erstellen',
-    // CostCenter
-    'Button_Create Cost Center'     => 'Neue Kostenstelle', // Workaround decide which one to use
-    'Button_Create CostCenter'      => 'Kostenstelle erstellen',
-    'Button_Create Users'           => 'Benutzer anlegen',
-    // Company
-    'Button_Create Company'         => 'Unternehmen erstellen',
-    // Salesman
-    'Button_Create Salesman'        => 'Verkäufer erstellen',
-    // Item
-    'Button_Create Item'            => 'Neuer Posten',
     'sr_dl_logs'                    => 'Gesamtes Logfile herunterladen',
-    // Numberrange
-    'Button_Create NumberRange'     => 'Nummernkreis erstellen',
-    // HFC
-    'Button_Create NetElementType'  => 'Netzelementtyp erstellen',
-    'Button_Create NetElement'      => 'Netzelement erstellen',
-    'Button_Create MibFile'         => 'MIB-Datei hinzufügen',
-    'Button_Create OID'             => 'OID anlegen',
-    // SNMP Module
-    // Device
-    'Button_Create Device'          => 'Neues Gerät',
-    // Device Type
-    'Button_Create Device Type'     => 'Neuer Gerätetyp',
-    'Button_Create Phonenumber'     => 'Telefonnummer anlegen',
-    'Button_Create Tree Table'      => 'Baumdiagramm anlegen',
-    'Button_Create Modem Positioning Rule' => 'Modem Positionierungsregel erstellen',
-    'Button_Create Mpr'             => 'Modem Positionierungsregel erstellen',
-    'Button_Create MprGeopos'       => 'MprGeopos erstellen',
-    'Button_Create Modem Positioning Rule Geoposition' => 'MprGeopos erstellen',
-    'Button_Create Tickets'         => 'Ticket erstellen',
-    'Button_Create Ticket'          => 'Ticket erstellen',
-    'Button_Create TicketType'      => 'Tickettypen erstellen',
-    'Button_Create Comment'         => 'Kommentar erstellen',
-    // SEPA-Konto
     'Assigned'                  => 'Zugewiesen',
-    'Button_Create SEPA Account'    => 'Neues SEPA-Konto', // Workaround decide which one to use
     'SEPA Account'              => 'SEPA-Konto',
     'Create'                    => 'Erstelle ',
     'Edit'                      => 'Bearbeite ',
-    'Button_Create SepaAccount'     => 'SEPA-Konto erstellen',
-
-    // Provisioning
-    // Contract
-    'Button_Create Apartment'       => 'Wohnung anlegen',
-    'Button_Create Node'            => 'Übergabepunkt anlegen',
-    'Button_Create Realty'          => 'Liegenschaft anlegen',
-
-    'Button_Create Contract'        => 'Vertrag erstellen',
-    'Button_Create Domain'          => 'Domain erstellen',
-    'Button_Create SepaMandate'     => 'SEPA-Mandat erstellen',
-    // Modems
-    'Button_Create Modem'           => 'Modem erstellen',
-    // Endpoints
-    'Button_Create Endpoint'        => 'Endpunkt erstellen',
-    // MTA
-    'Button_Create Mta'             => 'MTA erstellen',
-    // Phonenumber
-    'Button_Create PhoneTariff'     => 'Telefontarif anlegen',
-    'Button_Create PhonenumberManagement' => 'Rufnummerverwaltung anlegen',
-    // Configfiles
-    'Button_Create Configfile'      => 'Konfigurationsdatei erstellen',
-    // Firmware Upgrades
-    'Button_Create FirmwareUpgrade' => 'FirmwareUpgrade planen',
-    // QoS
     'Button_create_post_invoices_pdf' => 'Erstelle PDF mit postalischen Rechnungen',
-    'Button_Create SettlementRun'   => 'Abrechnungslauf erstellen',
     'Button_Rerun Accounting Command' => 'Rechnungslauf neu starten',
-    'Button_Create Qos'             => 'QOS-Regel erstellen',
-    // NetGws
-    'Button_Create NetGw'          => 'NetGw anlegen',
-    // IpPool
-    'Button_Create IpPool'          => 'IpPool anlegen', // workaround
-    'Button_Create IP-Pools'        => 'IpPool anlegen',
-    'Button_Create DocumentTemplate' => 'Dokument-Vorlage anlegen',
 
     // Select Fields
     'select' => [
@@ -660,7 +591,55 @@ return [
     'commandCenter' => 'Kommandozentrale',
     'company' => 'Firma',
     'CoreMon' => 'Headend Monitoring',
+    'createButtonTitle' => [
+        'Apartment'       => 'Wohnung anlegen',
+        'Configfile'      => 'Konfigurationsdatei erstellen',
+        'Comment'         => 'Kommentar erstellen',
+        'Company'         => 'Unternehmen erstellen',
+        'Contract'        => 'Vertrag erstellen',
+        'CostCenter'      => 'Kostenstelle erstellen',
+        'Debt' => 'OP erstellen',
+        'Device'          => 'Neues Gerät',
+        'Device Type'     => 'Neuer Gerätetyp',
+        'DocumentTemplate' => 'Dokument-Vorlage anlegen',
+        'Domain'          => 'Domain erstellen',
+        'Endpoint'        => 'Endpunkt erstellen',
+        'FirmwareUpgrade' => 'FirmwareUpgrade planen',
+        'Item'            => 'Neuer Posten',
+        'IpPool'          => 'IpPool anlegen', // workaround
+        'IP-Pools'        => 'IpPool anlegen',
+        'Modem'           => 'Modem erstellen',
+        'Modem Positioning Rule Geoposition' => 'MprGeopos erstellen',
+        'Modem Positioning Rule' => 'Modem Positionierungsregel erstellen',
+        'ModemOption' => 'Modem-Option erstellen',
+        'Mpr'             => 'Modem Positionierungsregel erstellen',
+        'MprGeopos'       => 'MprGeopos erstellen',
+        'Mta'             => 'MTA erstellen',
+        'MibFile'         => 'MIB-Datei hinzufügen',
+        'NetElement'      => 'Netzelement erstellen',
+        'NetElementType'  => 'Netzelementtyp erstellen',
+        'NetGw'          => 'NetGw anlegen',
+        'Node'            => 'Übergabepunkt anlegen',
+        'NumberRange'     => 'Nummernkreis erstellen',
+        'OID'             => 'OID anlegen',
+        'Phonenumber'     => 'Telefonnummer anlegen',
+        'PhonenumberManagement' => 'Rufnummerverwaltung anlegen',
+        'PhoneTariff'     => 'Telefontarif anlegen',
+        'Product'     => 'Neues Produkt',
+        'Qos'             => 'QOS-Regel erstellen',
+        'Realty'          => 'Liegenschaft anlegen',
+        'Salesman'        => 'Verkäufer erstellen',
+        'SepaAccount'     => 'SEPA-Konto erstellen',
+        'SepaMandate'     => 'SEPA-Mandat erstellen',
+        'SettlementRun' => 'Abrechnungslauf erstellen',
+        'StatisticsQueryResult' => 'Ergebnis erstellen',
+        'Ticket'          => 'Ticket erstellen',
+        'TicketType'      => 'Tickettypen erstellen',
+        'Tree Table'      => 'Baumdiagramm anlegen',
+        'Users'           => 'Benutzer anlegen',
+    ],
     'createFor' => 'Erstellen für',
+    'creditAmount' => 'Preis oder  Betrag der Gutschrift',
     'Credit' => 'Gutschrift',
     'creditAmount' => 'Preis oder  Betrag der Gutschrift',
     'critical' => 'kritisch',

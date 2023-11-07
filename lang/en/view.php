@@ -336,82 +336,13 @@ return [
     'Button_delete'             => 'Shortcut for the delete ability for all pages of this module.',
     'Button_close'              => 'Close',
     'Button_downloadCSV'        => 'Download CSV',
-    'Button_Create Product'     => 'Create Product',
-    'Button_Create SettlementRun' => 'Create Settlement Run',
-    // CostCenter
-    'Button_Create Cost Center'     => 'Create Cost Center', // Workaround decide which one to use
-    'Button_Create CostCenter'      => 'Create Cost Center',
-    'Button_Create Users'           => 'Create User',
-    // Company
-    'Button_Create Company'         => 'Create Company',
-    // Salesman
-    'Button_Create Salesman'        => 'Create Salesman',
-    // Item
-    'Button_Create Item'            => 'Create Item',
     'sr_dl_logs'                    => 'Download whole logfile',
-    // Numberrange
-    'Button_Create NumberRange'     => 'Create Numberrange',
-    //HFC
-    'Button_Create NetElementType'  => 'Create NetElement Type',
-    'Button_Create NetElement'      => 'Create NetElement',
-    'Button_Create MibFile'         => 'Create Mib-File',
-    'Button_Create OID'             => 'Create OID',
-    // SNMP Module
-    // Device
-    'Button_Create Device'          => 'Create Device',
-    // Device Type
-    'Button_Create Device Type'     => 'Create Devicetype',
-    'Button_Create Phonenumber'     => 'Create Phonenumber',
-    'Button_Create Tree Table'      => 'Create Tree Table',
-    'Button_Create Modem Positioning Rule' => 'Create Modem Positioning Rule',
-    'Button_Create Mpr'             => 'Create Modem Positioning Rule Geoposition',
-    'Button_Create MprGeopos'       => 'Create MprGeopos',
-    'Button_Create Modem Positioning Rule Geoposition' => 'Create MprGeopos',
-    'Button_Create Tickets'         => 'Create Tickets',
-    'Button_Create Ticket'          => 'Create Ticket ',
-    'Button_Create TicketType'      => 'Create Ticket Type',
-    'Button_Create Comment'         => 'Create Comment',
-    // SEPA-Konto
     'Assigned'                  => 'Assigned',
-    'Button_Create SEPA Account'    => 'Create SEPA Account', // Workaround decide which one to use
     'SEPA Account'              => 'SEPA-Account',
     'Create'                    => 'Create ',
     'Edit'                      => 'Edit ',
-    'Button_Create SepaAccount'     => 'Create SEPA Account',
-
-    // Provisioning
-    // Contract
-    'Button_Create Apartment'       => 'Create Apartment',
-    'Button_Create Node'            => 'Create Node',
-    'Button_Create Realty'          => 'Create Realty',
-
-    'Button_Create Contract'        => 'Create Contract',
-    'Button_Create Domain'          => 'Create Domain',
-    'Button_Create SepaMandate'     => 'Create SEPA-Mandate',
-    // Modems
-    'Button_Create Modem'           => 'Create Modem',
-    // Endpoints
-    'Button_Create Endpoint'        => 'Create Endpoint',
-    // MTA
-    'Button_Create Mta'             => 'Create MTA',
-    // Phonenumber
-    'Button_Create PhoneTariff'     => 'Create Phonetariffs',
-    'Button_Create PhonenumberManagement' => 'Create PhonenumberManagement',
-    // Configfiles
-    'Button_Create Configfile'      => 'Create Configfile',
-    // Firmware Upgrades
-    'Button_Create FirmwareUpgrade' => 'Schedule FirmwareUpgrade',
-    // QoS
     'Button_create_post_invoices_pdf' => 'Create Postal Invoices PDF',
-    'Button_Create SettlementRun'   => 'Create Settlement Run',
     'Button_Rerun Accounting Command' => 'Rerun Accounting Command',
-    'Button_Create Qos'             => 'Create QoS-Rule',
-    // NetGws
-    'Button_Create NetGw'          => 'Create NetGateway',
-    // IpPool
-    'Button_Create IpPool'          => 'Create IpPool', // workaround
-    'Button_Create IP-Pools'        => 'Create IpPools',
-    'Button_Create DocumentTemplate' => 'Create Document Template',
 
     // Select Fields
     'select' => [
@@ -660,6 +591,54 @@ return [
     'commandCenter' => 'Command Center',
     'company' => 'Company',
     'CoreMon' => 'Headend Monitoring',
+    'createButtonTitle' => [
+        'Apartment'       => 'Create Apartment',
+        'Comment'         => 'Create Comment',
+        'Company'         => 'Create Company',
+        'Configfile'      => 'Create Configfile',
+        'Contract'        => 'Create Contract',
+        'CostCenter'      => 'Create Cost Center',
+        'Debt' => 'Create debt',
+        'Device'          => 'Create Device',
+        'Device Type'     => 'Create Devicetype',
+        'DocumentTemplate' => 'Create Document Template',
+        'Domain'          => 'Create Domain',
+        'Endpoint'        => 'Create Endpoint',
+        'FirmwareUpgrade' => 'Schedule FirmwareUpgrade',
+        'IpPool'          => 'Create IpPool', // workaround
+        'IP-Pools'        => 'Create IpPools',
+        'Item'            => 'Create Item',
+        'MibFile'         => 'Create Mib-File',
+        'Modem'           => 'Create Modem',
+        'Modem Positioning Rule' => 'Create Modem Positioning Rule',
+        'Modem Positioning Rule Geoposition' => 'Create MprGeopos',
+        'ModemOption' => 'Create modem option',
+        'Mpr'             => 'Create Modem Positioning Rule Geoposition',
+        'MprGeopos'       => 'Create MprGeopos',
+        'Mta'             => 'Create MTA',
+        'NetElementType'  => 'Create NetElement Type',
+        'NetElement'      => 'Create NetElement',
+        'NetGw'          => 'Create NetGateway',
+        'Node'            => 'Create Node',
+        'NumberRange'     => 'Create Numberrange',
+        'OID'             => 'Create OID',
+        'Phonenumber'     => 'Create Phonenumber',
+        'PhonenumberManagement' => 'Create PhonenumberManagement',
+        'PhoneTariff'     => 'Create Phonetariffs',
+        'Product'     => 'Create Product',
+        'Qos'             => 'Create QoS-Rule',
+        'Realty'          => 'Create Realty',
+        'Salesman'        => 'Create Salesman',
+        'SepaAccount'     => 'Create SEPA Account',
+        'SepaMandate'     => 'Create SEPA-Mandate',
+        'SettlementRun' => 'Create Settlement Run',
+        'StatisticsQueryResult' => 'Create result',
+        'Tickets'         => 'Create Tickets',
+        'Ticket'          => 'Create Ticket ',
+        'TicketType'      => 'Create Ticket Type',
+        'Tree Table'      => 'Create Tree Table',
+        'Users'           => 'Create User',
+    ],
     'createFor' => 'Create for',
     'Credit' => 'Credit',
     'creditAmount' => 'Price or Credit Amount',

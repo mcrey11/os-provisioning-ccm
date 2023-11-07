@@ -65,7 +65,7 @@ Relation Blade is used inside a Panel Element to display relational class object
             <div class="col align-self-start">
                 <a href="{{ route($class.'.create', [$key => $view_var->id]) }}">
                     <button class="btn btn-outline-primary float-right m-b-10" style="simple" data-toggle="tooltip" data-delay='{"show":"250", "hide": 50}' data-placement="bottom" data-boundary="viewport"
-                        title="{{ isset($options['create_button_text']) ? trans($options['create_button_text']) : \App\Http\Controllers\BaseViewController::translate_view('Create '.$class, 'Button') }}">
+                        title="{{ isset($options['create_button_text']) ? trans($options['create_button_text']) : trans('view.createButtonTitle.'.$class) }}">
                         <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                     </button>
                 </a>
