@@ -19,7 +19,6 @@
 namespace Modules\ProvBase\Entities;
 
 use App\Observers\BaseObserver;
-use DB;
 use Illuminate\Support\Facades\Log;
 use Module;
 use Request;
@@ -187,12 +186,12 @@ class Contract extends \BaseModel
                 $ret[] = $this->table.'.type';
             }
 
-            $ret[] = $this->table.'.zip';
-            $ret[] = $this->table.'.city';
+            $ret[] = 'zip';
+            $ret[] = 'city';
             if ('GESA' != config('smartont.flavor.active')) {
                 $ret[] = 'district';
             }
-            $ret[] = $this->table.'.street';
+            $ret[] = 'street';
             $ret[] = $this->table.'.house_number';
 
             return $ret;
@@ -200,14 +199,14 @@ class Contract extends \BaseModel
 
         // default header set
         $ret[] = $this->table.'.number';
-        $ret[] = $this->table.'.firstname';
-        $ret[] = $this->table.'.lastname';
+        $ret[] = 'firstname';
+        $ret[] = 'lastname';
         $ret[] = 'company';
         $ret[] = 'email';
-        $ret[] = $this->table.'.zip';
-        $ret[] = $this->table.'.city';
+        $ret[] = 'zip';
+        $ret[] = 'city';
         $ret[] = 'district';
-        $ret[] = $this->table.'.street';
+        $ret[] = 'street';
         $ret[] = $this->table.'.house_number';
         $ret[] = $this->table.'.apartment_nr';
         $ret[] = $this->table.'.additional';
@@ -684,6 +683,11 @@ class Contract extends \BaseModel
     public function documents()
     {
         return $this->morphMany(\Modules\DocumentManagement\Entities\Document::class, 'model');
+    }
+
+    public function correspondenceRecipient()
+    {
+        return $this->belongsTo(\Modules\Customer1000\Entities\CorrespondenceRecipient::class);
     }
 
     /**

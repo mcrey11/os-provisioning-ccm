@@ -44,6 +44,7 @@ return [
     'Menu_Apartment'            => 'Apartments',
     'Menu_BillingBase'          => 'Billing',
     'Menu_Contact'              => 'Contacts',
+    'Menu_CorrespondenceRecipient' => 'Correspondence recipient',
     'Menu_CutoffList'           => 'Cut Off List',
     'Menu_Debt'                 => 'Debt List',
     'Menu_DebtImport'           => 'Debt Import',
@@ -111,6 +112,7 @@ return [
     'Menu_Comment'              => 'Comments',
     //HEADER
     'Header_Apartment' => 'Apartments',
+    'Header_CorrespondenceRecipient' => 'Correspondence recipient',
     //General
     'Header_GlobalSearch'       => 'Global Search',
     'Header_Overview'           => 'Overview',
@@ -624,6 +626,7 @@ return [
         'model' => 'Model',
         'configCompliance' => 'Configuration Compliance',
     ],
+    'CorrespondenceRecipient' => 'CorrespondenceRecipient',
     'dpa' => [
         'lastConfChange' => 'Last Configuration Change',
     ],

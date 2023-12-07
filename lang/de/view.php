@@ -44,6 +44,7 @@ return [
     'Menu_Apartment'            => 'Wohnungen',
     'Menu_BillingBase'          => 'Billing',
     'Menu_Contact'              => 'Ansprechpartner',
+    'Menu_CorrespondenceRecipient' => 'Korrespondenzempfänger',
     'Menu_CutoffList'           => 'Abschaltliste',
     'Menu_Debt'                 => 'OP-Liste',
     'Menu_DebtImport'           => 'OP-Import',
@@ -111,6 +112,7 @@ return [
     'Menu_Comment'              => 'Kommentare',
     //HEADER
     'Header_Apartment' => 'Wohnungen',
+    'Header_CorrespondenceRecipient' => 'Korrespondenzempfänger',
     //General
     'Header_GlobalSearch'       => 'Systemweite Suche',
     'Header_Overview'           => 'Übersicht',
@@ -624,6 +626,7 @@ return [
         'model' => 'Modell',
         'configCompliance' => 'Konfigurationsübereinstimmung',
     ],
+    'CorrespondenceRecipient' => 'Korrespondenzempfänger',
     'dpa' => [
         'lastConfChange' => 'Letzte Konfigurationsänderung',
     ],

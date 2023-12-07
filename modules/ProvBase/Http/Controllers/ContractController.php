@@ -467,6 +467,17 @@ class ContractController extends \BaseController
             ['form_type' => 'textarea', 'name' => 'description', 'description' => 'Description'],
         ];
 
+        if (Module::collections()->has('Customer1000')) {
+            $d[] = ['form_type' => 'select', 'name' => 'correspondence_recipient_id', 'description' => trans('view.Header_CorrespondenceRecipient'),
+                'value' => $this->setupSelect2Field($model, 'CorrespondenceRecipient'),
+                'options' => [
+                    'class' => 'select2-ajax',
+                    'data-allow-clear' => 'true',
+                    'ajax-route' => route('CorrespondenceRecipient.select2', ['relation' => 'correspondenceRecipient']),
+                ],
+            ];
+        }
+
         return array_merge($a, $b1, $b2, $b3, $c, $d);
     }
 
