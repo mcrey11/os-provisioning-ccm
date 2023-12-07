@@ -420,7 +420,7 @@ if (! function_exists('langDateFormat')) {
     /**
      * Format date string dependent of set locale language
      *
-     * @param  $date
+     * @param date int|string|Carbon
      * @return false|int|string
      */
     function langDateFormat($date)
@@ -429,7 +429,11 @@ if (! function_exists('langDateFormat')) {
             return $date;
         }
 
-        $date = is_int($date) ? $date : strtotime($date);
+        $date = match (true) {
+            is_int($date) => $date,
+            is_string($date) => strtotime($date),
+            $date instanceof \Carbon\Carbon => $date->timestamp,
+        };
 
         switch (\App::getLocale()) {
             case 'de':

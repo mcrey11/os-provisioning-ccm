@@ -180,11 +180,11 @@ return [
     'sepamandate.valid_to' => 'Gültig bis',
     'sepamandate.reference' => 'Mandatsreferenz',
     'sepamandate.disable' => 'Deaktiviert',
-    // SettlementRun
-    'settlementrun.year' => 'Jahr',
-    'settlementrun.month' => 'Monat',
-    'settlementrun.created_at' => 'Erstellt am',
-    'settlementrun.executed_at' => 'Durchgeführt am',
+    'settlementrun' => [
+        'accounting_month' => 'Abrechnungsmonat',
+        'created_at' => 'Erstellt am',
+        'executed_at' => 'Durchgeführt am',
+    ],
     'verified' => 'Überprüft?',
     // MPR
     'mpr.name' => 'Name',

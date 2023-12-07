@@ -1594,13 +1594,13 @@ class Contract extends \BaseModel
                 continue;
             }
 
-            if ($sepaaccount_id && ($m->costcenter->sepaaccount->id != $sepaaccount_id)) {
+            if ($sepaaccount_id && ($m->costcenter?->sepaaccount?->id != $sepaaccount_id)) {
                 continue;
             }
 
-            if ($mandate) {
-                Log::warning("SepaMandate: Multiple valid mandates active for Contract $this->number", [$this->id]);
-            }
+            // if ($mandate) {
+            //     Log::debug("SepaMandate: Multiple valid mandates active for Contract $this->number", [$this->id]);
+            // }
 
             $start = $m->get_start_time();
 
@@ -1666,6 +1666,7 @@ class Contract extends \BaseModel
         $tariff = $inet;
 
         // use voip tariff if no inet tariff exists or (inet is not bundled with voip and voip was created last)
+        // TODO: consider combi product with parent
         if (! $inet || ! $inet->bundled_with_voip) {
             // take last added (voip or inet)
             $voip = $tariffs->where('type', '=', 'Voip')->first();

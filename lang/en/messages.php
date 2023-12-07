@@ -851,6 +851,7 @@ return [
     'syncProvisionButtonTitle'  => 'Synchronize the modem with the corresponding config file after the next established connection between CPE and ACS.',
     'fieldChangeNotAllowed'     => 'Change of :field is not allowed – restoring original value!',
     'reason'                    => 'Reason',
+    'refund' => 'Refund',
     'configfileIsInUse'         => 'Configfile is in use.',
     'endpointIsActive'          => 'Endpoint is active.',
     'ontIsActive'               => 'ONT is active.',

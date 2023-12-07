@@ -269,18 +269,12 @@ class Kernel extends ConsoleKernel
             })->everyMinute();
         }
 
-        // Create monthly Billing Files and reset flags
         if ($modules->has('BillingBase')) {
-            // Remove all old CDRs & Invoices
-
             $schedule->call('\Modules\BillingBase\Helpers\BillingAnalysis@saveIncomeToJson')->dailyAt('00:07');
             $schedule->call('\Modules\BillingBase\Helpers\BillingAnalysis@saveContractsToJson')->hourly();
+
+            // Remove all old CDRs & Invoices
             $schedule->call('\Modules\BillingBase\Entities\Invoice@cleanup')->monthly();
-            // Reset payed_month column for yearly charged items for january settlementrun (in february)
-            $schedule->call(function () {
-                \Modules\BillingBase\Entities\Item::where('payed_month', '!=', '0')->update(['payed_month' => '0', 'updated_at' => date('Y-m-d H:i:s')]);
-                \Log::info('Reset all items payed_month flag to 0');
-            })->cron('10 0 1 2 *');
         }
 
         if ($modules->has('ProvVoip')) {

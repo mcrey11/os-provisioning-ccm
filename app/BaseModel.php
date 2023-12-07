@@ -568,6 +568,7 @@ class BaseModel extends Eloquent
             'qos_id',
             'salesman_id',
             'sepaaccount_id',
+            'settlementrun_id',  // Don't delete items - we need to delete invoices then manually
             'voip_id',
         ];
 
@@ -777,6 +778,12 @@ class BaseModel extends Eloquent
                 // has valid dates in last month - open end possible
                 return $start < strtotime('midnight first day of next month', $time) && (! $end || $end > $time);
 
+            case '3m':
+                // end must be greater than first day of current month and start < now or start < 1.4/1.7/1.10/1.1 in upcoming 3 months
+            case 'q1':
+                // end must be greater than first day of current month and start < now or start < 1.5/1.8/1.11/1.2 in upcoming 3 months
+            case 'semiannual':
+                // end must be greater than current month and start < now or within next half of the year
             case 'quarterly':
                 /* TODO: implement - 2 cases
                     * quarterly (quartalsweise): 1-3, 4-6, 7-9, 10-12 -> was already charged and wont be valid in next settlementrun
@@ -790,10 +797,9 @@ class BaseModel extends Eloquent
             case 'now':
                 $time = strtotime('today');
 
+            default:
                 return $start <= $time && (! $end || $end > $time);
 
-            default:
-                \Log::error('Bad timespan param used in function '.__FUNCTION__);
                 break;
         }
 

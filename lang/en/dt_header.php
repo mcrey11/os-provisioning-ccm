@@ -180,12 +180,12 @@ return [
     'sepamandate.valid_to' => 'Valid to',
     'sepamandate.reference' => 'Account reference',
     'sepamandate.disable' => 'Disabled',
-    // SettlementRun
-    'settlementrun.year' => 'Year',
-    'settlementrun.month' => 'Month',
-    'settlementrun.created_at' => 'Created at',
-    'settlementrun.executed_at' => 'Executed at',
-    'verified' => 'Verified?',
+    'settlementrun' => [
+        'accounting_month' => 'Accounting month',
+        'created_at' => 'Created at',
+        'executed_at' => 'Executed at',
+        'verified' => 'Verified?',
+    ],
     // MPR
     'mpr.name' => 'Name',
     'mpr.id'    => 'ID',

@@ -58,6 +58,7 @@ return [
 
     //ProductController
     'product' => [
+        'billingCycles' => 'Erklärungen zu den Abrechnungszyklen finden Sie in der offiziellen Dokumentation (Web) -> Enterprise Applications -> Prime Billing -> Products',
         'bundle'                => 'Ist der Tarif mit dem Voip-Tarif gebündelt, wird die Gesamtvertragslaufzeit eines Kunden nur anhand des Internet-Tarifs bestimmt. Anderenfalls bestimmt der Tarif (Voip oder Internet) darüber, der zuletzt begonnen hat.',
         'markon'                => 'Extra Aufschlag auf die Einzelverbindungen. Der prozentuale Aufschlag wird aktuell nur zu Opennumbers EVNs addiert.',
         'maturity_min'          => 'Beispiele: 14D (14 Tage), 3M (Drei Monate), 1Y (Ein Jahr)',
@@ -232,15 +233,14 @@ return [
      * Start alphabetical order
      */
     'endpointMac' => 'Kann für alle PPPoE provisionierte Modems frei gelassen werden (dann wird der PPP Nutzername statt der MAC genutzt). Mit DHCP kann das Feld für IPv4 frei gelassen werden. Dann bekommen alle Geräte hinter dem Modem die spezifizierte IP, wobei nur das Gerät, dass sich zuletzt gemeldet hat, eine funktionierende IP-Konnektivität erhält. Für IPv6 ist dies noch nicht implementiert - bitte geben Sie hier immer die MAC des CPE an, das eine öffentliche oder feste IP erhalten soll!',
-    'statsSummary' => [
-        'upsell' => 'Zählt ebenfalls bestehende Kunden, die bereits einen gültigen Tarif hatten (und im Zeitraum z.B. einen Tarifwechsel vorgenommen haben).',
+    'settlementrun' => [
+        'rcd' => 'Das Datum an dem die Bank die Buchungen vornehmen soll. Dieses Datum kann für einzelne Verträge über die entsprechende Einstellung im Vertrag angepasst werden.',
     ],
-
-    /*
-     * MODULE: Statistics
-     */
     'statisticsQuery' => [
         'upsell' => 'Produkt-Upsell miteinbeziehen: Bezieht bereits bestehende Kunden mit ein, welche eine weiteres Produkt (Tarifwechsel) gekauft haben.',
         'auto' => 'Die Cron-Zeichenkette zum automatischen, wiederholten Abrufen der Statistik. Format: Minute Stunde Tag Monat Wochentag. Siehe: www.crontab.guru. Entfernen Sie die Zeichenkette, wenn sie die wiederkehrende Ausführung der Abfrage stoppen möchten!',
+    ],
+    'statsSummary' => [
+        'upsell' => 'Zählt ebenfalls bestehende Kunden, die bereits einen gültigen Tarif hatten (und im Zeitraum z.B. einen Tarifwechsel vorgenommen haben).',
     ],
 ];

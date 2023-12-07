@@ -58,6 +58,7 @@ return [
 
     //ProductController
     'product' => [
+        'billingCycles' => 'You can find the explanations to the billing/payroll cycles in the official documentation (web) -> Enterprise Applications -> Prime Billing -> Products',
         'bundle'                => 'On bundled tarifs the minimum runtime of the contract is determined only be the internet tariff. Otherwise the last starting valid tariff (Voip or Internet) dictates this date.',
         'markon'                => 'Additional charge to call data records. This percentual extra charge is currently only added to Opennumbers CDRs.',
         'maturity_min'          => 'Tariff minimum period/runtime/term. E.g. 14D (14 days), 3M (three months), 1Y (one year)',
@@ -232,15 +233,14 @@ return [
      * Start alphabetical order
      */
     'endpointMac' => 'Can be left empty for all PPPoE provisioned modems (PPP username is used instead of MAC). With DHCP it can be left empty for IPv4. Then all devices behind the modem will get the specified IP, but only the last one that requested the IP will have a working IP connectivity. This is not yet implemented for IPv6 - please always specify the CPE MAC that shall get the public or fixed IP.',
-    'statsSummary' => [
-        'upsell' => 'Also counts active customers that already had a valid tariff in the past (but e.g. had a tariff change within the given time span)',
+    'settlementrun' => [
+        'rcd' => 'Date the bookings shall be made by the bank. This can be overwritten for specific contracts by the appropriate setting in the contract',
     ],
-
-    /*
-     * MODULE: Statistics
-     */
     'statisticsQuery' => [
         'upsell' => 'Include product upsell: Includes existing customers who have purchased another product/tariff change',
         'auto' => 'The cron string to automatically retrieve the statistic repetetive. Format: minute hour day month weekday. Refer to: www.crontab.guru. Remove the string if you want to stop the recurring query execution!',
+    ],
+    'statsSummary' => [
+        'upsell' => 'Also counts active customers that already had a valid tariff in the past (but e.g. had a tariff change within the given time span)',
     ],
 ];
