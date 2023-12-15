@@ -761,13 +761,20 @@ class BaseModel extends Eloquent
      *
      * @author Nino Ryschawy
      */
-    public function isValid($timespan = 'monthly', $time = null, $start_end_ts = [])
+    public function isValid($timespan = 'monthly', $time = null, $startEndDates = [])
     {
-        $start = $start_end_ts ? $start_end_ts[0] : $this->get_start_time();
-        $end = $start_end_ts ? $start_end_ts[1] : $this->get_end_time();
+        $start = $startEndDates ? $startEndDates[0]->timestamp : $this->get_start_time();
+        $end = $startEndDates ? $startEndDates[1]?->timestamp : $this->get_end_time();
 
-        // default - billing settlementruns/charges are calculated for last month
-        $time = $time ?: strtotime('midnight first day of last month');
+        if ($time) {
+            if (is_object($time)) {
+                $month = $time;
+                $time = $time->timestamp;
+            }
+        } else {
+            // default - billing settlementruns/charges are calculated for last month
+            $time = strtotime('midnight first day of last month');
+        }
 
         switch (strtolower($timespan)) {
             case 'once':
@@ -779,17 +786,16 @@ class BaseModel extends Eloquent
                 return $start < strtotime('midnight first day of next month', $time) && (! $end || $end > $time);
 
             case '3m':
-                // end must be greater than first day of current month and start < now or start < 1.4/1.7/1.10/1.1 in upcoming 3 months
             case 'q1':
-                // end must be greater than first day of current month and start < now or start < 1.5/1.8/1.11/1.2 in upcoming 3 months
-            case 'semiannual':
-                // end must be greater than current month and start < now or within next half of the year
             case 'quarterly':
-                /* TODO: implement - 2 cases
-                    * quarterly (quartalsweise): 1-3, 4-6, 7-9, 10-12 -> was already charged and wont be valid in next settlementrun
-                    * quarter of a year (vierteljährlich): always 3 months from item start ->
-                */
-                break;
+            case 'semiannual':
+                // if (is_int($month))
+                // dd($month, $this);
+                $period = $this->billingCycle($month)->getAccountingPeriod();
+                $start = $startEndDates[0];
+                $end = $startEndDates[1];
+
+                return $start->lte($period->endDate) && (! $end || $end->gte($period->startDate));
 
             case 'yearly':
                 return $start < strtotime('midnight first day of january next year', $time) && (! $end || $end > strtotime('midnight first day of January this year', $time));

@@ -972,7 +972,7 @@ class Contract extends \BaseModel
     protected function updateInternetAccess()
     {
         // Enable internet access when contract is valid
-        if ($this->isValid('now', null, [strtotime($this->contract_start), strtotime($this->contract_end)])) {
+        if ($this->isValid('now')) {
             if ($this->internet_access) {
                 return;
             }
