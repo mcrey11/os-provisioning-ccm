@@ -42,61 +42,6 @@ return new class extends BaseMigration
             $table->date('payed_until_before_sr')->nullable(); // Before settlement run
             $table->date('payed_until_after_sr')->nullable(); // After settlement run
         });
-
-        if (! Module::collections()->has('BillingBase')) {
-            return;
-        }
-
-        $lastSr = SettlementRun::latest('id')->first();
-
-        if (! $lastSr) {
-            return;
-        }
-
-        $itemQuery = Item::withTrashed()->join('product as p', 'p.id', 'item.product_id');
-
-        // Set payed_until date of YEARLY charged items that were payed already for this year
-        $date = (clone $lastSr->accounting_month)->endOfYear();
-        $dateInSql = $this->selectItemValidTo($date);
-
-        (clone $itemQuery)->where('billing_cycle', 'Yearly')
-            ->where('payed_month', '!=', 0)
-            ->whereNotNull('payed_month')
-            ->update(['payed_until_before_sr' => $dateInSql]);
-
-        $date = (clone $lastSr->accounting_month)->subYear()->endOfYear();
-        $dateInSql = $this->selectItemValidTo($date);
-
-        // Set payed_until date of YEARLY charged items that are not yet payed for this year
-        (clone $itemQuery)->where('billing_cycle', 'Yearly')
-            ->where('item.created_at', '<', now()->startOfYear()->toDateString())
-            ->where('item.valid_from', '<', now()->startOfYear()->toDateString())
-            ->where(function ($query) {
-                $query
-                    ->where('payed_month', 0)
-                    ->orWhereNull('payed_month');
-            })
-            ->update(['payed_until_before_sr' => $date]);
-
-        // Set payed_until date of MONTHLY charged items
-        $dateBefore = (clone $lastSr->accounting_month)->subMonth()->endOfMonth()->toDateString();
-        $dateAfter = (clone $lastSr->accounting_month)->endOfMonth()->toDateString();
-
-        (clone $itemQuery)->where('billing_cycle', 'Monthly')->update([
-            'payed_until_before_sr' => $this->selectItemValidTo($dateBefore),
-            'payed_until_after_sr' => $this->selectItemValidTo($dateAfter),
-        ]);
-
-        // Set payed_until date of QUARTERLY charged items
-        $date = (new Quarterly($lastSr->accounting_month))->getNextBillingMonth()->subMonthsNoOverflow(2)->endOfMonth()->toDateString();
-        $dateInSql = $this->selectItemValidTo($date);
-
-        (clone $itemQuery)->where('billing_cycle', 'Quarterly')->update(['payed_until_before_sr' => $date]);
-    }
-
-    private function selectItemValidTo($date)
-    {
-        return DB::raw("CASE WHEN item.valid_to is NULL or item.valid_to > '$date' THEN '$date' ELSE item.valid_to END");
     }
 
     /**
