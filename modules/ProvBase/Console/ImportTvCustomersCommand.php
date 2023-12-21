@@ -24,8 +24,6 @@ use Illuminate\Support\Facades\Log;
 use Modules\BillingBase\Entities\Item;
 use Modules\BillingBase\Entities\SepaMandate;
 use Modules\ProvBase\Entities\Contract;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class ImportTvCustomersCommand extends Command
 {
@@ -33,11 +31,18 @@ class ImportTvCustomersCommand extends Command
     use \App\AddressFunctionsTrait;
 
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'import:tv';
+    protected $signature = 'import:tv
+        {file : Structured CSV file (-path) with customer data.}
+        {--charge=* : Array of charge in Euro for every TV product.}
+        {--productId=* : Array of ID\'s of TV products corresponding to charge.}
+        {--ccContract=0 : CostCenter ID for all the imported contracts.}
+        {--ccSepa=0 : CostCenter ID for all the sepa mandates.}
+        {--ag=0 : Antenna community ID for all the imported contracts.}
+    ';
 
     /**
      * The console command description.
@@ -78,14 +83,8 @@ class ImportTvCustomersCommand extends Command
     protected const CREDIT = 19;    // Verstärkergeld
 
     /*
-     * Global Variables - need adaption for every import
      * TODO: Change product IDs according to Database and yearly Charges according to CostCenter
      */
-    protected const TV_CHARGE1 = 60;    // Umlage in Euro
-    protected const TV_CHARGE2 = 99999; // Umlage in Euro - Set to 99999 to disable second charge/tv-tariff
-    protected const PRODUCT_ID1 = 66;   // TV Billig
-    protected const PRODUCT_ID2 = 0;    // TV Teuer
-
     // mapping of Watt amount to credit
     // Watt amount => product_id
     protected const CREDITS_WATT = [
@@ -120,11 +119,12 @@ class ImportTvCustomersCommand extends Command
      */
     public function handle()
     {
-        if (! $this->confirm("IMPORTANT!!!\n\nHave global variables been adapted for this import?:
-			(1) TV Charge in Euro?
-			(2) TV product ID?
-			")) {
-            return;
+        if (! $this->option('charge') || ! $this->option('productId')) {
+            return $this->error('Charge and/or productId options missing! Please correct this issue!');
+        }
+
+        if (count($this->option('charge')) != count($this->option('productId'))) {
+            return $this->error('Number of options for charge and productId must be equal. Please correct this issue!');
         }
 
         $file_arr = file($this->argument('file'));
@@ -283,7 +283,7 @@ class ImportTvCustomersCommand extends Command
         $existing = false;
         if ($contract->items()->count()) {
             $existing = $contract->items->contains(function ($item, $value) {
-                return in_array($item->product_id, [self::PRODUCT_ID1, self::PRODUCT_ID2]);
+                return in_array($item->product_id, $this->option('productId'));
             });
         }
 
@@ -295,32 +295,33 @@ class ImportTvCustomersCommand extends Command
 
         $amount = str_replace('EUR', '', $tariff);
         $amount = str_replace(',', '.', $tariff);
-        $amount = (float) trim($amount);
+        $amount = number_format((float) trim($amount), 2);
 
-        switch ($amount) {
-            case  0: return;
-            case self::TV_CHARGE2: $product_id = self::PRODUCT_ID2;
-                break;
-            case self::TV_CHARGE1: $product_id = self::PRODUCT_ID1;
-                break;
-            default:
-                $msg = "Contract $contract->number is charged with $amount EUR. Please add Tariff manually!";
-                $this->importantTodos[] = $msg;
-                Log::warning($msg);
-
-                return;
+        if ($amount == 0) {
+            return;
         }
+
+        $key = array_search($amount, $this->option('charge'), true);
+        if ($key === false) {
+            $msg = "Contract $contract->number is charged with $amount EUR. Please add Tariff manually!";
+            $this->importantTodos[] = $msg;
+            Log::warning($msg);
+
+            return;
+        }
+
+        $productId = $this->option('productId')[$key];
 
         Item::create([
             'contract_id' 		=> $contract->id,
-            'product_id' 		=> $product_id,
+            'product_id' 		=> $productId,
             'valid_from' 		=> $line[self::C_START] ?: '2000-01-01',
             'valid_from_fixed' 	=> 1,
             'valid_to' 			=> $contract->contract_end,
             'valid_to_fixed' 	=> 1,
         ]);
 
-        Log::info("Add TV Tariff $product_id for Contract $contract->number");
+        Log::info("Add TV Tariff $productId for Contract $contract->number");
     }
 
     private function _add_Credit($contract, $line)
@@ -438,31 +439,5 @@ class ImportTvCustomersCommand extends Command
         SepaMandate::create($data);
 
         Log::info('Add SepaMandate [IBAN: '.$line[self::S_IBAN]."] for contract $contract->number");
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['file', InputArgument::REQUIRED, 'Structured CSV FILE (-path) with Customer Data.'],
-        ];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['ccContract', null, InputOption::VALUE_REQUIRED, 'CostCenter ID for all the imported Contracts', 0],
-            ['ag', null, InputOption::VALUE_OPTIONAL, 'Antenna Community ID for all the imported Contracts', 0],
-            ['ccSepa', null, InputOption::VALUE_REQUIRED, 'CostCenter ID for all the sepa mandates', 0],
-        ];
     }
 }
