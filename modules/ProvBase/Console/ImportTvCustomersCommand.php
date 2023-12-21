@@ -37,10 +37,10 @@ class ImportTvCustomersCommand extends Command
      */
     protected $signature = 'import:tv
         {file : Structured CSV file (-path) with customer data.}
+        {ccContract : CostCenter ID for all the imported contracts.}
         {--charge=* : Array of charge in Euro for every TV product.}
         {--productId=* : Array of ID\'s of TV products corresponding to charge.}
-        {--ccContract=0 : CostCenter ID for all the imported contracts.}
-        {--ccSepa=0 : CostCenter ID for all the sepa mandates.}
+        {--ccSepa= : CostCenter ID for all the sepa mandates.}
         {--ag=0 : Antenna community ID for all the imported contracts.}
     ';
 
@@ -119,13 +119,7 @@ class ImportTvCustomersCommand extends Command
      */
     public function handle()
     {
-        if (! $this->option('charge') || ! $this->option('productId')) {
-            return $this->error('Charge and/or productId options missing! Please correct this issue!');
-        }
-
-        if (count($this->option('charge')) != count($this->option('productId'))) {
-            return $this->error('Number of options for charge and productId must be equal. Please correct this issue!');
-        }
+        $this->validateUserInput();
 
         $file_arr = file($this->argument('file'));
         $num = count($file_arr);
@@ -211,7 +205,7 @@ class ImportTvCustomersCommand extends Command
         $contract->salutation = self::map_salutation($line[self::C_SALUT]);
         $contract->phone = str_replace(['/', '-', ' '], '', $line[self::C_TEL]);
         $contract->description = $line[self::C_DESC1]."\n".$line[self::C_DESC2]."\n".$line[self::C_DESC3];
-        $contract->costcenter_id = $this->option('ccContract'); 		// Dittersdorf=1
+        $contract->costcenter_id = $this->argument('ccContract'); 		// Dittersdorf=1
         if ($this->option('ag')) {
             $contract->contact = $this->option('ag');
         }
@@ -439,5 +433,20 @@ class ImportTvCustomersCommand extends Command
         SepaMandate::create($data);
 
         Log::info('Add SepaMandate [IBAN: '.$line[self::S_IBAN]."] for contract $contract->number");
+    }
+
+    private function validateUserInput()
+    {
+        if (! $this->option('charge') || ! $this->option('productId')) {
+            $this->error('Charge and/or productId options missing! Please correct this issue!');
+
+            exit;
+        }
+
+        if (count($this->option('charge')) != count($this->option('productId'))) {
+            $this->error('Number of options for charge and productId must be equal. Please correct this issue!');
+
+            exit;
+        }
     }
 }
