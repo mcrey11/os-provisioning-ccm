@@ -100,6 +100,8 @@ class ImportTvCustomersCommand extends Command
         '16,5'  => 52, // & 57
     ];
 
+    protected $newCustomer = false;
+
     /**
      * Create a new command instance.
      *
@@ -172,12 +174,15 @@ class ImportTvCustomersCommand extends Command
         $contract = $this->contractExists($number, $firstname, $lastname, $street, $city, $housenr);
         // if existing contract was found update the contact and return it
         if ($contract) {
+            $this->newCustomer = false;
             if ($this->option('ag')) {
                 Contract::where('id', $contract->id)->update(['contact' => $this->option('ag')]);
             }
 
             return $contract;
         }
+
+        $this->newCustomer = true;
 
         // Add new contract
         $contract = new Contract;
