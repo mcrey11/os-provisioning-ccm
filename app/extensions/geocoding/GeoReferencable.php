@@ -194,7 +194,8 @@ trait GeoReferencable
             $this->saveQuietly();
         }
 
-        Log::info('Geocoding successful, result: '.$this->lat.','.$this->lng.' (source: '.$geodata['source'].')');
+        $class = (new \ReflectionClass($this))->getShortName();
+        Log::info("Geocoding successful for $class $this->id, result: ".$this->lat.','.$this->lng.' (source: '.$geodata['source'].')');
 
         return $geodata;
     }
