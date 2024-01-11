@@ -29,6 +29,7 @@ return [
     'house_nr' => 'Housenr',
     'iban' => 'IBAN',
     'id'            => 'ID',
+    'invoice_date' => 'Date of invoice',
     'mac' => 'MAC',
     'name' => 'Name',
     'number' => 'Number',
