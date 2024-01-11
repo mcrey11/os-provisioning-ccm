@@ -675,6 +675,9 @@ return [
     'HfcReq' => 'HFC',
     'info' => 'Info',
     'invoiceDate' => 'Rechnungsdatum',
+    'item' => [
+        'payedUntil' => 'bezahlt bis',
+    ],
     'Level' => 'Level',
     'loginImg' =>  'Login Hintergrundbild',
     'loginImgUpload' =>  'Login Hintergrundbild hochladen',
@@ -809,7 +812,7 @@ return [
     'ProvMon' => 'Monitoring',
     'ProvVoip' => 'VoIP',
     'rcd' => 'Buchungstag',
-    'redirectNote' => 'Sie sind nicht eingeloggt und versuchen auf eine interne Seite zuzugreifen.Nach dem Log-In werden Sie direkt weitergeleitet zu',
+    'redirectNote' => 'Sie sind nicht eingeloggt und versuchen auf eine interne Seite zuzugreifen. Nach dem Log-In werden Sie direkt weitergeleitet zu',
     'showChanges' => 'Zeige Änderung|Zeige :num Änderungen',
     'statsSummary' => [
         'considerUpsell' => 'Product-Upsell einbeziehen',

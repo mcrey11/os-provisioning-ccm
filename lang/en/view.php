@@ -675,6 +675,9 @@ return [
     'HfcReq' => 'HFC',
     'info' => 'info',
     'invoiceDate' => 'Date on invoice',
+    'item' => [
+        'payedUntil' => 'payed until',
+    ],
     'Level' => 'Level',
     'loginImg' => 'Login background image',
     'loginImgUpload' =>  'Upload login background image',
