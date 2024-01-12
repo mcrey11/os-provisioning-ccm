@@ -1568,7 +1568,6 @@ class BaseController extends Controller
         $data = '';
 
         foreach ($ordered_tree as $object) {
-            // foreach ($ordered_tree as $key => $object)
             if (is_array($object)) {
                 self::$INDEX += 1;
                 if (self::$INDEX == 1) {

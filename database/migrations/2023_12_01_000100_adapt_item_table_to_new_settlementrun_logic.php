@@ -19,9 +19,6 @@
 use Database\Migrations\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Modules\BillingBase\Entities\Item;
-use Modules\BillingBase\Entities\SettlementRun;
-use Modules\BillingBase\Utilities\BillingCycles\Quarterly;
 
 return new class extends BaseMigration
 {

@@ -81,7 +81,7 @@ return new class extends BaseMigration
      */
     public function down()
     {
-        DB::statement("ALTER TYPE product_billing_cycle RENAME TO product_billing_cycle_old;");
+        DB::statement('ALTER TYPE product_billing_cycle RENAME TO product_billing_cycle_old;');
         DB::statement("CREATE TYPE product_billing_cycle AS ENUM('Monthly', 'Once', 'Quarterly', 'Yearly');");
         // NOTE: In case the migration rollback fails - e.g. because products with the new cycles were already added - at
         // this step you need to remove all products having one of the upper cycles or set the cycle to a previously existing one
