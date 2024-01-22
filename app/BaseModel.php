@@ -783,7 +783,7 @@ class BaseModel extends Eloquent
 
             case 'monthly':
                 // has valid dates in last month - open end possible
-                return $start < strtotime('midnight first day of next month', $time) && (! $end || $end > $time);
+                return $start < strtotime('midnight first day of next month', $time) && (! $end || $end >= $time);
 
             case '3m':
             case 'q1':
