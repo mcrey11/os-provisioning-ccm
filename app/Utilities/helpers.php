@@ -219,7 +219,7 @@ if (! function_exists('escape_latex_special_chars')) {
             '_'  => '\\_',
             '~'  => '\\~{}',
             '^'  => '\\^{}',
-            '€'  => '\\euro',   // there could be products containing “€”
+            '€'  => '\\euro\\',   // there could be products containing “€”
             '´' => '\'',
         ];
 
