@@ -676,6 +676,7 @@ return [
     'info' => 'info',
     'invoiceDate' => 'Date on invoice',
     'item' => [
+        'fullyPaid' => 'was already fully paid',
         'payedUntil' => 'payed until',
     ],
     'Level' => 'Level',
