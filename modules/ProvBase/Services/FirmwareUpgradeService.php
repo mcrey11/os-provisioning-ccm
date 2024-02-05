@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\ProvBase\Entities\FirmwareUpgrade;
 use Modules\ProvBase\Entities\Modem;
+use Modules\ProvVoip\Entities\Mta;
 
 class FirmwareUpgradeService
 {
@@ -43,10 +44,12 @@ class FirmwareUpgradeService
         $activeFirmwareUpgrades = $this->getActiveFirmwareUpgrades();
 
         foreach ($activeFirmwareUpgrades as $firmwareUpgrade) {
-            $modems = $this->getMatchingModems($firmwareUpgrade);
+            $devices = $this->getMatchingDevices($firmwareUpgrade);
+            $modems = $devices['modem'];
+            $mtas = $devices['mta'];
 
-            // If no modems to update, set finished_date and continue to next upgrade
-            if ($modems->isEmpty()) {
+            // If no devices to update, set finished_date and continue to next upgrade
+            if ($modems[0]->isEmpty() && $mtas[0]->isEmpty()) {
                 Log::info('Firmware upgrade process has finished for upgrade id: '.$firmwareUpgrade->id);
                 $firmwareUpgrade->update(['finished_date' => Carbon::now()]);
                 continue;
@@ -60,9 +63,13 @@ class FirmwareUpgradeService
                 return;
             }
 
-            // Manually restarting modems if restart_only is true
-            foreach ($modems as $modem) {
+            // Manually restarting devices if restart_only is true
+            foreach ($modems[0] as $modem) {
                 $modem->restart_modem();
+            }
+
+            foreach ($mtas[0] as $mta) {
+                $mta->restart();
             }
         }
     }
@@ -90,7 +97,7 @@ class FirmwareUpgradeService
     }
 
     /**
-     * Retrieves a collection of Modem models that match the criteria specified in the provided firmware upgrade.
+     * Retrieves a collection of Modem/MTA models that match the criteria specified in the provided firmware upgrade.
      *
      * This method will filter modems based on the `configfile_id`s associated with the firmware upgrade. If the
      * firmware upgrade specifies a `restart_only` flag, the method will also filter modems whose `sw_rev` matches
@@ -100,13 +107,30 @@ class FirmwareUpgradeService
      * that batch size.
      *
      * @param  FirmwareUpgrade  $firmwareUpgrade  The firmware upgrade which specifies the criteria for matching modems.
-     * @return \Illuminate\Database\Eloquent\Collection Collection of Modem models that match the criteria.
+     * @return \Illuminate\Database\Eloquent\Collection Collection of Modem/MTA models that match the criteria.
      */
-    protected function getMatchingModems($firmwareUpgrade)
+    protected function getMatchingDevices($firmwareUpgrade)
     {
-        $configfileIds = $firmwareUpgrade->fromConfigfile()->pluck('configfile_id');
-        $modems = Modem::whereIn('configfile_id', $configfileIds);
+        $configfileIds = $firmwareUpgrade->fromConfigfile()->pluck('device', 'configfile_id');
 
+        $ids = [
+            'modem' => [],
+            'mta' => [],
+        ];
+
+        $configfileIds->each(function ($value, $key) use (&$ids) {
+            if ($value == 'mta') {
+                $ids['mta'][] = $key;
+
+                return;
+            }
+
+            // cm, tr069
+            $ids['modem'][] = $key;
+        });
+
+        $modems = Modem::whereIn('configfile_id', $ids['modem']);
+        $mtas = Mta::whereIn('configfile_id', $ids['mta']);
         if ($firmwareUpgrade->restart_only) {
             // Split the firmware_match_string into an array of lines
             $matchStrings = preg_split('/\r\n|\r|\n/', $firmwareUpgrade->firmware_match_string);
@@ -121,8 +145,9 @@ class FirmwareUpgradeService
         // Limit to batch size if it's specified
         if (! empty($firmwareUpgrade->batch_size)) {
             $modems = $modems->limit($firmwareUpgrade->batch_size);
+            $mtas = $mtas->limit($firmwareUpgrade->batch_size);
         }
 
-        return $modems->get();
+        return ['modem' => [$modems->get()], 'mta' => [$mtas?->get()]];
     }
 }
