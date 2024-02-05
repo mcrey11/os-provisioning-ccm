@@ -1718,6 +1718,8 @@ class Contract extends \BaseModel
             $totalAmount += $debt->missing_amount;
         }
 
+        $totalAmount = round($totalAmount, 2);
+
         $bsclass = '';
         if ($block) {
             $bsclass = 'danger';
