@@ -401,7 +401,7 @@ class Contract extends \BaseModel
                 // resulting outstanding amount
                 $ret[$i18nContract]['DebtResult']['view']['view'] = 'overduedebts::Debt.result';
                 $resultingDebt = $this->getResultingDebt();
-                $ret[$i18nContract]['DebtResult']['view']['vars']['debt'] = $resultingDebt['amount'];
+                $ret[$i18nContract]['DebtResult']['view']['vars']['debt'] = moneyFormat($resultingDebt['amount']);
                 $ret[$i18nContract]['DebtResult']['view']['vars']['bsclass'] = $resultingDebt['bsclass'];
 
                 $ret['Billing']['Debt']['class'] = 'Debt';
