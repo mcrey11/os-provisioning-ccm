@@ -814,6 +814,7 @@ return [
     'ProvVoip' => 'VoIP',
     'rcd' => 'Buchungstag',
     'redirectNote' => 'Sie sind nicht eingeloggt und versuchen auf eine interne Seite zuzugreifen. Nach dem Log-In werden Sie direkt weitergeleitet zu',
+    'settlementrun' => 'Rechnungslauf',
     'showChanges' => 'Zeige Änderung|Zeige :num Änderungen',
     'statsSummary' => [
         'considerUpsell' => 'Product-Upsell einbeziehen',
