@@ -93,6 +93,12 @@ BaseRoute::group([], function () {
             'middleware' => ['api', 'can:update,Modules\ProvBase\Entities\Modem'],
         ]);
 
+        Route::get('Modem/{Modem}/factoryReset', [
+            'as' => 'Modem.apiFactoryReset',
+            'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@apiFactoryReset',
+            'middleware' => ['api', 'can:update,Modules\ProvBase\Entities\Modem'],
+        ]);
+
         Route::get('Modem/{id}/blockDhcp', [
             'as' => 'Modem.api_blockDhcp',
             'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@api_blockDhcp',

@@ -730,6 +730,18 @@ class ModemController extends \BaseController
         return response()->v0ApiReply([], true, $id);
     }
 
+    public function apiFactoryReset($ver, $id)
+    {
+        if ($ver !== '0') {
+            return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
+        }
+
+        $modem = static::get_model_obj()->findOrFail($id);
+        $modem->restart_modem(false, false, true);
+
+        return response()->v0ApiReply([], true, $id);
+    }
+
     public function apiGeoPos($ver)
     {
         if ($ver !== '1') {
