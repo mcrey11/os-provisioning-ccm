@@ -319,7 +319,7 @@ class Kernel extends ConsoleKernel
 
         if ($modules->has('Altiplano')) {
             $schedule->command('nms:update-altiplano-modem-status')->everyFiveMinutes();
-            $schedule->command('nms:refresh-bearer-token')->everyThirtyMinutes();
+            // $schedule->command('nms:refresh-bearer-token')->everyThirtyMinutes();
         }
 
         if (\Module::collections()->has('SmartOnt')) {
