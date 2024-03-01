@@ -990,6 +990,7 @@ return [
             'deceased' => 'deceased',
             'competitor' => 'competitor',
             'fiber' => 'Change to ISP offering fiber connection',
+            'customer recovery denied' => 'customer recovery denied',
         ],
         'noModemTickets' => 'Currently none of the modems that belong to this contract have a ticket associated!',
     ],

@@ -990,6 +990,7 @@ return [
             'deceased' => 'verstorben',
             'competitor' => 'Mitbewerber',
             'fiber' => 'Wechsel zu Glasfaseranbieter',
+            'customer recovery denied' => 'Rückwerbung unerwünscht',
         ],
         'noModemTickets' => 'Aktuell besitzen die Modems dieses Vertrags keine Tickets!',
     ],

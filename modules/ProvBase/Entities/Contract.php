@@ -44,7 +44,7 @@ class Contract extends \BaseModel
     // Via modems -> mtas -> phonenumbers assigned Phonenumbers shown as read-only info field in edit view
     public $guarded = ['newsletter', 'related_phonenrs'];
 
-    public const GROUNDS_FOR_DISMISSAL = ['unknown', 'relocation', 'unsatisfied', 'canceled by us', 'deceased', 'competitor', 'fiber'];
+    public const GROUNDS_FOR_DISMISSAL = ['unknown', 'relocation', 'unsatisfied', 'canceled by us', 'deceased', 'competitor', 'fiber', 'customer recovery denied'];
 
     // Add your validation rules here
     // TODO: dependencies of active modules (billing)
