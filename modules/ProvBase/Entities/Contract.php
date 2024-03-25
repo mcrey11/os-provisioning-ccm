@@ -1566,7 +1566,7 @@ class Contract extends \BaseModel
      *
      * @return int time in seconds after 1970
      */
-    public function get_end_time()
+    public function validToAsInt()
     {
         return $this->contract_end ? strtotime($this->contract_end) : null;
     }
@@ -1640,7 +1640,7 @@ class Contract extends \BaseModel
         ];
 
         // check if contract was already canceled for settlement run
-        if (! $this->isDirty('contract_end') && $this->contract_end && $this->get_end_time()) {
+        if (! $this->isDirty('contract_end') && $this->contract_end && $this->validToAsInt()) {
             $ret['canceled_to'] = $this->contract_end;
 
             return $ret;

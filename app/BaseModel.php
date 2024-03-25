@@ -764,7 +764,7 @@ class BaseModel extends Eloquent
     public function isValid($timespan = 'monthly', $time = null, $startEndDates = [])
     {
         $start = $startEndDates ? $startEndDates[0]->timestamp : $this->get_start_time();
-        $end = $startEndDates ? $startEndDates[1]?->timestamp : $this->get_end_time();
+        $end = $startEndDates ? $startEndDates[1]?->timestamp : $this->validToAsInt();
 
         if ($time) {
             if (is_object($time)) {
@@ -779,7 +779,7 @@ class BaseModel extends Eloquent
         switch (strtolower($timespan)) {
             case 'once':
                 // E.g. one time or splitted payments of items - no open end! With end date: only on months from start to end
-                return $end ? $start < strtotime('midnight first day of next month', $time) && $end > $time : date('Y-m', $start) <= date('Y-m', $time);
+                return $end ? $start < strtotime('midnight first day of next month', $time) && $end >= $time : date('Y-m', $start) <= date('Y-m', $time);
 
             case 'monthly':
                 // has valid dates in last month - open end possible
@@ -798,13 +798,13 @@ class BaseModel extends Eloquent
                 return $start->lte($period->endDate) && (! $end || $end->gte($period->startDate));
 
             case 'yearly':
-                return $start < strtotime('midnight first day of january next year', $time) && (! $end || $end > strtotime('midnight first day of January this year', $time));
+                return $start < strtotime('midnight first day of january next year', $time) && (! $end || $end >= strtotime('midnight first day of January this year', $time));
 
             case 'now':
                 $time = strtotime('today');
 
             default:
-                return $start <= $time && (! $end || $end > $time);
+                return $start <= $time && (! $end || $end >= $time);
 
                 break;
         }

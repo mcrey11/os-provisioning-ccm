@@ -390,7 +390,7 @@ return [
     'Start date'                => 'Startdatum',
     'Active from start date'    => 'Ab Startdatum aktiv',
     'Valid from'                => 'Startdatum',
-    'Valid to'                  => 'Enddatum',
+    'Valid to'                  => 'Gültig bis (inklusive)',
     'Valid from fixed'          => 'Ab Startdatum aktiv',
     'Valid to fixed'            => 'Festes Enddatum',
     'modem_statistics'      => 'Anzahl Online / Offline Modems',

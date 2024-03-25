@@ -401,7 +401,7 @@ class ContractController extends \BaseController
         $b3 = [
             ['form_type' => 'date', 'name' => 'birthday', 'description' => 'Birthday', 'create' => ['Modem'], 'space' => '1'],
             ['form_type' => 'date', 'name' => 'contract_start', 'description' => 'Contract Start'],
-            ['form_type' => 'date', 'name' => 'contract_end', 'description' => 'Contract End'],
+            ['form_type' => 'date', 'name' => 'contract_end', 'description' => 'Valid to'],
         ];
 
         if (Module::collections()->has('BillingBase')) {
