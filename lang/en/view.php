@@ -188,7 +188,7 @@ return [
     //Contract
     'Header_Salesman'           => 'Salesman|Salesmen',
     'Header_Contract'           => 'Contract'.(Module::collections()->has('SmartOnt') ? '/OTO' : '').'|Contracts'.(Module::collections()->has('SmartOnt') ? '/OTOs' : ''),
-    'Header_ContractInfoApartment' => 'Contracts of realty (info)',
+    'Header_ContractInfoApartment' => 'Unassigned contracts with address of realty',
     'Header_ContractInfoRealty' => 'Info: Contract of modems',
     'Header_EditContract'       => 'Edit Contract',
     'Header_GroupContracts'      => 'Group Contracts',

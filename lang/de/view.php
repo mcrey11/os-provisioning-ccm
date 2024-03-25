@@ -188,7 +188,7 @@ return [
     //Contract
     'Header_Salesman'           => 'Verkäufer|Verkäufer',
     'Header_Contract'           => 'Vertrag'.(Module::collections()->has('SmartOnt') ? '/OTO' : '').'|Verträge'.(Module::collections()->has('SmartOnt') ? '/OTOs' : ''),
-    'Header_ContractInfoApartment' => 'Verträge der Liegenschaft (Info)',
+    'Header_ContractInfoApartment' => 'Unzugewiesene Verträge mit Adresse der Liegenschaft',
     'Header_ContractInfoRealty' => 'Info: Vertrag der Modems',
     'Header_EditContract'       => 'Vertrag bearbeiten',
     'Header_GroupContracts'      => 'Gruppenverträge',
