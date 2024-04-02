@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-$icingaCredentialsFile = '/etc/icingaweb2/resources.ini';
+$icingaCredentialsFile = '/etc/icinga2/features-available/ido-pgsql.conf';
 
 return [
 
@@ -321,10 +321,10 @@ return [
         'pgsql-icinga2' => [
             'driver'   => 'pgsql',
             'sticky' => true,
-            'host'      => exec("test -f $icingaCredentialsFile && awk \"/\[icinga2\]/{flag=1;next}/\[/{flag=0}flag\" $icingaCredentialsFile | grep \"^host\" | sort | cut -d '=' -f2 | xargs") ?: 'localhost',
-            'database'  => exec("test -f $icingaCredentialsFile && awk \"/\[icinga2\]/{flag=1;next}/\[/{flag=0}flag\" $icingaCredentialsFile | grep \"^database\" | sort | cut -d '=' -f2 | xargs") ?: 'icinga2',
-            'username'  => exec("test -f $icingaCredentialsFile && awk \"/\[icinga2\]/{flag=1;next}/\[/{flag=0}flag\" $icingaCredentialsFile | grep \"^username\" | sort | cut -d '=' -f2 | xargs") ?: 'icinga2user',
-            'password'  => exec("test -f $icingaCredentialsFile && awk \"/\[icinga2\]/{flag=1;next}/\[/{flag=0}flag\" $icingaCredentialsFile | grep \"^password\" | sort | cut -d '=' -f2 | xargs"),
+            'host'      => exec("test -f $icingaCredentialsFile && grep '^\s*host\s*=' \"$icingaCredentialsFile\" | cut -d'=' -f2 | xargs") ?: 'localhost',
+            'database'  => exec("test -f $icingaCredentialsFile && grep '^\s*database\s*=' \"$icingaCredentialsFile\" | cut -d'=' -f2 | xargs") ?: 'icinga2',
+            'username'  => exec("test -f $icingaCredentialsFile && grep '^\s*user\s*=' \"$icingaCredentialsFile\" | cut -d'=' -f2 | xargs") ?: 'icinga2user',
+            'password'  => exec("test -f $icingaCredentialsFile && grep '^\s*password\s*=' \"$icingaCredentialsFile\" | cut -d'=' -f2 | xargs"),
             // 'host'      => explode(',', str_replace(' ', '', env('CCC_DB_HOST', env('DB_HOST', 'localhost')))),
             // 'database'  => env('ICINGA2_DB_DATABASE', 'icinga2'),
             // 'username'  => env('ICINGA2_DB_USERNAME', env('DB_USERNAME', 'icinga2user')),
