@@ -34,6 +34,7 @@ class HfcReqServiceProvider extends ServiceProvider
      */
     protected $commands = [
         'Modules\HfcReq\Console\agcCommand',
+        'Modules\HfcReq\Console\NetelementAtIcingaUpdaterCommand',
     ];
 
     /**

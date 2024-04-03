@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Module;
 use Modules\HfcReq\Entities\NetElement;
+use Modules\HfcReq\Jobs\NetelementAtIcingaUpdaterJob;
+use Queue;
 use Session;
 
 class NetElementObserver
@@ -47,6 +49,7 @@ class NetElementObserver
 
         if (Module::collections()->has('CoreMon')) {
             $netelement->createLink();
+            Queue::pushOn('medium', new NetelementAtIcingaUpdaterJob($netelement->id));
 
             return;
         }
@@ -58,6 +61,8 @@ class NetElementObserver
 
         $netelement->observer_enabled = false;  // don't execute functions in updating again
         $netelement->save();
+
+        Queue::pushOn('medium', new NetelementAtIcingaUpdaterJob($netelement->id));
     }
 
     public function updating($netelement)
@@ -117,6 +122,11 @@ class NetElementObserver
         }
     }
 
+    public function updated($netelement)
+    {
+        Queue::pushOn('medium', new NetelementAtIcingaUpdaterJob($netelement->id));
+    }
+
     public function deleting($netelement)
     {
         if ($netelement->base_type_id == 18) {
@@ -132,6 +142,8 @@ class NetElementObserver
             $netelement->links()->delete();
             $netelement->parent?->links()->where('to', $netelement->id)->delete();
         }
+
+        Queue::pushOn('medium', new NetelementAtIcingaUpdaterJob($netelement->id));
     }
 
     public function restored($netelement)
