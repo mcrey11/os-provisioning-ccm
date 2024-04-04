@@ -20,7 +20,7 @@
     <div class="align-self-end m-r-5 dropdown btn-group">
         <button id="dropdownMenuButton" type="button" class="btn btn-outline float-right dropdown-toggle"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-            data-delay='{"show":"250"}' data-placement="top"
+            data-delay='{"show":"250"}' data-placement="top" data-boundary="window"
             title="{{ trans('messages.support') }}" form="IndexForm" name="support">
             <i class="fa fa-question fa-2x" aria-hidden="true"></i>
         </button>
