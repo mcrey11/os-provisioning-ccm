@@ -20,23 +20,29 @@
 
 
 @section('content_dash')
-    <div class="btn pull-right">
+    <div class="flex justify-between items-start">
+        <div>
+            @foreach ($dash as $line)
+                @foreach ($line as $description => $content)
+                    <div class="flex text-gray-600 space-x-2">
+                        <b>{{ $description }}:</b>
+                        <div>{{ $content }}</div>
+                    </div>
+                @endforeach
+            @endforeach
+        </div>
+
         @include('Generic.documentation', ['documentation' => $modem->help])
     </div>
-
-    @if ($dash)
-        <span color="grey">{!!$dash!!}</span>
-    @endif
 @stop
 
 @section('content_lease')
-
     @if ($lease)
         @if (isset($lease['ipv6']))
-            <h4 class="h4"> IPv4 </h4>
+            <h4 class="h4 mt-0"> IPv4 </h4>
         @endif
-        <div class="{{ $lease['state'] }} pb-2"><b>{{ $lease['forecast'] }}</b></div>
-        <div class="space-y-3">
+        <div class="{{ $lease['state'] }} mb-3"><b>{{ $lease['forecast'] }}</b></div>
+        <div class="space-y-3 mb-3">
             @foreach ($lease['text'] as $line)
                 <pre class="text-gray-500 whitespace-pre-wrap">{{ $line }}</pre>
             @endforeach
@@ -82,7 +88,7 @@
 
 @section('content_log')
     @if ($log)
-        <span class="text-green-600"><b>{{$type}} Logs</b></span><br>
+        <div class="text-green-600 mb-3"><b>{{$type}} Logs</b></div>
         <table>
             @foreach ($log as $line)
                 <tr><td><span color="grey">{{$line}}</span></td></tr>
@@ -95,7 +101,7 @@
 
 @section('content_configfile')
     @if (isset($configfile))
-        <div class="text-green-600 pb-2"><b>{{$type}} Configfile ({{$configfile['mtime']}})</b></div>
+        <div class="text-green-600 mb-3"><b>{{$type}} Configfile ({{$configfile['mtime']}})</b></div>
         @if (isset($configfile['warn']))
             <div class="text-red-600"><b>{{ $configfile['warn'] }}</b></div>
         @endif
@@ -110,19 +116,25 @@
 @stop
 
 @section('content_ping')
-
     @if ($ping)
-        <span color="{{ isset($ping[1]) ? "success" : "warning" }}">
-            <b>{{ isset($ping[1]) ? "$type is Online" : trans('messages.device_probably_online', ['type' => $type]) }}</b>
-        </span>
-        <br>
+        <div class="mb-3">
+            @isset ($ping[1])
+                <div class="text-green-600">
+                    <b>{{ trans('messages.deviceOnline', ['Device' => $type]) }}</b>
+                </div>
+            @else
+                <div class="text-orange-600">
+                    <b>{{ trans('messages.device_probably_online', ['type' => $type]) }}</b>
+                </div>
+            @endisset
+        </div>
         <table>
             @foreach ($ping as $line)
                 <tr><td><span color="grey">{{$line}}</span></td></tr>
             @endforeach
         </table>
     @else
-        <span class="text-red-600">{{$type}} is Offline</span> <br>
+        <div class="text-red-600">{{ trans('messages.deviceOffline', ['Device' => $type]) }}</div>
     @endif
 
 @stop

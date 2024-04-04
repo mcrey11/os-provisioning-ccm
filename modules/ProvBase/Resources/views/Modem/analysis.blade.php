@@ -46,17 +46,17 @@
 @stop
 
 @section('content_ping')
-    <div class="tab-content min-h-[20rem] p-3">
+    <div class="tab-content min-h-[16rem]">
         <div class="tab-pane" id="ping-test">
             @if ($online)
-                <div class="font-semibold text-green-600 pb-2"><b>Modem is Online</b></div>
+                <div class="font-semibold text-green-600"><b>{{ trans('messages.deviceOnline', ['Device' => 'Modem']) }}</b></div>
             @else
-                <div class="font-semibold text-red-600">{{ trans('messages.modem_offline') }}</div>
+                <div class="font-semibold text-red-600">{{ trans('messages.deviceOffline', ['Device' => 'Modem']) }}</div>
             @endif
             {{-- pings are appended dynamically here by javascript --}}
         </div>
 
-        <div class="tab-pane fade in" id="flood-ping">
+        <div class="tab-pane fade in px-2" id="flood-ping">
             <form v-on:submit.prevent="floodPing">
                 <div class="row flex">
                     <div class="flex-1">
@@ -118,16 +118,14 @@
 
 @if (Module::collections()->has('HfcCustomer'))
     @section('content_proximity_search')
-
-        {!! Form::open(array('route' => 'CustomerTopo.show_prox', 'method' => 'GET')) !!}
-        <div class="row">
-        {!! Form::hidden('id', $modem->id) !!}
-        {!! Form::number('radius', '1000') !!}
-        {!! Form::submit(trans('view.Button_Search'), ['style' => 'simple']) !!}
-        {!! Form::label('radius', 'Radius / m', ['class' => 'col-md-2 control-label']) !!}
-        </div>
-        {!! Form::close() !!}
-
+        <form action="{{ route('CustomerTopo.show_prox')}}" method="get">
+            <input type="hidden" name="id" value="{{ $modem->id }}">
+            <div class="flex space-x-2 items-baseline">
+                <label class="control-label" for="radius">Radius / m</label>
+                <input class="form-control flex-1" type="number" name="radius" value="100">
+                <button type="submit" class="btn btn-primary">{{ trans('view.Button_Search') }}</button>
+            </div>
+        </form>
     @stop
 @endif
 

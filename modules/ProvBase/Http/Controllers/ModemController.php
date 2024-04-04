@@ -1059,7 +1059,8 @@ class ModemController extends \BaseController
      */
     public function cpeAnalysis($id)
     {
-        $ping = $lease = $log = $dash = $cpeMac = null;
+        $ping = $lease = $log = $cpeMac = null;
+        $dash = [];
         $modem = Modem::with('endpoints')->find($id);
         $type = 'CPE';
         $modem_mac = strtolower($modem->mac);
@@ -1122,10 +1123,10 @@ class ModemController extends \BaseController
 
                 exec("dig -x $ip +short", $fqdns);
                 foreach ($fqdns as $fqdn) {
-                    $dash .= "Hostname: $fqdn<br>";
+                    $dash[] = ['Hostname' => $fqdn];
                     exec("dig $fqdn ptr +short", $ptrs);
                     foreach ($ptrs as $ptr) {
-                        $dash .= "Hostname: $ptr<br>";
+                        $dash[] = ['Hostname' => $ptr];
                     }
                 }
             }
@@ -1150,7 +1151,8 @@ class ModemController extends \BaseController
      */
     public function mtaAnalysis($id)
     {
-        $ping = $lease = $log = $dash = $realtime = $configfile = null;
+        $ping = $lease = $log = $realtime = $configfile = null;
+        $dash = [];
         $modem = Modem::with('mtas')->find($id);
         $type = 'MTA';
         $modem->help = 'mta_analysis';
@@ -1283,21 +1285,21 @@ class ModemController extends \BaseController
 
     private function _fake_lease($modem, $ep)
     {
-        $lease['state'] = 'green';
-        $lease['forecast'] = trans('messages.cpe_fake_lease').'<br />';
-        $lease['text'][0] = "lease $ep->ip {<br />".
-            "starts 3 $ep->updated_at;<br />".
-            'binding state active;<br />'.
-            'next binding state active;<br />'.
-            'rewind binding state active;<br />'.
-            "billing subclass \"Client\" $modem->mac;<br />".
-            "hardware ethernet $ep->mac;<br />".
-            "set ip = \"$ep->ip\";<br />".
-            "set hw_mac = \"$ep->mac\";<br />".
-            "set cm_mac = \"$modem->mac\";<br />".
-            "option agent.remote-id $modem->mac;<br />".
-            'option agent.unknown-9 0:0:11:8b:6:1:4:1:2:3:0;<br />'.
-            '}<br />';
+        $lease['state'] = 'text-green-600';
+        $lease['forecast'] = trans('messages.cpe_fake_lease');
+        $lease['text'][0] = "lease $ep->ip {\n".
+            "starts 3 $ep->updated_at;\n".
+            "binding state active;\n".
+            "next binding state active;\n".
+            "rewind binding state active;\n".
+            "billing subclass \"Client\" $modem->mac;\n".
+            "hardware ethernet $ep->mac;\n".
+            "set ip = \"$ep->ip\";\n".
+            "set hw_mac = \"$ep->mac\";\n".
+            "set cm_mac = \"$modem->mac\";\n".
+            "option agent.remote-id $modem->mac;\n".
+            "option agent.unknown-9 0:0:11:8b:6:1:4:1:2:3:0;\n".
+            "}\n";
 
         return $lease;
     }
