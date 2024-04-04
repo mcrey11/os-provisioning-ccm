@@ -45,7 +45,7 @@ systemctl start chronyd
 systemctl start named
 systemctl start nmsprimed
 systemctl start tftp
-systemctl enable time-nmsprime
+systemctl start time-nmsprime
 
 firewall-cmd --reload
 
