@@ -37,14 +37,14 @@ systemctl enable chronyd
 systemctl enable dhcpd
 systemctl enable named
 systemctl enable nmsprimed
-systemctl enable tftp
+systemctl enable tftp.service # tftp.socket available as well
 systemctl enable time-nmsprime
 
 # starting dhcpd won't work now, because not all files have been populated
 systemctl start chronyd
 systemctl start named
 systemctl start nmsprimed
-systemctl start tftp
+systemctl start tftp.service # tftp.socket available as well
 systemctl start time-nmsprime
 
 firewall-cmd --reload
