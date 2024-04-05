@@ -91,7 +91,7 @@ class GlobalConfigController extends BaseController
      */
     public function index()
     {
-        $tmp = get_parent_class();
+        $tmp = get_parent_class($this);
         $base_controller = new $tmp();
 
         $view_header = BaseViewController::translate_view('Global Configurations', 'Header');
