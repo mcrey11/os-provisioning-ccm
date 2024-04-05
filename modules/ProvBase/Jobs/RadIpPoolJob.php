@@ -34,6 +34,7 @@ class RadIpPoolJob implements ShouldQueue
     protected $pool;
     protected $dirty;
     protected $original;
+    protected $fixedEndpointIps;
     protected $wasRecentlyCreated;
 
     /**
