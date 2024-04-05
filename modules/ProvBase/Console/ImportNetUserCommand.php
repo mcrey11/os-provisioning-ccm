@@ -270,7 +270,7 @@ class ImportNetUserCommand extends Command
             $c->{$key} = $c->{$key} ?: '';
 
             if (is_string($c->{$key})) {
-                $c->{$key} = utf8_encode($c->{$key});
+                $c->{$key} = mb_convert_encoding($c->{$key}, 'UTF-8', 'ISO-8859-1');
             }
         }
         $c->deleted_at = null;
@@ -305,7 +305,7 @@ class ImportNetUserCommand extends Command
         // import fields
         $modem->mac = $old_modem->MACaddress;
         $modem->number = $old_modem->Lfd;
-        $modem->name = utf8_encode($old_modem->Name);
+        $modem->name = mb_convert_encoding($old_modem->Name, 'UTF-8', 'ISO-8859-1');
 
         // $modem->x = $old_modem->x / 10000000;
         // $modem->y = $old_modem->y / 10000000;

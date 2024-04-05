@@ -412,7 +412,7 @@ class ImportCommand extends Command
             $c->{$key} = $c->{$key} ?: '';
 
             if (is_string($c->{$key})) {
-                $c->{$key} = utf8_encode($c->{$key});
+                $c->{$key} = mb_convert_encoding($c->{$key}, 'UTF-8', 'ISO-8859-1');
             }
         }
         $c->deleted_at = null;
@@ -580,7 +580,7 @@ class ImportCommand extends Command
                 'contract_id' 		=> $new_contract->id,
                 'reference' 		=> $new_contract->number ?: '', 			// TODO: number circle ?
                 'signature_date' 	=> $mandate->datum ?: '',
-                'holder' 		=> $mandate->kontoinhaber ? utf8_encode($mandate->kontoinhaber) : '',
+                'holder' 		=> $mandate->kontoinhaber ? mb_convert_encoding($mandate->kontoinhaber, 'UTF-8', 'ISO-8859-1') : '',
                 'iban'			=> $mandate->iban ?: '',
                 'bic' 			=> $mandate->bic ?: '',
                 'institute' 	=> $mandate->institut ?: '',
@@ -590,7 +590,7 @@ class ImportCommand extends Command
                 'state' 			=> 'RCUR',
             ]);
 
-            \Log::info('SEPAMANDATE ADD: '.utf8_encode($mandate->kontoinhaber).', '.$mandate->iban.', '.$mandate->institut.', '.$mandate->datum);
+            \Log::info('SEPAMANDATE ADD: '.mb_convert_encoding($mandate->kontoinhaber, 'UTF-8', 'ISO-8859-1').', '.$mandate->iban.', '.$mandate->institut.', '.$mandate->datum);
         }
     }
 
@@ -648,7 +648,7 @@ class ImportCommand extends Command
                 'valid_to' 			=> $valid_to,
                 'valid_to_fixed' 	=> 1,
                 'credit_amount' 	=> (-1) * $item->preis,
-                'accounting_text' 	=> is_null($item->buchungstext) ? '' : utf8_encode($item->buchungstext),
+                'accounting_text' 	=> is_null($item->buchungstext) ? '' : mb_convert_encoding($item->buchungstext, 'UTF-8', 'ISO-8859-1'),
             ]);
         }
     }
@@ -703,7 +703,7 @@ class ImportCommand extends Command
         // import fields
         $modem->mac = $old_modem->mac_adresse;
         $modem->number = $old_modem->id;
-        $modem->name = utf8_encode($old_modem->name);
+        $modem->name = mb_convert_encoding($old_modem->name, 'UTF-8', 'ISO-8859-1');
 
         $modem->serial_num = $old_modem->serial_num;
         $modem->inventar_num = $old_modem->inventar_num;
@@ -999,7 +999,7 @@ class ImportCommand extends Command
 
             echo "\nSEPAMANDATE UPDATE [$m->id]: $m->holder to $mandate_old->kontoinhaber";
 
-            $m->holder = $mandate_old->kontoinhaber ? utf8_encode($mandate_old->kontoinhaber) : '';
+            $m->holder = $mandate_old->kontoinhaber ? mb_convert_encoding($mandate_old->kontoinhaber, 'UTF-8', 'ISO-8859-1') : '';
 
             $m->save();
         }

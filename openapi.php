@@ -143,18 +143,18 @@ foreach ($apiRoutes as $route) {
     $route = dirname($route);
     $entity = basename($route);
 
-    $ret['components']['schemas']["${entity}Response"]['type'] = 'object';
-    $ret['components']['schemas']["${entity}Response"]['properties']['success']['type'] = 'boolean';
-    $ret['components']['schemas']["${entity}Response"]['properties']['models']['type'] = 'object';
-    $ret['components']['schemas']["${entity}Response"]['properties']['models']['additionalProperties']['$ref'] = "#/components/schemas/$entity";
+    $ret['components']['schemas']["{$entity}Response"]['type'] = 'object';
+    $ret['components']['schemas']["{$entity}Response"]['properties']['success']['type'] = 'boolean';
+    $ret['components']['schemas']["{$entity}Response"]['properties']['models']['type'] = 'object';
+    $ret['components']['schemas']["{$entity}Response"]['properties']['models']['additionalProperties']['$ref'] = "#/components/schemas/$entity";
 
-    $ret['components']['schemas']["${entity}SingleResponse"]['type'] = 'object';
-    $ret['components']['schemas']["${entity}SingleResponse"]['properties']['id']['type'] = 'integer';
-    $ret['components']['schemas']["${entity}SingleResponse"]['properties']['id']['format'] = 'int64';
-    $ret['components']['schemas']["${entity}SingleResponse"]['properties']['success']['type'] = 'boolean';
-    $ret['components']['schemas']["${entity}SingleResponse"]['properties']['models']['type'] = 'object';
-    $ret['components']['schemas']["${entity}SingleResponse"]['properties']['models']['additionalProperties']['$ref'] = "#/components/schemas/$entity";
-    $ret['components']['schemas']["${entity}SingleResponse"]['properties']['models']['maxProperties'] = 1;
+    $ret['components']['schemas']["{$entity}SingleResponse"]['type'] = 'object';
+    $ret['components']['schemas']["{$entity}SingleResponse"]['properties']['id']['type'] = 'integer';
+    $ret['components']['schemas']["{$entity}SingleResponse"]['properties']['id']['format'] = 'int64';
+    $ret['components']['schemas']["{$entity}SingleResponse"]['properties']['success']['type'] = 'boolean';
+    $ret['components']['schemas']["{$entity}SingleResponse"]['properties']['models']['type'] = 'object';
+    $ret['components']['schemas']["{$entity}SingleResponse"]['properties']['models']['additionalProperties']['$ref'] = "#/components/schemas/$entity";
+    $ret['components']['schemas']["{$entity}SingleResponse"]['properties']['models']['maxProperties'] = 1;
 
     $required = [];
     $ret['components']['schemas'][$entity]['type'] = 'object';
@@ -193,7 +193,7 @@ foreach ($apiRoutes as $route) {
             'responses' => [
                 '200' => [
                     'description' => 'Successful operation',
-                    'content' => ['application/json' => ['schema' => ['$ref' => "#/components/schemas/${entity}Response"]]],
+                    'content' => ['application/json' => ['schema' => ['$ref' => "#/components/schemas/{$entity}Response"]]],
                 ],
                 '400' => [
                     'description' => "$entity not found",
@@ -217,7 +217,7 @@ foreach ($apiRoutes as $route) {
             'responses' => [
                 '200' => [
                     'description' => 'Successful operation',
-                    'content' => ['application/json' => ['schema' => ['$ref' => "#/components/schemas/${entity}SingleResponse"]]],
+                    'content' => ['application/json' => ['schema' => ['$ref' => "#/components/schemas/{$entity}SingleResponse"]]],
                 ],
                 '400' => [
                     'description' => "$entity not found",
