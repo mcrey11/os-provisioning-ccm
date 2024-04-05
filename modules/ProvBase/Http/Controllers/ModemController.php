@@ -537,17 +537,12 @@ class ModemController extends \BaseController
 
         // setWlan and setDns
         $formInput = request('taskName');
-
         $task = Request::get('task');
+
         // used for commands like: "cmd;Fernzugang aktivieren;set;InternetGatewayDevice.User.1.Enable;1"
         if (is_array($task) && ! $formInput) {
             foreach ($task as $data) {
-                if (str_contains($data, 'getParameterValues')) {
-                    $modem->callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', $data);
-                    continue;
-                }
-
-                $modem->callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', $data);
+                $modem->callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', json_encode($data));
             }
 
             return trans('messages.modemAnalysis.actionExecuted');

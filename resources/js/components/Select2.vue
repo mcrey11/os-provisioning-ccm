@@ -100,11 +100,11 @@ onMounted(() => {
 
   setValue($(select.value).val())
 
-  if (props.multiple && !props.asArray) {
+  if (! props.multiple) {
     return select.value.on('select2:select select2:unselect', (e) => {
-      setValue($(select.value).val())
-      emit('input', $(select.value).val())
-      emit('change', $(select.value).val())
+      setValue(props.asArray ? [$(select.value).val()] : $(select.value).val())
+      emit('input', props.asArray ? [$(select.value).val()] : $(select.value).val())
+      emit('change', props.asArray ? [$(select.value).val()] : $(select.value).val())
     })
   }
 

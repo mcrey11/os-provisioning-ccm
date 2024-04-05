@@ -49,7 +49,7 @@
             <form v-if="taskOptions" v-on:submit.prevent="updateGenieTasks" class="mb-3">
                 <div class="flex">
                     <div style="flex: 1;">
-                        <select2 v-model="selectedTask" :initial="taskOptions.length > 0 ? 0 : ''" v-on:input="setTask" :as-array="true" :i18n="{ all: '{{ trans('messages.all') }}'}">
+                        <select2 v-model="selectedTask" v-on:input="setTask" :as-array="true">
                             <option v-for="(option, i) in taskOptions" :key="i" :value="option.task" v-text="option.name"></option>
                         </select2>
                     </div>
