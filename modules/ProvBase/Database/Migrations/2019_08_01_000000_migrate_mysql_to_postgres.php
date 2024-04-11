@@ -31,8 +31,8 @@ class MigrateMysqlToPostgres extends BaseMigration
     {
         system("sed -i 's/dialect = \"postgresql\"/dialect = \"mysql\"/' /etc/raddb/mods-available/sql");
         system('systemctl restart radiusd');
-        system("sudo -u postgres /usr/pgsql-13/bin/psql -c 'drop database radius;'");
-        system("sudo -u postgres /usr/pgsql-13/bin/psql -c 'drop owned by radius; drop user radius;'");
+        system("sudo -u postgres /usr/pgsql-16/bin/psql -c 'drop database radius;'");
+        system("sudo -u postgres /usr/pgsql-16/bin/psql -c 'drop owned by radius; drop user radius;'");
     }
 
     /**
@@ -50,11 +50,11 @@ class MigrateMysqlToPostgres extends BaseMigration
             return;
         }
 
-        system("sudo -u postgres /usr/pgsql-13/bin/psql -c 'CREATE DATABASE $db'");
+        system("sudo -u postgres /usr/pgsql-16/bin/psql -c 'CREATE DATABASE $db'");
         echo "radiusdb created\n";
 
         // Add radius user
-        system("sudo -u postgres /usr/pgsql-13/bin/psql -d $db -c \"
+        system("sudo -u postgres /usr/pgsql-16/bin/psql -d $db -c \"
             CREATE USER $user PASSWORD '$psw';
             GRANT USAGE ON SCHEMA public TO $user;
             GRANT ALL PRIVILEGES ON ALL Tables in schema public TO $user;
@@ -64,10 +64,10 @@ class MigrateMysqlToPostgres extends BaseMigration
         DB::connection('pgsql-radius')->unprepared(file_get_contents('/etc/raddb/mods-config/sql/main/postgresql/schema.sql'));
         DB::connection('pgsql-radius')->unprepared(file_get_contents('/etc/raddb/mods-config/sql/ippool/postgresql/schema.sql'));
 
-        system('sudo -u postgres /usr/pgsql-13/bin/psql radius -c "ALTER ROLE postgres set search_path to \'public\'"');
+        system('sudo -u postgres /usr/pgsql-16/bin/psql radius -c "ALTER ROLE postgres set search_path to \'public\'"');
 
-        system("for tbl in `sudo -u postgres /usr/pgsql-13/bin/psql -qAt -c \"select tablename from pg_tables where schemaname = 'public';\" radius`;
-            do sudo -u postgres /usr/pgsql-13/bin/psql -d radius -c \"alter table ".'$tbl'." owner to $user\"; done");
+        system("for tbl in `sudo -u postgres /usr/pgsql-16/bin/psql -qAt -c \"select tablename from pg_tables where schemaname = 'public';\" radius`;
+            do sudo -u postgres /usr/pgsql-16/bin/psql -d radius -c \"alter table ".'$tbl'." owner to $user\"; done");
 
         // Adapt /etc/raddb/ config
         system("sed -e 's|dialect = \"mysql\"|dialect = \"postgresql\"|' \\

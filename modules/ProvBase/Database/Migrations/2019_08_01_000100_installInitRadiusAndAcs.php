@@ -29,9 +29,10 @@ class InstallInitRadiusAndAcs extends BaseMigration
      */
     public function up()
     {
-        DB::connection('pgsql-radius')->unprepared(file_get_contents('/etc/raddb/mods-config/sql/main/postgresql/schema.sql'));
-
         $config = DB::connection('pgsql-radius')->getConfig();
+
+        system("sudo -u postgres /usr/pgsql-16/bin/psql -c \"ALTER DATABASE {$config['database']} OWNER TO {$config['username']};\"");
+        DB::connection('pgsql-radius')->unprepared(file_get_contents('/etc/raddb/mods-config/sql/main/postgresql/schema.sql'));
 
         $find = [
             '/^\s*#*\s*driver\s*=.*/m',

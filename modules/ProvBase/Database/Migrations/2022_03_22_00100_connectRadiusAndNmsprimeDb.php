@@ -33,7 +33,7 @@ class ConnectRadiusAndNmsprimeDb extends BaseMigration
     {
         $pass = DB::connection('pgsql-radius')->getConfig('password');
 
-        system("sudo -u postgres /usr/pgsql-13/bin/psql nmsprime << EOF
+        system("sudo -u postgres /usr/pgsql-16/bin/psql nmsprime << EOF
             CREATE EXTENSION postgres_fdw;
             CREATE Server \"nmsprime-radius\" FOREIGN DATA WRAPPER postgres_fdw OPTIONS ( host '127.0.0.1', dbname 'radius', port '5432');
             CREATE user MAPPING FOR nmsprime server \"nmsprime-radius\" OPTIONS ( user 'radius', password '$pass');
@@ -58,6 +58,6 @@ EOF");
      */
     public function down()
     {
-        system("sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c 'DROP SERVER \"nmsprime-radius\" cascade'");
+        system("sudo -u postgres /usr/pgsql-16/bin/psql nmsprime -c 'DROP SERVER \"nmsprime-radius\" cascade'");
     }
 }

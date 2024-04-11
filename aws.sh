@@ -34,8 +34,8 @@ aws s3 cp /root/backup-nmsprime.txt "s3://$bucket/$dir/"
 # psql dump via fifos is not possible, i.e. can't be read from tar in backup.sh on-the-fly
 # see https://lists.gnu.org/archive/html/bug-tar/2010-01/msg00001.html
 # thus create another file on S3 for the monitoring database
-#size=$(echo "SELECT pg_database_size('nmsprime');" | su - postgres -c '/usr/pgsql-13/bin/psql -d nmsprime' | head -3 | tail -1 | tr -cd '[:digit:]')
-#su - postgres -c '/usr/pgsql-13/bin/pg_dump -Fc nmsprime' | gpg -z0 --encrypt --recipient "$key_id" --trust-model always | aws s3 cp - $(date "+s3://$bucket/$dir/%Y%m%dT%H%M%S.psql.gpg") --expected-size "$size"
+#size=$(echo "SELECT pg_database_size('nmsprime');" | su - postgres -c '/usr/pgsql-16/bin/psql -d nmsprime' | head -3 | tail -1 | tr -cd '[:digit:]')
+#su - postgres -c '/usr/pgsql-16/bin/pg_dump -Fc nmsprime' | gpg -z0 --encrypt --recipient "$key_id" --trust-model always | aws s3 cp - $(date "+s3://$bucket/$dir/%Y%m%dT%H%M%S.psql.gpg") --expected-size "$size"
 
 # delete backup of 2 days ago except for wednesdays, thus keeping the monday backups
 # deleting older monday versions should be done using an aws s3 lifecycle rule

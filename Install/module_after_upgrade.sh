@@ -54,7 +54,7 @@ if [ $lastModule -eq 1 ]; then
 
     laravelModules=$(php /var/www/nmsprime/artisan module:list | cut -d'|' -f2)
     if echo "$laravelModules" | grep -q "ProvMon"; then
-        sudo -u postgres /usr/pgsql-13/bin/psql -d nmsprime -c "
+        sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime -c "
             GRANT SELECT ON ALL TABLES IN SCHEMA nmsprime TO grafana;
             GRANT USAGE ON SCHEMA nmsprime TO grafana;
         "

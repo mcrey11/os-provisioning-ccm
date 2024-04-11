@@ -39,7 +39,7 @@ read -r -a auths <<< $(grep '^DB_DATABASE\|^DB_USERNAME\|^DB_PASSWORD' /etc/nmsp
 sudo -u postgres psql nmsprime < /etc/nmsprime/sql-schemas/nmsprime.pgsql
 
 # Remove default entries from schema
-sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c '
+sudo -u postgres /usr/pgsql-16/bin/psql nmsprime -c '
     Delete from nmsprime.abilities;
     Delete from nmsprime.carriercode;
     Delete from nmsprime.configfile;
@@ -74,7 +74,7 @@ echo "LOAD DATABASE
 
 sudo -u postgres pgloader -q /tmp/nmsprime.load
 
-sudo -u postgres /usr/pgsql-13/bin/psql -d nmsprime -c "
+sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime -c "
     GRANT USAGE, CREATE ON SCHEMA ${auths[0]} TO ${auths[2]};
     GRANT ALL PRIVILEGES ON ALL Tables in schema ${auths[0]} TO ${auths[2]};
     GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA ${auths[0]} TO ${auths[2]};
@@ -85,7 +85,7 @@ rm -f /var/www/nmsprime/app/helpers.php
 
 laravelModules=$(php /var/www/nmsprime/artisan module:list | cut -d'|' -f2)
 if echo "$laravelModules" | grep -q "ProvMon"; then
-    sudo -u postgres /usr/pgsql-13/bin/psql -d nmsprime -c "
+    sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime -c "
         GRANT SELECT ON ALL TABLES IN SCHEMA ${auths[0]} TO grafana;
         GRANT USAGE ON SCHEMA ${auths[0]} TO grafana;
     "

@@ -4,15 +4,15 @@
 #
 # Postgresql
 #
-/usr/pgsql-13/bin/postgresql-13-setup initdb
-systemctl enable postgresql-13.service
-systemctl start postgresql-13.service
+/usr/pgsql-16/bin/postgresql-16-setup initdb
+systemctl enable postgresql-16.service
+systemctl start postgresql-16.service
 
-if [ ! "$(sudo -u postgres /usr/pgsql-13/bin/psql -XtAc "SELECT 1 FROM pg_database WHERE datname='nmsprime'" )" = '1' ]; then
-    sudo -u postgres /usr/pgsql-13/bin/psql -c 'create database nmsprime;'
+if [ ! "$(sudo -u postgres /usr/pgsql-16/bin/psql -XtAc "SELECT 1 FROM pg_database WHERE datname='nmsprime'" )" = '1' ]; then
+    sudo -u postgres /usr/pgsql-16/bin/psql -c 'create database nmsprime;'
 fi
 
-ret=$(sudo -u postgres /usr/pgsql-13/bin/psql -d nmsprime -c "SELECT EXISTS(SELECT 1 FROM information_schema.schemata WHERE schema_name = 'nmsprime')")
+ret=$(sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime -c "SELECT EXISTS(SELECT 1 FROM information_schema.schemata WHERE schema_name = 'nmsprime')")
 exists=$(echo $ret | cut -d ' ' -f 3)
 
 if [ exists = 't' ]; then
@@ -86,7 +86,7 @@ fi
 read -r -a credentials <<< $(grep '^ROOT_DB_USERNAME\|^ROOT_DB_PASSWORD=' /etc/nmsprime/env/root.env | cut -d '=' -f2)
 mysql -u "${credentials[0]}" -p"${credentials[1]}" --exec='Create user psqlconverter; GRANT select ON *.* TO psqlconverter;'
 
-sudo -u postgres /usr/pgsql-13/bin/psql -d nmsprime -c "
+sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime -c "
     CREATE USER ${auths[2]} PASSWORD '${auths[1]}';
 "
 
