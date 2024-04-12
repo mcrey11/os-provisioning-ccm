@@ -19,7 +19,7 @@
 @extends ('provbase::layouts.split')
 
 @section('content_dash')
-    <div class="relative flex">
+    <div class="relative flex min-h-[5rem]">
         <div class="absolute right-0 top-0">
             @include('Generic.documentation', ['documentation' => $modem->help])
         </div>

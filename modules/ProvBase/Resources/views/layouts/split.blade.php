@@ -70,7 +70,7 @@
 @endif
 
     <div class="col-md-7 ui-sortable">
-        @include ('bootstrap.panel', array ('content' => 'content_dash', 'view_header' => 'Dashboard', 'i' => 1))
+        @include ('bootstrap.panel', ['content' => 'content_dash', 'view_header' => 'Dashboard', 'i' => 1))
         @if (isset($realtime))
             @include ('bootstrap.panel', array ('content' => 'content_realtime', 'view_header' => \App\Http\Controllers\BaseViewController::translate_label('Real Time Values'), 'i' => 2))
         @endif

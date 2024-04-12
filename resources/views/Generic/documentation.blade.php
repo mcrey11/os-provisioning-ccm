@@ -24,7 +24,7 @@
             title="{{ trans('messages.support') }}" form="IndexForm" name="support">
             <i class="fa fa-question fa-2x" aria-hidden="true"></i>
         </button>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+        <div class="dropdown-menu dropdown-menu-right w-64" aria-labelledby="dropdownMenuButton">
             @php
                 $help = isset($documentation) ? config('documentation.'.strtolower($documentation)) : $view_help;
             @endphp
