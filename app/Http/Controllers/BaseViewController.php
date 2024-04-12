@@ -199,10 +199,10 @@ class BaseViewController extends Controller
      *  4. auto-fill field_value with correlating model data (from sql)
      *  5. IP online check for form_type = 'ip' || 'ping'
      *
-     * @param fields: the view_form_fields array()
+     * @param fields: the view_form_fields  []
      * @param model: the model to view. Note: could be get_model_obj()->find($id) or get_model_obj()
      *
-     * @return: the modifeyed view_form_fields array()
+     * @return: the modifeyed view_form_fields  []
      *
      * @author: Torsten Schmidt
      */
@@ -342,10 +342,10 @@ class BaseViewController extends Controller
      * overwrite default behavior. The best advice to use these parameter is to
      * debug the return array of this function and adapt it to you requirements.
      *
-     * @param fields: the prepared view_form_fields array(), each array element represents on (HTML) field
+     * @param fields: the prepared view_form_fields  [], each array element represents on (HTML) field
      * @param context: edit|create - context from which this function is called
      *
-     * @return: array() of fields with added ['html'] element containing the preformed html content
+     * @return: [] of fields with added ['html'] element containing the preformed html content
      *
      * @author: Torsten Schmidt
      *

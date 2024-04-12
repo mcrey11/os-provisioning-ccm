@@ -48,7 +48,7 @@
         @endif
 
         @if ($create_allowed)
-            {!! Form::open(array('route' => $route_name.'.create', 'method' => 'GET')) !!}
+            {!! Form::open( ['route' => $route_name.'.create', 'method' => 'GET']) !!}
                 <button class="btn btn-primary m-b-15" style="simple">
                     <i class="fa fa-plus fa-lg m-r-10" aria-hidden="true"></i>
                     {{ trans("view.Button_Create {$route_name}") }}
@@ -59,13 +59,13 @@
 
     {{-- database entries inside a form with checkboxes to be able to delete one or more entries --}}
     @DivOpen(12)
-        {!! Form::open(array('route' => array($route_name.'.destroy', 0), 'method' => 'delete', 'onsubmit' => 'return submitMe()')) !!}
+        {!! Form::open(['route' => [$route_name.'.destroy', 0], 'method' => 'delete', 'onsubmit' => 'return submitMe()']) !!}
             @if (!is_array($view_var))
-                @include('Generic.tree_hidden_helper', array('items' => $view_var))
+                @include('Generic.tree_hidden_helper', ['items' => $view_var])
             @endif
 
             <div id="jstree-default">
-                @include('Generic.tree_item', array('items' => $view_var, 'color' => 0))
+                @include('Generic.tree_item', ['items' => $view_var, 'color' => 0])
             </div>
 
             {{-- delete/submit button of form --}}

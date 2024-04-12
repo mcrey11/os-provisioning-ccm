@@ -64,7 +64,7 @@
             @endif
 
             <div class="m-t-20">
-                {{ Form::open(array('url' => $prefix.'/login')) }}
+                {{ Form::open( ['url' => $prefix.'/login']) }}
                 @if (isset($intended) && $intended)
                     <div class="note note-warning">
                         <div class="mb-2">
@@ -75,12 +75,12 @@
                 @endif
                 {{-- Username --}}
                 <div class="form-group m-b-20">
-                    {{ Form::text('login_name', Request::old('login_name'), array('autofocus'=>'autofocus', 'class' => "form-control input-lg", 'placeholder' => \App\Http\Controllers\BaseViewController::translate_label($loginPage == 'admin' ? 'Username' : 'Customer number'), 'style' => 'simple')) }}
+                    {{ Form::text('login_name', Request::old('login_name'), ['autofocus'=>'autofocus', 'class' => "form-control input-lg", 'placeholder' => \App\Http\Controllers\BaseViewController::translate_label($loginPage == 'admin' ? 'Username' : 'Customer number'), 'style' => 'simple']) }}
                 </div>
 
                 {{-- Password --}}
                 <div class="form-group m-b-20">
-                    {{ Form::password('password', array('autofocus'=>'autofocus', 'class' => "form-control input-lg", 'placeholder' => \App\Http\Controllers\BaseViewController::translate_label('Password'), 'style' => 'simple')) }}
+                    {{ Form::password('password', ['autofocus'=>'autofocus', 'class' => "form-control input-lg", 'placeholder' => \App\Http\Controllers\BaseViewController::translate_label('Password'), 'style' => 'simple']) }}
                 </div>
 
                 {{-- Remember Checkbox --}}

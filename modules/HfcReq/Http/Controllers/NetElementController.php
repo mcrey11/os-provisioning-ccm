@@ -84,9 +84,9 @@ class NetElementController extends BaseController
         $a = [
             ['form_type' => 'select', 'name' => 'netelementtype_id', 'description' => 'NetElement Type', 'select' => NetElementType::$undeletables, 'value' => $this->setupSelect2Field($netelement, 'NetElementType'), 'hidden' => 0, 'options' => ['class' => 'select2-ajax', 'ajax-route' => route('NetElement.select2', ['relation' => 'netelementtypes'])]],
             ['form_type' => 'text', 'name' => 'name', 'description' => 'Name', 'space' => 1],
-            // array('form_type' => 'select', 'name' => 'type', 'description' => 'Type', 'value' => ['NET' => 'NET', 'NETGW' => 'NETGW', 'DATA' => 'DATA', 'CLUSTER' => 'CLUSTER', 'NODE' => 'NODE', 'AMP' => 'AMP']),
+            // ['form_type' => 'select', 'name' => 'type', 'description' => 'Type', 'value' => ['NET' => 'NET', 'NETGW' => 'NETGW', 'DATA' => 'DATA', 'CLUSTER' => 'CLUSTER', 'NODE' => 'NODE', 'AMP' => 'AMP']],
             // net is automatically detected in Observer
-            // array('form_type' => 'select', 'name' => 'net', 'description' => 'Net', 'value' => $nets),
+            // ['form_type' => 'select', 'name' => 'net', 'description' => 'Net', 'value' => $nets],
             ['form_type' => 'ip', 'name' => 'ip', 'description' => 'IP address', 'hidden' => $hidden4TapPort || $hidden4Tap],
             // ['form_type' => 'text', 'name' => 'port', 'description' => 'Port', 'hidden' => $hidden4TapPort || $hidden4Tap],
             ['form_type' => 'select', 'name' => 'prov_device_id', 'description' => 'Provisioning Device', 'value' => $this->setupSelect2Field($netelement, 'provDevice', 'prov_device_id', 'provDevice'), 'hidden' => $prov_device_hidden, 'options' => ['class' => 'select2-ajax', 'data-allow-clear' => 'true', 'ajax-route' => route('NetElement.select2', ['base_type_id' => $type, 'relation' => 'provDevice'])]],
@@ -99,7 +99,7 @@ class NetElementController extends BaseController
             ['form_type' => 'select', 'name' => 'parent_id', 'description' => 'Parent Object', 'value' => $this->setupSelect2Field($netelement, 'Parent'), 'options' => ['class' => 'select2-ajax', 'data-allow-clear' => 'true', 'ajax-route' => route('NetElement.select2', ['model' => $netelement, 'relation' => 'parent'])]],
             ['form_type' => 'text', 'name' => 'link', 'description' => 'ERD Link', 'hidden' => $hidden4TapPort || $hidden4Tap],
             ['form_type' => 'text', 'name' => 'controlling_link', 'description' => 'Controlling Link', 'hidden' => $hidden4TapPort || $hidden4Tap],
-            // array('form_type' => 'select', 'name' => 'state', 'description' => 'State', 'value' => ['OK' => 'OK', 'YELLOW' => 'YELLOW', 'RED' => 'RED'], 'options' => ['readonly']),
+            // ['form_type' => 'select', 'name' => 'state', 'description' => 'State', 'value' => ['OK' => 'OK', 'YELLOW' => 'YELLOW', 'RED' => 'RED'], 'options' => ['readonly']],
         ];
 
         if (Module::collections()->has('HfcBase')) {

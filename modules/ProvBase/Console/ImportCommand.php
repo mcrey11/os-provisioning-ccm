@@ -962,8 +962,8 @@ class ImportCommand extends Command
             ['plz', null, InputOption::VALUE_OPTIONAL, 'Import only Contracts with special zip code (from tbl_adressen), e.g. 09518', 0],
             ['cluster', null, InputOption::VALUE_OPTIONAL, 'Import only Contracts/Modems from cluster_id, e.g. 160', 0],
             ['cc', null, InputOption::VALUE_OPTIONAL, 'CostCenter ID for all the imported Contracts', 0],
-            // array('debug', null, InputOption::VALUE_OPTIONAL, '1 enables debug', 0),
-            // array('terminate', null, InputOption::VALUE_OPTIONAL, 'Date for all km3 Contracts to terminate', 0),
+            // ['debug', null, InputOption::VALUE_OPTIONAL, '1 enables debug', 0],
+            // ['terminate', null, InputOption::VALUE_OPTIONAL, 'Date for all km3 Contracts to terminate', 0],
         ];
     }
 

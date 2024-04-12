@@ -65,7 +65,7 @@ class MtaController extends \BaseController
             ['form_type' => 'select', 'name' => 'configfile_id', 'description' => 'Configfile', 'value' => $this->setupSelect2Field($model, 'Configfile'), 'help' => trans('helper.configfile_count'), 'options' => ['class' => 'select2-ajax', 'ajax-route' => route('Mta.select2', ['relation' => 'configfiles'])]],
 
             // ATM there is only SIP
-            /* array('form_type' => 'select', 'name' => 'type', 'description' => 'Type', 'value' => Mta::getPossibleEnumValues('type', false)), */
+            /* ['form_type' => 'select', 'name' => 'type', 'description' => 'Type', 'value' => Mta::getPossibleEnumValues('type', false)], */
             ['form_type' => 'select', 'name' => 'type', 'description' => 'Type', 'value' => 'sip', 'hidden' => 1],
         ];
     }

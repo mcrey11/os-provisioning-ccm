@@ -1073,7 +1073,7 @@ class NetElement extends \BaseModel
      * NOTE: this is of course type dependent
      *
      * @param
-     * @return array()
+     * @return []
      */
     public function get_options_array($type = null)
     {

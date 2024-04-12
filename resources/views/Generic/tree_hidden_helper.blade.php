@@ -20,6 +20,6 @@
 @foreach($items->load('children') as $item)
 <input type="hidden" id="myFieldids[{{$item->id}}]" name="" value="1" />
   @if($item->children->count())
-    @include('Generic.tree_hidden_helper', array('items' => $item->children))
+    @include('Generic.tree_hidden_helper', ['items' => $item->children])
   @endif
 @endforeach

@@ -177,10 +177,10 @@ class HfcReqController extends \BaseController
     private function _create_parameter($id, $oids, $model)
     {
         foreach ($oids as $oid_id) {
-            // $data = array(
+            // $data = [
             // 	'oid_id' => $oid_id,
             // 	'netelementtype_id' => $id,
-            // 	);
+            // 	];
 
             $data['oid_id'] = $oid_id;
 

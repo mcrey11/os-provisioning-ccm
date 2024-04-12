@@ -35,7 +35,7 @@
             {!! HTML::linkRoute("$route_name.edit", $item->view_index_label(), $item->id) !!}
 
             @if($item->children->count() > 0)
-                @include('Generic.tree_item', array('items' => $item->children, 'color' => $color++))
+                @include('Generic.tree_item', ['items' => $item->children, 'color' => $color++])
             @else
                 <?php $color++; ?>
             @endif
@@ -44,7 +44,7 @@
         <li class="f-s-14 p-t-5 nocheck" data-jstree='{"type":"default-1" }'>
         @if(is_array($item))
             {{$key}}
-            @include('Generic.tree_item', array('items' => $item))
+            @include('Generic.tree_item', ['items' => $item])
         @else
             {!! HTML::linkRoute('Modem.index', "$key: $item", ['show_filter' => 'sw_rev', 'data' => $key]) !!}
         @endif

@@ -67,7 +67,7 @@
 					class="tab-pane pt-2 {{ $loop->first ? 'active' : ''}}"
 					v-show="tabStates['{{ $links[$slug]['name'] }}']"
 					role="tabpanel">
-					{!! Form::model($model, array('route' => array($links[$slug]['link'].'.update', '1'), 'method' => 'put', 'files' => true) ) !!}
+					{!! Form::model($model, ['route' => [$links[$slug]['link'].'.update', '1'], 'method' => 'put', 'files' => true]) !!}
 						@include('Generic.form', ['view_var' => $model, 'form_fields' => $form_fields[$slug]])
 					{{ Form::close() }}
 				</div>

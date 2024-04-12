@@ -22,7 +22,7 @@ Java Edit Form Blade
 NOTE: - java include section is in default blade at bottom of text
       - used to add java script stuff to form/edit blade
 
-@param $form_fields: the form fields to be displayed as array()
+@param $form_fields: the form fields to be displayed as  []
 
 --}}
 
@@ -46,7 +46,7 @@ NOTE: - java include section is in default blade at bottom of text
         @if(isset ($form_fields))
             @foreach($form_fields as $field)
 
-                {{-- that has a select field with an array() inside --}}
+                {{-- that has a select field with an  [] inside --}}
                 @if (isset($field['select']) && is_array($field['select']))
 
                     {{-- load on document initialization --}}

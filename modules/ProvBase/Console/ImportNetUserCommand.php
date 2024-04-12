@@ -703,7 +703,7 @@ class ImportNetUserCommand extends Command
     {
         return [
             ['cluster', null, InputOption::VALUE_OPTIONAL, 'Import only Contracts/Modems from Mandantnr, e.g. 3', 0],
-            // array('cc', null, InputOption::VALUE_OPTIONAL, 'CostCenter ID for all the imported Contracts', 0),
+            // ['cc', null, InputOption::VALUE_OPTIONAL, 'CostCenter ID for all the imported Contracts', 0],
         ];
     }
 }

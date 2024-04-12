@@ -186,7 +186,7 @@ class ContractCommand extends Command
     protected function getOptions()
     {
         return [
-            // array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
+            // ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
         ];
     }
 }

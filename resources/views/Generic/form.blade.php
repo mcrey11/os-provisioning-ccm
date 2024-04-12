@@ -18,7 +18,7 @@
 ?>
 {{--
 
-@param $form_fields: the form fields to be displayed as array()
+@param $form_fields: the form fields to be displayed as  []
 @param $save_button_name: the save button text
 
 --}}

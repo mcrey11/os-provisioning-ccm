@@ -1,9 +1,9 @@
 @if (isset($relation[0]))
 @DivOpen(12)
     @if (isset($options['many_to_many']))
-        {!! Form::open(array('route' => array($route_name.'.detach', $view_var->id, $options['many_to_many']), 'method' => 'post', 'id' => $class)) !!}
+        {!! Form::open(['route' => [$route_name.'.detach', $view_var->id, $options['many_to_many']], 'method' => 'post', 'id' => $class]) !!}
     @else
-        {!! Form::open(array('route' => array($class.'.destroy', 0), 'method' => 'delete', 'id' => $tab['name'].$class)) !!}
+        {!! Form::open(['route' => [$class.'.destroy', 0], 'method' => 'delete', 'id' => $tab['name'].$class]) !!}
     @endif
 
     @if ($count < config('datatables.relationThreshold'))

@@ -40,7 +40,7 @@ class ParameterController extends HfcReqController
             ['form_type' => 'text', 'name' => 'netelementtype_id', 'description' => 'NetElementType', 'hidden' => 1],
             ['form_type' => 'text', 'name' => 'oid_id', 'description' => 'OID', 'hidden' => 1],
             ['form_type' => 'text', 'name' => 'name', 'description' => 'Name', 'options' => ['readonly']],
-            // array('form_type' => 'text', 'name' => 'html_properties', 'description' => 'HTML Properties'),
+            // ['form_type' => 'text', 'name' => 'html_properties', 'description' => 'HTML Properties'],
         ];
 
         if ($oid) {

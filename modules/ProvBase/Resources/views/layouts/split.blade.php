@@ -70,12 +70,12 @@
 @endif
 
     <div class="col-md-7 ui-sortable">
-        @include ('bootstrap.panel', ['content' => 'content_dash', 'view_header' => 'Dashboard', 'i' => 1))
+        @include ('bootstrap.panel', ['content' => 'content_dash', 'view_header' => 'Dashboard', 'i' => 1, 'overflow' => 'visible'])
         @if (isset($realtime))
-            @include ('bootstrap.panel', array ('content' => 'content_realtime', 'view_header' => \App\Http\Controllers\BaseViewController::translate_label('Real Time Values'), 'i' => 2))
+            @include ('bootstrap.panel', ['content' => 'content_realtime', 'view_header' => \App\Http\Controllers\BaseViewController::translate_label('Real Time Values'), 'i' => 2])
         @endif
         @if (isset($hostId))
-            @include ('bootstrap.panel', array ('content' => 'content_cacti', 'view_header' => 'Monitoring', 'i' => 3))
+            @include ('bootstrap.panel', ['content' => 'content_cacti', 'view_header' => 'Monitoring', 'i' => 3])
         @endif
     </div>
 
@@ -90,7 +90,7 @@
         $panelHeaderPing .= '</ul>';
         @endphp
 
-        @include ('bootstrap.panel', array ('content' => 'content_ping', 'view_header' => $panelHeaderPing, 'i' => 4))
+        @include ('bootstrap.panel', ['content' => 'content_ping', 'view_header' => $panelHeaderPing, 'i' => 4])
 
         @php
             $panelHeader = '<ul class="nav nav-pills" id="loglease">';
@@ -114,16 +114,16 @@
             $panelHeader .= '</ul>';
         @endphp
 
-        @include ('bootstrap.panel', array ('content' => 'content_log', 'view_header' => $panelHeader, 'i' => 5))
+        @include ('bootstrap.panel', ['content' => 'content_log', 'view_header' => $panelHeader, 'i' => 5])
 
         @if (\Module::collections()->has('HfcCustomer'))
-            @include ('bootstrap.panel', array ('content' => 'content_proximity_search', 'view_header' => trans('messages.proximity'), 'i' => 6))
+            @include ('bootstrap.panel', ['content' => 'content_proximity_search', 'view_header' => trans('messages.proximity'), 'i' => 6])
         @endif
     </div>
 
     @if (Module::collections()->has('ProvMon') && ! $modem->isPPP())
         <div class="col-md-12 ui-sortable">
-            @include ('bootstrap.panel', array ('content' => 'spectrum-analysis', 'view_header' => trans('messages.spectrum'),  'i' => 7))
+            @include ('bootstrap.panel', ['content' => 'spectrum-analysis', 'view_header' => trans('messages.spectrum'),  'i' => 7])
         </div>
     @endif
 

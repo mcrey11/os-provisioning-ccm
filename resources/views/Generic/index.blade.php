@@ -52,7 +52,7 @@
         @can('create', $model)
             <div class="align-self-end m-r-20">
                 @if ($create_allowed)
-                    {{ Form::open(array('method' => 'GET', 'id' => 'createModel')) }}
+                    {{ Form::open( ['method' => 'GET', 'id' => 'createModel']) }}
                     <a href={{route($route_name.'.create')}} onclick="form.submit();" class="btn btn-outline-primary float-right"
                         style="simple" data-toggle="tooltip" data-delay='{"show":"250"}' data-placement="top"
                         title="{{ \App\Http\Controllers\BaseViewController::translate_view('Create '.$model->view_headline(), 'Button' )}}">
@@ -123,7 +123,7 @@
 
     {{-- database entries inside a form with checkboxes to be able to delete one or more entries --}}
     @if ($delete_allowed)
-        {{ Form::open(array('route' => array($route_name.'.destroy', 0), 'method' => 'delete', 'id' => 'IndexForm')) }}
+        {{ Form::open(['route' => [$route_name.'.destroy', 0], 'method' => 'delete', 'id' => 'IndexForm']) }}
     @endif
 
     {{-- INIT DT --}}

@@ -24,7 +24,7 @@
 @param $form_update: the update route which should be called when clicking save
 @param $form_path: the form view to be displayed inside this blade (mostly Generic.form)
 @param $tabs: the page hyperlinks returned from analysisPage() or prep_right_panels()
-@param $relations: the relations array() returned by prep_right_panels() in BaseViewController
+@param $relations: the relations  [] returned by prep_right_panels() in BaseViewController
 
 --}}
 @extends ('Layout.split-nopanel')
@@ -121,7 +121,7 @@
     {{-- Alert --}}
     @if (Session::has('alert'))
         @foreach (Session::get('alert') as $notif => $message)
-            @include('bootstrap.alert', array('message' => $message, 'color' => $notif))
+            @include('bootstrap.alert', ['message' => $message, 'color' => $notif])
             <?php Session::forget("alert.$notif"); ?>
         @endforeach
     @endif

@@ -103,9 +103,9 @@ class FormBuilder extends CollectiveFormBuilder
      *
      * Attention: method call Collective\Html\FormBuilder::label() has been changed in version 5.2.5
      * Patrick changed our derived call from
-     *		public function label($name, $value = null, $options = array())
+     *		public function label($name, $value = null, $options = [])
      * to
-     *		public function label($name, $value = null, $options = array(), $escape_html = true)
+     *		public function label($name, $value = null, $options = [], $escape_html = true)
      */
     public function label($name, $value = null, $options = [], $escape_html = true, $wrapperCol = null, $wrapperClass = 'flex')
     {

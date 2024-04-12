@@ -237,7 +237,7 @@ class addDefaultRolesCommand extends Command
     protected function getArguments()
     {
         return [
-            // array('example', InputArgument::REQUIRED, 'An example argument.'),
+            // ['example', InputArgument::REQUIRED, 'An example argument.'],
         ];
     }
 
@@ -249,7 +249,7 @@ class addDefaultRolesCommand extends Command
     protected function getOptions()
     {
         return [
-            // array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
+            // ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
         ];
     }
 }
