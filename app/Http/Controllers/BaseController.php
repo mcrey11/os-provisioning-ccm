@@ -1195,6 +1195,16 @@ class BaseController extends Controller
 
         foreach ($fields as $field) {
             $name = $field['name'];
+
+            if (! isset($field['field_value']) && $field['name'] === 'collapse') {
+                foreach ($field['form_fields'] as $collapseField) {
+                    $collapseFieldName = $collapseField['name'];
+                    $data[$collapseFieldName] = Request::has($collapseFieldName) ? Request::input($collapseFieldName) : $collapseField['field_value'];
+                }
+
+                continue;
+            }
+
             $data[$name] = Request::has($name) ? Request::input($name) : $field['field_value'];
         }
 
