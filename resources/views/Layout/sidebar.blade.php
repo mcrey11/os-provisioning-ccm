@@ -7,7 +7,7 @@
                 <div
                     class="flex flex-col items-center justify-center space-y-2 text-xs text-center border-b border-gray-200">
                     <div class="flex flex-col items-center w-full p-2 transition duration-150 ease-out hover:bg-gray-900 hover:text-lime-nmsprime hover:cursor-pointer hover:ease-in"
-                        :class="{ 'bg-gray-900': menu == 'Core Network' }" v-on:click="openSidebar('Core Network');">
+                        :class="{ 'bg-gray-900': menu == 'Core Network' }" @@click="openSidebar('Core Network');">
                         <svg version="1.1" viewBox="0 0 96 96" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <path
@@ -19,7 +19,7 @@
                     </div>
                     <div class="flex flex-col items-center w-full p-1 transition duration-150 ease-out hover:bg-gray-900 hover:text-lime-nmsprime hover:cursor-pointer hover:ease-in"
                         :class="{ 'bg-gray-900': menu == 'Access Network' }"
-                        v-on:click="openSidebar('Access Network');">
+                        @@click="openSidebar('Access Network');">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 367 341" class="w-6 h-6"
                             fill="CurrentColor">
                             <path
@@ -209,7 +209,7 @@
                                 style="z-index:10000;">
                                 <div class="flex recolor sidebar-element">
                                     <a class="flex caret-link items-center no-underline"
-                                        v-on:click="{{ isset($typearray['link']) ? "!store.minified ? setMenu('{$moduleNameSlug}', false) : ''" : "setMenu('{$moduleNameSlug}')" }}"
+                                        @@click="{{ isset($typearray['link']) ? "!store.minified ? setMenu('{$moduleNameSlug}', false) : ''" : "setMenu('{$moduleNameSlug}')" }}"
                                         href="{{ isset($typearray['link']) ? route($typearray['link']) : 'javascript:;' }}">
                                         @if (is_file(public_path('images/apps/') . $typearray['icon']))
                                             <img src="{{ asset('images/apps/' . $typearray['icon']) }}"
@@ -222,7 +222,7 @@
                                     </a>
                                     @if (isset($typearray['submenu']))
                                         <a class="flex-1 caret-link" href="javascript:;"
-                                            v-on:click.stop="setMenu('{{ $moduleNameSlug }}')"
+                                            @@click.stop="setMenu('{{ $moduleNameSlug }}')"
                                             style="height: 20px; display:block; text-align: right">
                                             <i class="fa fa-caret-right"
                                                 :class="{
@@ -235,8 +235,8 @@
                                 </div>
                                 <!-- SubMenu -->
                                 @isset($typearray['submenu'])
-                                    <transition appear name="accordion" v-on:before-enter="beforeEnter" v-on:enter="enter"
-                                        v-on:before-leave="beforeLeave" v-on:leave="leave" v-on:after-leave="afterLeave">
+                                    <transition appear name="accordion" @@before-enter="beforeEnter" @@enter="enter"
+                                        @@before-leave="beforeLeave" @@leave="leave" @@after-leave="afterLeave">
                                         <ul v-cloak v-show="activeItem == '{{ $moduleNameSlug }}' && ! isCollapsed"
                                             class="pl-0 m-0 sidebar-hover p-b-10 transition-all duration-200 ease-in-out overflow-hidden list-none bg-sidebar-darker"
                                             :class="{
@@ -250,7 +250,7 @@
                                                         active: (lastClicked ==
                                                             'menu-{{ Str::slug($type, '_') }}')
                                                     }"
-                                                    v-on:click="setSubMenu('menu-{{ Str::slug($type, '_') }}')">
+                                                    @@click="setSubMenu('menu-{{ Str::slug($type, '_') }}')">
                                                     <a href="{{ route($valuearray['link']) }}" class="block py-1 text-neutral-500 font-light overflow-hidden whitespace-nowrap no-underline">
                                                         <i class="fa fa-fw {{ $valuearray['icon'] }}"></i>
                                                         <span>{{ $type }}</span>
@@ -290,7 +290,7 @@
                             <li v-cloak v-show="!store.minified" class="mt-4 nav-header align-items-center no-content-pseudo"
                                 style="border-top:1px solid;font-size:13px;width: 100%;display:flex;justify-content:space-between;">
                                 <div class="text-success" style="flex:1;">{{ trans('view.Menu_Nets') }}</div>
-                                <div v-on:click.stop="setVisibility" style="height:1.35rem;">
+                                <div @@click.stop="setVisibility" style="height:1.35rem;">
                                     <i class="m-0 text-light fa" :class="isVisible ? 'fa-eye' : 'fa-eye-slash'"
                                         style="cursor: pointer;"></i>
                                 </div>
@@ -298,7 +298,7 @@
                                     leave-class="toggleWidthEnd" leave-to-class="toggleWidthStart">
                                     <div v-if="isVisible" class="flex align-items-center position-relative"
                                         style="cursor:pointer;background: #232a2f;border-radius: 9999px;height:1.35rem;transition: width .25s ease, margin-left .25s ease;width: 3.25rem;margin-left: 1rem;"
-                                        v-on:click="setSearchMode">
+                                        @@click="setSearchMode">
                                         <div class="position-absolute"
                                             :style="'background: #8ec73a;border-radius: 9999px;width:1.2rem;height:1.2rem;transition: all .25s;' +
                                             ((isSearchMode) ? 'left:31.5px;' : 'left:2px;')">
@@ -316,7 +316,7 @@
                             <div v-show="isSearchMode && isVisible"
                                 class="my-1 flex align-items-center position-relative"
                                 style="padding:0.5rem 1.25rem;display:none;">
-                                <input type="text" v-model="clusterSearch" v-on:keyup="searchForNetOrCluster"
+                                <input type="text" v-model="clusterSearch" @@keyup="searchForNetOrCluster"
                                     class="form-control" style="padding-left:2rem;"
                                     placeholder="{{ trans('view.Search_EnterKeyword') }} ..." aria-label="Search ..."
                                     aria-describedby="Search for Net or Cluster">
@@ -344,34 +344,34 @@
                                                         class="mr-2 caret-link fa fa-circle-o-notch fa-spin"></i>
                                                     <i v-else class="mr-2 caret-link fa"
                                                         :class="favorites.includes(netelement.id) ? 'fa-star' : 'fa-star-o'"
-                                                        v-on:click="favorNetelement(netelement)"></i>
+                                                        @@click="favorNetelement(netelement)"></i>
                                                 </a>
                                                 <a :href="'/admin/Tree/erd/' + (netelement.base_type_id == 1 ? 'net/' :
                                                     'cluster/') + netelement.id"
                                                     class="no-underline"
                                                     style="max-height: 20px; white-space: nowrap;flex:1;width:80%;"
-                                                    v-on:click="setNetActive(netelement.id)">
+                                                    @@click="setNetActive(netelement.id)">
                                                     <span v-text="netelement.name" :title="netelement.name"
                                                         class="d-block text-ellipsis"></span>
                                                 </a>
                                             </template>
                                             <template v-else>
-                                                <i v-on:mouseenter="setHover(netelement, true)"
-                                                    v-on:mouseLeave="setHover(netelement, false)"
-                                                    v-on:click="directFavor(netelement, $event)" class="mr-2 fa"
+                                                <i @@mouseenter="setHover(netelement, true)"
+                                                    @@mouseLeave="setHover(netelement, false)"
+                                                    @@click="directFavor(netelement, $event)" class="mr-2 fa"
                                                     :class="netElementSearchHoverClass(netelement)"
                                                     style="text-decoration: none;"></i>
                                                 <a :href="'/admin/Tree/erd/' + (netelement.base_type_id == 1 ? 'net/' :
                                                     'cluster/') + netelement.id"
                                                     class="no-underline caret-link flex"
                                                     style="max-height: 20px; white-space: nowrap;flex:1;width:80%;"
-                                                    v-on:click="setNetActive(netelement.id)">
+                                                    @@click="setNetActive(netelement.id)">
                                                     <span v-if="! store.minified" v-text="netelement.name"
                                                         :title="netelement.name" class="d-block text-ellipsis"></span>
                                                 </a>
                                             </template>
                                             <a href="javascript:;" v-if="netelement.base_type_id == 1"
-                                                v-on:click="loadCluster(netelement)" class="caret-link"
+                                                @@click="loadCluster(netelement)" class="caret-link"
                                                 style="cursor: pointer;width: 100%; text-align: right;">
                                                 <i v-if="loadingClusters.includes(netelement.id)"
                                                     class="fa fa-circle-o-notch fa-spin"></i>
@@ -384,11 +384,11 @@
                                         </div>
                                         <transition
                                             name="accordion"
-                                            v-on:before-enter="beforeEnter"
-                                            v-on:enter="enter"
-                                            v-on:before-leave="beforeLeave"
-                                            v-on:leave="leave"
-                                            v-on:after-leave="afterLeave"
+                                            @@before-enter="beforeEnter"
+                                            @@enter="enter"
+                                            @@before-leave="beforeLeave"
+                                            @@leave="leave"
+                                            @@after-leave="afterLeave"
                                         >
                                             <ul :id="'network_' + netelement.id"
                                                 v-if="netelement.base_type_id == 1 && netelement.clustersLoaded && netelement.clusters.length && !netelement.isCollapsed"
@@ -401,7 +401,7 @@
                                                 'overflow:hidden;list-style-type: none;background: #1a2229;'">
                                                 <template v-for="cluster in netelement.clusters" :key="cluster.id">
                                                     <li :id="'cluster_' + cluster.id"
-                                                        v-on:click="setNetActive(cluster.id)"
+                                                        @@click="setNetActive(cluster.id)"
                                                         :class="{
                                                             active: (clickedNetelement == cluster.id),
                                                             'p-t-10': (
@@ -439,7 +439,7 @@
             <div
                 class="absolute top-0 hidden md:flex flex-col items-center w-5 h-full pt-2 space-y-6 transition-all duration-200 ease-in-out bg-lime-nmsprime -right-5 {{ cache('sidebar.pinnedState.'.$user->login_name) ? 'translate-x-64' : '' }}"
                 :class="{'!translate-x-64': !store.minified,'!translate-x-0': store.minified}">
-                <div class="text-white hover:cursor-pointer" v-on:click="handleMinify">
+                <div class="text-white hover:cursor-pointer" @@click="handleMinify">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 duration-300 ease-in-out {{ cache('sidebar.pinnedState.'.$user->login_name) ? 'rotate-180' : 'rotate-0' }}" :class="{ '!rotate-180': !store.minified, '!rotate-0': store.minified }" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

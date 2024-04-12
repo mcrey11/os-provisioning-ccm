@@ -21,7 +21,7 @@
     {{-- only one row Navbar --}}
     <div class="flex justify-between h-full dark:text-slate-100">
         {{-- begin mobile sidebar expand / collapse button --}}
-        <button type="button" class="navbar-toggle m-l-20" v-on:click="toggleMobileSidebar">
+        <button type="button" class="navbar-toggle m-l-20" @@click="toggleMobileSidebar">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -38,7 +38,7 @@
             <div class="flex my-2 nav nav-pills md:hidden">
                 <a href="#"
                     class="flex items-center px-3 text-white no-underline rounded bg-dark"
-                    v-on:click="breadcrumbScroller = true">
+                    @@click="breadcrumbScroller = true">
                     <i class="m-0 fa fa-ellipsis-h fa-2x" aria-hidden="true"></i>
                     <div class="hidden pl-2 sm:block">{{ trans('view.Header_Dependencies') }}</div>
                 </a>
@@ -52,7 +52,7 @@
                     @yield('content_top')
                 </div>
                 <div>
-                    <a href="#" class="mx-4 text-dark" v-on:click="breadcrumbScroller = false">
+                    <a href="#" class="mx-4 text-dark" @@click="breadcrumbScroller = false">
                         <i class="fa fa-close fa-2x"></i>
                     </a>
                 </div>
@@ -126,7 +126,7 @@
 
             {{-- global search form --}}
             <li class="flex nav-item">
-                <a href="javascript:;" class="waves-effect waves-light" v-on:click="showSearchbar = true">
+                <a href="javascript:;" class="waves-effect waves-light" @@click="showSearchbar = true">
                     <i class="fa fa-search fa-2x" aria-hidden="true"></i>
                 </a>
             </li>
@@ -184,13 +184,13 @@
                     </select2>
                 </div>
                 @endif
-                <input ref="searchfield" type="text" name="query" class="w-2/3 text-lg outline-none md:flex-1 md:text-2xl md:px-6" v-on:keydown.esc="blurInput" v-model="search"
+                <input ref="searchfield" type="text" name="query" class="w-2/3 text-lg outline-none md:flex-1 md:text-2xl md:px-6" @@keydown.esc="blurInput" v-model="search"
                     placeholder="{{ \App\Http\Controllers\BaseViewController::translate_view('EnterKeyword', 'Search') }}">
                 <button class="btn btn-primary md:flex" for="prefillSearchbar">
                     <i class="fa fa-search"></i>
                     <span class="hidden m-0 md:block md:mr-1">{{ trans('view.jQuery_sSearch') }}</span>
                 </button>
-                <div v-on:click="showSearchbar = false" class="mx-4 cursor-pointer">
+                <div @@click="showSearchbar = false" class="mx-4 cursor-pointer">
                     <i class="fa fa-angle-up fa-2x" :aria-hidden="showSearchbar"></i>
                 </div>
             </form>
