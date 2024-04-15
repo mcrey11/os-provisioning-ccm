@@ -48,6 +48,9 @@ class ProvBaseServiceProvider extends ServiceProvider
         \Modules\ProvBase\Console\AddModemsToPassiveElementCommand::class,
         \Modules\ProvBase\Console\SetProvDeviceIds::class,
         \Modules\ProvBase\Console\UpgradeFirmwareCommand::class,
+        \Modules\ProvBase\Console\ModemQueryCommand::class,
+        \Modules\ProvBase\Console\ModemRestartCommand::class,
+        \Modules\ProvBase\Console\ModemSetCommand::class,
     ];
 
     /**
