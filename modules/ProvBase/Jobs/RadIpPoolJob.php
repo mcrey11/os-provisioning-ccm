@@ -130,7 +130,7 @@ class RadIpPoolJob implements ShouldQueue
         RadIpPool::whereIn('framedipaddress', $delete)->delete();
 
         if ($deleteOnly) {
-            RadIpPool::where('framedipaddress', $ipPoolBorder2)->delete();
+            RadIpPool::where('framedipaddress', long2ip($ipPoolBorder2))->delete();
 
             return;
         }
