@@ -53,15 +53,10 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      */
     protected $guard = 'admin';
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'last_login_at',
-        'password_changed_at',
-        'geopos_updated_at',
+    protected $casts = [
+        'last_login_at' => 'datetime',
+        'password_changed_at' => 'datetime',
+        'geopos_updated_at' => 'datetime',
     ];
 
     /**

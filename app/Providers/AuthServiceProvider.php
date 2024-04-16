@@ -46,8 +46,6 @@ class AuthServiceProvider extends ServiceProvider
         Bouncer::ownedVia(\App\User::class, 'id');
         Bouncer::cache();
 
-        $this->registerPolicies();
-
         Auth::extend('admin', function ($app, $name, array $config) {
             return new adminGuard(Auth::createUserProvider($config['admin']));
         });
