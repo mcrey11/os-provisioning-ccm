@@ -1020,8 +1020,8 @@ class Contract extends \BaseModel
                 $this->internet_access = 1;
                 $this->changes_on_daily_conversion = true;
                 Log::info('daily: contract: enabling internet_access based on active internet/voip items for contract '.$this->id);
-            // no valid internet tariff
             } elseif (! $active_count_internet && $this->internet_access) {
+                // no valid internet tariff
                 $this->internet_access = 0;
                 $this->changes_on_daily_conversion = true;
                 Log::info('daily: contract: disabling internet_access based on active internet/voip items for contract '.$this->id);
