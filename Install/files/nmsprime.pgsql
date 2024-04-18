@@ -2,27 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.6
--- Dumped by pg_dump version 13.6
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- Name: nmsprime; Type: DATABASE; Schema: -; Owner: nmsprime
---
-
-ALTER DATABASE nmsprime OWNER TO nmsprime;
-
-\connect nmsprime
+-- Dumped from database version 16.2
+-- Dumped by pg_dump version 16.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -63,7 +44,8 @@ ALTER TYPE nmsprime.billingbase_userlang OWNER TO nmsprime;
 CREATE TYPE nmsprime.configfile_device AS ENUM (
     'cm',
     'mta',
-    'tr069'
+    'tr069',
+    'ont'
 );
 
 
@@ -124,20 +106,6 @@ CREATE TYPE nmsprime.invoice_type AS ENUM (
 
 
 ALTER TYPE nmsprime.invoice_type OWNER TO nmsprime;
-
---
--- Name: ippool_type; Type: TYPE; Schema: nmsprime; Owner: nmsprime
---
-
-CREATE TYPE nmsprime.ippool_type AS ENUM (
-    'CM',
-    'CPEPub',
-    'CPEPriv',
-    'MTA'
-);
-
-
-ALTER TYPE nmsprime.ippool_type OWNER TO nmsprime;
 
 --
 -- Name: mta_type; Type: TYPE; Schema: nmsprime; Owner: nmsprime
@@ -299,6 +267,9 @@ $$;
 
 ALTER FUNCTION nmsprime.on_update_current_timestamp_authreminders() OWNER TO nmsprime;
 
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
 
 --
 -- Name: abilities; Type: TABLE; Schema: nmsprime; Owner: nmsprime
@@ -332,7 +303,7 @@ CREATE SEQUENCE nmsprime.abilities_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.abilities_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.abilities_id_seq OWNER TO nmsprime;
 
 --
 -- Name: abilities_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -376,13 +347,56 @@ CREATE SEQUENCE nmsprime.accountingrecord_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.accountingrecord_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.accountingrecord_id_seq OWNER TO nmsprime;
 
 --
 -- Name: accountingrecord_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER SEQUENCE nmsprime.accountingrecord_id_seq OWNED BY nmsprime.accountingrecord.id;
+
+
+--
+-- Name: address; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.address (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    lat numeric(9,6) NOT NULL,
+    lng numeric(9,6) NOT NULL,
+    source character varying(191),
+    district character varying(191),
+    zip character varying(191),
+    city character varying(191),
+    street character varying(191),
+    house_number character varying(191)
+);
+
+
+ALTER TABLE nmsprime.address OWNER TO nmsprime;
+
+--
+-- Name: address_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.address_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.address_id_seq OWNER TO nmsprime;
+
+--
+-- Name: address_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.address_id_seq OWNED BY nmsprime.address.id;
 
 
 --
@@ -419,7 +433,7 @@ CREATE SEQUENCE nmsprime.apartment_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.apartment_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.apartment_id_seq OWNER TO nmsprime;
 
 --
 -- Name: apartment_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -497,7 +511,7 @@ CREATE SEQUENCE nmsprime.billingbase_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.billingbase_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.billingbase_id_seq OWNER TO nmsprime;
 
 --
 -- Name: billingbase_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -505,6 +519,32 @@ ALTER TABLE nmsprime.billingbase_id_seq OWNER TO nmsprime;
 
 ALTER SEQUENCE nmsprime.billingbase_id_seq OWNED BY nmsprime.billingbase.id;
 
+
+--
+-- Name: cache; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.cache (
+    key character varying(191) NOT NULL,
+    value text NOT NULL,
+    expiration integer NOT NULL
+);
+
+
+ALTER TABLE nmsprime.cache OWNER TO nmsprime;
+
+--
+-- Name: cache_locks; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.cache_locks (
+    key character varying(191) NOT NULL,
+    owner character varying(191) NOT NULL,
+    expiration integer NOT NULL
+);
+
+
+ALTER TABLE nmsprime.cache_locks OWNER TO nmsprime;
 
 --
 -- Name: carriercode; Type: TABLE; Schema: nmsprime; Owner: nmsprime
@@ -534,7 +574,7 @@ CREATE SEQUENCE nmsprime.carriercode_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.carriercode_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.carriercode_id_seq OWNER TO nmsprime;
 
 --
 -- Name: carriercode_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -557,7 +597,8 @@ CREATE TABLE nmsprime.ccc (
     headline2 character varying(191),
     language character varying(191) DEFAULT 'en'::character varying,
     logo character varying(191),
-    speedtest_url character varying(191)
+    speedtest_url character varying(191),
+    bgimg character varying(191)
 );
 
 
@@ -575,7 +616,7 @@ CREATE SEQUENCE nmsprime.ccc_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.ccc_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.ccc_id_seq OWNER TO nmsprime;
 
 --
 -- Name: ccc_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -613,7 +654,7 @@ CREATE SEQUENCE nmsprime.comment_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.comment_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.comment_id_seq OWNER TO nmsprime;
 
 --
 -- Name: comment_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -666,7 +707,7 @@ CREATE SEQUENCE nmsprime.company_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.company_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.company_id_seq OWNER TO nmsprime;
 
 --
 -- Name: company_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -692,7 +733,11 @@ CREATE TABLE nmsprime.configfile (
     firmware character varying(191) DEFAULT ''::character varying,
     is_dummy boolean DEFAULT false,
     monitoring text,
-    dashboard character varying(191) DEFAULT '/grafana/d/3-42DM6Gk/cablemodem'::character varying
+    dashboard character varying(191) DEFAULT '/grafana/d/3-42DM6Gk/cablemodem'::character varying,
+    service_profile_id integer,
+    is_multiservice_ont boolean DEFAULT false NOT NULL,
+    tr069_profile_id integer,
+    ont_line_profile_id integer
 );
 
 
@@ -710,7 +755,7 @@ CREATE SEQUENCE nmsprime.configfile_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.configfile_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.configfile_id_seq OWNER TO nmsprime;
 
 --
 -- Name: configfile_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -763,7 +808,7 @@ CREATE SEQUENCE nmsprime.contact_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.contact_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.contact_id_seq OWNER TO nmsprime;
 
 --
 -- Name: contact_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -833,7 +878,21 @@ CREATE TABLE nmsprime.contract (
     value_date smallint,
     apartment_id bigint,
     contact_id bigint,
-    last_amendment date
+    last_amendment date,
+    sep_id character varying(32),
+    oto_id character varying(64),
+    oto_port smallint,
+    oto_socket_usage character varying(64),
+    oto_status character varying(32),
+    flat_id character varying(32),
+    alex_status character varying(32),
+    omdf_id character varying(128),
+    boc_label character varying(128),
+    bof_label character varying(32),
+    type character varying(32) DEFAULT 'nmsprime'::character varying,
+    lng numeric(9,6),
+    lat numeric(9,6),
+    geocode_source character varying(191)
 );
 
 
@@ -851,7 +910,7 @@ CREATE SEQUENCE nmsprime.contract_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.contract_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.contract_id_seq OWNER TO nmsprime;
 
 --
 -- Name: contract_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -891,7 +950,7 @@ CREATE SEQUENCE nmsprime.costcenter_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.costcenter_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.costcenter_id_seq OWNER TO nmsprime;
 
 --
 -- Name: costcenter_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -925,7 +984,8 @@ CREATE TABLE nmsprime.debt (
     dunning_date date,
     parent_id bigint,
     missing_amount numeric(10,2),
-    extra_fee numeric(10,2)
+    extra_fee numeric(10,2),
+    debt_import_id integer
 );
 
 
@@ -943,13 +1003,237 @@ CREATE SEQUENCE nmsprime.debt_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.debt_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.debt_id_seq OWNER TO nmsprime;
 
 --
 -- Name: debt_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER SEQUENCE nmsprime.debt_id_seq OWNED BY nmsprime.debt.id;
+
+
+--
+-- Name: debt_import; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.debt_import (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    finished_at timestamp(0) with time zone
+);
+
+
+ALTER TABLE nmsprime.debt_import OWNER TO nmsprime;
+
+--
+-- Name: debt_import_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.debt_import_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.debt_import_id_seq OWNER TO nmsprime;
+
+--
+-- Name: debt_import_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.debt_import_id_seq OWNED BY nmsprime.debt_import.id;
+
+
+--
+-- Name: dfsubscription; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.dfsubscription (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    service_name character varying(191),
+    service_id character varying(191),
+    contact_no character varying(191),
+    contact_first_name character varying(191),
+    contact_last_name character varying(191),
+    contact_company_name character varying(191),
+    contact_street character varying(191),
+    contact_street_no character varying(16),
+    contact_postal_code character varying(16),
+    contact_city character varying(191),
+    contact_country character varying(191),
+    contact_phone character varying(191),
+    contact_email character varying(191),
+    contact_notes text,
+    subscription_id integer,
+    subscription_end_point_id integer,
+    sf_sla character varying(16),
+    status character varying(32),
+    wishdate character varying(32),
+    switchdate character varying(32),
+    modificationdate character varying(32),
+    l1_handover_equipment_name character varying(128),
+    l1_handover_equipment_rack character varying(64),
+    l1_handover_equipment_slot character varying(64),
+    l1_handover_equipment_port character varying(16),
+    l1_breakout_cable character varying(128),
+    l1_breakout_fiber character varying(16),
+    alau_order_ref character varying(191),
+    note text,
+    contract_id integer NOT NULL
+);
+
+
+ALTER TABLE nmsprime.dfsubscription OWNER TO nmsprime;
+
+--
+-- Name: dfsubscription_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.dfsubscription_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.dfsubscription_id_seq OWNER TO nmsprime;
+
+--
+-- Name: dfsubscription_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.dfsubscription_id_seq OWNED BY nmsprime.dfsubscription.id;
+
+
+--
+-- Name: dfsubscriptionevent; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.dfsubscriptionevent (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    description text,
+    status character varying(32) NOT NULL,
+    "timestamp" character varying(32) NOT NULL,
+    dfsubscription_id integer NOT NULL
+);
+
+
+ALTER TABLE nmsprime.dfsubscriptionevent OWNER TO nmsprime;
+
+--
+-- Name: dfsubscriptionevent_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.dfsubscriptionevent_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.dfsubscriptionevent_id_seq OWNER TO nmsprime;
+
+--
+-- Name: dfsubscriptionevent_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.dfsubscriptionevent_id_seq OWNED BY nmsprime.dfsubscriptionevent.id;
+
+
+--
+-- Name: document; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.document (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    model_type character varying(191),
+    model_id bigint,
+    file character varying(191) NOT NULL,
+    ccc_visible boolean DEFAULT false NOT NULL,
+    documenttemplate_id bigint,
+    serial_letter_id bigint
+);
+
+
+ALTER TABLE nmsprime.document OWNER TO nmsprime;
+
+--
+-- Name: document_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.document_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.document_id_seq OWNER TO nmsprime;
+
+--
+-- Name: document_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.document_id_seq OWNED BY nmsprime.document.id;
+
+
+--
+-- Name: documenttemplate; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.documenttemplate (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    name character varying(191),
+    company_id bigint,
+    document_type character varying(191) NOT NULL,
+    type_view character varying(191) NOT NULL,
+    file character varying(191) NOT NULL,
+    format character varying(191),
+    filename_pattern character varying(191),
+    is_default boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE nmsprime.documenttemplate OWNER TO nmsprime;
+
+--
+-- Name: documenttemplate_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.documenttemplate_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.documenttemplate_id_seq OWNER TO nmsprime;
+
+--
+-- Name: documenttemplate_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.documenttemplate_id_seq OWNED BY nmsprime.documenttemplate.id;
 
 
 --
@@ -981,13 +1265,91 @@ CREATE SEQUENCE nmsprime.domain_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.domain_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.domain_id_seq OWNER TO nmsprime;
 
 --
 -- Name: domain_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER SEQUENCE nmsprime.domain_id_seq OWNED BY nmsprime.domain.id;
+
+
+--
+-- Name: dunning_letter; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.dunning_letter (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    contract_id integer NOT NULL,
+    dunning_run_id bigint,
+    name character varying(191),
+    file character varying(191),
+    debts_ids json NOT NULL
+);
+
+
+ALTER TABLE nmsprime.dunning_letter OWNER TO nmsprime;
+
+--
+-- Name: dunning_letter_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.dunning_letter_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.dunning_letter_id_seq OWNER TO nmsprime;
+
+--
+-- Name: dunning_letter_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.dunning_letter_id_seq OWNED BY nmsprime.dunning_letter.id;
+
+
+--
+-- Name: dunning_run; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.dunning_run (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    job_batch_id uuid,
+    status smallint DEFAULT '0'::smallint NOT NULL,
+    description text
+);
+
+
+ALTER TABLE nmsprime.dunning_run OWNER TO nmsprime;
+
+--
+-- Name: dunning_run_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.dunning_run_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.dunning_run_id_seq OWNER TO nmsprime;
+
+--
+-- Name: dunning_run_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.dunning_run_id_seq OWNED BY nmsprime.dunning_run.id;
 
 
 --
@@ -1018,7 +1380,7 @@ CREATE SEQUENCE nmsprime.ekpcode_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.ekpcode_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.ekpcode_id_seq OWNER TO nmsprime;
 
 --
 -- Name: ekpcode_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1044,7 +1406,12 @@ CREATE TABLE nmsprime.endpoint (
     ip character varying(191),
     add_reverse character varying(191),
     version character varying(1) DEFAULT '4'::character varying,
-    prefix character varying(191)
+    prefix character varying(191),
+    qos_id integer,
+    device_id smallint,
+    acl_id integer,
+    rule_id integer,
+    state character varying(191)
 );
 
 
@@ -1062,7 +1429,7 @@ CREATE SEQUENCE nmsprime.endpoint_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.endpoint_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.endpoint_id_seq OWNER TO nmsprime;
 
 --
 -- Name: endpoint_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1114,7 +1481,7 @@ CREATE SEQUENCE nmsprime.enviacontract_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.enviacontract_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.enviacontract_id_seq OWNER TO nmsprime;
 
 --
 -- Name: enviacontract_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1164,7 +1531,7 @@ CREATE SEQUENCE nmsprime.enviaorder_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.enviaorder_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.enviaorder_id_seq OWNER TO nmsprime;
 
 --
 -- Name: enviaorder_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1201,7 +1568,7 @@ CREATE SEQUENCE nmsprime.enviaorder_phonenumber_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.enviaorder_phonenumber_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.enviaorder_phonenumber_id_seq OWNER TO nmsprime;
 
 --
 -- Name: enviaorder_phonenumber_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1241,7 +1608,7 @@ CREATE SEQUENCE nmsprime.enviaorderdocument_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.enviaorderdocument_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.enviaorderdocument_id_seq OWNER TO nmsprime;
 
 --
 -- Name: enviaorderdocument_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1260,7 +1627,8 @@ CREATE TABLE nmsprime.failed_jobs (
     queue text,
     payload text,
     failed_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    exception text
+    exception text,
+    uuid character varying(191)
 );
 
 
@@ -1278,7 +1646,7 @@ CREATE SEQUENCE nmsprime.failed_jobs_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.failed_jobs_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.failed_jobs_id_seq OWNER TO nmsprime;
 
 --
 -- Name: failed_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1314,13 +1682,93 @@ CREATE SEQUENCE nmsprime.favorite_netelements_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.favorite_netelements_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.favorite_netelements_id_seq OWNER TO nmsprime;
 
 --
 -- Name: favorite_netelements_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER SEQUENCE nmsprime.favorite_netelements_id_seq OWNED BY nmsprime.favorite_netelements.id;
+
+
+--
+-- Name: firmware_upgrade; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.firmware_upgrade (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    start_date date NOT NULL,
+    start_time time(0) without time zone NOT NULL,
+    finished_date timestamp(0) without time zone,
+    cron_string character varying(191),
+    batch_size integer,
+    to_configfile_id bigint,
+    restart_only boolean DEFAULT false NOT NULL,
+    firmware_match_string text
+);
+
+
+ALTER TABLE nmsprime.firmware_upgrade OWNER TO nmsprime;
+
+--
+-- Name: firmware_upgrade_configfile; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.firmware_upgrade_configfile (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    firmware_upgrade_id bigint NOT NULL,
+    configfile_id bigint NOT NULL
+);
+
+
+ALTER TABLE nmsprime.firmware_upgrade_configfile OWNER TO nmsprime;
+
+--
+-- Name: firmware_upgrade_configfile_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.firmware_upgrade_configfile_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.firmware_upgrade_configfile_id_seq OWNER TO nmsprime;
+
+--
+-- Name: firmware_upgrade_configfile_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.firmware_upgrade_configfile_id_seq OWNED BY nmsprime.firmware_upgrade_configfile.id;
+
+
+--
+-- Name: firmware_upgrade_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.firmware_upgrade_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.firmware_upgrade_id_seq OWNER TO nmsprime;
+
+--
+-- Name: firmware_upgrade_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.firmware_upgrade_id_seq OWNED BY nmsprime.firmware_upgrade.id;
 
 
 --
@@ -1345,7 +1793,8 @@ CREATE TABLE nmsprime.global_config (
     alert1 character varying(191),
     alert2 character varying(191),
     alert3 character varying(191),
-    isallnetssidebarenabled boolean DEFAULT false
+    isallnetssidebarenabled boolean DEFAULT false,
+    login_img character varying(191)
 );
 
 
@@ -1363,7 +1812,7 @@ CREATE SEQUENCE nmsprime.global_config_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.global_config_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.global_config_id_seq OWNER TO nmsprime;
 
 --
 -- Name: global_config_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1404,7 +1853,7 @@ CREATE SEQUENCE nmsprime.guilog_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.guilog_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.guilog_id_seq OWNER TO nmsprime;
 
 --
 -- Name: guilog_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1448,7 +1897,7 @@ CREATE SEQUENCE nmsprime.hfcreq_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.hfcreq_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.hfcreq_id_seq OWNER TO nmsprime;
 
 --
 -- Name: hfcreq_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1486,7 +1935,7 @@ CREATE SEQUENCE nmsprime.indices_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.indices_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.indices_id_seq OWNER TO nmsprime;
 
 --
 -- Name: indices_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1531,7 +1980,7 @@ CREATE SEQUENCE nmsprime.invoice_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.invoice_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.invoice_id_seq OWNER TO nmsprime;
 
 --
 -- Name: invoice_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1550,7 +1999,7 @@ CREATE TABLE nmsprime.ippool (
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
     netgw_id bigint,
-    type nmsprime.ippool_type,
+    type character varying(191),
     net character varying(191),
     netmask character varying(191),
     ip_pool_start character varying(191),
@@ -1566,7 +2015,8 @@ CREATE TABLE nmsprime.ippool (
     prefix character varying(191),
     prefix_len character varying(191),
     delegated_len character varying(191),
-    active boolean DEFAULT true
+    active boolean DEFAULT true,
+    vendor_class_identifier character varying(191)
 );
 
 
@@ -1584,7 +2034,7 @@ CREATE SEQUENCE nmsprime.ippool_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.ippool_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.ippool_id_seq OWNER TO nmsprime;
 
 --
 -- Name: ippool_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1631,7 +2081,7 @@ CREATE SEQUENCE nmsprime.item_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.item_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.item_id_seq OWNER TO nmsprime;
 
 --
 -- Name: item_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1639,6 +2089,26 @@ ALTER TABLE nmsprime.item_id_seq OWNER TO nmsprime;
 
 ALTER SEQUENCE nmsprime.item_id_seq OWNED BY nmsprime.item.id;
 
+
+--
+-- Name: job_batches; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.job_batches (
+    id character varying(191) NOT NULL,
+    name character varying(191) NOT NULL,
+    total_jobs integer NOT NULL,
+    pending_jobs integer NOT NULL,
+    failed_jobs integer NOT NULL,
+    failed_job_ids text NOT NULL,
+    options text,
+    cancelled_at integer,
+    created_at integer NOT NULL,
+    finished_at integer
+);
+
+
+ALTER TABLE nmsprime.job_batches OWNER TO nmsprime;
 
 --
 -- Name: jobs; Type: TABLE; Schema: nmsprime; Owner: nmsprime
@@ -1669,7 +2139,7 @@ CREATE SEQUENCE nmsprime.jobs_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.jobs_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.jobs_id_seq OWNER TO nmsprime;
 
 --
 -- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1708,7 +2178,7 @@ CREATE SEQUENCE nmsprime.mibfile_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.mibfile_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.mibfile_id_seq OWNER TO nmsprime;
 
 --
 -- Name: mibfile_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1742,7 +2212,7 @@ CREATE SEQUENCE nmsprime.migrations_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.migrations_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.migrations_id_seq OWNER TO nmsprime;
 
 --
 -- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1810,7 +2280,18 @@ CREATE TABLE nmsprime.modem (
     phy_updated_at timestamp with time zone,
     ipv4 bigint,
     address_to_invoice boolean,
-    apartment_id bigint
+    apartment_id bigint,
+    ont_id smallint,
+    netgw_id integer,
+    frame_id smallint,
+    slot_id smallint,
+    port_id smallint,
+    service_port_id integer,
+    or_id character varying(191),
+    ont_state character varying(191),
+    next_ont_state character varying(191),
+    ont_state_switchdate timestamp(0) without time zone,
+    additional character varying(191)
 );
 
 
@@ -1828,7 +2309,7 @@ CREATE SEQUENCE nmsprime.modem_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.modem_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.modem_id_seq OWNER TO nmsprime;
 
 --
 -- Name: modem_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1866,7 +2347,7 @@ CREATE SEQUENCE nmsprime.modem_option_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.modem_option_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.modem_option_id_seq OWNER TO nmsprime;
 
 --
 -- Name: modem_option_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1905,7 +2386,7 @@ CREATE SEQUENCE nmsprime.mpr_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.mpr_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.mpr_id_seq OWNER TO nmsprime;
 
 --
 -- Name: mpr_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1943,7 +2424,7 @@ CREATE SEQUENCE nmsprime.mprgeopos_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.mprgeopos_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.mprgeopos_id_seq OWNER TO nmsprime;
 
 --
 -- Name: mprgeopos_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -1984,7 +2465,7 @@ CREATE SEQUENCE nmsprime.mta_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.mta_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.mta_id_seq OWNER TO nmsprime;
 
 --
 -- Name: mta_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2037,8 +2518,13 @@ CREATE TABLE nmsprime.netelement (
 CASE
     WHEN (name IS NULL) THEN ((id)::character varying)::text
     WHEN (id IS NULL) THEN (name)::text
-    ELSE (((id)::character varying)::text || '_'::text) || ((name)::text)
-END) STORED
+    ELSE ((((id)::character varying)::text || '_'::text) || (name)::text)
+END) STORED,
+    base_type_id integer,
+    username character varying(191),
+    password character varying(191),
+    online boolean DEFAULT true NOT NULL,
+    port integer
 );
 
 
@@ -2056,7 +2542,7 @@ CREATE SEQUENCE nmsprime.netelement_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.netelement_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.netelement_id_seq OWNER TO nmsprime;
 
 --
 -- Name: netelement_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2084,7 +2570,10 @@ CREATE TABLE nmsprime.netelementtype (
     pre_conf_value character varying(191),
     pre_conf_time_offset double precision,
     page_reload_time double precision,
-    base_type_id numeric
+    base_type_id numeric,
+    sidebar_pos smallint,
+    _lft integer,
+    _rgt integer
 );
 
 
@@ -2102,7 +2591,7 @@ CREATE SEQUENCE nmsprime.netelementtype_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.netelementtype_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.netelementtype_id_seq OWNER TO nmsprime;
 
 --
 -- Name: netelementtype_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2137,7 +2626,8 @@ CREATE TABLE nmsprime.netgw (
     ssh_auto_prov boolean DEFAULT false,
     coa_port integer,
     ipv6 character varying(191),
-    nas_secret character varying(191)
+    nas_secret character varying(191),
+    internal_id integer DEFAULT 0
 );
 
 
@@ -2155,7 +2645,7 @@ CREATE SEQUENCE nmsprime.netgw_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.netgw_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.netgw_id_seq OWNER TO nmsprime;
 
 --
 -- Name: netgw_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2204,7 +2694,7 @@ CREATE SEQUENCE nmsprime.node_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.node_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.node_id_seq OWNER TO nmsprime;
 
 --
 -- Name: node_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2218,7 +2708,7 @@ ALTER SEQUENCE nmsprime.node_id_seq OWNED BY nmsprime.node.id;
 --
 
 CREATE TABLE nmsprime.notifications (
-    id character(36),
+    id character(36) NOT NULL,
     type character varying(191),
     notifiable_type character varying(191),
     notifiable_id numeric,
@@ -2264,7 +2754,7 @@ CREATE SEQUENCE nmsprime.numberrange_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.numberrange_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.numberrange_id_seq OWNER TO nmsprime;
 
 --
 -- Name: numberrange_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2317,7 +2807,7 @@ CREATE SEQUENCE nmsprime.oid_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.oid_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.oid_id_seq OWNER TO nmsprime;
 
 --
 -- Name: oid_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2364,7 +2854,7 @@ CREATE SEQUENCE nmsprime.overduedebts_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.overduedebts_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.overduedebts_id_seq OWNER TO nmsprime;
 
 --
 -- Name: overduedebts_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2408,7 +2898,7 @@ CREATE SEQUENCE nmsprime.parameter_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.parameter_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.parameter_id_seq OWNER TO nmsprime;
 
 --
 -- Name: parameter_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2485,7 +2975,7 @@ CREATE SEQUENCE nmsprime.phonebookentry_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.phonebookentry_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.phonebookentry_id_seq OWNER TO nmsprime;
 
 --
 -- Name: phonebookentry_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2531,7 +3021,7 @@ CREATE SEQUENCE nmsprime.phonenumber_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.phonenumber_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.phonenumber_id_seq OWNER TO nmsprime;
 
 --
 -- Name: phonenumber_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2594,7 +3084,7 @@ CREATE SEQUENCE nmsprime.phonenumbermanagement_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.phonenumbermanagement_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.phonenumbermanagement_id_seq OWNER TO nmsprime;
 
 --
 -- Name: phonenumbermanagement_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2635,7 +3125,7 @@ CREATE SEQUENCE nmsprime.phonetariff_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.phonetariff_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.phonetariff_id_seq OWNER TO nmsprime;
 
 --
 -- Name: phonetariff_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2670,7 +3160,8 @@ CREATE TABLE nmsprime.product (
     proportional boolean DEFAULT true,
     record_monthly boolean DEFAULT false,
     deprecated boolean DEFAULT false,
-    markon numeric(8,2)
+    markon numeric(8,2),
+    parent_id bigint
 );
 
 
@@ -2688,7 +3179,7 @@ CREATE SEQUENCE nmsprime.product_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.product_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.product_id_seq OWNER TO nmsprime;
 
 --
 -- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2711,7 +3202,6 @@ CREATE TABLE nmsprime.provbase (
     rw_community character varying(191),
     domain_name character varying(191),
     dns_password character varying(191),
-    notif_mail character varying(191),
     dhcp_def_lease_time bigint,
     dhcp_max_lease_time bigint,
     startid_contract bigint,
@@ -2726,7 +3216,11 @@ CREATE TABLE nmsprime.provbase (
     random_ip_allocation boolean DEFAULT false,
     ppp_session_timeout bigint DEFAULT '86400'::bigint,
     auto_factory_reset boolean DEFAULT false,
-    acct_interim_interval bigint DEFAULT '300'::bigint
+    acct_interim_interval bigint DEFAULT '300'::bigint,
+    sync_provision boolean DEFAULT false NOT NULL,
+    factory_reset_discovered_cpes boolean DEFAULT false NOT NULL,
+    use_radius_relay_info boolean DEFAULT false NOT NULL,
+    use_framed_pool boolean DEFAULT false NOT NULL
 );
 
 
@@ -2744,13 +3238,54 @@ CREATE SEQUENCE nmsprime.provbase_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.provbase_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.provbase_id_seq OWNER TO nmsprime;
 
 --
 -- Name: provbase_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER SEQUENCE nmsprime.provbase_id_seq OWNED BY nmsprime.provbase.id;
+
+
+--
+-- Name: provha; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.provha (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    master character varying(191) NOT NULL,
+    slaves character varying(191) NOT NULL,
+    load_ratio_master double precision DEFAULT '0.5'::double precision NOT NULL,
+    slave_config_rebuild_interval integer DEFAULT 3600 NOT NULL,
+    master_dns_password character varying(191) DEFAULT ''::character varying NOT NULL,
+    slave_dns_password character varying(191) DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE nmsprime.provha OWNER TO nmsprime;
+
+--
+-- Name: provha_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.provha_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.provha_id_seq OWNER TO nmsprime;
+
+--
+-- Name: provha_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.provha_id_seq OWNED BY nmsprime.provha.id;
 
 
 --
@@ -2764,7 +3299,9 @@ CREATE TABLE nmsprime.provmon (
     deleted_at timestamp with time zone,
     start_frequency bigint,
     stop_frequency bigint,
-    span bigint
+    span bigint,
+    realtime_update_interval integer DEFAULT 0 NOT NULL,
+    iperf_max_stream bigint DEFAULT '0'::bigint NOT NULL
 );
 
 
@@ -2782,7 +3319,7 @@ CREATE SEQUENCE nmsprime.provmon_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.provmon_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.provmon_id_seq OWNER TO nmsprime;
 
 --
 -- Name: provmon_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2821,7 +3358,7 @@ CREATE SEQUENCE nmsprime.provvoip_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.provvoip_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.provvoip_id_seq OWNER TO nmsprime;
 
 --
 -- Name: provvoip_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2845,7 +3382,14 @@ CREATE TABLE nmsprime.qos (
     us_rate_max_help bigint,
     name character varying(191),
     ds_name character varying(191),
-    us_name character varying(191)
+    us_name character varying(191),
+    type character varying(191) DEFAULT 'default'::character varying NOT NULL,
+    vlan_id smallint DEFAULT '0'::smallint,
+    ont_line_profile_id integer,
+    service_profile_id integer,
+    gem_port integer,
+    traffic_table_in integer,
+    traffic_table_out integer
 );
 
 
@@ -2863,7 +3407,7 @@ CREATE SEQUENCE nmsprime.qos_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.qos_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.qos_id_seq OWNER TO nmsprime;
 
 --
 -- Name: qos_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2919,7 +3463,7 @@ CREATE SEQUENCE nmsprime.realty_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.realty_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.realty_id_seq OWNER TO nmsprime;
 
 --
 -- Name: realty_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -2960,7 +3504,7 @@ CREATE SEQUENCE nmsprime.roles_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.roles_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.roles_id_seq OWNER TO nmsprime;
 
 --
 -- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3000,7 +3544,7 @@ CREATE SEQUENCE nmsprime.salesman_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.salesman_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.salesman_id_seq OWNER TO nmsprime;
 
 --
 -- Name: salesman_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3051,7 +3595,7 @@ CREATE SEQUENCE nmsprime.sepaaccount_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.sepaaccount_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.sepaaccount_id_seq OWNER TO nmsprime;
 
 --
 -- Name: sepaaccount_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3099,13 +3643,53 @@ CREATE SEQUENCE nmsprime.sepamandate_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.sepamandate_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.sepamandate_id_seq OWNER TO nmsprime;
 
 --
 -- Name: sepamandate_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER SEQUENCE nmsprime.sepamandate_id_seq OWNED BY nmsprime.sepamandate.id;
+
+
+--
+-- Name: serial_letters; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.serial_letters (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    template_id bigint NOT NULL,
+    name character varying(191),
+    file character varying(191),
+    status smallint DEFAULT '0'::smallint NOT NULL,
+    job_batch_id uuid
+);
+
+
+ALTER TABLE nmsprime.serial_letters OWNER TO nmsprime;
+
+--
+-- Name: serial_letters_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.serial_letters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.serial_letters_id_seq OWNER TO nmsprime;
+
+--
+-- Name: serial_letters_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.serial_letters_id_seq OWNED BY nmsprime.serial_letters.id;
 
 
 --
@@ -3124,7 +3708,8 @@ CREATE TABLE nmsprime.settlementrun (
     path character varying(191),
     description text,
     verified boolean,
-    fullrun boolean
+    fullrun boolean,
+    finished_at timestamp(0) with time zone
 );
 
 
@@ -3142,7 +3727,7 @@ CREATE SEQUENCE nmsprime.settlementrun_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.settlementrun_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.settlementrun_id_seq OWNER TO nmsprime;
 
 --
 -- Name: settlementrun_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3179,13 +3764,155 @@ CREATE SEQUENCE nmsprime.sla_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.sla_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.sla_id_seq OWNER TO nmsprime;
 
 --
 -- Name: sla_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER SEQUENCE nmsprime.sla_id_seq OWNED BY nmsprime.sla.id;
+
+
+--
+-- Name: smartont; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.smartont (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    default_service_name character varying(191),
+    default_service_id character varying(191),
+    default_contact_first_name character varying(191),
+    default_contact_last_name character varying(191),
+    default_contact_company character varying(191),
+    default_contact_phone character varying(191),
+    default_boc_label character varying(191),
+    default_configfile_id integer,
+    default_qos_id integer,
+    default_mgmt_qos_id integer
+);
+
+
+ALTER TABLE nmsprime.smartont OWNER TO nmsprime;
+
+--
+-- Name: smartont_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.smartont_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.smartont_id_seq OWNER TO nmsprime;
+
+--
+-- Name: smartont_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.smartont_id_seq OWNED BY nmsprime.smartont.id;
+
+
+--
+-- Name: statistics_query; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.statistics_query (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    name character varying(191) NOT NULL,
+    customer_type character varying(191),
+    product_type character varying(191),
+    tariffs json,
+    status character varying(191),
+    antenna_communities character varying(191),
+    zip json,
+    gender character varying(191),
+    age_groups character varying(191),
+    split_combination_packages boolean,
+    consider_tariff_change boolean NOT NULL,
+    diagram boolean NOT NULL,
+    upsell boolean NOT NULL,
+    "from" date NOT NULL,
+    "to" date NOT NULL,
+    auto character varying(191)
+);
+
+
+ALTER TABLE nmsprime.statistics_query OWNER TO nmsprime;
+
+--
+-- Name: statistics_query_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.statistics_query_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.statistics_query_id_seq OWNER TO nmsprime;
+
+--
+-- Name: statistics_query_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.statistics_query_id_seq OWNED BY nmsprime.statistics_query.id;
+
+
+--
+-- Name: statistics_query_result; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.statistics_query_result (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    statistics_query_id bigint NOT NULL,
+    customers integer DEFAULT 0 NOT NULL,
+    new_customers integer DEFAULT 0 NOT NULL,
+    items integer DEFAULT 0 NOT NULL,
+    new_items integer DEFAULT 0 NOT NULL,
+    revenue_from numeric(8,2) DEFAULT '0'::numeric NOT NULL,
+    revenue_to numeric(8,2) DEFAULT '0'::numeric NOT NULL,
+    ready boolean DEFAULT false NOT NULL,
+    revenue_change numeric(10,4),
+    name character varying(191),
+    description text
+);
+
+
+ALTER TABLE nmsprime.statistics_query_result OWNER TO nmsprime;
+
+--
+-- Name: statistics_query_result_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.statistics_query_result_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.statistics_query_result_id_seq OWNER TO nmsprime;
+
+--
+-- Name: statistics_query_result_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.statistics_query_result_id_seq OWNED BY nmsprime.statistics_query_result.id;
 
 
 --
@@ -3220,7 +3947,7 @@ CREATE SEQUENCE nmsprime.supportrequest_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.supportrequest_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.supportrequest_id_seq OWNER TO nmsprime;
 
 --
 -- Name: supportrequest_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3265,7 +3992,7 @@ CREATE SEQUENCE nmsprime.ticket_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.ticket_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.ticket_id_seq OWNER TO nmsprime;
 
 --
 -- Name: ticket_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3303,7 +4030,7 @@ CREATE SEQUENCE nmsprime.ticket_type_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.ticket_type_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.ticket_type_id_seq OWNER TO nmsprime;
 
 --
 -- Name: ticket_type_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3338,7 +4065,7 @@ CREATE SEQUENCE nmsprime.ticket_type_ticket_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.ticket_type_ticket_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.ticket_type_ticket_id_seq OWNER TO nmsprime;
 
 --
 -- Name: ticket_type_ticket_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3375,7 +4102,7 @@ CREATE SEQUENCE nmsprime.ticket_user_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.ticket_user_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.ticket_user_id_seq OWNER TO nmsprime;
 
 --
 -- Name: ticket_user_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3415,7 +4142,7 @@ CREATE SEQUENCE nmsprime.ticketsystem_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.ticketsystem_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.ticketsystem_id_seq OWNER TO nmsprime;
 
 --
 -- Name: ticketsystem_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3453,7 +4180,7 @@ CREATE SEQUENCE nmsprime.trcclass_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.trcclass_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.trcclass_id_seq OWNER TO nmsprime;
 
 --
 -- Name: trcclass_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3488,7 +4215,8 @@ CREATE TABLE nmsprime.users (
     geopos_updated_at timestamp with time zone,
     lng numeric(9,6),
     lat numeric(9,6),
-    hastruck boolean DEFAULT false
+    hastruck boolean DEFAULT false,
+    theme_color character varying(50) DEFAULT 'default_theme_config.css'::character varying NOT NULL
 );
 
 
@@ -3506,13 +4234,49 @@ CREATE SEQUENCE nmsprime.users_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.users_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.users_id_seq OWNER TO nmsprime;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER SEQUENCE nmsprime.users_id_seq OWNED BY nmsprime.users.id;
+
+
+--
+-- Name: voipmon; Type: TABLE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE TABLE nmsprime.voipmon (
+    id bigint NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    deleted_at timestamp with time zone,
+    delete_record_interval integer DEFAULT 14 NOT NULL
+);
+
+
+ALTER TABLE nmsprime.voipmon OWNER TO nmsprime;
+
+--
+-- Name: voipmon_id_seq; Type: SEQUENCE; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE SEQUENCE nmsprime.voipmon_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE nmsprime.voipmon_id_seq OWNER TO nmsprime;
+
+--
+-- Name: voipmon_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER SEQUENCE nmsprime.voipmon_id_seq OWNED BY nmsprime.voipmon.id;
 
 
 --
@@ -3544,7 +4308,7 @@ CREATE SEQUENCE nmsprime.websockets_statistics_entries_id_seq
     CACHE 1;
 
 
-ALTER TABLE nmsprime.websockets_statistics_entries_id_seq OWNER TO nmsprime;
+ALTER SEQUENCE nmsprime.websockets_statistics_entries_id_seq OWNER TO nmsprime;
 
 --
 -- Name: websockets_statistics_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: nmsprime; Owner: nmsprime
@@ -3565,6 +4329,13 @@ ALTER TABLE ONLY nmsprime.abilities ALTER COLUMN id SET DEFAULT nextval('nmsprim
 --
 
 ALTER TABLE ONLY nmsprime.accountingrecord ALTER COLUMN id SET DEFAULT nextval('nmsprime.accountingrecord_id_seq'::regclass);
+
+
+--
+-- Name: address id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.address ALTER COLUMN id SET DEFAULT nextval('nmsprime.address_id_seq'::regclass);
 
 
 --
@@ -3645,10 +4416,59 @@ ALTER TABLE ONLY nmsprime.debt ALTER COLUMN id SET DEFAULT nextval('nmsprime.deb
 
 
 --
+-- Name: debt_import id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.debt_import ALTER COLUMN id SET DEFAULT nextval('nmsprime.debt_import_id_seq'::regclass);
+
+
+--
+-- Name: dfsubscription id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.dfsubscription ALTER COLUMN id SET DEFAULT nextval('nmsprime.dfsubscription_id_seq'::regclass);
+
+
+--
+-- Name: dfsubscriptionevent id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.dfsubscriptionevent ALTER COLUMN id SET DEFAULT nextval('nmsprime.dfsubscriptionevent_id_seq'::regclass);
+
+
+--
+-- Name: document id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.document ALTER COLUMN id SET DEFAULT nextval('nmsprime.document_id_seq'::regclass);
+
+
+--
+-- Name: documenttemplate id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.documenttemplate ALTER COLUMN id SET DEFAULT nextval('nmsprime.documenttemplate_id_seq'::regclass);
+
+
+--
 -- Name: domain id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
 --
 
 ALTER TABLE ONLY nmsprime.domain ALTER COLUMN id SET DEFAULT nextval('nmsprime.domain_id_seq'::regclass);
+
+
+--
+-- Name: dunning_letter id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.dunning_letter ALTER COLUMN id SET DEFAULT nextval('nmsprime.dunning_letter_id_seq'::regclass);
+
+
+--
+-- Name: dunning_run id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.dunning_run ALTER COLUMN id SET DEFAULT nextval('nmsprime.dunning_run_id_seq'::regclass);
 
 
 --
@@ -3705,6 +4525,20 @@ ALTER TABLE ONLY nmsprime.failed_jobs ALTER COLUMN id SET DEFAULT nextval('nmspr
 --
 
 ALTER TABLE ONLY nmsprime.favorite_netelements ALTER COLUMN id SET DEFAULT nextval('nmsprime.favorite_netelements_id_seq'::regclass);
+
+
+--
+-- Name: firmware_upgrade id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.firmware_upgrade ALTER COLUMN id SET DEFAULT nextval('nmsprime.firmware_upgrade_id_seq'::regclass);
+
+
+--
+-- Name: firmware_upgrade_configfile id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.firmware_upgrade_configfile ALTER COLUMN id SET DEFAULT nextval('nmsprime.firmware_upgrade_configfile_id_seq'::regclass);
 
 
 --
@@ -3911,6 +4745,13 @@ ALTER TABLE ONLY nmsprime.provbase ALTER COLUMN id SET DEFAULT nextval('nmsprime
 
 
 --
+-- Name: provha id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.provha ALTER COLUMN id SET DEFAULT nextval('nmsprime.provha_id_seq'::regclass);
+
+
+--
 -- Name: provmon id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
 --
 
@@ -3967,6 +4808,13 @@ ALTER TABLE ONLY nmsprime.sepamandate ALTER COLUMN id SET DEFAULT nextval('nmspr
 
 
 --
+-- Name: serial_letters id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.serial_letters ALTER COLUMN id SET DEFAULT nextval('nmsprime.serial_letters_id_seq'::regclass);
+
+
+--
 -- Name: settlementrun id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
 --
 
@@ -3978,6 +4826,27 @@ ALTER TABLE ONLY nmsprime.settlementrun ALTER COLUMN id SET DEFAULT nextval('nms
 --
 
 ALTER TABLE ONLY nmsprime.sla ALTER COLUMN id SET DEFAULT nextval('nmsprime.sla_id_seq'::regclass);
+
+
+--
+-- Name: smartont id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.smartont ALTER COLUMN id SET DEFAULT nextval('nmsprime.smartont_id_seq'::regclass);
+
+
+--
+-- Name: statistics_query id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.statistics_query ALTER COLUMN id SET DEFAULT nextval('nmsprime.statistics_query_id_seq'::regclass);
+
+
+--
+-- Name: statistics_query_result id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.statistics_query_result ALTER COLUMN id SET DEFAULT nextval('nmsprime.statistics_query_result_id_seq'::regclass);
 
 
 --
@@ -4037,6 +4906,13 @@ ALTER TABLE ONLY nmsprime.users ALTER COLUMN id SET DEFAULT nextval('nmsprime.us
 
 
 --
+-- Name: voipmon id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.voipmon ALTER COLUMN id SET DEFAULT nextval('nmsprime.voipmon_id_seq'::regclass);
+
+
+--
 -- Name: websockets_statistics_entries id; Type: DEFAULT; Schema: nmsprime; Owner: nmsprime
 --
 
@@ -4056,9 +4932,9 @@ COPY nmsprime.abilities (id, name, title, entity_id, entity_type, only_owned, sc
 6	*	Manage roles	\N	roles	f	\N	2022-02-18 08:43:27+01	2022-02-18 08:43:27+01	\N
 8	*	Manage global configs	\N	App\\GlobalConfig	f	\N	2022-02-18 08:43:34+01	2022-02-18 08:43:34+01	\N
 9	view	View gui logs	\N	App\\GuiLog	f	\N	2022-02-18 08:43:34+01	2022-02-18 08:43:34+01	\N
-58	view_analysis_pages_of	View analysis pages of modems	\N	Modules\\ProvBase\\Entities\\Modem	f	\N	2022-02-18 08:47:20+01	2022-02-18 08:47:20+01	\N
-59	view_analysis_pages_of	View analysis pages of netgw	\N	Modules\\ProvBase\\Entities\\NetGw	f	\N	2022-02-18 08:47:20+01	2022-02-18 08:47:20+01	\N
-60	download	Download settlement runs	\N	Modules\\BillingBase\\Entities\\SettlementRun	f	\N	2022-02-18 08:47:20+01	2022-02-18 08:47:20+01	\N
+119	view_analysis_pages_of	View analysis pages of modems	\N	Modules\\ProvBase\\Entities\\Modem	f	\N	2024-04-16 11:22:12+02	2024-04-16 11:22:12+02	\N
+120	view_analysis_pages_of	View analysis pages of netgw	\N	Modules\\ProvBase\\Entities\\NetGw	f	\N	2024-04-16 11:22:12+02	2024-04-16 11:22:12+02	\N
+121	download	Download settlement runs	\N	Modules\\BillingBase\\Entities\\SettlementRun	f	\N	2024-04-16 11:22:12+02	2024-04-16 11:22:12+02	\N
 \.
 
 
@@ -4067,6 +4943,14 @@ COPY nmsprime.abilities (id, name, title, entity_id, entity_type, only_owned, sc
 --
 
 COPY nmsprime.accountingrecord (id, created_at, updated_at, deleted_at, contract_id, name, product_id, ratio, count, charge, sepaaccount_id, invoice_nr, settlementrun_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: address; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.address (id, created_at, updated_at, deleted_at, lat, lng, source, district, zip, city, street, house_number) FROM stdin;
 \.
 
 
@@ -4102,6 +4986,22 @@ COPY nmsprime.authreminders (email, token, created_at) FROM stdin;
 
 COPY nmsprime.billingbase (id, created_at, updated_at, deleted_at, rcd, currency, tax, mandate_ref_template, split, termination_fix, userlang, cdr_offset, voip_extracharge_default, voip_extracharge_mobile_national, cdr_retention_period, fluid_valid_dates, show_ags, adapt_item_start) FROM stdin;
 1	\N	\N	\N	0	EUR	19	\N	f	f	de	1	0	0	6	f	f	f
+\.
+
+
+--
+-- Data for Name: cache; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.cache (key, value, expiration) FROM stdin;
+\.
+
+
+--
+-- Data for Name: cache_locks; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.cache_locks (key, owner, expiration) FROM stdin;
 \.
 
 
@@ -4484,8 +5384,8 @@ COPY nmsprime.carriercode (id, created_at, updated_at, deleted_at, carrier_code,
 -- Data for Name: ccc; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.ccc (id, created_at, updated_at, deleted_at, template_filename, headline1, headline2, language, logo, speedtest_url) FROM stdin;
-1	\N	\N	\N	\N	\N	\N	en	\N	\N
+COPY nmsprime.ccc (id, created_at, updated_at, deleted_at, template_filename, headline1, headline2, language, logo, speedtest_url, bgimg) FROM stdin;
+1	\N	\N	\N	\N	\N	\N	en	\N	\N	\N
 \.
 
 
@@ -4510,9 +5410,10 @@ COPY nmsprime.company (id, created_at, updated_at, deleted_at, name, street, zip
 -- Data for Name: configfile; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.configfile (id, created_at, updated_at, deleted_at, name, text, device, public, parent_id, firmware, is_dummy, monitoring, dashboard) FROM stdin;
-1	2022-02-18 11:09:38+01	2022-02-18 11:09:38+01	\N	Base	/* Mandatory */\r\nUsServiceFlow\r\n{\r\n    UsServiceFlowRef 101;\r\n    QosParamSetType 7;\r\n    MaxRateSustained {qos.us_rate_max_help.0};\r\n    MaxTrafficBurst {{qos.us_rate_max_help.0},*,0.1875};\r\n}\r\nDsServiceFlow\r\n{\r\n    DsServiceFlowRef 1;\r\n    QosParamSetType 7;\r\n    MaxRateSustained {qos.ds_rate_max_help.0};\r\n}\r\n\r\n/* Optional */\r\nModemCapabilities\r\n{\r\n    ConcatenationSupport 1;\r\n    IGMPSupport 1;\r\n}\r\nGlobalPrivacyEnable 0; /* enabled - now BaselinePrivacy is mandatory */\r\nBaselinePrivacy\r\n{\r\n    AuthTimeout 10;\r\n    ReAuthTimeout 10;\r\n    AuthGraceTime 600;\r\n    OperTimeout 10;\r\n    ReKeyTimeout 10;\r\n    TEKGraceTime 1800;\r\n    AuthRejectTimeout 60;\r\n    SAMapWaitTimeout 1;\r\n    SAMapMaxRetries 4;\r\n}\r\n\r\n/* DOCS-CABLE-DEVICE-MIB rfc4639 */\r\n/* SNMP Access to CM */\r\nSnmpMibObject sysLocation.0 String "{test}"; /* strings always inside apostrophes! */\r\nSnmpMibObject docsDevNmAccessIp.10 IPAddress 172.20.0.1 ;\r\nSnmpMibObject docsDevNmAccessIp.20 IPAddress 172.20.0.1 ;\r\nSnmpMibObject docsDevNmAccessIpMask.10 IPAddress 255.255.255.255 ;\r\nSnmpMibObject docsDevNmAccessIpMask.20 IPAddress 255.255.255.255 ;\r\nSnmpMibObject docsDevNmAccessCommunity.10 String "{provbase.ro_community.0}" ;\r\nSnmpMibObject docsDevNmAccessCommunity.20 String "{provbase.rw_community.0}" ;\r\nSnmpMibObject docsDevNmAccessControl.10 Integer 2; /* read */\r\nSnmpMibObject docsDevNmAccessControl.20 Integer 3; /* readWrite */\r\nSnmpMibObject docsDevNmAccessInterfaces.10 String "@" ;\r\nSnmpMibObject docsDevNmAccessInterfaces.20 String "@" ;\r\nSnmpMibObject docsDevNmAccessStatus.10 Integer 4; /* createAndGo */\r\nSnmpMibObject docsDevNmAccessStatus.20 Integer 4; /* createAndGo */\r\n\r\n/* Firewall */\r\n/* Layer2: filter possibly harmful Ethernet traffic */\r\nSnmpMibObject docsDevFilterLLCUnmatchedAction.0 Integer 1; /* discard if not matching */\r\nSnmpMibObject docsDevFilterLLCStatus.1 Integer 4; /* createAndGo */\r\nSnmpMibObject docsDevFilterLLCStatus.2 Integer 4; /* createAndGo */\r\nSnmpMibObject docsDevFilterLLCIfIndex.1 Integer 0 ; /* all Interfaces */\r\nSnmpMibObject docsDevFilterLLCIfIndex.2 Integer 0 ; /* all Interfaces */\r\nSnmpMibObject docsDevFilterLLCProtocolType.1 Integer 1; /* ethertype (default) */\r\nSnmpMibObject docsDevFilterLLCProtocolType.2 Integer 1; /* ethertype (default) */\r\n\r\n/* Layer 3 */\r\nSnmpMibObject docsDevFilterLLCProtocol.1 Integer 2048 ; /* ? depends on docsDevFilterLLCProtocolType */\r\nSnmpMibObject docsDevFilterLLCProtocol.2 Integer 2054 ; /* IPv4 !? */\r\nSnmpMibObject docsDevFilterIpDefault.0 Integer 2; /* accept for further processing when not matching an prior specified IP filter*/\r\nSnmpMibObject docsDevFilterIpStatus.3 Integer 4; /* createAndGo a filter row */\r\nSnmpMibObject docsDevFilterIpControl.3 Integer 1; /* discard */\r\nSnmpMibObject docsDevFilterIpIfIndex.3 Integer 1 ; /* all customer facing interfaces */\r\nSnmpMibObject docsDevFilterIpDirection.3 Integer 1; /* inbound traffic */\r\nSnmpMibObject docsDevFilterIpBroadcast.3 Integer 2; /* false - applies to all traffic */\r\nSnmpMibObject docsDevFilterIpSaddr.3 IPAddress 0.0.0.0 ; /* all ip addresses - masked against docsDevFilterIpSmask */\r\nSnmpMibObject docsDevFilterIpSmask.3 IPAddress 0.0.0.0 ; /* all ip addresses */\r\nSnmpMibObject docsDevFilterIpDaddr.3 IPAddress 0.0.0.0 ; /* all ip addresses */\r\nSnmpMibObject docsDevFilterIpDmask.3 IPAddress 0.0.0.0 ; /* all ip addresses */\r\nSnmpMibObject docsDevFilterIpProtocol.3 Integer 17 ; /* udp */\r\nSnmpMibObject docsDevFilterIpSourcePortLow.3 Integer 67 ; /* udp */\r\nSnmpMibObject docsDevFilterIpSourcePortHigh.3 Integer 67 ; /* udp */\r\nSnmpMibObject docsDevFilterIpDestPortLow.3 Integer 0 ;\r\nSnmpMibObject docsDevFilterIpDestPortHigh.3 Integer 65535 ;	cm	yes	\N	\N	f	\N	/grafana/d/3-42DM6Gk/cablemodem
-2	\N	\N	\N	Base-MTA	\N	mta	yes	\N	\N	t	\N	/grafana/d/3-42DM6Gk/cablemodem
+COPY nmsprime.configfile (id, created_at, updated_at, deleted_at, name, text, device, public, parent_id, firmware, is_dummy, monitoring, dashboard, service_profile_id, is_multiservice_ont, tr069_profile_id, ont_line_profile_id) FROM stdin;
+2	\N	\N	\N	Base-MTA	\N	mta	yes	\N	\N	t	\N	/grafana/d/3-42DM6Gk/cablemodem	\N	f	\N	\N
+4	2024-04-16 11:21:01+02	2024-04-16 11:21:01+02	\N	Generic ONT	\N	ont	yes	\N		f	\N	\N	\N	f	\N	\N
+1	2022-02-18 11:09:38+01	2024-04-18 17:05:54+02	\N	Base	/* Mandatory */\r\nUsServiceFlow\r\n{\r\n    UsServiceFlowRef 101;\r\n    QosParamSetType 7;\r\n    MaxRateSustained {qos.us_rate_max_help.0};\r\n    MaxTrafficBurst {{qos.us_rate_max_help.0},*,0.1875};\r\n}\r\nDsServiceFlow\r\n{\r\n    DsServiceFlowRef 1;\r\n    QosParamSetType 7;\r\n    MaxRateSustained {qos.ds_rate_max_help.0};\r\n}\r\n\r\n/* Optional */\r\nModemCapabilities\r\n{\r\n    ConcatenationSupport 1;\r\n    IGMPSupport 1;\r\n}\r\nGlobalPrivacyEnable 0; /* enabled - now BaselinePrivacy is mandatory */\r\nBaselinePrivacy\r\n{\r\n    AuthTimeout 10;\r\n    ReAuthTimeout 10;\r\n    AuthGraceTime 600;\r\n    OperTimeout 10;\r\n    ReKeyTimeout 10;\r\n    TEKGraceTime 1800;\r\n    AuthRejectTimeout 60;\r\n    SAMapWaitTimeout 1;\r\n    SAMapMaxRetries 4;\r\n}\r\n\r\n/* DOCS-CABLE-DEVICE-MIB rfc4639 */\r\n/* SNMP Access to CM */\r\nSnmpMibObject sysLocation.0 String "{test}"; /* strings always inside apostrophes! */\r\nSnmpMibObject docsDevNmAccessIp.10 IPAddress {provbase.provisioning_server.0} ;\r\nSnmpMibObject docsDevNmAccessIp.20 IPAddress {provbase.provisioning_server.0} ;\r\nSnmpMibObject docsDevNmAccessIpMask.10 IPAddress 255.255.255.255 ;\r\nSnmpMibObject docsDevNmAccessIpMask.20 IPAddress 255.255.255.255 ;\r\nSnmpMibObject docsDevNmAccessCommunity.10 String "{provbase.ro_community.0}" ;\r\nSnmpMibObject docsDevNmAccessCommunity.20 String "{provbase.rw_community.0}" ;\r\nSnmpMibObject docsDevNmAccessControl.10 Integer 2; /* read */\r\nSnmpMibObject docsDevNmAccessControl.20 Integer 3; /* readWrite */\r\nSnmpMibObject docsDevNmAccessInterfaces.10 String "@" ;\r\nSnmpMibObject docsDevNmAccessInterfaces.20 String "@" ;\r\nSnmpMibObject docsDevNmAccessStatus.10 Integer 4; /* createAndGo */\r\nSnmpMibObject docsDevNmAccessStatus.20 Integer 4; /* createAndGo */\r\n\r\n/* Firewall */\r\n/* Layer2: filter possibly harmful Ethernet traffic */\r\nSnmpMibObject docsDevFilterLLCUnmatchedAction.0 Integer 1; /* discard if not matching */\r\nSnmpMibObject docsDevFilterLLCStatus.1 Integer 4; /* createAndGo */\r\nSnmpMibObject docsDevFilterLLCStatus.2 Integer 4; /* createAndGo */\r\nSnmpMibObject docsDevFilterLLCIfIndex.1 Integer 0 ; /* all Interfaces */\r\nSnmpMibObject docsDevFilterLLCIfIndex.2 Integer 0 ; /* all Interfaces */\r\nSnmpMibObject docsDevFilterLLCProtocolType.1 Integer 1; /* ethertype (default) */\r\nSnmpMibObject docsDevFilterLLCProtocolType.2 Integer 1; /* ethertype (default) */\r\n\r\n/* Layer 3 */\r\nSnmpMibObject docsDevFilterLLCProtocol.1 Integer 2048 ; /* ? depends on docsDevFilterLLCProtocolType */\r\nSnmpMibObject docsDevFilterLLCProtocol.2 Integer 2054 ; /* IPv4 !? */\r\nSnmpMibObject docsDevFilterIpDefault.0 Integer 2; /* accept for further processing when not matching an prior specified IP filter*/\r\nSnmpMibObject docsDevFilterIpStatus.3 Integer 4; /* createAndGo a filter row */\r\nSnmpMibObject docsDevFilterIpControl.3 Integer 1; /* discard */\r\nSnmpMibObject docsDevFilterIpIfIndex.3 Integer 1 ; /* all customer facing interfaces */\r\nSnmpMibObject docsDevFilterIpDirection.3 Integer 1; /* inbound traffic */\r\nSnmpMibObject docsDevFilterIpBroadcast.3 Integer 2; /* false - applies to all traffic */\r\nSnmpMibObject docsDevFilterIpSaddr.3 IPAddress 0.0.0.0 ; /* all ip addresses - masked against docsDevFilterIpSmask */\r\nSnmpMibObject docsDevFilterIpSmask.3 IPAddress 0.0.0.0 ; /* all ip addresses */\r\nSnmpMibObject docsDevFilterIpDaddr.3 IPAddress 0.0.0.0 ; /* all ip addresses */\r\nSnmpMibObject docsDevFilterIpDmask.3 IPAddress 0.0.0.0 ; /* all ip addresses */\r\nSnmpMibObject docsDevFilterIpProtocol.3 Integer 17 ; /* udp */\r\nSnmpMibObject docsDevFilterIpSourcePortLow.3 Integer 67 ; /* udp */\r\nSnmpMibObject docsDevFilterIpSourcePortHigh.3 Integer 67 ; /* udp */\r\nSnmpMibObject docsDevFilterIpDestPortLow.3 Integer 0 ;\r\nSnmpMibObject docsDevFilterIpDestPortHigh.3 Integer 65535 ;	cm	yes	\N	\N	f	\N	/grafana/d/3-42DM6Gk/cablemodem	\N	f	\N	\N
 \.
 
 
@@ -4528,8 +5429,9 @@ COPY nmsprime.contact (id, created_at, updated_at, deleted_at, firstname1, lastn
 -- Data for Name: contract; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.contract (id, created_at, updated_at, deleted_at, number, number2, number3, number4, customer_external_id, company, department, salutation, academic_degree, firstname, lastname, street, house_number, zip, city, district, country_id, country_code, phone, fax, email, birthday, contract_start, contract_end, internet_access, purchase_tariff, next_purchase_tariff, qos_id, next_qos_id, voip_id, next_voip_id, sepa_iban, sepa_bic, sepa_holder, sepa_institute, create_invoice, login, password, net, cluster, description, costcenter_id, salesman_id, has_telephony, apartment_nr, additional, ground_for_dismissal, group_contract, contact, value_date, apartment_id, contact_id, last_amendment) FROM stdin;
-500000	2022-02-18 11:08:19+01	2022-02-19 00:03:04+01	\N	10000	\N	\N	\N	\N	\N	\N	Herr	\N	Max	MuMann	MuStreet	125d	01234	MuCity	\N	\N	\N	\N	\N	\N	1990-02-06	2022-02-18	\N	t	\N	\N	\N	\N	\N	\N			\N	\N	t	\N	\N	\N	\N	\N	1	\N	t	\N	\N	\N	f	0	\N	\N	\N	\N
+COPY nmsprime.contract (id, created_at, updated_at, deleted_at, number, number2, number3, number4, customer_external_id, company, department, salutation, academic_degree, firstname, lastname, street, house_number, zip, city, district, country_id, country_code, phone, fax, email, birthday, contract_start, contract_end, internet_access, purchase_tariff, next_purchase_tariff, qos_id, next_qos_id, voip_id, next_voip_id, sepa_iban, sepa_bic, sepa_holder, sepa_institute, create_invoice, login, password, net, cluster, description, costcenter_id, salesman_id, has_telephony, apartment_nr, additional, ground_for_dismissal, group_contract, contact, value_date, apartment_id, contact_id, last_amendment, sep_id, oto_id, oto_port, oto_socket_usage, oto_status, flat_id, alex_status, omdf_id, boc_label, bof_label, type, lng, lat, geocode_source) FROM stdin;
+500000	2022-02-18 11:08:19+01	2022-02-19 00:03:04+01	\N	10000	\N	\N	\N	\N	\N	\N	Herr	\N	Max	MuMann	MuStreet	125d	01234	MuCity	\N	\N	\N	\N	\N	\N	1990-02-06	2022-02-18	\N	t	\N	\N	\N	\N	\N	\N			\N	\N	t	\N	\N	\N	\N	\N	1	\N	t	\N	\N	\N	f	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	nmsprime	\N	\N	\N
+2	2024-04-16 11:21:01+02	2024-04-16 11:21:01+02	\N	\N	\N	\N	\N	\N	n/a	n/a	\N	\N	n/a	n/a	n/a	n/a	n/a	n/a	\N	\N		\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	“Storage” holding free ONT. Change parameters to your needs.	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	OTO_STORAGE	\N	\N	n/a (unchanged existing data)
 \.
 
 
@@ -4546,7 +5448,47 @@ COPY nmsprime.costcenter (id, created_at, updated_at, deleted_at, name, number, 
 -- Data for Name: debt; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.debt (id, created_at, updated_at, deleted_at, contract_id, sepamandate_id, invoice_id, date, amount, bank_fee, total_fee, description, number, voucher_nr, due_date, cleared, indicator, dunning_date, parent_id, missing_amount, extra_fee) FROM stdin;
+COPY nmsprime.debt (id, created_at, updated_at, deleted_at, contract_id, sepamandate_id, invoice_id, date, amount, bank_fee, total_fee, description, number, voucher_nr, due_date, cleared, indicator, dunning_date, parent_id, missing_amount, extra_fee, debt_import_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: debt_import; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.debt_import (id, created_at, updated_at, deleted_at, finished_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: dfsubscription; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.dfsubscription (id, created_at, updated_at, deleted_at, service_name, service_id, contact_no, contact_first_name, contact_last_name, contact_company_name, contact_street, contact_street_no, contact_postal_code, contact_city, contact_country, contact_phone, contact_email, contact_notes, subscription_id, subscription_end_point_id, sf_sla, status, wishdate, switchdate, modificationdate, l1_handover_equipment_name, l1_handover_equipment_rack, l1_handover_equipment_slot, l1_handover_equipment_port, l1_breakout_cable, l1_breakout_fiber, alau_order_ref, note, contract_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: dfsubscriptionevent; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.dfsubscriptionevent (id, created_at, updated_at, deleted_at, description, status, "timestamp", dfsubscription_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: document; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.document (id, created_at, updated_at, deleted_at, model_type, model_id, file, ccc_visible, documenttemplate_id, serial_letter_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: documenttemplate; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.documenttemplate (id, created_at, updated_at, deleted_at, name, company_id, document_type, type_view, file, format, filename_pattern, is_default) FROM stdin;
 \.
 
 
@@ -4555,6 +5497,22 @@ COPY nmsprime.debt (id, created_at, updated_at, deleted_at, contract_id, sepaman
 --
 
 COPY nmsprime.domain (id, created_at, updated_at, deleted_at, name, alias, type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: dunning_letter; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.dunning_letter (id, created_at, updated_at, deleted_at, contract_id, dunning_run_id, name, file, debts_ids) FROM stdin;
+\.
+
+
+--
+-- Data for Name: dunning_run; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.dunning_run (id, created_at, updated_at, deleted_at, job_batch_id, status, description) FROM stdin;
 \.
 
 
@@ -4718,7 +5676,6 @@ COPY nmsprime.ekpcode (id, created_at, updated_at, deleted_at, ekp_code, company
 153	2022-02-18 08:44:22+01	2022-02-18 08:44:22+01	\N	07/007	vocatel business gmbh
 154	2022-02-18 08:44:22+01	2022-02-18 08:44:22+01	\N	07/027	AS Antennenanlagen-Service GmbH
 155	2022-02-18 08:44:22+01	2022-02-18 08:44:22+01	\N	07/033	AVACOMM Systems GmbH
-156	2022-02-18 08:44:22+01	2022-02-18 08:44:22+01	\N	07/034	VICTORVOX
 157	2022-02-18 08:44:22+01	2022-02-18 08:44:22+01	\N	07/043	Kadsoft Computer GmbH Freital
 158	2022-02-18 08:44:22+01	2022-02-18 08:44:22+01	\N	07/046	Computertechnik Trenkle e.K.
 159	2022-02-18 08:44:22+01	2022-02-18 08:44:22+01	\N	07/079	G-FIT Gesellschaft für innovative Telekommunikationsdienste mbH & Co. KG
@@ -4939,7 +5896,6 @@ COPY nmsprime.ekpcode (id, created_at, updated_at, deleted_at, ekp_code, company
 374	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	13/222	media.tel Informationsdienstleistungs GmbH
 375	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	13/225	Fl!nk GmbH
 376	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	14/017	Speedloc Datacenter
-377	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	14/035	Arcor
 378	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	14/036	Orbitcom GmbH
 379	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	14/074	Antennengemeinschaft ERZNET AG
 380	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	14/086	Jonny Rönnefahrt Chono Gruppe Deutschland
@@ -5109,7 +6065,6 @@ COPY nmsprime.ekpcode (id, created_at, updated_at, deleted_at, ekp_code, company
 544	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	93/090	KEVAG Telekom GmbH
 545	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	94/309	bn:t Blatzheim Networks Telecom GmbH
 546	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	95/032	NetCologne Gesellschaft für Telekommunikation mbH
-547	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	95/095	Alice, Hansenet, O2, O2 Genion
 548	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	95/137	1&1 Versatel Deutschland GmbH
 549	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	96/058	Communication Services Tele2 GmbH
 550	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	96/084	sdt.net AG
@@ -5125,13 +6080,11 @@ COPY nmsprime.ekpcode (id, created_at, updated_at, deleted_at, ekp_code, company
 560	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	97/084	GELSEN-NET Kommunikationsgesellschaft mbH
 561	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	97/119	SWN Stadtwerke Neumünster GmbH
 562	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	97/163	M-net Telekommunikations GmbH
-563	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	97/165	Talkline, Cellway
 564	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	97/170	LüneCom Kommunikationslösungen GmbH
 565	2022-02-18 08:44:23+01	2022-02-18 08:44:23+01	\N	97/174	E-Plus Service GmbH & Co. KG
 566	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	97/186	electronic anders
 567	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	97/238	imos Gesellschaft für Internet-Marketing und Online-Services mbH
 568	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	97/244	DOKOM Gesellschaft für Telekommunikation mbH
-569	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	97/245	Osnatel GmbH
 570	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	97/246	ENTEGA Medianet GmbH
 571	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/016	e.discom Telekommunikations GmbH
 572	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/023	RFT kabel Brandenburg GmbH
@@ -5140,7 +6093,6 @@ COPY nmsprime.ekpcode (id, created_at, updated_at, deleted_at, ekp_code, company
 575	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/047	Median Telecom GmbH
 576	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/048	R-KOM Regensburger Telekommunikationsgesellschaft mbH & Co. KG
 577	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/067	VSE NET GmbH
-578	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/068	Broadnet AG
 579	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/084	MDCC Magdeburg-City-Com GmbH
 580	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/085	Netcom Kassel Gesellschaft für Telekommunikation mbH
 581	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	98/090	Pfalzkom Gesellschaft für Telekommunikation mbH
@@ -5174,11 +6126,8 @@ COPY nmsprime.ekpcode (id, created_at, updated_at, deleted_at, ekp_code, company
 609	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/001	Gesmo Gesellschaft für Mobilfunkservice
 610	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/003	Kabel BW
 611	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/004	Tele Columbus AG
-612	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/005	Osnatel GmbH
-613	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/006	Osnatel GmbH
 614	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/008	placetel
 615	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/009	Sat Internet Services GmbH
-616	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/011	Telefonica Germany GmbH
 617	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/012	Outland-net GmbH
 618	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/013	manCityNet
 619	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/014	primacall GmbH
@@ -5188,6 +6137,15 @@ COPY nmsprime.ekpcode (id, created_at, updated_at, deleted_at, ekp_code, company
 623	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/018	NES Elektro & Service GmbH
 624	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/019	NetCom BW GmbH
 625	2022-02-18 08:44:24+01	2022-02-18 08:44:24+01	\N	xx/020	Northern Access GmbH
+156	2022-02-18 08:44:22+01	2024-04-16 11:15:49+02	\N	07/034	VICTORVOX
+377	2022-02-18 08:44:23+01	2024-04-16 11:15:50+02	\N	14/035	Arcor
+547	2022-02-18 08:44:23+01	2024-04-16 11:15:50+02	\N	95/095	Alice, Hansenet, O2, O2 Genion
+578	2022-02-18 08:44:24+01	2024-04-16 11:15:50+02	\N	98/068	Broadnet AG
+563	2022-02-18 08:44:23+01	2024-04-16 11:15:50+02	\N	97/165	Talkline, Cellway
+569	2022-02-18 08:44:24+01	2024-04-16 11:15:50+02	\N	97/245	Osnatel GmbH
+612	2022-02-18 08:44:24+01	2024-04-16 11:15:50+02	\N	xx/005	Osnatel GmbH
+613	2022-02-18 08:44:24+01	2024-04-16 11:15:50+02	\N	xx/006	Osnatel GmbH
+616	2022-02-18 08:44:24+01	2024-04-16 11:15:50+02	\N	xx/011	Telefonica Germany GmbH
 \.
 
 
@@ -5195,7 +6153,7 @@ COPY nmsprime.ekpcode (id, created_at, updated_at, deleted_at, ekp_code, company
 -- Data for Name: endpoint; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.endpoint (id, created_at, updated_at, deleted_at, hostname, mac, description, fixed_ip, modem_id, ip, add_reverse, version, prefix) FROM stdin;
+COPY nmsprime.endpoint (id, created_at, updated_at, deleted_at, hostname, mac, description, fixed_ip, modem_id, ip, add_reverse, version, prefix, qos_id, device_id, acl_id, rule_id, state) FROM stdin;
 \.
 
 
@@ -5235,7 +6193,7 @@ COPY nmsprime.enviaorderdocument (id, created_at, updated_at, deleted_at, docume
 -- Data for Name: failed_jobs; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.failed_jobs (id, connection, queue, payload, failed_at, exception) FROM stdin;
+COPY nmsprime.failed_jobs (id, connection, queue, payload, failed_at, exception, uuid) FROM stdin;
 \.
 
 
@@ -5248,11 +6206,27 @@ COPY nmsprime.favorite_netelements (id, user_id, netelement_id, created_at, upda
 
 
 --
+-- Data for Name: firmware_upgrade; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.firmware_upgrade (id, created_at, updated_at, deleted_at, start_date, start_time, finished_date, cron_string, batch_size, to_configfile_id, restart_only, firmware_match_string) FROM stdin;
+\.
+
+
+--
+-- Data for Name: firmware_upgrade_configfile; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.firmware_upgrade_configfile (id, created_at, updated_at, deleted_at, firmware_upgrade_id, configfile_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: global_config; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.global_config (id, created_at, updated_at, deleted_at, name, street, city, phone, mail, log_level, headline1, headline2, default_country_code, passwordresetinterval, alert1, alert2, alert3, isallnetssidebarenabled) FROM stdin;
-1	\N	\N	\N	\N	\N	\N	\N	\N	1	NMS Prime	The next Generation NMS	DE	120	\N	\N	\N	f
+COPY nmsprime.global_config (id, created_at, updated_at, deleted_at, name, street, city, phone, mail, log_level, headline1, headline2, default_country_code, passwordresetinterval, alert1, alert2, alert3, isallnetssidebarenabled, login_img) FROM stdin;
+1	\N	\N	\N	\N	\N	\N	\N	\N	1	NMS Prime	The next Generation NMS	DE	120	\N	\N	\N	f	\N
 \.
 
 
@@ -5293,7 +6267,7 @@ COPY nmsprime.invoice (id, created_at, updated_at, deleted_at, contract_id, sett
 -- Data for Name: ippool; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.ippool (id, created_at, updated_at, deleted_at, netgw_id, type, net, netmask, ip_pool_start, ip_pool_end, router_ip, broadcast_ip, dns1_ip, dns2_ip, dns3_ip, optional, description, version, prefix, prefix_len, delegated_len, active) FROM stdin;
+COPY nmsprime.ippool (id, created_at, updated_at, deleted_at, netgw_id, type, net, netmask, ip_pool_start, ip_pool_end, router_ip, broadcast_ip, dns1_ip, dns2_ip, dns3_ip, optional, description, version, prefix, prefix_len, delegated_len, active, vendor_class_identifier) FROM stdin;
 \.
 
 
@@ -5302,6 +6276,14 @@ COPY nmsprime.ippool (id, created_at, updated_at, deleted_at, netgw_id, type, ne
 --
 
 COPY nmsprime.item (id, created_at, updated_at, deleted_at, contract_id, product_id, count, valid_from, valid_from_fixed, valid_to, valid_to_fixed, credit_amount, costcenter_id, accounting_text, payed_month, smartcardids) FROM stdin;
+\.
+
+
+--
+-- Data for Name: job_batches; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.job_batches (id, name, total_jobs, pending_jobs, failed_jobs, failed_job_ids, options, cancelled_at, created_at, finished_at) FROM stdin;
 \.
 
 
@@ -5333,7 +6315,7 @@ COPY nmsprime.migrations (id, migration, batch) FROM stdin;
 -- Data for Name: modem; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.modem (id, created_at, updated_at, deleted_at, name, hostname, contract_id, contract_external_id, contract_ext_creation_date, contract_ext_termination_date, salutation, company, department, firstname, lastname, street, house_number, zip, city, district, birthday, country_id, country_code, installation_address_change_date, mac, us_pwr, us_snr, ds_pwr, ds_snr, public, internet_access, serial_num, inventar_num, description, parent, configfile_id, netelement_id, qos_id, lng, lat, geocode_source, number, tdr, fft_max, model, sw_rev, support_state, ppp_username, ppp_password, apartment_nr, next_passive_id, phy_updated_at, ipv4, address_to_invoice, apartment_id) FROM stdin;
+COPY nmsprime.modem (id, created_at, updated_at, deleted_at, name, hostname, contract_id, contract_external_id, contract_ext_creation_date, contract_ext_termination_date, salutation, company, department, firstname, lastname, street, house_number, zip, city, district, birthday, country_id, country_code, installation_address_change_date, mac, us_pwr, us_snr, ds_pwr, ds_snr, public, internet_access, serial_num, inventar_num, description, parent, configfile_id, netelement_id, qos_id, lng, lat, geocode_source, number, tdr, fft_max, model, sw_rev, support_state, ppp_username, ppp_password, apartment_nr, next_passive_id, phy_updated_at, ipv4, address_to_invoice, apartment_id, ont_id, netgw_id, frame_id, slot_id, port_id, service_port_id, or_id, ont_state, next_ont_state, ont_state_switchdate, additional) FROM stdin;
 \.
 
 
@@ -5373,7 +6355,8 @@ COPY nmsprime.mta (id, created_at, updated_at, deleted_at, modem_id, mac, hostna
 -- Data for Name: netelement; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.netelement (id, created_at, updated_at, deleted_at, name, series, options, ip, lng, lat, link, "user", access, net, cluster, layer, descr, infrastructure_file, draw, line, parent_id, netelementtype_id, community_ro, community_rw, address1, address2, controlling_link, prov_device_id, netgw_id, agc_offset, rkm_line_number, state, _lft, _rgt, apartment_id) FROM stdin;
+COPY nmsprime.netelement (id, created_at, updated_at, deleted_at, name, series, options, ip, lng, lat, link, "user", access, net, cluster, layer, descr, infrastructure_file, draw, line, parent_id, netelementtype_id, community_ro, community_rw, address1, address2, controlling_link, prov_device_id, netgw_id, agc_offset, rkm_line_number, state, _lft, _rgt, apartment_id, base_type_id, username, password, online, port) FROM stdin;
+1	2024-04-16 11:20:46+02	2024-04-16 11:20:46+02	\N	NMSPrime HA slave	\N	\N	slave.not.set	\N	\N	\N	\N	\N	\N	\N	\N	This is the failover peer. This is needed for icinga2 monitoring.\nAutogenerated while changing global config.	\N	\N	\N	\N	10	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	1	2	\N	10	\N	\N	t	\N
 \.
 
 
@@ -5381,21 +6364,22 @@ COPY nmsprime.netelement (id, created_at, updated_at, deleted_at, name, series, 
 -- Data for Name: netelementtype; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.netelementtype (id, created_at, updated_at, deleted_at, name, vendor, version, description, parent_id, icon_name, pre_conf_oid_id, pre_conf_value, pre_conf_time_offset, page_reload_time, base_type_id) FROM stdin;
-1	2022-02-18 08:44:07+01	2022-02-18 08:44:09+01	\N	Net	\N	\N	\N	\N	\N	\N	\N	0	0	1
-2	2022-02-18 08:44:07+01	2022-02-18 08:44:09+01	\N	Cluster	\N	\N	\N	1	\N	\N	\N	0	0	2
-3	2022-02-18 08:44:07+01	2022-02-18 08:44:09+01	\N	NetGw	\N	\N	\N	\N	\N	\N	\N	0	0	3
-4	2022-02-18 08:44:07+01	2022-02-18 08:44:09+01	\N	Amplifier	\N	\N	\N	\N	\N	\N	\N	0	0	4
-5	2022-02-18 08:44:07+01	2022-02-18 08:44:09+01	\N	Node	\N	\N	\N	\N	\N	\N	\N	0	0	5
-6	2022-02-18 08:44:07+01	2022-02-18 08:44:09+01	\N	Data	\N	\N	\N	\N	\N	\N	\N	0	0	6
-7	2022-02-18 08:44:07+01	2022-02-18 08:44:09+01	\N	UPS	\N	\N	\N	\N	\N	\N	\N	0	0	7
-8	2022-02-18 08:44:08+01	2022-02-18 08:44:09+01	\N	Tap	\N	\N	\N	\N	\N	\N	\N	\N	\N	8
-9	2022-02-18 08:44:08+01	2022-02-18 08:44:09+01	\N	Tap-Port	\N	\N	\N	8	\N	\N	\N	\N	\N	9
-11	2022-02-18 08:44:09+01	2022-02-18 08:44:09+01	\N	Passives	\N	\N	\N	\N	\N	\N	\N	\N	\N	11
-12	2022-02-18 08:44:09+01	2022-02-18 08:44:09+01	\N	Splitter	\N	\N	\N	11	\N	\N	\N	\N	\N	11
-13	2022-02-18 08:44:09+01	2022-02-18 08:44:09+01	\N	Amplifier	\N	\N	\N	11	\N	\N	\N	\N	\N	11
-14	2022-02-18 08:44:09+01	2022-02-18 08:44:09+01	\N	Node	\N	\N	\N	11	\N	\N	\N	\N	\N	11
-10	2022-02-18 08:46:22+01	2022-02-18 08:46:22+01	\N	NMSPrime HA slave	\N	\N	\N	\N	\N	\N	\N	\N	\N	10
+COPY nmsprime.netelementtype (id, created_at, updated_at, deleted_at, name, vendor, version, description, parent_id, icon_name, pre_conf_oid_id, pre_conf_value, pre_conf_time_offset, page_reload_time, base_type_id, sidebar_pos, _lft, _rgt) FROM stdin;
+2	2022-02-18 08:44:07+01	2024-04-16 11:14:48+02	\N	Cluster	\N	\N	\N	1	\N	\N	\N	0	0	2	\N	2	3
+1	2022-02-18 08:44:07+01	2024-04-16 11:14:48+02	\N	Net	\N	\N	\N	\N	\N	\N	\N	0	0	1	\N	1	4
+3	2022-02-18 08:44:07+01	2024-04-16 11:14:48+02	\N	NetGw	\N	\N	\N	\N	\N	\N	\N	0	0	3	\N	5	6
+4	2022-02-18 08:44:07+01	2024-04-16 11:14:48+02	\N	Amplifier	\N	\N	\N	\N	\N	\N	\N	0	0	4	\N	7	8
+5	2022-02-18 08:44:07+01	2024-04-16 11:14:48+02	\N	Node	\N	\N	\N	\N	\N	\N	\N	0	0	5	\N	9	10
+6	2022-02-18 08:44:07+01	2024-04-16 11:14:48+02	\N	Data	\N	\N	\N	\N	\N	\N	\N	0	0	6	\N	11	12
+7	2022-02-18 08:44:07+01	2024-04-16 11:14:48+02	\N	UPS	\N	\N	\N	\N	\N	\N	\N	0	0	7	\N	13	14
+9	2022-02-18 08:44:08+01	2024-04-16 11:14:48+02	\N	Tap-Port	\N	\N	\N	8	\N	\N	\N	\N	\N	9	\N	16	17
+8	2022-02-18 08:44:08+01	2024-04-16 11:14:48+02	\N	Tap	\N	\N	\N	\N	\N	\N	\N	\N	\N	8	\N	15	18
+12	2022-02-18 08:44:09+01	2024-04-16 11:14:48+02	\N	Splitter	\N	\N	\N	11	\N	\N	\N	\N	\N	11	\N	20	21
+13	2022-02-18 08:44:09+01	2024-04-16 11:14:48+02	\N	Amplifier	\N	\N	\N	11	\N	\N	\N	\N	\N	11	\N	22	23
+14	2022-02-18 08:44:09+01	2024-04-16 11:14:48+02	\N	Node	\N	\N	\N	11	\N	\N	\N	\N	\N	11	\N	24	25
+11	2022-02-18 08:44:09+01	2024-04-16 11:14:48+02	\N	Passives	\N	\N	\N	\N	\N	\N	\N	\N	\N	11	\N	19	26
+10	2022-02-18 08:46:22+01	2024-04-16 11:14:48+02	\N	NMSPrime HA slave	\N	\N	\N	\N	\N	\N	\N	\N	\N	10	\N	27	28
+1000	2024-04-16 11:14:48+02	2024-04-16 11:14:48+02	\N	RKM-Server	SAT-Kabel	\N	\N	\N	\N	\N	\N	\N	\N	1000	\N	29	30
 \.
 
 
@@ -5403,7 +6387,7 @@ COPY nmsprime.netelementtype (id, created_at, updated_at, deleted_at, name, vend
 -- Data for Name: netgw; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.netgw (id, created_at, updated_at, deleted_at, hostname, series, ip, community_rw, community_ro, company, network, state, monitoring, support_state, type, username, password, ssh_port, ssh_auto_prov, coa_port, ipv6) FROM stdin;
+COPY nmsprime.netgw (id, created_at, updated_at, deleted_at, hostname, series, ip, community_rw, community_ro, company, network, state, monitoring, support_state, type, username, password, ssh_port, ssh_auto_prov, coa_port, ipv6, nas_secret, internal_id) FROM stdin;
 \.
 
 
@@ -5479,6 +6463,7 @@ COPY nmsprime.permissions (ability_id, entity_id, entity_type, forbidden, scope,
 6	3	roles	t	\N	\N	\N
 8	5	roles	f	\N	\N	\N
 9	5	roles	f	\N	\N	\N
+1	2	App\\User	f	\N	\N	\N
 \.
 
 
@@ -5521,7 +6506,7 @@ COPY nmsprime.phonetariff (id, created_at, updated_at, deleted_at, external_iden
 -- Data for Name: product; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.product (id, created_at, updated_at, deleted_at, name, type, qos_id, voip_sales_tariff_id, voip_purchase_tariff_id, billing_cycle, maturity, costcenter_id, price, tax, bundled_with_voip, email_count, period_of_notice, maturity_min, proportional, record_monthly, deprecated, markon) FROM stdin;
+COPY nmsprime.product (id, created_at, updated_at, deleted_at, name, type, qos_id, voip_sales_tariff_id, voip_purchase_tariff_id, billing_cycle, maturity, costcenter_id, price, tax, bundled_with_voip, email_count, period_of_notice, maturity_min, proportional, record_monthly, deprecated, markon, parent_id) FROM stdin;
 \.
 
 
@@ -5529,8 +6514,17 @@ COPY nmsprime.product (id, created_at, updated_at, deleted_at, name, type, qos_i
 -- Data for Name: provbase; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.provbase (id, created_at, updated_at, deleted_at, provisioning_server, ro_community, rw_community, domain_name, dns_password, dhcp_def_lease_time, dhcp_max_lease_time, startid_contract, startid_modem, startid_endpoint, max_cpe, ds_rate_coefficient, us_rate_coefficient, multiple_provisioning_systems, additional_modem_reset, modem_edit_page_new_tab, random_ip_allocation, ppp_session_timeout, auto_factory_reset, acct_interim_interval) FROM stdin;
-1	\N	2022-02-18 08:43:53+01	\N	172.20.0.1	public	private	nmsprime.test	3KHc51lgxGSOUvpUxlFv7A==	86400	172800	0	0	0	2	1	1	f	f	f	f	86400	f	300
+COPY nmsprime.provbase (id, created_at, updated_at, deleted_at, provisioning_server, ro_community, rw_community, domain_name, dns_password, dhcp_def_lease_time, dhcp_max_lease_time, startid_contract, startid_modem, startid_endpoint, max_cpe, ds_rate_coefficient, us_rate_coefficient, multiple_provisioning_systems, additional_modem_reset, modem_edit_page_new_tab, random_ip_allocation, ppp_session_timeout, auto_factory_reset, acct_interim_interval, sync_provision, factory_reset_discovered_cpes, use_radius_relay_info, use_framed_pool) FROM stdin;
+1	\N	2022-02-18 08:43:53+01	\N	172.20.0.1	public	private	nmsprime.test	\N	86400	172800	0	0	0	2	1	1	f	f	f	f	86400	f	300	f	f	f	f
+\.
+
+
+--
+-- Data for Name: provha; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.provha (id, created_at, updated_at, deleted_at, master, slaves, load_ratio_master, slave_config_rebuild_interval, master_dns_password, slave_dns_password) FROM stdin;
+1	2024-04-16 11:20:46+02	2024-04-16 11:20:46+02	\N	master.not.set	slave.not.set	0.5	3600	to be set	to be set
 \.
 
 
@@ -5538,8 +6532,8 @@ COPY nmsprime.provbase (id, created_at, updated_at, deleted_at, provisioning_ser
 -- Data for Name: provmon; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.provmon (id, created_at, updated_at, deleted_at, start_frequency, stop_frequency, span) FROM stdin;
-1	\N	\N	\N	154	866	8
+COPY nmsprime.provmon (id, created_at, updated_at, deleted_at, start_frequency, stop_frequency, span, realtime_update_interval, iperf_max_stream) FROM stdin;
+1	\N	\N	\N	154	866	8	0	0
 \.
 
 
@@ -5556,8 +6550,8 @@ COPY nmsprime.provvoip (id, created_at, updated_at, deleted_at, startid_mta, mta
 -- Data for Name: qos; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.qos (id, created_at, updated_at, deleted_at, ds_rate_max, us_rate_max, ds_rate_max_help, us_rate_max_help, name, ds_name, us_name) FROM stdin;
-1	2022-02-18 12:57:42+01	2022-02-18 12:57:42+01	\N	100	10	100000000	10000000	100/10	Down	Up
+COPY nmsprime.qos (id, created_at, updated_at, deleted_at, ds_rate_max, us_rate_max, ds_rate_max_help, us_rate_max_help, name, ds_name, us_name, type, vlan_id, ont_line_profile_id, service_profile_id, gem_port, traffic_table_in, traffic_table_out) FROM stdin;
+1	2022-02-18 12:57:42+01	2022-02-18 12:57:42+01	\N	100	10	100000000	10000000	100/10	Down	Up	default	0	\N	\N	\N	\N	\N
 \.
 
 
@@ -5608,10 +6602,18 @@ COPY nmsprime.sepamandate (id, created_at, updated_at, deleted_at, contract_id, 
 
 
 --
+-- Data for Name: serial_letters; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.serial_letters (id, created_at, updated_at, deleted_at, template_id, name, file, status, job_batch_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: settlementrun; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.settlementrun (id, created_at, updated_at, deleted_at, executed_at, uploaded_at, year, month, path, description, verified, fullrun) FROM stdin;
+COPY nmsprime.settlementrun (id, created_at, updated_at, deleted_at, executed_at, uploaded_at, year, month, path, description, verified, fullrun, finished_at) FROM stdin;
 \.
 
 
@@ -5621,6 +6623,31 @@ COPY nmsprime.settlementrun (id, created_at, updated_at, deleted_at, executed_at
 
 COPY nmsprime.sla (id, created_at, updated_at, deleted_at, name, license) FROM stdin;
 1	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: smartont; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.smartont (id, created_at, updated_at, deleted_at, default_service_name, default_service_id, default_contact_first_name, default_contact_last_name, default_contact_company, default_contact_phone, default_boc_label, default_configfile_id, default_qos_id, default_mgmt_qos_id) FROM stdin;
+1	\N	\N	\N	n/a	n/a	\N	\N	\N	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: statistics_query; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.statistics_query (id, created_at, updated_at, deleted_at, name, customer_type, product_type, tariffs, status, antenna_communities, zip, gender, age_groups, split_combination_packages, consider_tariff_change, diagram, upsell, "from", "to", auto) FROM stdin;
+\.
+
+
+--
+-- Data for Name: statistics_query_result; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.statistics_query_result (id, created_at, updated_at, deleted_at, statistics_query_id, customers, new_customers, items, new_items, revenue_from, revenue_to, ready, revenue_change, name, description) FROM stdin;
 \.
 
 
@@ -5687,8 +6714,17 @@ COPY nmsprime.trcclass (id, created_at, updated_at, deleted_at, trc_id, trc_shor
 -- Data for Name: users; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.users (id, created_at, updated_at, deleted_at, first_name, last_name, email, phonenumber, login_name, password, api_token, description, active, remember_token, language, last_login_at, password_changed_at, initial_dashboard, geopos_updated_at, lng, lat, hastruck) FROM stdin;
-1	\N	2022-03-02 08:41:34+01	\N	superuser	initial	root@localhost	\N	root	$2y$10$FmNUYYYptfSu5Nye5UBkaeWuD8jugDriiAq3TPSBEUv4rRUTeEClu	3KWxQuu3OxHkQGrGfe4w83m9LirxIysEjNmlLGDyMlvhLFDeCvP6AkgxsffZAqgF1PBHFYLciL0EpodW	Superuser to do base config. Initial password is “toor” – change this ASAP or delete this user!!	t	\N	en	2022-03-02 08:41:34+01	\N	\N	2022-02-18 13:22:52+01	12.939680	50.828728	f
+COPY nmsprime.users (id, created_at, updated_at, deleted_at, first_name, last_name, email, phonenumber, login_name, password, api_token, description, active, remember_token, language, last_login_at, password_changed_at, initial_dashboard, geopos_updated_at, lng, lat, hastruck, theme_color) FROM stdin;
+1	\N	2022-03-02 08:41:34+01	\N	superuser	initial	root@localhost	\N	root	$2y$10$FmNUYYYptfSu5Nye5UBkaeWuD8jugDriiAq3TPSBEUv4rRUTeEClu	3KWxQuu3OxHkQGrGfe4w83m9LirxIysEjNmlLGDyMlvhLFDeCvP6AkgxsffZAqgF1PBHFYLciL0EpodW	Superuser to do base config. Initial password is “toor” – change this ASAP or delete this user!!	t	\N	en	2022-03-02 08:41:34+01	\N	\N	2022-02-18 13:22:52+01	12.939680	50.828728	f	default_theme_config.css
+\.
+
+
+--
+-- Data for Name: voipmon; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
+--
+
+COPY nmsprime.voipmon (id, created_at, updated_at, deleted_at, delete_record_interval) FROM stdin;
+1	2024-04-16 11:19:58+02	2024-04-16 11:19:58+02	\N	14
 \.
 
 
@@ -5704,7 +6740,7 @@ COPY nmsprime.websockets_statistics_entries (id, app_id, peak_connection_count, 
 -- Name: abilities_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.abilities_id_seq', 60, true);
+SELECT pg_catalog.setval('nmsprime.abilities_id_seq', 121, true);
 
 
 --
@@ -5712,6 +6748,13 @@ SELECT pg_catalog.setval('nmsprime.abilities_id_seq', 60, true);
 --
 
 SELECT pg_catalog.setval('nmsprime.accountingrecord_id_seq', 1, true);
+
+
+--
+-- Name: address_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.address_id_seq', 1, false);
 
 
 --
@@ -5760,7 +6803,7 @@ SELECT pg_catalog.setval('nmsprime.company_id_seq', 1, true);
 -- Name: configfile_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.configfile_id_seq', 3, true);
+SELECT pg_catalog.setval('nmsprime.configfile_id_seq', 4, true);
 
 
 --
@@ -5774,7 +6817,7 @@ SELECT pg_catalog.setval('nmsprime.contact_id_seq', 1, true);
 -- Name: contract_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.contract_id_seq', 1, true);
+SELECT pg_catalog.setval('nmsprime.contract_id_seq', 2, true);
 
 
 --
@@ -5792,10 +6835,59 @@ SELECT pg_catalog.setval('nmsprime.debt_id_seq', 1, true);
 
 
 --
+-- Name: debt_import_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.debt_import_id_seq', 1, false);
+
+
+--
+-- Name: dfsubscription_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.dfsubscription_id_seq', 1, false);
+
+
+--
+-- Name: dfsubscriptionevent_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.dfsubscriptionevent_id_seq', 1, false);
+
+
+--
+-- Name: document_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.document_id_seq', 1, false);
+
+
+--
+-- Name: documenttemplate_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.documenttemplate_id_seq', 1, false);
+
+
+--
 -- Name: domain_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
 SELECT pg_catalog.setval('nmsprime.domain_id_seq', 1, true);
+
+
+--
+-- Name: dunning_letter_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.dunning_letter_id_seq', 1, false);
+
+
+--
+-- Name: dunning_run_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.dunning_run_id_seq', 1, false);
 
 
 --
@@ -5855,6 +6947,20 @@ SELECT pg_catalog.setval('nmsprime.favorite_netelements_id_seq', 1, true);
 
 
 --
+-- Name: firmware_upgrade_configfile_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.firmware_upgrade_configfile_id_seq', 1, false);
+
+
+--
+-- Name: firmware_upgrade_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.firmware_upgrade_id_seq', 1, false);
+
+
+--
 -- Name: global_config_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
@@ -5907,7 +7013,7 @@ SELECT pg_catalog.setval('nmsprime.item_id_seq', 1, true);
 -- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.jobs_id_seq', 1, true);
+SELECT pg_catalog.setval('nmsprime.jobs_id_seq', 7, true);
 
 
 --
@@ -5921,7 +7027,7 @@ SELECT pg_catalog.setval('nmsprime.mibfile_id_seq', 1, true);
 -- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.migrations_id_seq', 1, true);
+SELECT pg_catalog.setval('nmsprime.migrations_id_seq', 1, false);
 
 
 --
@@ -5963,14 +7069,14 @@ SELECT pg_catalog.setval('nmsprime.mta_id_seq', 1, false);
 -- Name: netelement_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.netelement_id_seq', 1, false);
+SELECT pg_catalog.setval('nmsprime.netelement_id_seq', 1, true);
 
 
 --
 -- Name: netelementtype_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.netelementtype_id_seq', 1000, false);
+SELECT pg_catalog.setval('nmsprime.netelementtype_id_seq', 1000, true);
 
 
 --
@@ -6058,6 +7164,13 @@ SELECT pg_catalog.setval('nmsprime.provbase_id_seq', 1, true);
 
 
 --
+-- Name: provha_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.provha_id_seq', 1, true);
+
+
+--
 -- Name: provmon_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
@@ -6114,6 +7227,13 @@ SELECT pg_catalog.setval('nmsprime.sepamandate_id_seq', 1, true);
 
 
 --
+-- Name: serial_letters_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.serial_letters_id_seq', 1, false);
+
+
+--
 -- Name: settlementrun_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
@@ -6125,6 +7245,27 @@ SELECT pg_catalog.setval('nmsprime.settlementrun_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('nmsprime.sla_id_seq', 1, true);
+
+
+--
+-- Name: smartont_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.smartont_id_seq', 1, true);
+
+
+--
+-- Name: statistics_query_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.statistics_query_id_seq', 1, false);
+
+
+--
+-- Name: statistics_query_result_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.statistics_query_result_id_seq', 1, false);
 
 
 --
@@ -6180,7 +7321,14 @@ SELECT pg_catalog.setval('nmsprime.trcclass_id_seq', 2, true);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.users_id_seq', 1, true);
+SELECT pg_catalog.setval('nmsprime.users_id_seq', 2, true);
+
+
+--
+-- Name: voipmon_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
+--
+
+SELECT pg_catalog.setval('nmsprime.voipmon_id_seq', 1, true);
 
 
 --
@@ -6188,6 +7336,110 @@ SELECT pg_catalog.setval('nmsprime.users_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('nmsprime.websockets_statistics_entries_id_seq', 1, true);
+
+
+--
+-- Name: address address_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.address
+    ADD CONSTRAINT address_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cache_locks cache_locks_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.cache_locks
+    ADD CONSTRAINT cache_locks_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: cache cache_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.cache
+    ADD CONSTRAINT cache_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: debt_import debt_import_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.debt_import
+    ADD CONSTRAINT debt_import_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dfsubscription dfsubscription_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.dfsubscription
+    ADD CONSTRAINT dfsubscription_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dfsubscriptionevent dfsubscriptionevent_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.dfsubscriptionevent
+    ADD CONSTRAINT dfsubscriptionevent_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: document document_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.document
+    ADD CONSTRAINT document_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: documenttemplate documenttemplate_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.documenttemplate
+    ADD CONSTRAINT documenttemplate_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dunning_letter dunning_letter_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.dunning_letter
+    ADD CONSTRAINT dunning_letter_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dunning_run dunning_run_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.dunning_run
+    ADD CONSTRAINT dunning_run_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: failed_jobs failed_jobs_uuid_unique; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.failed_jobs
+    ADD CONSTRAINT failed_jobs_uuid_unique UNIQUE (uuid);
+
+
+--
+-- Name: firmware_upgrade_configfile firmware_upgrade_configfile_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.firmware_upgrade_configfile
+    ADD CONSTRAINT firmware_upgrade_configfile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: firmware_upgrade firmware_upgrade_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.firmware_upgrade
+    ADD CONSTRAINT firmware_upgrade_pkey PRIMARY KEY (id);
 
 
 --
@@ -6759,6 +8011,69 @@ ALTER TABLE ONLY nmsprime.websockets_statistics_entries
 
 
 --
+-- Name: job_batches job_batches_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.job_batches
+    ADD CONSTRAINT job_batches_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: provha provha_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.provha
+    ADD CONSTRAINT provha_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: serial_letters serial_letters_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.serial_letters
+    ADD CONSTRAINT serial_letters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: smartont smartont_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.smartont
+    ADD CONSTRAINT smartont_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: statistics_query statistics_query_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.statistics_query
+    ADD CONSTRAINT statistics_query_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: statistics_query_result statistics_query_result_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.statistics_query_result
+    ADD CONSTRAINT statistics_query_result_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: voipmon voipmon_pkey; Type: CONSTRAINT; Schema: nmsprime; Owner: nmsprime
+--
+
+ALTER TABLE ONLY nmsprime.voipmon
+    ADD CONSTRAINT voipmon_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: document_model_type_model_id_index; Type: INDEX; Schema: nmsprime; Owner: nmsprime
+--
+
+CREATE INDEX document_model_type_model_id_index ON nmsprime.document USING btree (model_type, model_id);
+
+
+--
 -- Name: idx_17263_abilities_scope_index; Type: INDEX; Schema: nmsprime; Owner: nmsprime
 --
 
@@ -7139,12 +8454,6 @@ ALTER TABLE ONLY nmsprime.permissions
 
 
 --
--- Name: SCHEMA nmsprime; Type: ACL; Schema: -; Owner: postgres
---
-
-GRANT USAGE ON SCHEMA nmsprime TO nmsprime;
-
-
---
 -- PostgreSQL database dump complete
 --
+

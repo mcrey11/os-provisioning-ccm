@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.4
--- Dumped by pg_dump version 13.4
+-- Dumped from database version 16.2
+-- Dumped by pg_dump version 16.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -56,7 +56,7 @@ CREATE SEQUENCE public.cccauthuser_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cccauthuser_id_seq OWNER TO nmsprime_ccc;
+ALTER SEQUENCE public.cccauthuser_id_seq OWNER TO nmsprime_ccc;
 
 --
 -- Name: cccauthuser_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nmsprime_ccc
