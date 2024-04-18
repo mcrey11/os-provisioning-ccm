@@ -76,6 +76,8 @@ sed -e "s|^#APP_TIMEZONE=|APP_TIMEZONE=$zone|" \
     -e "s/^DB_PASSWORD=$/DB_PASSWORD=$pw/" \
     -i "$env/global.env"
 
+echo $'\n;JIT Compiler\nopcache.jit_buffer_size=100M\nopcache.jit=tracing' >> /etc/php.d/10-opcache.ini
+
 # mysql_secure_installation - necessary for cacti
 mysql -u root << EOF
 UPDATE mysql.global_priv SET priv=json_set(priv, '$.authentication_string', PASSWORD('$root_pw')) WHERE User='root';
@@ -93,7 +95,6 @@ sed -i "s/^ROOT_DB_PASSWORD=$/ROOT_DB_PASSWORD=$root_pw/" "$env/root.env"
 #
 cd "$dir"
 
-# L5 setup
 install -Dm640 -o apache -g root /dev/null /var/www/nmsprime/storage/logs/laravel.log
 mkdir -p -m755 "$dir/storage/app/tmp/"
 mkdir -p -m755 "$dir/storage/app/public/base/bg-images/"
@@ -115,6 +116,11 @@ php artisan migrate
 php artisan auth:roles
 
 php artisan config:cache
+
+# user creation / group
+useradd nmsprime
+chgrp nmsprime /etc/nmsprime/env/ /etc/nmsprime/env/global.env
+usermod -a -G nmsprime apache
 
 # Note: needs to run last. storage/logs is only available after artisan optimize
 chown -R apache storage bootstrap/cache
