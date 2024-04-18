@@ -47,15 +47,13 @@ firewall-cmd --reload
 systemctl enable postgresql-16.service
 systemctl start postgresql-16.service
 
-# sudo -u postgres /usr/pgsql-16/bin/psql -c 'CREATE database nmsprime' # Is done via dump: sudo -u postgres pg_dump nmsprime -C -x > /tmp/nmsprime.pgsql (-N nmsprime for just dumping schema nmsprime)
 sudo -u postgres /usr/pgsql-16/bin/psql -c "CREATE DATABASE nmsprime;"
-sudo -u postgres /usr/pgsql-16/bin/psql -c "CREATE USER nmsprime PASSWORD '$pw';"
-sudo -u postgres /usr/pgsql-16/bin/psql < /etc/nmsprime/sql-schemas/nmsprime.pgsql
-sudo -u postgres /usr/pgsql-16/bin/psql nmsprime -c "
-    GRANT ALL ON ALL Tables in schema nmsprime TO nmsprime;
-    GRANT ALL ON ALL SEQUENCES IN SCHEMA nmsprime TO nmsprime;
+sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime -c "
+    CREATE USER nmsprime PASSWORD '$pw';
+    ALTER DATABASE nmsprime OWNER TO nmsprime;
+    ALTER ROLE postgres set search_path to 'nmsprime';
 "
-
+sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime < /etc/nmsprime/sql-schemas/nmsprime.pgsql
 
 #
 # mariadb

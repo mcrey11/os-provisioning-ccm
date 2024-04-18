@@ -52,13 +52,6 @@ class ProvBaseObserver
         if (multi_array_key_exists(['dhcp_def_lease_time', 'dhcp_max_lease_time', 'max_cpe', 'provisioning_server'], $changes)) {
             // recreate global DHCP config file
             $model->make_dhcp_glob_conf();
-
-            // adjust radiusd config and restart it
-            $sed = storage_path('app/tmp/update-sqlippool.sed');
-            file_put_contents($sed, "s/^\s*lease_duration\s*=.*/\tlease_duration = $model->dhcp_def_lease_time/");
-            exec("sudo sed -i -f $sed /etc/raddb/mods-available/sqlippool");
-            exec('sudo systemctl restart radiusd.service');
-            unlink($sed);
         }
 
         if (array_key_exists('ppp_session_timeout', $changes)) {
