@@ -56,9 +56,8 @@ return [
             'prefix' => '',
         ],
 
-        // NMS Prime default connection
         'mysql' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'read'      => [
                 'host'      => explode(',', str_replace(' ', '', env('DB_HOST', 'localhost'))),
             ],
@@ -78,7 +77,7 @@ return [
         ],
 
         'nms-import' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_IMPORT_HOST', 'localhost'),
             'sticky' => true,
             'database' => env('DB_IMPORT_DATABASE', 'nmsprime'),
@@ -97,7 +96,7 @@ return [
         //       where advanced permissions are required.
         // @IMPORTNANT: make as less as possible use of this. Especially in normal code!
         'mysql-root' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'read'      => [
                 'host'      => explode(',', str_replace(' ', '', env('ROOT_DB_HOST', 'localhost'))),
             ],
@@ -119,7 +118,7 @@ return [
         // Config Host connection.
         // @NOTE: This could be used to fetch config tables (like configfiles) from a global NMS Prime system
         'mysql-config' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'read'      => [
                 'host'      => explode(',', str_replace(' ', '', env('DB_CONFIG_HOST', env('DB_HOST', 'localhost')))),
             ],
@@ -140,7 +139,7 @@ return [
 
         // mysql cacti connection
         'mysql-cacti' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'read'      => [
                 'host'      => explode(',', str_replace(' ', '', env('CACTI_DB_HOST', 'localhost'))),
             ],
@@ -175,7 +174,7 @@ return [
 
         // mysql CCC connection
         'mysql-ccc' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'read'      => [
                 'host'      => explode(',', str_replace(' ', '', env('CCC_DB_HOST', env('DB_HOST', 'localhost')))),
             ],
@@ -207,7 +206,7 @@ return [
 
         // mysql voip monitoring
         'mysql-voipmonitor' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'read'      => [
                 'host'      => explode(',', str_replace(' ', '', env('VOIPMONITOR_DB_HOST', env('DB_HOST', 'localhost')))),
             ],
@@ -227,7 +226,7 @@ return [
 
         // mysql icinga/nagios connection
         'mysql-icinga2' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'read'      => [
                 'host'      => explode(',', str_replace(' ', '', env('ICINGA2_DB_HOST', env('DB_HOST', 'localhost')))),
             ],
@@ -247,7 +246,7 @@ return [
 
         // mysql freeradius connection
         'mysql-radius' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'read'      => [
                 'host'      => explode(',', str_replace(' ', '', env('RADIUS_DB_HOST', env('DB_HOST', 'localhost')))),
             ],
@@ -266,7 +265,7 @@ return [
         ],
 
         'mysql-netuser' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'host'      => env('DB_IMPORT_HOST', 'localhost'),
             'database'  => env('DB_IMPORT_DATABASE', 'webuser'),
             'username'  => env('DB_IMPORT_USERNAME', 'root'),
@@ -279,7 +278,7 @@ return [
         ],
 
         'mysql-kea' => [
-            'driver'    => 'mysql',
+            'driver'    => 'mariadb',
             'host'      => env('DB_HOST', 'localhost'),
             'database'  => 'kea',
             'username'  => env('DB_USERNAME', 'nmsprime'),

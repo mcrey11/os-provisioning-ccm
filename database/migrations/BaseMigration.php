@@ -96,11 +96,11 @@ class BaseMigration extends Migration
     public function addIndex(string $column)
     {
         Schema::table($this->tableName, function (Blueprint $table) use ($column) {
-            $indices = Schema::getConnection()
-                ->getDoctrineSchemaManager()
-                ->listTableIndexes($this->tableName);
+            $indices = collect(Schema::getIndexes($this->tableName))
+                ->pluck('columns')
+                ->collapse();
 
-            if (! array_key_exists("{$this->tableName}_{$column}_index", $indices)) {
+            if (! $indices->contains($column)) {
                 $table->index($column);
             }
         });

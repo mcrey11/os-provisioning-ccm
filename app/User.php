@@ -94,6 +94,11 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'api_token',
     ];
 
+    public function getAuthPasswordName()
+    {
+        return 'password';
+    }
+
     public function tickets()
     {
         return $this->belongsToMany(\Modules\Ticketsystem\Entities\Ticket::class, 'ticket_user', 'user_id', 'ticket_id');

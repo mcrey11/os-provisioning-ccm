@@ -95,6 +95,9 @@ git clean -f -x
 for module in $(ls -1 modules | grep -v '^HfcReq$\|^HfcSnmp$\|^NmsMail$\|^ProvBase$\|^ProvVoip$'); do mv "$module" /root/; done
 
 composer update
+php artisan module:v6:migrate
+find public/{css,js} -iname "*.br" -o -iname "*.gz"
+rm -f public/mix-manifest.json
 npm i && npm run dev
 
 yum install $(for file in $(find /var/www/nmsprime -name config.cfg); do grep '^depends[[:space:]]*=' "$file" | cut -d'=' -f2- | cut -d'"' -f2; done | tr ';' '\n' | sed -e '/^$/d' -e '/^nmsprime-/d' | sort -u)

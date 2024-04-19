@@ -18,9 +18,9 @@
 
 namespace Acme\html;
 
-use Collective\Html\HtmlServiceProvider as CollectiveHtmlServiceProvider;
+use Spatie\Html\HtmlServiceProvider as SpatieHtmlServiceProvider;
 
-class HtmlServiceProvider extends CollectiveHtmlServiceProvider
+class HtmlServiceProvider extends SpatieHtmlServiceProvider
 {
     /**
      * Register the form builder instance.

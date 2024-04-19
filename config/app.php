@@ -188,7 +188,7 @@ return [
         App\Providers\ExtendedValidatorServiceProvider::class,
 
         Illuminate\Bus\BusServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
+        Spatie\Html\HtmlServiceProvider::class,
         Acme\html\HtmlServiceProvider::class,
     ],
 
@@ -240,9 +240,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Form'      => Collective\Html\FormFacade::class,
-        'Html'      => Collective\Html\HtmlFacade::class,
-        'HTML'      => Collective\Html\HtmlFacade::class,
+        'Form'      => Spatie\Html\FormFacade::class,
+        'Html'      => Spatie\Html\HtmlFacade::class,
+        'HTML'      => Spatie\Html\HtmlFacade::class,
         'Str'       => Illuminate\Support\Str::class,
 
         'BaseController' => App\Http\Controllers\BaseController::class,

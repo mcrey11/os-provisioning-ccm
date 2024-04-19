@@ -18,11 +18,11 @@
 
 namespace Acme\html;
 
-use Collective\Html\FormBuilder as CollectiveFormBuilder;
 use Session;
+use Spatie\Html\FormBuilder as SpatieFormBuilder;
 use Str;
 
-class FormBuilder extends CollectiveFormBuilder
+class FormBuilder extends SpatieFormBuilder
 {
     private static $layout_form_col_md = ['label'=>4, 'form'=>7, 'help'=>1];
 
