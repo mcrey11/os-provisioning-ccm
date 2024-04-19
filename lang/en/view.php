@@ -341,8 +341,6 @@ return [
     'SEPA Account'              => 'SEPA-Account',
     'Create'                    => 'Create ',
     'Edit'                      => 'Edit ',
-    'Button_create_post_invoices_pdf' => 'Create Postal Invoices PDF',
-    'Button_Rerun Accounting Command' => 'Rerun Accounting Command',
 
     // Select Fields
     'select' => [
@@ -651,7 +649,6 @@ return [
     'Detach all' => 'Detach all :model',
     'Diagrams' => 'Diagrams',
     'Discard' => 'Discard',
-    'SmartOnt' => 'Smart ONT',
     'download' => [
         'connInfo' => 'Connection Information',
         'contractConfirmation' => 'Contract Confirmation',
@@ -665,7 +662,9 @@ return [
         'specifyId'             => 'Please specify the hostname instead of the ip address.',
         'ticketSettings'        => 'Please set noreply name and address in Global Config Page.',
     ],
+    'execute' => 'execute',
     'false' => 'false',
+    'Function' => 'Function',
     'Global' => 'Global',
     'Global notification' => 'Global notification',
     'HfcReq' => 'HFC',
@@ -810,9 +809,19 @@ return [
     'ProvVoip' => 'VoIP',
     'rcd' => 'Requested collection date',
     'redirectNote' => 'You are not logged in and tried to access an internal page. After a successful login you are redirected to',
+    'restart' => 'restart',
     'restore' => 'Restore',
-    'settlementrun' => 'Settlement run',
+    'settlementrun' => [
+        '' => 'Settlement run',
+        'functions' => [
+            'postInvoices' => 'Create Postal Invoices PDF',
+        ],
+        'repeat' => 'Settlementrun for SEPA-account(s)', // Settlementrun repeat
+        'restart' => 'Restart settlement run',
+    ],
+    'SettlementRun' => 'SettlementRun',
     'showChanges' => 'Show the change|Show :num changes',
+    'SmartOnt' => 'Smart ONT',
     'statsSummary' => [
         'considerUpsell' => 'Consider product upsell',
         'emptyResult' => [
@@ -834,7 +843,6 @@ return [
         ],
         'splitCombi' => 'Split combi packages',
     ],
-    'SettlementRun' => 'SettlementRun',
     'SipDevices' => 'SIP Devices',
     'summary' => 'Summary',
     'belongsToNet' => 'This element belongs to a Net',

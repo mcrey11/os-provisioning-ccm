@@ -341,8 +341,6 @@ return [
     'SEPA Account'              => 'SEPA-Konto',
     'Create'                    => 'Erstelle ',
     'Edit'                      => 'Bearbeite ',
-    'Button_create_post_invoices_pdf' => 'Erstelle PDF mit postalischen Rechnungen',
-    'Button_Rerun Accounting Command' => 'Rechnungslauf neu starten',
 
     // Select Fields
     'select' => [
@@ -651,7 +649,6 @@ return [
     'Detach all' => 'Alle :model entfernen',
     'Diagrams' => 'Diagramme',
     'Discard' => 'Missachte',
-    'SmartOnt' => 'Smart ONT',
     'download' => [
         'connInfo' => 'Anschlussinformation',
         'contractConfirmation' => 'Vertragsbestätigung',
@@ -665,7 +662,9 @@ return [
         'specifyId'             => 'Bitte geben Sie den Hostnamen des zugehörigen Modems anstelle der IP Adresse an.',
         'ticketSettings'        => 'Bitte geben Sie den Namen und die E-Mail-Adresse des Noreply Absenders in der Systemkonfiguration an.',
     ],
+    'execute' => 'ausführen',
     'false' => 'nein',
+    'Function' => 'Funktion',
     'Global' => 'Global',
     'Global notification' => 'Globale Benachrichtigung',
     'HfcReq' => 'HFC',
@@ -810,9 +809,19 @@ return [
     'ProvVoip' => 'VoIP',
     'rcd' => 'Buchungstag',
     'redirectNote' => 'Sie sind nicht eingeloggt und versuchen auf eine interne Seite zuzugreifen. Nach dem Log-In werden Sie direkt weitergeleitet zu',
+    'restart' => 'neustarten',
     'restore' => 'Wiederherstellen',
-    'settlementrun' => 'Rechnungslauf',
+    'settlementrun' => [
+        '' => 'Rechnungslauf',
+        'functions' => [
+            'postInvoices' => 'Erstelle PDF mit postalischen Rechnungen',
+        ],
+        'repeat' => 'Wiederhole für SEPA-Konto',
+        'restart' => 'Rechnungslauf neustarten',
+    ],
+    'SettlementRun' => 'Abrechnungslauf',
     'showChanges' => 'Zeige Änderung|Zeige :num Änderungen',
+    'SmartOnt' => 'Smart ONT',
     'statsSummary' => [
         'considerUpsell' => 'Product-Upsell einbeziehen',
         'emptyResult' => [
@@ -834,7 +843,6 @@ return [
         ],
         'splitCombi' => 'Kombipakete aufteilen',
     ],
-    'SettlementRun' => 'Abrechnungslauf',
     'SipDevices' => 'SIP Geräte',
     'summary' => 'Zusammenfassung',
     'belongsToNet' => 'Dieses Element gehört zu einem Netz',

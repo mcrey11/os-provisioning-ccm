@@ -441,7 +441,6 @@ return [
     'with Tax calculation ?'    => 'with Tax calculation ?',
     'Phone Sales Tariff'        => 'Phone Sales Tariff',
     'Phone Purchase Tariff'     => 'Phone Purchase Tariff',
-    'sr_repeat'             => 'Repeat for SEPA-account(s):', // Settlementrun repeat
     'Account Holder'            => 'Account Holder',
     'Account Name'              => 'Account Name',
     'receiveNewsletters'        => 'Should receive newsletters?',
