@@ -42,7 +42,7 @@ class Role extends BaseModel
 
     public function rules()
     {
-        $id = $this->id;
+        $id = $this->id ?: 0;
 
         return [
             'name' => 'required|unique:roles,name,'.$id.',id,deleted_at,NULL',
