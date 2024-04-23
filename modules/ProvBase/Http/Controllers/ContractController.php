@@ -505,29 +505,12 @@ class ContractController extends \BaseController
 
         if (! Module::collections()->has('SmartOnt')) {
             // generate contract number
-            if (! $data['number'] && Module::collections()->has('BillingBase') && $data['costcenter_id']) {
+            if (! $data['number'] && Module::collections()->has('BillingBase')) {
                 // generate contract number
-                $num = \Modules\BillingBase\Entities\NumberRange::get_new_number('contract', $data['costcenter_id']);
+                $num = \Modules\BillingBase\Entities\NumberRange::getNextContractNr($data['costcenter_id']);
 
                 if ($num) {
                     $data['number'] = $num;
-
-                    if (! Session::has('alert')) {
-                        Session::forget('alert');
-                    }
-                } else {
-                    // show default alert when there is a numberrange for costcenter but there are no more
-                    // free numbers and no more specific error message is already set
-                    $numberrange_exists = \Modules\BillingBase\Entities\NumberRange::where('type', '=', 'contract')
-                        ->where('costcenter_id', $data['costcenter_id'])->count();
-
-                    if ($numberrange_exists) {
-                        if (! Session::has('tmp_error_above_form')) {
-                            Session::push('tmp_error_above_form', trans('messages.contract.numberrange.failure'));
-                        }
-                    } else {
-                        Session::push('tmp_error_above_form', trans('messages.contract.numberrange.missing'));
-                    }
                 }
             }
         }
