@@ -420,6 +420,7 @@ return [
         'Configfile' => 'a Configfile',
         'Contact' => 'a contact',
         'Contract' => 'a Contract',
+        'CorrespondenceRecipient' => 'a correspondence recipient',
         'fiberName' => 'a fibre name',
         'Mta' => 'a MTA',
         'NetElement' => 'a NetElement',

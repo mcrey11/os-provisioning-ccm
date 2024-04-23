@@ -420,6 +420,7 @@ return [
         'Configfile' => 'eine Konfigurationsdatei',
         'Contact' => 'einen Ansprechpartner',
         'Contract' => 'einen Vertrag',
+        'CorrespondenceRecipient' => 'einen Korrespondenzempfänger',
         'fiberName' => 'einen Glasfasernamen',
         'Mta' => 'ein MTA',
         'NetElement' => 'ein Netzelement',
