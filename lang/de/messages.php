@@ -160,6 +160,7 @@ return [
         'concede_credit' => 'Es existieren Posten mit jährlichem Abrechnungszyklus, die bereits (in vollem Umfang) abgerechnet wurden. Bitte prüfen Sie, ob der Kunde eine Gutschrift erhalten soll!',
         'early_cancel' => 'Möchten Sie den Vertrag wirklich vor Tariflaufzeitende :date kündigen?',
         'numberrange' => [
+            'exception' => 'Fehler beim Ermitteln der nächsten Vertragsnummer. Bitte wenden Sie sich an Ihren Administrator oder setzen Sie die Vertragsnummer vorerst manuell!',
             'failure' => 'Keine freie Vertragsnummer für die gewählte Kostenstelle gefunden.',
             'missing' => 'Es konnte keine neue Kundennummer vergeben werden, da die Kostenstelle über keinen Nummernkreis verfügt.',
         ],

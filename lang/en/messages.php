@@ -160,6 +160,7 @@ return [
         'concede_credit' => 'There are yearly charged items that were already charged (by full price). Please check if the customer shall get a credit!',
         'early_cancel' => 'Do you really want to cancel this contract before tariffs end of term :date is reached?',
         'numberrange' => [
+            'exception' => 'Error on determining the next contract number. Please contact your administrator or set the number manually!',
             'failure' => 'No free contract number for selected costcenter available!',
             'missing' => 'The contract number could not be determined as the costcenter does not have a number range assigned.',
         ],
