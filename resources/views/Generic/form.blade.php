@@ -35,7 +35,7 @@
 ?>
 
 {{-- Error Message --}}
-<?php $col = \Acme\Html\FormBuilder::get_layout_form_col_md()['label'] ?>
+<?php $col = Form::get_layout_form_col_md()['label'] ?>
 
 <div id='top_message' class="note note-{{ Session::get('message_color')}} fade in m-b-15" style="display:none;">
     <h5>{{ Session::get('message') }}</h5>
@@ -46,7 +46,9 @@
 
 <div v-pre>
 @foreach($form_fields as $fields)
-    {!! $fields['html'] !!}
+    @foreach (Illuminate\Support\Arr::flatten($fields['html']) as $input)
+        {{ $input }}
+    @endforeach
 @endforeach
 </div>
 

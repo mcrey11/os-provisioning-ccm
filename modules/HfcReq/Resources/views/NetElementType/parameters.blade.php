@@ -26,17 +26,17 @@
 <div class="row justify-content-between">
     {{-- attach button --}}
     <div>
-        {!! Form::open(['route' => [$model.'.assign', $view_var->id], 'method' => 'get']) !!}
-            {!! Form::submit(trans('view.Assign', ['model' => $description[$model]]), ['style' => 'simple']) !!}
+        {{ html()->form('GET', route($model.'.assign', [$view_var->id]))->open() }}
+            {{ Form::submit(trans('view.Assign', ['model' => $description[$model]]), ['style' => 'simple']) }}
         {{-- .\App\Http\Controllers\BaseViewController::translate($view) --}}
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     </div>
 
     {{-- detach all button --}}
     <div>
-        {!! Form::open(['route' => [$model.'.detach_all', $view_var->id], 'method' => 'delete']) !!}
-            {!! Form::submit(trans('view.Detach all', ['model' => $description[$model]]), ['class' => 'btn btn-danger', 'style' => 'simple']) !!}
-        {!! Form::close() !!}
+        {{ html()->form('DELETE', route($model.'.detach_all', [$view_var->id]))->open() }}
+            {{ Form::submit(trans('view.Detach all', ['model' => $description[$model]]), ['class' => 'btn btn-danger', 'style' => 'simple']) }}
+        {{ html()->form()->close() }}
     </div>
 
     {{-- Delete Button --}}

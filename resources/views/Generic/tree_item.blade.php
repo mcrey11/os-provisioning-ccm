@@ -32,7 +32,7 @@
                 {{ in_array($item->id, $undeletables) && $item->parent_id ? 'p-l-25' : ''}}"
             data-jstree='{"type":"{!! $type !!}" }'>
 
-            {!! HTML::linkRoute("$route_name.edit", $item->view_index_label(), $item->id) !!}
+            {{ html()->a(route("$route_name.edit", $item->id), $item->view_index_label()) }}
 
             @if($item->children->count() > 0)
                 @include('Generic.tree_item', ['items' => $item->children, 'color' => $color++])
@@ -46,7 +46,7 @@
             {{$key}}
             @include('Generic.tree_item', ['items' => $item])
         @else
-            {!! HTML::linkRoute('Modem.index', "$key: $item", ['show_filter' => 'sw_rev', 'data' => $key]) !!}
+            {{ html()->a(route('Modem.index', ['show_filter' => 'sw_rev', 'data' => $key]), "$key: $item") }}
         @endif
     @endif
 @endforeach

@@ -16,11 +16,7 @@
  * limitations under the License.
  */
 ?>
-{{ Form::open([
-    'method' => 'post',
-    'route' => $context['route'],
-    'enctype' => 'multipart/form-data',
-])}}
+{{ html()->form('POST', route($context['route']))->attributes(['enctype' => 'multipart/form-data'])->open() }}
 
     <input style="background-color:whitesmoke" name="modem_csv_upload" type="file" id="modem_csv_upload">
     <input type="hidden" name="method" value="{{ $context['method'] }}" />
@@ -28,4 +24,4 @@
     <input type="hidden" name="redirect_url" value="{{ url()->current() }}" />
     <button type="submit" class="btn btn-primary" style="simple" name="upload" value="upload" title="boo">Upload CSV</button>
 
-{{ Form::close() }}
+{{ html()->form()->close() }}

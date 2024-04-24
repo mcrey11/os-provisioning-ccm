@@ -1621,8 +1621,8 @@ class BaseController extends Controller
             $data .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
         }
 
-        $data .= \Form::checkbox('ids['.$object->id.']', 1, null, null, ['style' => 'simple', 'disabled' => $object->index_delete_disabled ? 'disabled' : null]).'&nbsp;&nbsp;';
-        // $data .= \HTML::linkRoute($cur_model.'.edit', $object->view_index_label(), $object->id, ['class' => self::$colours[self::$I % count(self::$colours)]]);
+        $data .= html()->checkbox('ids['.$object->id.']', 1, null)->attributes(['style' => 'simple', 'disabled' => $object->index_delete_disabled ? 'disabled' : null]);
+        // $data .= html()->a(route($cur_model.'.edit', [$object->id]), $object->view_index_label())->class(self::$colours[self::$I % count(self::$colours)]);
         $name = self::$INDEX == 0 ? '<strong>'.$object->view_index_label().'</strong>' : $object->view_index_label();
         $data .= '<a class="'.self::$colours[self::$I % count(self::$colours)].'" href="'.route($cur_model.'.edit', $object->id).'">'.$name.'</a>';
         $data .= '<br>';

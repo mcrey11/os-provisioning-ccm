@@ -43,7 +43,7 @@
         $label = is_array($ret = $parent->view_index_label()) ? $ret['header'] : $ret;
         $s =  "<div class='flex items-center'><div class='w-2 h-full rounded-full bg-".$parent->get_bsclass().
             "'></div><div class='flex flex-col px-2.5 text-black dark:text-slate-100'>".
-                HTML::decode(HTML::linkRoute($view.'.edit', $icon.Str::limit($label, 40, '...'), $parent->id)).
+                html()->a(route($view.'.edit', [$parent->id]), $icon.Str::limit($label, 40, '...'))->render().
                 '</div></div>'.$s;
 
         $parent = $parent->view_belongs_to();

@@ -18,12 +18,14 @@
 
 namespace App\Providers;
 
+use App\extensions\html\FormBuilder;
 use Cron\CronExpression;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Silber\Bouncer\BouncerFacade as Bouncer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,14 +39,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::withoutComponentTags();
 
         Validator::includeUnvalidatedArrayKeys();
-
-        Blade::directive('DivOpen', function ($expression) {
-            return "<?php echo Form::openDivClass($expression); ?>";
-        });
-
-        Blade::directive('DivClose', function () {
-            return '<?php echo Form::closeDivClass(); ?>';
-        });
 
         Response::macro('v0ApiReply', function ($data = [], $success = false, $id = null, $statusCode = 200) {
             foreach (\App\BaseModel::ABOVE_MESSAGES_ALLOWED_TYPES as $type) {
@@ -76,6 +70,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \Bouncer::setClipboard(new \App\extensions\bouncer\AdvancedCachedClipboard(new \Illuminate\Cache\ArrayStore));
+        Bouncer::setClipboard(new \App\extensions\bouncer\AdvancedCachedClipboard(new \Illuminate\Cache\ArrayStore));
+
+        $this->app->bind('form', fn ($app) => $app->make(FormBuilder::class));
     }
 }

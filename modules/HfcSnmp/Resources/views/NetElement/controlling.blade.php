@@ -118,7 +118,13 @@
                                     $i = substr($i, 1);
                                 }
                             ?>
-                            <td> {!! isset($table['3rd_dim']) ? HTML::linkRoute('NetElement.controlling_edit', $i, [$table['3rd_dim']['netelement_id'], $table['3rd_dim']['paramId'], $i]) : $i !!} </td>
+                            <td>
+                            @isset($table['3rd_dim'])
+                                {{ html()->a(route('NetElement.controlling_edit', [$table['3rd_dim']['netelement_id'], $i]), $i)->attributes($table['3rd_dim']['paramId']) }}
+                            @else
+                                {{ $i }}
+                            @endisset
+                            </td>
                             @foreach ($row as $col)
                                 <td align="center" class="p-1"> {!! $col !!} </td>
                             @endforeach
@@ -136,7 +142,7 @@
                 type="submit">
         </div>
 
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
 
     @endif
 

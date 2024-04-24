@@ -1,9 +1,9 @@
 @if (isset($relation[0]))
-@DivOpen(12)
+<div>
     @if (isset($options['many_to_many']))
-        {!! Form::open(['route' => [$route_name.'.detach', $view_var->id, $options['many_to_many']], 'method' => 'post', 'id' => $class]) !!}
+        {{ html()->form('POST', route($route_name.'.detach', [$view_var->id, $options['many_to_many']]))->attributes(['id' => $class])->open() }}
     @else
-        {!! Form::open(['route' => [$class.'.destroy', 0], 'method' => 'delete', 'id' => $tab['name'].$class]) !!}
+        {{ html()->form('DELETE', route($class.'.destroy', [0]))->attributes(['id' => $tab['name'].$class])->open() }}
     @endif
 
     @if ($count < config('datatables.relationThreshold'))
@@ -39,8 +39,8 @@
             </tbody>
         </table>
     @endif
-    {!! Form::close() !!}
-@DivClose()
+    {{ html()->form()->close() }}
+</div>
 @else
 
 <div class="text-dark" style="padding: 1.5rem;font-weight:bold;">

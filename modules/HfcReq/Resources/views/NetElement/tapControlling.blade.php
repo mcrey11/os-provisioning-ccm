@@ -82,21 +82,21 @@
         'md' => 12,
         ])
 
-@DivClose()
+</div>
 
     <div class="col-md-5 m-l-20">
-        @DivOpen(1)
-        @DivClose()
-        @DivOpen(6)
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-6">
             @if (! $hfcBaseConf->video_encoder)
                 <div class="m-t-10 alert alert-danger ajaxResponse">{{ trans('hfcsnmp::messages.missingConf', ['device' => 'Video Encoder']) }}</div>
             @else
             <img id="video" src="http://{{$hfcBaseConf->video_encoder}}/mjpg/1/video.mjpg?camera=1" alt="http://{{$hfcBaseConf->video_encoder}}/mjpg/1/video.mjpg?camera=1">
             <!-- <img id="video" src="http://{{$hfcBaseConf->video_encoder}}/jpg/1/image.jpg?timestamp=1584552846920"> -->
             @endif
-        @DivClose()
-    @DivClose()
-@DivClose()
+        </div>
+    </div>
+</div>
 
 @stop
 

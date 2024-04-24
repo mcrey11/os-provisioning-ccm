@@ -64,7 +64,7 @@
             @endif
 
             <div class="m-t-20">
-                {{ Form::open( ['url' => $prefix.'/login']) }}
+                {{ html()->form('POST', $loginRoute)->open() }}
                 @if (isset($intended) && $intended)
                     <div class="note note-warning">
                         <div class="mb-2">
@@ -75,12 +75,12 @@
                 @endif
                 {{-- Username --}}
                 <div class="form-group m-b-20">
-                    {{ Form::text('login_name', Request::old('login_name'), ['autofocus'=>'autofocus', 'class' => "form-control input-lg", 'placeholder' => \App\Http\Controllers\BaseViewController::translate_label($loginPage == 'admin' ? 'Username' : 'Customer number'), 'style' => 'simple']) }}
+                    {{ html()->text('login_name')->placeholder(\App\Http\Controllers\BaseViewController::translate_label($loginPage == 'admin' ? 'Username' : 'Customer number'))->style('simple')->class('form-control input-lg')->autofocus() }}
                 </div>
 
                 {{-- Password --}}
                 <div class="form-group m-b-20">
-                    {{ Form::password('password', ['autofocus'=>'autofocus', 'class' => "form-control input-lg", 'placeholder' => \App\Http\Controllers\BaseViewController::translate_label('Password'), 'style' => 'simple']) }}
+                    {{ html()->password('password')->placeholder(\App\Http\Controllers\BaseViewController::translate_label('Password'))->style('simple')->class('form-control input-lg')->autofocus() }}
                 </div>
 
                 {{-- Remember Checkbox --}}
@@ -105,7 +105,7 @@
                     <button type="submit" class="btn btn-success btn-block btn-lg">{{ \App\Http\Controllers\BaseViewController::translate_label('Sign me in') }}</button>
                 </div>
 
-                {{ Form::close() }}
+                {{ html()->form()->close() }}
             </div>
         </div>
     </div>

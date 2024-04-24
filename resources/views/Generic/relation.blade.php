@@ -31,7 +31,7 @@ Relation Blade is used inside a Panel Element to display relational class object
     </div>
 @endif
 
-@DivOpen(12)
+<div>
     @if ($info)
         @if (strlen($info) < 200)
             <div class="alert alert-info fade show" style="padding-bottom: 0.5rem; padding-top: 0.5rem">
@@ -52,26 +52,27 @@ Relation Blade is used inside a Panel Element to display relational class object
         {{-- Create Button: (With hidden add fields if required) --}}
         @if (! isset($options['hide_create_button']))
 
-            {!! Form::open(['url' => route($class.'.create', [$key => $view_var->id]), 'method' => 'POST', 'name' => 'createForm']) !!}
-            {!! Form::hidden($key, $view_var->id) !!}
+            {{ html()->form('POST', route($class.'.create', [$key => $view_var->id]))->attributes(['name' => "create-{$class}-Form"])->open() }}
+            {{ Form::hidden($key, $view_var->id) }}
 
             {{-- Add hidden input fields if create tag is set in $form_fields - This sets global POST Variable --}}
             @foreach($form_fields as $field)
                 @if (array_key_exists('create', $field) && in_array($class, $field['create']))
-                    {!! Form::hidden($field["name"], $view_var->{$field["name"]}) !!}
+                    {{ Form::hidden($field["name"], $view_var->{$field["name"]}) }}
                 @endif
             @endforeach
 
             <div class="col align-self-start">
                 <a href="{{ route($class.'.create', [$key => $view_var->id]) }}">
-                    <button class="btn btn-outline-primary float-right m-b-10" style="simple" data-toggle="tooltip" data-delay='{"show":"250", "hide": 50}' data-placement="bottom" data-boundary="viewport"
+                    <button style="simple" type="submit"
+                    class="btn btn-outline-primary float-right m-b-10"
                         title="{{ isset($options['create_button_text']) ? trans($options['create_button_text']) : trans('view.createButtonTitle.'.$class) }}">
                         <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                     </button>
                 </a>
             </div>
 
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         @endif
     @endcan
     @if (isset($relation[0]))
@@ -83,7 +84,7 @@ Relation Blade is used inside a Panel Element to display relational class object
                             data-toggle="tooltip"
                             data-delay='{"show":"250"}'
                             data-placement="top"
-                            form="{{$tab['name'].$class}}"
+                            form="{{ $tab['name'].$class }}"
                             style="simple"
                             title="{{ !isset($options['delete_button_text']) ? \App\Http\Controllers\BaseViewController::translate_view('Delete', 'Button') : trans($options['delete_button_text']) }}">
                                 <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
@@ -93,7 +94,7 @@ Relation Blade is used inside a Panel Element to display relational class object
         @endcan
     @endif
     </div>
-@DivClose()
+</div>
 
 {{-- The Relation Table --}}
 @include('Generic.relationTable')

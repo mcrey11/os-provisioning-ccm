@@ -21,7 +21,7 @@
 @section('content_top')
 
     <li class="active"><a href={{route($route_name.'.index')}}>
-    {!!\App\Http\Controllers\BaseViewController::__get_view_icon(isset($view_var[0]) ? $view_var[0] : null) !!}
+    {{\App\Http\Controllers\BaseViewController::__get_view_icon(isset($view_var[0]) ? $view_var[0] : null) }}
     {{ trans_choice('view.Header_'.$route_name, 2) }}</a>
     </li>
 
@@ -33,10 +33,9 @@
     @endphp
     @include('Generic.above_infos')
 
-    @DivOpen(12)
-
+    <div>
         <h1 class="page-header">
-        {!!\App\Http\Controllers\BaseViewController::__get_view_icon(isset($view_var[0]) ? $view_var[0] : null) !!}
+        {{ \App\Http\Controllers\BaseViewController::__get_view_icon(isset($view_var[0]) ? $view_var[0] : null) }}
         {{ trans_choice('view.Header_'.$route_name, 2) }}
         </h1>
 
@@ -48,18 +47,18 @@
         @endif
 
         @if ($create_allowed)
-            {!! Form::open( ['route' => $route_name.'.create', 'method' => 'GET']) !!}
+            {{ html()->form('GET', route($route_name.'.create'))->open() }}
                 <button class="btn btn-primary m-b-15" style="simple">
                     <i class="fa fa-plus fa-lg m-r-10" aria-hidden="true"></i>
                     {{ trans("view.createButtonTitle.$route_name") }}
                 </button>
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         @endif
-    @DivClose()
+    </div>
 
     {{-- database entries inside a form with checkboxes to be able to delete one or more entries --}}
-    @DivOpen(12)
-        {!! Form::open(['route' => [$route_name.'.destroy', 0], 'method' => 'delete', 'onsubmit' => 'return submitMe()']) !!}
+    <div>
+        {{ html()->form('DELETE', route($route_name.'.destroy', [0]))->attributes(['onsubmit' => 'return submitMe()'])->open() }}
             @if (!is_array($view_var))
                 @include('Generic.tree_hidden_helper', ['items' => $view_var])
             @endif
@@ -73,8 +72,8 @@
                     <i class="fa fa-trash-o fa-lg m-r-10" aria-hidden="true"></i>
                     {{ \App\Http\Controllers\BaseViewController::translate_view('Delete', 'Button') }}
             </button>
-        {!! Form::close() !!}
-    @DivClose()
+        {{ html()->form()->close() }}
+    </div>
 
 @stop
 
@@ -106,7 +105,7 @@
           },
           "state" : {
                 "filter" : function (k) { delete k.core.selected; return k; },
-                "key"   : "tree-{!! $route_name !!}",
+                "key"   : "tree-{{ $route_name }}",
                 'ttl' : false,
             },
           "types": {

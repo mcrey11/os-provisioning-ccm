@@ -32,7 +32,7 @@
 @section('content_left')
 
 {{-- Headline: means icon followed by headline --}}
-@DivOpen(12)
+<div>
 	<h1 class="page-header">
 		{!! \App\Http\Controllers\BaseViewController::__get_view_icon(isset($view_var[0]) ? $view_var[0] : null).$view_header !!}
 	</h1>
@@ -53,9 +53,9 @@
 			@endforeach
 		</ul>
 	</div>
-@DivClose()
+</div>
 
-@DivOpen(12)
+<div>
 		<div class="tab-content">
             @php
                 $blade_type = 'form';
@@ -69,9 +69,9 @@
 					role="tabpanel">
 					{!! Form::model($model, ['route' => [$links[$slug]['link'].'.update', '1'], 'method' => 'put', 'files' => true]) !!}
 						@include('Generic.form', ['view_var' => $model, 'form_fields' => $form_fields[$slug]])
-					{{ Form::close() }}
+					{{ html()->form()->close() }}
 				</div>
 			@endforeach
 		</div>
-@DivClose()
+</div>
 @stop

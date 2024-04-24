@@ -170,12 +170,12 @@
                         </a>
                     @endif
                     <div class="dropdown-divider"></div>
-                    {!! Form::open(['url' => route('logout.post')]) !!}
+                    {{ html()->form('POST', route('logout.post'))->open() }}
                     <button class="dropdown-item">
                         <i class="fa fa-sign-out" aria-hidden="true"></i>
                         {{ \App\Http\Controllers\BaseViewController::translate_view('Logout', 'Menu') }}
                     </button>
-                    {!! Form::close() !!}
+                    {{ html()->form()->close() }}
                 </div>
             </li>
         </ul>

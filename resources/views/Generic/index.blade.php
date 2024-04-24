@@ -52,13 +52,13 @@
         @can('create', $model)
             <div class="align-self-end m-r-20">
                 @if ($create_allowed)
-                    {{ Form::open( ['method' => 'GET', 'id' => 'createModel']) }}
-                    <a href={{route($route_name.'.create')}} onclick="form.submit();" class="btn btn-outline-primary float-right"
+                    {{ html()->form('GET', route($route_name.'.create'))->id('createModel')->open() }}
+                    <button type="submit" class="btn btn-outline-primary float-right"
                         style="simple" data-toggle="tooltip" data-delay='{"show":"250"}' data-placement="top"
                         title="{{ \App\Http\Controllers\BaseViewController::translate_view('Create '.$model->view_headline(), 'Button' )}}">
                         <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                    </a>
-                    {{ Form::close() }}
+                    </button>
+                    {{ html()->form()->close() }}
                 @endif
             </div>
         @endcan
@@ -82,18 +82,14 @@
             @if('Modem' == $model->get_model_name())
                 @if('LFO' == config('smartont.flavor.active'))
                     <div>
-                        {{ Form::open([
-                            'method' => 'post',
-                            'route' => 'Modem.import',
-                            'enctype' => 'multipart/form-data',
-                        ])}}
+                        {{ html()->form('POST', route('Modem.import'))->open() }}
 
                         <input style="background-color:whitesmoke" name="modem_csv_upload" type="file" id="modem_csv_upload">
                         <input type="hidden" name="redirect_url" value="{{ url()->current() }}" />
                         <input type="hidden" name="method" value="updateOntNextStateFromCsv" />
                         <button type="submit" class="btn btn-primary" style="simple" name="upload" value="upload" title="boo">Upload ONT next states CSV</button>
 
-                        {{ Form::close() }}
+                        {{ html()->form()->close() }}
                     </div>
                 @endif
             @endif
@@ -123,7 +119,7 @@
 
     {{-- database entries inside a form with checkboxes to be able to delete one or more entries --}}
     @if ($delete_allowed)
-        {{ Form::open(['route' => [$route_name.'.destroy', 0], 'method' => 'delete', 'id' => 'IndexForm']) }}
+        {{ html()->form('DELETE', route($route_name.'.destroy', [0]))->id('IndexForm')->open() }}
     @endif
 
     {{-- INIT DT --}}
@@ -177,7 +173,7 @@
     </table>
 
     @if ($delete_allowed)
-        {{ Form::close() }}
+        {{ html()->form()->close() }}
     @endif
 @stop
 

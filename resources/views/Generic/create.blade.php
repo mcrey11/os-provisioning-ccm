@@ -29,18 +29,17 @@
 
 @section('content_top')
 
-	{!! $headline !!}
-	<li class='px-2 flex items-center'><a onMouseOver="this.style.backgroundColor='#FFFFFF'"><span>{{ \App\Http\Controllers\BaseViewController::translate_view('Create', 'Header') }}</span></a></li>
+    {!! $headline !!}
+    <li class='px-2 flex items-center'><a onMouseOver="this.style.backgroundColor='#FFFFFF'"><span>{{ \App\Http\Controllers\BaseViewController::translate_view('Create', 'Header') }}</span></a></li>
 
 @stop
 
 
 @section('content_left')
+    {{ html()->form('POST', route($route_name.'.store'))->attributes(['files' => true])->open() }}
 
-	{{ Form::open(['route' => [$route_name.'.store'], 'method' => 'POST', 'files' => true]) }}
+        @include($form_path)
 
-		@include($form_path)
-
-	{{ Form::close() }}
+    {{ html()->form()->close() }}
 
 @stop

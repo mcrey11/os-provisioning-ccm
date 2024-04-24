@@ -34,9 +34,9 @@
             <table class="table table-hover datatable ClickableTd">
                 <thead>
                     <tr>
-                        <th>{{App\Http\Controllers\BaseViewController::translate_label('Type')}}</th>
-                        <th>{{App\Http\Controllers\BaseViewController::translate_label('Entry')}}</th>
-                        <th>{{App\Http\Controllers\BaseViewController::translate_label('Description')}}</th>
+                        <th>{{ App\Http\Controllers\BaseViewController::translate_label('Type') }}</th>
+                        <th>{{ App\Http\Controllers\BaseViewController::translate_label('Entry') }}</th>
+                        <th>{{ App\Http\Controllers\BaseViewController::translate_label('Description') }}</th>
                     </tr>
                 </thead>
                 @foreach ($view_var as $object)
@@ -56,7 +56,7 @@
                             $descr = $indexLabel;
                         }
                     ?>
-                    <tr class={{\App\Http\Controllers\BaseViewController::prep_index_entries_color($object)}}>
+                    <tr class={{ \App\Http\Controllers\BaseViewController::prep_index_entries_color($object) }}>
                         <td>{{ $modelName }}</td>
                         <td>{{ $link }}</td>
                         <td>{{ $descr }}</td>

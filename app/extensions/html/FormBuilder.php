@@ -16,13 +16,17 @@
  * limitations under the License.
  */
 
-namespace Acme\html;
+namespace App\extensions\html;
 
+use App\Http\Controllers\BaseViewController;
+use Illuminate\Support\HtmlString;
+use InvalidArgumentException;
 use Session;
-use Spatie\Html\FormBuilder as SpatieFormBuilder;
+use Spatie\Html\Elements\Div;
+use Spatie\Html\Html;
 use Str;
 
-class FormBuilder extends SpatieFormBuilder
+class FormBuilder
 {
     private static $layout_form_col_md = ['label'=>4, 'form'=>7, 'help'=>1];
 
@@ -50,31 +54,7 @@ class FormBuilder extends SpatieFormBuilder
 
         $classes = $isInput ? 'order-3 md:order-2'.$classes : $classes;
 
-        return "<div class=\"col-md-{$col} {$classes}\">{$s}</div>";
-    }
-
-    /**
-     * Append the given class to the given options array.
-     *
-     * @param  $class:  string to add to html class
-     * @param  $options:  options array
-     *                    NOTE: use '!class' to avoid adding $class variable from FormBuilder functions,
-     *                    instead set only this proposed classes
-     *
-     * @return: options array with (manipulated) class key
-     */
-    private function appendClassToOptions($class, $options = [])
-    {
-        // If a 'class' is already specified, append the 'form-control'
-        // class to it. Otherwise, set the 'class' to 'form-control'.
-        $options['class'] = isset($options['class']) ? $options['class'].' ' : '';
-        $options['class'] .= $class;
-
-        if (isset($options['!class'])) {
-            $options['class'] = $options['!class'];
-        }
-
-        return $options;
+        return Div::create()->class("col-md-{$col} {$classes}")->child($s);
     }
 
     /**
@@ -83,19 +63,19 @@ class FormBuilder extends SpatieFormBuilder
     public function input($type, $name, $value = null, $options = [])
     {
         if ($type == 'hidden') {
-            return parent::input($type, $name, $value, $options);
+            return $this->hidden($name, $value)->attributes($options);
         }
 
         // these 2 lines were moved before $options assignment -> in simple form there's no form-control class added - needed for Configfile index view
         if (isset($options['style']) && strpos($options['style'], 'simple') !== false) {
-            return parent::input($type, $name, $value, $options);
+            return html()->input($type, $name, $value)->attributes($options);
         }
 
-        $options = $this->appendClassToOptions('form-control', $options);
-
-        // Call the parent input method so that Laravel can handle
-        // the rest of the input set up.
-        return $this->appendDiv(parent::input($type, $name, $value, $options));
+        return $this->appendDiv(
+            html()->input($type, $name, $value)
+                ->attributes($options)
+                ->class('form-control')
+        );
     }
 
     /**
@@ -107,21 +87,20 @@ class FormBuilder extends SpatieFormBuilder
      * to
      *		public function label($name, $value = null, $options = [], $escape_html = true)
      */
-    public function label($name, $value = null, $options = [], $escape_html = true, $wrapperCol = null, $wrapperClass = 'flex')
+    public function label($for, $value = '', $options = [], $wrapperCol = null, $wrapperClass = 'flex')
     {
         $col = 4;
         if (isset(static::$layout_form_col_md['label'])) {
             $col = static::$layout_form_col_md['label'];
         }
 
-        $options = $this->appendClassToOptions('control-label', $options);
-
-        // translate the value if necessary
-        $value = \App\Http\Controllers\BaseViewController::translate_label($value);
-
-        // Call the parent input method so that Laravel can handle
-        // the rest of the input set up.
-        return $this->appendDiv(parent::label($name, $value, $options, $escape_html), $wrapperCol ?? $col, 'order-1 col-10 items-center '.$wrapperClass, false);
+        return Div::create()->child(
+            html()
+                ->label(BaseViewController::translate_label($value), $for)
+                ->class('control-label')
+                ->attributes($options)
+        )->class('col-md-'.($wrapperCol ? $wrapperCol : $col))
+            ->class('order-1 col-10 items-center '.$wrapperClass);
     }
 
     /**
@@ -129,38 +108,40 @@ class FormBuilder extends SpatieFormBuilder
      */
     public function submit($value = null, $options = [])
     {
-        $options = $this->appendClassToOptions('btn btn-primary', $options);
-
-        $value = \App\Http\Controllers\BaseViewController::translate_view($value, 'Button');
-
         if (isset($options['style']) && $options['style'] == 'simple') {
-            $s = parent::submit($value, $options);
-        } else {
-            $options['style'] = 'simple'; // style: required to auto width button to text length
-            $s = '<div class="col-md-12">
-					<div class="col-md-3"></div>
-					<div class="col-md-6"><br>'.
-                        parent::submit($value, $options).
-                    '</div></div>';
+            return html()
+                ->submit(BaseViewController::translate_view($value, 'Button'))
+                ->class('btn btn-primary')
+                ->attributes($options);
         }
 
-        // Call the parent input method so that Laravel can handle
-        // the rest of the input set up.
-        return $s;
+        $options['style'] = 'simple'; // style: required to auto width button to text length
+
+        return Div::create()->class('col-md-12')->children([
+            Div::create()->class('col-md-3'),
+            Div::create()->class('col-md-6')->child($this->submit($value, $options)),
+        ]);
     }
 
     /**
      * Create a form model field.
      */
-    public function model($model, array $options = [], $style = 'simple')
+    public function model($model, array $options = [])
     {
-        $options = $this->appendClassToOptions('', $options);
-
-        if (! isset($options['method'])) {
-            $options['method'] = 'put';
+        if (! isset($options['route'])) {
+            throw new InvalidArgumentException('A Form route must be set!');
         }
 
-        return parent::model($model, $options);
+        $route = $options['route'];
+        unset($options['route']);
+
+        $method = 'put';
+        if (isset($options['method'])) {
+            $method = $options['method'];
+            unset($options['method']);
+        }
+
+        return html()->modelForm($model, $method, $route)->attributes($options);
     }
 
     /**
@@ -172,23 +153,22 @@ class FormBuilder extends SpatieFormBuilder
         $selected = null,
         array $selectAttributes = [],
         array $optionsAttributes = [],
-        array $optgroupsAttributes = []
     ) {
-        $selectAttributes = $this->appendClassToOptions('form-control w-full', $selectAttributes);
-
         if (isset($optionsAttributes['translate'])) {
             foreach ($list as $key => $value) {
-                $list[$key] = \App\Http\Controllers\BaseViewController::translate_label($value);
+                $list[$key] = BaseViewController::translate_label($value);
             }
         }
 
-        // Call the parent select method so that Laravel can handle
-        // the rest of the select set up.
+        $selectField = html()
+            ->select($name, $list, $selected)
+            ->attributes($selectAttributes);
+
         if (isset($optionsAttributes['style']) && Str::contains($optionsAttributes['style'], 'simple')) {
-            return parent::select($name, $list, $selected, $selectAttributes, $optionsAttributes);
+            return $selectField;
         }
 
-        return $this->appendDiv(parent::select($name, $list, $selected, $selectAttributes, $optionsAttributes));
+        return $this->appendDiv($selectField->class('form-control w-full'));
     }
 
     /**
@@ -198,14 +178,13 @@ class FormBuilder extends SpatieFormBuilder
     {
         $options['align'] = 'left';
         $options['class'] = '';
-        $checkable = parent::checkbox($name, $value, $checked, $options);
+        $checkable = html()->checkbox($name, $checked, $value)->attributes($options);
 
         if (isset($options['style']) && $options['style'] == 'simple') {
             return $checkable;
         }
 
-        return $this->appendDiv($checkable);
-        // return $this->wrapCheckable($label, 'checkbox', $checkable);
+        return $this->appendDiv($checkable->class('form-control'));
     }
 
     /**
@@ -213,20 +192,11 @@ class FormBuilder extends SpatieFormBuilder
      *
      * more possible color names: primary, info, success, danger, warning, inverse, white, link
      *
-     * @param   url     Array   [1 => url, 2 => button_name]
+     * @param   url
      */
     public function link($name, $url, $color = 'default')
     {
-        return $this->appendDiv('<a class="btn btn-'.$color.' btn-block" href="'.$url.'">'.$name.'</a>');
-
-        // 'html' =>
-        //     '<div class="col-md-12" style="background-color:white">
-        //         <div class="form-group"><label style="margin-top: 10px;" class="col-md-4 control-label">OID</label>
-        //             <div class="col-md-7">
-        //                 <a class="btn btn-default btn-block" href="'.route('OID.edit', [$oid->id]).'"> '.$oid->oid.'</a>
-        //             </div>
-        //         </div>
-        //     </div>'),
+        return $this->appendDiv(html()->a($url, $name)->class("btn btn-{$color} btn-block"));
     }
 
     /**
@@ -234,32 +204,7 @@ class FormBuilder extends SpatieFormBuilder
      */
     public function textarea($name, $value = null, $options = [])
     {
-        $options = $this->appendClassToOptions('form-control', $options);
-
-        return $this->appendDiv(parent::textarea($name, $value, $options));
-    }
-
-    /**
-     * Create a plain form input field.
-     */
-    public function plainInput($type, $name, $value = null, $options = [])
-    {
-        return $this->appendDiv(parent::input($type, $name, $value, $options));
-    }
-
-    /**
-     * Create a plain select box field.
-     */
-    public function plainSelect($name, $list = [], $selected = null, $options = [])
-    {
-        return $this->appendDiv(parent::select($name, $list, $selected, $options));
-    }
-
-    public function open(array $options = [])
-    {
-        $options = $this->appendClassToOptions('', $options); // Note: this avoids form input fields with large distances
-
-        return parent::open($options);
+        return $this->appendDiv(html()->textarea($name, $value)->attributes($options)->class('form-control'));
     }
 
     /**
@@ -281,7 +226,7 @@ class FormBuilder extends SpatieFormBuilder
         // Check if the errors contain the form element with the given name.
         // This leverages Laravel's transformKey method to handle the
         // formatting of the form element's name.
-        return $errors->has($this->transformKey($name));
+        return $errors->has($name);
     }
 
     /**
@@ -298,7 +243,7 @@ class FormBuilder extends SpatieFormBuilder
         $errors = Session::get('errors');
 
         // Return the formatted error message, if the form element has any.
-        return $errors->first($this->transformKey($name), '<p align="left" class="help-block">:message</p>');
+        return new HtmlString($errors->first($name, '<p align="left" class="help-block">:message</p>'));
     }
 
     /**
@@ -306,15 +251,13 @@ class FormBuilder extends SpatieFormBuilder
      */
     public function openGroup($name, $label = null, $options = [], $color = false)
     {
-        $options = $this->appendClassToOptions('flex flex-wrap dark:bg-slate-900', $options);
+        $div = Div::create()->class('flex flex-wrap dark:bg-slate-900');
 
         // Append the name of the group to the groupStack.
         $this->groupStack[] = $name;
 
         if ($this->hasErrors($name)) {
-            // If the form element with the given name has any errors,
-            // apply the 'has-error' class to the group.
-            $options = $this->appendClassToOptions('has-error', $options);
+            $div->class('has-error');
         }
 
         // If a label is given, we set it up here. Otherwise, we will just
@@ -323,7 +266,9 @@ class FormBuilder extends SpatieFormBuilder
         //       line like html fields on right side (Torsten Schmidt)
         $label = $label ? $this->label($name, $label, ['style' => 'margin-top: 10px;'], false) : '';
 
-        return $this->openDivClass(12, $color).'<div'.$this->html->attributes($options).'>'.$label;
+        return Div::create()->class('col-md-12')->class($color)
+            ->child($div->attributes($options ?? [])->child($label)->open())
+            ->open();
     }
 
     /**
@@ -331,8 +276,7 @@ class FormBuilder extends SpatieFormBuilder
      */
     public function closeGroup()
     {
-        $html = '';
-
+        $html = [];
         // Get the last added name from the groupStack and remove it from the array
         $name = array_pop($this->groupStack);
 
@@ -343,24 +287,17 @@ class FormBuilder extends SpatieFormBuilder
         if ($errors) {
             $col = static::$layout_form_col_md['label'] ?? 4;
 
-            $html = '<div class=col-md-'.$col.'></div><div class=col-md-'.(12 - $col).'>'.$errors.'</div>';
+            $html = [
+                Div::create()->class("order-4 col-md-{$col} "),
+                Div::create()->class('mb-2 order-5 col-md-'.(12 - $col))->child($errors),
+            ];
         }
 
-        return $html.'</div>'.$this->closeDivClass();
-    }
-
-    public function openDivClass($col = 9, $color = false)
-    {
-        if ($color) {
-            return '<div class="px-0 col-md-'.$col.'" style="background-color:'.$color.'">';
-        }
-
-        return '<div class="px-0 col-md-'.$col.'">';
-    }
-
-    public function closeDivClass()
-    {
-        return '</div>';
+        return [
+            ...$html,
+            Div::create()->close(),
+            Div::create()->close(),
+        ];
     }
 
     /**
@@ -380,9 +317,9 @@ class FormBuilder extends SpatieFormBuilder
         $options['skin'] = isset($options['skin']) ? $options['skin'] : 'square';
         $options['step'] = isset($options['step']) ? $options['step'] : '1';
 
-        return '<div class="col-md-7" style="padding: 15px">
+        return new HtmlString('<div class="col-md-7" style="padding: 15px">
                     <input type="text" id="slider" data-skin="'.$options['skin'].'" data-min="'.$options['min'].'" data-max="'.$options['max'].'" data-step="'.$options['step'].'" value="'.$value.'" data-postfix="'.$options['postfix'].'" data-prefix="'.$options['prefix'].'" name="'.$name.'"/>
-                </div>';
+                </div>');
     }
 
     /**
@@ -400,11 +337,11 @@ class FormBuilder extends SpatieFormBuilder
     {
         $color = $this->trafficLightColor($value, $options);
 
-        return '<div class="col-md-7" style="text-align: center; margin-top: 5px;">
+        return new HtmlString('<div class="col-md-7" style="text-align: center; margin-top: 5px;">
                     <div class="btn btn-'.$color[0].' btn-circle trafficLight"></div>
                     <div class="btn btn-'.$color[1].' btn-circle trafficLight"></div>
                     <div class="btn btn-'.$color[2].' btn-circle trafficLight"></div>
-                </div>';
+                </div>');
     }
 
     /**
@@ -429,5 +366,90 @@ class FormBuilder extends SpatieFormBuilder
 
             return [$color0, $color1, $color2];
         }
+    }
+
+    public function email($name = null, $value = null)
+    {
+        return $this->appendDiv(html()->email($name, $value)->class('form-control'));
+    }
+
+    public function fieldset($legend = null)
+    {
+        return $this->appendDiv(html()->fieldset($legend)->class('form-control '));
+    }
+
+    public function hidden($name = null, $value = null)
+    {
+        return $this->appendDiv(html()->hidden($name, $value)->class('form-control '));
+    }
+
+    public function legend($contents = null)
+    {
+        return $this->appendDiv(html()->legend($contents)->class('form-control '));
+    }
+
+    public function multiselect($name = null, $options = [], $value = null)
+    {
+        return $this->appendDiv(html()->multiselect($name, $options, $value)->class('form-control '));
+    }
+
+    public function option($text = null, $value = null, $selected = false)
+    {
+        return $this->appendDiv(html()->option($text, $value, $selected)->class('form-control '));
+    }
+
+    public function password($name = null)
+    {
+        return $this->appendDiv(html()->password($name)->class('form-control '));
+    }
+
+    public function radio($name = null, $checked = false, $value = null)
+    {
+        return $this->appendDiv(html()->radio($name, $checked, $value)->class('form-control '));
+    }
+
+    public function text($name = null, $value = null)
+    {
+        return $this->appendDiv(html()->text($name, $value)->class('form-control '));
+    }
+
+    public function search($name = null, $value = null)
+    {
+        return $this->appendDiv(html()->search($name, $value)->class('form-control '));
+    }
+
+    public function date($name = '', $value = null, $format = true)
+    {
+        return $this->appendDiv(html()->date($name, $value, $format)->class('form-control '));
+    }
+
+    public function datetime($name = '', $value = null, $format = true)
+    {
+        return $this->appendDiv(html()->datetime($name, $value, $format)->class('form-control '));
+    }
+
+    public function time($name = '', $value = null, $format = true)
+    {
+        return $this->appendDiv(html()->time($name, $value, $format)->class('form-control '));
+    }
+
+    public function range($name = '', $value = '', $min = null, $max = null, $step = null)
+    {
+        return $this->appendDiv(html()->range($name, $value, $min, $max, $step)->class('form-control '));
+    }
+
+    public function number($name = null, $value = null, $min = null, $max = null, $step = null)
+    {
+        return $this->appendDiv(html()->number($name, $value, $min, $max, $step)->class('form-control '));
+    }
+
+    public function file($name = null)
+    {
+        return $this->appendDiv(html()->file($name)->class('form-control '));
+    }
+
+    public function token()
+    {
+        return html()->token();
     }
 }

@@ -490,7 +490,7 @@ class SnmpController extends \BaseController
         // divide value by value of other oid or sum of values of multiple OIDs and make it percentual
         if ($param->divide_by) {
             if (! is_array($param->divide_by)) {
-                $param->divide_by = \Acme\php\ArrayHelper::str_to_array($param->divide_by);
+                $param->divide_by = \App\extensions\php\ArrayHelper::str_to_array($param->divide_by);
             }
 
             $divisor_total = 0;

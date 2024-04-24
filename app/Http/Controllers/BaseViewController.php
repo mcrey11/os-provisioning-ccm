@@ -21,11 +21,12 @@ namespace App\Http\Controllers;
 use Auth;
 use BaseModel;
 use Bouncer;
-use Form;
+use Illuminate\Support\HtmlString;
 use Module;
 use Request;
 use Route;
 use Session;
+use Spatie\Html\Elements\Div;
 use Str;
 
 /*
@@ -347,36 +348,31 @@ class BaseViewController extends Controller
      * @return: [] of fields with added ['html'] element containing the preformed html content
      *
      * @author: Torsten Schmidt
-     *
-     * TODO: split prepare form fields and this compute form fields function -> rename this to "make_html()" or sth more appropriate
      */
     public static function add_html_string($fields, $context = 'edit')
     {
-        $ret = [];
-
         // background color's to toggle through
-        $color_array = ['whitesmoke', 'gainsboro'];
-        $color = $color_array[0];
+        $colorArray = ['bg-whitesmoke', 'bg-gainsboro'];
+        $color = $colorArray[0];
+
+        $formular = [];
 
         // foreach fields
         foreach ($fields as $field) {
-            $s = '';
-
+            $currentFormfield = [];
             // hidden stuff
-            if (array_key_exists('hidden', $field)) {
-                $hidden = $field['hidden'];
+            if (array_key_exists('hidden', $field) &&
+                $field['hidden'] != 0 && ( // == 0 -> explicitly set to always show, no matter if other conditions are met
+                    ($context == 'edit' && strpos($field['hidden'], 'E') !== false) || // hide edit context only?
+                    ($context == 'create' && strpos($field['hidden'], 'C') !== false) || // hide create context only?
+                    $field['hidden'] == 1) // hide globally?
+            ) {
+                [$currentFormfield[], $color, $colorArray] = self::handleHiddenField($field, $colorArray);
+                $temp = $field;
+                $temp['html'] = $currentFormfield;
+                $formular[] = $temp;
 
-                if ($hidden = ! 0 && ( // == 0 -> explicitly set to always show, no matter if other conditions are met
-                    ($context == 'edit' && strpos($hidden, 'E') !== false) || // hide edit context only?
-                    ($context == 'create' && strpos($hidden, 'C') !== false) || // hide create context only?
-                    $hidden == 1) // hide globally?
-                ) {
-                    // For hidden fields it's also important that default values are set
-                    $value = ($field['field_value'] === null) && isset($field['value']) ? $field['value'] : $field['field_value'];
-                    // Note: setting a selection by giving an array doesnt make sense as you can not choose anyway - it also would throw an exception as it's not allowed for hidden fields
-                    $s .= Form::hidden($field['name'], is_array($value) ? '' : $value);
-                    goto finish;
-                }
+                continue;
             }
 
             // prepare value and options vars
@@ -423,7 +419,7 @@ class BaseViewController extends Controller
 
             // Open Form Group
             if (! in_array($field['form_type'], ['collapse'])) {
-                $s .= Form::openGroup($field['name'], $field['description'], $additional_classes, $color);
+                $currentFormfield[] = Form::openGroup($field['name'], $field['description'], $additional_classes, $color);
             }
 
             // Output the Form Elements
@@ -441,11 +437,11 @@ class BaseViewController extends Controller
                         $checked = $field['field_value'];
                     }
 
-                    $s .= Form::checkbox($field['name'], $value, null, $checked, $options);
+                    $currentFormfield[] = Form::checkbox($field['name'], $value, null, $checked, $options);
                     break;
 
                 case 'file':
-                    $s .= Form::file($field['name'], $options);
+                    $currentFormfield[] = Form::file($field['name'], $options);
                     break;
 
                 case 'select':
@@ -456,26 +452,26 @@ class BaseViewController extends Controller
                         // $field['field_value'] = array_map('intval', $field['field_value']);
                     }
 
-                    $s .= Form::select($field['name'], $value, $field['field_value'], $options, $field['optionsAttributes'] ?? []);
+                    $currentFormfield[] = Form::select($field['name'], $value, $field['field_value'], $options, $field['optionsAttributes'] ?? []);
                     break;
 
                 case 'password':
-                    $s .= Form::password($field['name'], $options);
+                    $currentFormfield[] = Form::password($field['name'], $options);
                     break;
 
                 case 'link':
-                    $s .= Form::link($field['name'], $field['url'], isset($field['color']) ?: 'default');
+                    $currentFormfield[] = Form::link($field['name'], $field['url'], isset($field['color']) ?: 'default');
                     break;
 
                 case 'html':
-                    $s .= $field['html'];
+                    $currentFormfield[] = new HtmlString($field['html']);
                     break;
 
                 case 'date':
                     $options['onchange'] = "$('#{$field['name']}')[0].defaultValue = event.target.value;$('#{$field['name']}')[0].value = event.target.value;";
                     $options['autocomplete'] = 'off';
 
-                    $s .= Form::date($field['name'], $field['field_value'], $options);
+                    $currentFormfield[] = Form::date($field['name'], $field['field_value'], $options);
                     break;
 
                 case 'time':
@@ -486,48 +482,69 @@ class BaseViewController extends Controller
                         ? date('H:i', strtotime($field['field_value']))
                         : null;
 
-                    $s .= Form::input('time', $field['name'], $field['field_value'], $options);
+                    $currentFormfield[] = Form::time($field['name'], $field['field_value'], $options);
                     break;
 
                 case 'collapse':
-                    $s .= view('Components.collapse', [
+                    $currentFormfield[] = new HtmlString(view('Components.collapse', [
                         'color' => $color,
                         'innerFields' => self::add_html_string($field['form_fields']),
                         'field' => $field,
-                    ])->render();
+                    ])->render());
                     break;
+
                 default:
                     $form = $field['form_type'];
-                    $s .= Form::$form($field['name'], $field['field_value'], $options);
+                    $currentFormfield[] = Form::$form($field['name'], $field['field_value'], $options);
                     break;
             }
 
             // Help: add help icon/image behind form field
             if (isset($field['help'])) {
-                $s .= self::helpIcon($field);
+                $currentFormfield[] = self::helpIcon($field);
             }
 
             // Close Form Group
             if (! in_array($field['form_type'], ['collapse'])) {
-                $s .= Form::closeGroup();
+                $currentFormfield[] = Form::closeGroup();
             }
 
-            finish:
-
-            // Space Element between fields and color switching
             if (array_key_exists('space', $field)) {
-                $s .= '<div class=\'col-12 mb-6\'></div>';
-                $color_array = \Acme\php\ArrayHelper::array_rotate($color_array);
-                $color = $color_array[0];
+                [$currentFormfield, $color, $colorArray] = self::addSpacer($currentFormfield, $colorArray);
             }
 
-            // add ['html'] parameter
-            $add = $field;
-            $add['html'] = $s;
-            array_push($ret, $add);
+            $temp = $field;
+            $temp['html'] = $currentFormfield;
+            $formular[] = $temp;
         }
 
-        return $ret;
+        return $formular;
+    }
+
+    // Space Element between fields and color switching
+    protected static function addSpacer($currentFormfield, $colorArray)
+    {
+        $colorArray = \App\extensions\php\ArrayHelper::array_rotate($colorArray);
+
+        return [
+            [$currentFormfield, Div::create()->class('col-12 mb-6')],
+            $colorArray[0],
+            $colorArray,
+        ];
+    }
+
+    protected static function handleHiddenField($field, $colorArray)
+    {
+        // For hidden fields it's also important that default values are set
+        $value = ($field['field_value'] === null) && isset($field['value']) ? $field['value'] : $field['field_value'];
+        // Note: setting a selection by giving an array doesnt make sense as you can not choose anyway - it also would throw an exception as it's not allowed for hidden fields
+        $currentFormfield = Form::hidden($field['name'], is_array($value) ? '' : $value);
+
+        if (array_key_exists('space', $field)) {
+            [$currentFormfield, $color, $colorArray] = self::addSpacer($currentFormfield, $colorArray);
+        }
+
+        return [$currentFormfield, $color ?? $colorArray[0], $colorArray];
     }
 
     /**
@@ -587,7 +604,7 @@ class BaseViewController extends Controller
         $title = isset($field['description']) ? self::translate_label($field['description']) : '';
         $icon = $field['help_icon'] ?? 'fa-question-circle';
 
-        return view('Components.help-icon', compact('bsClass', 'field', 'icon', 'title'))->render();
+        return new HtmlString(view('Components.help-icon', compact('bsClass', 'field', 'icon', 'title'))->render());
     }
 
     /**
@@ -672,9 +689,9 @@ class BaseViewController extends Controller
      *
      * @todo: move to a generic helper class
      */
-    private static function __link_route_html($name, $title = null, $parameters = [], $attributes = [])
+    private static function linkRouteHtml($name, $title = null, $parameters = [], string $class = '')
     {
-        return \HTML::decode(\HTML::linkRoute($name, $title, $parameters, $attributes));
+        return html()->a(route($name, $parameters), $title)->class($class)->render();
     }
 
     /**
@@ -699,7 +716,7 @@ class BaseViewController extends Controller
             $class = $class_or_obj;
         }
 
-        return $class::view_icon();
+        return new HtmlString($class::view_icon());
     }
 
     /**
@@ -812,14 +829,10 @@ class BaseViewController extends Controller
         }
 
         // Base Link to Index Table in front of all relations
-        // if (in_array($route_name, BaseController::get_config_modules())) // parse: Global Config requires own link
-        //  $s = \HTML::linkRoute('Config.index', BaseViewController::translate_view('Global Configurations', 'Header')).': '.$s;
-        // else if (Route::has($route_name.'.index'))
-        //  $s = \HTML::linkRoute($route_name.'.index', $route_name).': '.$s;
         if (in_array($route_name, BaseController::get_config_modules())) {  // parse: Global Config requires own link
-            $breadcrumb_path_base = "<div class='flex'><div class='flex flex-col py-1 px-2.5 text-slate-100 rounded bg-slate-800 hover:bg-slate-900'>".static::__link_route_html('Config.index', static::__get_view_icon($view_var).self::translate_view('Global Configurations', 'Header'), [], ['class' => 'text-white hover:text:white no-underline']).'</div></div>';
+            $breadcrumb_path_base = "<div class='flex'><div class='flex flex-col py-1 px-2.5 text-slate-100 rounded bg-slate-800 hover:bg-slate-900'>".static::linkRouteHtml('Config.index', static::__get_view_icon($view_var).self::translate_view('Global Configurations', 'Header'), [], 'text-white hover:text:white no-underline').'</div></div>';
         } else {
-            $breadcrumb_path_base = Route::has($route_name.'.index') ? "<div class='flex items-center'><div class='flex flex-col py-1 !px-3 text-slate-100 rounded bg-slate-800 hover:bg-slate-900'>".static::__link_route_html($route_name.'.index', static::__get_view_icon($view_var).Str::limit($view_header, 40), [], ['class' => 'text-white hover:text:white no-underline']).'</div></div>' : '';
+            $breadcrumb_path_base = Route::has($route_name.'.index') ? "<div class='flex items-center'><div class='flex flex-col py-1 !px-3 text-slate-100 rounded bg-slate-800 hover:bg-slate-900'>".static::linkRouteHtml($route_name.'.index', static::__get_view_icon($view_var).Str::limit($view_header, 40), [], 'text-white hover:text:white no-underline').'</div></div>' : '';
         }
 
         if (! $breadcrumb_paths) {  // if this array is still empty: put the one and only breadcrumb path in this array
@@ -852,9 +865,9 @@ class BaseViewController extends Controller
         }
 
         if ($i == 0) {
-            $breadcrumb_path = "<div class='flex items-center'><div class='w-2 h-full rounded-full bg-".$model->get_bsclass()."'></div><div class='flex flex-col px-2.5 text-black dark:text-slate-100'>".static::__link_route_html($view.'.edit', self::translate_view($name, 'Header'), $model->id).$breadcrumb_path.'</div></div>';
+            $breadcrumb_path = "<div class='flex items-center'><div class='w-2 h-full rounded-full bg-".$model->get_bsclass()."'></div><div class='flex flex-col px-2.5 text-black dark:text-slate-100'>".static::linkRouteHtml($view.'.edit', self::translate_view($name, 'Header'), $model->id).$breadcrumb_path.'</div></div>';
         } else {
-            $breadcrumb_path = "<div class='flex items-center'><div class='w-2 h-full rounded-full bg-".$model->get_bsclass()."'></div><div class='flex flex-col px-2.5 text-black dark:text-slate-100'>".static::__link_route_html($view.'.edit', self::translate_view($name, 'Header'), $model->id).'</div></div>'.$breadcrumb_path;
+            $breadcrumb_path = "<div class='flex items-center'><div class='w-2 h-full rounded-full bg-".$model->get_bsclass()."'></div><div class='flex flex-col px-2.5 text-black dark:text-slate-100'>".static::linkRouteHtml($view.'.edit', self::translate_view($name, 'Header'), $model->id).'</div></div>'.$breadcrumb_path;
         }
 
         return $breadcrumb_path;
@@ -870,7 +883,7 @@ class BaseViewController extends Controller
      */
     public static function get_view_has_many_api_version($view_has_many_array)
     {
-        if (\Acme\php\ArrayHelper::array_depth($view_has_many_array) < 2) {
+        if (\App\extensions\php\ArrayHelper::array_depth($view_has_many_array) < 2) {
             return 1;
         }
 
@@ -888,19 +901,19 @@ class BaseViewController extends Controller
      */
     public static function prep_index_entries_color($object, $rotate_after = 5)
     {
-        static $color_array = ['success', 'warning', 'danger', 'info'];
+        static $colorArray = ['success', 'warning', 'danger', 'info'];
         static $i;
 
-        $class = current($color_array);
+        $class = current($colorArray);
 
         // Check if class object has a own color definition
         if (isset($object->view_index_label()['bsclass'])) {
             $class = $object->view_index_label()['bsclass'];
         } else {
-            // Rotate Color through $color_array every $rotate_after entries
+            // Rotate Color through $colorArray every $rotate_after entries
             if ($i++ % $rotate_after == 0) {
-                $color_array = \Acme\php\ArrayHelper::array_rotate($color_array);
-                $class = $color_array[0];
+                $colorArray = \App\extensions\php\ArrayHelper::array_rotate($colorArray);
+                $class = $colorArray[0];
             }
         }
 

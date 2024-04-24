@@ -186,10 +186,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ExtendedValidatorServiceProvider::class,
-
         Illuminate\Bus\BusServiceProvider::class,
-        Spatie\Html\HtmlServiceProvider::class,
-        Acme\html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -239,18 +236,14 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-        'Form'      => Spatie\Html\FormFacade::class,
-        'Html'      => Spatie\Html\HtmlFacade::class,
-        'HTML'      => Spatie\Html\HtmlFacade::class,
-        'Str'       => Illuminate\Support\Str::class,
+        'Str' => Illuminate\Support\Str::class,
 
         'BaseController' => App\Http\Controllers\BaseController::class,
-        'HtmlServiceProvider'  => Acme\html\HtmlServiceProvider::class,
-        'BaseRoute'     => Acme\core\BaseRoute::class,
-        'NamespaceController' => App\Http\Controllers\NamespaceController::class,
         'BaseModel' => App\BaseModel::class,
+        'BaseRoute' => App\extensions\core\BaseRoute::class,
+        'Form' => App\extensions\html\Form::class,
         'GlobalConfig' => App\GlobalConfig::class,
+        'NamespaceController' => App\Http\Controllers\NamespaceController::class,
     ],
 
     /*

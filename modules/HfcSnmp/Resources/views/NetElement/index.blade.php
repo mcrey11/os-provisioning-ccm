@@ -58,18 +58,18 @@
         <div class="bg-blue-400 sm:col-span-6 lg:col-span-4 2xl:col-span-3 widget widget-stats">
             {{-- info/data --}}
             <div class="text-center stats-info">
-                {{ html()->a(route('Modem.firmware'),
-                    '<span class="p-10 m-5 text-center btn btn-dark m-r-10">
+                <a href="{{ route('Modem.firmware') }}">
+                    <span class="p-10 m-5 text-center btn btn-dark m-r-10">
                         <i style="font-size: 25px;" class="p-10 img-center fa fa-file-code-o"></i><br>
                         <span class="text-center text-ellipsis">Firmwares</span>
-                    </span>')
-                }}
-                {{ html()->a(route('Modem.cwmp'),
-                    '<span class="p-10 m-5 text-center btn btn-dark m-r-10">
+                    </span>
+                </a>
+                <a href="{{ route('Modem.cwmp') }}">
+                    <span class="p-10 m-5 text-center btn btn-dark m-r-10">
                         <i style="font-size: 25px;" class="p-10 img-center fa fa-hdd-o"></i><br>
                         <span class="text-center text-ellipsis">CWMP</span>
-                    </span>')
-                }}
+                    </span>
+                </a>
 
                 {{-- reference link --}}
                 <div class="stats-link noHover"><a href="#"><br></a></div>

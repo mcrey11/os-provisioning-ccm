@@ -18,16 +18,16 @@
 ?>
 <table class="table">
 
-	<tr class='success'>
-		<th>Cluster</th>
-		<th>DSxUS Setting</th>
-	</tr>
+    <tr class='success'>
+        <th>Cluster</th>
+        <th>DSxUS Setting</th>
+    </tr>
 
-	@foreach ($rf->clusters as $cluster)
-		<tr class='info'>
-		<td>{{ HTML::linkRoute('NetElement.edit', $cluster->name, $cluster->id) }}</td>
-		<td>{{$cluster->get_options_array()[$cluster->options]}}</td>
-		</tr>
-	@endforeach
+    @foreach ($rf->clusters as $cluster)
+        <tr class='info'>
+        <td>{{ html()->a(route('NetElement.edit', [$cluster->id]), $cluster->name) }}</td>
+        <td>{{ $cluster->get_options_array()[$cluster->options] }}</td>
+        </tr>
+    @endforeach
 
 </table>

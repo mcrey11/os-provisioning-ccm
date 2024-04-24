@@ -16,23 +16,17 @@
  * limitations under the License.
  */
 
-namespace Acme\html;
+namespace App\extensions\html;
 
-use Spatie\Html\HtmlServiceProvider as SpatieHtmlServiceProvider;
+use Illuminate\Support\Facades\Facade;
 
-class HtmlServiceProvider extends SpatieHtmlServiceProvider
+class Form extends Facade
 {
     /**
-     * Register the form builder instance.
-     *
-     * @return void
+     * Get the registered name of the component.
      */
-    protected function registerFormBuilder()
+    protected static function getFacadeAccessor(): string
     {
-        $this->app->singleton('form', function ($app) {
-            $form = new FormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->token());
-
-            return $form->setSessionStore($app['session.store']);
-        });
+        return 'form';
     }
 }

@@ -16,21 +16,23 @@
  * limitations under the License.
  */
 ?>
-<style>
-    a:hover {
-        text-decoration: none;
-    }
-</style>
-
 <div class="widget widget-stats bg-grey">
     {{-- info/data --}}
     <div class="stats-info text-center">
-        {!! HTML::decode (HTML::linkRoute('PhoneTariff.create',
-            '<span class="btn btn-dark p-10 m-5 m-r-10 text-center">
-                <i style="font-size: 25px;" class="img-center fa fa-phone-square p-10"></i><br />
-                <span class="username text-ellipsis text-center">'.trans('view.createButtonTitle.PhoneTariff').'</span>
-            </span>'))
-        !!}
+        @foreach($view_header_links as $module_name => $typearray)
+            @if($module_name == $route_name && isset($typearray['submenu']))
+                @foreach ($typearray['submenu'] as $type => $valuearray)
+                    <a href="{{ str_replace("index","create",$valuearray['link']) }}">
+                        <span class="btn btn-dark p-10 m-5 m-r-10 text-center">
+                            <i style="font-size: 25px;" class="img-center fa {{ $valuearray['icon'] }} p-10"></i><br />
+                            <span class="username text-ellipsis text-center">
+                                {{ trans('view.createButtonTitle.'.str_replace(".index","",$valuearray['link'])) }}
+                            </span>
+                        </span>
+                    </a>
+                @endforeach
+            @endif
+        @endforeach
     </div>
     {{-- reference link --}}
     <div class="stats-link noHover"><a href="#">{{ trans('view.dashboard.quickstart') }}</a></div>
