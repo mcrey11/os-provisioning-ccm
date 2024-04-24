@@ -46,8 +46,6 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    private $prefix = 'admin';
-
     /**
      * Return a instance of the used guard
      */
@@ -73,7 +71,7 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $intended = null;
-        $prefix = $this->prefix;
+        $loginRoute = route('login.post');
         $globalConfig = GlobalConfig::first();
         $head1 = $globalConfig->headline1;
         $head2 = $globalConfig->headline2;
@@ -89,7 +87,7 @@ class LoginController extends Controller
             $intended = substr($url, $pos + 6); // pos + admin/
         }
 
-        return \View::make('auth.login', compact('head1', 'head2', 'prefix', 'bgImageRoute', 'loginPage', 'logo', 'intended'));
+        return \View::make('auth.login', compact('head1', 'head2', 'loginRoute', 'bgImageRoute', 'loginPage', 'logo', 'intended'));
     }
 
     /**
