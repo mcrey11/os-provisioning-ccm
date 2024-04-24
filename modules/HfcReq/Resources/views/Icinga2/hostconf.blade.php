@@ -4,7 +4,7 @@ object Host "{{$ne->id_name}}" {
     display_name = "{{$ne->name}}"
     address = "{{$ne->ip}}"
     vars.isBubble = {{$ne->isbubble}}
-    vars.netelementtype_id = {{$ne->netelementtype_id}}
+    vars.netelementtype_id = "{{$ne->netelementtype_id}}"
 @if(! is_null($ne->parent))
     vars.parents = {{$ne->parent}}
 @endif
@@ -15,6 +15,6 @@ object Host "{{$ne->id_name}}" {
     vars.ro_community = "{{$ne->ro_community}}"
 @endif
 @if(! is_null($ne->vendor))
-    vars.vendor = {{$ne->vendor}}
+    vars.vendor = "{{$ne->vendor}}"
 @endif
 }
