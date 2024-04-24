@@ -124,7 +124,7 @@ class ModemController extends \BaseController
 
         if (Module::collections()->has('HfcCustomer') && $model->exists) {
             $rect = [round($model->lng, 4) - 0.0001, round($model->lng, 4) + 0.0001, round($model->lat, 4) - 0.0001, round($model->lat, 4) + 0.0001];
-            $geopos = link_to_route('CustomerModem.showModems', trans('messages.geopos_x_y'), ['modemId' => $model->id]).'    ('.link_to_route('CustomerRect.show', trans('messages.proximity'), $rect).')';
+            $geopos = html()->a(route('CustomerModem.showModems', ['modemId' => $model->id]), trans('messages.geopos_x_y')).'    ('.html()->a(route('CustomerRect.show', $rect), trans('messages.proximity')).')';
         } else {
             $geopos = trans('messages.geopos_x_y');
         }
