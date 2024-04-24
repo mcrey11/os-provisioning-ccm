@@ -15,6 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use App\extensions\core\BaseRoute;
+
 BaseRoute::group([], function () {
     BaseRoute::resource('Modem', 'Modules\ProvBase\Http\Controllers\ModemController');
     BaseRoute::resource('NetGw', 'Modules\ProvBase\Http\Controllers\NetGwController');

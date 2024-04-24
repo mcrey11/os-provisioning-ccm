@@ -83,7 +83,7 @@ class ModemController extends \BaseController
 
         if (! $model->exists) {
             if (! $model->ppp_password) {
-                $model->ppp_password = \Acme\php\Password::generatePassword();
+                $model->ppp_password = \App\extensions\php\Password::generatePassword();
             }
         }
 

@@ -15,6 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use App\extensions\core\BaseRoute;
+
 BaseRoute::group([], function () {
     BaseRoute::resource('HfcReq', 'Modules\HfcReq\Http\Controllers\HfcReqController');
     BaseRoute::resource('NetElementType', 'Modules\HfcReq\Http\Controllers\NetElementTypeController');

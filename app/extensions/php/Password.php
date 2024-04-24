@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace Acme\php;
+namespace App\extensions\php;
 
 /*
  * All Stuff of Array Helper Functions should be placed here ..

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace Acme\core;
+namespace App\extensions\core;
 
 use App\BaseModel;
 use Illuminate\Support\Facades\Route;

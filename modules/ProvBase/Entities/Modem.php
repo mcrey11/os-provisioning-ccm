@@ -18,7 +18,7 @@
 
 namespace Modules\ProvBase\Entities;
 
-use Acme\php\ArrayHelper;
+use App\extensions\php\ArrayHelper;
 use App\Sla;
 use Carbon\Carbon;
 use DB;

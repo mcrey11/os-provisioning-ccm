@@ -43,7 +43,7 @@ class PhonenumberObserver
     {
         if (\Module::collections()->has('ProvVoipEnvia') && ($phonenumber->mta->type == 'sip')) {
             if (! boolval($phonenumber->password)) {
-                $phonenumber->password = \Acme\php\Password::generatePassword(15, 'envia');
+                $phonenumber->password = \App\extensions\php\Password::generatePassword(15, 'envia');
             }
         }
     }
@@ -226,7 +226,7 @@ class PhonenumberObserver
                 'Modem' => $old_modem->id,
             ];
             $title = 'modem '.$old_modem->id.' ('.$old_modem->mac.')';
-            $modem_href = \HTML::linkRoute('Modem.edit', $title, $parameters, $attributes);
+            $modem_href = html()->a(route('Modem.edit', $parameters), $title)->attributes($attributes);
 
             // prepare the links to the phonenumbers still related to old modem (they probably also have to be moved to another MTA)
             $numbers = [];
@@ -236,7 +236,7 @@ class PhonenumberObserver
                         'Phonenumber' => $tmp_phonenumber->id,
                     ];
                     $tmp_title = $tmp_phonenumber->prefix_number.'/'.$tmp_phonenumber->number;
-                    $tmp_href = \HTML::linkRoute('Phonenumber.edit', $tmp_title, $tmp_parameters, $attributes);
+                    $tmp_href = html()->a(route('Phonenumber.edit', [$tmp_parameters]), $tmp_title)->attributes($attributes);
                     array_push($numbers, $tmp_href);
                 }
             }
@@ -290,7 +290,7 @@ class PhonenumberObserver
             ];
 
             $title = trans('provvoipenvia::messages.doManuallyNow');
-            $envia_href = \HTML::linkRoute('ProvVoipEnvia.request', $title, $parameters);
+            $envia_href = html()->a(route('ProvVoipEnvia.request', [$parameters]), $title);
 
             $msg = trans('provvoipenvia::messages.sipDateNotChangedAutomaticallyAtEnvia', ['href' => $envia_href]);
             $phonenumber->addAboveMessage($msg, 'warning', 'form');
