@@ -5,6 +5,7 @@
 $apiRoutes = collect(Route::getRoutes()->getIterator())
     ->filter(fn ($route) => Str::contains($route->uri, 'api/v'))
     ->map(fn ($route) => Str::replaceFirst('/v{ver}/', '/v0/', $route->uri))
+    ->unique()
     ->sort(SORT_NATURAL | SORT_FLAG_CASE);
 
 $base = 'https://localhost:8080';
@@ -14,6 +15,10 @@ $opts = [
     'http' => [
         'method' => 'GET',
         'header' => 'Authorization: Basic '.base64_encode($user.':'.$pass),
+    ],
+    'ssl' => [
+        'verify_peer' => false,
+        'verify_peer_name' => false,
     ],
 ];
 
@@ -27,6 +32,14 @@ $types = [
     'decimal' => 'number',
     'float' => 'number',
     'smallint' => 'integer',
+    'bool' => 'boolean',
+    'float8' => 'number',
+    'int2' => 'integer',
+    'int4' => 'integer',
+    'int8' => 'integer',
+    'numeric' => 'number',
+    'timestamptz' => 'string',
+    'varchar' => 'string',
 ];
 
 // integer: int32, int64
@@ -37,6 +50,9 @@ $formats = [
     'date' => 'date',
     'decimal' => 'float',
     'float' => 'float',
+    'float8' => 'float',
+    'int4' => 'int32',
+    'int8' => 'int64',
 ];
 
 $colRename = [
@@ -45,6 +61,7 @@ $colRename = [
     'GlobalConfig' => 'global_config',
     'User' => 'users',
     'Role' => 'roles',
+    'FirmwareUpgrade' => 'firmware_upgrade',
 ];
 
 $ignore = [
@@ -73,6 +90,11 @@ $ignore = [
     'users.roles_ids[]',
     'users.users_ids[]',
     'roles.users_ids[]',
+    'debtimport.file_upload',
+    'debtimport.voucher_nr',
+    'enviaorder.phonenumber_id',
+    'enviaorderdocument.document_upload',
+    'firmware_upgrade.fromconfigfile_ids[]',
 ];
 
 $ret = [
@@ -115,20 +137,6 @@ $ret = [
     ],
 ];
 
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('configfile_device', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('configfile_public', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('domain_type', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('mta_type', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('phonetariff_type', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('phonetariff_voip_protocol', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('ticket_priority', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('oid_html_type', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('oid_type', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('product_type', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('product_billing_cycle', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('numberrange_type', 'string');
-DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('billingbase_userlang', 'string');
-
 foreach ($apiRoutes as $route) {
     if (! Str::contains($route, '/create')) {
         continue;
@@ -158,31 +166,31 @@ foreach ($apiRoutes as $route) {
 
     $required = [];
     $ret['components']['schemas'][$entity]['type'] = 'object';
-    foreach ($fields as $name => $values) {
-        $column = array_key_exists($entity, $colRename) ? $colRename[$entity] : strtolower($entity);
-        if (in_array("$column.$name", $ignore)) {
+    foreach ($fields as $column => $values) {
+        $table = array_key_exists($entity, $colRename) ? $colRename[$entity] : strtolower($entity);
+        if (in_array("$table.$column", $ignore)) {
             continue;
         }
 
         try {
-            $columnType = Schema::getColumnType($column, $name);
+            $columnType = Schema::getColumnType($table, $column);
         } catch(Doctrine\DBAL\Exception $e) {
-            echo "can't retrieve column type for $entity, $name: ".$e->getMessage()."\n";
+            echo "can't retrieve column type for $entity, $column: ".$e->getMessage()."\n";
             $columnType = null;
         }
 
         if ($type = $types[$columnType] ?? null) {
-            $ret['components']['schemas'][$entity]['properties'][$name]['type'] = $type;
+            $ret['components']['schemas'][$entity]['properties'][$column]['type'] = $type;
         }
 
         if ($format = $formats[$columnType] ?? null) {
-            $ret['components']['schemas'][$entity]['properties'][$name]['format'] = $format;
+            $ret['components']['schemas'][$entity]['properties'][$column]['format'] = $format;
         }
 
         if ($description = $values['description'] ?? null) {
-            $ret['components']['schemas'][$entity]['properties'][$name]['description'] = $description;
+            $ret['components']['schemas'][$entity]['properties'][$column]['description'] = $description;
             if (Str::endsWith($description, '*')) {
-                $required[] = $name;
+                $required[] = $column;
             }
         }
 

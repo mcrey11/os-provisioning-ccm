@@ -217,8 +217,7 @@ class BaseViewController extends Controller
         // for all fields
         foreach ($fields as $field) {
             if ($field['form_type'] === 'collapse') {
-                $field['form_fields'] = self::prepare_form_fields($field['form_fields'], $model);
-                array_push($ret, $field);
+                $ret = array_merge($ret, self::prepare_form_fields($field['form_fields'], $model));
                 continue;
             }
 
