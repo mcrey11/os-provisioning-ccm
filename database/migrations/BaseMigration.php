@@ -21,7 +21,6 @@ namespace Database\Migrations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -70,10 +69,6 @@ class BaseMigration extends Migration
 
         $this->checkMigrationScope();
         $this->checkForHighAvailabilitySetup();
-
-        DB::getDoctrineSchemaManager()
-            ->getDatabasePlatform()
-            ->registerDoctrineTypeMapping('enum', 'string');
 
         Schema::defaultStringLength(191);
     }
