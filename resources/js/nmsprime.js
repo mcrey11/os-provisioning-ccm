@@ -273,9 +273,6 @@ jQuery(function() {
   })
 
   $('.datatable, .clickableRow').on('click', function (e) {
-    console.log(e.target)
-    console.log($(e.target).is('input:checkbox'))
-    console.log($(e.target).hasClass('index_check'))
     if (
       ($(e.target).is('input:checkbox') ||
       $(e.target).hasClass('index_check')) &&

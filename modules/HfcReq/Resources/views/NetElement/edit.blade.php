@@ -27,7 +27,7 @@
 
 @include ('Generic.edit')
 
-
+@section('javascript_extra')
 {{-- Reload when netelementtype_id field changes --}}
 <script language="javascript">
 
@@ -43,3 +43,4 @@ $('#netelementtype_id').change(function() {
 });
 
 </script>
+@stop

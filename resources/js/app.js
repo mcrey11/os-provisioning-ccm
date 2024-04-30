@@ -53,6 +53,7 @@ import NavbarQuickviewNetwork from './components/navbar/QuickviewNetwork.vue'
 import Collapse from './components/Collapse.vue'
 
 // app
+if (document.getElementById('page-container')) {
 let appProps = document.querySelector('#page-container').dataset
 window.main = createApp(app, {
     tabs: appProps.tabs ? JSON.parse(appProps.tabs) : [],
@@ -66,12 +67,15 @@ window.main = createApp(app, {
   .component('collapse', Collapse)
   .use(snotify)
   .mount('#page-container')
+}
 
 // navbar
+if (document.getElementById('header')) {
 window.navbar = createApp(navbar)
   .component('NavbarQuickviewNetwork', NavbarQuickviewNetwork)
   .component('select2', select2Component)
   .mount('#header')
+}
 
 // sidebar
 if (document.getElementById('sidebar')) {
