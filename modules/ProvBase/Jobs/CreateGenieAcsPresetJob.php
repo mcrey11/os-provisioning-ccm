@@ -135,7 +135,6 @@ class CreateGenieAcsPresetJob implements ShouldQueue
             }
 
             $prov[] = '}';
-            $prov[] = "ext('delete-sync-preset', 'ret', '{$this->modem->id}');";
         }
 
         foreach (preg_split('/\r\n|\r|\n/', $text) as $line) {
@@ -206,6 +205,7 @@ class CreateGenieAcsPresetJob implements ShouldQueue
             }
         }
 
+        $prov[] = "ext('delete-sync-preset', 'ret', '{$this->modem->id}');";
         $this->modem::callGenieAcsApi("provisions/prov-{$this->modem->id}", 'PUT', implode("\n", $prov));
     }
 }
