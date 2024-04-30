@@ -23,7 +23,6 @@ use Bouncer;
 use Module;
 use Modules\ProvBase\Entities\Contract;
 use Modules\ProvBase\Entities\Qos;
-use Session;
 
 class ContractController extends \BaseController
 {
