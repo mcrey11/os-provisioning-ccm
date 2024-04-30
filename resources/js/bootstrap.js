@@ -86,7 +86,7 @@ import Pusher from 'pusher-js'
 window.Pusher = Pusher;
 window.wssConnect = () => {
   window.echo = new Echo({
-    broadcaster: 'pusher',
+    broadcaster: 'reverb',
     key: process.env.MIX_PUSHER_APP_KEY,
     wsHost: window.location.hostname,
     wsPort: parseInt(process.env.MIX_WEBSOCKETS_PORT),

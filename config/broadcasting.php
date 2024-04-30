@@ -46,7 +46,7 @@ return [
 
     'connections' => [
         'pusher-php' => [
-            'driver' => 'pusher',
+            'driver' => 'reverb',
             'key' => env('MIX_PUSHER_APP_KEY', 'nmsprime'),
             'secret' => env('PUSHER_APP_SECRET', 'nmsprime'),
             'app_id' => env('PUSHER_APP_ID', 'nmsprime'),
@@ -57,27 +57,9 @@ return [
                 'encrypted' => true,
                 'scheme' => env('PUSHER_APP_SCHEME', 'https'),
                 'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
-                'curl_options' => [
-                    CURLOPT_SSL_VERIFYHOST => 0,
-                    CURLOPT_SSL_VERIFYPEER => 0,
-                ],
             ],
             'client_options' => [
                 'verify' => false, // to disable TLS checks
-            ],
-        ],
-
-        'pusher' => [
-            'driver' => 'pusher',
-            'key' => env('MIX_PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
-            'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'host' => env('APP_URL', '127.0.0.1'),
-                'port' => (int) env('MIX_WEBSOCKETS_PORT', env('HTTPS_ADMIN_PORT', 8080)),
-                'encrypted' => env('MIX_PUSHER_FORCE_TLS', true),
-                'scheme' => env('PUSHER_APP_SCHEME', 'https'),
             ],
         ],
 
