@@ -32,7 +32,7 @@ class AuthCommand extends Command
      *
      * @var string
      */
-    protected $name = 'auth:nms';
+    protected $name = 'nms:auth';
 
     /**
      * The console command description.
@@ -145,6 +145,10 @@ class AuthCommand extends Command
     {
         Bouncer::allow('admin')->everything();
         Bouncer::unforbid('admin')->everything();
+
+        if ($admin = User::where('login_name', 'root')->first()) {
+            $admin->assign('admin');
+        }
 
         $this->info('Admin Role reset.', 'v');
     }
