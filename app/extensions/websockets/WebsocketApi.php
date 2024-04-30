@@ -42,10 +42,13 @@ class WebsocketApi
             return false;
         }
 
+        // subscription_count is not available for presence channels, use user_count instead
         if ($initial) {
-            return $this->pusherApi->getChannelInfo($channel)->subscription_count > 1;
+            $channelInfo = $this->pusherApi->getChannelInfo($channel, ['info' => 'user_count']);
+
+            return isset($channelInfo->user_count) && $channelInfo->user_count > 1;
         }
 
-        return $this->pusherApi->getChannelInfo($channel)->subscription_count;
+        return $this->pusherApi->getChannelInfo($channel)->occupied;
     }
 }
