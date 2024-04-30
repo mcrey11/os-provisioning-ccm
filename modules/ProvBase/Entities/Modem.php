@@ -1339,12 +1339,14 @@ class Modem extends \BaseModel
     /**
      * Create sync preset.
      * The sync preset is used only once. After creation, at the next event, this preset will call the prov provision to update
-     * objects like new phone numbers. In the end, this preset will be removed with a extension script /usr/share/genieacs/ext/sync-provision.js
+     * objects like new phone numbers. In the end, this preset will be removed with a extension script /usr/share/genieacs/ext/delete-sync-preset.js
      *
      * @author Roy Schneider
      */
     public function createSyncPreset()
     {
+        $id = rawurlencode($this->getGenieAcsModel('_id'));
+
         $preset = [
             'weight' => 0,
             'precondition' => "DeviceID.SerialNumber = \"{$this->serial_num}\"",
@@ -1359,6 +1361,8 @@ class Modem extends \BaseModel
         ];
 
         self::callGenieAcsApi("presets/sync-{$this->id}", 'PUT', json_encode($preset));
+
+        self::callGenieAcsApi("devices/$id/tasks?connection_request", 'POST');
     }
 
     /**
