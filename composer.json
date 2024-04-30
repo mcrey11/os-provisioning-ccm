@@ -23,7 +23,6 @@
         "intervention/validation": "^4.1",
         "kalnoy/nestedset": "^6.0",
         "laravel/reverb": "@beta",
-        "pusher/pusher-php-server": "^7.0",
         "laravel/ui": "^4.0",
         "symfony/mailgun-mailer": "^7.0",
         "symfony/http-client": "^7.0",
