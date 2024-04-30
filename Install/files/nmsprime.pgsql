@@ -2278,7 +2278,7 @@ CREATE TABLE nmsprime.modem (
     apartment_nr character varying(191),
     next_passive_id bigint,
     phy_updated_at timestamp with time zone,
-    ipv4 bigint,
+    ipv4 inet,
     address_to_invoice boolean,
     apartment_id bigint,
     ont_id smallint,
@@ -8456,4 +8456,3 @@ ALTER TABLE ONLY nmsprime.permissions
 --
 -- PostgreSQL database dump complete
 --
-

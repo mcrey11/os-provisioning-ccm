@@ -25,7 +25,10 @@
     ?>
 
     @include('Generic.above_infos')
-    {!! Form::model($view_var, ['route' => [$form_update, $view_var->id], 'method' => 'put', 'files' => true, 'id' => 'EditForm']) !!}
+    {{ Form::model($view_var, 'PUT', route($form_update, [$view_var->id]))
+        ->attributes(['files' => true, 'id' => 'EditForm'])
+        ->open()
+    }}
 
     @include($form_path, $view_var)
 

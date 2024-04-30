@@ -11,7 +11,7 @@
             @foreach ($relation as $rel_elem)
                 <?php $labelData = $rel_elem->view_index_label(); ?>
                 <tr class="{{isset ($labelData['bsclass']) ? $labelData['bsclass'] : ''}}">
-                    <td width="20"> {!! Form::checkbox('ids['.$rel_elem->id.']', 1, null, null, ['style' => 'simple']) !!} </td>
+                    <td width="20"> {{ Form::checkbox('ids['.$rel_elem->id.']', 1, null, null, ['style' => 'simple']) }} </td>
                     <td class="pl-2">
                         <div class="flex items-center">
                             {!! $rel_elem->view_icon() !!}

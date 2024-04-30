@@ -43,7 +43,11 @@
     ?>
 
     @include('Generic.above_infos')
-    {{ html()->modelForm($view_var, 'PUT', route($form_update, [$view_var->id]))->attributes(['files' => true, 'id' => 'EditForm']) }}
+    {{ html()
+        ->modelForm($view_var, 'PUT', route($form_update, [$view_var->id]))
+        ->attributes(['files' => true, 'id' => 'EditForm'])
+        ->open()
+    }}
 
         @include($form_path, $view_var)
 

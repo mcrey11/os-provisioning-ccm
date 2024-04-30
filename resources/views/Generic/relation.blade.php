@@ -52,7 +52,11 @@ Relation Blade is used inside a Panel Element to display relational class object
         {{-- Create Button: (With hidden add fields if required) --}}
         @if (! isset($options['hide_create_button']))
 
-            {{ html()->form('POST', route($class.'.create', [$key => $view_var->id]))->attributes(['name' => "create-{$class}-Form"])->open() }}
+            {{ html()
+                ->form('POST', route($class.'.create', [$key => $view_var->id]))
+                ->attributes(['name' => "create-{$class}-Form"])
+                ->open()
+            }}
             {{ Form::hidden($key, $view_var->id) }}
 
             {{-- Add hidden input fields if create tag is set in $form_fields - This sets global POST Variable --}}

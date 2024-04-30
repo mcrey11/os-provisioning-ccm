@@ -19,12 +19,11 @@
 namespace App\extensions\html;
 
 use App\Http\Controllers\BaseViewController;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\HtmlString;
-use InvalidArgumentException;
-use Session;
+use Illuminate\Support\Str;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Html;
-use Str;
 
 class FormBuilder
 {
@@ -126,22 +125,9 @@ class FormBuilder
     /**
      * Create a form model field.
      */
-    public function model($model, array $options = [])
+    public function model($model, $method = 'PUT', $action = null)
     {
-        if (! isset($options['route'])) {
-            throw new InvalidArgumentException('A Form route must be set!');
-        }
-
-        $route = $options['route'];
-        unset($options['route']);
-
-        $method = 'put';
-        if (isset($options['method'])) {
-            $method = $options['method'];
-            unset($options['method']);
-        }
-
-        return html()->modelForm($model, $method, $route)->attributes($options);
+        return html()->modelForm($model, $method, $action);
     }
 
     /**
@@ -163,6 +149,12 @@ class FormBuilder
         $selectField = html()
             ->select($name, $list, $selected)
             ->attributes($selectAttributes);
+
+        if (array_key_exists('multiple', $selectAttributes)) {
+            $selectField = html()
+                ->multiselect($name, $list, $selected)
+                ->attributes($selectAttributes);
+        }
 
         if (isset($optionsAttributes['style']) && Str::contains($optionsAttributes['style'], 'simple')) {
             return $selectField;
