@@ -402,7 +402,7 @@ class Contract extends \BaseModel
             if (Module::collections()->has('OverdueDebts')) {
                 // resulting outstanding amount
                 $ret[$i18nContract]['DebtResult']['view']['view'] = 'overduedebts::Debt.result';
-                $resultingDebt = $this->getResultingDebt();
+                $resultingDebt = $this->resultingDebtLabelInfo();
                 $ret[$i18nContract]['DebtResult']['view']['vars']['debt'] = moneyFormat($resultingDebt['amount']);
                 $ret[$i18nContract]['DebtResult']['view']['vars']['bsclass'] = $resultingDebt['bsclass'];
 
@@ -1702,7 +1702,7 @@ class Contract extends \BaseModel
      *
      * @return array [(Float) amount, (String) bsclass]
      */
-    public function getResultingDebt()
+    public function resultingDebt()
     {
         // https://stackoverflow.com/questions/17210787/php-float-calculation-error-when-subtracting
         // return \Modules\OverdueDebts\Entities\Debt::where('contract_id', $this->id)
@@ -1710,17 +1710,22 @@ class Contract extends \BaseModel
         //     ->select('missing_amount')
         //     ->sum('missing_amount');
 
-        $block = false;
-        if (config('overduedebts.debtMgmtType') == 'csv') {
-            $block = $this->shouldDebtsBlockInetAccess();
-        }
-
         $totalAmount = 0;
         foreach ($this->debts as $debt) {
             $totalAmount += $debt->missing_amount;
         }
 
-        $totalAmount = round($totalAmount, 2);
+        return round($totalAmount, 2);
+    }
+
+    private function resultingDebtLabelInfo()
+    {
+        $block = false;
+        if (config('overduedebts.debtMgmtType') == 'csv') {
+            $block = $this->shouldDebtsBlockInetAccess();
+        }
+
+        $totalAmount = $this->resultingDebt();
 
         $bsclass = '';
         if ($block) {
@@ -1750,6 +1755,12 @@ class Contract extends \BaseModel
             return false;
         }
 
+        $conf = app()->make('OverdueDebtsConfig')->get();
+
+        if (! ($conf->import_inet_block_amount || $conf->import_inet_block_debts || $conf->import_inet_block_indicator)) {
+            return false;
+        }
+
         $parser = new \Modules\OverdueDebts\Utils\DefaultTransactionParser;
         $debts = clone $this->debts;
 
@@ -1774,8 +1785,6 @@ class Contract extends \BaseModel
 
         $highestIndicator = $debts->sortByDesc('indicator')->first();
         $highestIndicator = $highestIndicator ? $highestIndicator->indicator : 0;
-
-        $conf = app()->make('OverdueDebtsConfig')->get();
 
         $block =
             // Amount threshold is exceeded

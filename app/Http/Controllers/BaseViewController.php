@@ -18,7 +18,6 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use Auth;
 use BaseModel;
 use Bouncer;
