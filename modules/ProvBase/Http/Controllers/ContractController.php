@@ -514,6 +514,8 @@ class ContractController extends \BaseController
         $data['country_code'] = \Str::upper($data['country_code']);
 
         if (! Module::collections()->has('SmartOnt')) {
+            $data['contract_start'] = $data['contract_start'] ?: date('Y-m-d');
+
             // generate contract number
             if (! $data['number'] && Module::collections()->has('BillingBase')) {
                 // generate contract number
