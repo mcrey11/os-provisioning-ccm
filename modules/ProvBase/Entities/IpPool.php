@@ -268,10 +268,6 @@ class IpPool extends \BaseModel
     {
         $empty = "\t\t\trange $this->ip_pool_start $this->ip_pool_end;\n";
 
-        if ($this->type != 'CPEPub') {
-            return $empty;
-        }
-
         // TODO: filter endpoints by DB query with INET_ATON
         $endpoints = Endpoint::where('fixed_ip', '1')->get();
 
