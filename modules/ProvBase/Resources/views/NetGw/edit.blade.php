@@ -32,7 +32,9 @@
 <script language="javascript">
 
 $('#company').change(function() {
-	location.href = location.href + "?&company=" + document.getElementById("company").options[document.getElementById("company").selectedIndex].value;
+	const url = new URL(location.href);
+	url.searchParams.set('company', document.getElementById("company").options[document.getElementById("company").selectedIndex].value);
+	location.href = url;
 });
 
 </script>
