@@ -622,6 +622,10 @@ return [
     'analysis' => 'Analyse',
     'Assign' => ':model hinzufügen',
     'BillingBase' => 'Billing',
+    'boolInTable' => [
+        'false' => 'nein',
+        'true' => 'ja',
+    ],
     'ccap' => [
         'serial_num' => 'Seriennummer',
         'model' => 'Modell',
