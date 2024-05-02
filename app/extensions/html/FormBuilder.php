@@ -235,7 +235,7 @@ class FormBuilder
         $errors = Session::get('errors');
 
         // Return the formatted error message, if the form element has any.
-        return new HtmlString($errors->first($name, '<p align="left" class="help-block">:message</p>'));
+        return new HtmlString($errors->first($name, '<p align="left" class="help-block" style="color:red">:message</p>'));
     }
 
     /**
