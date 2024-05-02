@@ -51,7 +51,7 @@
 
     {{-- PARAMETERS --}}
     @if (isset ($form_fields['list']))
-        {{ Form::model($netelement, 'PUT', route('NetElement.controlling_update', [$netelement->id, $paramId, $index]))->attributes(['files' => true])->open() }}
+        {{ Form::model($netelement, 'PUT', route('NetElement.controlling_update', [$netelement->id, $paramId, $index]))->attributes(['files' => true])->acceptsFiles()->open() }}
 
         {{-- LIST --}}
         @if ($form_fields['list'])

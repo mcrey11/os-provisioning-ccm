@@ -69,6 +69,7 @@
                     role="tabpanel">
                     {{ Form::model($model, 'PUT', route($links[$slug]['link'].'.update', [1]))
                         ->attributes(['files' => true])
+                        ->acceptsFiles()
                         ->open()
                     }}
                         @include('Generic.form', ['view_var' => $model, 'form_fields' => $form_fields[$slug]])

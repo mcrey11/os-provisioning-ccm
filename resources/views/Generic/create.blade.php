@@ -36,7 +36,7 @@
 
 
 @section('content_left')
-    {{ html()->form('POST', route($route_name.'.store'))->attributes(['files' => true])->open() }}
+    {{ html()->form('POST', route($route_name.'.store'))->attributes(['files' => true])->acceptsFiles()->open() }}
 
         @include($form_path)
 

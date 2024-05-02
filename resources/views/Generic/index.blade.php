@@ -82,7 +82,7 @@
             @if('Modem' == $model->get_model_name())
                 @if('LFO' == config('smartont.flavor.active'))
                     <div>
-                        {{ html()->form('POST', route('Modem.import'))->open() }}
+                        {{ html()->form('POST', route('Modem.import'))->acceptsFiles()->open() }}
 
                         <input style="background-color:whitesmoke" name="modem_csv_upload" type="file" id="modem_csv_upload">
                         <input type="hidden" name="redirect_url" value="{{ url()->current() }}" />

@@ -46,6 +46,7 @@
     {{ html()
         ->modelForm($view_var, 'PUT', route($form_update, [$view_var->id]))
         ->attributes(['files' => true, 'id' => 'EditForm'])
+        ->acceptsFiles()
         ->open()
     }}
 
