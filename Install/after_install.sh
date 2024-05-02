@@ -66,8 +66,8 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
 zone=$(timedatectl | grep 'Time zone' | cut -d':' -f2 | cut -d' ' -f2)
 sed -e "s|^;date.timezone =.*|date.timezone = $zone|" \
     -e 's/^memory_limit =.*/memory_limit = 1024M/' \
-    -e 's/^upload_max_filesize =.*/upload_max_filesize = 100M/' \
-    -e 's/^post_max_size =.*/post_max_size = 100M/' \
+    -e 's/^upload_max_filesize =.*/upload_max_filesize = 250M/' \
+    -e 's/^post_max_size =.*/post_max_size = 250M/' \
     -i /etc/php.ini
 
 sed -e "s|^#APP_TIMEZONE=|APP_TIMEZONE=$zone|" \
