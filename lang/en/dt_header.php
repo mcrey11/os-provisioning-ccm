@@ -365,7 +365,7 @@ return [
     'ncs' => 'NCS',
     // Node
     'node' => [
-        'name' => 'Name',
+        'name' => 'Node',
         'headend' => 'Headend',
         'type' => 'Type of signal',
     ],

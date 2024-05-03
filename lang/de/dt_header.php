@@ -364,7 +364,7 @@ return [
     'ncs' => 'NCS',
     // Node
     'node' => [
-        'name' => 'Name',
+        'name' => 'ÜP',
         'headend' => 'Kopfstelle',
         'type' => 'Signalart',
     ],
