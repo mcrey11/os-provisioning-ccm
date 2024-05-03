@@ -38,10 +38,6 @@ class WebsocketApi
      */
     public function channelHasSubscribers(string $channel, bool $initial = false): bool
     {
-        if (! array_key_exists($channel, $this->pusherApi->getChannels()->channels)) {
-            return false;
-        }
-
         // subscription_count is not available for presence channels, use user_count instead
         if ($initial) {
             $channelInfo = $this->pusherApi->getChannelInfo($channel, ['info' => 'user_count']);
