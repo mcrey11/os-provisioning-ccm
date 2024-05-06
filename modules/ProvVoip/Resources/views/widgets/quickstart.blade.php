@@ -28,7 +28,7 @@
         {!! HTML::decode (HTML::linkRoute('PhoneTariff.create',
             '<span class="btn btn-dark p-10 m-5 m-r-10 text-center">
                 <i style="font-size: 25px;" class="img-center fa fa-phone-square p-10"></i><br />
-                <span class="username text-ellipsis text-center">'.trans_choice('view.Button_Create PhoneTariff', 1).'</span>
+                <span class="username text-ellipsis text-center">'.trans('view.createButtonTitle.PhoneTariff').'</span>
             </span>'))
         !!}
     </div>

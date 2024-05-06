@@ -595,6 +595,7 @@ return [
         'Comment'         => 'Kommentar erstellen',
         'Company'         => 'Unternehmen erstellen',
         'Contract'        => 'Vertrag erstellen',
+        'CorrespondenceRecipient' => 'Korrespondenzempfänger erstellen',
         'CostCenter'      => 'Kostenstelle erstellen',
         'Debt' => 'OP erstellen',
         'Device'          => 'Neues Gerät',

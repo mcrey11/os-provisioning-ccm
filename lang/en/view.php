@@ -595,6 +595,7 @@ return [
         'Company'         => 'Create Company',
         'Configfile'      => 'Create Configfile',
         'Contract'        => 'Create Contract',
+        'CorrespondenceRecipient' => 'Create Correspondence Recipient',
         'CostCenter'      => 'Create Cost Center',
         'Debt' => 'Create debt',
         'Device'          => 'Create Device',
