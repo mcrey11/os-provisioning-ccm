@@ -81,8 +81,11 @@ sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime -c "
 # adapt config files
 sed -e 's/^\s*#*\s*dialect\s*=.*/\tdialect = "postgresql"/' -i /etc/raddb/mods-available/sql{,ippool}
 sed -e 's/^\s*driver\s*=.*/\tdriver = "rlm_sql_${dialect}"/' \
+    -e 's/^#*\s*server\s*=.*/\tserver = "localhost"/' \
     -e 's/^\s*#*\s*port\s*=.*/\tport = 5432/' \
+    -e "s/^\s*#*\s*login\s*=.*/\tlogin = \"$radius_user\"/" \
     -e "s/^\s*#*\s*password\s*=.*/\tpassword = \"$radius_psw\"/" \
+    -e 's/^\s*#*\s*read_clients\s*=.*/\tread_clients = yes/' \
     -i /etc/raddb/mods-available/sql
 
 # enable FreeRADIUS modules
@@ -98,6 +101,9 @@ sed -e '/^accounting {/a\\tsqlippool' \
     -i /etc/raddb/sites-available/default
 
 /etc/raddb/certs/bootstrap
+
+# fix missing backslash in upstream package (see freeradius-server #eef3669)
+sed -i 's/},$/}, \\/' /etc/raddb/mods-config/sql/main/postgresql/queries.conf
 
 sed -i "s/RADIUS_DB_PASSWORD=$/RADIUS_DB_PASSWORD=$radius_psw/" "$env/provbase.env"
 php /var/www/nmsprime/artisan config:cache
