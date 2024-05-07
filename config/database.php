@@ -317,6 +317,8 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        // NOTE: $icingaCredentialsFile can't be read by Apache - leading to an error on Dashboard after login when config is not cached (by root user)
+        // Give apache permission to the file on your dev VM or cache the config!
         'pgsql-icinga2' => [
             'driver'   => 'pgsql',
             'sticky' => true,
@@ -324,10 +326,6 @@ return [
             'database'  => exec("test -f $icingaCredentialsFile && grep '^\s*database\s*=' \"$icingaCredentialsFile\" | cut -d'=' -f2 | xargs") ?: 'icinga2',
             'username'  => exec("test -f $icingaCredentialsFile && grep '^\s*user\s*=' \"$icingaCredentialsFile\" | cut -d'=' -f2 | xargs") ?: 'icinga2user',
             'password'  => exec("test -f $icingaCredentialsFile && grep '^\s*password\s*=' \"$icingaCredentialsFile\" | cut -d'=' -f2 | xargs"),
-            // 'host'      => explode(',', str_replace(' ', '', env('CCC_DB_HOST', env('DB_HOST', 'localhost')))),
-            // 'database'  => env('ICINGA2_DB_DATABASE', 'icinga2'),
-            // 'username'  => env('ICINGA2_DB_USERNAME', env('DB_USERNAME', 'icinga2user')),
-            // 'password'  => env('ICINGA2_DB_PASSWORD', env('DB_PASSWORD', '')),
             'charset' => 'utf8',
             'search_path' => 'public',
             'sslmode' => 'prefer',
