@@ -121,24 +121,25 @@ class FirmwareUpgradeController extends BaseController
         return $form;
     }
 
+    private function getStartDateDefaults()
+    {
+        $now = now()->addDay();
+
+        return [
+            'date' => $now->toDateString(),
+            'time' => $now->setHour(3)->setMinutes(30)->format('H:i'),
+        ];
+    }
+
+    public function prepare_input($data)
+    {
+        ['date' => $data['start_date'], 'time' => $data['start_time']] = $this->getStartDateDefaults();
+
+        return $data;
+    }
+
     public function prepare_rules($rules, $data)
     {
-        $rules['start_date'] = 'required|date_format:Y-m-d';
-        $rules['start_time'] = 'required|date_format:H:i';
-        $rules['batch_size'] = ['nullable', 'integer', 'min:1'];
-        $rules['restart_only'] = 'boolean';
-
-        // Check if 'batch_size' is set in the input data
-        if (isset($data['batch_size'])) {
-            // If 'batch_size' is not empty, then 'cron_string' must be a valid cron expression
-            $rules['cron_string'] = 'required|cron';
-        } else {
-            // If 'batch_size' is empty, then 'cron_string' can be empty or a valid cron expression
-            $rules['cron_string'] = 'nullable|cron';
-        }
-
-        $rules['fromconfigfile_ids'] = 'required|array';
-
         $rules['to_configfile_id'] = [
             isset($data['restart_only']) && $data['restart_only'] ? 'nullable' : 'required',
             'integer',
