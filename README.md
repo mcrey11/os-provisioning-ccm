@@ -106,7 +106,7 @@ php artisan migrate
 php artisan module:migrate --all
 php artisan module:publish --all
 php artisan bouncer:clean
-php artisan auth:nms
+php artisan nms:auth
 php artisan optimize
 systemctl restart supervisord
 ```

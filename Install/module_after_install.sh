@@ -6,7 +6,7 @@ php artisan config:cache
 php artisan module:publish --all
 php artisan module:migrate --all
 php artisan bouncer:clean
-php artisan auth:nms
+php artisan nms:auth
 php artisan route:cache
 php artisan view:clear
 
