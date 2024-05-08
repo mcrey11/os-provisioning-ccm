@@ -513,9 +513,10 @@ class ContractController extends \BaseController
         // ISO 3166 country codes are uppercase
         $data['country_code'] = \Str::upper($data['country_code']);
 
-        if (! Module::collections()->has('SmartOnt')) {
-            $data['contract_start'] = $data['contract_start'] ?: date('Y-m-d');
+        // set contract_start to today if none is given
+        $data['contract_start'] = $data['contract_start'] ?: date('Y-m-d');
 
+        if (! Module::collections()->has('SmartOnt')) {
             // generate contract number
             if (! $data['number'] && Module::collections()->has('BillingBase')) {
                 // generate contract number
