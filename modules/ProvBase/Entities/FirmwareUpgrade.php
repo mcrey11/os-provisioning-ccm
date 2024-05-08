@@ -44,6 +44,21 @@ class FirmwareUpgrade extends \BaseModel
         'firmware_match_string',
     ];
 
+    /**
+     * See FirmwareUpgradeController::prepare_rules as well
+     */
+    public function rules()
+    {
+        return [
+            'batch_size' => ['nullable', 'integer', 'min:1'],
+            'cron_string' => ['required_with:batch_size'],
+            'fromconfigfile_ids' => ['required', 'array'],
+            'restart_only' => ['boolean', 'prohibits:batch_size'],
+            'start_date' => ['required', 'date_format:Y-m-d'],
+            'start_time' => ['required', 'date_format:H:i'],
+        ];
+    }
+
     // Name of View
     public static function view_headline()
     {

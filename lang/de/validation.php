@@ -107,6 +107,7 @@ return [
     'numeric'              => ':attribute muss eine Zahl sein.',
     'password'             => 'Das Passwort ist falsch.',
     'present'              => 'Das :attribute Feld muss ausgefüllt sein.',
+    'prohibits' => ':other muss leer oder nicht gesetzt sein, wenn :attribute gesetzt ist.',
     'prohibited_if'        => 'Darf nicht gesetzt sein, wenn :other = :value',
     'regex'                => ':attribute Format ist ungültig.',
     'required'             => ':attribute muss ausgefüllt sein.',
