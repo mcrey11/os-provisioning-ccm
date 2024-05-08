@@ -2290,7 +2290,8 @@ CREATE TABLE nmsprime.modem (
     ont_state character varying(191),
     next_ont_state character varying(191),
     ont_state_switchdate timestamp(0) without time zone,
-    additional character varying(191)
+    additional character varying(191),
+    fiber_name character varying(191)
 );
 
 
