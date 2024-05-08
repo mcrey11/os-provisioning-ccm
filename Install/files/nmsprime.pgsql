@@ -1999,7 +1999,7 @@ CREATE TABLE nmsprime.ippool (
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
     netgw_id bigint,
-    type nmsprime.ippool_type,
+    type character varying(191),
     net inet,
     ip_pool_start inet,
     ip_pool_end inet,
@@ -6226,7 +6226,7 @@ COPY nmsprime.firmware_upgrade_configfile (id, created_at, updated_at, deleted_a
 --
 
 COPY nmsprime.global_config (id, created_at, updated_at, deleted_at, name, street, city, phone, mail, log_level, headline1, headline2, default_country_code, password_reset_interval, alert1, alert2, alert3, is_all_nets_sidebar_enabled, login_img) FROM stdin;
-1	\N	\N	\N	\N	\N	\N	\N	\N	1	NMS Prime	The next Generation NMS	DE	120	\N	\N	\N	f
+1	\N	\N	\N	\N	\N	\N	\N	\N	1	NMS Prime	The next Generation NMS	DE	120	\N	\N	\N	f	\N
 \.
 
 
@@ -6267,7 +6267,7 @@ COPY nmsprime.invoice (id, created_at, updated_at, deleted_at, contract_id, sett
 -- Data for Name: ippool; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.ippool (id, created_at, updated_at, deleted_at, netgw_id, type, net, netmask, ip_pool_start, ip_pool_end, router_ip, broadcast_ip, dns1_ip, dns2_ip, dns3_ip, optional, description, version, prefix, prefix_len, delegated_len, active, vendor_class_identifier) FROM stdin;
+COPY nmsprime.ippool (id, created_at, updated_at, deleted_at, netgw_id, type, net, ip_pool_start, ip_pool_end, router_ip, broadcast_ip, dns1_ip, dns2_ip, dns3_ip, optional, description, version, prefix, prefix_len, delegated_len, active, vendor_class_identifier) FROM stdin;
 \.
 
 
