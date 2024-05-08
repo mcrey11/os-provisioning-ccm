@@ -3,7 +3,6 @@
 namespace Modules\ProvBase\Services;
 
 use Cron\CronExpression;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\ProvBase\Entities\FirmwareUpgrade;
@@ -12,10 +11,13 @@ use Modules\ProvVoip\Entities\Mta;
 
 class FirmwareUpgradeService
 {
-    public function getActiveFirmwareUpgrades(): \Illuminate\Support\Collection
+    protected $modems;
+    protected $mtas;
+
+    public static function getActiveFirmwareUpgrades(): \Illuminate\Support\Collection
     {
         // Get all Firmware upgrades within active period
-        $now = Carbon::now();
+        $now = now();
         $nowDate = $now->toDateString();
         $nowTime = $now->format('H:i');
 
@@ -42,36 +44,53 @@ class FirmwareUpgradeService
      */
     public function upgradeFirmware()
     {
-        $activeFirmwareUpgrades = $this->getActiveFirmwareUpgrades();
+        $activeFirmwareUpgrades = self::getActiveFirmwareUpgrades();
 
         foreach ($activeFirmwareUpgrades as $firmwareUpgrade) {
-            $devices = $this->getMatchingDevices($firmwareUpgrade);
-            $modems = $devices['modem'];
-            $mtas = $devices['mta'];
+            $this->setMatchingDevices($firmwareUpgrade);
 
-            // If no devices to update, set finished_date and continue to next upgrade
-            if ($modems[0]->isEmpty() && $mtas[0]->isEmpty()) {
-                Log::info('Firmware upgrade process has finished for upgrade id: '.$firmwareUpgrade->id);
-                $firmwareUpgrade->update(['finished_date' => Carbon::now()]);
+            if ($this->hasUpgradeFinished($firmwareUpgrade)) {
                 continue;
             }
 
-            // If restart_only is false, update the Modems to use to_configfile_id
-            if (! $firmwareUpgrade->restart_only) {
-                $this->updateModemConfigfile($modems, $firmwareUpgrade->to_configfile_id);
+            // Only restart devices
+            if ($firmwareUpgrade->restart_only) {
+                $this->onlyRestartDevices($firmwareUpgrade);
 
-                // Return early since modems restart automatically after being updated
-                return;
+                continue;
             }
 
-            // Manually restarting devices if restart_only is true
-            foreach ($modems[0] as $modem) {
-                $modem->restart_modem();
-            }
+            $this->updateModemConfigfile($firmwareUpgrade->to_configfile_id);
+        }
+    }
 
-            foreach ($mtas[0] as $mta) {
-                $mta->restart();
-            }
+    /**
+     * If no devices to update, set finished_date and continue to next upgrade
+     */
+    private function hasUpgradeFinished($firmwareUpgrade)
+    {
+        if (! $this->modems->isEmpty() || ! $this->mtas->isEmpty()) {
+            return false;
+        }
+
+        // Log::info('Firmware upgrade process has finished for upgrade id: '.$firmwareUpgrade->id);
+        $firmwareUpgrade->update(['finished_date' => now()]);
+
+        return true;
+    }
+
+    private function onlyRestartDevices($firmwareUpgrade)
+    {
+        foreach ($this->modems as $modem) {
+            $modem->restart_modem();
+        }
+
+        foreach ($this->mtas as $mta) {
+            $mta->restart();
+        }
+
+        if (! $firmwareUpgrade->cron_string) {
+            $firmwareUpgrade->update(['finished_date' => now()]);
         }
     }
 
@@ -82,11 +101,11 @@ class FirmwareUpgradeService
      * @param  int  $configfileId  The ID of the new configfile.
      * @return void
      */
-    protected function updateModemConfigfile(Collection $modems, int $configfileId)
+    protected function updateModemConfigfile(int $configfileId)
     {
         DB::beginTransaction();
 
-        foreach ($modems as $modem) {
+        foreach ($this->modems as $modem) {
             $modem->configfile_id = $configfileId;
             $modem->save();
         }
@@ -94,7 +113,7 @@ class FirmwareUpgradeService
         DB::commit();
 
         // Log the number of updated modems
-        Log::info(count($modems).' modems have been updated with configfile id: '.$configfileId);
+        Log::info($this->modems->count().' modems have been updated with configfile id: '.$configfileId);
     }
 
     /**
@@ -108,9 +127,8 @@ class FirmwareUpgradeService
      * that batch size.
      *
      * @param  FirmwareUpgrade  $firmwareUpgrade  The firmware upgrade which specifies the criteria for matching modems.
-     * @return \Illuminate\Database\Eloquent\Collection Collection of Modem/MTA models that match the criteria.
      */
-    protected function getMatchingDevices($firmwareUpgrade)
+    protected function setMatchingDevices($firmwareUpgrade)
     {
         $configfileIds = $firmwareUpgrade->fromConfigfile()->pluck('device', 'configfile_id');
 
@@ -119,20 +137,21 @@ class FirmwareUpgradeService
             'mta' => [],
         ];
 
-        $configfileIds->each(function ($value, $key) use (&$ids) {
-            if ($value == 'mta') {
-                $ids['mta'][] = $key;
+        $configfileIds->each(function ($devicetype, $id) use (&$ids) {
+            if ($devicetype == 'mta') {
+                $ids['mta'][] = $id;
 
                 return;
             }
 
             // cm, tr069
-            $ids['modem'][] = $key;
+            $ids['modem'][] = $id;
         });
 
         $modems = Modem::whereIn('configfile_id', $ids['modem']);
         $mtas = Mta::whereIn('configfile_id', $ids['mta']);
-        if ($firmwareUpgrade->restart_only) {
+
+        if ($firmwareUpgrade->firmware_match_string) {
             // Split the firmware_match_string into an array of lines
             $matchStrings = preg_split('/\r\n|\r|\n/', $firmwareUpgrade->firmware_match_string);
 
@@ -144,12 +163,13 @@ class FirmwareUpgradeService
         }
 
         // Limit to batch size if it's specified
-        if (! empty($firmwareUpgrade->batch_size)) {
+        if ($firmwareUpgrade->batch_size && ! $firmwareUpgrade->restart_only) {
             $modems = $modems->limit($firmwareUpgrade->batch_size);
             $mtas = $mtas->limit($firmwareUpgrade->batch_size);
         }
 
-        return ['modem' => [$modems->get()], 'mta' => [$mtas?->get()]];
+        $this->modems = $modems->get();
+        $this->mtas = $mtas->get();
     }
 
     /**
