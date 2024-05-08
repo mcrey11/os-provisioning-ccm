@@ -1789,11 +1789,11 @@ CREATE TABLE nmsprime.global_config (
     headline1 character varying(191),
     headline2 character varying(191),
     default_country_code character varying(2),
-    passwordresetinterval bigint DEFAULT '120'::bigint,
+    password_reset_interval bigint DEFAULT '120'::bigint,
     alert1 character varying(191),
     alert2 character varying(191),
     alert3 character varying(191),
-    isallnetssidebarenabled boolean DEFAULT false,
+    is_all_nets_sidebar_enabled boolean DEFAULT false,
     login_img character varying(191)
 );
 
@@ -1999,12 +1999,11 @@ CREATE TABLE nmsprime.ippool (
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
     netgw_id bigint,
-    type character varying(191),
-    net character varying(191),
-    netmask character varying(191),
-    ip_pool_start character varying(191),
-    ip_pool_end character varying(191),
-    router_ip character varying(191),
+    type nmsprime.ippool_type,
+    net inet,
+    ip_pool_start inet,
+    ip_pool_end inet,
+    router_ip inet,
     broadcast_ip character varying(191),
     dns1_ip character varying(191),
     dns2_ip character varying(191),
@@ -4120,11 +4119,11 @@ CREATE TABLE nmsprime.ticketsystem (
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
-    noreplymail character varying(191),
-    noreplyname character varying(191),
+    noreply_mail character varying(191),
+    noreply_name character varying(191),
     distance bigint DEFAULT '1'::bigint,
     modemcount bigint DEFAULT '1'::bigint,
-    opentickets bigint DEFAULT '1'::bigint
+    open_tickets bigint DEFAULT '1'::bigint
 );
 
 
@@ -6225,8 +6224,8 @@ COPY nmsprime.firmware_upgrade_configfile (id, created_at, updated_at, deleted_a
 -- Data for Name: global_config; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.global_config (id, created_at, updated_at, deleted_at, name, street, city, phone, mail, log_level, headline1, headline2, default_country_code, passwordresetinterval, alert1, alert2, alert3, isallnetssidebarenabled, login_img) FROM stdin;
-1	\N	\N	\N	\N	\N	\N	\N	\N	1	NMS Prime	The next Generation NMS	DE	120	\N	\N	\N	f	\N
+COPY nmsprime.global_config (id, created_at, updated_at, deleted_at, name, street, city, phone, mail, log_level, headline1, headline2, default_country_code, password_reset_interval, alert1, alert2, alert3, is_all_nets_sidebar_enabled, login_img) FROM stdin;
+1	\N	\N	\N	\N	\N	\N	\N	\N	1	NMS Prime	The next Generation NMS	DE	120	\N	\N	\N	f
 \.
 
 
@@ -6695,7 +6694,7 @@ COPY nmsprime.ticket_user (id, created_at, updated_at, deleted_at, user_id, tick
 -- Data for Name: ticketsystem; Type: TABLE DATA; Schema: nmsprime; Owner: nmsprime
 --
 
-COPY nmsprime.ticketsystem (id, created_at, updated_at, deleted_at, noreplymail, noreplyname, distance, modemcount, opentickets) FROM stdin;
+COPY nmsprime.ticketsystem (id, created_at, updated_at, deleted_at, noreply_mail, noreply_name, distance, modemcount, open_tickets) FROM stdin;
 1	2022-02-18 08:45:43+01	2022-02-18 08:45:43+01	\N			1	1	1
 \.
 
