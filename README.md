@@ -103,8 +103,8 @@ npm i && npm run dev
 yum install $(for file in $(find /var/www/nmsprime -name config.cfg); do grep '^depends[[:space:]]*=' "$file" | cut -d'=' -f2- | cut -d'"' -f2; done | tr ';' '\n' | sed -e '/^$/d' -e '/^nmsprime-/d' | sort -u)
 
 php artisan migrate
-php artisan module:migrate
-php artisan module:publish
+php artisan module:migrate --all
+php artisan module:publish --all
 php artisan bouncer:clean
 php artisan auth:nms
 php artisan optimize

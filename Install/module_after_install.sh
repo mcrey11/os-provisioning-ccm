@@ -3,8 +3,8 @@ env='/etc/nmsprime/env'
 cd '/var/www/nmsprime'
 rm -rf /var/www/nmsprime/bootstrap/cache/*
 php artisan config:cache
-php artisan module:publish
-php artisan module:migrate
+php artisan module:publish --all
+php artisan module:migrate --all
 php artisan bouncer:clean
 php artisan auth:nms
 php artisan route:cache
