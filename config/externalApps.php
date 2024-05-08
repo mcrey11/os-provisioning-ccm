@@ -1,6 +1,6 @@
 <?php
 
-return [
+$config = [
     'Cacti' => [
         // source https://publicdomainvectors.org/en/free-clipart/Outlined-cactus/69391.html
         'icon'  => 'cacti.svg',
@@ -54,3 +54,9 @@ return [
         'rpmName' => 'prometheus',
     ],
 ];
+
+if (! is_dir('/usr/share/icingaweb2')) {
+    unset($config['Icinga']);
+}
+
+return $config;

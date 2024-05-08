@@ -46,4 +46,6 @@ if (\Module::collections()->has('HfcBase')) {
     $configuration['parent'] = 'HfcBase';
 }
 
+$configuration['hasIcingaWeb2'] = is_dir('/usr/share/icingaweb2');
+
 return $configuration;
