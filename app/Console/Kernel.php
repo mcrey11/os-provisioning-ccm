@@ -18,10 +18,8 @@
 
 namespace App\Console;
 
-use Cron\CronExpression;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Modules\Statistics\Entities\StatisticsQuery;
 use Queue;
 
 class Kernel extends ConsoleKernel
@@ -226,28 +224,7 @@ class Kernel extends ConsoleKernel
             // $schedule->command('nms:hardware-support')->twiceDaily(10, 14);
 
             $schedule->command('firmware:upgrade')->everyMinute()->when(function () {
-                $firmwareUpgradeService = app(\Modules\ProvBase\Services\FirmwareUpgradeService::class);
-
-                // Fetch the active firmware upgrades
-                $activeFirmwareUpgrades = $firmwareUpgradeService->getActiveFirmwareUpgrades();
-
-                foreach ($activeFirmwareUpgrades as $upgrade) {
-                    // No cron string specified, but since this is an active upgrade, we should run it
-                    if (! is_string($upgrade->cron_string)) {
-                        return true;
-                    }
-
-                    // Parse the cron string with the CronExpression library
-                    $cron = new CronExpression($upgrade->cron_string);
-
-                    // Check if the current time matches the cron string
-                    if ($cron->isDue()) {
-                        return true;
-                    }
-                }
-
-                // If no firmware upgrades match, prevent the command from running
-                return false;
+                \Modules\ProvBase\Services\FirmwareUpgradeService::mustRun();
             });
         }
 
@@ -288,7 +265,7 @@ class Kernel extends ConsoleKernel
 
         if ($modules->has('Statistics')) {
             $schedule->call(function () {
-                StatisticsQuery::runRecurringQueries();
+                \Modules\Statistics\Entities\StatisticsQuery::runRecurringQueries();
             })->everyMinute();
         }
 

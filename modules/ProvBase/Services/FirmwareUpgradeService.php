@@ -2,6 +2,7 @@
 
 namespace Modules\ProvBase\Services;
 
+use Cron\CronExpression;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -149,5 +150,31 @@ class FirmwareUpgradeService
         }
 
         return ['modem' => [$modems->get()], 'mta' => [$mtas?->get()]];
+    }
+
+    /**
+     * Check if firmware upgrade service must run according to set cron strings, start time and current time
+     */
+    public static function mustRun()
+    {
+        $activeFirmwareUpgrades = self::getActiveFirmwareUpgrades();
+
+        foreach ($activeFirmwareUpgrades as $upgrade) {
+            // No cron string specified, but since this is an active upgrade, we should run it
+            if (! is_string($upgrade->cron_string)) {
+                return true;
+            }
+
+            // Parse the cron string with the CronExpression library
+            $cron = new CronExpression($upgrade->cron_string);
+
+            // Check if the current time matches the cron string
+            if ($cron->isDue()) {
+                return true;
+            }
+        }
+
+        // If no firmware upgrades match, prevent the command from running
+        return false;
     }
 }
