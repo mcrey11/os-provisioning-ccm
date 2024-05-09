@@ -1555,92 +1555,6 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Differentiate return values from GenieACS API call and return an array with config parameters.
-     *
-     * @param  mixed  $model
-     * @param  array  $scheme
-     * @return mixed
-     *
-     * @author Roy Schneider
-     */
-    protected function generateConfigOverview($model, $scheme)
-    {
-        if (count((array) $model) <= 2) {
-            return true;
-        }
-
-        if (! is_numeric(key($model))) {
-            return $this->mergeGenieModelAndConfigOverview($model, $scheme);
-        }
-
-        $config = [];
-        // $model is an GenieACS Object
-        foreach ($model as $idx => $data) {
-            if (! is_object($data)) {
-                continue;
-            }
-
-            $config = $config + $this->mergeGenieModelAndConfigOverview($data, $scheme, $idx);
-        }
-
-        return $config;
-    }
-
-    /**
-     * Retrieve configuration of WIFI interface for TR-069 devices.
-     *
-     * @param  string  $dataModel
-     * @return mixed
-     *
-     * @author Roy Schneider
-     */
-    protected function getWifiConfigOverview($dataModel)
-    {
-        if ($dataModel != 'InternetGatewayDevice') {
-            return;
-        }
-
-        return $this->generateConfigOverview($this->getGenieAcsModel('InternetGatewayDevice.LANDevice.1.WLANConfiguration'),
-            [
-                'Enabled' => 'Enable',
-                'SSID' => 'SSID',
-                'Channel' => 'Channel',
-                'Encryption Mode' => 'BeaconType',
-                'Wifi Status' => 'Status',
-                'Wifi Standard' => 'Standard',
-            ]
-        );
-    }
-
-    /**
-     * Retrieve configuration of LAN interface for TR-069 devices.
-     *
-     * @param  string  $dataModel
-     * @return mixed
-     *
-     * @author Roy Schneider
-     */
-    protected function getLanConfigOverview($dataModel)
-    {
-        if ($dataModel != 'InternetGatewayDevice') {
-            return;
-        }
-
-        return $this->generateConfigOverview($this->getGenieAcsModel('InternetGatewayDevice.LANDevice.1.LANHostConfigManagement'),
-            [
-                'DHCP Enabled' => 'DHCPServerEnable',
-                'Lease Time' => 'DHCPLeaseTime',
-                'Minimum Address' => 'MinAddress',
-                'Maximum Address' => 'MaxAddress',
-                'Subnet Mask' => 'SubnetMask',
-                'DNS Servers' => 'DNSServers',
-                'LAN IP Address' => 'IPInterface.1.IPInterfaceIPAddress',
-                'Default Gateway' => 'IPRouters',
-            ]
-        );
-    }
-
-    /**
      * Get NETGW a CM is registered on
      *
      * @param  string 	ip 		address of cm
@@ -2547,7 +2461,8 @@ class Modem extends \BaseModel
         $genieCmds = [];
         $tr069Log = [];
         $dataModel = (new DataModel($this))->getDataModel();
-        $wifi = $this->getWifiConfigOverview($dataModel?->getName());
+        $wifi = $dataModel?->getWifiConfigOverview();
+        $lan = $dataModel?->getLanConfigOverview();
 
         if ($this->isTR069()) {
             // Configfile tab
@@ -2573,7 +2488,6 @@ class Modem extends \BaseModel
 
             // Log tab
             $tr069Log = $genieId ? $this->getTr069LogEntries($genieId) : [];
-            $lan = $this->getLanConfigOverview($dataModel?->getName());
         } else {
             $configfile = self::getConfigfileText("/tftpboot/cm/$this->hostname");
         }
