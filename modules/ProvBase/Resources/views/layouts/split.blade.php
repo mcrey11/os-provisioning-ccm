@@ -34,7 +34,7 @@
     class="row"
     data-realtime-broadcasting="{!! route('ProvMon.realtimeBroadcasting', ['id' => $modem->id]) !!}"
     data-picture="{{ isset($picture) ? url($picture) : '' }}"
-    data-genie-cmds='@json($genieCmds, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT)'
+    data-cmds='@json($cmds, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT)'
     data-modem-analysis='@json(trans('view.modemAnalysis'))'
     data-messages-entries="{{ trans('messages.Entries') }}"
     data-csrf-token="{{ csrf_token() }}"

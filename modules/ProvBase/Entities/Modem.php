@@ -1333,63 +1333,6 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Create all commands that can be executed by GenieACS calls.
-     * These commands are used in the select field
-     * in the configfile pill of the modem analysis.
-     *
-     * @author Roy Schneider
-     *
-     * @return array $genieCmds
-     */
-    public function createGenieCommands()
-    {
-        $genieCmds = [];
-
-        // add custom command from configfile
-        preg_match_all('/^cmd;(.*)$/m', $this->configfile->text, $match);
-        foreach ($match[1] as $match) {
-            $match = explode(';', trim($match));
-            $genieCmds[$match[0]] = $genieCmds[$match[0]] ?? [];
-            if ($match[1] == 'get') {
-                $val = json_encode([
-                    'name' => 'getParameterValues',
-                    'parameterNames' => [$match[2]],
-                ]);
-            }
-
-            if ($match[1] == 'set') {
-                $val = json_encode([
-                    'name' => 'setParameterValues',
-                    'parameterValues' => [[$match[2], $match[3]]],
-                ]);
-            }
-
-            if ($match[1] == 'del') {
-                $val = json_encode([
-                    'name' => 'deleteObject',
-                    'objectName' => "$match[2]",
-                ]);
-            }
-
-            array_push($genieCmds[$match[0]], $val);
-        }
-
-        $genieCmds[trans('messages.factory_reset')] = json_encode(['name' => 'factoryReset']);
-        $genieCmds[trans('messages.modemAnalysis.connectionRequest')] = json_encode(['name' => 'connection_request']);
-
-        // add setDns, setWlan, blockDhcp, unblockDhcp
-        $genieId = $this->getGenieId();
-        $cwmpModel = $this->getCwmpDataModel($genieId);
-        if ($cwmpModel) {
-            foreach ($cwmpModel::$tasks as $task) {
-                $genieCmds[trans("messages.modemAnalysis.$task")] = "custom/$task";
-            }
-        }
-
-        return $genieCmds;
-    }
-
-    /**
      * Create sync preset.
      * The sync preset is used only once. After creation, at the next event, this preset will call the prov provision to update
      * objects like new phone numbers. In the end, this preset will be removed with a extension script /usr/share/genieacs/ext/delete-sync-preset.js
@@ -1467,91 +1410,6 @@ class Modem extends \BaseModel
         foreach ((array) json_decode($this->getGenieAcsTasks(), true) as $task) {
             self::callGenieAcsApi("tasks/{$task['_id']}", 'DELETE');
         }
-    }
-
-    /**
-     * Check if the TR-069 device is of type InternetGatewayDevice, Device1 or Device2.
-     *
-     * NOTE: We could extend it with the different services (e.g. VoIP)
-     * and the exact term of the root data models (TR-069/TR-106/TR-181).
-     *
-     * @return mixed
-     *
-     * @author Roy Schneider
-     */
-    public function getCwmpDataModel($genieId)
-    {
-        // InternetGatewayDevice, Device1, Device2
-        $lookup = [
-            'InternetGatewayDevice.DeviceInfo.SpecVersion',
-            'Device.DeviceInfo.SpecVersion',
-            'Device.DeviceInfo.SupportedDataModels',
-        ];
-        $model = $this->getGenieAcsModel(implode(',', $lookup));
-
-        if (! $model) {
-            return;
-        }
-
-        if (! property_exists($model, 'Device')) {
-            return new \Modules\ProvMon\Entities\InternetGatewayDevice($this, $genieId);
-        }
-
-        if (! property_exists($model->Device->DeviceInfo, 'SupportedDataModels')) {
-            return new \Modules\ProvMon\Entities\Device1($this, $genieId);
-        }
-
-        return new \Modules\ProvMon\Entities\Device2($this, $genieId);
-    }
-
-    /**
-     * Merge the array with the CWMP paramters and the GenieACS model.
-     *
-     * @param  mixed  $model
-     * @param  array  $scheme
-     * @param  int  $idx
-     * @return array
-     *
-     * @author Roy Schneider
-     */
-    protected function mergeGenieModelAndConfigOverview($model, $scheme, $idx = 0)
-    {
-        $config = [];
-        $iteration = null;
-        foreach ($scheme as $name => $param) {
-            if (Str::contains($param, '.')) {
-                foreach (explode('.', $param) as $next) {
-                    if (property_exists($model, $next)) {
-                        $iteration = $model->{$next};
-                    } elseif ($iteration && property_exists($iteration, $next)) {
-                        $iteration = $iteration->{$next};
-                    } else {
-                        $iteration = null;
-                    }
-                }
-                $config[$idx][$name] = $iteration->_value ?? 'n/a';
-
-                continue;
-            }
-
-            if ($name == 'Encryption Mode') {
-                $config[$idx][$name] = isset($model->{$param}->_value) ? str_replace('11i', 'WPA2', $model->{$param}->_value) : 'n/a';
-            } elseif ($name == 'Channel') {
-                $freq = '';
-                $ch = $model->{$param}->_value ?? 'n/a';
-                if (is_numeric($ch) && $ch <= 13) {
-                    $freq = ' (2.4 GHz)';
-                }
-                if (is_numeric($ch) && $ch > 13) {
-                    $freq = ' (5 GHz)';
-                }
-                $config[$idx][$name] = $ch.$freq;
-            } else {
-                $config[$idx][$name] = $model->{$param}->_value ?? 'n/a';
-            }
-        }
-
-        return $config;
     }
 
     /**
@@ -2458,11 +2316,11 @@ class Modem extends \BaseModel
         $wifi = null;
         $lan = null;
         $tickets = $this->tickets;
-        $genieCmds = [];
         $tr069Log = [];
         $dataModel = (new DataModel($this))->getDataModel();
         $wifi = $dataModel?->getWifiConfigOverview();
         $lan = $dataModel?->getLanConfigOverview();
+        $cmds = $dataModel?->createCmds() ?? [];
 
         if ($this->isTR069()) {
             // Configfile tab
@@ -2471,17 +2329,10 @@ class Modem extends \BaseModel
             $configfile['text'] = [];
             if ($prov && isset($prov[0]->script)) {
                 $configfile['text'] = preg_split('/\r\n|\r|\n/', $prov[0]->script);
-                $genieCmds = $this->createGenieCommands();
             }
 
             foreach (json_decode($this->getGenieAcsTasks(), true) ?? [] as $task) {
-                $genieCmds[trans('messages.delete_task')." {$task['name']} {$task['device']}"] = "tasks/{$task['_id']}";
-            }
-
-            // set task and name attribute to use it with Select2
-            foreach ($genieCmds as $name => $cmd) {
-                $genieCmds[] = ['task' => $cmd, 'name' => $name];
-                unset($genieCmds[$name]);
+                $cmds[trans('messages.delete_task')." {$task['name']} {$task['device']}"] = "tasks/{$task['_id']}";
             }
 
             $genieId = $this->getGenieId();
@@ -2490,6 +2341,12 @@ class Modem extends \BaseModel
             $tr069Log = $genieId ? $this->getTr069LogEntries($genieId) : [];
         } else {
             $configfile = self::getConfigfileText("/tftpboot/cm/$this->hostname");
+        }
+
+        // set task and name attribute to use it with Select2
+        foreach ($cmds as $name => $cmd) {
+            $cmds[] = ['task' => $cmd, 'name' => $name];
+            unset($cmds[$name]);
         }
 
         $onlineStatus = $this->onlineStatus();
@@ -2533,7 +2390,7 @@ class Modem extends \BaseModel
         $modem = $this;
 
         return compact('online', 'lease', 'dhcpLog', 'tr069Log', 'configfile', 'eventlog', 'dash', 'ip',
-            'genieCmds', 'modem', 'pills', 'tabs', 'view_header', 'tickets', 'radius', 'wifi', 'lan');
+            'cmds', 'modem', 'pills', 'tabs', 'view_header', 'tickets', 'radius', 'wifi', 'lan');
     }
 
     /**

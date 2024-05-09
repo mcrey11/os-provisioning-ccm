@@ -55,8 +55,9 @@
                     </div>
                     <button v-if="! isForm" type="submit" class="btn btn-primary ml-3">{{ trans('view.Button_Submit') }}</button>
                 </div>
-            </form>
-        @endif
+                <button v-if="! isForm" type="submit" class="btn btn-primary ml-3">{{ trans('view.Button_Submit') }}</button>
+            </div>
+        </form>
         <div v-cloak v-if="selectedTask == 'custom/setWlan'" class="mb-3">
             <form v-on:submit.prevent="setWlan" class="space-y-2">
                 <div class="form-group row">
@@ -97,6 +98,10 @@
                 <button type="submit" class="btn btn-primary mt-3">{{ trans('view.Button_Submit') }}</button>
             </form>
         </div>
+        <div class="text-green-600 pb-2"><b>Modem Configfile ({{$configfile['mtime']}})</b></div>
+        @if (isset($configfile['warn']))
+            <div class="text-red-600"><b>{{ $configfile['warn'] }}</b></div>
+        @endif
         <div class="space-y-1">
             @foreach ($configfile['text'] as $line)
                 <pre class="text-gray-500 whitespace-pre-wrap">{{ $line }}</pre>
