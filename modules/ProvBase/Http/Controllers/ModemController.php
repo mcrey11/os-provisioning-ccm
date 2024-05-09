@@ -30,6 +30,7 @@ use Modules\ProvBase\Entities\Modem;
 use Modules\ProvBase\Entities\ModemOption;
 use Modules\ProvBase\Entities\ProvBase;
 use Modules\ProvBase\Services\ModemService;
+use Modules\ProvMon\Entities\DataModel;
 use Nwidart\Modules\Facades\Module;
 use Request;
 use Validator;
@@ -551,7 +552,7 @@ class ModemController extends \BaseController
 
         // setWlan, setDns, blockDhcp, unblockDhcp
         if ($formInput || \Str::startsWith($task, 'custom/')) {
-            $cwmpModel = $modem->getCwmpDataModel($modem->getGenieId());
+            $cwmpModel = (new DataModel($modem))->getDataModel();
             $task = request('taskName') ?? $task;
             $taskName = \Str::after($task, 'custom/');
 
@@ -779,7 +780,7 @@ class ModemController extends \BaseController
 
         $modem = static::get_model_obj()->findOrFail($id);
 
-        $cwmpModel = $modem->getCwmpDataModel($modem->getGenieId());
+        $cwmpModel = (new DataModel($modem))->getDataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'dhcp_enable'], ['value' => 'false']);
 
         if ($cwmpModel) {
@@ -804,7 +805,7 @@ class ModemController extends \BaseController
 
         $modem = static::get_model_obj()->findOrFail($id);
 
-        $cwmpModel = $modem->getCwmpDataModel($modem->getGenieId());
+        $cwmpModel = (new DataModel($modem))->getDataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'dhcp_enable'], ['value' => 'true']);
 
         if ($cwmpModel) {
@@ -829,7 +830,7 @@ class ModemController extends \BaseController
 
         $modem = static::get_model_obj()->findOrFail($id);
 
-        $cwmpModel = $modem->getCwmpDataModel($modem->getGenieId());
+        $cwmpModel = (new DataModel($modem))->getDataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns_enable'], ['value' => 'true']);
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns'], ['value' => request('dns')]);
 

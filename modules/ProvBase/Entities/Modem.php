@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Log;
 use Module;
 use Modules\ProvBase\Http\Controllers\ModemController;
 use Modules\ProvBase\Traits\HasConfigfile;
+use Modules\ProvMon\Entities\DataModel;
 use Request;
 use Session;
 use Storage;
@@ -1589,12 +1590,11 @@ class Modem extends \BaseModel
      * Retrieve configuration of WIFI interface for TR-069 devices.
      *
      * @param  string  $dataModel
-     * @param  string  $genieId
      * @return mixed
      *
      * @author Roy Schneider
      */
-    protected function getWifiConfigOverview($dataModel, $genieId)
+    protected function getWifiConfigOverview($dataModel)
     {
         if ($dataModel != 'InternetGatewayDevice') {
             return;
@@ -1616,12 +1616,11 @@ class Modem extends \BaseModel
      * Retrieve configuration of LAN interface for TR-069 devices.
      *
      * @param  string  $dataModel
-     * @param  string  $genieId
      * @return mixed
      *
      * @author Roy Schneider
      */
-    protected function getLanConfigOverview($dataModel, $genieId)
+    protected function getLanConfigOverview($dataModel)
     {
         if ($dataModel != 'InternetGatewayDevice') {
             return;
@@ -2547,6 +2546,8 @@ class Modem extends \BaseModel
         $tickets = $this->tickets;
         $genieCmds = [];
         $tr069Log = [];
+        $dataModel = (new DataModel($this))->getDataModel();
+        $wifi = $this->getWifiConfigOverview($dataModel?->getName());
 
         if ($this->isTR069()) {
             // Configfile tab
@@ -2571,12 +2572,8 @@ class Modem extends \BaseModel
             $genieId = $this->getGenieId();
 
             // Log tab
-            $tr069Log = $genieId ? $this->getTr069LogEntries($this->getGenieId(false)) : [];
-
-            // Wifi and LAN tab
-            $dataModel = $this->getCwmpDataModel($genieId);
-            $wifi = $this->getWifiConfigOverview($dataModel?->getName(), $genieId);
-            $lan = $this->getLanConfigOverview($dataModel?->getName(), $genieId);
+            $tr069Log = $genieId ? $this->getTr069LogEntries($genieId) : [];
+            $lan = $this->getLanConfigOverview($dataModel?->getName());
         } else {
             $configfile = self::getConfigfileText("/tftpboot/cm/$this->hostname");
         }
