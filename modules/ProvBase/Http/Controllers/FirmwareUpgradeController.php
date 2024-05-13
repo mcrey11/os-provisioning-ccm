@@ -60,7 +60,7 @@ class FirmwareUpgradeController extends BaseController
             [
                 'form_type' => 'checkbox',
                 'name' => 'restart_only',
-                'description' => trans('view.firmwareUpgrade.onlyRestartRequired'),
+                'description' => trans('view.firmwareUpgrade.restartOnly'),
                 'options' => [],
                 'help' => trans('helper.restart_only'),
             ],

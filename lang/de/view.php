@@ -1055,12 +1055,12 @@ return [
     'firmwareUpgrade' => [
         'startDate' => 'Startdatum',
         'startTime' => 'Startzeit',
-        'onlyRestartRequired' => 'Nur Neustarten',
+        'restartOnly' => 'Geräte nur neustarten',
         'cronString' => 'Cron Zeichenkette',
         'batchSize' => 'Batch Größe',
-        'fromConfigfile' => 'Von Konfigurationsdatei',
+        'fromConfigfile' => 'Von Konfigurationsdatei(en)',
         'toConfigfile' => 'Zu Konfigurationsdatei',
-        'enterRegexp' => 'Regex zum Suchen der Firmware Version',
-        'finishDate' => 'Enddatum',
+        'enterRegexp' => 'Regex zum Matchen der Firmwareversion',
+        'finishDate' => 'Beendet am',
     ],
 ];

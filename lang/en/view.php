@@ -1055,12 +1055,12 @@ return [
     'firmwareUpgrade' => [
         'startDate' => 'Start Date',
         'startTime' => 'Start Time',
-        'onlyRestartRequired' => 'Only Restart Required',
+        'onlyRestartRequired' => 'Only restart devices',
         'cronString' => 'Cron String',
         'batchSize' => 'Batch Size',
-        'fromConfigfile' => 'From Configfile',
+        'fromConfigfile' => 'From Configfile(s)',
         'toConfigfile' => 'To Configfile',
-        'enterRegexp' => 'Enter regex string to match firmware version.',
-        'finishDate' => 'Finished Date',
+        'enterRegexp' => 'Regex string to match firmware version.',
+        'finishDate' => 'Finished at',
     ],
 ];
