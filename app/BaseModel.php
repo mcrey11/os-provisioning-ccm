@@ -766,14 +766,14 @@ class BaseModel extends Eloquent
         $start = $startEndDates ? $startEndDates[0]->timestamp : $this->get_start_time();
         $end = $startEndDates ? $startEndDates[1]?->timestamp : $this->validToAsInt();
 
-        if ($time) {
-            if (is_object($time)) {
-                $month = $time;
-                $time = $time->timestamp;
-            }
-        } else {
-            // default - billing settlementruns/charges are calculated for last month
+        if (! $time) {
+            // Default - billing settlementruns/charges are calculated for last month
             $time = strtotime('midnight first day of last month');
+        }
+
+        if (is_object($time)) {
+            $month = $time;
+            $time = $time->timestamp;
         }
 
         switch (strtolower($timespan)) {
@@ -789,8 +789,6 @@ class BaseModel extends Eloquent
             case 'q1':
             case 'quarterly':
             case 'semiannual':
-                // if (is_int($month))
-                // dd($month, $this);
                 $period = $this->billingCycle($month)->getAccountingPeriod();
                 $start = $startEndDates[0];
                 $end = $startEndDates[1];
@@ -805,8 +803,6 @@ class BaseModel extends Eloquent
 
             default:
                 return $start <= $time && (! $end || $end >= $time);
-
-                break;
         }
 
         return true;

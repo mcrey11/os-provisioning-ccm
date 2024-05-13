@@ -421,9 +421,8 @@ if (! function_exists('langDateFormat')) {
      * Format date string dependent of set locale language
      *
      * @param date int|string|Carbon
-     * @return false|int|string
      */
-    function langDateFormat($date)
+    function langDateFormat($date): ?string
     {
         if (! $date) {
             return $date;
@@ -438,13 +437,11 @@ if (! function_exists('langDateFormat')) {
         switch (\App::getLocale()) {
             case 'de':
                 return date('d.m.Y', $date);
-
             case 'es':
                 return date('d/m/Y', $date);
-
-            default:
-                return date('Y-m-d', $date);
         }
+
+        return date('Y-m-d', $date);
     }
 }
 
