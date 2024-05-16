@@ -104,7 +104,7 @@ function positionArrow() {
             <h3 class="font-semibold text-gray-900 dark:text-white">{{ props.title }}</h3>
         </div>
         <div class="px-3 py-2">
-            <p>{{ props.content }}</p>
+            <p v-html="props.content"></p>
         </div>
         <div ref="floatingArrow" v-show="middlewareData.arrow"
           class="absolute h-3 w-3 rotate-45 z-10 bg-white border-gray-200"
