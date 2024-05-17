@@ -413,19 +413,29 @@ class ImportTvCustomersCommand extends Command
             }
         }
 
-        SepaMandate::create([
-            'contract_id' 	=> $contract->id,
-            'reference' 	=> $line[self::C_NR],
+        $data = [
+            'contract_id'     => $contract->id,
+            'reference'     => $line[self::C_NR],
             'signature_date' => $signature_date,
             'holder'        => $line[self::S_HOLDER],
-            'iban'			=> $line[self::S_IBAN],
-            'bic' 			=> $line[self::S_BIC],
-            'institute' 	=> $line[self::S_INST],
-            'valid_from' 	=> date('Y-m-d', strtotime($line[self::S_SIGNATURE])),
-            'state' 		=> 'RCUR',
+            'iban'            => $line[self::S_IBAN],
+            'bic'             => $line[self::S_BIC],
+            'institute'     => $line[self::S_INST],
+            'valid_from'     => date('Y-m-d', strtotime($line[self::S_SIGNATURE])),
+            'state'         => 'RCUR',
             'costcenter_id' => $this->option('ccSepa'),
             // 'valid_to' 	=> NULL,
-        ]);
+        ];
+
+        $validator = \Validator::make($data, (new SepaMandate)->rules());
+
+        if ($validator->fails()) {
+            $this->importantTodos[] = "Cannot add SepaMandate [IBAN: {$line[self::S_IBAN]}]"."\n\t".implode("\n\t", $validator->errors()->all());
+
+            return;
+        }
+
+        SepaMandate::create($data);
 
         Log::info('Add SepaMandate [IBAN: '.$line[self::S_IBAN]."] for contract $contract->number");
     }
