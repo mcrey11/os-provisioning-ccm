@@ -162,6 +162,12 @@ class BaseObserver
             $count -= 1;
         }
 
-        cache(['indexTables.'.$model->table => $count]);
+        cache(["indexTables.{$model->table}" => $count]);
+
+        // if model is created by cron/artisan, the file cannot be opened via GUI (apache)
+        if (exec('whoami') == 'root') {
+            // there is no way to retrieve the cached file name => change owner of the entire dir
+            exec('chown -R apache:apache '.storage_path('framework/cache/data/'));
+        }
     }
 }
