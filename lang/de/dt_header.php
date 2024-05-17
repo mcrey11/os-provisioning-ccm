@@ -620,6 +620,7 @@ return [
     ],
     'state' => 'Status',
     'status' => 'Status',
+    'tax.rate' => 'Prozentsatz/Betrag',
     'ticket' => [
         'assigned_users' => 'Bearbeiter',
         'created_at' => 'Erstellt am',
@@ -691,5 +692,7 @@ return [
         'revenue_change' => 'Umsatzänderung',
         'created_at' => 'Erstellt',
     ],
+    'valid_from' => 'Gültig ab',
+    'valid_to' => 'Gültig bis (inklusive)',
     'verified' => 'Verifiziert',
 ];

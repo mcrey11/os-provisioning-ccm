@@ -621,6 +621,7 @@ return [
     ],
     'state' => 'Status',
     'status' => 'Status',
+    'tax.rate' => 'Rate|Fee',
     'ticket' => [
         'assigned_users' => 'Assigned Users',
         'created_at' => 'Created at',
@@ -692,5 +693,7 @@ return [
         'revenue_change' => 'Revenue Change',
         'created_at' => 'Created',
     ],
+    'valid_from' => 'Valid from',
+    'valid_to' => 'Valid to (inclusive)',
     'verified' => 'Verified',
 ];

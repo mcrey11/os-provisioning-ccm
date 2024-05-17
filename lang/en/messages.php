@@ -108,6 +108,7 @@ return [
     'alert'                 => 'Attention!',
     'ALL'                   => 'ALL',
     'E-Mail Address'            => 'E-Mail Address',
+    'Enabled' => 'Enabled',
     'Entry electronic media'    => 'Entry electronic media',
     'Entry in print media'      => 'Entry in print media',
     'Entry type'                => 'Entry type',

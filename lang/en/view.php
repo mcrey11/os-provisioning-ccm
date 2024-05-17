@@ -93,6 +93,7 @@ return [
     'Menu_NetElement'           => 'Net Elements',
     'Menu_NetElementType'       => 'Net Element Types',
     'Menu_Realty'               => 'Realties',
+    'Menu_Taxes' => 'Taxes',
     'Menu_TicketType'           => 'TicketTypes',
     'Menu_TicketReceiver'       => 'Ticket Receiver',
     'Menu_Nets'                 => 'Nets',
@@ -280,6 +281,7 @@ return [
     'Header_Realty'             => 'Realties',
     'Header_SubNetElement'      => 'Subordinated Netelements',
     'Header_tap'                => 'Controllable tap port',
+    'Header_Tax' => 'Tax|Taxes',
 
     'Header_SummaryStatistic'   => 'Summary',
 
@@ -632,6 +634,7 @@ return [
         'SepaMandate'     => 'Create SEPA-Mandate',
         'SettlementRun' => 'Create Settlement Run',
         'StatisticsQueryResult' => 'Create result',
+        'Tax' => 'Create Tax',
         'Tickets'         => 'Create Tickets',
         'Ticket'          => 'Create Ticket ',
         'TicketType'      => 'Create Ticket Type',
@@ -887,6 +890,13 @@ return [
         'details' => 'Details',
         'sessions' =>  'Sessions',
     ],
+    'tax' => [
+        'types' => [
+            'normal' => 'normal',
+            'fix' => 'fix',
+        ],
+    ],
+    'taxes' => 'Taxes',
     'ticket' => [
         'comment' => [
             'send' => 'send Message',

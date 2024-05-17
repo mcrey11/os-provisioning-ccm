@@ -108,6 +108,7 @@ return [
     'alert'                 => 'Achtung!',
     'ALL'                   => 'ALLE',
     'E-Mail Address'            => 'Email-Adresse',
+    'Enabled' => 'Aktiv',
     'Entry electronic media'    => 'Datennutzung elektronische Verzeichnisse',
     'Entry in print media'      => 'Datennutzung Print-Verzeichnisse',
     'Entry type'                => 'Suchverzeichnis',

@@ -93,6 +93,7 @@ return [
     'Menu_NetElement'           => 'Netzelemente',
     'Menu_NetElementType'       => 'Netzelementtypen',
     'Menu_Realty'               => 'Liegenschaften',
+    'Menu_Taxes' => 'Steuern',
     'Menu_TicketType'           => 'Tickettypen',
     'Menu_TicketReceiver'       => 'Ticketzentrale',
     'Menu_Nets'                 => 'Netze',
@@ -280,6 +281,7 @@ return [
     'Header_Realty'             => 'Liegenschaften',
     'Header_SubNetElement'      => 'Untergeordnete Netzelemente',
     'Header_tap'                => 'Steuerbarer Abzweiger-Port',
+    'Header_Tax' => 'Steuer|Steuern',
 
     'Header_SummaryStatistic'   => 'Übersicht / Dashboard',
 
@@ -632,6 +634,7 @@ return [
         'SepaMandate'     => 'SEPA-Mandat erstellen',
         'SettlementRun' => 'Abrechnungslauf erstellen',
         'StatisticsQueryResult' => 'Ergebnis erstellen',
+        'Tax' => 'Steuer anlegen',
         'Ticket'          => 'Ticket erstellen',
         'TicketType'      => 'Tickettypen erstellen',
         'Tree Table'      => 'Baumdiagramm anlegen',
@@ -886,6 +889,13 @@ return [
         'details' => 'Details',
         'sessions' =>  'Sitzungen',
     ],
+    'tax' => [
+        'types' => [
+            'normal' => 'normal',
+            'fix' => 'fest',
+        ],
+    ],
+    'taxes' => 'Steuern',
     'ticket' => [
         'comment' => [
             'send' => 'Nachricht senden',
