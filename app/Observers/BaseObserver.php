@@ -154,6 +154,9 @@ class BaseObserver
      */
     private function changeCacheCount($model, $method)
     {
+        // index caching is currently disabled, see: https://github.com/nmsprime/nmsprimeNG/commit/5f58c7b1cba87775aee418374154d36ce268583a
+        return;
+
         $count = $model->cachedIndexTableCount;
 
         if ($method == 'created' || $method == 'restored') {
@@ -162,8 +165,7 @@ class BaseObserver
             $count -= 1;
         }
 
-        // index caching is currently disabled, see: https://github.com/nmsprime/nmsprimeNG/commit/5f58c7b1cba87775aee418374154d36ce268583a
-        // cache(["indexTables.{$model->table}" => $count]);
+        cache(["indexTables.{$model->table}" => $count]);
 
         // if model is created by cron/artisan, the file cannot be opened via GUI (apache)
         if (exec('whoami') == 'root') {
