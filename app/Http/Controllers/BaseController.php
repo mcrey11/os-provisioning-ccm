@@ -1709,6 +1709,8 @@ class BaseController extends Controller
         $DT = DataTables::make($query)
             ->addColumn('checkbox', '');
 
+        /*
+        // index caching is currently disabled, see: https://github.com/nmsprime/nmsprimeNG/commit/5f58c7b1cba87775aee418374154d36ce268583a
         if (config('datatables.isIndexCachingEnabled')) {
             $count = $model->cachedIndexTableCount;
             if (! $count) {
@@ -1721,6 +1723,7 @@ class BaseController extends Controller
             // ->setFilteredRecords(10000)
             // ->skipTotalRecords()
         }
+        */
 
         // TODO: Just set this in where clause in query?
         foreach ($filterColumnData as $column => $customQuery) {

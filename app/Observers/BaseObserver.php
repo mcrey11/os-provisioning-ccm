@@ -162,7 +162,8 @@ class BaseObserver
             $count -= 1;
         }
 
-        cache(["indexTables.{$model->table}" => $count]);
+        // index caching is currently disabled, see: https://github.com/nmsprime/nmsprimeNG/commit/5f58c7b1cba87775aee418374154d36ce268583a
+        // cache(["indexTables.{$model->table}" => $count]);
 
         // if model is created by cron/artisan, the file cannot be opened via GUI (apache)
         if (exec('whoami') == 'root') {
