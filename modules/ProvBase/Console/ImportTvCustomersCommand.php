@@ -430,7 +430,7 @@ class ImportTvCustomersCommand extends Command
         $validator = \Validator::make($data, (new SepaMandate)->rules());
 
         if ($validator->fails()) {
-            $this->importantTodos[] = "Cannot add SepaMandate [IBAN: {$line[self::S_IBAN]}]"."\n\t".implode("\n\t", $validator->errors()->all());
+            $this->importantTodos[] = "Cannot add SepaMandate with IBAN {$line[self::S_IBAN]} because of invalid data: ".implode(', ', $validator->errors()->all());
 
             return;
         }
