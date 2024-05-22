@@ -101,6 +101,9 @@ return [
     'Menu_VicinityGraph'        => 'Vicinity Graph',
     'Menu_DFSubscriptions'      => 'Dreamfiber subscriptions',
     'Menu_DFSubscriptionEvents' => 'Dreamfiber events',
+    'Menu_Invoices'             => 'Invoices',
+    'Menu_Documents'            => 'Documents',
+    'Menu_Speedtest'            => 'Speedtest',
 
     //User Settings
     'Menu_UserSettings'         => 'User Settings',
