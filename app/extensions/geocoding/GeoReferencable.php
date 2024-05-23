@@ -474,7 +474,7 @@ trait GeoReferencable
         if ((is_null($this->lng) && is_null($this->lat)) || ($this->exists && multi_array_key_exists(['street', 'house_nr', 'zip', 'city'], $changes))) {
             $this->geocode(false);
         } elseif (multi_array_key_exists(['lng', 'lat'], $changes)) {
-            $this->geocode_source = \App\BaseModel::getUser();
+            $this->geocode_source = request()->has('geocode_source') && $this->getDirty('geocode_source') ? request('geocode_source') : \App\BaseModel::getUser();
         }
     }
 
