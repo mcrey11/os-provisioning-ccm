@@ -949,6 +949,8 @@ class ModemController extends \BaseController
         ];
         $data = $this->_nullify_fields($data, $nullable_fields);
 
+        $data['house_number'] = str_replace(' ', '', strtolower($data['house_number']));
+
         if (! $data['country_code']) {
             $config = GlobalConfig::find(1);
             $data['country_code'] = $config->default_country_code;

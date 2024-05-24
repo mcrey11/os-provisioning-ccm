@@ -525,6 +525,8 @@ class ContractController extends \BaseController
             }
         }
 
+        $data['house_number'] = str_replace(' ', '', strtolower($data['house_number']));
+
         $data = parent::prepare_input($data);
 
         // set this to null if no value is given
