@@ -638,9 +638,8 @@ return [
         'Users'           => 'Benutzer anlegen',
     ],
     'createFor' => 'Erstellen für',
-    'creditAmount' => 'Preis oder  Betrag der Gutschrift',
     'Credit' => 'Gutschrift',
-    'creditAmount' => 'Preis oder  Betrag der Gutschrift',
+    'creditAmount' => 'Preis oder Betrag der Gutschrift',
     'critical' => 'kritisch',
     'Debit' => 'Lastschrift',
     'debt' => [
