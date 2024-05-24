@@ -57,7 +57,7 @@
         </div>
 
         <div class="tab-pane fade in px-2" id="flood-ping">
-            <form @@submit.prevent="floodPing">
+            <form v-on:submit.prevent="floodPing">
                 <div class="row flex">
                     <div class="flex-1">
                         <select2 id="pingselect" v-model="selectedPing" :initial="1" :i18n="{ all: '{{ trans('messages.all') }}'}">

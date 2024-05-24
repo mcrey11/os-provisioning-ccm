@@ -2,13 +2,13 @@
     <div class="relative w-64 mt-12 transition-all duration-200 bg-slate-900"
         :class="{ 'translate-x-0': !store.minifiedRight, 'translate-x-full': store.minifiedRight }">
         <div class="absolute flex flex-col items-center w-5 h-full pt-2 space-y-4 -left-5 bg-lime-nmsprime">
-            <div class="hover:cursor-pointer" @@click="minifySidebarRight">
+            <div class="hover:cursor-pointer" v-on:click="minifySidebarRight">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 duration-300 ease-in-out" :class="{ 'rotate-180': store.minifiedRight, 'rotate-0': !store.minifiedRight }" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
             </div>
-            <div v-if="!store.minifiedRight" class="hover:cursor-pointer" @@click="pinSidebarRight">
+            <div v-if="!store.minifiedRight" class="hover:cursor-pointer" v-on:click="pinSidebarRight">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 duration-300 ease-in-out" :class="{ 'block rotate-0': pinned, 'block -rotate-90 hover:rotate-0': !pinned }" fill="currentColor" viewBox="0 0 384 512"
                     stroke="none" stroke-width="2">
                     <path

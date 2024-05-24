@@ -40,7 +40,7 @@
                     </a>
                 </h3>
                 <div class="flex items-center h-8 mx-1">
-                    <button class="btn btn-sm btn-primary" @@click="customUpdate('all')" v-show="showSaveColumn">
+                    <button class="btn btn-sm btn-primary" v-on:click="customUpdate('all')" v-show="showSaveColumn">
                         <i class="fa fa-lg" :class="loadingSpinner.custom ? 'fa-circle-o-notch fa-spin' : 'fa-save'">
                         </i>
                         {{ trans('view.Ability.Save All') }}
@@ -66,16 +66,16 @@
                                 <input type="checkbox" :id="'allowed' + id" :name="'ability[' + id + ']'"
                                     value="allow"
                                     v-show="id == allowAllId || (!allowAll && id != allowAllId) || allowAll == undefined"
-                                    @@change="customAllow(id)">
+                                    v-on:change="customAllow(id)">
                             </td>
                             <td align="center" v-show="allowAll">
                                 <input type="checkbox" :id="'forbidden' + id" :name="'ability[' + id + ']'"
-                                    value="forbid" v-show="checkForbiddenVisibility(id)" @@change="customForbid(id)">
+                                    value="forbid" v-show="checkForbiddenVisibility(id)" v-on:change="customForbid(id)">
                             </td>
                             <td class="text-center">
                                 <div v-if="changed[id] && showSaveColumn">
                                     <button type="submit" class="btn btn-primary" name="saveAbility"
-                                        :value="id" @@click="customUpdate(id)">
+                                        :value="id" v-on:click="customUpdate(id)">
                                         <i class="fa fa-save fa-lg"
                                             :class="loadingSpinner.custom ? 'fa-circle-o-notch fa-spin' : 'fa-save'">
                                         </i>
@@ -117,7 +117,7 @@
                                 @if (($action['name'] != 'delete' && $action['name'] != 'create') || $module != 'GlobalConfig')
                                     <span class="h-8">
                                         <button class="mx-1 btn btn-sm hidden d-md-block" name="{!! $action['name'] . '_' . $module !!}"
-                                            @@click.prevent="shortcutButtonClick"
+                                            v-on:click.prevent="shortcutButtonClick"
                                             :class="[permissions.{!! $action['name'] !!}.{!! $module !!} ?
                                                 'btn-{!! $action['bsclass'] !!} {!! $action['name'] != 'update' ? 'active' : '' !!}' : 'btn-secondary'
                                             ]"
@@ -145,7 +145,7 @@
                             <span class="flex ml-1">
                                 <button class="btn btn-sm btn-primary" name="{!! 'save' . '_' . $module !!}"
                                     v-if="saveButton('{!! $module !!}')"
-                                    @@click.prevent="modelUpdate('{!! $module !!}')">
+                                    v-on:click.prevent="modelUpdate('{!! $module !!}')">
                                     <span class="d-block d-xl-none">
                                         <i class="fa fa-lg"
                                             :class="loadingSpinner.{!! $module !!} ? 'fa-circle-o-notch fa-spin' :
@@ -215,7 +215,7 @@
                                                         value="{!! $actionValue !!}" id="{!! $action['name'] . '_' . $module . '_' . $name !!}"
                                                         ref="{!! $action['name'] . '_' . $module . '_' . $name !!}"
                                                         v-model="{!! 'modelAbilities' . '.' . $module . '.' . $name !!}"
-                                                        @@change="changeModelAbility"
+                                                        v-on:change="changeModelAbility"
                                                         @if (in_array($action['name'], ['view', 'create', 'update', 'delete'])) v-show="showInput('{!! 'manage' . '_' . $module . '_' . $name !!}')" @endif
                                                         type="checkbox" align="left">
                                                 </td>

@@ -46,10 +46,10 @@
                 $blade_type = 'form';
             ?>
             @include('Generic.above_infos')
-            <form v-if="taskOptions" @@submit.prevent="updateGenieTasks" class="mb-3">
+            <form v-if="taskOptions" v-on:submit.prevent="updateGenieTasks" class="mb-3">
                 <div class="flex">
                     <div style="flex: 1;">
-                        <select2 v-model="selectedTask" @@input="setTask" :as-array="true">
+                        <select2 v-model="selectedTask" v-on:input="setTask" :as-array="true">
                             <option v-for="(option, i) in taskOptions" :key="i" :value="option.task" v-text="option.name"></option>
                         </select2>
                     </div>
@@ -58,7 +58,7 @@
             </form>
         @endif
         <div v-cloak v-if="selectedTask == 'custom/setWlan'" class="mb-3">
-            <form @@submit.prevent="setWlan" class="space-y-2">
+            <form v-on:submit.prevent="setWlan" class="space-y-2">
                 <div class="form-group row">
                     <label for="WLANIndex" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">{{ trans('view.modemAnalysis.index') }}</label>
                     <div class="col-sm-10">
@@ -87,7 +87,7 @@
             </form>
         </div>
         <div v-cloak v-if="selectedTask == 'custom/setDns'" class="mb-3">
-            <form @@submit.prevent="setDns" style="margin-top: 10px;">
+            <form v-on:submit.prevent="setDns" style="margin-top: 10px;">
                 <div class="form-group row">
                     <label for="DNS" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">DNS</label>
                     <div class="col-sm-10">
@@ -140,7 +140,7 @@
     <div class="tab-pane fade in" id="{{ $tab }}">
         @if ($configInterface)
             <div class="flex w-full justify-end mb-3">
-                <button id="{{ 'refresh'.ucfirst($tab) }}" @@click="refreshGenieObject('{{ $tab }}')" type="button" class="btn btn-dark text-gray-800">
+                <button id="{{ 'refresh'.ucfirst($tab) }}" v-on:click="refreshGenieObject('{{ $tab }}')" type="button" class="btn btn-dark text-gray-800">
                     <i class="fa fa-refresh" aria-hidden="true"></i>Refresh {{ ucfirst($tab) }}
                 </button>
             </div>

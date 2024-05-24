@@ -63,16 +63,16 @@
     <div class="flex flex-wrap-reverse" style="{{ $flex }}">
         <div class="flex flex-1 overflow-y-auto">
             <div class="flex flex-1 card card-inverse">
-                <ul @@wheel.stop="transformScroll" class="hidden py-2 space-x-2 overflow-x-auto scrollbar scrollbar-h-1 scrollbar-thumb-gray-500 scrollbar-track-gray-100 list-none md:flex dark:bg-slate-800 dark:text-slate-100 whitespace-nowrap">
+                <ul v-on:wheel.stop="transformScroll" class="hidden py-2 space-x-2 overflow-x-auto scrollbar scrollbar-h-1 scrollbar-thumb-gray-500 scrollbar-track-gray-100 list-none md:flex dark:bg-slate-800 dark:text-slate-100 whitespace-nowrap">
                     @yield('content_top')
                 </ul>
                 @if(isset($tabs))
-                <div id="tabs" @@wheel.stop="transformScroll" class="flex px-2 pt-0 overflow-x-auto scrollbar scrollbar-h-1 scrollbar-thumb-gray-500 scrollbar-track-gray-100 border-b border-gray-300 shadow-md dark:bg-slate-900 bg-slate-300 dark:border-slate-900 d-print-none whitespace-nowrap">
+                <div id="tabs" v-on:wheel.stop="transformScroll" class="flex px-2 pt-0 overflow-x-auto scrollbar scrollbar-h-1 scrollbar-thumb-gray-500 scrollbar-track-gray-100 border-b border-gray-300 shadow-md dark:bg-slate-900 bg-slate-300 dark:border-slate-900 d-print-none whitespace-nowrap">
                     <ul class="flex items-center w-full px-2 text-black dark:text-slate-100">
                         @foreach ($tabs as $tab)
                             {{-- Logging tab --}}
                             @if ($tab['name'] == "Logging")
-                                <li @@click="toggleLoggingTab"
+                                <li v-on:click="toggleLoggingTab"
                                     class="order-12 ml-auto pb-1 pt-2 !px-3 border-b-2 border-transparent hover:bg-slate-200 dark:hover:bg-slate-800"
                                     :class="loggingTab ? '!border-cyan-500 hover:border-cyan-500' : 'hover:border-white'"
                                     role="tab">
@@ -102,7 +102,7 @@
                             @endif
 
                             {{-- (Local) Tabs without page reload --}}
-                            <li @@click="setAndStoreActiveTab('{{ $tab['name'] }}')"
+                            <li v-on:click="setAndStoreActiveTab('{{ $tab['name'] }}')"
                                 :class="tabStates['{{ $tab['name'] }}'] ? '!border-cyan-500 hover:border-cyan-500' : 'hover:border-white border-transparent'"
                                 class="pb-1 pt-2 !px-3 border-b-2 hover:bg-slate-200 dark:hover:bg-slate-800 {{ $firstTab == $tab['name'] ? 'border-cyan-500' : 'border-transparent hover:border-white'}}"
                                 role="tab">

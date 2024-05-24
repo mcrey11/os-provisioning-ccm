@@ -9,7 +9,7 @@
                 </a>
             </h3>
             <div class="flex items-center h-8 mx-1">
-                <button class="btn btn-sm btn-primary" @@click="capabilityUpdate('all')"
+                <button class="btn btn-sm btn-primary" v-on:click="capabilityUpdate('all')"
                     v-show="loadingSpinner.capabilities">
                     <i class="fa fa-lg fa-circle-o-notch fa-spin mr-1"></i>
                     {{ trans('messages.Save') }}
@@ -29,7 +29,7 @@
                         <td v-text="capability.title"></td>
                         <td align="center">
                             <input type="checkbox" :ref="'capability' + id" :name="'capability[' + id + ']'"
-                                value="maintain" :checked="capability.isCapable" @@change="capabilityUpdate(id)">
+                                value="maintain" :checked="capability.isCapable" v-on:change="capabilityUpdate(id)">
                         </td>
                     </tr>
                 </table>
