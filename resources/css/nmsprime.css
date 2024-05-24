@@ -1014,3 +1014,23 @@ table.dataTable > tbody > tr.selected > * {
 #iperf-result #iperfUpstream strong::before {
     background-color: rgba(64, 247, 62, 1);
 }
+
+.icon-sidebar {
+    width: 50px;
+    color: #2f383e;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    padding-top: 54px;
+    background: var(--bg-sidebar);
+    z-index: 1010;
+    position: fixed;
+}
+
+.icon-sidebar span {
+    display: none;
+}
+
+.icon-sidebar i {
+    padding-top: 8px;
+}
