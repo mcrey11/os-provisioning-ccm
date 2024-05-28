@@ -21,6 +21,7 @@ namespace App\Http\Controllers;
 use Auth;
 use BaseModel;
 use Bouncer;
+use Form;
 use Illuminate\Support\HtmlString;
 use Module;
 use Request;
@@ -217,7 +218,14 @@ class BaseViewController extends Controller
         // for all fields
         foreach ($fields as $field) {
             if ($field['form_type'] === 'collapse') {
-                $ret = array_merge($ret, self::prepare_form_fields($field['form_fields'], $model));
+                if (Str::endsWith(Route::currentRouteName(), '.api_create')) {
+                    // API: show all possible fields in a flat layout
+                    $ret = array_merge($ret, self::prepare_form_fields($field['form_fields'], $model));
+                } else {
+                    // GUI: hide / collapse some field (e.g. number{2,3,4} of Contract)
+                    $field['form_fields'] = self::prepare_form_fields($field['form_fields'], $model);
+                    array_push($ret, $field);
+                }
                 continue;
             }
 
