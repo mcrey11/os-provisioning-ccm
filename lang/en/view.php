@@ -819,6 +819,7 @@ return [
         '' => 'Settlement run',
         'functions' => [
             'postInvoices' => 'Create Postal Invoices PDF',
+            'revenueList' => 'Create revenue list (per cost center)',
         ],
         'repeat' => 'Settlementrun for SEPA-account(s)', // Settlementrun repeat
         'restart' => 'Restart settlement run',

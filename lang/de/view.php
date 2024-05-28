@@ -818,6 +818,7 @@ return [
         '' => 'Rechnungslauf',
         'functions' => [
             'postInvoices' => 'Erstelle PDF mit postalischen Rechnungen',
+            'revenueList' => 'Erstelle Umsatzliste (pro Kostenstelle)',
         ],
         'repeat' => 'Wiederhole für SEPA-Konto',
         'restart' => 'Rechnungslauf neustarten',
