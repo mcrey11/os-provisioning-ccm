@@ -1002,23 +1002,43 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Add/Remove modem MAC to/from DHCP blocking file - to not hand out IP addresses to CPEs behind that modem
+     * Add/Remove modem MAC to/from DHCP blocking file - to not hand out IP
+     *  addresses to CPEs behind that modem.
+     * While this function is as safe as possible (using flock) it is not 100%
+     *  sure that it works as expected:
+     *      * imagine one method holding the lock for self::BLOCKED_CPE_FILE_PATH
+     *      * the same time a contract with valid item gets deleted
+     *      * in a blink of an eye this method gets called from ModemObserver::updated()
+     *          (wanting to add to blocked file) and ModemObserver::deleted() (wanting
+     *          to delete MAC from blocked file)
+     *      * both methods now are waiting for the lock – but it is random who will
+     *          get it first
+     *      * so maybe we end with the modem deleted but the MAC still in blocked file
+     *  Therefore: Rebuild the whole DHCP config (e.g. daily)
      */
     public function blockCpeViaDhcp($unblock = false, $macChanged = false)
     {
+        // Open file and lock/wait for lock
+        // Do so for the whole method and release before returning
+        $fh = fopen(self::BLOCKED_CPE_FILE_PATH, 'c+');
+        flock($fh, LOCK_EX);
+
         // Add (Block)
         if (! $unblock) {
             exec('grep -i '.$this->mac.' '.self::BLOCKED_CPE_FILE_PATH, $out, $ret);
 
             // not found
             if ($ret) {
-                file_put_contents(self::BLOCKED_CPE_FILE_PATH, "\n".$this->getDhcpBlockedCpeSublass(), FILE_APPEND | LOCK_EX);
+                fseek($fh, 0, SEEK_END);    // Set pointer to end of the file
+                fwrite($fh, "\n".$this->getDhcpBlockedCpeSublass());    // Add line
+                fflush($fh);    // Empty buffer
 
                 Log::info("DHCP - Add modem $this->id ($this->mac) to list for blocked CPEs");
             }
 
             if (! $macChanged) {
-                // Remove original MAC if MAC was changed
+                fclose($fh);    // Close (and release lock)
+
                 return;
             }
         }
@@ -1026,8 +1046,12 @@ class Modem extends \BaseModel
         // Remove (Unblock)
         $mac = $macChanged ? $this->getRawOriginal('mac') : $this->mac;
 
-        exec('grep -vi '.$mac.' '.self::BLOCKED_CPE_FILE_PATH.' > '.self::BLOCKED_CPE_FILE_PATH.'.tmp');
-        rename(self::BLOCKED_CPE_FILE_PATH.'.tmp', self::BLOCKED_CPE_FILE_PATH);
+        exec('grep -vi '.$mac.' '.self::BLOCKED_CPE_FILE_PATH, $out, $ret);
+        ftruncate($fh, 0);  // Empty the file
+        fwrite($fh, implode("\n", $out));  // Write the grep output to file
+        fflush($fh);    // Empty buffer
+        fclose($fh);    // Close (and release lock)
+
         chown(self::BLOCKED_CPE_FILE_PATH, 'apache');
 
         Log::info("DHCP - Remove modem $this->id ($mac) from list for blocked CPEs");
