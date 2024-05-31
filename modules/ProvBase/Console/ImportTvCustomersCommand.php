@@ -175,7 +175,7 @@ class ImportTvCustomersCommand extends Command
         $city = $arr[0];
         $district = isset($arr[1]) ? $arr[1] : '';
 
-        $contract = $this->contractExists($number, $firstname, $lastname, $street, $city);
+        $contract = $this->contractExists($number, $firstname, $lastname, $street, $city, $housenr);
         // if existing contract was found update the contact and return it
         if ($contract) {
             if ($this->option('ag')) {

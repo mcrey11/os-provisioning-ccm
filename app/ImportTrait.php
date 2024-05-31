@@ -19,7 +19,7 @@ trait ImportTrait
      *
      * @return object contract if exists, otherwise null or []
      */
-    public function contractExists($number, $firstname, $lastname, $street, $city)
+    public function contractExists($number, $firstname, $lastname, $street, $city, $houseNr)
     {
         $contract = Contract::where('number', $number)->first();
 
@@ -37,10 +37,12 @@ trait ImportTrait
             Log::notice("Vertrag $number existiert bereits übereinstimmend ($firstname $lastname) - füge nur TV Tarif hinzu");
         } else {
             // TODO: Check if customer/name & address already exists with another contract number
-            $contract = Contract::where('firstname', '=', $firstname)->where('lastname', '=', $lastname)
+            $contract = Contract::where('firstname', $firstname)
+                ->where('lastname', $lastname)
+                ->where('house_number', $houseNr)
                 // make Straße or Str. respective ..straße or ..str. indifferent on searching in DB
                 ->whereIn('street', [$street, str_replace(['trasse', 'traße'], 'tr.', $street)])
-                ->where('city', '=', $city)->first();
+                ->where('city', $city)->first();
 
             if ($contract) {
                 // $msg = "Customer $number is probably already added with different contract number [$contract->number] (found same name [$firstname $lastname], city & street [$street]). Check this manually!";
