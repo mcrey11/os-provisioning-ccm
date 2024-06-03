@@ -47,7 +47,7 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropColumns(['block_funds_payout', 'signed_terms_cond']);
+            $table->dropColumn(['block_funds_payout', 'signed_terms_cond']);
         });
     }
 };
