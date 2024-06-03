@@ -132,6 +132,9 @@ return [
     'indexDeleteDisabledTitle' => 'Can only be deleted when the object is not assigned to any :relation anymore.',
     'Internet Access'           => 'Internet Access',
     'Inventar Number'           => 'Inventar Number',
+    'invoice' => [
+        'totalCharges' => 'Total charges',
+    ],
     'Invoice'                   => 'Invoice',
     'invoiceText'               => 'Invoice text',
     'noInvoice'                 => 'No invoice to show',
@@ -586,6 +589,7 @@ return [
     '7 losses in a row'     => '7 losses in a row',
     '8 losses in a row'     => '8 losses in a row',
     '9 losses in a row'     => '9 losses in a row',
+    'phoneCall' => 'Phone call',
     'PDV 50ms - 70ms'       => 'PDV 50ms - 70ms',
     'PDV 70ms - 90ms'       => 'PDV 70ms - 90ms',
     'PDV 90ms - 120ms'      => 'PDV 90ms - 120ms',
