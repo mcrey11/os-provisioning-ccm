@@ -17,6 +17,7 @@ return [
     'Address Line 2'            => 'Address Line 2',
     'Address Line 3'            => 'Address Line 3',
     'Amount'                    => 'Amount',
+    'Applies to costcenter(s)' => 'Applies to costcenter(s)',
     'Apartment'                 => 'Apartment',
     'Apartment number'          => 'Apartment number',
     'Assigned'                  => 'Assigned',
