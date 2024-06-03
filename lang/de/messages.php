@@ -63,6 +63,7 @@ return [
         'taxIncl' => 'inkl. Mwst.',
     ],
     'Contracts'                 => 'Verträge',
+    'Cost Center for CDRs' => 'Kostenstelle für EVNs',
     'createPostInvoicesFailed' => 'Das Erstellen der PDF mit den postalischen Rechnungen schlug fehl. Bitte versuchen Sie es erneut oder wenden Sie sich an Ihren Administrator.',
     'International prefix'      => 'Ländervorwahl',
     'Country code'              => 'Ländercode',
