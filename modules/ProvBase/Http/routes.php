@@ -130,6 +130,12 @@ BaseRoute::group([], function () {
             'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@api_setWifi',
             'middleware' => ['api', 'can:update,Modules\ProvBase\Entities\Modem'],
         ]);
+
+        Route::get('Modem/{id}/setLanMode', [
+            'as' => 'Modem.api_setLanMode',
+            'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@api_setLanMode',
+            'middleware' => ['api', 'can:update,Modules\ProvBase\Entities\Modem'],
+        ]);
     });
 
     BaseRoute::get('modem/{id}/analysis', [
