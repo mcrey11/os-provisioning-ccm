@@ -496,4 +496,79 @@ class ImportTvCustomersCommand extends Command
             exit;
         }
     }
+
+    /**
+    *
+    * Customer specific static methods
+    *
+    */
+
+    /**
+     * Add SepaMandate without costcenter_id for Internet/new customers or
+     * add SepaMandate with costcenter_id to already existing customer.
+     *
+     * @return void
+     *
+     * @author Roy Schneider
+     */
+    public static function addSepaForInternetOrNewOrWithCcToExistingCustomer($file, $ccSepa, $ag, $ccContract)
+    {
+        $file = file($file);
+        $count = count($file);
+        Log::info("Import potentially $count TV customers");
+
+        foreach ($file as $line) {
+            $contract = self::findOrAddContract($ag, $ccContract);
+
+            $line = str_getcsv($line, ';');
+            $valid = trim($line[self::S_VALID]) == 'einzug';
+
+            if (! $valid) {
+                Log::debug("Contract $contract->number has no valid SepaMandate");
+
+                // Set CostCenter for current SepaMandate in case customer pays TV charge in cash
+                SepaMandate::where('contract_id', $contract->id)
+                    ->where(function ($query) {
+                        $query->whereNull('costcenter_id')->orWhere('costcenter_id', 0);
+                    })
+                    ->update(['costcenter_id' => $contract->costcenter_id]);
+
+                return;
+            }
+
+            $signature_date = date('Y-m-d', strtotime($line[self::S_SIGNATURE]));
+
+            // Check and return if SepaMandate with this IBAN currently exists and is valid
+            if ($contract->sepamandates) {
+                if ($contract->sepamandates->contains('iban', $line[self::S_IBAN])) {
+                    $mandates = $contract->sepamandates->where('iban', $line[self::S_IBAN]);
+
+                    // if is a sepa that is used for internet
+                    if ($contract->where('type', 'Internet')) {
+                        self::createSepaMandate($contract, $signature_date);
+
+                        return;
+                    }
+
+                    foreach ($mandates as $sm) {
+                        if (! $sm->valid_to || ($sm->valid_to > date('Y-m-d')) || ($sm->signature_date > $signature_date)) {
+                            Log::notice("Contract $contract->number already has SEPA-mandate with IBAN {$line[self::S_IBAN]}");
+
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // new customer
+            if (self::$newCustomer) {
+                self::createSepaMandate($contract, $signature_date);
+
+                return;
+            }
+
+            // already existing customer
+            self::createSepaMandate($contract, $line, $signature_date, $ccSepa);
+        }
+    }
 }
