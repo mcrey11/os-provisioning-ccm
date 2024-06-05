@@ -100,7 +100,9 @@ class ImportTvCustomersCommand extends Command
         '16,5'  => 52, // & 57
     ];
 
+    // helper variables
     protected $newCustomer = false;
+    protected static $line = [];
 
     /**
      * Create a new command instance.
@@ -137,17 +139,18 @@ class ImportTvCustomersCommand extends Command
         foreach ($file_arr as $line) {
             $bar->advance();
 
-            $line = str_getcsv($line, ';');
-            // $line = str_getcsv($line, "\t");
-            $c = $this->_add_contract($line);
+            self::$line = str_getcsv($line, ';');
+
+            // self::$line = str_getcsv(self::$line, "\t");
+            $c = $this->_add_contract();
 
             if (! $c) {
                 continue;
             }
 
-            $this->_add_tarif($c, $line);
-            $this->_add_Credit($c, $line);
-            $this->_add_sepa_mandate($c, $line);
+            $this->_add_tarif($c);
+            $this->_add_Credit($c);
+            $this->_add_sepa_mandate($c);
         }
 
         $this->printImportantTodos();
@@ -158,16 +161,16 @@ class ImportTvCustomersCommand extends Command
      *
      * @return object New created contract or if found the already existing one
      */
-    private function _add_contract($line)
+    private function _add_contract()
     {
-        $number = $line[self::C_NR];
-        $name = explode(',', $line[self::C_NAME]);
+        $number = self::$line[self::C_NR];
+        $name = explode(',', self::$line[self::C_NAME]);
         $firstname = isset($name[1]) ? trim($name[1]) : trim($name[0]);
         $lastname = isset($name[1]) ? trim($name[0]) : '';
-        $ret = self::splitStreetHousenr($line[self::C_STRASSE]);
+        $ret = self::splitStreetHousenr(self::$line[self::C_STRASSE]);
         $street = $ret[0];
         $housenr = $ret[1];
-        $arr = explode(' OT ', $line[self::C_CITY]);
+        $arr = explode(' OT ', self::$line[self::C_CITY]);
         $city = $arr[0];
         $district = isset($arr[1]) ? $arr[1] : '';
 
@@ -187,8 +190,8 @@ class ImportTvCustomersCommand extends Command
         // Add new contract
         $contract = new Contract;
 
-        $contract->contract_start = $line[self::C_START] ? date('Y-m-d', strtotime($line[self::C_START])) : '2000-01-01';
-        $contract->contract_end = $line[self::C_END] ? date('Y-m-d', strtotime($line[self::C_END])) : null;
+        $contract->contract_start = self::$line[self::C_START] ? date('Y-m-d', strtotime(self::$line[self::C_START])) : '2000-01-01';
+        $contract->contract_end = self::$line[self::C_END] ? date('Y-m-d', strtotime(self::$line[self::C_END])) : null;
 
         // Discard contracts that ended last year
         if ($contract->contract_end && ($contract->contract_end < date('Y-01-01'))) {
@@ -202,22 +205,22 @@ class ImportTvCustomersCommand extends Command
         $contract->lastname = $lastname;
         $contract->street = $street;
         $contract->house_number = $housenr;
-        $contract->zip = str_pad($line[self::C_ZIP], 5, '0', STR_PAD_LEFT);
+        $contract->zip = str_pad(self::$line[self::C_ZIP], 5, '0', STR_PAD_LEFT);
         $contract->city = $city;
         $contract->district = $district;
 
-        // $contract->academic_degree = self::map_academic_degree($line[self::C_ACAD_DGR]);
-        $contract->salutation = self::map_salutation($line[self::C_SALUT]);
-        $contract->phone = str_replace(['/', '-', ' '], '', $line[self::C_TEL]);
-        $contract->description = $line[self::C_DESC1]."\n".$line[self::C_DESC2]."\n".$line[self::C_DESC3];
+        // $contract->academic_degree = self::map_academic_degree(self::$line[self::C_ACAD_DGR]);
+        $contract->salutation = self::map_salutation(self::$line[self::C_SALUT]);
+        $contract->phone = str_replace(['/', '-', ' '], '', self::$line[self::C_TEL]);
+        $contract->description = self::$line[self::C_DESC1]."\n".self::$line[self::C_DESC2]."\n".self::$line[self::C_DESC3];
         $contract->costcenter_id = $this->argument('ccContract'); 		// Dittersdorf=1
         if ($this->option('ag')) {
             $contract->contact = $this->option('ag');
         }
         $contract->create_invoice = true;
 
-        $contract->fax = $line[self::C_FAX];
-        $contract->email = $line[self::C_MAIL];
+        $contract->fax = self::$line[self::C_FAX];
+        $contract->email = self::$line[self::C_MAIL];
         // $contract->birthday 	= $contract->geburtsdatum;
 
         // Set null-fields to '' to fix SQL import problem with null fields
@@ -269,9 +272,9 @@ class ImportTvCustomersCommand extends Command
         return 'Frau';
     }
 
-    private function _add_tarif($contract, $line)
+    private function _add_tarif($contract)
     {
-        $tariff = $line[self::TARIFF];
+        $tariff = self::$line[self::TARIFF];
 
         if (! $tariff) {
             Log::debug("'Umlage' is zero or empty - don't add tariff");
@@ -314,7 +317,7 @@ class ImportTvCustomersCommand extends Command
         Item::create([
             'contract_id' 		=> $contract->id,
             'product_id' 		=> $productId,
-            'valid_from' 		=> $line[self::C_START] ?: '2000-01-01',
+            'valid_from' 		=> self::$line[self::C_START] ?: '2000-01-01',
             'valid_from_fixed' 	=> 1,
             'valid_to' 			=> $contract->contract_end,
             'valid_to_fixed' 	=> 1,
@@ -323,10 +326,10 @@ class ImportTvCustomersCommand extends Command
         Log::info("Add TV Tariff $productId for Contract $contract->number");
     }
 
-    private function _add_Credit($contract, $line)
+    private function _add_Credit($contract)
     {
-        $credit = $line[self::CREDIT];
-        $watt_amount = $line[self::C_DESC1];
+        $credit = self::$line[self::CREDIT];
+        $watt_amount = self::$line[self::C_DESC1];
 
         if (! $credit) {
             return;
@@ -343,7 +346,7 @@ class ImportTvCustomersCommand extends Command
         }
 
         if (! $product_id) {
-            $this->importantTodos[] = "Contract $contract->number [Old Contract Nr ".$line[self::C_NR]."] has credit of $credit € [Watt: $watt_amount]. Please add credit manually!";
+            $this->importantTodos[] = "Contract $contract->number [Old Contract Nr ".self::$line[self::C_NR]."] has credit of $credit € [Watt: $watt_amount]. Please add credit manually!";
 
             return;
         }
@@ -375,15 +378,15 @@ class ImportTvCustomersCommand extends Command
             'valid_to' 			=> $contract->contract_end,
             'valid_to_fixed' 	=> 1,
             // 'credit_amount' 	=> $creditAmount,
-            'costcenter_id' 	=> $this->option('ccContract'),
+            'costcenter_id' 	=> $this->argument('ccContract'),
         ]);
 
         Log::info("Add Credit [Product ID $product_id] for Amplifier to Contract $contract->number");
     }
 
-    private function _add_sepa_mandate($contract, $line)
+    private function _add_sepa_mandate($contract)
     {
-        $valid = trim($line[self::S_VALID]) == 'einzug';
+        $valid = trim(self::$line[self::S_VALID]) == 'einzug';
 
         if (! $valid) {
             Log::debug("Contract $contract->number has no valid SepaMandate");
@@ -398,15 +401,15 @@ class ImportTvCustomersCommand extends Command
             return;
         }
 
-        $signature_date = date('Y-m-d', strtotime($line[self::S_SIGNATURE]));
+        $signature_date = date('Y-m-d', strtotime(self::$line[self::S_SIGNATURE]));
 
         // Check and return if SepaMandate with this IBAN currently exists and is valid
-        if ($contract->sepamandates && $contract->sepamandates->contains('iban', $line[self::S_IBAN])) {
-            $mandates = $contract->sepamandates->where('iban', $line[self::S_IBAN]);
+        if ($contract->sepamandates && $contract->sepamandates->contains('iban', self::$line[self::S_IBAN])) {
+            $mandates = $contract->sepamandates->where('iban', self::$line[self::S_IBAN]);
 
             foreach ($mandates as $sm) {
                 if (! $sm->valid_to || ($sm->valid_to > date('Y-m-d')) || ($sm->signature_date > $signature_date)) {
-                    Log::notice("Contract $contract->number already has SEPA-mandate with IBAN ".$line[self::S_IBAN]);
+                    Log::notice("Contract $contract->number already has SEPA-mandate with IBAN ".self::$line[self::S_IBAN]);
 
                     return;
                 }
@@ -414,30 +417,37 @@ class ImportTvCustomersCommand extends Command
         }
 
         $data = [
-            'contract_id'     => $contract->id,
-            'reference'     => $line[self::C_NR],
+            'contract_id' => $contract->id,
+            'reference' => self::$line[self::C_NR],
             'signature_date' => $signature_date,
-            'holder'        => $line[self::S_HOLDER],
-            'iban'            => $line[self::S_IBAN],
-            'bic'             => $line[self::S_BIC],
-            'institute'     => $line[self::S_INST],
-            'valid_from'     => date('Y-m-d', strtotime($line[self::S_SIGNATURE])),
-            'state'         => 'RCUR',
-            'costcenter_id' => $this->option('ccSepa'),
-            // 'valid_to' 	=> NULL,
+            'holder' => self::$line[self::S_HOLDER],
+            'iban' => self::$line[self::S_IBAN],
+            'bic' => self::$line[self::S_BIC],
+            'institute' => self::$line[self::S_INST],
+            'valid_from' => date('Y-m-d', strtotime(self::$line[self::S_SIGNATURE])),
+            'state' => 'RCUR',
+            'costcenter_id' => $costcenterId ?? null,
         ];
 
+        $this->createSepaMandate($contract, $data, $this->option('ccSepa'));
+    }
+
+    private function createSepaMandate($contract, $data, $costcenterId = null)
+    {
         $validator = \Validator::make($data, (new SepaMandate)->rules());
+        $iban = self::$line[self::S_IBAN];
 
         if ($validator->fails()) {
-            $this->importantTodos[] = "Cannot add SepaMandate with IBAN {$line[self::S_IBAN]} because of invalid data: ".implode(', ', $validator->errors()->all());
+            $this->importantTodos[] = "Cannot add SepaMandate with IBAN {$iban} because of invalid data: ".implode(', ', $validator->errors()->all());
 
             return;
         }
 
         SepaMandate::create($data);
 
-        Log::info('Add SepaMandate [IBAN: '.$line[self::S_IBAN]."] for contract $contract->number");
+        $costcenterId ??= 'NULL';
+
+        Log::info("Add SepaMandate [IBAN: {$iban}] for contract $contract->number with Costcenter ID $costcenterId");
     }
 
     private function validateUserInput()
