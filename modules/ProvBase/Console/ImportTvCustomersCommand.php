@@ -142,15 +142,16 @@ class ImportTvCustomersCommand extends Command
             self::$line = str_getcsv($line, ';');
 
             // self::$line = str_getcsv(self::$line, "\t");
-            $c = $this->_add_contract();
+            $c = $this->addContract();
 
             if (! $c) {
                 continue;
             }
 
-            $this->_add_tarif($c);
-            $this->_add_Credit($c);
-            $this->_add_sepa_mandate($c);
+            $this->addTariff($c);
+            $this->addCredit($c);
+            $this->addSepaMandate($c);
+
         }
 
         $this->printImportantTodos();
@@ -161,7 +162,7 @@ class ImportTvCustomersCommand extends Command
      *
      * @return object New created contract or if found the already existing one
      */
-    private function _add_contract()
+    private function addContract()
     {
         $number = self::$line[self::C_NR];
         $name = explode(',', self::$line[self::C_NAME]);
@@ -272,7 +273,7 @@ class ImportTvCustomersCommand extends Command
         return 'Frau';
     }
 
-    private function _add_tarif($contract)
+    private function addTariff($contract)
     {
         $tariff = self::$line[self::TARIFF];
 
@@ -326,7 +327,7 @@ class ImportTvCustomersCommand extends Command
         Log::info("Add TV Tariff $productId for Contract $contract->number");
     }
 
-    private function _add_Credit($contract)
+    private function addCredit($contract)
     {
         $credit = self::$line[self::CREDIT];
         $watt_amount = self::$line[self::C_DESC1];
@@ -384,7 +385,7 @@ class ImportTvCustomersCommand extends Command
         Log::info("Add Credit [Product ID $product_id] for Amplifier to Contract $contract->number");
     }
 
-    private function _add_sepa_mandate($contract)
+    private function addSepaMandate($contract)
     {
         $valid = trim(self::$line[self::S_VALID]) == 'einzug';
 
