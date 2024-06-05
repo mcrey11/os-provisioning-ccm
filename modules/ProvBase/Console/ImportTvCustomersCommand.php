@@ -101,7 +101,8 @@ class ImportTvCustomersCommand extends Command
     ];
 
     // helper variables
-    protected $newCustomer = false;
+    protected static $newCustomer = false;
+    protected static $contract = null;
     protected static $line = [];
 
     /**
@@ -142,19 +143,53 @@ class ImportTvCustomersCommand extends Command
             self::$line = str_getcsv($line, ';');
 
             // self::$line = str_getcsv(self::$line, "\t");
-            $c = $this->addContract();
+            self::$contract = self::findOrAddContract($this->option('ag'), $this->argument('ccContract'));
 
-            if (! $c) {
+            if (! self::$contract) {
                 continue;
             }
 
-            $this->addTariff($c);
-            $this->addCredit($c);
-            $this->addSepaMandate($c);
-
+            $this->addTariff();
+            $this->addCredit();
+            $this->addSepaMandate();
         }
 
-        $this->printImportantTodos();
+        self::printImportantTodos();
+    }
+
+    private static function getNumber()
+    {
+        return self::$line[self::C_NR];
+    }
+
+    private static function getFirstAndLastName()
+    {
+        $name = explode(',', self::$line[self::C_NAME]);
+
+        return [
+            'firstName' => isset($name[1]) ? trim($name[1]) : trim($name[0]),
+            'lastName' => isset($name[1]) ? trim($name[0]) : '',
+        ];
+    }
+
+    private static function getStreetAndHouseNumber()
+    {
+        $ret = self::splitStreetHousenr(self::$line[self::C_STRASSE]);
+
+        return [
+            'street' => $ret[0],
+            'houseNr' => $ret[1],
+        ];
+    }
+
+    private static function getCityAndDistrict()
+    {
+        $arr = explode(' OT ', self::$line[self::C_CITY]);
+
+        return [
+            'city' => $arr[0],
+            'district' => $arr[1] ?? '',
+        ];
     }
 
     /**
@@ -162,31 +197,25 @@ class ImportTvCustomersCommand extends Command
      *
      * @return object New created contract or if found the already existing one
      */
-    private function addContract()
+    private static function findOrAddContract($ag, $ccContract)
     {
-        $number = self::$line[self::C_NR];
-        $name = explode(',', self::$line[self::C_NAME]);
-        $firstname = isset($name[1]) ? trim($name[1]) : trim($name[0]);
-        $lastname = isset($name[1]) ? trim($name[0]) : '';
-        $ret = self::splitStreetHousenr(self::$line[self::C_STRASSE]);
-        $street = $ret[0];
-        $housenr = $ret[1];
-        $arr = explode(' OT ', self::$line[self::C_CITY]);
-        $city = $arr[0];
-        $district = isset($arr[1]) ? $arr[1] : '';
+        $number = self::getNumber();
+        ['firstName' => $firstName, 'lastName' => $lastName] = self::getFirstAndLastName();
+        ['street' => $street, 'houseNr' => $houseNr] = self::getStreetAndHouseNumber();
+        ['city' => $city, 'district' => $district] = self::getCityAndDistrict();
 
-        $contract = $this->contractExists($number, $firstname, $lastname, $street, $city, $housenr);
+        $contract = self::contractExists($number, $firstName, $lastName, $street, $city, $houseNr);
         // if existing contract was found update the contact and return it
         if ($contract) {
-            $this->newCustomer = false;
-            if ($this->option('ag')) {
-                Contract::where('id', $contract->id)->update(['contact' => $this->option('ag')]);
+            self::$newCustomer = false;
+            if ($ag) {
+                Contract::where('id', $contract->id)->update(['contact' => $ag]);
             }
 
             return $contract;
         }
 
-        $this->newCustomer = true;
+        self::$newCustomer = true;
 
         // Add new contract
         $contract = new Contract;
@@ -202,10 +231,10 @@ class ImportTvCustomersCommand extends Command
         }
 
         $contract->number = $number;
-        $contract->firstname = $firstname;
-        $contract->lastname = $lastname;
+        $contract->firstname = $firstName;
+        $contract->lastname = $lastName;
         $contract->street = $street;
-        $contract->house_number = $housenr;
+        $contract->house_number = $houseNr;
         $contract->zip = str_pad(self::$line[self::C_ZIP], 5, '0', STR_PAD_LEFT);
         $contract->city = $city;
         $contract->district = $district;
@@ -214,15 +243,15 @@ class ImportTvCustomersCommand extends Command
         $contract->salutation = self::map_salutation(self::$line[self::C_SALUT]);
         $contract->phone = str_replace(['/', '-', ' '], '', self::$line[self::C_TEL]);
         $contract->description = self::$line[self::C_DESC1]."\n".self::$line[self::C_DESC2]."\n".self::$line[self::C_DESC3];
-        $contract->costcenter_id = $this->argument('ccContract'); 		// Dittersdorf=1
-        if ($this->option('ag')) {
-            $contract->contact = $this->option('ag');
-        }
-        $contract->create_invoice = true;
+        $contract->costcenter_id = $ccContract;
 
+        if ($ag) {
+            $contract->contact = $ag;
+        }
+
+        $contract->create_invoice = true;
         $contract->fax = self::$line[self::C_FAX];
         $contract->email = self::$line[self::C_MAIL];
-        // $contract->birthday 	= $contract->geburtsdatum;
 
         // Set null-fields to '' to fix SQL import problem with null fields
         $relations = $contract->relationsToArray();
@@ -241,7 +270,6 @@ class ImportTvCustomersCommand extends Command
         // Update or Create Entry
         $contract->save();
 
-        // Log
         Log::info("Add Contract $contract->number: $contract->firstname, $contract->lastname");
 
         return $contract;
@@ -273,9 +301,10 @@ class ImportTvCustomersCommand extends Command
         return 'Frau';
     }
 
-    private function addTariff($contract)
+    private function addTariff()
     {
         $tariff = self::$line[self::TARIFF];
+        $contract = self::$contract;
 
         if (! $tariff) {
             Log::debug("'Umlage' is zero or empty - don't add tariff");
@@ -307,7 +336,7 @@ class ImportTvCustomersCommand extends Command
         $key = array_search($amount, $this->option('charge'), true);
         if ($key === false) {
             $msg = "Contract $contract->number is charged with $amount EUR. Please add Tariff manually!";
-            $this->importantTodos[] = $msg;
+            self::$importantTodos[] = $msg;
             Log::warning($msg);
 
             return;
@@ -327,10 +356,11 @@ class ImportTvCustomersCommand extends Command
         Log::info("Add TV Tariff $productId for Contract $contract->number");
     }
 
-    private function addCredit($contract)
+    private function addCredit()
     {
         $credit = self::$line[self::CREDIT];
         $watt_amount = self::$line[self::C_DESC1];
+        $contract = self::$contract;
 
         if (! $credit) {
             return;
@@ -339,7 +369,7 @@ class ImportTvCustomersCommand extends Command
         $product_id = 0;
         foreach (self::CREDITS_WATT as $watt => $prod_id) {
             if ($watt_amount == $watt) {
-                $this->importantTodos[] = "Please check if contract $contract->number has correct credit assigned! (multiple possible)";
+                self::$importantTodos[] = "Please check if contract $contract->number has correct credit assigned! (multiple possible)";
 
                 $product_id = $prod_id;
                 break;
@@ -347,7 +377,7 @@ class ImportTvCustomersCommand extends Command
         }
 
         if (! $product_id) {
-            $this->importantTodos[] = "Contract $contract->number [Old Contract Nr ".self::$line[self::C_NR]."] has credit of $credit € [Watt: $watt_amount]. Please add credit manually!";
+            self::$importantTodos[] = "Contract $contract->number [Old Contract Nr ".self::$line[self::C_NR]."] has credit of $credit € [Watt: $watt_amount]. Please add credit manually!";
 
             return;
         }
@@ -368,7 +398,7 @@ class ImportTvCustomersCommand extends Command
         // $creditAmount = trim($creditAmount);
 
         if (date('Y') == date('Y', strtotime($contract->contract_start)) || date('Y') == date('Y', strtotime($contract->contract_end))) {
-            $this->importantTodos[] = "Please check Amplifier credit for Contract $contract->number as it's calculated partly for the year";
+            self::$importantTodos[] = "Please check Amplifier credit for Contract $contract->number as it's calculated partly for the year";
         }
 
         Item::create([
@@ -385,9 +415,10 @@ class ImportTvCustomersCommand extends Command
         Log::info("Add Credit [Product ID $product_id] for Amplifier to Contract $contract->number");
     }
 
-    private function addSepaMandate($contract)
+    private function addSepaMandate()
     {
         $valid = trim(self::$line[self::S_VALID]) == 'einzug';
+        $contract = self::$contract;
 
         if (! $valid) {
             Log::debug("Contract $contract->number has no valid SepaMandate");

@@ -12,14 +12,14 @@ use Modules\ProvBase\Entities\Contract;
  */
 trait ImportTrait
 {
-    public $importantTodos = [];
+    public static $importantTodos = [];
 
     /**
      * Check if already a (n internet) contract exists for this customer
      *
      * @return object contract if exists, otherwise null or []
      */
-    public function contractExists($number, $firstname, $lastname, $street, $city, $houseNr)
+    public static function contractExists($number, $firstname, $lastname, $street, $city, $houseNr)
     {
         $contract = Contract::where('number', $number)->first();
 
@@ -29,7 +29,7 @@ trait ImportTrait
             if ($contract->firstname != $firstname || $contract->lastname != $lastname || strtolower($contract->street) != strtolower($street)) {
                 $msg = "Vertragsnummer $number existiert bereits, aber Name, Straße oder Stadt weichen ab - Bitte korrigieren Sie die Daten!";
                 Log::warning($msg);
-                $this->importantTodos[] = $msg;
+                self::$importantTodos[] = $msg;
 
                 return $contract;
             }
@@ -54,12 +54,12 @@ trait ImportTrait
         return $contract;
     }
 
-    public function printImportantTodos()
+    public static function printImportantTodos()
     {
-        if (! $this->importantTodos) {
+        if (! self::$importantTodos) {
             return;
         }
 
-        echo "\n".implode("\n", $this->importantTodos)."\n";
+        echo "\n".implode("\n", self::$importantTodos)."\n";
     }
 }
