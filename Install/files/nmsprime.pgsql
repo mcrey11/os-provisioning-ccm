@@ -397,8 +397,8 @@ CREATE TABLE nmsprime.apartment (
     realty_id bigint,
     number character varying(191),
     floor smallint,
-    connected boolean,
-    occupied boolean,
+    connected boolean DEFAULT false,
+    occupied boolean DEFAULT false,
     description character varying(191),
     connection_type character varying(191),
     code character varying(191)
@@ -742,7 +742,7 @@ CREATE TABLE nmsprime.contact (
     city character varying(191),
     zip character varying(191),
     district character varying(191),
-    administration boolean,
+    administration boolean DEFAULT false,
     invoice_text1 text,
     invoice_text2 text,
     invoice_text3 text
@@ -2662,14 +2662,14 @@ CREATE TABLE nmsprime.product (
     maturity character varying(20),
     costcenter_id bigint,
     price numeric(13,4),
-    tax boolean,
+    tax boolean DEFAULT true,
     bundled_with_voip boolean DEFAULT false,
     email_count bigint,
     period_of_notice character varying(20),
     maturity_min character varying(20),
-    proportional boolean,
-    record_monthly boolean,
-    deprecated boolean,
+    proportional boolean DEFAULT true,
+    record_monthly boolean DEFAULT false,
+    deprecated boolean DEFAULT false,
     markon numeric(8,2)
 );
 
@@ -3080,7 +3080,7 @@ CREATE TABLE nmsprime.sepamandate (
     valid_to date,
     state nmsprime.sepamandate_state,
     costcenter_id bigint,
-    disable boolean,
+    disable boolean DEFAULT false,
     description text
 );
 
