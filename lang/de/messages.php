@@ -128,6 +128,7 @@ return [
     'Group Contract'            => 'Gruppenvertrag',
     'Headend'                   => 'Kopfstelle',
     'House number'              => 'Hausnummer',
+    'Housenr' => 'Hausnr',
     'IBAN'                      => 'IBAN',
     'indexDeleteDisabledTitle' => 'Kann nur gelöscht werden wenn das Objekt keinem/keiner :relation mehr zugeordnet ist.',
     'Internet Access'           => 'Internetzugriff',

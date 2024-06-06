@@ -128,6 +128,7 @@ return [
     'Group Contract'            => 'Group Contract',
     'Headend'                   => 'Headend',
     'House number'              => 'House number',
+    'Housenr' => 'House nr',
     'IBAN'                      => 'IBAN',
     'indexDeleteDisabledTitle' => 'Can only be deleted when the object is not assigned to any :relation anymore.',
     'Internet Access'           => 'Internet Access',
