@@ -820,6 +820,7 @@ return [
         'functions' => [
             'postInvoices' => 'Create Postal Invoices PDF',
             'revenueList' => 'Create revenue list (per cost center)',
+            'sendIppayTransactions' => 'Send IPpay transactions',
         ],
         'repeat' => 'Settlementrun for SEPA-account(s)', // Settlementrun repeat
         'restart' => 'Restart settlement run',
