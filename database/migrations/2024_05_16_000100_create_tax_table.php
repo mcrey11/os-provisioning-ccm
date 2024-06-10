@@ -19,8 +19,6 @@
 use Database\Migrations\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Modules\BillingBase\Entities\BillingBase;
-use Modules\BillingBase\Entities\Tax;
 
 return new class extends BaseMigration
 {
@@ -46,10 +44,7 @@ return new class extends BaseMigration
             $table->date('valid_to')->nullable();
         });
 
-        Tax::create([
-            'name' => 'Mehrwertsteuer',
-            'rate' => 19,
-        ]);
+        DB::insert("INSERT INTO {$this->tableName} (name, rate) VALUES ('Mehrwertsteuer', 19)");
 
         Schema::table('billingbase', function (Blueprint $table) {
             $table->dropColumn('tax');
@@ -69,6 +64,8 @@ return new class extends BaseMigration
             $table->decimal('tax', 7, 4, true);
         });
 
-        BillingBase::first()->update(['tax' => 19]);
+        if (\Module::collections()->has('BillingBase')) {
+            Modules\BillingBase\Entities\BillingBase::first()->update(['tax' => 19]);
+        }
     }
 };

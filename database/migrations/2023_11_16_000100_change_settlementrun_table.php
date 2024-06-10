@@ -19,7 +19,6 @@
 use Database\Migrations\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Modules\BillingBase\Entities\SettlementRun;
 
 /**
  * Make several adaptations to make it possible to account for user specified month
@@ -47,8 +46,10 @@ return new class extends BaseMigration
             $table->string('sepaaccount_id')->nullable();
         });
 
-        foreach (SettlementRun::get() as $sr) {
-            $sr->update(['accounting_month' => $sr->year.'-'.str_pad($sr->month, 2, '0', STR_PAD_LEFT)]);
+        if (\Module::collections()->has('BillingBase')) {
+            foreach (Modules\BillingBase\Entities\SettlementRun::get() as $sr) {
+                $sr->update(['accounting_month' => $sr->year.'-'.str_pad($sr->month, 2, '0', STR_PAD_LEFT)]);
+            }
         }
 
         Schema::table($this->tableName, function (Blueprint $table) {
@@ -69,13 +70,15 @@ return new class extends BaseMigration
             $table->string('path')->nullable();
         });
 
-        foreach (SettlementRun::get() as $sr) {
-            $parts = explode('-', $sr->accounting_month);
+        if (\Module::collections()->has('BillingBase')) {
+            foreach (Modules\BillingBase\Entities\SettlementRun::get() as $sr) {
+                $parts = explode('-', $sr->accounting_month);
 
-            $sr->update([
-                'month' => $parts[1],
-                'year' => $parts[0],
-            ]);
+                $sr->update([
+                    'month' => $parts[1],
+                    'year' => $parts[0],
+                ]);
+            }
         }
 
         Schema::table($this->tableName, function (Blueprint $table) {
