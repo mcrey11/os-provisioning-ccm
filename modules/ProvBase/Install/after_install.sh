@@ -126,4 +126,4 @@ sed -i "s/^KEA_DB_PASSWORD=.*$/KEA_DB_PASSWORD=$kea_psw/" /etc/nmsprime/env/prov
 sed -i '/^\s\+path:\s\+\/var\/log\/mongodb\/mongod.log$/a \ \ logRotate: reopen' /etc/mongod.conf
 
 systemd-tmpfiles --create
-systemctl enable --now genieacs-{cwmp,fs,ngi,ui} kea-dhcp6 mongod radiusd
+systemctl enable --now genieacs-{cwmp,fs,nbi,ui} kea-dhcp6 mongod radiusd
