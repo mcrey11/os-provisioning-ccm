@@ -49,7 +49,7 @@ class ProvBaseObserver
             Queue::pushOn('high', new \Modules\ProvBase\Jobs\DhcpJob());
         }
 
-        if (multi_array_key_exists(['dhcp_def_lease_time', 'dhcp_max_lease_time', 'max_cpe', 'provisioning_server'], $changes)) {
+        if (multi_array_key_exists(['dhcp_def_lease_time', 'dhcp_max_lease_time', 'domain_name', 'max_cpe', 'provisioning_server'], $changes)) {
             // recreate global DHCP config file
             $model->make_dhcp_glob_conf();
         }
