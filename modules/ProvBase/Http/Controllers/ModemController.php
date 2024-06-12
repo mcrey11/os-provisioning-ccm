@@ -1018,7 +1018,7 @@ class ModemController extends \BaseController
 
         if (Module::collections()->has('SmartOnt')) {
             if ($this->configfile && $this->configfile->is_multiservice_ont) {
-                $smartOnt = \Modules\SmartOnt\Entities\Smartont::first();
+                $smartOnt = \Modules\SmartOnt\Entities\SmartOnt::first();
                 $data['qos_id'] = $smartOnt->default_mgmt_qos_id;
             }
 
@@ -1550,7 +1550,7 @@ class ModemController extends \BaseController
      */
     public function importGesaOntFromCsv()
     {
-        $smartOnt = \Modules\SmartOnt\Entities\Smartont::first();
+        $smartOnt = \Modules\SmartOnt\Entities\SmartOnt::first();
         $contractId = Request::get('contract_id');
         $contract = Contract::findOrFail($contractId);
 

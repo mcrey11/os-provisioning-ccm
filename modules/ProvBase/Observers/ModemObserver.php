@@ -255,7 +255,7 @@ class ModemObserver
 
     public function deleted($modem)
     {
-        Log::debug(__METHOD__.' started for '.$modem->hostname);
+        Log::debug(__METHOD__.' started for CM '.($modem->hostname ?: $modem->id));
 
         // special handling for SmartONT devices
         if (\Module::collections()->has('SmartOnt')) {

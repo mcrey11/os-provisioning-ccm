@@ -3173,6 +3173,8 @@ class Modem extends \BaseModel
                 return false;
             }
         }
+
+        return true;
     }
 
     /**
@@ -3184,9 +3186,11 @@ class Modem extends \BaseModel
     {
         if (
             \Module::collections()->has('SmartOnt') &&
-            ('GESA' == config('smartont.flavor.active'))
+            ('GESA' == config('smartont.flavor.active') &&
+            (! $this->deleteGESAOnt())
+            )
         ) {
-            return $this->deleteGESAOnt();
+            return false;
         }
 
         // when arriving here: start the standard deletion procedure
