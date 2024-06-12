@@ -103,7 +103,7 @@ class NetelementAtIcingaUpdaterCommand extends Command
         }
         $query = view('hfcreq::DbQueries.getNetelementDataForIcinga', compact(['id']))->render();
 
-        $this->netelements = DB::select(DB::raw($query));
+        $this->netelements = DB::select($query);
     }
 
     /**
