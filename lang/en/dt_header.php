@@ -138,9 +138,14 @@ return [
     ],
     'geocode_source' => 'Geocode origin',
     //Invoices
-    'invoice.type' => 'Type',
-    'invoice.year' => 'Year',
-    'invoice.month' => 'Month',
+    'invoice' => [
+        'type' => 'Type',
+        'year' => 'Year',
+        'month' => 'Month',
+        'number' => 'Number',
+        'amount' => 'Amount',
+        'cdr' => 'Call Data Record',
+    ],
     //Item
     'item.valid_from' => 'Valid from',
     'item.valid_from_fixed' => 'Valid from fixed',

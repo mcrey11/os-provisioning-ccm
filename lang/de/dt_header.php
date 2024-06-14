@@ -138,9 +138,14 @@ return [
     ],
     'geocode_source' => 'Geocode-Quelle',
     //Invoices
-    'invoice.type' => 'Typ',
-    'invoice.year' => 'Jahr',
-    'invoice.month' => 'Monat',
+    'invoice' => [
+        'type' => 'Typ',
+        'year' => 'Jahr',
+        'month' => 'Monat',
+        'number' => 'Nummer',
+        'amount' => 'Betrag',
+        'cdr' => 'Einzelverbindungsnachweis',
+    ],
     //Item
     'item.valid_from' => 'Gültig ab',
     'item.valid_from_fixed' => 'Ab Startdatum aktiv',
