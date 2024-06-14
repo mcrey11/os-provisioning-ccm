@@ -522,7 +522,7 @@ class ImportTvCustomersCommand extends Command
      *
      * @return void
      */
-    public static function addSepaForInternetOrNewOrWithCcToExistingCustomer($file, $ccSepa, $ag, $ccContract)
+    public static function manuallyAddSepaMandate($file, $ccSepa, $ag, $ccContract)
     {
         $file = file($file);
         $count = count($file);
