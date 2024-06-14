@@ -25,7 +25,7 @@ mix.env(process.env.ENV_FILE)
 mix.alias({
   '~': path.join(__dirname, 'resources'),
   '@': path.join(__dirname, 'resources/js')
-});
+})
 
 mix.js('resources/js/app.js', 'public/js')
   .postCss('resources/css/app.css', 'public/css', [
@@ -40,7 +40,7 @@ for (let module in modules) {
     continue
   }
 
-  let moduleLower = module.toLowerCase();
+  let moduleLower = module.toLowerCase()
 
   for (let extension of ['js', 'css']) {
     if (! fs.existsSync(`modules/${module}/Resources/${extension}/${moduleLower}.${extension}`)) {
@@ -103,13 +103,13 @@ mix.copy('node_modules/jszip/dist/jszip.min.js', 'public/js/jszip.min.js')
   ], 'public/css/leaflet/')
   .copy([
     'node_modules/leaflet-draw/dist/images',
-  ], 'public/css/leaflet/images');
+  ], 'public/css/leaflet/images')
 
 /* Enable gzip and brotli compression for bundled files*/
 require('laravel-mix-compress')
 mix.compress({
   productionOnly: true,
-});
+})
 
 mix.webpackConfig(webpack => {
   return {
