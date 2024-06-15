@@ -16,6 +16,7 @@ return [
     'Address Line 1'            => 'Address Line 1',
     'Address Line 2'            => 'Address Line 2',
     'Address Line 3'            => 'Address Line 3',
+    'AG' => 'AC', // Antenna community
     'Amount'                    => 'Amount',
     'Applies to costcenter(s)' => 'Applies to costcenter(s)',
     'Apartment'                 => 'Apartment',

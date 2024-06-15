@@ -16,6 +16,7 @@ return [
     'Address Line 1'            => 'Adresszeile 1',
     'Address Line 2'            => 'Adresszeile 2',
     'Address Line 3'            => 'Adresszeile 3',
+    'AG' => 'AG',
     'Amount'                    => 'Betrag',
     'Applies to costcenter(s)' => 'Gilt für Kostenstelle(n)',
     'Apartment'                 => 'Wohnung',
