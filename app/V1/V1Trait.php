@@ -138,21 +138,20 @@ trait V1Trait
             if (is_string($group)) {
                 $group = json_decode($group, true);
             }
+
             if (! array_key_exists('filters', $group)) {
                 throw new InvalidArgumentException('Filter group does not have the \'filters\' key.');
             }
 
             $filters = array_map(function ($filter) {
-                if (! isset($filter['not'])) {
-                    $filter['not'] = false;
-                }
+                $filter['not'] = isset($filter['not']) ? filter_var($filter['not'], FILTER_VALIDATE_BOOL) : false;
 
                 return $filter;
             }, $group['filters']);
 
             $return[] = [
                 'filters' => $filters,
-                'or' => isset($group['or']) ? $group['or'] : false,
+                'or' => isset($group['or']) ? filter_var($group['or'], FILTER_VALIDATE_BOOL) : false,
             ];
         }
 
