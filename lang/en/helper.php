@@ -4,6 +4,8 @@ return [
     'ccc' => [
         'imgUpload' => 'Upload for logo and backgound image. Please set the according image after the upload!',
     ],
+    'dateFormat' => 'Y-m-d',
+    'dateTimeFormat' => 'Y-m-d H:i:s',
     'debt' => [
         'amount' => 'Postive when customer is charged, negative when customer gets credit',
         'debtToClear' => 'Here only debts are shown of which the absolute remaining amount is larger then the remaining amount of this transaction.',

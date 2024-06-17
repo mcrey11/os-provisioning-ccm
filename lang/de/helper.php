@@ -4,6 +4,8 @@ return [
     'ccc' => [
         'imgUpload' => 'Upload für Logo und Hintergrundbild. Bitte setzen Sie nach dem Upload das entsprechende Bild!',
     ],
+    'dateFormat' => 'd.m.Y',
+    'dateTimeFormat' => 'd.m.Y H:i:s',
     'debt' => [
         'amount' => 'Postiv wenn Kunde Geld abgezogen wird, negativ wenn Kunde einzahlt',
         'debtToClear' => 'Hier werden nur OPs angezeigt, deren absoluter ausstehender Betrag größer ist als der der hier geöffneten Transaktion.',

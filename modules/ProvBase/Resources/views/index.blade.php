@@ -31,7 +31,7 @@
 
 @section ('date')
     <h4>{{ trans('view.dashboard.date') }}</h4>
-    <p>{{ date('d.m.Y') }}</p>
+    <p>{{ date(trans('helper.dateFormat')) }}</p>
 @stop
 
 @section('dashboard')
