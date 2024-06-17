@@ -1006,9 +1006,6 @@ class Contract extends \BaseModel
      */
     protected function _update_service_access_from_items()
     {
-        // check if DB update is required
-        $contract_changed = false;
-
         $active_tariff_info_internet = $this->_get_valid_tariff_item_and_count('Internet');
         $active_tariff_info_voip = $this->_get_valid_tariff_item_and_count('Voip');
 
