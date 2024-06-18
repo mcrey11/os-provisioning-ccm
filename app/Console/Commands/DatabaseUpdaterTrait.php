@@ -44,6 +44,7 @@ trait DatabaseUpdaterTrait
         $opts = [
             CURLOPT_URL => $url,
             CURLOPT_HEADER => false,
+            CURLOPT_SSL_VERIFYHOST => 0,
             CURLOPT_SSL_VERIFYPEER => false,	// no valid cert for “localhost” – so we don't check
             CURLOPT_RETURNTRANSFER => true,		// return result instead of instantly printing to screen
             CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,	// resolve to IPv4 address
@@ -52,10 +53,14 @@ trait DatabaseUpdaterTrait
         curl_setopt_array($ch, $opts);
 
         $res = curl_exec($ch);
+
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if ($http_code != 200) {
-            \Log::error('HTTP error '.$http_code.' occured in scheduled updating of envia orders calling '.$url);
+        if (! in_array($http_code, [0, 200])) {
+            \Log::error('HTTP error '.$http_code.' occured in calling '.$url);
+        }
+        if (curl_errno($ch)) {
+            \Log::error('cURL error “'.curl_error($ch).'” in calling '.$url);
         }
 
         curl_close($ch);
