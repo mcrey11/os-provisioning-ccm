@@ -6,23 +6,20 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{longtable}
-
 \usepackage{helvet}
+
 \renewcommand*\familydefault{\sfdefault}             % sorgt für serifenlose Schrift
 
-
 \makeatletter
-	% see hettstedt.tex
 	\@setplength{firstfootvpos}{25.2cm} 			% set footer higher
 	\@setplength{toaddrhpos}{2.45cm}				% margin 2,45 cm
 	\@setplength{firstheadhpos}{2.45cm}
 	\@setplength{firstfoothpos}{2.45cm}				% smaller because of margin of picture
-	% Rand des Brieftextes an Rand des Briefkopfes anpassen 
+	% Rand des Brieftextes an Rand des Briefkopfes anpassen
 	\setlength{\oddsidemargin}{\useplength{toaddrhpos}}
 	\addtolength{\oddsidemargin}{-1in}
 	\setlength{\textwidth}{16.1cm} 					% 21cm (A4) - (2 x 2.45cm) (margin)
 \makeatother
-
 
 \begin{document}
 
@@ -36,7 +33,7 @@
 	\newkomavar[\Management]	{management}
 	\newkomavar[\Dictorate]		{directorate}
 	\newkomavar[\FooterExtra]	{footerextra}
-					
+
 	% Set KomaVars
 	\setkomavar{firsthead}	{\includegraphics[width=16.1cm]{{company\_logo}}}
 	\setkomavar{fromname}	{{company\_name}}
@@ -67,49 +64,48 @@
 	\setlength\LTleft{0pt}
 	\setlength\LTright{0pt}
 
-
 	% footer
 	\setkomavar{firstfoot}{
 		\tiny %or small
 		\begin{flushleft}
 		\begin{tabular}[t]{@{}l l l l l l}
 
-			\ifkomavarempty{court}{}{
+			\Ifkomavarempty{court}{}{
 				\begin{tabular}[t]{@{}l}%
 					\multicolumn{1}{@{}l@{}}{\textbf{Registergericht:}}\\
 					\usekomavar{court}
 				\end{tabular}%
 				\hfill}
 
-			\ifkomavarempty{management}{}{
+			\Ifkomavarempty{management}{}{
 			 	\begin{tabular}[t]{@{}l@{}}
 					\multicolumn{1}{@{}l@{}}{\textbf{Vorstand:}}\\
 					\usekomavar{management}
 				\end{tabular}
 				\hfill}
 
-			\ifkomavarempty{directorate}{}{
+			\Ifkomavarempty{directorate}{}{
 				\begin{tabular}[t]{@{}l@{}}%
 					\multicolumn{1}{@{}l@{}}{\textbf{Aufsichtsrat:}}\\
 					\usekomavar{directorate}
 				\end{tabular}%
 				\hfill}
 
-			\ifkomavarempty{frombank}{}{
+			\Ifkomavarempty{frombank}{}{
 			 	\begin{tabular}[t]{@{}l}
 					\multicolumn{1}{@{}l@{}}{\textbf{Bankverbindung:}}\\
 					\usekomavar{frombank}
 				\end{tabular}
 				\hfill}
 
-			\ifkomavarempty{tax}{}{
+			\Ifkomavarempty{tax}{}{
 				\begin{tabular}[t]{@{}l}
 					\multicolumn{1}{@{}l@{}}{\textbf{Steuer:}}\\
 					\usekomavar{tax}
 				\end{tabular}
 				\hfill}
 
-			\ifkomavarempty{footerextra}{}{
+			\Ifkomavarempty{footerextra}{}{
 				\begin{tabular}[t]{@{}l}
 					\multicolumn{1}{@{}l@{}}{\textbf{Internet}}\\
 					\usekomavar{footerextra}
@@ -120,10 +116,9 @@
 	} % end footer
 
 
-
 	% Start letter
 	\begin{letter}{{contract\_address}}
-		
+
 		\opening{\textbf{\Large{Einzelverbindungsnachweis {cdr\_month}}}}
 
 		% Own reference line after Headline
@@ -138,7 +133,6 @@
 		\end{flushleft}
 
 		\hspace{0.1cm}
-
 
 		% Call Data Record Entries - Table
 		\begin{center}
@@ -157,13 +151,4 @@
 
 	\end{letter}
 
-
 \end{document}
-
-
-
-
-
-
-
-

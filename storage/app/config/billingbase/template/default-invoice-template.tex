@@ -5,15 +5,13 @@
 \usepackage{eurosym}
 \usepackage{graphicx}
 \usepackage{tabularx}
-
 \usepackage{ifthen} 								% if then else
-
 \usepackage{helvet}
+
 \renewcommand*\familydefault{\sfdefault}            % sorgt für serifenlose Schrift
 
-
 \makeatletter
-	% see hettstedt.tex or koma script tutorial page 397 - 402
+	% See koma script tutorial page 397 - 402
 	\@setplength{firstfootvpos}{25.2cm} 			% set footer higher
 	\@setplength{toaddrhpos}{2.45cm}				% margin 2,45 cm
 	\@setplength{firstheadhpos}{2.45cm}
@@ -23,7 +21,6 @@
 	\addtolength{\oddsidemargin}{-1in}
 	\setlength{\textwidth}{16.1cm} 					% 21cm (A4) - (2 x 2.45cm) (margin)
 \makeatother
-
 
 \begin{document}
 
@@ -68,42 +65,42 @@
 		\begin{flushleft}
 		\begin{tabular}[t]{@{}l l l l l l}
 
-			\ifkomavarempty{court}{}{
+			\Ifkomavarempty{court}{}{
 				\begin{tabular}[t]{@{}l}%
 					\multicolumn{1}{@{}l@{}}{\textbf{Registergericht:}}\\
 					\usekomavar{court}
 				\end{tabular}%
 				\hfill}
 
-			\ifkomavarempty{management}{}{
+			\Ifkomavarempty{management}{}{
 			 	\begin{tabular}[t]{@{}l@{}}
 					\multicolumn{1}{@{}l@{}}{\textbf{Vorstand:}}\\
 					\usekomavar{management}
 				\end{tabular}
 				\hfill}
 
-			\ifkomavarempty{directorate}{}{
+			\Ifkomavarempty{directorate}{}{
 				\begin{tabular}[t]{@{}l@{}}%
 					\multicolumn{1}{@{}l@{}}{\textbf{Aufsichtsrat:}}\\
 					\usekomavar{directorate}
 				\end{tabular}%
 				\hfill}
 
-			\ifkomavarempty{frombank}{}{
+			\Ifkomavarempty{frombank}{}{
 			 	\begin{tabular}[t]{@{}l}
 					\multicolumn{1}{@{}l@{}}{\textbf{Bankverbindung:}}\\
 					\usekomavar{frombank}
 				\end{tabular}
 				\hfill}
 
-			\ifkomavarempty{tax}{}{
+			\Ifkomavarempty{tax}{}{
 				\begin{tabular}[t]{@{}l}
 					\multicolumn{1}{@{}l@{}}{\textbf{Steuer:}}\\
 					\usekomavar{tax}
 				\end{tabular}
 				\hfill}
 
-			\ifkomavarempty{footerextra}{}{
+			\Ifkomavarempty{footerextra}{}{
 				\begin{tabular}[t]{@{}l}
 					\multicolumn{1}{@{}l@{}}{\textbf{Internet}}\\
 					\usekomavar{footerextra}
@@ -182,6 +179,5 @@
 		\end{flushleft}
 
 	\end{letter}
-
 
 \end{document}
