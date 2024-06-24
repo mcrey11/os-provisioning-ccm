@@ -51,7 +51,7 @@
             {!! Form::open( ['route' => $route_name.'.create', 'method' => 'GET']) !!}
                 <button class="btn btn-primary m-b-15" style="simple">
                     <i class="fa fa-plus fa-lg m-r-10" aria-hidden="true"></i>
-                    {{ trans("view.Button_Create {$route_name}") }}
+                    {{ trans("view.createButtonTitle.$route_name") }}
                 </button>
             {!! Form::close() !!}
         @endif
