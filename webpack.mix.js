@@ -36,7 +36,7 @@ mix.js('resources/js/app.js', 'public/js')
 let modules = JSON.parse(fs.readFileSync("modules_statuses.json").toString())
 
 for (let module in modules) {
-  if (! modules[module]) {
+  if (! modules[module] || ! fs.existsSync(`modules/${module}`)) {
     continue
   }
 
