@@ -18,6 +18,8 @@
 
 namespace App\Console\Commands;
 
+use Log;
+
 /**
  * Holds some helper methods used by several updater console commands
  * currently those related to envia TEL API.
@@ -57,10 +59,10 @@ trait DatabaseUpdaterTrait
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if (! in_array($http_code, [0, 200])) {
-            \Log::error('HTTP error '.$http_code.' occured in calling '.$url);
+            Log::error('HTTP error '.$http_code.' occured in calling '.$url);
         }
         if (curl_errno($ch)) {
-            \Log::error('cURL error “'.curl_error($ch).'” in calling '.$url);
+            Log::error('cURL error “'.curl_error($ch).'” in calling '.$url);
         }
 
         curl_close($ch);
