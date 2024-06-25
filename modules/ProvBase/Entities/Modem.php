@@ -1760,7 +1760,7 @@ class Modem extends \BaseModel
             // success message
             Session::push('tmp_info_above_form', trans('messages.modem_restart_success_netgw'));
         } catch (\Exception $e) {
-            Log::error("Could not delete $this->hostname from NETGW ('".$e->getMessage()."'). Let's try to restart it directly.");
+            Log::warning("Could not delete $this->hostname from NETGW ('".$e->getMessage()."'). Let's try to restart it directly.");
 
             try {
                 // restart modem - DOCS-CABLE-DEV-MIB::docsDevResetNow
