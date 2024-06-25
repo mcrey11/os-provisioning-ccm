@@ -44,9 +44,11 @@
 
 @include('Generic.above_infos')
 
+<div v-pre>
 @foreach($form_fields as $fields)
     {!! $fields['html'] !!}
 @endforeach
+</div>
 
 @if(Bouncer::can($action, $model_name) || Bouncer::can($action, $view_var))
     <div class="flex flex-col md:flex-row justify-around d-print-none md:space-x-1">
