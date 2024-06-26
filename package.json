@@ -2,12 +2,12 @@
     "private": true,
     "scripts": {
         "dev": "npm run development",
-        "development": "/var/www/nmsprime/scripts/cleanup-js.sh && ENV_FILE=/etc/nmsprime/env/global.env mix && test -d modules/Documentmanagement && npm run dev:pdf",
+        "development": "./scripts/cleanup-js.sh && ENV_FILE=/etc/nmsprime/env/global.env mix && test -d modules/Documentmanagement && npm run dev:pdf",
         "watch": "ENV_FILE=/etc/nmsprime/env/global.env mix watch",
         "watch-poll": "mix watch --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "/var/www/nmsprime/scripts/cleanup-js.sh && ENV_FILE=/etc/nmsprime/env/global.env mix --production && test -d modules/Documentmanagement && npm run prod:pdf",
+        "production": "./scripts/cleanup-js.sh && ENV_FILE=/etc/nmsprime/env/global.env mix --production && test -d modules/Documentmanagement && npm run prod:pdf",
         "prod:pdf": "mix --production --mix-config=modules/DocumentManagement/webpack.mix.js",
         "watch:pdf": "mix watch --mix-config=modules/DocumentManagement/webpack.mix.js",
         "dev:pdf": "mix --mix-config=modules/DocumentManagement/webpack.mix.js"
