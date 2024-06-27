@@ -68,6 +68,7 @@ sed -e "s|^;date.timezone =.*|date.timezone = $zone|" \
     -e 's/^memory_limit =.*/memory_limit = 1024M/' \
     -e 's/^upload_max_filesize =.*/upload_max_filesize = 250M/' \
     -e 's/^post_max_size =.*/post_max_size = 250M/' \
+    -e 's/^;upload_tmp_dir =.*/upload_tmp_dir = \/tmp/' \
     -i /etc/php.ini
 
 sed -e "s|^#APP_TIMEZONE=|APP_TIMEZONE=$zone|" \
