@@ -480,7 +480,7 @@ class Contract extends \BaseModel
                 \Livewire\Livewire::mount(
                     'documentmanagement::generate-document',
                     ['contract' => $this->withoutRelations()]
-                )->html()
+                )
             );
 
             data_set($ret, 'Documents.Documents', [
