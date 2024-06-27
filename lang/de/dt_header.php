@@ -99,7 +99,6 @@ return [
     // Company
     'company.name' => 'Unternehmen',
     'company.city' => 'Stadt',
-    'company.phone' => 'Telefonnummer',
     'company.mail' => 'E-Mail',
     // Costcenter
     'costcenter' => [
@@ -422,15 +421,19 @@ return [
     'cdr.caller' => 'Anrufer',
     'cdr.called' => 'Angerufener',
     'cdr.mos_min_mult10' => 'minimaler MOS',
-    // Numberrange
-    'numberrange.id' => 'ID',
-    'numberrange.name' => 'Name',
-    'numberrange.start' => 'Start',
-    'numberrange.end' => 'Ende',
-    'numberrange.prefix' => 'Präfix',
-    'numberrange.suffix' => 'Suffix',
-    'numberrange.type' => 'Typ',
-    'numberrange.costcenter.name' => 'Kostenstelle',
+    'numberrange' => [
+        'costcenter' => [
+            'name' => 'Kostenstelle',
+        ],
+        'end' => 'Ende',
+        'id' => 'ID',
+        'name' => 'Name',
+        'prefix' => 'Präfix',
+        'start' => 'Start',
+        'suffix' => 'Suffix',
+        'type' => 'Typ',
+    ],
+    'phone' => 'Telefonnummer',
     'realty' => [
         'administration' => 'Hausverwaltung',
         'agreement_from' => 'Gültig von',

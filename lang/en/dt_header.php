@@ -101,7 +101,6 @@ return [
     // Company
     'company.name' => 'Company Name',
     'company.city' => 'City',
-    'company.phone' => 'Mobile Number',
     'company.mail' => 'E-Mail',
     // Costcenter
     'costcenter' => [
@@ -423,15 +422,19 @@ return [
     'cdr.caller' => 'Caller',
     'cdr.called' => 'Called',
     'cdr.mos_min_mult10' => 'Minimum MOS',
-    // Numberrange
-    'numberrange.id' => 'ID',
-    'numberrange.name' => 'Name',
-    'numberrange.start' => 'Start',
-    'numberrange.end' => 'End',
-    'numberrange.prefix' => 'Prefix',
-    'numberrange.suffix' => 'Suffix',
-    'numberrange.type' => 'Type',
-    'numberrange.costcenter.name' => 'Cost center',
+    'numberrange' => [
+        'costcenter' => [
+            'name' => 'Cost center',
+        ],
+        'end' => 'End',
+        'id' => 'ID',
+        'name' => 'Name',
+        'prefix' => 'Prefix',
+        'start' => 'Start',
+        'suffix' => 'Suffix',
+        'type' => 'Type',
+    ],
+    'phone' => 'Phone number',
     'realty' => [
         'administration' => 'Administration',
         'agreement_from' => 'Valid from',

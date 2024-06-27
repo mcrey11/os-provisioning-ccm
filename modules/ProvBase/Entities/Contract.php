@@ -203,6 +203,7 @@ class Contract extends \BaseModel
         $ret[] = 'lastname';
         $ret[] = 'company';
         $ret[] = 'email';
+        $ret[] = 'phone';
         $ret[] = 'zip';
         $ret[] = 'city';
         $ret[] = 'district';
