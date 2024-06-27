@@ -21,7 +21,7 @@
 @section ('contracts_total')
     <h4>{{ trans('view.dashboard.contracts') }} {{ date('m/Y') }}</h4>
     <p>
-        @if ($contracts_data && $contracts_data['total'])
+        @if ($contracts_data && isset($contracts_data['total']))
             {{ $contracts_data['total'] }}
         @else
             {{ trans('view.dashboard.noContracts') }}
