@@ -16,7 +16,7 @@ php artisan view:clear
 	php artisan provha:clean_up_slave
 
 # reread supervisor config and restart affected processes
-/usr/bin/supervisorctl update
+systemctl restart supervisord
 
 systemctl reload httpd
 
