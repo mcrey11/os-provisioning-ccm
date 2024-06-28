@@ -860,7 +860,11 @@ return [
     'ontIsActive'               => 'ONT is active.',
     'qosIsInUse'                => 'QoS is in use.',
     'iperf' => [
-        'somethingWentWrong'    => 'Something went wrong.'
+        'beginMeas'             => ':Direction measurement in progress.',
+        'couldNotInit'          => 'Could not initiate measurement.',
+        'init'                  => 'Initiating measurement.',
+        'measurementFinished'   => ':Direction measurement finished.',
+        'somethingWentWrong'    => 'Something went wrong.',
     ],
     'iperf_max_stream'          => 'Maximum display value for the iPerf diagram in Mbit/s',
 
