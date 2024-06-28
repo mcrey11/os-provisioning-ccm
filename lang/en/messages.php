@@ -859,6 +859,9 @@ return [
     'endpointIsActive'          => 'Endpoint is active.',
     'ontIsActive'               => 'ONT is active.',
     'qosIsInUse'                => 'QoS is in use.',
+    'iperf' => [
+        'somethingWentWrong'    => 'Something went wrong.'
+    ],
     'iperf_max_stream'          => 'Maximum display value for the iPerf diagram in Mbit/s',
 
     // SmartOnt
