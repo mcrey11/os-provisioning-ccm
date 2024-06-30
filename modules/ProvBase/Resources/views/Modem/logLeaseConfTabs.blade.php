@@ -59,17 +59,27 @@
             </div>
         </form>
         <div v-cloak v-if="selectedTask == 'custom/setWlan'" class="mb-3">
-            <form v-on:submit.prevent="setWlan" class="space-y-2">
-                <div class="form-group row">
-                    <label for="WLANIndex" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">{{ trans('view.modemAnalysis.index') }}</label>
-                    <div class="col-sm-10">
-                        <input v-model="getWlanSettings['index']" type="number" class="form-control" id="WLANIndex">
+            <form @@submit.prevent="setWlan" class="space-y-2">
+                <div v-if="isTr069">
+                    <div class="form-group row">
+                        <label for="WLANIndex" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">{{ trans('view.modemAnalysis.index') }}</label>
+                        <div class="col-sm-10">
+                            <input v-model="getWlanSettings['index']" type="number" class="form-control" id="WLANIndex">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Channel" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">{{ trans('view.modemAnalysis.channel') }}</label>
+                        <div class="col-sm-10">
+                            <input v-model="getWlanSettings['channel']" type="number" class="form-control" id="Channel" placeholder="{{ trans('view.modemAnalysis.wlanChannelInfo') }}" title="{{ trans('view.modemAnalysis.wlanChannelInfo') }}">
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="Channel" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">{{ trans('view.modemAnalysis.channel') }}</label>
-                    <div class="col-sm-10">
-                        <input v-model="getWlanSettings['channel']" type="number" class="form-control" id="Channel" placeholder="{{ trans('view.modemAnalysis.wlanChannelInfo') }}" title="{{ trans('view.modemAnalysis.wlanChannelInfo') }}">
+                <div v-else>
+                    <div class="flex flex-row">
+                        <label for="Channel" class="flex items-center col-sm-2 col-form-label pl-0">{{ trans('view.modemAnalysis.channel') }}</label>
+                        <select2 v-model="selectedChannel" v-on:input="setChannel">
+                            <option v-for="channel in channels" :value="channel" v-text="channel"></option>
+                        </select2>
                     </div>
                 </div>
                 <div class="form-group row">

@@ -39,6 +39,7 @@
     data-messages-entries="{{ trans('messages.Entries') }}"
     data-csrf-token="{{ csrf_token() }}"
     data-modem-id="{{ $modem->id }}"
+    data-tr069="{{ $modem->configfile->device === 'tr069' }}"
     data-route-modem-refresh-genie-object="{{ route('Modem.refreshGenieObject', $modem->id) }}"
     data-route-delete-poller-file="{{ route('ProvMon.deletePollerFile', $modem->id) }}"
     data-route-modem-genie-task="{{ route('Modem.genieTask', $modem->id) }}"
