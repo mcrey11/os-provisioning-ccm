@@ -41,19 +41,16 @@
             @if (isset($configfile['warn']))
                 <div class="text-red-600"><b>{{ $configfile['warn'] }}</b></div>
             @endif
-        @else
-            <?php
-                $blade_type = 'form';
-            ?>
-            @include('Generic.above_infos')
-            <form v-if="taskOptions" v-on:submit.prevent="updateGenieTasks" class="mb-3">
-                <div class="flex">
-                    <div style="flex: 1;">
-                        <select2 v-model="selectedTask" v-on:input="setTask" :as-array="true">
-                            <option v-for="(option, i) in taskOptions" :key="i" :value="option.task" v-text="option.name"></option>
-                        </select2>
-                    </div>
-                    <button v-if="! isForm" type="submit" class="btn btn-primary ml-3">{{ trans('view.Button_Submit') }}</button>
+        @endif
+
+        @include('Generic.above_infos')
+
+        <form v-if="taskOptions" @@submit.prevent="updateTasks" class="mb-3">
+            <div class="flex">
+                <div style="flex: 1;">
+                    <select2 v-model="selectedTask" @@input="setTask" :as-array="true">
+                        <option v-for="(option, i) in taskOptions" :key="i" :value="option.task" v-text="option.name"></option>
+                    </select2>
                 </div>
                 <button v-if="! isForm" type="submit" class="btn btn-primary ml-3">{{ trans('view.Button_Submit') }}</button>
             </div>
@@ -77,7 +74,7 @@
                 <div v-else>
                     <div class="flex flex-row">
                         <label for="Channel" class="flex items-center col-sm-2 col-form-label pl-0">{{ trans('view.modemAnalysis.channel') }}</label>
-                        <select2 v-model="selectedChannel" v-on:input="setChannel">
+                        <select2 v-model="selectedChannel" @@input="setChannel">
                             <option v-for="channel in channels" :value="channel" v-text="channel"></option>
                         </select2>
                     </div>

@@ -42,9 +42,9 @@ BaseRoute::group([], function () {
         'middleware' => ['can:view,Modules\ProvBase\Entities\Modem'],
     ]);
 
-    BaseRoute::post('Modem/genietask/{id}', [
-        'as' => 'Modem.genieTask',
-        'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@genieTask',
+    BaseRoute::post('Modem/task/{id}', [
+        'as' => 'Modem.executeTask',
+        'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@executeTask',
         'middleware' => ['can:update,Modules\ProvBase\Entities\Modem'],
     ]);
 

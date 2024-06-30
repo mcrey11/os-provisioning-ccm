@@ -230,7 +230,7 @@ export default {
                     snotify.success(this.translations.modemAnalysis.refreshInProgress)
                     axios({
                         method: 'post',
-                        url: '{{ route('Modem.genieTask', $modem->id) }}',
+                        url: '{{ route('Modem.executeTask', $modem->id) }}',
                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                         data: {
@@ -306,7 +306,7 @@ export default {
                 updateGenieTasks: function() {
                     axios({
                         method: 'post',
-                        url: '{{ route('Modem.genieTask', $modem->id) }}',
+                        url: '{{ route('Modem.executeTask', $modem->id) }}',
                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                         data: {

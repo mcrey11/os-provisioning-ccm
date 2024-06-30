@@ -42,7 +42,7 @@
     data-tr069="{{ $modem->configfile->device === 'tr069' }}"
     data-route-modem-refresh-genie-object="{{ route('Modem.refreshGenieObject', $modem->id) }}"
     data-route-delete-poller-file="{{ route('ProvMon.deletePollerFile', $modem->id) }}"
-    data-route-modem-genie-task="{{ route('Modem.genieTask', $modem->id) }}"
+    data-route-task="{{ route('Modem.executeTask', $modem->id) }}"
     data-messages-analysis-ping-in-progress="{{ trans('provmon::messages.analysis.pingInProgress') }}"
     data-route-modem-flood-ping="{{ route("Modem.floodPing", ["modem" => $modem->id]) }}"
     data-messages-please-wait="{{ trans('messages.pleaseWait') }}"

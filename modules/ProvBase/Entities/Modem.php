@@ -2078,6 +2078,24 @@ class Modem extends \BaseModel
     }
 
     /**
+     * Get modem type class based on technology.
+     * To thin out Modem/ModemController class.
+     *
+     * @author Roy Schneider
+     */
+    public function modemType()
+    {
+        switch ($this->configfile->device) {
+            case 'tr069':
+                return new Tr069Modem($this);
+            case 'cm':
+                return new DocsisModem($this);
+            default:
+                throw new Exception("Unknown modem type");
+        }
+    }
+
+    /**
      * Check if modem throughput is provisioned via PPP(oE)
      *
      * @return true if PPP(oE) is used

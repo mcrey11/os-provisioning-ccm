@@ -521,74 +521,19 @@ class ModemController extends \BaseController
     }
 
     /**
-     * Perform GenieACS task
+     * Execute tasks which are specified in the configfile tab of the Modem Analysis page.
      *
      * @author Ole Ernst
      *
      * @return string
      */
-    public static function genieTask($id)
+    public static function executeTask($id)
     {
         if (! $modem = Modem::find($id)) {
             return trans('messages.modemNotFound');
         }
 
-        if (! $genieId = $modem->getGenieId()) {
-            return;
-        }
-
-        // setWlan and setDns
-        $formInput = request('taskName');
-        $task = Request::get('task');
-
-        // used for commands like: "cmd;Fernzugang aktivieren;set;InternetGatewayDevice.User.1.Enable;1"
-        if (is_array($task) && ! $formInput) {
-            foreach ($task as $data) {
-                $modem->callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', json_encode($data));
-            }
-
-            return trans('messages.modemAnalysis.actionExecuted');
-        }
-
-        // setWlan, setDns, blockDhcp, unblockDhcp
-        if ($formInput || \Str::startsWith($task, 'custom/')) {
-            $cwmpModel = (new DataModel($modem))->getDataModel();
-            $task = request('taskName') ?? $task;
-            $taskName = \Str::after($task, 'custom/');
-
-            return $cwmpModel->$taskName();
-        }
-
-        // manually delete tasks
-        if (\Str::startsWith($task, 'tasks/')) {
-            Modem::callGenieAcsApi($task, 'DELETE');
-
-            return trans('messages.modemAnalysis.actionExecuted');
-        }
-
-        $taskDecode = json_decode($task, true);
-        if ($taskDecode === null) {
-            return trans('messages.JsonDecodeFailed');
-        }
-
-        if ($taskDecode == ['name' => 'connection_request']) {
-            $modem->callGenieAcsApi("devices/$genieId/tasks?timeout=3000&connection_request", 'POST', '');
-
-            Session::push('tmp_info_above_form', trans('messages.modemAnalysis.actionExecuted'));
-
-            return trans('messages.modemAnalysis.actionExecuted');
-        }
-
-        foreach (['factoryReset', 'reboot'] as $action) {
-            if ($taskDecode === ['name' => $action] &&
-                json_decode(Modem::callGenieAcsApi("tasks?query={\"device\":\"$genieId\",\"name\":\"$action\"}", 'GET'))) {
-                return $action.trans('messages.modemAnalysis.actionAlreadyScheduled');
-            }
-        }
-
-        Modem::callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', $task);
-
-        return trans('messages.modemAnalysis.actionExecuted');
+        return $modem->modemType()->executeTask();
     }
 
     /**
