@@ -59,13 +59,13 @@
             <form @@submit.prevent="setWlan" class="space-y-2">
                 <div v-if="isTr069">
                     <div class="form-group row">
-                        <label for="WLANIndex" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">{{ trans('view.modemAnalysis.index') }}</label>
+                        <label for="WLANIndex" class="flex items-center col-sm-2 col-form-label">{{ trans('view.modemAnalysis.index') }}</label>
                         <div class="col-sm-10">
                             <input v-model="getWlanSettings['index']" type="number" class="form-control" id="WLANIndex">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="Channel" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">{{ trans('view.modemAnalysis.channel') }}</label>
+                        <label for="Channel" class="flex items-center col-sm-2 col-form-label">{{ trans('view.modemAnalysis.channel') }}</label>
                         <div class="col-sm-10">
                             <input v-model="getWlanSettings['channel']" type="number" class="form-control" id="Channel" placeholder="{{ trans('view.modemAnalysis.wlanChannelInfo') }}" title="{{ trans('view.modemAnalysis.wlanChannelInfo') }}">
                         </div>
@@ -88,13 +88,13 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="SSID" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">SSID</label>
+                    <label for="SSID" class="flex items-center col-sm-2 col-form-label">SSID</label>
                     <div class="col-sm-10">
                         <input v-model="getWlanSettings['ssid']" type="text" class="form-control" id="SSID" placeholder="SSID">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="Password" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">{{ trans('messages.Password') }}</label>
+                    <label for="Password" class="flex items-center col-sm-2 col-form-label">{{ trans('messages.Password') }}</label>
                     <div class="col-sm-10">
                         <input v-model="getWlanSettings['password']" type="password" class="form-control" id="Password" placeholder="{{ trans('messages.Password') }}">
                     </div>
@@ -105,7 +105,7 @@
         <div v-cloak v-if="selectedTask == 'custom/setDns'" class="mb-3">
             <form v-on:submit.prevent="setDns" style="margin-top: 10px;">
                 <div class="form-group row">
-                    <label for="DNS" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">DNS</label>
+                    <label for="DNS" class="flex items-center col-sm-2 col-form-label">DNS</label>
                     <div class="col-sm-10">
                         <input v-model="getDnsSettings['dns']" type="text" class="form-control" id="DNS" placeholder="0.0.0.0,0.0.0.0">
                     </div>
