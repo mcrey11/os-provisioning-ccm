@@ -19,6 +19,7 @@
 
 namespace Modules\ProvBase\Entities;
 
-interface ModemType {
+interface ModemType
+{
     public function executeTask();
 }

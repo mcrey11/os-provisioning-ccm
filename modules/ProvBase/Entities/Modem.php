@@ -2103,7 +2103,7 @@ class Modem extends \BaseModel
             case 'cm':
                 return new DocsisModem($this);
             default:
-                throw new Exception("Unknown modem type");
+                throw new Exception('Unknown modem type');
         }
     }
 

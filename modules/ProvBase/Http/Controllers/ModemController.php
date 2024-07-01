@@ -30,7 +30,6 @@ use Modules\ProvBase\Entities\Modem;
 use Modules\ProvBase\Entities\ModemOption;
 use Modules\ProvBase\Entities\ProvBase;
 use Modules\ProvBase\Services\ModemService;
-use Modules\ProvMon\Entities\DataModel;
 use Nwidart\Modules\Facades\Module;
 use Request;
 use Validator;

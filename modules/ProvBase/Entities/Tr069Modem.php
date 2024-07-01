@@ -79,7 +79,7 @@ class Tr069Modem extends Modem implements ModemType
                 $taskDecode === ['name' => $action] &&
                 json_decode(Modem::callGenieAcsApi("tasks?query={\"device\":\"$genieId\",\"name\":\"$action\"}", 'GET'))
             ) {
-                return $action . trans('messages.modemAnalysis.actionAlreadyScheduled');
+                return $action.trans('messages.modemAnalysis.actionAlreadyScheduled');
             }
         }
 
