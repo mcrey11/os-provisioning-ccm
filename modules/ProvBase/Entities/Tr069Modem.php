@@ -30,14 +30,14 @@ class Tr069Modem extends Modem implements ModemType
     {
         // setWlan and setDns
         $formInput = request('taskName');
-        $task = Request::get('task');
+        $task = request('task');
 
         if (! $genieId = $this->modem->getGenieId()) {
             return;
         }
 
         // used for commands like: "cmd;Fernzugang aktivieren;set;InternetGatewayDevice.User.1.Enable;1"
-        if (is_array($task) && !$formInput) {
+        if (is_array($task) && ! $formInput) {
             foreach ($task as $data) {
                 $this->modem->callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', json_encode($data));
             }

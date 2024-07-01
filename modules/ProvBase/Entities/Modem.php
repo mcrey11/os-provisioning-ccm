@@ -2078,6 +2078,18 @@ class Modem extends \BaseModel
     }
 
     /**
+     * Get host name.
+     *
+     * @author Roy Schneider
+     */
+    public function getHostName()
+    {
+        $provBase = ProvBase::first();
+
+        return "{$this->hostname}.{$provBase->domain_name}";
+    }
+
+    /**
      * Get modem type class based on technology.
      * To thin out Modem/ModemController class.
      *
@@ -2093,6 +2105,16 @@ class Modem extends \BaseModel
             default:
                 throw new Exception("Unknown modem type");
         }
+    }
+
+    /**
+     * Get Data Model of the Modem.
+     *
+     * @author Roy Schneider
+     */
+    public function dataModel()
+    {
+        return (new DataModel($this))->getDataModel();
     }
 
     /**
@@ -2335,7 +2357,7 @@ class Modem extends \BaseModel
         $lan = null;
         $tickets = $this->tickets;
         $tr069Log = [];
-        $dataModel = (new DataModel($this))->getDataModel();
+        $dataModel = $this->dataModel();
         $wifi = $dataModel?->getWifiConfigOverview();
         $lan = $dataModel?->getLanConfigOverview();
         $cmds = $dataModel?->createCmds() ?? [];

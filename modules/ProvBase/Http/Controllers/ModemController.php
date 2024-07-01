@@ -725,7 +725,7 @@ class ModemController extends \BaseController
 
         $modem = static::get_model_obj()->findOrFail($id);
 
-        $cwmpModel = (new DataModel($modem))->getDataModel();
+        $cwmpModel = $modem->dataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'dhcp_enable'], ['value' => 'false']);
 
         if ($cwmpModel) {
@@ -750,7 +750,7 @@ class ModemController extends \BaseController
 
         $modem = static::get_model_obj()->findOrFail($id);
 
-        $cwmpModel = (new DataModel($modem))->getDataModel();
+        $cwmpModel = $modem->dataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'dhcp_enable'], ['value' => 'true']);
 
         if ($cwmpModel) {
@@ -775,7 +775,7 @@ class ModemController extends \BaseController
 
         $modem = static::get_model_obj()->findOrFail($id);
 
-        $cwmpModel = (new DataModel($modem))->getDataModel();
+        $cwmpModel = $modem->dataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns_enable'], ['value' => 'true']);
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns'], ['value' => request('dns')]);
 
