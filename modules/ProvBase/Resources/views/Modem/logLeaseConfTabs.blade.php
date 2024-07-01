@@ -78,6 +78,14 @@
                             <option v-for="channel in channels" :value="channel" v-text="channel"></option>
                         </select2>
                     </div>
+                    <div class="flex flex-row">
+                        <label for="Encryption" class="flex items-center col-sm-2 col-form-label pl-0">{{ trans('view.modemAnalysis.encryption') }}</label>
+                        <input
+                            v-model="getWlanSettings['encryption']"
+                            class="form-control mt-2"
+                            type="checkbox"
+                        >
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label for="SSID" class="col-sm-2 col-form-label" style="display: flex; align-items: center;">SSID</label>

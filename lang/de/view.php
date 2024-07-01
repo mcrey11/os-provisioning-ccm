@@ -710,6 +710,7 @@ return [
         'DT_Last Sessions' => 'Letzte Sessions',
         'DT_Replies' => 'RadReplies',
         'DT_Authentications' => 'Auth',
+        'encryption' => 'Verschlüsselung aktivieren',
         'floodping' => [
             'lowLoad' => 'geringe Last: 500 Pakete mit 56 Bytes (~ 5s)',
             'averageLoad' => 'mittlere Last: 1000 Pakete mit 736 Bytes (~ 10s)',
