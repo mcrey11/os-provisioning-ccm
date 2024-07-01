@@ -74,7 +74,7 @@
                 <div v-else>
                     <div class="flex flex-row">
                         <label for="Channel" class="flex items-center col-sm-2 col-form-label pl-0">{{ trans('view.modemAnalysis.channel') }}</label>
-                        <select2 v-model="selectedChannel" @@input="setChannel">
+                        <select2 v-model="getWlanSettings['channel']" @@input="setChannel">
                             <option v-for="channel in channels" :value="channel" v-text="channel"></option>
                         </select2>
                     </div>
