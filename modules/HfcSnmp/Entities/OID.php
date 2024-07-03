@@ -163,7 +163,7 @@ class OID extends \BaseModel
             return 'u';
         } elseif (strpos($string, 'unsigned32') !== false) {
             return 'u';
-        } elseif (strpos($string, 'integer') !== false) {
+        } elseif (strpos($string, 'integer') !== false || strpos($string, 'gauge') !== false) {
             return 'i';
         } elseif (strpos($string, 'decimal string') !== false) {
             return 'd';
