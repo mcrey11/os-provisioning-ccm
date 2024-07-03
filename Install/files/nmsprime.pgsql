@@ -399,7 +399,7 @@ CREATE TABLE nmsprime.apartment (
     floor smallint,
     connected boolean DEFAULT false,
     occupied boolean DEFAULT false,
-    description character varying(191),
+    description text,
     connection_type character varying(191),
     code character varying(191)
 );
@@ -873,7 +873,7 @@ CREATE TABLE nmsprime.costcenter (
     number character varying(191),
     sepaaccount_id bigint,
     billing_month smallint,
-    description character varying(191)
+    description text
 );
 
 
@@ -2181,7 +2181,7 @@ CREATE TABLE nmsprime.node (
     city character varying(191),
     type character varying(191),
     headend boolean,
-    description character varying(191),
+    description text,
     lng numeric(9,6),
     lat numeric(9,6),
     country_code character varying(191),
@@ -2615,7 +2615,7 @@ CREATE TABLE nmsprime.phonetariff (
     external_identifier character varying(191),
     name character varying(191),
     type nmsprime.phonetariff_type,
-    description character varying(191),
+    description text,
     usable boolean DEFAULT true,
     voip_protocol nmsprime.phonetariff_voip_protocol
 );
@@ -2894,7 +2894,7 @@ CREATE TABLE nmsprime.realty (
     agreement_from date,
     agreement_to date,
     last_restoration_on date,
-    description character varying(191),
+    description text,
     contact_id bigint,
     contact_local_id bigint,
     lng numeric(9,6),
@@ -2936,7 +2936,7 @@ CREATE TABLE nmsprime.roles (
     id bigint NOT NULL,
     name character varying(150),
     title character varying(191),
-    description character varying(191),
+    description text,
     rank bigint,
     level bigint,
     scope bigint,
@@ -2982,7 +2982,7 @@ CREATE TABLE nmsprime.salesman (
     lastname character varying(191),
     commission double precision,
     products character varying(191),
-    description character varying(191)
+    description text
 );
 
 
@@ -3032,7 +3032,7 @@ CREATE TABLE nmsprime.sepaaccount (
     invoice_text_sepa_negativ character varying(191),
     template_invoice character varying(191),
     template_cdr character varying(191),
-    description character varying(191),
+    description text,
     invoice_nr_start bigint
 );
 
@@ -3122,7 +3122,7 @@ CREATE TABLE nmsprime.settlementrun (
     year smallint,
     month smallint,
     path character varying(191),
-    description character varying(191),
+    description text,
     verified boolean,
     fullrun boolean
 );
@@ -3285,7 +3285,7 @@ CREATE TABLE nmsprime.ticket_type (
     deleted_at timestamp with time zone,
     name character varying(191),
     parent_id bigint,
-    description character varying(191)
+    description text
 );
 
 
@@ -3478,7 +3478,7 @@ CREATE TABLE nmsprime.users (
     login_name character varying(191),
     password character varying(60),
     api_token character varying(80),
-    description character varying(191),
+    description text,
     active boolean DEFAULT true,
     remember_token character varying(100),
     language character varying(191) DEFAULT 'en'::character varying,
