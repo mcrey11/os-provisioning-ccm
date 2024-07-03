@@ -217,7 +217,7 @@ class ModemController extends \BaseController
 
         if (Module::collections()->has('BillingBase')) {
             if (! $model->exists) {
-                request()->mergeIfMissing(['qos_id'=> Contract::find(request('contract_id'))->qos_id]);
+                request()->mergeIfMissing(['qos_id'=> Contract::find(request('contract_id'))?->qos_id]);
             }
 
             $b = [[
