@@ -132,8 +132,8 @@ class ContractCommand extends Command
                         })
                         ->where(function ($query) {
                             $query
-                            ->whereRaw('qos_id != next_qos_id')
-                            ->orWhereRaw('voip_id != next_voip_id');
+                            ->whereColumn('qos_id', '!=', 'next_qos_id')
+                            ->orWhereColumn('voip_id', '!=', 'next_voip_id');
                         });
                 }
             }
