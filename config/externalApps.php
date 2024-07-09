@@ -53,6 +53,13 @@ $config = [
         'website' => 'https://prometheus.io/',
         'rpmName' => 'prometheus',
     ],
+    'Netbox' => [
+        'icon'  => 'Netbox.svg',
+        'description' => 'apps.Netbox',
+        'link' => '/netbox',
+        'website' => 'https://netbox.dev/',
+        'rpmName' => 'netbox',
+    ],
 ];
 
 if (! is_dir('/usr/share/icingaweb2')) {
