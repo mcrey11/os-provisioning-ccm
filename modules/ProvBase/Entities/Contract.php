@@ -27,8 +27,8 @@ class Contract extends \BaseModel
 {
     // get functions for some address select options
     use \App\AddressFunctionsTrait;
-
     use \App\extensions\geocoding\GeoReferencable;
+    use \App\Traits\HasTickets;
 
     // The associated SQL table for this Model
     public $table = 'contract';
@@ -423,8 +423,7 @@ class Contract extends \BaseModel
 
         if (Module::collections()->has('Ticketsystem')) {
             $ret['Tickets']['icon'] = 'ticket';
-            $ret['Tickets']['Ticket']['class'] = 'Ticket';
-            $ret['Tickets']['Ticket']['relation'] = $this->tickets;
+            $this->addViewHasManyTickets($ret);
             $ret['Tickets']['Modem Tickets']['class'] = 'Ticket';
             $ret['Tickets']['Modem Tickets']['relation'] = $this->modems()->select('id')->with('tickets')->get()->pluck('tickets')->flatten();
             $ret['Tickets']['Modem Tickets']['options']['hide_create_button'] = 1;
@@ -2018,6 +2017,13 @@ class Contract extends \BaseModel
             'id', 'company', 'department', 'salutation', 'academic_degree', 'firstname', 'lastname',
             'street', 'house_number', 'zip', 'city', 'district', 'phone', 'mail', 'lng', 'lat', 'number',
         ];
+    }
+
+    public function ticketInfoProperties()
+    {
+        return collect($this->only([
+            'number', 'company', 'firstname', 'lastname', 'zip', 'city', 'district', 'street', 'house_number', 'phone', 'email',
+        ]));
     }
 
     /**

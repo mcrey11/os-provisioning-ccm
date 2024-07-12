@@ -30,6 +30,7 @@ use Nwidart\Modules\Facades\Module;
 
 class NetElement extends \BaseModel
 {
+    use \App\Traits\HasTickets;
     use NodeTrait;
 
     // Do not delete children (modem, mta, phonenmumber, etc.)!
@@ -1637,5 +1638,13 @@ class NetElement extends \BaseModel
         }
 
         return false;
+    }
+
+    public function ticketInfoProperties()
+    {
+        return collect($this->only([
+            'id', 'name', 'series', 'ip', 'community_rw', 'community_ro', 'descr', 'address1', 'address2', 'online', 'state',
+            'link', 'options', 'rkm_line_number',
+        ]));
     }
 }

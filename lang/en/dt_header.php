@@ -135,6 +135,7 @@ return [
         'cron_string' => 'Cron string',
         'batch_size' => 'Batch size',
     ],
+    'geocode_source' => 'Geocode origin',
     //Invoices
     'invoice.type' => 'Type',
     'invoice.year' => 'Year',

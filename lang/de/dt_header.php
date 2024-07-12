@@ -10,6 +10,7 @@ return [
     'ccap' => 'CCAP',
     'city' => 'Stadt',
     'lastUpdatedAt' => 'Letzte Aktualisierung',
+    'company' => 'Firma',
     'connected' => 'Angeschlossen',
     'connection_type' => 'Anschlusstyp',
     'deprecated' => 'Veraltet',
@@ -29,6 +30,7 @@ return [
     'iban' => 'IBAN',
     'id'            => 'ID',
     'invoice_date' => 'Rechnungsdatum',
+    'lastname' => 'Nachname',
     'mac' => 'MAC',
     'name' => 'Name',
     'number' => 'Nummer',
@@ -43,7 +45,7 @@ return [
     'apartment' => [
         'connected' => 'Angeschlossen',
         'occupied' => 'Bewohnt',
-        'code' => 'Code',
+        'code' => 'WE-Schlüssel',
         'debts' => 'Ausstehender Betrag durch OPs',
         'number' => 'Nummer',
     ],
@@ -133,6 +135,7 @@ return [
         'cron_string' => 'Cron-Ausdruck',
         'batch_size' => 'Anzahl Modems pro Ausführung',
     ],
+    'geocode_source' => 'Geocode-Quelle',
     //Invoices
     'invoice.type' => 'Typ',
     'invoice.year' => 'Jahr',

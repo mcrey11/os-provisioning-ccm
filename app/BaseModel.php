@@ -186,20 +186,6 @@ class BaseModel extends Eloquent
     }
 
     /**
-     * Relation to Ticket if Ticketsystem is present.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany|\Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tickets()
-    {
-        if (Module::collections()->has('Ticketsystem')) {
-            return  $this->morphMany(\Modules\Ticketsystem\Entities\Ticket::class, 'ticketable');
-        }
-
-        return new \Illuminate\Database\Eloquent\Relations\HasMany($this->newQuery(), $this, '', '', '');
-    }
-
-    /**
      * Basefunction to define tabs with associated panels (relation or view) for the models edit page
      * E.g. Add relation panel 'modems' on the right side of the contract edit page - see ContractController::view_has_many()
      * Note: Use Controller::editTabs() to define tabs refering to new pages
@@ -209,22 +195,6 @@ class BaseModel extends Eloquent
     public function view_has_many()
     {
         return [];
-    }
-
-    /**
-     * Add Ticket relation to an edit view. This method should be called inside
-     * the view_has_many() method and adds a relationship panel to the edit
-     * blade.
-     *
-     * @param  array  $ret
-     * @return void
-     */
-    public function addViewHasManyTickets(&$ret, $tabName = 'Edit')
-    {
-        if (Module::collections()->has('Ticketsystem')) {
-            $ret[$tabName]['Ticket']['class'] = 'Ticket';
-            $ret[$tabName]['Ticket']['relation'] = $this->tickets;
-        }
     }
 
     /**

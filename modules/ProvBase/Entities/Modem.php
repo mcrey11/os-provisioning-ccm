@@ -37,6 +37,7 @@ class Modem extends \BaseModel
     use HasConfigfile;
     use \App\AddressFunctionsTrait; // get functions for some address select options
     use \App\extensions\geocoding\GeoReferencable;
+    use \App\Traits\HasTickets;
 
     public const TYPES = ['cm', 'tr069', 'ont'];
     public const CWMP_EVENTS = [
@@ -214,7 +215,7 @@ class Modem extends \BaseModel
             $this->table.'.street',
             $this->table.'.house_number',
             $this->table.'.apartment_nr',
-            $this->table.'.geocode_source',
+            'geocode_source',
             $this->table.'.inventar_num',
             'contract_valid',
         ];
