@@ -257,7 +257,7 @@ class BaseController extends Controller
 
             // Checkbox Unset ?
             if (! isset($data[$field['name']]) && ($field['form_type'] == 'checkbox')) {
-                $data[$field['name']] = 0;
+                $data[$field['name']] = false;
             }
 
             // JavaScript controlled checkboxes sometimes returns “on” if checked – which results in
@@ -1672,7 +1672,6 @@ class BaseController extends Controller
         $eagerLoadingTables = $dtConfig['eager_loading'] ?? [];
         $rawColumns = $dtConfig['raw_columns'] ?? []; // not run through htmlentities()
         $selectQuery = [$dtConfig['table'].'.*'];
-
         $query = $model::selectRaw(implode(',', $joins ? array_merge($selectQuery, array_merge(...array_map(fn ($join) => $join['select'], $joins))) : $selectQuery));
 
         foreach ($joins as $join) {
