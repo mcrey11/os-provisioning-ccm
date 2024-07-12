@@ -1871,7 +1871,7 @@ class Contract extends \BaseModel
 
     public function groupContractFilterQuery()
     {
-        return "id in (SELECT id from contract where (CASE WHEN (group_contract = false or group_contract IS NULL) THEN '".trans('view.false')."'::text ELSE '".trans('view.true')."'::text END) ilike ?)";
+        return "contract.id in (SELECT id from contract where (CASE WHEN (group_contract = false or group_contract IS NULL) THEN '".trans('view.false')."'::text ELSE '".trans('view.true')."'::text END) ilike ?)";
     }
 
     /**
