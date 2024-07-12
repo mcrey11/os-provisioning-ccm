@@ -354,7 +354,7 @@ class BaseModel extends Eloquent
          */
         $path = base_path('modules');
         $dirs = [];
-        $modules = \Module::allEnabled();
+        $modules = Module::allEnabled();
         foreach ($modules as $module) {
             array_push($dirs, $module->getPath().'/Entities');
         }
@@ -836,7 +836,7 @@ class BaseModel extends Eloquent
     public function writeAllowed()
     {
         // in ProvHA environments: Only master is allowed to change the database
-        if (\Module::collections()->has('ProvHA')) {
+        if (Module::collections()->has('ProvHA')) {
             if ('slave' == config('provha.hostinfo.ownState')) {
                 $msg = trans('provha::messages.db_change_forbidden_not_master', ['state' => config('provha.hostinfo.ownState')]);
                 $this->addAboveMessage($msg, 'error');
