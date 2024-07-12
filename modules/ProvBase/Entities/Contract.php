@@ -1986,7 +1986,7 @@ class Contract extends \BaseModel
                 'text' => "{$this->company} {$this->department} {$this->salutation} {$this->academic_degree} {$this->firstname} {$this->lastname}",
             ],
             trans('messages.Address') => [
-                'text' => "{$this->street} {$this->house_number}||{$this->zip} {$this->city} {$this->district}",
+                'text' => "{$this->street} {$this->house_number} | {$this->zip} {$this->city} {$this->district}",
                 'action' => $navi ?? null,
             ],
             trans('messages.Phone') => [

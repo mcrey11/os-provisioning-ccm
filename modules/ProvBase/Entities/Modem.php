@@ -3072,11 +3072,11 @@ class Modem extends \BaseModel
                 ],
             ],
             trans('messages.Address') => [
-                'text' => "{$this->street} {$this->house_number}||{$this->zip} {$this->city} {$this->district}",
+                'text' => "{$this->street} {$this->house_number} | {$this->zip} {$this->city} {$this->district}",
                 'action' => $navi ?? null,
             ],
             trans('messages.Signal Parameters') => [
-                'text' => "US Pwr: {$this->us_pwr} | US SNR: {$this->us_snr} ||DS Pwr: {$this->ds_pwr} | DS SNR: {$this->ds_snr}",
+                'text' => "US Pwr: {$this->us_pwr} | US SNR: {$this->us_snr} | DS Pwr: {$this->ds_pwr} | DS SNR: {$this->ds_snr}",
                 'action' => [
                     'link' => route('ProvMon.analysis', [$this->id]),
                     'icon' => 'fa-area-chart',
