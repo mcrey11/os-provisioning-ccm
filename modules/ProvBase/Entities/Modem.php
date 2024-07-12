@@ -1923,7 +1923,9 @@ class Modem extends \BaseModel
         // reshape array into the right format
         foreach (array_reverse(array_keys(reset($log))) as $idx) {
             foreach ($log as $k => $v) {
-                $ret[$idx][] = $v[$idx];
+                if (isset($v[$idx])) {
+                    $ret[$idx][] = $v[$idx];
+                }
             }
         }
 
