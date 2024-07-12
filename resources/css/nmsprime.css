@@ -1034,3 +1034,7 @@ table.dataTable > tbody > tr.selected > * {
 .icon-sidebar i {
     padding-top: 8px;
 }
+
+#minifyButton ~ .row.justify-center {
+    padding-left: 20px !important;
+}
