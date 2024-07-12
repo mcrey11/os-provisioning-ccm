@@ -451,10 +451,10 @@ class ImportTvCustomersCommand extends Command
             }
         }
 
-        $this->createSepaMandate($this->option('ccSepa'));
+        self::createSepaMandate($this->option('ccSepa'));
     }
 
-    private function createSepaMandate($costcenterId = null)
+    private static function createSepaMandate($costcenterId = null)
     {
         $contract = self::$contract;
         $signatureDate = self::getSignatureDate();
@@ -525,13 +525,17 @@ class ImportTvCustomersCommand extends Command
     public static function manuallyAddSepaMandate($file, $ccSepa, $ag, $ccContract)
     {
         $file = file($file);
+
+        // remove table headers
+        array_shift($file);
+
         $count = count($file);
         Log::info("Import potentially $count TV customers");
 
         foreach ($file as $line) {
-            $contract = self::findOrAddContract($ag, $ccContract);
-
             self::$line = str_getcsv($line, ';');
+            self::$contract = $contract = self::findOrAddContract($ag, $ccContract);
+
             $valid = trim(self::$line[self::S_VALID]) == 'einzug';
 
             if (! $valid) {
@@ -544,7 +548,7 @@ class ImportTvCustomersCommand extends Command
                     })
                     ->update(['costcenter_id' => $contract->costcenter_id]);
 
-                return;
+                continue;
             }
 
             // Check and return if SepaMandate with this IBAN currently exists and is valid
@@ -557,14 +561,14 @@ class ImportTvCustomersCommand extends Command
                     if ($contract->where('type', 'Internet')) {
                         self::createSepaMandate();
 
-                        return;
+                        continue;
                     }
 
                     foreach ($mandates as $sm) {
                         if (! $sm->valid_to || ($sm->valid_to > date('Y-m-d')) || ($sm->signature_date > self::getSignatureDate())) {
                             Log::notice("Contract $contract->number already has SEPA-mandate with IBAN {$iban}");
 
-                            return;
+                            continue;
                         }
                     }
                 }
@@ -574,7 +578,7 @@ class ImportTvCustomersCommand extends Command
             if (self::$newCustomer) {
                 self::createSepaMandate();
 
-                return;
+                continue;
             }
 
             // already existing customer
