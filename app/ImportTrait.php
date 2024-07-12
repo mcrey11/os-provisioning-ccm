@@ -27,9 +27,7 @@ trait ImportTrait
             // Check if name and address differs - could be a different customer
             // Attention: strtolower doesn't work for ÄÖÜ, but i dont know if a street begins with such a char
             if ($contract->firstname != $firstname || $contract->lastname != $lastname || strtolower($contract->street) != strtolower($street)) {
-                $msg = "Vertragsnummer $number existiert bereits, aber Name, Straße oder Stadt weichen ab - Bitte korrigieren Sie die Daten!";
-                Log::warning($msg);
-                self::$importantTodos[] = $msg;
+                self::addTodo("Vertragsnummer $number existiert bereits, aber Name, Straße oder Stadt weichen ab - Bitte korrigieren Sie die Daten!");
 
                 return $contract;
             }
@@ -52,6 +50,12 @@ trait ImportTrait
         }
 
         return $contract;
+    }
+
+    public static function addTodo($todo)
+    {
+        Log::warning($todo);
+        self::$importantTodos[] = $todo;
     }
 
     public static function printImportantTodos()

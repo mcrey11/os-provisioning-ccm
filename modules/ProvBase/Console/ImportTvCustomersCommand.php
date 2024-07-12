@@ -374,7 +374,7 @@ class ImportTvCustomersCommand extends Command
         $product_id = 0;
         foreach (self::CREDITS_WATT as $watt => $prod_id) {
             if ($watt_amount == $watt) {
-                self::$importantTodos[] = "Please check if contract $contract->number has correct credit assigned! (multiple possible)";
+                self::addTodo("Please check if contract $contract->number has correct credit assigned! (multiple possible)");
 
                 $product_id = $prod_id;
                 break;
@@ -382,7 +382,7 @@ class ImportTvCustomersCommand extends Command
         }
 
         if (! $product_id) {
-            self::$importantTodos[] = "Contract $contract->number [Old Contract Nr ".self::$line[self::C_NR]."] has credit of $credit € [Watt: $watt_amount]. Please add credit manually!";
+            self::addTodo("Contract $contract->number [Old Contract Nr ".self::$line[self::C_NR]."] has credit of $credit € [Watt: $watt_amount]. Please add credit manually!");
 
             return;
         }
@@ -403,7 +403,7 @@ class ImportTvCustomersCommand extends Command
         // $creditAmount = trim($creditAmount);
 
         if (date('Y') == date('Y', strtotime($contract->contract_start)) || date('Y') == date('Y', strtotime($contract->contract_end))) {
-            self::$importantTodos[] = "Please check Amplifier credit for Contract $contract->number as it's calculated partly for the year";
+            self::addTodo("Please check Amplifier credit for Contract $contract->number as it's calculated partly for the year");
         }
 
         Item::create([
@@ -477,7 +477,7 @@ class ImportTvCustomersCommand extends Command
 
         if ($validator->fails()) {
             if ($iban) {
-                self::$importantTodos[] = "Cannot add SepaMandate with IBAN {$iban} because of invalid data: ".implode(', ', $validator->errors()->all());
+                self::addTodo("Cannot add SepaMandate with IBAN {$iban} because of invalid data: ".implode(', ', $validator->errors()->all()));
             }
 
             return;
