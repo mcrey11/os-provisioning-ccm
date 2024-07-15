@@ -1914,7 +1914,7 @@ class Modem extends \BaseModel
         $ignore = ['T3 time', 'T4 time'];
         $trans = ['', 'danger', 'danger', 'danger', 'danger', 'warning', 'success', '', 'info'];
         foreach ($log[$color_key] as $k => $color_idx) {
-            $log[$color_key][$k] = Str::contains($log[$text_key][$k], $ignore) ? '' : $trans[$color_idx];
+            $log[$color_key][$k] = (Str::contains($log[$text_key][$k], $ignore) || ! isset($trans[$color_idx])) ? '' : $trans[$color_idx];
         }
 
         // add table headers
