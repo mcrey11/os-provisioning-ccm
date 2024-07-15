@@ -698,7 +698,7 @@ return [
     'backToDetails'             => 'Back to Details',
     'hardFilter'                => 'The data is prefiltered by the given condition(s)!',
     'removeFilter'              => 'Remove filter!',
-    'noReplyMail'               => 'Addresse of noreply E-mail',
+    'noReplyMail'               => 'Address of noreply E-mail',
     'noReplyName'               => 'Name of noreply E-mail',
     'distanceWeight'            => 'Distance weight',
     'modemcountWeight'          => 'Modemcount weight',

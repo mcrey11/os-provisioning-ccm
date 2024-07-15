@@ -1088,7 +1088,7 @@ return [
     'firmwareUpgrade' => [
         'startDate' => 'Start Date',
         'startTime' => 'Start Time',
-        'onlyRestartRequired' => 'Only restart devices',
+        'restartOnly' => 'Only restart devices',
         'cronString' => 'Cron String',
         'batchSize' => 'Batch Size',
         'fromConfigfile' => 'From Configfile(s)',
