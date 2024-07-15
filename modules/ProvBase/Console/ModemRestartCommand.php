@@ -37,6 +37,8 @@ class ModemRestartCommand extends Command
         {--city= : Filter modems by city (wildcard)}
         {--district= : Filter modems by district / installation (wildcard)}
         {--street= : Filter modems by street (wildcard)}
+        {--model= : Filter modems by model (wildcard)}
+        {--sw-rev= : Filter modems by software revision (wildcard)}
         {--apartment_nr=* : Filter modems by apartment_nr}
         {--file= : File containing one MAC address per line f modems to be processed}
         {--limit= : Maximum amount of modems to handle}
@@ -77,6 +79,14 @@ class ModemRestartCommand extends Command
             if ($this->option($filter)) {
                 $modems->where($filter, 'like', "%{$this->option($filter)}%");
             }
+        }
+
+        if ($this->option('model')) {
+            $modems->where('model', 'like', "%{$this->option('model')}%");
+        }
+
+        if ($this->option('sw-rev')) {
+            $modems->where('sw_rev', 'like', "%{$this->option('sw-rev')}%");
         }
 
         if ($this->option('apartment_nr')) {
