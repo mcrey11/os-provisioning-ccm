@@ -589,7 +589,7 @@ class SnmpController extends \BaseController
                     } catch (Exception $e) {
                         $name = $oid->name_gui ?: $oid->name;
                         $this->errors[] = "$name.$index";
-                        Log::error("snmp2_get: $name.$index");
+                        Log::error("snmp2_get failed for IP $this->netelementIp OID $oid_s: $name.$index");
                     }
                 }
             } catch (Exception $e) {
@@ -602,7 +602,7 @@ class SnmpController extends \BaseController
                         } catch (Exception $e) {
                             $name = $oid->name_gui ?: $oid->name;
                             $this->errors[] = "$name.$index";
-                            Log::error("snmpget: $name.$index");
+                            Log::error("snmpget failed for IP $this->netelementIp OID $oid_s: $name.$index");
                         }
                     }
                 } catch (Exception $e) {
