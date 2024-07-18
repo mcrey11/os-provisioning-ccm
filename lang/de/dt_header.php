@@ -77,6 +77,7 @@ return [
         'boc_label' => 'BOC-Label',
         'bof_label' => 'BOF-Label',
         'type' => 'Typ',
+        'zip' => 'PLZ',
     ],
     'contract_id' => 'Vertrag',
     // Auth
