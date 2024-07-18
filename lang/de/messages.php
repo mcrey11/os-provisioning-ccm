@@ -703,6 +703,7 @@ return [
     'noReplyName'               => 'Name der Noreply E-mail',
     'distanceWeight'            => 'Wichtung der Entfernung',
     'modemcountWeight'          => 'Wichtung der Modemanzahl',
+    'Ongoing lawsuit' => 'Laufender Rechtsstreit',
     'open' => 'offen',
     'openticketsWeight'         => 'Wichtung der Technikerarbeitslast',
     'No Description provided!'  => 'Keine Beschreibung hinterlegt',

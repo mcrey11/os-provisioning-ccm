@@ -703,6 +703,7 @@ return [
     'noReplyName'               => 'Name of noreply E-mail',
     'distanceWeight'            => 'Distance weight',
     'modemcountWeight'          => 'Modemcount weight',
+    'Ongoing lawsuit' => 'Ongoing lawsuit',
     'open' => 'open',
     'openticketsWeight'         => 'Technician workload weight',
     'No Description provided!'  => 'No Description provided!',

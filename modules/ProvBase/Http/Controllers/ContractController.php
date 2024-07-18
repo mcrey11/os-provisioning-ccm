@@ -478,6 +478,8 @@ class ContractController extends \BaseController
             ];
         }
 
+        $d[] = ['form_type' => 'checkbox', 'name' => 'lawsuit', 'description' => 'Ongoing lawsuit'];
+
         return array_merge($a, $b1, $b2, $b3, $c, $d);
     }
 

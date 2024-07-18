@@ -298,6 +298,10 @@ class Contract extends \BaseModel
         // default NMSPrime contract
         $bsclass = 'success';
 
+        if ($this->lawsuit) {
+            return 'danger';
+        }
+
         if ($this->group_contract) {
             return 'info';
         }
