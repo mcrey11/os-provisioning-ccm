@@ -101,9 +101,12 @@ return [
     'Menu_VicinityGraph'        => 'Vicinity Graph',
     'Menu_DFSubscriptions'      => 'Dreamfiber subscriptions',
     'Menu_DFSubscriptionEvents' => 'Dreamfiber events',
-    'Menu_Invoices'             => 'My invoices',
-    'Menu_Documents'            => 'Documents',
-    'Menu_Speedtest'            => 'Speedtest',
+    'Menu_Invoices'             => 'Invoices',
+
+    // CCC
+    'Menu_Ccc_Invoices'         => 'My invoices',
+    'Menu_Ccc_Documents'        => 'Documents',
+    'Menu_Ccc_Speedtest'        => 'Speedtest',
 
     //User Settings
     'Menu_UserSettings'         => 'User Settings',
