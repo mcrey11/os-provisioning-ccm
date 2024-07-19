@@ -52,31 +52,13 @@ trait ImportTrait
         return $contract;
     }
 
-    /**
-     * Log and echo messages as WARNING when something needs to be adapted.
-     *
-     * @param  string  $todo  message that should be logged
-     *
-     * @author Roy Schneider
-     *
-     * @return void
-     */
-    public static function addTodo($todo)
+    public static function addTodo($todo): void
     {
         Log::warning($todo);
         self::$importantTodos[] = $todo;
     }
 
-    /**
-     * Echo messages when something needs to be adapted.
-     *
-     * @param  string  $todo  message that should be logged
-     *
-     * @author Roy Schneider
-     *
-     * @return void
-     */
-    public static function printImportantTodos()
+    public static function printImportantTodos(): void
     {
         if (! self::$importantTodos) {
             return;
