@@ -105,6 +105,9 @@ class ImportTvCustomersCommand extends Command
     protected static $contract = null;
     protected static $line = [];
 
+    protected static $option = [];
+    protected static $argument = [];
+
     /**
      * Create a new command instance.
      *
@@ -137,6 +140,11 @@ class ImportTvCustomersCommand extends Command
         Log::info("Import potentially $num TV customers");
         $bar->start();
 
+        // to use with static method from tinker aswell
+        self::$argument = $this->argument();
+        self::$option = $this->option();
+        self::setCharge($this->option('charge'));
+
         foreach ($file_arr as $line) {
             $bar->advance();
 
@@ -149,8 +157,8 @@ class ImportTvCustomersCommand extends Command
                 continue;
             }
 
-            $this->addTariff();
-            $this->addCredit();
+            self::addTariff();
+            self::addCredit();
             $this->addSepaMandate();
         }
 
@@ -195,6 +203,11 @@ class ImportTvCustomersCommand extends Command
     private static function getSignatureDate()
     {
         return date('Y-m-d', strtotime(self::$line[self::S_SIGNATURE]));
+    }
+
+    private static function setCharge($charge)
+    {
+        self::$option['charge'] = array_map(fn($charge) => number_format($charge, 2), $charge);
     }
 
     /**
@@ -306,7 +319,7 @@ class ImportTvCustomersCommand extends Command
         return 'Frau';
     }
 
-    private function addTariff()
+    private static function addTariff()
     {
         $tariff = self::$line[self::TARIFF];
         $contract = self::$contract;
@@ -320,7 +333,7 @@ class ImportTvCustomersCommand extends Command
         $existing = false;
         if ($contract->items()->count()) {
             $existing = $contract->items->contains(function ($item, $value) {
-                return in_array($item->product_id, $this->option('productId'));
+                return in_array($item->product_id, self::$option['productId']);
             });
         }
 
@@ -338,7 +351,7 @@ class ImportTvCustomersCommand extends Command
             return;
         }
 
-        $key = array_search($amount, $this->option('charge'), true);
+        $key = array_search($amount, self::$option['charge'], true);
         if ($key === false) {
             $msg = "Contract $contract->number is charged with $amount EUR. Please add Tariff manually!";
             self::$importantTodos[] = $msg;
@@ -347,7 +360,7 @@ class ImportTvCustomersCommand extends Command
             return;
         }
 
-        $productId = $this->option('productId')[$key];
+        $productId = self::$option['productId'][$key];
 
         Item::create([
             'contract_id' 		=> $contract->id,
@@ -361,7 +374,7 @@ class ImportTvCustomersCommand extends Command
         Log::info("Add TV Tariff $productId for Contract $contract->number");
     }
 
-    private function addCredit()
+    private static function addCredit()
     {
         $credit = self::$line[self::CREDIT];
         $watt_amount = self::$line[self::C_DESC1];
@@ -414,7 +427,7 @@ class ImportTvCustomersCommand extends Command
             'valid_to' 			=> $contract->contract_end,
             'valid_to_fixed' 	=> 1,
             // 'credit_amount' 	=> $creditAmount,
-            'costcenter_id' 	=> $this->argument('ccContract'),
+            'costcenter_id' 	=> self::$argument['ccContract'],
         ]);
 
         Log::info("Add Credit [Product ID $product_id] for Amplifier to Contract $contract->number");
@@ -517,13 +530,18 @@ class ImportTvCustomersCommand extends Command
      * @param  int  $ccSepa
      * @param  int  $ag
      * @param  int  $ccContract
+     * @param  array  $productId
+     * @param  array  $charge  with 2 decimal places like [0 => 60.00, 1 => 0.00]
      *
      * @author Roy Schneider
      *
      * @return void
      */
-    public static function manuallyAddSepaMandate($file, $ccSepa, $ag, $ccContract)
+    public static function manuallyAddSepaMandate($file, $ccSepa, $ag, $ccContract, $productId, $charge)
     {
+        self::$option['productId'] = $productId;
+        self::setCharge($charge);
+        self::$argument['ccContract'] = $ccContract;
         $file = file($file);
 
         // remove table headers
@@ -535,6 +553,9 @@ class ImportTvCustomersCommand extends Command
         foreach ($file as $line) {
             self::$line = str_getcsv($line, ';');
             self::$contract = $contract = self::findOrAddContract($ag, $ccContract);
+
+            self::addTariff();
+            self::addCredit();
 
             $valid = trim(self::$line[self::S_VALID]) == 'einzug';
 
