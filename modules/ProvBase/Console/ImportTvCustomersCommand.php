@@ -207,7 +207,7 @@ class ImportTvCustomersCommand extends Command
 
     private static function setCharge($charge)
     {
-        self::$option['charge'] = array_map(fn($charge) => number_format($charge, 2), $charge);
+        self::$option['charge'] = array_map(fn ($charge) => number_format($charge, 2), $charge);
     }
 
     /**
