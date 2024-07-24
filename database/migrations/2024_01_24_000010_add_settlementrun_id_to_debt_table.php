@@ -46,7 +46,7 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->bigInteger('settlementrun_id');
+            $table->dropColumn('settlementrun_id');
         });
     }
 };
