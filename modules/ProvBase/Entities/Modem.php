@@ -2696,16 +2696,14 @@ class Modem extends \BaseModel
         return $conf;
     }
 
-    /**
-     * Get IP of Modem and ping it for Analysis page.
-     *
-     * @param   object \Modules\Provbase\Entities\Provbase - to reduce amount of DB queries when looping over all modems
-     *
-     * @author  Roy Schneider
-     *
-     * @return array
-     */
-    public function onlineStatus($conf = null)
+    public function getIp($hostname)
+    {
+        $ip = gethostbyname($hostname);
+
+        return ($ip == $hostname) ? null : $ip;
+    }
+
+    public function getHostname($conf = null)
     {
         $hostname = $this->hostname.'.';
 
@@ -2717,8 +2715,22 @@ class Modem extends \BaseModel
             $hostname .= ProvBase::first()->domain_name;
         }
 
-        $ip = gethostbyname($hostname);
-        $ip = ($ip == $hostname) ? null : $ip;
+        return $hostname;
+    }
+
+    /**
+     * Get IP of Modem and ping it for Analysis page.
+     *
+     * @param   object \Modules\Provbase\Entities\Provbase - to reduce amount of DB queries when looping over all modems
+     *
+     * @author  Roy Schneider
+     *
+     * @return array
+     */
+    public function onlineStatus($conf = null)
+    {
+        $hostname = $this->getHostname($conf);
+        $ip = $this->getIp($hostname);
 
         if ($this->isAltiplano()) {
             $connectionRequestURL = $this->getGenieAcsModel('InternetGatewayDevice.ManagementServer.ConnectionRequestURL')?->_value;
