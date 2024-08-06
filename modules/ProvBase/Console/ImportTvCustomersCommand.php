@@ -210,12 +210,17 @@ class ImportTvCustomersCommand extends Command
         self::$option['charge'] = array_map(fn ($charge) => number_format($charge, 2), $charge);
     }
 
+    private static function getYmdDate($date)
+    {
+        return $date ? date('Y-m-d', strtotime($date)) : null;
+    }
+
     /**
      * Create new Contract or return existing one
      *
      * @return object New created contract or if found the already existing one
      */
-    private static function findOrAddContract($ag, $ccContract)
+    private static function findOrAddContract($contact, $ccContract)
     {
         $number = self::getNumber();
         ['firstName' => $firstName, 'lastName' => $lastName] = self::getFirstAndLastName();
@@ -226,8 +231,8 @@ class ImportTvCustomersCommand extends Command
         // if existing contract was found update the contact and return it
         if ($contract) {
             self::$newCustomer = false;
-            if ($ag) {
-                Contract::where('id', $contract->id)->update(['contact' => $ag]);
+            if ($contact) {
+                Contract::where('id', $contract->id)->update(['contact' => $contact]);
             }
 
             return $contract;
@@ -235,62 +240,35 @@ class ImportTvCustomersCommand extends Command
 
         self::$newCustomer = true;
 
-        // Add new contract
-        $contract = new Contract;
+        $contract = [
+            'contract_start' =>  self::getYmdDate(self::$line[self::C_START]) ?? '2000-01-01',
+            'contract_end' => self::getYmdDate(self::$line[self::C_END]),
+            'number' => $number,
+            'firstname' => $firstName,
+            'lastname' => $lastName,
+            'street' => $street,
+            'house_number' => $houseNr,
+            'zip' => str_pad(self::$line[self::C_ZIP], 5, '0', STR_PAD_LEFT),
+            'city' => $city,
+            'district' => $district,
+            //'academic_degree' => self::map_academic_degree(self::$line[self::C_ACAD_DGR]),
+            'salutation' => self::map_salutation(self::$line[self::C_SALUT]),
+            'phone' => str_replace(['/', '-', ' '], '', self::$line[self::C_TEL]),
+            'description' => self::$line[self::C_DESC1]."\n".self::$line[self::C_DESC2]."\n".self::$line[self::C_DESC3],
+            'costcenter_id' => $ccContract,
+            'contact' => $contact ?? null,
+            'create_invoice' => true,
+            'fax' => self::$line[self::C_FAX],
+            'email' => self::$line[self::C_MAIL],
+        ];
 
-        $contract->contract_start = self::$line[self::C_START] ? date('Y-m-d', strtotime(self::$line[self::C_START])) : '2000-01-01';
-        $contract->contract_end = self::$line[self::C_END] ? date('Y-m-d', strtotime(self::$line[self::C_END])) : null;
-
-        // Discard contracts that ended last year
-        if ($contract->contract_end && ($contract->contract_end < date('Y-01-01'))) {
-            Log::info("Contract $number is out of date ($contract->contract_start - $contract->contract_end)");
-
+        if (self::validationFailed('Contract', $contract, ['Number' => $number])) {
             return;
         }
 
-        $contract->number = $number;
-        $contract->firstname = $firstName;
-        $contract->lastname = $lastName;
-        $contract->street = $street;
-        $contract->house_number = $houseNr;
-        $contract->zip = str_pad(self::$line[self::C_ZIP], 5, '0', STR_PAD_LEFT);
-        $contract->city = $city;
-        $contract->district = $district;
+        Log::info("Add Contract {$number}: {$firstName}, {$lastName}");
 
-        // $contract->academic_degree = self::map_academic_degree(self::$line[self::C_ACAD_DGR]);
-        $contract->salutation = self::map_salutation(self::$line[self::C_SALUT]);
-        $contract->phone = str_replace(['/', '-', ' '], '', self::$line[self::C_TEL]);
-        $contract->description = self::$line[self::C_DESC1]."\n".self::$line[self::C_DESC2]."\n".self::$line[self::C_DESC3];
-        $contract->costcenter_id = $ccContract;
-
-        if ($ag) {
-            $contract->contact = $ag;
-        }
-
-        $contract->create_invoice = true;
-        $contract->fax = self::$line[self::C_FAX];
-        $contract->email = self::$line[self::C_MAIL];
-
-        // Set null-fields to '' to fix SQL import problem with null fields
-        $relations = $contract->relationsToArray();
-        $nullable = ['contract_end'];
-        foreach ($contract->toArray() as $key => $value) {
-            if (array_key_exists($key, $relations) || in_array($key, $nullable)) {
-                continue;
-            }
-
-            if ($contract->{$key} == null) {
-                $contract->{$key} = '';
-            }
-        }
-
-        $contract->deleted_at = null;
-        // Update or Create Entry
-        $contract->save();
-
-        Log::info("Add Contract $contract->number: $contract->firstname, $contract->lastname");
-
-        return $contract;
+        return Contract::create($contract);
     }
 
     public static function map_academic_degree($string)
@@ -485,14 +463,9 @@ class ImportTvCustomersCommand extends Command
             'costcenter_id' => $costcenterId ?? null,
         ];
 
-        $validator = \Validator::make($sepa, (new SepaMandate)->rules());
         $iban = self::$line[self::S_IBAN];
 
-        if ($validator->fails()) {
-            if ($iban) {
-                self::addTodo("Cannot add SepaMandate with IBAN {$iban} because of invalid data: ".implode(', ', $validator->errors()->all()));
-            }
-
+        if (self::validationFailed('SepaMandate', $sepa, ['IBAN' => $iban])) {
             return;
         }
 

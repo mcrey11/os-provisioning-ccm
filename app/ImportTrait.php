@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Arr;
 use Log;
 use Modules\ProvBase\Entities\Contract;
 
@@ -65,5 +66,32 @@ trait ImportTrait
         }
 
         echo "\n".implode("\n", self::$importantTodos)."\n";
+    }
+
+    /**
+     * Check if validation would fail.
+     *
+     * @author Roy Schneider
+     *
+     * @param  string  $modelName
+     * @param  array  $data
+     * @param  array  $identifier
+     * @return bool|void
+     */
+    public static function validationFailed($modelName, $data, $identifier)
+    {
+        $validator = \Validator::make($data, (new $modelName)->rules());
+
+        if ($validator->fails()) {
+            $identifier = implode(
+                ', ',
+                Arr::map($identifier, function ($value, $key) {
+                    return is_string($key) ? "{$key}: {$value}" : $value;
+                })
+            );
+            self::addTodo("Cannot add {$modelName} with {$identifier} because of invalid data: ".implode(', ', $validator->errors()->all()));
+
+            return true;
+        }
     }
 }
