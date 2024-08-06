@@ -107,6 +107,8 @@ migrateNamed () {
         $test || systemctl stop named
     "
 
+    scp $centos7Server:/etc/resolv.conf /etc/resolv.conf
+
     systemctl stop named
     scp $centos7Server:/etc/named-nmsprime.conf /etc/named-nmsprime.conf
     scp $centos7Server:/var/named/dynamic/* /var/named/dynamic/
