@@ -49,6 +49,7 @@ class ProvVoipServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->loadMigrationsFrom(module_path('ProvVoip', 'Database/Migrations'));
     }
 
     /**

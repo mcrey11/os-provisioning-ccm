@@ -39,6 +39,7 @@ class HfcSnmpServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->loadMigrationsFrom(module_path('HfcSnmp', 'Database/Migrations'));
     }
 
     /**

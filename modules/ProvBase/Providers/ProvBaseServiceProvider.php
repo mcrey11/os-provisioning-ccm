@@ -63,6 +63,7 @@ class ProvBaseServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->loadMigrationsFrom(module_path('ProvBase', 'Database/Migrations'));
     }
 
     /**

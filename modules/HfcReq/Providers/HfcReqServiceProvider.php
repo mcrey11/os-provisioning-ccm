@@ -47,6 +47,7 @@ class HfcReqServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->loadMigrationsFrom(module_path('HfcReq', 'Database/Migrations'));
     }
 
     /**
