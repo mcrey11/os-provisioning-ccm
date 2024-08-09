@@ -233,6 +233,12 @@ migrateNmsprimeDB () {
     php /var/www/nmsprime/artisan migrate
     php /var/www/nmsprime/artisan module:migrate -a
 
+    sudo -u postgres psql $targetDb -c "
+        IMPORT FOREIGN SCHEMA public limit to (radacct) from server \"nmsprime-radius\" into nmsprime;
+        GRANT USAGE on FOREIGN server \"nmsprime-radius\" to nmsprime;
+        ALTER foreign table nmsprime.radacct owner to nmsprime;
+    "
+
     # Import Monitoring data - Timescale DB
     prepareMonitoringSchema
 
