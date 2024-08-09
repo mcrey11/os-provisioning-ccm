@@ -42,7 +42,7 @@ For more information head over to the NMS Prime [Official Documentation](https:/
 
 NMS Prime is based on the [Laravel](https://laravel.com/) framework and uses [PHP 8](https://php.net) for the back end and a modern and responsive [Bootstrap](http://getbootstrap.com/) theme for the front end.
 
-It is tested and developed under CentOS 7 (RHEL 7).
+It is tested and developed under Rocky 9 (RHEL 9).
 
 NMS Prime is build with standard Linux tools, like
 - [ISC DHCP](https://www.isc.org/downloads/dhcp/) for IPv4
@@ -58,10 +58,10 @@ These tools are actively developed, approved and used. See [Design Architecture]
 
 ### Community Version
 
-**From RPM for CentOS 7 (RHEL 7)**
+**From RPM for Rocky 9 (RHEL 9)**
 
 ```bash
-curl -vsL https://github.com/cablelabs/os-provisioning/raw/dev/INSTALL-REPO.sh | bash
+curl -vsL https://github.com/cablelabs/os-provisioning/raw/dev/scripts/INSTALL-REPO.sh | bash
 yum install nmsprime-*
 ```
 ### Enterprise Version
