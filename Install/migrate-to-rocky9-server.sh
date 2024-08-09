@@ -30,7 +30,7 @@ migrateCacti () {
 }
 
 migrateDhcp () {
-    $test || ssh $centos7Server "systemctl stop dhcpd"
+    #$test || ssh $centos7Server "systemctl stop dhcpd"
 
     systemctl stop dhcpd
     rsync -aI -e ssh --exclude='cmts_gws/' $centos7Server:/etc/dhcp-nmsprime/ /etc/dhcp-nmsprime/
@@ -63,15 +63,12 @@ migrateGenieAcs () {
     ssh $centos7Server "rm -f /tmp/genieacs.gz"
     systemctl stop genieacs-{cwmp,fs,nbi,ui}
 
-    if [ "$test" = true ]; then
-        yum list installed | grep "mongodb-mongosh" -q || yum install mongodb-mongosh
-        mongodump --db=genieacs --gzip --archive=/tmp/genieacs.bak.gz
-    fi
+    yum list installed | grep "mongodb-mongosh" -q || yum install -y mongodb-mongosh
+    # mongodump --db=genieacs --gzip --archive=/tmp/genieacs.bak.gz
+    mongosh --eval "use genieacs" --eval "db.dropDatabase()" --eval "use genieacs"
 
     mongorestore --verbose --gzip --archive=/tmp/genieacs.gz
     systemctl start genieacs-{cwmp,fs,nbi,ui}
-
-    $test && mongosh --eval "use genieacs" --eval "db.dropDatabase()" --eval "use genieacs"
 
     # Config in /etc
     ssh $centos7Server 'test $(grep GENIEACS_CWMP_PORT /etc/genieacs/genieacs.env | cut -d '"'"'='"'"' -f2) = "7548" || echo "PLEASE merge /etc/genieacs/genieacs.env"'
@@ -102,16 +99,13 @@ migrateIcinga () {
 }
 
 migrateNamed () {
-    ssh $centos7Server "
-        rndc sync -clean
-        $test || systemctl stop named
-    "
-
+    ssh $centos7Server "rndc sync -clean"
     scp $centos7Server:/etc/resolv.conf /etc/resolv.conf
 
     systemctl stop named
     scp $centos7Server:/etc/named-nmsprime.conf /etc/named-nmsprime.conf
     scp $centos7Server:/var/named/dynamic/* /var/named/dynamic/
+    rm -f /var/named/dynamic/*.jnl
     systemctl start named
 }
 
@@ -221,18 +215,12 @@ migrateNmsprimeDB () {
     # ssh $centos7Server "rm -rf /tmp/db-dump/"
 
     echo 'Restore NMSPrime DB'
-    #php /var/www/nmsprime/artisan migrate:rollback --step=1000
     sudo -u postgres psql nmsprime -c "DROP SCHEMA nmsprime CASCADE;"
     sudo -u postgres psql nmsprime < /etc/nmsprime/sql-schemas/nmsprime.pgsql
     tables=$(sudo -u postgres psql $targetDb -c "\dt nmsprime.*" | grep table | cut -d '|' -f2 | sed 's/ //g')
     for table in $tables; do
         sudo -u postgres psql $targetDb -c "truncate nmsprime.$table cascade"
     done
-
-    # while : ; do
-    #     ret=$(php /var/www/nmsprime/artisan module:migrate-rollback -a | grep Rollback | wc -l)
-    #     [ $ret != 0 ] || break
-    # done
 
     # roles must be inserted first because of a foreign key constraint
     sudo -u postgres psql $targetDb < /tmp/roles.pgsql
@@ -297,6 +285,7 @@ for argopt in "$@"
 do
 	case $argopt in
 		"-t")
+            # Only reduces amount of timescale monitoring data to be copied to reduce time
 			test=true
 			;;
         *)
