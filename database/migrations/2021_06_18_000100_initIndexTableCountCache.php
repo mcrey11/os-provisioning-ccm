@@ -18,7 +18,7 @@
 
 use Database\Migrations\BaseMigration;
 
-class InitIndexTableCountCache extends BaseMigration
+return new class extends BaseMigration
 {
     public $migrationScope = 'system';
 
@@ -51,4 +51,4 @@ class InitIndexTableCountCache extends BaseMigration
             \Cache::forget('indexTables.'.$table);
         }
     }
-}
+};
