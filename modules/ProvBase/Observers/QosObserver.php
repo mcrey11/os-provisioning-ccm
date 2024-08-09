@@ -27,6 +27,8 @@ use Nwidart\Modules\Facades\Module;
  */
 class QosObserver
 {
+    protected $radiusAttributes;
+
     public function __construct()
     {
         $file = storage_path('app/config/provbase/radius/attributes.php');
