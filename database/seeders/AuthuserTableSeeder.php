@@ -18,6 +18,8 @@
 
 // Composer: "fzaninotto/faker": "v1.3.0"
 
+namespace Database\Seeders;
+
 class AuthuserTableSeeder extends \BaseSeeder
 {
     public function run()

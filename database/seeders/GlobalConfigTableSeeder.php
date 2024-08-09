@@ -17,6 +17,9 @@
  */
 
 // Composer: "fzaninotto/faker": "v1.3.0"
+
+namespace Database\Seeders;
+
 use Faker\Factory as Faker;
 
 class GlobalConfigTableSeeder extends \BaseSeeder
