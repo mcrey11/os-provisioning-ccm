@@ -330,7 +330,7 @@ class Kernel extends ConsoleKernel
 
             $schedule->call(function () {
                 Queue::pushOn('low', new \Modules\SmartOnt\Jobs\OntGetOnlineOfflineJob());
-            })->everyFiveMinutes();
+            })->everyTenMinutes();
         }
 
         // TODO: improve
