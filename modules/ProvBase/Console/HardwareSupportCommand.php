@@ -69,7 +69,7 @@ class HardwareSupportCommand extends Command
                 }
             }
             $modem_serial_no_md5 = md5($modem->serial_num);
-            $contents = file_get_contents('https://support.nmsprime.com/hwsn/api.php?q='.$modem_serial_no_md5);
+            $contents = file_get_contents('https://repo9.nmsprime.com/hwsn/api.php?q='.$modem_serial_no_md5);
 
             if ($contents !== '') {
                 $result = json_decode($contents, true);
@@ -94,7 +94,7 @@ class HardwareSupportCommand extends Command
                 $count_found = 0;
                 foreach ($cmts_serials as $cmts_serial) {
                     $cmts_serial_md5 = md5($cmts_serial);
-                    $contents = file_get_contents('https://support.nmsprime.com/hwsn/api.php?q='.$cmts_serial_md5);
+                    $contents = file_get_contents('https://repo9.nmsprime.com/hwsn/api.php?q='.$cmts_serial_md5);
 
                     if ($contents !== '') {
                         $result = json_decode($contents, true);
