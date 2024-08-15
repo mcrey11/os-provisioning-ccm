@@ -80,7 +80,7 @@ echo $'\n;JIT Compiler\nopcache.jit_buffer_size=100M\nopcache.jit=tracing' >> /e
 
 # mysql_secure_installation - necessary for cacti
 mysql -u root << EOF
-UPDATE mysql.global_priv SET priv=json_set(priv, '$.authentication_string', PASSWORD('$root_pw')) WHERE User='root';
+UPDATE mysql.global_priv SET priv=json_set(priv, '$.plugin', 'mysql_native_password', '$.authentication_string', PASSWORD('$root_pw')) WHERE User='root';
 DELETE FROM mysql.global_priv WHERE User='';
 DELETE FROM mysql.global_priv WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 DROP DATABASE IF EXISTS test;
