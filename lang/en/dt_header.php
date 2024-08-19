@@ -142,7 +142,7 @@ return [
         'type' => 'Type',
         'year' => 'Year',
         'month' => 'Month',
-        'number' => 'Number',
+        'number' => 'Invoice Number',
         'amount' => 'Amount',
         'cdr' => 'Call Data Record',
     ],

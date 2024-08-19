@@ -142,7 +142,7 @@ return [
         'type' => 'Typ',
         'year' => 'Jahr',
         'month' => 'Monat',
-        'number' => 'Nummer',
+        'number' => 'Rechnungsnummer',
         'amount' => 'Betrag',
         'cdr' => 'Einzelverbindungsnachweis',
     ],
