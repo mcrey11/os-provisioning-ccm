@@ -33,6 +33,7 @@ class GlobalConfigController extends BaseController
     {
         return [
             'login_img' => self::BG_IMAGES_PATH_REL,
+            'logo_admin' => 'app/public/base/',
         ];
     }
 
@@ -41,8 +42,6 @@ class GlobalConfigController extends BaseController
      */
     public function view_form_fields($model = null)
     {
-        $pictures = $this->getFilesForSelect(self::BG_IMAGES_PATH_REL);
-
         $ret = [
             ['form_type' => 'text', 'name' => 'name', 'description' => 'ISP Name'],
             ['form_type' => 'text', 'name' => 'street', 'description' => 'Street'],
@@ -58,8 +57,10 @@ class GlobalConfigController extends BaseController
             ['form_type' => 'text', 'name' => 'alert2', 'description' => trans('view.Global notification').' - '.trans('view.warning')],
             ['form_type' => 'text', 'name' => 'alert3', 'description' => trans('view.Global notification').' - '.trans('view.critical')],
 
-            ['form_type' => 'select', 'name' => 'login_img', 'description' => trans('view.loginImg'), 'value' => $pictures],
+            ['form_type' => 'select', 'name' => 'login_img', 'description' => trans('view.loginImg'), 'value' => $this->getFilesForSelect(self::BG_IMAGES_PATH_REL)],
             ['form_type' => 'file', 'name' => 'login_img_upload', 'description' => trans('view.loginImgUpload')],
+            ['form_type' => 'select', 'name' => 'logo_admin', 'description' => 'Logo', 'value' => $this->getFilesForSelect('public/base/')],
+            ['form_type' => 'file', 'name' => 'logo_admin_upload', 'description' => 'Logo Upload'],
         ];
 
         if (Module::collections()->has('HfcBase')) {

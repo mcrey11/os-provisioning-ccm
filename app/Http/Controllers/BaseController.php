@@ -456,9 +456,9 @@ class BaseController extends Controller
      *
      * @author Torsten Schmidt
      */
-    public function compact_prep_view()
+    public function compact_prep_view(...$a)
     {
-        $a = func_get_args()[0];
+        $a = $a[0];
 
         $a['user'] = \App\User::where('id', auth()->id())
             ->withCount('unreadNotifications')
@@ -594,6 +594,7 @@ class BaseController extends Controller
             return GlobalConfig::first();
         });
         $a['version'] = $a['globalConfig']->version();
+        $a['logo'] = $a['globalConfig']->getLogo();
 
         return $a;
     }

@@ -96,4 +96,11 @@ class GlobalConfig extends BaseModel
 
         return $gitStats;
     }
+
+    public function getLogo()
+    {
+        $logo = $this::first()->logo_admin;
+
+        return $logo && file_exists(storage_path("app/public/base/$logo")) ? asset("storage/base/$logo") : null;
+    }
 }
