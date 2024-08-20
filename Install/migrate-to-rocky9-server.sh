@@ -92,7 +92,7 @@ migrateIcinga () {
             continue
         fi
 
-        sudo -u postgres psql icinga2 -c "truncate nmsprime.$table cascade"
+        sudo -u postgres psql icinga2 -c "truncate $table cascade"
     done
 
     sudo -u postgres psql icinga2 < /tmp/icinga2.psql
@@ -198,8 +198,8 @@ migrateNmsprimeDB () {
         mkdir -p $dir;
         chown postgres $dir;
         cd $dir;
-        su - postgres -c "/usr/pgsql-13/bin/pg_dump -a nmsprime -n nmsprime -t roles" > $dir/roles.pgsql;
-        su - postgres -c "/usr/pgsql-13/bin/pg_dump -a nmsprime -n nmsprime -T roles -T rad* -T nas" > $dir/nmsprime.pgsql;
+        su - postgres -c "/usr/pgsql-13/bin/pg_dump -a nmsprime -n nmsprime -t nmsprime.roles" > $dir/roles.pgsql;
+        su - postgres -c "/usr/pgsql-13/bin/pg_dump -a nmsprime -n nmsprime -T nmsprime.roles -T nmsprime.rad* -T nmsprime.nas" > $dir/nmsprime.pgsql;
         sudo -u postgres /usr/pgsql-13/bin/psql -lqt | cut -d \| -f 1 | grep -wq nmsprime_ccc && su - postgres -c "/usr/pgsql-13/bin/pg_dump -a nmsprime_ccc" > $dir/nmsprime_ccc.pgsql;
     '
 
