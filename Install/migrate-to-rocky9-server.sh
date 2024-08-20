@@ -222,6 +222,8 @@ migrateNmsprimeDB () {
         sudo -u postgres psql $targetDb -c "truncate nmsprime.$table cascade"
     done
 
+    sed -i -e 's/passwordresetinterval/password_reset_interval/' -e 's/isallnetssidebarenabled/is_all_nets_sidebar_enabled/' /tmp/nmsprime.pgsql
+
     # roles must be inserted first because of a foreign key constraint
     sudo -u postgres psql $targetDb < /tmp/roles.pgsql
     sudo -u postgres psql $targetDb < /tmp/nmsprime.pgsql
