@@ -90,6 +90,10 @@ trait GeoReferencable
             return [];
         }
 
+        if (session()->has('tmp_warning_above_form')) {
+            session()->forget('tmp_warning_above_form');
+        }
+
         Address::create([
             'zip' => $this->zip,
             'city' => $this->city,
