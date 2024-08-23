@@ -139,10 +139,13 @@ return [
     'geocode_source' => 'Geocode origin',
     //Invoices
     'invoice' => [
+        'ccc' => [
+            'number' => 'Invoice Number',
+        ],
         'type' => 'Type',
         'year' => 'Year',
         'month' => 'Month',
-        'number' => 'Invoice Number',
+        'number' => 'Number',
         'amount' => 'Amount',
         'cdr' => 'Call Data Record',
     ],
