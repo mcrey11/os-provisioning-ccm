@@ -1311,7 +1311,7 @@ class NetElement extends \BaseModel
             try {
                 $rx = snmp2_get($ip, $com, ".1.3.6.1.4.1.4491.2.1.20.1.25.1.2.$idx");
             } catch (\Exception $e) {
-                Log::error("Could not get RX power for cluster $this->name ($idx)");
+                Log::debug("Could not get RX power for cluster $this->name ($idx)");
                 continue;
             }
 
