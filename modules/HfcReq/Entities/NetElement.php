@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Kalnoy\Nestedset\NodeTrait;
-use Modules\ProvBase\Entities\NetGw;
+use Log;
 use Nwidart\Modules\Facades\Module;
 
 class NetElement extends \BaseModel
@@ -1008,7 +1008,7 @@ class NetElement extends \BaseModel
      */
     public static function relation_index_build_all($call_from_cmd = 0)
     {
-        \Log::info('nms: build net and cluster index of all tree objects');
+        Log::info('nms: build net and cluster index of all tree objects');
 
         $num = self::count();
 
@@ -1304,14 +1304,14 @@ class NetElement extends \BaseModel
                     continue;
                 }
             } catch (\Exception $e) {
-                \Log::error("Could not get SNR for cluster $this->name ($idx)");
+                Log::error("Could not get SNR for cluster $this->name ($idx)");
                 continue;
             }
 
             try {
                 $rx = snmp2_get($ip, $com, ".1.3.6.1.4.1.4491.2.1.20.1.25.1.2.$idx");
             } catch (\Exception $e) {
-                \Log::error("Could not get RX power for cluster $this->name ($idx)");
+                Log::error("Could not get RX power for cluster $this->name ($idx)");
                 continue;
             }
 
@@ -1331,7 +1331,7 @@ class NetElement extends \BaseModel
             try {
                 snmp2_set($ip, $com, ".1.3.6.1.4.1.4491.2.1.20.1.25.1.2.$idx", 'i', $r);
             } catch (\Exception $e) {
-                \Log::error("Error while setting new exptected us power for cluster $this->name ($idx: $r)");
+                Log::error("Error while setting new exptected us power for cluster $this->name ($idx: $r)");
             }
         }
     }
@@ -1424,7 +1424,7 @@ class NetElement extends \BaseModel
         }
 
         if (! $community) {
-            \Log::error("community {$access} for Netelement $this->id is not set!");
+            Log::error("community {$access} for Netelement $this->id is not set!");
 
             throw new SnmpAccessException(trans('messages.NoSnmpAccess', ['access' => $access, 'name' => $this->name]));
         }
