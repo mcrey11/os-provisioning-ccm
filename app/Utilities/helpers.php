@@ -496,7 +496,7 @@ if (! function_exists('humanReadableRate')) {
     // with L10 this can be replaced by Number helper
     function humanReadableRate($rate, $dec = 2)
     {
-        $size = ['Bit/s', 'kBit/s', 'MBit/s', 'GBit/s'];
+        $size = ['bit/s', 'kbit/s', 'Mbit/s', 'Gbit/s'];
         // minus comma and first decimal
         $factor = floor((strlen($rate) - 2) / 3);
 
