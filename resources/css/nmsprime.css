@@ -1110,3 +1110,8 @@ table#datatable thead tr th.not-desktop.ccc-dt-responsive::before {
 table#datatable thead tr th.not-desktop.ccc-dt-responsive {
     height: 30px;
 }
+
+td.text-center.underline,
+p.text-sm.text-gray-500.text-center.underline {
+    border-bottom: none !important;
+}
