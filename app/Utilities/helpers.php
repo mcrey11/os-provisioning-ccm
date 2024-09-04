@@ -492,18 +492,6 @@ if (! function_exists('humanFilesize')) {
     }
 }
 
-if (! function_exists('humanReadableRate')) {
-    // with L10 this can be replaced by Number helper
-    function humanReadableRate($rate, $dec = 2)
-    {
-        $size = ['bit/s', 'kbit/s', 'Mbit/s', 'Gbit/s'];
-        // minus comma and first decimal
-        $factor = floor((strlen($rate) - 2) / 3);
-
-        return sprintf("%.{$dec}f ", $rate / pow(1000, $factor)).@$size[$factor];
-    }
-}
-
 if (! function_exists('negate')) {
     /**
      * Negates all values that are given as parameter
