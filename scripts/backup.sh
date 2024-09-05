@@ -86,7 +86,7 @@ auth=$(php -r 'require_once "/etc/cacti/db.php"; echo "$database_default\n$datab
 read -r -a auths <<< "$auth"
 mysqldump -u "${auths[2]}" --password="${auths[1]}" "${auths[0]}" | gzip > "/root/$db_dir/${auths[0]}.sql.gz"
 
-for db in director icinga2 icingaweb2 nmsprime nmsprime_ccc radius; do
+for db in icinga2 kea nmsprime nmsprime_ccc radius; do
 	# see aws.sh for an alternative, if the dump gets too large at some point in time
 	su - postgres -c "/usr/pgsql-16/bin/pg_dump -Fc $db" > "/root/$db_dir/$db.psql"
 done
