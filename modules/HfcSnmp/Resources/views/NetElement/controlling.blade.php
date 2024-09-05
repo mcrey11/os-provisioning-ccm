@@ -58,7 +58,9 @@
         <div class="col-md-12 row pr-0"><div class="col-md-12 well row">
         @foreach ($form_fields['list'] as $field)
             <div class="col-md-6">
-            {!! $field !!}
+                @foreach (Illuminate\Support\Arr::flatten($field) as $input)
+                    {{ $input }}
+                @endforeach
             </div>
         @endforeach
         </div></div>
@@ -81,7 +83,9 @@
             @foreach ($form_fields['frame']['linear'] as $frame)
                 <div class="col-md-{{$col_width}} well">
                     @foreach ($frame as $field)
-                        {!! $field !!}
+                        @foreach (Illuminate\Support\Arr::flatten($field) as $input)
+                            {{ $input }}
+                        @endforeach
                     @endforeach
                 </div>
             @endforeach
@@ -94,7 +98,9 @@
                 @foreach ($row as $col)
                     <div class="col-md-{{$col_width}} well">
                         @foreach ($col as $field)
-                            {!! $field !!}
+                            @foreach (Illuminate\Support\Arr::flatten($field) as $input)
+                                {{ $input }}
+                            @endforeach
                         @endforeach
                     </div>
                 @endforeach
