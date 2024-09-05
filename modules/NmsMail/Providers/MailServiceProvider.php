@@ -81,9 +81,10 @@ class MailServiceProvider extends ServiceProvider
             $sourcePath => $viewPath,
         ]);
 
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path.'/modules/nmsmail';
-        }, \Config::get('view.paths')), [$sourcePath]), 'nmsmail');
+        $this->loadViewsFrom([$sourcePath], 'nmsmail');
+        // $this->loadViewsFrom(array_merge(array_map(function ($path) {
+        //     return $path.'/modules/nmsmail';
+        // }, \Config::get('view.paths')), [$sourcePath]), 'nmsmail');
     }
 
     /**

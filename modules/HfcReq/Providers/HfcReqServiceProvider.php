@@ -90,9 +90,10 @@ class HfcReqServiceProvider extends ServiceProvider
             $sourcePath => $viewPath,
         ]);
 
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path.'/modules/hfcreq';
-        }, \Config::get('view.paths')), [$sourcePath]), 'hfcreq');
+        $this->loadViewsFrom([$sourcePath], 'hfcreq');
+        // $this->loadViewsFrom(array_merge(array_map(function ($path) {
+        //     return $path.'/modules/hfcreq';
+        // }, \Config::get('view.paths')), [$sourcePath]), 'hfcreq');
     }
 
     /**

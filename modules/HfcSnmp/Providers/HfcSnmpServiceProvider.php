@@ -82,9 +82,10 @@ class HfcSnmpServiceProvider extends ServiceProvider
             $sourcePath => $viewPath,
         ]);
 
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path.'/modules/hfcsnmp';
-        }, \Config::get('view.paths')), [$sourcePath]), 'hfcsnmp');
+        $this->loadViewsFrom([$sourcePath], 'hfcsnmp');
+        // $this->loadViewsFrom(array_merge(array_map(function ($path) {
+        //     return $path.'/modules/hfcsnmp';
+        // }, \Config::get('view.paths')), [$sourcePath]), 'hfcsnmp');
     }
 
     /**

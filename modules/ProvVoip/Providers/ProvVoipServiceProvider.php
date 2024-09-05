@@ -92,9 +92,10 @@ class ProvVoipServiceProvider extends ServiceProvider
             $sourcePath => $viewPath,
         ]);
 
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path.'/modules/provvoip';
-        }, \Config::get('view.paths')), [$sourcePath]), 'provvoip');
+        $this->loadViewsFrom([$sourcePath], 'provvoip');
+        // $this->loadViewsFrom(array_merge(array_map(function ($path) {
+        //     return $path.'/modules/provvoip';
+        // }, \Config::get('view.paths')), [$sourcePath]), 'provvoip');
     }
 
     /**

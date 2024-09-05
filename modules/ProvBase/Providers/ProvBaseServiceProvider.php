@@ -109,9 +109,10 @@ class ProvBaseServiceProvider extends ServiceProvider
             $sourcePath => $viewPath,
         ]);
 
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path.'/modules/provbase';
-        }, \Config::get('view.paths')), [$sourcePath]), 'provbase');
+        $this->loadViewsFrom([$sourcePath], 'provbase');
+        // $this->loadViewsFrom(array_merge(array_map(function ($path) {
+        //     return $path.'/modules/provbase';
+        // }, \Config::get('view.paths')), [$sourcePath]), 'provbase');
     }
 
     /**
