@@ -12,6 +12,12 @@ finalize () {
     php /var/www/nmsprime/artisan nms:icinga-netelement all
 }
 
+copyRootFolder () {
+    scp -r $centos7Server:/root/*tinker* /root/
+    scp $centos7Server:/root/*.sh /root/
+    scp $centos7Server:/root/*.py /root/
+}
+
 migrateCacti () {
     rsync -av -e ssh $centos7Server:/var/lib/cacti/rra/ /var/lib/cacti/rra/
 
@@ -97,6 +103,12 @@ migrateIcinga () {
 
     sudo -u postgres psql icinga2 < /tmp/icinga2.psql
 }
+
+migrateLogs () {
+    scp $centos7Server:/var/log/nmsprime/tftpd-cm.log /var/log/nmsprime/tftpd-cm.log
+    systemctl restart rsyslog
+}
+
 
 migrateNamed () {
     ssh $centos7Server "rndc sync -clean"
@@ -307,12 +319,15 @@ do
 done
 
 test
+copyRootFolder
 migrateRadius
 migrateNmsprimeDB
 migrateCacti
 migrateIcinga
 migrateDhcp
-migrateFirewalld
+# migrateFirewalld
+migrateHttpd
+migrateLogs
 migrateNamed
 migrateGenieAcs
 migrateStorage
