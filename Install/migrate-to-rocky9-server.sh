@@ -18,6 +18,16 @@ copyRootFolder () {
     scp $centos7Server:/root/*.py /root/
 }
 
+setupBackup () {
+    scp $centos7Server:/root/.aws/* /root/.aws/
+
+    # Disable backup on old server
+    ssh $centos7Server "grep -q '^#' /etc/cron.d/backup-nmsprime || sed -i 's/^/#/' /etc/cron.d/backup-nmsprime"
+
+    # Enable backup on new server
+    grep -q "^#" /etc/cron.d/backup-nmsprime && sed -i 's/^#//' /etc/cron.d/backup-nmsprime
+}
+
 migrateCacti () {
     rsync -av -e ssh $centos7Server:/var/lib/cacti/rra/ /var/lib/cacti/rra/
 
@@ -320,6 +330,7 @@ done
 
 test
 copyRootFolder
+setupBackup
 migrateRadius
 migrateNmsprimeDB
 migrateCacti
