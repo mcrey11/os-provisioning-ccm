@@ -284,14 +284,16 @@ migrateRadius () {
     '
 
     scp $centos7Server:/tmp/radius.pgsql /tmp/
-    ssh $centos7Server "rm -r /tmp/radius.pgsql"
+    ssh $centos7Server "rm -f /tmp/radius.pgsql"
 
-    sudo -u postgres psql radius -c "truncate radgroupreply"
+    tables=$(sudo -u postgres psql radius -c "\dt" | grep table | cut -d '|' -f2 | sed 's/ //g')
+    for table in $tables; do
+        sudo -u postgres psql radius -c "truncate $table"
+    done
+
     sudo -u postgres psql radius < /tmp/radius.pgsql
 
-    # TODO: Truncate all tables on test
-
-    rm -f /tmp/radius.pgsql
+    #rm -f /tmp/radius.pgsql
 }
 
 migrateStorage () {
