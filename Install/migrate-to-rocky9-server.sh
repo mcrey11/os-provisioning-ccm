@@ -79,6 +79,8 @@ migrateGenieAcs () {
     ssh $centos7Server "rm -f /tmp/genieacs.gz"
     systemctl stop genieacs-{cwmp,fs,nbi,ui}
 
+    # TODO?: /etc/genieacs/genieacs.env
+
     yum list installed | grep "mongodb-mongosh" -q || yum install -y mongodb-mongosh
     # mongodump --db=genieacs --gzip --archive=/tmp/genieacs.bak.gz
     mongosh --eval "use genieacs" --eval "db.dropDatabase()" --eval "use genieacs"
@@ -93,6 +95,11 @@ migrateGenieAcs () {
 migrateGrafana () {
     return
     # /etc/ ini ?
+}
+
+migrateHttpd () {
+    # certificates
+    # scp $centos7Server:/etc/httpd/ssl/* /etc/httpd/ssl/
 }
 
 migrateIcinga () {
@@ -354,4 +361,18 @@ echo "alias psqlcon='sudo -u postgres psql'" >> /root/.bashrc; alias psqlcon='su
 
 exit
 
-# Check + Add (static) routes
+# TODOs
+    # Check /etc/cron.d/backup-nmsprime
+    # Check and restart firewall manually
+    # Check + Add (static) routes
+    # Merge /etc/genieacs/genieacs.env
+    # Merge specific entries from laravel env files
+    # Setup httpd ssl certificates
+# Prepares
+scp ninovm-rocky9:/var/www/nmsprime/Install/migrate-to-rocky9-server.sh server:/var/www/nmsprime/
+echo "Host centos7
+    HostName
+    User root
+" >> /root/.ssh/config
+ssh-keygen
+cat /root/.ssh/id_rsa.pub
