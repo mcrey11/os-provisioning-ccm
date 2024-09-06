@@ -356,8 +356,8 @@ syncCron
 finalize
 
 yum install bash-completion htop
-echo 'alias firewall-list-active-zones="firewall-cmd --list-all-zones | awk '"'"'!/^[[:blank:]]/ && /active/ {p=1} !/^[[:blank:]]/ && !/active/ {p=0} p'"'"'"' >> /root/.bashrc
-echo "alias psqlcon='sudo -u postgres psql'" >> /root/.bashrc; alias psqlcon='sudo -u postgres psql'
+grep -q "firewall" /root/.bashrc || echo 'alias firewall-list-active-zones="firewall-cmd --list-all-zones | awk '"'"'!/^[[:blank:]]/ && /active/ {p=1} !/^[[:blank:]]/ && !/active/ {p=0} p'"'"'"' >> /root/.bashrc
+grep -q "psqlcon" /root/.bashrc || echo "alias psqlcon='sudo -u postgres psql'" >> /root/.bashrc; alias psqlcon='sudo -u postgres psql'
 
 exit
 
