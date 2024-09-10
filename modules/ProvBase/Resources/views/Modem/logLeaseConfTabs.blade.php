@@ -159,7 +159,7 @@
     <div class="tab-pane fade in" id="{{ $tab }}">
         @if ($configInterface)
             <div class="flex w-full justify-end mb-3">
-                <button id="{{ 'refresh'.ucfirst($tab) }}" v-on:click="refreshGenieObject('{{ $tab }}')" type="button" class="btn btn-dark text-gray-800">
+                <button id="{{ 'refresh'.ucfirst($tab) }}" @@click="refreshGenieObject('{{ $tab }}')" type="button" class="btn mr-4 border border-gray-800 btn-dark">
                     <i class="fa fa-refresh" aria-hidden="true"></i>Refresh {{ ucfirst($tab) }}
                 </button>
             </div>
@@ -177,7 +177,7 @@
                         <tbody>
                             @foreach ($configInterface as $entry => $config)
                                 <tr>
-                                    <td>{{ $entry }}</td>
+                                    <td class="text-center">{{ $entry }}</td>
                                     @foreach ($config as $name => $value)
                                         <td class="text-center">
                                             <p style="color: grey; margin-bottom: 0px;">{{ $value }}</p>
