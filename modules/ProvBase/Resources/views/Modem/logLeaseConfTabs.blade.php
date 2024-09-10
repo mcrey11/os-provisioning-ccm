@@ -20,7 +20,6 @@
 @include('provbase::Modem.log', ['log' => $dhcpLog, 'id' => 'dhcpLog'])
 @include('provbase::Modem.log', ['log' => $tr069Log, 'id' => 'tr069Log'])
 
-
 <div class="tab-pane fade in" id="lease">
     @if ($lease)
         <div class="{{ $lease['state'] }} pb-2"><b>{{ $lease['forecast'] }}</b></div>
