@@ -60,9 +60,9 @@ BaseRoute::group([], function () {
         'middleware' => ['can:update,Modules\ProvBase\Entities\Configfile'],
     ]);
 
-    BaseRoute::post('Modem/{id}/refreshgenieobject', [
-        'as' => 'Modem.refreshGenieObject',
-        'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@refreshGenieObject',
+    BaseRoute::post('Modem/{id}/refreshAnalysisObject', [
+        'as' => 'Modem.refreshAnalysisObject',
+        'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@refreshAnalysisObject',
         'middleware' => ['can:update,Modules\ProvBase\Entities\Modem'],
     ]);
 

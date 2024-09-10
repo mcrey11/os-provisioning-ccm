@@ -87,4 +87,18 @@ class Tr069Modem extends Modem implements ModemType
 
         return trans('messages.modemAnalysis.actionExecuted');
     }
+
+    /**
+     * Generic method to refresh a CWMP Object.
+     *
+     * @author Roy Schneider
+     */
+    public function refreshObject(): void
+    {
+        $this->modem::callGenieAcsApi(
+            'devices/'.$this->modem->getGenieId().'/tasks?timeout=3000&connection_request',
+            'POST',
+            json_encode(['name' => 'refreshObject', 'objectName' => request('object')])
+        );
+    }
 }

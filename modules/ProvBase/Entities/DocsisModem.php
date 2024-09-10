@@ -34,4 +34,15 @@ class DocsisModem extends Modem implements ModemType
 
         return $this->modem->dataModel()->factoryReset();
     }
+
+    /**
+     * Generic method to refresh a SNMP Object.
+     *
+     * @author Roy Schneider
+     */
+    public function refreshObject(): void
+    {
+        // for now do nothing
+        // when websockets are used, we could simply perform a snmp2_get() here
+    }
 }

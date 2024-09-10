@@ -542,15 +542,9 @@ class ModemController extends \BaseController
      *
      * @return string
      */
-    public function refreshGenieObject($id)
+    public function refreshAnalysisObject($id)
     {
-        $modem = Modem::find($id);
-
-        $modem::callGenieAcsApi(
-            'devices/'.$modem->getGenieId().'/tasks?timeout=3000&connection_request',
-            'POST',
-            json_encode(['name' => 'refreshObject', 'objectName' => request('object')])
-        );
+        Modem::find($id)->modemType()->refreshObject();
 
         return trans('messages.modemAnalysis.refreshFinished');
     }

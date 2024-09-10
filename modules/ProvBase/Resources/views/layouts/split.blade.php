@@ -40,7 +40,7 @@
     data-csrf-token="{{ csrf_token() }}"
     data-modem-id="{{ $modem->id }}"
     data-tr069="{{ $modem->configfile->device === 'tr069' }}"
-    data-route-modem-refresh-genie-object="{{ route('Modem.refreshGenieObject', $modem->id) }}"
+    data-route-modem-refresh-table="{{ route('Modem.refreshAnalysisObject', $modem->id) }}"
     data-route-delete-poller-file="{{ route('ProvMon.deletePollerFile', $modem->id) }}"
     data-route-task="{{ route('Modem.executeTask', $modem->id) }}"
     data-messages-analysis-ping-in-progress="{{ trans('provmon::messages.analysis.pingInProgress') }}"

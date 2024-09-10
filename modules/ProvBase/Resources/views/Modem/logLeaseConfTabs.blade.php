@@ -163,7 +163,7 @@
             <div class="flex w-full justify-end mb-3">
                 <button
                     id="{{ 'refresh'.ucfirst($tab) }}"
-                    @@click="refreshGenieObject('{{ $tab }}')"
+                    @@click="refreshTable('{{ $tab }}')"
                     type="button"
                     class="btn mr-4 border border-gray-800 btn-dark"
                 >

@@ -247,7 +247,7 @@ export default {
                         snotify.error(error.message)
                     })
                 },
-                refreshGenieObject: function () {
+                refreshTable: function () {
                     snotify.success(this.translations.modemAnalysis.refreshInProgress)
 
                     let needsRefresh = 'InternetGatewayDevice.LANDevice.1.WLANConfiguration.*'
@@ -257,7 +257,7 @@ export default {
 
                     axios({
                         method:'POST',
-                        url:'{{ route('Modem.refreshGenieObject', $modem->id) }}',
+                        url:'{{ route('Modem.refreshAnalysisObject', $modem->id) }}',
                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                         data: {
