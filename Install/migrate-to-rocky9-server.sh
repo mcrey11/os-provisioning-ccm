@@ -138,6 +138,11 @@ migrateNamed () {
     systemctl start named
 }
 
+migrateNtp () {
+    scp $centos7Server:/etc/chrony.d/nmsprime.conf /etc/chrony.d/nmsprime.conf
+    systemctl restart chronyd
+}
+
 prepareMonitoringSchema () {
     sudo -u postgres psql $targetDb -c "DROP EXTENSION IF EXISTS timescaledb CASCADE; DROP SCHEMA monitoring CASCADE;"
     sudo -u postgres psql $targetDb -c "
@@ -349,6 +354,7 @@ migrateDhcp
 migrateHttpd
 migrateLogs
 migrateNamed
+migrateNtp
 migrateGenieAcs
 migrateStorage
 migrateTftp
