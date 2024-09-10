@@ -112,7 +112,9 @@
                 <button type="submit" class="btn btn-primary mt-3">{{ trans('view.Button_Submit') }}</button>
             </form>
         </div>
-        <div class="text-green-600 pb-2"><b>Modem Configfile ({{$configfile['mtime']}})</b></div>
+        <div class="text-green-600 pb-2">
+            <b>{{ trans('view.modemAnalysis.lastUpdatedOn', ['date' => $configfile['mtime']]) }}</b>
+        </div>
         @if (isset($configfile['warn']))
             <div class="text-red-600"><b>{{ $configfile['warn'] }}</b></div>
         @endif
@@ -159,8 +161,14 @@
     <div class="tab-pane fade in" id="{{ $tab }}">
         @if ($configInterface)
             <div class="flex w-full justify-end mb-3">
-                <button id="{{ 'refresh'.ucfirst($tab) }}" @@click="refreshGenieObject('{{ $tab }}')" type="button" class="btn mr-4 border border-gray-800 btn-dark">
-                    <i class="fa fa-refresh" aria-hidden="true"></i>Refresh {{ ucfirst($tab) }}
+                <button
+                    id="{{ 'refresh'.ucfirst($tab) }}"
+                    @@click="refreshGenieObject('{{ $tab }}')"
+                    type="button"
+                    class="btn mr-4 border border-gray-800 btn-dark"
+                >
+                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                    {{ trans('view.modemAnalysis.refreshTab', ['tab' => ucfirst($tab)]) }}
                 </button>
             </div>
             @if (is_array($configInterface))
