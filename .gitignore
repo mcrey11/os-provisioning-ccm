@@ -3,7 +3,6 @@
 composer.phar
 composer.lock
 /node_modules
-package-lock.json
 .env
 .DS_Store
 *.sublime*
