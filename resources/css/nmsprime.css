@@ -769,7 +769,7 @@ table.dataTable.dtr-column > tbody > tr > th.control::before {
     content: none;
 }
 
-.ccc-dt-responsive::before {
+table.dataTable.dtr-column > tbody > tr > td.dtr-control.ccc-dt-responsive::before {
     height: 30px;
     width: 30px;
     line-height: 30px;
