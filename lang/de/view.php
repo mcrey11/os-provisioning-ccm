@@ -549,6 +549,7 @@ return [
         'Update'            => 'Ändern',
         'Use api'           => 'API benutzen',
         'View'              => 'Ansehen',
+        'View analysis pages of everything' => 'Alle Analyseseiten aufrufen',
         'View analysis pages of modems' => 'Analyseseite der Modems aufrufen',
         'View analysis pages of netgw' => 'Analyseseite der NetGws aufrufen',
         'View everything'   => 'Alle Seiten ansehen',

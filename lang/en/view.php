@@ -549,6 +549,7 @@ return [
         'Update'            => 'Update',
         'Use api'           => 'Use API',
         'View'              => 'View',
+        'View analysis pages of everything' => 'View analysis pages of everything',
         'View analysis pages of modems' => 'View Analysis Pages of Modems',
         'View analysis pages of netgw' => 'View Analysis Pages of NetGw',
         'View everything'   => 'View Everything',
