@@ -84,31 +84,26 @@ class Phonenumber extends \BaseModel
 
     public function get_bsclass()
     {
+        if ($this->reassignable) {
+            return 'danger';
+        }
+
+        // determine if this phonenumber should have a management
+        $shouldHaveManagement = \Module::collections()->has('ProvVoipEnvia') ? true : false;
+
         if (! array_key_exists('phonenumbermanagement', $this->relations)) {
             $this->load('phonenumbermanagement:id,phonenumber_id,activation_date,deactivation_date');
         }
 
-        if (! $management = $this->phonenumbermanagement) {
+        if ($shouldHaveManagement && ! $this->phonenumbermanagement) {
             return 'warning';
         }
 
-        $act = $management->activation_date;
-        $deact = $management->deactivation_date;
-
-        // deal with legacy problem of zero dates
-        if (! boolval($act)) {
-            return 'danger';
-        }
-
-        if ($act > date('c')) {
-            return 'warning';
-        }
-
-        if (! boolval($deact)) {
+        if ($this->active) {
             return 'success';
         }
 
-        return $deact > date('c') ? 'warning' : 'info';
+        return 'info';
     }
 
     public function get_state()
