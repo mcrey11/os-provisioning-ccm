@@ -54,6 +54,7 @@ class PhonenumberObserver
         // on creating there can not be a phonenumbermanagement – so we can set active state to false in each case
         // $phonenumber->active = 0;
 
+        $phonenumber->reassignable = false;     // force that on new numbers
         $this->_check_overlapping($phonenumber);
         $this->_create_login_data($phonenumber);
     }
@@ -98,6 +99,13 @@ class PhonenumberObserver
     public function updating($phonenumber)
     {
         if (! $this->_updating_allowed($phonenumber)) {
+            return false;
+        }
+
+        if ($phonenumber->active && $phonenumber->reassignable) {
+            $msg = trans('validation.phonenumber_active_and_reassignable');
+            $phonenumber->addAboveMessage($msg, 'error', 'form');
+
             return false;
         }
 
@@ -385,6 +393,11 @@ class PhonenumberObserver
     public function deleted($phonenumber)
     {
         $this->renewConfig($phonenumber);
+
+        // force here to avoid problems on restoration of soft deleted phonenumbers
+        $phonenumber->active = false;
+        $phonenumber->reassignable = true;
+        $phonenumber->saveQuietly();
 
         // check if this number has been the last on old modem ⇒ if so remove envia related data from modem
         if (! $phonenumber->mta->modem->has_phonenumbers_attached()) {
