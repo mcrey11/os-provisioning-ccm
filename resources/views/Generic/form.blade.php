@@ -44,13 +44,17 @@
 
 @include('Generic.above_infos')
 
-<div v-pre>
 @foreach($form_fields as $fields)
     @foreach (Illuminate\Support\Arr::flatten($fields['html']) as $input)
-        {{ $input }}
+        @if ($avoidInterpolation = \Str::contains($input, '{{') || \Str::contains($input, '}}'))
+        <div v-pre>
+        @endif
+            {{ $input }}
+        @if ($avoidInterpolation)
+        </div>
+        @endif
     @endforeach
 @endforeach
-</div>
 
 @if(Bouncer::can($action, $model_name) || Bouncer::can($action, $view_var))
     <div class="flex flex-col md:flex-row justify-around d-print-none md:space-x-1">
