@@ -32,6 +32,7 @@ $configuration = [
             'class' => Phonenumber::class,
         ],
     ],
+    'reassignableWaitTime' => env('MIN_TIME_TO_WAIT_BETWEEN_PHONENUMBER_DEACTIVATION_AND_REASSIGNMENT', '24M'),
 ];
 
 if (\Module::collections()->has('BillingBase')) {
