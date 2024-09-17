@@ -298,7 +298,7 @@ class PhonenumberObserver
             ];
 
             $title = trans('provvoipenvia::messages.doManuallyNow');
-            $envia_href = html()->a(route('ProvVoipEnvia.request', [$parameters]), $title);
+            $envia_href = html()->a(route('ProvVoipEnvia.request', $parameters), $title);
 
             $msg = trans('provvoipenvia::messages.sipDateNotChangedAutomaticallyAtEnvia', ['href' => $envia_href]);
             $phonenumber->addAboveMessage($msg, 'warning', 'form');
