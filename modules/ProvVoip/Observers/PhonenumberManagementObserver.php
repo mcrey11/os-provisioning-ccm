@@ -32,16 +32,16 @@ class PhonenumberManagementObserver
 {
     public function created($phonenumbermanagement)
     {
-        $phonenumbermanagement->phonenumber->set_active_state();
+        $phonenumbermanagement->phonenumber->setActiveState();
     }
 
     public function updated($phonenumbermanagement)
     {
-        $phonenumbermanagement->phonenumber->set_active_state();
+        $phonenumbermanagement->phonenumber->setActiveState();
     }
 
     public function deleted($phonenumbermanagement)
     {
-        $phonenumbermanagement->phonenumber->set_active_state();
+        $phonenumbermanagement->phonenumber->setActiveState();
     }
 }

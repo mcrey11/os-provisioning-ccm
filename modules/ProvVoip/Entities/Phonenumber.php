@@ -463,7 +463,8 @@ class Phonenumber extends \BaseModel
      */
     public function daily_conversion()
     {
-        $this->set_active_state();
+        $this->setActiveState();
+        $this->setReassignableState();
     }
 
     /**
@@ -471,7 +472,7 @@ class Phonenumber extends \BaseModel
      *
      * @author Patrick Reichel
      */
-    public function set_active_state()
+    public function setActiveState()
     {
         $changed = false;
 
@@ -537,6 +538,44 @@ class Phonenumber extends \BaseModel
 
             $this->save();
         }
+    }
+
+    /**
+     * Check if a phonenumber is now reassignable.
+     * This depends on a configurable timespan since the deactivition in the related managament.
+     *
+     * @author Patrick Reichel
+     */
+    public function setReassignableState()
+    {
+        // manually handled if no phonenumbermanagement
+        if (! $this->phonenumbermanagement) {
+            return;
+        }
+
+        // do not remove the reassignable flag
+        if ($this->reassignable) {
+            return;
+        }
+
+        // if number is still active it can not be reassigned
+        if ($this->active) {
+            return;
+        }
+
+        $minWaitTime = config('provvoip.reassignableWaitTime');
+        $dateTime = new \DateTime();
+        $firstReassignable = $dateTime->sub(new \DateInterval('P'.$minWaitTime))->format('Y-m-d');
+
+        // date for a possible reassignement not reached yet
+        if ($firstReassignable < $this->phonenumbermanagement->deactivation_date) {
+            return;
+        }
+
+        $this->reassignable = true;
+        $this->save();
+
+        \Log::info('Phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.'). is now free for reassignment');
     }
 
     /**
