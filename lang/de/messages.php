@@ -541,6 +541,7 @@ return [
     'Deactivation date'     => 'Deaktivierungsdatum',
     'External deactivation date' => 'Deaktivierungsdatum extern',
     'SIP domain'            => 'Registrar',
+    'Reassignable'          => 'Für neuerliche Zuweisung freigegeben',
     'Last status update'    => 'Letztes Update',
     'Last user interaction' => 'Letzte Interaktion',
     'Method'                => 'Methode',

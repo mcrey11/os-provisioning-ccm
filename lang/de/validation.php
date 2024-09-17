@@ -107,6 +107,7 @@ return [
     'not_regex'            => ':attribute hat ein ungültiges Format.',
     'numeric'              => ':attribute muss eine Zahl sein.',
     'password'             => 'Das Passwort ist falsch.',
+    'phonenumber_active_and_reassignable' => 'Phonenumber cannot be active and released for reassignment',
     'present'              => 'Das :attribute Feld muss ausgefüllt sein.',
     'prohibits' => ':other muss leer oder nicht gesetzt sein, wenn :attribute gesetzt ist.',
     'prohibited_if'        => 'Darf nicht gesetzt sein, wenn :other = :value',

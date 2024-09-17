@@ -817,6 +817,12 @@ return [
     'ProvBase' => 'Provisionierung',
     'ProvMon' => 'Monitoring',
     'ProvVoip' => 'VoIP',
+    'provvoip' => [
+        'errorGettingFreeNumbersFromEnvia' => 'FEHLER beim Holen der freien Rufnummern von envia TEL: ',
+        'freeNumbersEnvia' => 'Freie Rufnummern bei envia TEL',
+        'numberInUseInNmsPrime' => 'aktuell in Verwendung in NMS Prime',
+        'successGettingFreeNumbers' => 'Nummer anklicken um Formular zu füllen…',
+    ],
     'rcd' => 'Buchungstag',
     'redirectNote' => 'Sie sind nicht eingeloggt und versuchen auf eine interne Seite zuzugreifen. Nach dem Log-In werden Sie direkt weitergeleitet zu',
     'restart' => 'neustarten',

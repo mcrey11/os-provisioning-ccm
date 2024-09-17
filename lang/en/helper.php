@@ -189,7 +189,13 @@ return [
     /*
      * MODULE: ProvVoip
      */
-    //PhonenumberManagementController
+    // PhonenumberController
+    'Phonenumber_ActiveWithManagement' => 'Automatically set by (de)activation date in phonenumber management',
+    'Phonenumber_ActiveWithoutManagement' => 'If set the phonenumber will be provisioned to the MTA. With an existing PhonenumberManagement this checkbox will be set depending on its (de)activation date.',
+    'Phonenumber_ReassignableWithManagement' => 'Automatically set by deactivation date in phonenumber management',
+    'Phonenumber_ReassignableWithoutManagement' => 'If set the phonenumber can be used at another MTA without the need to delete it first. With an existing PhonenumberManagement this checkbox will be set depending on its deactivation date.',
+    'Phonenumber_ReassignableFinal' => 'Once a phonenumber is flagged as reassignable that cannot be reverted.',
+    // PhonenumberManagementController
     'PhonenumberManagement_activation_date' => 'Will be sent to provider as desired date, triggers active state of the phonenumber.',
     'PhonenumberManagement_deactivation_date' => 'Will be sent to provider as desired date, triggers active state of the phonenumber.',
     'PhonenumberManagement_CarrierIn' => 'On incoming porting: set to previous Telco.',

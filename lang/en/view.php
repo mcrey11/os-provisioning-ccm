@@ -818,6 +818,12 @@ return [
     'ProvBase' => 'Provisioning',
     'ProvMon' => 'Monitoring',
     'ProvVoip' => 'VoIP',
+    'provvoip' => [
+        'errorGettingFreeNumbersFromEnvia' => 'ERROR getting free numbers from envia TEL: ',
+        'freeNumbersEnvia' => 'Free numbers at envia TEL',
+        'numberInUseInNmsPrime' => 'in use in NMS Prime',
+        'successGettingFreeNumbers' => 'You can click a number to fill the form…',
+    ],
     'rcd' => 'Requested collection date',
     'redirectNote' => 'You are not logged in and tried to access an internal page. After a successful login you are redirected to',
     'restart' => 'restart',
