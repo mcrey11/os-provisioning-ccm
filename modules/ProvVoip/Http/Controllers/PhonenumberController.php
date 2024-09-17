@@ -104,7 +104,6 @@ class PhonenumberController extends \BaseController
                 'form_type' => 'text',
                 'name' => 'password',
                 'description' => 'Password',
-                'space' => 1,
                 'options' => $hasProvVoipEnvia ? ['placeholder' => 'Autofilled if empty.'] : [],
             ],
             [
@@ -114,47 +113,106 @@ class PhonenumberController extends \BaseController
                 'autocomplete' => [],
                 'init_value' => $hasProvVoipEnvia ? '' : ($model->exists ? $model->sipdomain : $provVoip->default_sip_registrar),
                 'options' =>  $roOption,
+                'space' => 1,
             ],
         ];
 
-        // if there is no phonenumbermanagement: make checkbox changeable
-        // TODO: should this be the case or do we want to need a management in each case?
-        if (is_null($model->phonenumbermanagement)) {
-            $active_checkbox = [
-                'form_type' => 'checkbox',
-                'name' => 'active',
-                'description' => 'Active',
-                'help' => 'If you create a PhonenumberManagement this checkbox will be set depending on its (de)activation date.',
-            ];
-        }
-        // otherwise: store value in hidden form field and show symbol to indicate the current state instead
-        else {
-            // TODO: move style to css file or use existing styles
-            $active_symbol_style = 'font-size: 1.4em; padding-top:0.4em; padding-left: 4.8em';
-
-            // prepare the data to be stored and the symbol to be shown
-            if ($model->active) {
-                $active_state = '1';
-                $active_symbol = '<div style="color: #080; '.$active_symbol_style.'">✔</div>';
-            } else {
-                $active_state = '0';
-                $active_symbol = '<div style="color: #f00; '.$active_symbol_style.'">✘</div>';
-            }
-
-            $active_checkbox = ['form_type' => 'html', 'name' => 'active', 'description' => 'Active',
-                'html' => '<div class="col-md-7 order-3">
-                        <input name="active" type="hidden" id="active" value="'.$active_state.'">'.$active_symbol.'
-                    </div>',
-                'help' => 'Automatically set by (de)activation date in phonenumber management',
-            ];
-        }
-
-        array_push(
-            $ret,
-            $active_checkbox
-        );
+        $ret[] = $this->getActiveCheckbox($model);
+        $ret[] = $this->getReassignableCheckbox($model);
 
         return $ret;
+    }
+
+    /**
+     * Helper to create the array holding the “active” checkbox
+     *
+     * @author Patrick Reichel
+     */
+    protected function getActiveCheckbox($phonenumber)
+    {
+        // with a managament attached the active state is handle by this
+        // and: once a phonenumber is marked as reassignable it cannot be activated again
+        if ($phonenumber->phonenumbermanagement || $phonenumber->reassignable) {
+            $symbolStyle = 'font-size: 1.4em; padding-top:0.4em; padding-left: 4.8em';
+            if ($phonenumber->active) {
+                $activeState = '1';
+                $activeSymbol = '<div style="color: #080; '.$symbolStyle.'">✔</div>';
+            } else {
+                $activeState = '0';
+                $activeSymbol = '<div style="color: #f00; '.$symbolStyle.'">✘</div>';
+            }
+
+            return [
+                'form_type' => 'html',
+                'name' => 'active',
+                'description' => 'Active',
+                'html' => '<div class="col-md-7 order-3">
+                        <input name="active" type="hidden" id="active" value="'.$activeState.'">'.$activeSymbol.'
+                    </div>',
+                'help' => trans('helper.Phonenumber_ActiveWithManagement'),
+            ];
+        }
+
+        // default checkbox on phonenumbers w/o management (this includes new ones)
+        return [
+            'form_type' => 'checkbox',
+            'name' => 'active',
+            'description' => 'Active',
+            'help' => trans('helper.Phonenumber_ActiveWithoutManagement'),
+        ];
+    }
+
+    /**
+     * Helper to create the array holding the “active” checkbox
+     *
+     * @author Patrick Reichel
+     */
+    protected function getReassignableCheckbox($phonenumber)
+    {
+        // do not show on new or active phonenumbers
+        if (! $phonenumber->exists || $phonenumber->active) {
+            return [
+                'form_type' => 'checkbox',
+                'name' => 'reassignable',
+                'description' => 'Reassignable',
+                'hidden' => '1',
+                'help' => trans('helper.Phonenumber_ReassignableWithoutManagement'),
+            ];
+        }
+
+        // with a managament attached the reassignable state is handle by daily conversion
+        // and: once a phonenumber is marked as reassignable that cannot be reverted again
+        // (because for that we would need to check for other numbers – possible race condition)
+        if ($phonenumber->phonenumbermanagement || $phonenumber->reassignable) {
+            $symbolStyle = 'font-size: 1.4em; padding-top:0.4em; padding-left: 4.8em';
+            if ($phonenumber->reassignable) {
+                $reassignableState = '1';
+                $reassignableSymbol = '<div style="color: #080; '.$symbolStyle.'">✔</div>';
+                $help = trans('helper.Phonenumber_ReassignableFinal');
+            } else {
+                $reassignableState = '0';
+                $reassignableSymbol = '<div style="color: #f00; '.$symbolStyle.'">✘</div>';
+                $help = trans('helper.Phonenumber_ReassignableWithManagement');
+            }
+
+            return [
+                'form_type' => 'html',
+                'name' => 'reassignable',
+                'description' => 'Reassignable',
+                'html' => '<div class="col-md-7 order-3">
+                        <input name="reassignable" type="hidden" id="reassignable" value="'.$reassignableState.'">'.$reassignableSymbol.'
+                    </div>',
+                'help' => trans($help),
+            ];
+        }
+
+        // default (= no management, number not active or reassignable)
+        return [
+            'form_type' => 'checkbox',
+            'name' => 'reassignable',
+            'description' => 'Reassignable',
+            'help' => trans('helper.Phonenumber_ReassignableWithoutManagement'),
+        ];
     }
 
     /**
