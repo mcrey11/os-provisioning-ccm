@@ -45,9 +45,7 @@ firewall-cmd --reload
 #
 /usr/pgsql-16/bin/postgresql-16-setup initdb
 tz=$(timedatectl show --property=Timezone --value)
-sed -e "s|^log_timezone\s*=.*|log_timezone = '$tz'|"
-    -e "s|^timezone\s*=.*|timezone = '$tz'|"
-    -i /var/lib/pgsql/16/data/postgresql.conf
+sed -e "s|^log_timezone\s*=.*|log_timezone = '$tz'|" -e "s|^timezone\s*=.*|timezone = '$tz'|" -i /var/lib/pgsql/16/data/postgresql.conf
 
 systemctl enable postgresql-16.service
 systemctl start postgresql-16.service
