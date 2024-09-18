@@ -38,6 +38,10 @@ class PhonenumberController extends \BaseController
             $model = new Phonenumber;
         }
 
+        if (! $model->exists) {
+            $model->port = $this->getFirstFreeMtaPort();
+        }
+
         $hasProvVoipEnvia = \Module::collections()->has('ProvVoipEnvia');
         $provVoip = \Modules\ProvVoip\Entities\ProvVoip::first();
 
@@ -121,6 +125,43 @@ class PhonenumberController extends \BaseController
         $ret[] = $this->getReassignableCheckbox($model);
 
         return $ret;
+    }
+
+    /**
+     * Helper to get the first free port on an MTA
+     *
+     * @author Patrick Reichel
+     */
+    protected function getFirstFreeMtaPort()
+    {
+        $mta_id = \Request::get('mta_id') ?? null;
+
+        if (! $mta_id) {
+            return null;
+        }
+
+        // sanitize input – we expect an integer here
+        if (! is_numeric($mta_id)) {
+            return null;
+        }
+
+        $mta_id = intval($mta_id);
+        $ports = Phonenumber::where('mta_id', $mta_id)->pluck('port')->toArray();
+
+        if (! $ports) {
+            return null;
+        }
+
+        $i = 1;
+        while (true) {
+            if (! in_array($i, $ports)) {
+                $port = $i;
+                break;
+            }
+            $i++;
+        }
+
+        return $port;
     }
 
     /**
