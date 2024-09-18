@@ -91,6 +91,6 @@ for db in icinga2 kea nmsprime nmsprime_ccc radius; do
 	su - postgres -c "/usr/pgsql-16/bin/pg_dump -Fc $db" > "/root/$db_dir/$db.psql"
 done
 
-systemctl show mongod | grep "ActiveState=active" -q && mongodump --db=genieacs --gzip --archive="/root/$db_dir/genieacs.gz"
+systemctl is-active mongod && mongodump --db=genieacs --gzip --archive="/root/$db_dir/genieacs.gz"
 
 tar --exclude-from <(IFS=$'\n'; echo "${excludes[*]}") --transform=$(IFS=';'; echo "${transform[*]}") --hard-dereference -cz "${static[@]}" "${files[@]}" 2> /root/backup-nmsprime.txt
