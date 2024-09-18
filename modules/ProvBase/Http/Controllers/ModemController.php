@@ -926,7 +926,7 @@ class ModemController extends \BaseController
                     break;
             }
         } catch (\Exception $e) {
-            return response()->v0ApiReply(['messages' => ['errors' => $e->getMessage()]]);
+            return response()->v0ApiReply(['messages' => ['errors' => [$e->getMessage()]]]);
         }
 
         return response()->v0ApiReply([], true, $id);
@@ -972,7 +972,7 @@ class ModemController extends \BaseController
                     break;
             }
         } catch (\Exception $e) {
-            return response()->v0ApiReply(['messages' => ['errors' => $e->getMessage()]]);
+            return response()->v0ApiReply(['messages' => ['errors' => [$e->getMessage()]]]);
         }
 
         return response()->v0ApiReply([], true, $id);
