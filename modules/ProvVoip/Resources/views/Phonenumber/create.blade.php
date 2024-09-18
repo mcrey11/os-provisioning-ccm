@@ -27,14 +27,14 @@
 	// get numbers for the active provider
 	if (\Module::collections()->has('ProvVoipEnvia')) {
 
-		$free_numbers_panel_headline = 'Asking envia TEL for free numbers';
+		$free_numbers_panel_headline = trans('view.provvoip.freeNumbersEnvia');
 
 		if (!App::environment('testing')) {	// get data from envia
 			try {
 				$currently_free_numbers = \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia::get_free_numbers_for_view();
 			}
-			catch (\Exception $ex) {
-				echo "Exception getting free numbers from envia TEL: ".$ex->getMessage();
+			catch (\Throwable $ex) {
+                echo "<b style='color:red'>".trans('view.provvoip.errorGettingFreeNumbersFromEnvia').$ex->getMessage()."</b>";
 			}
 		}
 		else {	// for testing: inject fake data
@@ -55,11 +55,27 @@
 					$load_input_from_href_filler_for_free_numbers = True;
 				?>
 
-				<h4>Success</h4>
-				<h5>You can click a number to fill the form…</h5>
+                <b><i>{{ trans('view.provvoip.successGettingFreeNumbers') }}</i></b>
 				<div id="free_numbers_return">
+                @php 
+                    $lastPrefix = '';
+                @endphp
 				@foreach ($currently_free_numbers as $free_number)
-					<a href="#">{{ $free_number }}</a><br>
+                    @php
+                        $currentPrefix = explode('/', $free_number['number'])[0];
+                    @endphp
+                    @if ($lastPrefix != $currentPrefix)
+                        @php
+                            $lastPrefix = $currentPrefix;
+                        @endphp
+                        <br>
+                        <b><u>{{ $currentPrefix }}:</u></b><br>
+                    @endif
+                    @if ($free_number['free'])
+                        <a href="#">{{ $free_number['number'] }}</a><br>
+                    @else
+                        <s>{{ $free_number['number'] }}</s> ({{ trans('view.provvoip.numberInUseInNmsPrime') }})<br>
+                    @endif
 				@endforeach
 				</div>
 			@elseif (is_string($currently_free_numbers))
