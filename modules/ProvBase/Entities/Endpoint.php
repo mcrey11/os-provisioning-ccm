@@ -42,11 +42,11 @@ class Endpoint extends \BaseModel
         $modem = $this->exists ? $this->modem : Modem::with('configfile')->find(Request::get('modem_id'));
 
         $rules = [
-            'mac' => ['nullable', 'mac', 'unique:endpoint,mac,'.$id.',id,deleted_at,NULL'],
+            'mac' => ['nullable', 'mac', 'iunique:endpoint,mac,'.$id.',id,deleted_at,NULL'],
             'hostname' => ['required', 'regex:/^(?!cm-)(?!mta-)[0-9A-Za-z\-]+$/',
                 'unique:endpoint,hostname,'.$id.',id,deleted_at,NULL'],
-            'ip' => ['nullable', 'required_if:fixed_ip,1', 'ip', 'unique:endpoint,ip,'.$id.',id,deleted_at,NULL'],
-            'prefix' => ['nullable', 'unique:endpoint,prefix,'.$id.',id,deleted_at,NULL'],
+            'ip' => ['nullable', 'required_if:fixed_ip,1', 'ip', 'iunique:endpoint,ip,'.$id.',id,deleted_at,NULL'],
+            'prefix' => ['nullable', 'iunique:endpoint,prefix,'.$id.',id,deleted_at,NULL'],
         ];
 
         if (Module::collections()->has('SmartOnt')) {

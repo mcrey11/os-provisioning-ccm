@@ -50,8 +50,8 @@ class ExtendedValidatorServiceProvider extends ServiceProvider
         $this->app['validator']->extend('phonebook_string', 'App\extensions\validators\ExtendedValidator@validatePhonebookString');
         $this->app['validator']->extend('product', 'App\extensions\validators\ExtendedValidator@validateProductType');
         $this->app['validator']->extend('template_type_unique', 'App\extensions\validators\ExtendedValidator@validateDocumentTemplateTypeIsUnique');
-
         $this->app['validator']->extend('empty', 'App\extensions\validators\ExtendedValidator@validateEmpty');
+        $this->app['validator']->extend('iunique', 'App\extensions\validators\ExtendedValidator@validateUniqueCaseInsensitive');
 
         // the following validators needs to be extended implicit – have to be called even if an empty value is passed
         $this->app['validator']->extendImplicit('phonebook_entry_type_dependend', 'App\extensions\validators\ExtendedValidator@validatePhonebookEntryTypeDependend');

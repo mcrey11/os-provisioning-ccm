@@ -75,6 +75,7 @@ return [
     'ip'       => ':attribute muss eine gültige IP-Adresse sein.',
     'ipv4'     => ':attribute muss eine gültige IPv4-Adresse sein.',
     'ipv6'     => ':attribute muss eine gültige IPv6-Adresse sein.',
+    'iunique' => ':attribute ist schon vergeben.',
     'json'     => ':attribute muss ein gültiger JSON-String sein.',
     'lt'       => [
         'numeric' => ':attribute muss kleiner als :value sein.',

@@ -84,13 +84,13 @@ class Modem extends \BaseModel
         $id = $this->id ?: 0;
 
         $rules = [
-            'mac' => ['mac', "unique:modem,mac,{$id},id,deleted_at,NULL"],
+            'mac' => ['mac', "iunique:modem,mac,{$id},id,deleted_at,NULL"],
             'birthday' => ['nullable', 'date_format:Y-m-d'],
             'country_code' => ['regex:/^[A-Z]{2}$/'],
             'contract_id' => ['required', 'exists:contract,id,deleted_at,NULL'],
             'configfile_id' => ['required', 'exists:configfile,id,deleted_at,NULL,public,yes'],
             'house_number' => 'nullable|string|max:20',
-            'serial_num' => ["unique:modem,serial_num,{$id},id,deleted_at,NULL"],
+            'serial_num' => ["iunique:modem,serial_num,{$id},id,deleted_at,NULL"],
             'ppp_username' => ["unique:modem,ppp_username,{$id},id,deleted_at,NULL", 'not_regex:/\s/'],
             'installation_address_change_date' => ['nullable', 'date_format:Y-m-d'],
         ];

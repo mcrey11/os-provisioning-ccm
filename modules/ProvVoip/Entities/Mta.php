@@ -40,8 +40,10 @@ class Mta extends \BaseModel
     // Add your validation rules here
     public function rules()
     {
+        $id = $this->id ?: 0;
+
         return [
-            'mac' => ['mac'],
+            'mac' => ['mac', "iunique:mta,mac,{$id},id,deleted_at,NULL"],
             'modem_id' => ['required', 'exists:modem,id,deleted_at,NULL'],
             'configfile_id' => ['required', 'exists:configfile,id,deleted_at,NULL,public,yes,device,mta'],
             'type' => ['required'],

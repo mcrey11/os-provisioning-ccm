@@ -18,6 +18,7 @@
 
 namespace App\extensions\validators;
 
+use DB;
 use File;
 use Log;
 use PHP_IBAN\IBAN;
@@ -718,5 +719,27 @@ class ExtendedValidator
         }
 
         return true;
+    }
+
+    public function validateUniqueCaseInsensitive($attribute, $value, $parameters, $validator)
+    {
+        $query = DB::table($parameters[0]);
+        $column = $query->getGrammar()->wrap($parameters[1]);
+
+        if (isset($parameters[2])) {
+            $query->where($parameters[3], '!=', $parameters[2]);
+            $i = 4;
+            while (isset($parameters[$i])) {
+                if (strtolower($parameters[$i+1]) == 'null') {
+                    $query->whereNull($parameters[$i]);
+                } else {
+                    $query->where($parameters[$i], $parameters[$i+1]);
+                }
+
+                $i = $i + 2;
+            }
+        }
+
+        return ! $query->whereRaw("lower({$column}) = lower('$value')")->count();
     }
 }
