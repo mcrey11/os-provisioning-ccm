@@ -365,6 +365,8 @@ return [
         'ont_state' => 'ONT state',
         'next_ont_state' => 'Next ONT state',
         'ont_state_switchdate' => 'ONT state switchdate',
+        'hostname' => 'Hostname',
+        'ipv4' => 'IP address',
     ],
     'contract_valid' => 'Contract valid?',
     // Modem option

@@ -238,24 +238,29 @@ class Modem extends \BaseModel
      */
     protected function getIndexHeaderSmartOnt()
     {
-        $ret = [
-            $this->table.'.id',
-            $this->table.'.mac',
-            $this->table.'.serial_num',
-            'configfile.name',
-            $this->table.'.model',
-            'qos.name',
-            $this->table.'.city',
-            $this->table.'.street',
-            $this->table.'.house_number',
-            'netgw.hostname',
-            $this->table.'.frame_id',
-            $this->table.'.slot_id',
-            $this->table.'.port_id',
-            $this->table.'.ont_id',
-            $this->table.'.service_port_id',
-            $this->table.'.ont_state',
-        ];
+        $ret = [];
+        $ret[] = $this->table.'.id';
+        if ('GESA' == config('smartont.flavor.active')) {
+            $ret[] = $this->table.'.hostname';
+        }
+        $ret[] = $this->table.'.mac';
+        if ('GESA' == config('smartont.flavor.active')) {
+            $ret[] = $this->table.'.ipv4';
+        }
+        $ret[] = $this->table.'.serial_num';
+        $ret[] = 'configfile.name';
+        $ret[] = $this->table.'.model';
+        $ret[] = 'qos.name';
+        $ret[] = $this->table.'.city';
+        $ret[] = $this->table.'.street';
+        $ret[] = $this->table.'.house_number';
+        $ret[] = 'netgw.hostname';
+        $ret[] = $this->table.'.frame_id';
+        $ret[] = $this->table.'.slot_id';
+        $ret[] = $this->table.'.port_id';
+        $ret[] = $this->table.'.ont_id';
+        $ret[] = $this->table.'.service_port_id';
+        $ret[] = $this->table.'.ont_state';
         if ('LFO' == config('smartont.flavor.active')) {
             $ret[] = $this->table.'.next_ont_state';
             $ret[] = $this->table.'.ont_state_switchdate';
@@ -287,6 +292,22 @@ class Modem extends \BaseModel
         return $this->getIndexHeaderDefault();
     }
 
+    /**
+     * Get edit entry for view_index_label
+     *
+     * @author Ole Ernst, Patrick Reichel
+     */
+    protected function getEditEntry()
+    {
+        if (Module::collections()->has('SmartOnt')) {
+            if ('GESA' == config('smartont.flavor.active')) {
+                return ['contract_valid' => 'get_contract_valid', 'ipv4' => 'getIpv4'];
+            }
+        }
+
+        return ['contract_valid' => 'get_contract_valid'];
+    }
+
     // AJAX Index list function
     // generates datatable content and classes for model
     public function view_index_label()
@@ -297,7 +318,7 @@ class Modem extends \BaseModel
         $ret['index_header'] = $this->getIndexHeader();
         $ret['bsclass'] = $bsclass;
         $ret['header'] = $this->label();
-        $ret['edit'] = ['contract_valid' => 'get_contract_valid'];
+        $ret['edit'] = $this->getEditEntry();
         $ret['eager_loading'] = ['configfile', 'contract', 'qos', 'netgw'];
         $ret['sortsearch'] = ['contract_valid' => ['order' => 'false', 'search' => 'false']];
         $ret['help'] = [$this->table.'.model' => 'modem_update_frequency', $this->table.'.sw_rev' => 'modem_update_frequency'];
@@ -403,6 +424,11 @@ class Modem extends \BaseModel
     public function get_contract_valid()
     {
         return $this?->contract->isValid('Now') ? \App\Http\Controllers\BaseViewController::translate_label('yes') : \App\Http\Controllers\BaseViewController::translate_label('no');
+    }
+
+    public function getIpv4()
+    {
+        return long2ip($this->ipv4);
     }
 
     public function getSupportState()

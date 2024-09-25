@@ -366,6 +366,8 @@ return [
         'next_ont_state' => 'Nächster ONT-Status',
         'ont_state_switchdate' => 'ONT-Status-Änderungs-Datum',
         'service_port_id' => 'Service-Port-ID',
+        'hostname' => 'Hostname',
+        'ipv4' => 'IP-Adresse',
     ],
     'contract_valid' => 'Vertrag gültig?',
     // Modem option
