@@ -134,6 +134,10 @@ class PhonenumberController extends \BaseController
      */
     protected function getFirstFreeMtaPort()
     {
+        // Database type is smallint – ranging -32768 to +32767
+        // https://www.postgresql.org/docs/current/datatype-numeric.html
+        $maxReturnedPort = 32767;
+
         $mta_id = \Request::get('mta_id') ?? null;
 
         if (! $mta_id) {
@@ -149,19 +153,21 @@ class PhonenumberController extends \BaseController
         $ports = Phonenumber::where('mta_id', $mta_id)->pluck('port')->toArray();
 
         if (! $ports) {
-            return null;
+            return 1;
         }
 
         $i = 1;
+
         while (true) {
             if (! in_array($i, $ports)) {
-                $port = $i;
-                break;
+                return $i;
             }
             $i++;
-        }
 
-        return $port;
+            if ($i > $maxReturnedPort) {
+                return null;
+            }
+        }
     }
 
     /**
