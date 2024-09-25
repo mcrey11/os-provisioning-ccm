@@ -190,11 +190,11 @@ return [
      * MODULE: ProvVoip
      */
     // PhonenumberController
-    'Phonenumber_ActiveWithManagement' => 'Wird automatisch anhand der (De)Aktivirungsdaten in der Rufnummerverwaltung gesetzt.',
-    'Phonenumber_ActiveWithoutManagement' => 'Wenn aktiviert wird die Rufnummer auf das MTA provisioniert. Wird automatisch gesetzt, wenn eine Rufnummerverwaltung angelegt wird.',
-    'Phonenumber_ReassignableWithManagement' => 'Wird automatisch anhand des DeAktivirungsdatums in der Rufnummerverwaltung gesetzt.',
-    'Phonenumber_ReassignableWithoutManagement' => 'Wenn aktiviert kann die Rufnummer ohne vorheriges Löschen an einem andere MTA angelegt werden. Wird automatisch gesetzt, wenn eine Rufnummerverwaltung angelegt wird.',
-    'Phonenumber_ReassignableFinal' => 'Nachdem eine Rufnummer als wieder zuweisbar markiert ist kann dieser Zustand nicht mehr geändert werden.',
+    'Phonenumber_ActiveWithManagement' => 'Wird automatisch anhand der (De)Aktivierungsdaten in der Rufnummernverwaltung gesetzt.',
+    'Phonenumber_ActiveWithoutManagement' => 'Wenn aktiviert wird die Rufnummer auf das MTA provisioniert. Wird automatisch gesetzt, wenn eine Rufnummernverwaltung angelegt wird.',
+    'Phonenumber_ReassignableWithManagement' => 'Wird automatisch anhand des Deaktivierungsdatums in der Rufnummernverwaltung gesetzt.',
+    'Phonenumber_ReassignableWithoutManagement' => 'Wenn aktiviert kann die Rufnummer ohne vorheriges Löschen an einem anderen MTA angelegt werden. Wird automatisch gesetzt, wenn eine Rufnummernverwaltung angelegt wird.',
+    'Phonenumber_ReassignableFinal' => 'Nachdem eine Rufnummer als wieder zuweisbar markiert ist, kann dieser Zustand nicht mehr geändert werden.',
     // PhonenumberManagementController
     'PhonenumberManagement_activation_date' => 'Wird als Wunschtermin der Schaltung zum Provider geschickt und für die Ermittlung des Aktiv-Status der Rufnummer verwendet.',
     'PhonenumberManagement_deactivation_date' => 'Wird als Wunschtermin der Abschaltung zum Provider geschickt und für die Ermittlung des Aktiv-Status der Rufnummer verwendet.',
