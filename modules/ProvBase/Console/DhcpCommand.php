@@ -21,7 +21,6 @@ namespace Modules\ProvBase\Console;
 use Illuminate\Console\Command;
 use Modules\ProvBase\Entities\Endpoint;
 use Modules\ProvBase\Entities\Modem;
-use Modules\ProvBase\Entities\NetGw;
 use Modules\ProvBase\Entities\ProvBase;
 use Modules\ProvBase\Http\Controllers\NetGwController;
 
@@ -77,14 +76,9 @@ class DhcpCommand extends Command
             \Modules\ProvVoip\Entities\Mta::make_dhcp_mta_all();
         }
 
-        // don't run this command during a new installation
-        // this is needed, due to cmts to netgw renaming
-        $table = (new \ReflectionClass(NetGw::class))->getDefaultProperties()['table'];
-        if (\Schema::hasTable($table)) {
-            echo "Build NetGw related files ...\n";
-            foreach (NetGwController::netGwHavingDhcpConfig() as $netgw) {
-                $netgw->makeDhcpConf();
-            }
+        echo "Build NetGw related files ...\n";
+        foreach (NetGwController::netGwHavingDhcpConfig() as $netgw) {
+            $netgw->makeDhcpConf();
         }
 
         // Restart dhcp server
