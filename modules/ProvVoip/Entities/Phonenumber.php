@@ -67,10 +67,24 @@ class Phonenumber extends \BaseModel
     {
         return [
             'table' => $this->table,
-            'index_header' => [$this->table.'.number', 'phonenumbermanagement.activation_date', 'phonenumbermanagement.deactivation_date', 'phonenr_state', 'modem_city', 'sipdomain'],
+            'index_header' => [
+                $this->table.'.number',
+                'phonenumbermanagement.activation_date',
+                'phonenumbermanagement.deactivation_date',
+                'phonenr_state',
+                'modem_city',
+                'sipdomain',
+                'reassignable',
+            ],
             'header' => 'Port '.$this->port.': '.$this->prefix_number.'/'.$this->number,
             'bsclass' => $this->get_bsclass(),
-            'edit' => ['phonenumbermanagement.activation_date' => 'get_act', 'phonenumbermanagement.deactivation_date' => 'get_deact', 'phonenr_state' => 'get_state', 'number' => 'build_number', 'modem_city' => 'modem_city'],
+            'edit' => [
+                'phonenumbermanagement.activation_date' => 'get_act',
+                'phonenumbermanagement.deactivation_date' => 'get_deact',
+                'phonenr_state' => 'get_state',
+                'number' => 'build_number',
+                'modem_city' => 'modem_city',
+            ],
             'eager_loading' => ['phonenumbermanagement', 'mta.modem'],
             'sortsearch' => ['phonenr_state' => ['order' => 'false', 'search' => 'false'], 'modem_city' => ['order' => 'false', 'search' => 'false']],
             'filter' => ['phonenumber.number' => $this->number_query()],
@@ -85,7 +99,7 @@ class Phonenumber extends \BaseModel
     public function get_bsclass()
     {
         if ($this->reassignable) {
-            return 'danger';
+            return 'active';
         }
 
         // determine if this phonenumber should have a management

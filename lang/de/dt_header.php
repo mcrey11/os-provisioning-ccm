@@ -402,6 +402,7 @@ return [
     'phonenr_state' => 'Status',
     'modem_city' => 'Modem-Ort',
     'sipdomain' => 'Registrar',
+    'reassignable' => 'Für neuerliche Zuweisung freigegeben',
     // Phonenumbermanagement
     'phonenumbermanagement.id' => 'ID',
     'phonenumbermanagement.activation_date' => 'Aktivierungsdatum',

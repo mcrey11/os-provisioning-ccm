@@ -401,6 +401,7 @@ return [
     'phonenr_state' => 'Status',
     'modem_city' => 'Modem city',
     'sipdomain' => 'Registrar',
+    'reassignable' => 'Released for reassignment',
     // Phonenumbermanagement
     'phonenumbermanagement.id' => 'ID',
     'phonenumbermanagement.activation_date' => 'Activation date',
