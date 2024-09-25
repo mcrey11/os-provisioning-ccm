@@ -880,4 +880,26 @@ class NetGw extends \BaseModel
         // run script in background since this function is called from Kernel.php
         exec("bash \"$script\" \"$this->ip\" \"$this->username\" \"$this->password\" \"$port\" \"$vlan\" > /dev/null &");
     }
+
+    /**
+     * Checks if we need to build DHCP config for this netgw (type).
+     *
+     * @author Ole Ernst, Patrick Reichel
+     */
+    public function hasDhcpConfig()
+    {
+        if ($this->type == 'cmts') {
+            return true;
+        }
+
+        if (\Module::collections()->has('SmartOnt')) {
+            if ('GESA' == config('smartont.flavor.active')) {
+                if ($this->type == 'olt') {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

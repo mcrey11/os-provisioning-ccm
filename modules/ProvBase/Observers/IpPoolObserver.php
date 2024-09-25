@@ -38,7 +38,7 @@ class IpPoolObserver
     {
         self::updateRadIpPool($pool);
 
-        if ($pool->netgw->type != 'cmts') {
+        if (! $pool->netgw->hasDhcpConfig()) {
             return;
         }
 
@@ -53,7 +53,7 @@ class IpPoolObserver
     {
         self::updateRadIpPool($pool);
 
-        if ($pool->netgw->type != 'cmts') {
+        if (! $pool->netgw->hasDhcpConfig()) {
             return;
         }
 
@@ -72,7 +72,7 @@ class IpPoolObserver
     {
         self::updateRadIpPool($pool);
 
-        if ($pool->netgw->type != 'cmts') {
+        if (! $pool->netgw->hasDhcpConfig()) {
             return;
         }
 
