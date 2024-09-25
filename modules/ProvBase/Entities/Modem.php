@@ -725,11 +725,27 @@ class Modem extends \BaseModel
     }
 
     /**
+     * Returns the host line for the cm dhcp entry
+     *
+     * @author Nino Ryschawy, Ole Ernst, Patrick Reichel
+     */
+    private function getCmDhcpEntryHostLine()
+    {
+        if (Module::collections()->has('SmartOnt')) {
+            if ('GESA' == config('smartont.flavor.active')) {
+                return 'host '.$this->id.' { hardware ethernet '.$this->mac.';';
+            }
+        }
+
+        return 'host '.$this->hostname.' { hardware ethernet '.$this->mac.'; filename "cm/'.$this->hostname.'.cfg"; ddns-hostname "'.$this->hostname.'";';
+    }
+
+    /**
      * Returns the config file entry string for a cable modem in dependency of private or public ip
      *
      * @param  object  $conf  Global conf only loaded once to speed up DHCP config building in DhcpCommand
      *
-     * @author Nino Ryschawy
+     * @author Nino Ryschawy, Ole Ernst, Patrick Reichel
      *
      * @return string
      */
@@ -742,7 +758,7 @@ class Modem extends \BaseModel
             return '';
         }
 
-        $ret = 'host '.$this->hostname.' { hardware ethernet '.$this->mac.'; filename "cm/'.$this->hostname.'.cfg"; ddns-hostname "'.$this->hostname.'";';
+        $ret = $this->getCmDhcpEntryHostLine();
 
         if (Module::collections()->has('ProvVoip') && $this->mtas->pluck('mac')->filter(function ($mac) {
             return stripos($mac, 'ff:') !== 0;

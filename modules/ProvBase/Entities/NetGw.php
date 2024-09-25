@@ -622,6 +622,64 @@ class NetGw extends \BaseModel
     }
 
     /**
+     * Returns config lines for active pools of modem type
+     *
+     * @author Ole Ernst, Patrick Reichel
+     */
+    protected function getActivePoolConfigForCm()
+    {
+        if (\Module::collections()->has('SmartOnt')) {
+            if ('GESA' == config('smartont.flavor.active')) {
+                return "\n\t\t\t".'allow all clients;';
+            }
+        }
+
+        $ret = '';
+        $ret .= "\n\t\t\t".'allow members of "CM";';
+        $ret .= "\n\t\t\t".'deny unknown-clients;';
+
+        return $ret;
+    }
+
+    /**
+     * Returns the config lines for active pools depending on pool type
+     *
+     * @author Nino Ryschawy, Patrick Reichel
+     */
+    protected function getActivePoolConfig($pool)
+    {
+        $ret = '';
+
+        switch ($pool->type) {
+            case 'CM':
+                $ret .= $this->getActivePoolConfigForCm();
+                break;
+
+            case 'CPEPriv':
+                $ret .= "\n\t\t\t".'allow members of "Client";';
+                $ret .= "\n\t\t\t".'deny members of "Client-Public";';
+                break;
+
+            case 'CPEPub':
+                $ret .= "\n\t\t\t".'allow members of "Client-Public";';
+                break;
+
+            case 'MTA':
+                $ret .= "\n\t\t\t".'allow members of "MTA";';
+                break;
+
+            case 'STB':
+                $ret .= "\n\t\t\t".'allow members of "STB";';
+                break;
+
+            default:
+                break;
+        }
+
+        return $ret;
+    }
+
+    /**
      * auto generates the dhcp conf file for a specified netgw and
      * adds the appropriate include statement in cmts_gws.conf
      *
@@ -688,37 +746,7 @@ class NetGw extends \BaseModel
                 }
 
                 if ($active) {
-                    switch ($pool->type) {
-                        case 'CM':
-                            $data .= "\n\t\t\t".'allow members of "CM";';
-                            $data .= "\n\t\t\t".'deny unknown-clients;';
-                            break;
-
-                        case 'CPEPriv':
-                            $data .= "\n\t\t\t".'allow members of "Client";';
-                            $data .= "\n\t\t\t".'deny members of "Client-Public";';
-                            // $data .= "\n\t\t\t".'allow known-clients;';
-                            break;
-
-                        case 'CPEPub':
-                            $data .= "\n\t\t\t".'allow members of "Client-Public";';
-                            // $data .= "\n\t\t\t".'allow unknown-clients;';
-                            // $data .= "\n\t\t\t".'allow known-clients;';
-                            break;
-
-                        case 'MTA':
-                            $data .= "\n\t\t\t".'allow members of "MTA";';
-                            // $data .= "\n\t\t\t".'allow known-clients;';
-                            break;
-
-                        case 'STB':
-                            $data .= "\n\t\t\t".'allow members of "STB";';
-                            break;
-
-                        default:
-                            // code...
-                            break;
-                    }
+                    $data .= $this->getActivePoolConfig($pool);
                 } else {
                     $data .= "\n\t\t\t".'deny all clients;';
                 }
