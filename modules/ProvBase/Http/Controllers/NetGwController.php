@@ -174,4 +174,17 @@ class NetGwController extends \BaseController
 
         return $defaultTabs;
     }
+
+    public static function netGwHavingDhcpConfig()
+    {
+        $dhcpTypes = ['cmts'];
+
+        if (\Module::collections()->has('SmartOnt')) {
+            if ('GESA' == config('smartont.flavor.active')) {
+                $dhcpTypes[] = 'olt';
+            }
+        }
+
+        return NetGw::whereIn('type', $dhcpTypes)->get();
+    }
 }

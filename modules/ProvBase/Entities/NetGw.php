@@ -22,6 +22,7 @@ use App\Sla;
 use File;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Modules\ProvBase\Http\Controllers\NetGwController;
 use Str;
 
 class NetGw extends \BaseModel
@@ -747,7 +748,7 @@ class NetGw extends \BaseModel
 
     /**
      * Generate cmts_gws.conf containing includes for the
-     * shared-networks of all cmts
+     * shared-networks of all netgw
      *
      * @author Ole Ernst
      */
@@ -755,8 +756,8 @@ class NetGw extends \BaseModel
     {
         $path = self::NETGW_INCLUDE_PATH;
         $incs = '';
-        foreach (self::where('type', 'cmts')->get() as $cmts) {
-            $incs .= "include \"$path/$cmts->id.conf\";\n";
+        foreach (NetGwController::netGwHavingDhcpConfig() as $netgw) {
+            $incs .= "include \"$path/$netgw->id.conf\";\n";
         }
         file_put_contents($path.'.conf', $incs);
     }

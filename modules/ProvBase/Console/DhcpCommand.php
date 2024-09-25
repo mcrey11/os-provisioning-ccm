@@ -23,6 +23,7 @@ use Modules\ProvBase\Entities\Endpoint;
 use Modules\ProvBase\Entities\Modem;
 use Modules\ProvBase\Entities\NetGw;
 use Modules\ProvBase\Entities\ProvBase;
+use Modules\ProvBase\Http\Controllers\NetGwController;
 
 class DhcpCommand extends Command
 {
@@ -81,8 +82,8 @@ class DhcpCommand extends Command
         $table = (new \ReflectionClass(NetGw::class))->getDefaultProperties()['table'];
         if (\Schema::hasTable($table)) {
             echo "Build NetGw related files ...\n";
-            foreach (NetGw::where('type', 'cmts')->get() as $cmts) {
-                $cmts->makeDhcpConf();
+            foreach (NetGwController::netGwHavingDhcpConfig() as $netgw) {
+                $netgw->makeDhcpConf();
             }
         }
 
