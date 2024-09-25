@@ -174,22 +174,17 @@ class PhonenumberController extends \BaseController
         // with a managament attached the active state is handle by this
         // and: once a phonenumber is marked as reassignable it cannot be activated again
         if ($phonenumber->phonenumbermanagement || $phonenumber->reassignable) {
-            $symbolStyle = 'font-size: 1.4em; padding-top:0.4em; padding-left: 4.8em';
-            if ($phonenumber->active) {
-                $activeState = '1';
-                $activeSymbol = '<div style="color: #080; '.$symbolStyle.'">✔</div>';
-            } else {
-                $activeState = '0';
-                $activeSymbol = '<div style="color: #f00; '.$symbolStyle.'">✘</div>';
-            }
+            $viewVars = [
+                'checkboxName' => 'active',
+                'checkboxId' => 'active',
+                'checkboxActive' => $phonenumber->active,
+            ];
 
             return [
                 'form_type' => 'html',
                 'name' => 'active',
                 'description' => 'Active',
-                'html' => '<div class="col-md-7 order-3">
-                        <input name="active" type="hidden" id="active" value="'.$activeState.'">'.$activeSymbol.'
-                    </div>',
+                'html' => view('Generic.unclickableCheckbox', $viewVars),
                 'help' => trans('helper.Phonenumber_ActiveWithManagement'),
             ];
         }
@@ -225,24 +220,19 @@ class PhonenumberController extends \BaseController
         // and: once a phonenumber is marked as reassignable that cannot be reverted again
         // (because for that we would need to check for other numbers – possible race condition)
         if ($phonenumber->phonenumbermanagement || $phonenumber->reassignable) {
-            $symbolStyle = 'font-size: 1.4em; padding-top:0.4em; padding-left: 4.8em';
-            if ($phonenumber->reassignable) {
-                $reassignableState = '1';
-                $reassignableSymbol = '<div style="color: #080; '.$symbolStyle.'">✔</div>';
-                $help = trans('helper.Phonenumber_ReassignableFinal');
-            } else {
-                $reassignableState = '0';
-                $reassignableSymbol = '<div style="color: #f00; '.$symbolStyle.'">✘</div>';
-                $help = trans('helper.Phonenumber_ReassignableWithManagement');
-            }
+            $viewVars = [
+                'checkboxName' => 'reassignable',
+                'checkboxId' => 'reassignable',
+                'checkboxActive' => $phonenumber->reassignable,
+            ];
+
+            $help = $phonenumber->reassignable ? trans('helper.Phonenumber_ReassignableFinal') : trans('helper.Phonenumber_ReassignableWithManagement');
 
             return [
                 'form_type' => 'html',
                 'name' => 'reassignable',
                 'description' => 'Reassignable',
-                'html' => '<div class="col-md-7 order-3">
-                        <input name="reassignable" type="hidden" id="reassignable" value="'.$reassignableState.'">'.$reassignableSymbol.'
-                    </div>',
+                'html' => view('Generic.unclickableCheckbox', $viewVars),
                 'help' => trans($help),
             ];
         }
