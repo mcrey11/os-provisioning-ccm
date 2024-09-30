@@ -41,7 +41,7 @@
     @if (! $error)
         <div class="row justify-content-end items-baseline space-x-2">
             @if ($netelement->controlling_link)
-                {!! link_to($netelement->controlling_link, 'View...', ['class' => 'btn btn-primary mb-3']) !!}
+                {!! html()->a(url($netelement->controlling_link), 'View...')->attributes(['class' => 'btn btn-primary mb-3']) !!}
             @endif
             <div id="stop-button" class="btn mr-4 mb-1 border border-gray-800 btn-outline-dark" title="{{ trans('view.neControl.autoUpdate.stopped') }}" onclick="subscribe()">
                 <i class="fa fa-refresh mr-0"></i>
@@ -126,7 +126,7 @@
                             ?>
                             <td>
                             @isset($table['3rd_dim'])
-                                {{ html()->a(route('NetElement.controlling_edit', [$table['3rd_dim']['netelement_id'], $i]), $i)->attributes($table['3rd_dim']['paramId']) }}
+                                {{ html()->a(route('NetElement.controlling_edit', [$table['3rd_dim']['netelement_id'], $table['3rd_dim']['paramId'], $i]), $i) }}
                             @else
                                 {{ $i }}
                             @endisset
