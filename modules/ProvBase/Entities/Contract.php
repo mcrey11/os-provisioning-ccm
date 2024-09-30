@@ -489,7 +489,7 @@ class Contract extends \BaseModel
 
             data_set($ret, 'Documents.Documents', [
                 'class' => 'Document',
-                'relation' => $this->documents,
+                'relation' => $this->documents->sortByDesc('id'),
                 'options' => [
                     'hide_create_button' => true,
                 ],
