@@ -428,7 +428,7 @@ class SnmpController extends \BaseController
         $array = $this->getStoredValues('ordered');
 
         if ($array['values']) {
-            Session::push('tmp_warning_above_form', trans('messages.snmp.lastValues', ['date' => date('Y-m-d', $array['time'])]));
+            Session::push('tmp_warning_above_form', trans('messages.snmp.lastValues', ['date' => date('Y-m-d H:i:s', $array['time'])]));
         }
 
         return $array['values'];
