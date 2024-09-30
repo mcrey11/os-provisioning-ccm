@@ -62,7 +62,7 @@ $config = [
     ],
 ];
 
-if (! is_dir('/usr/share/icingaweb2')) {
+if (! is_dir('/usr/share/icinga2')) {
     unset($config['Icinga']);
 }
 
