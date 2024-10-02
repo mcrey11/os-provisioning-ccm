@@ -427,7 +427,7 @@ class Contract extends \BaseModel
 
         if (Module::collections()->has('Ticketsystem')) {
             $ret['Tickets']['icon'] = 'ticket';
-            $this->addViewHasManyTickets($ret);
+            $this->addViewHasManyTickets($ret, 'Tickets');
             $ret['Tickets']['Modem Tickets']['class'] = 'Ticket';
             $ret['Tickets']['Modem Tickets']['relation'] = $this->modems()->select('id')->with('tickets')->get()->pluck('tickets')->flatten();
             $ret['Tickets']['Modem Tickets']['options']['hide_create_button'] = 1;
