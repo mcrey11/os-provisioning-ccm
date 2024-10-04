@@ -395,14 +395,14 @@ class FormBuilder
         return $this->appendDiv(html()->password($name)->class('form-control '));
     }
 
-    public function radio($name = null, $checked = false, $value = null)
+    public function radio($name = null, $value = null, $checked = false, $options = [])
     {
-        return $this->appendDiv(html()->radio($name, $checked, $value)->class('form-control '));
+        return $this->appendDiv(html()->radio($name, $checked, $value)->attributes($options)->class('form-control '));
     }
 
-    public function text($name = null, $value = null)
+    public function text($name = null, $value = null, $options = [])
     {
-        return $this->appendDiv(html()->text($name, $value)->class('form-control '));
+        return $this->appendDiv(html()->text($name, $value)->attributes($options)->class('form-control '));
     }
 
     public function search($name = null, $value = null)
@@ -410,19 +410,19 @@ class FormBuilder
         return $this->appendDiv(html()->search($name, $value)->class('form-control '));
     }
 
-    public function date($name = '', $value = null, $format = true)
+    public function date($name = '', $value = null, $options = [], $format = true)
     {
-        return $this->appendDiv(html()->date($name, $value, $format)->class('form-control '));
+        return $this->appendDiv(html()->date($name, $value, $format)->attributes($options)->class('form-control '));
     }
 
-    public function datetime($name = '', $value = null, $format = true)
+    public function datetime($name = '', $value = null, $options = [], $format = true)
     {
-        return $this->appendDiv(html()->datetime($name, $value, $format)->class('form-control '));
+        return $this->appendDiv(html()->datetime($name, $value, $format)->attributes($options)->class('form-control '));
     }
 
-    public function time($name = '', $value = null, $format = true)
+    public function time($name = '', $value = null, $options = [], $format = true)
     {
-        return $this->appendDiv(html()->time($name, $value, $format)->class('form-control '));
+        return $this->appendDiv(html()->time($name, $value, $format)->attributes($options)->class('form-control '));
     }
 
     public function range($name = '', $value = '', $min = null, $max = null, $step = null)
@@ -435,9 +435,9 @@ class FormBuilder
         return $this->appendDiv(html()->number($name, $value, $min, $max, $step)->class('form-control '));
     }
 
-    public function file($name = null)
+    public function file($name = null, $options = [])
     {
-        return $this->appendDiv(html()->file($name)->class('form-control '));
+        return $this->appendDiv(html()->file($name)->attributes($options)->class('form-control '));
     }
 
     public function token()
