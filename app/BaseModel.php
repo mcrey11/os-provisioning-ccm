@@ -1019,4 +1019,23 @@ class BaseModel extends Eloquent
     {
         return $this->connection ?? config('database.default');
     }
+
+    /**
+     * Used to make boolean values filterable in datatables
+     *
+     * @author Nino Ryschawy, Patrick Reichel
+     */
+    public function boolToStringFilter(string $column): string
+    {
+        $yes = trans('messages.Yes');
+        $no = trans('messages.No');
+
+        return <<<SQL
+            CASE
+                WHEN $column THEN '{$yes}'
+                ELSE '{$no}'
+            END
+            ilike ?
+        SQL;
+    }
 }
