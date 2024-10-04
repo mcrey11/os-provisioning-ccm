@@ -1038,4 +1038,14 @@ class BaseModel extends Eloquent
             ilike ?
         SQL;
     }
+
+    /**
+     * Used to show the translated real language value for booleans
+     *
+     * @author Nino Ryschawy, Patrick Reichel
+     */
+    public function boolToLanguageString($column)
+    {
+        return trans('messages.'.($this->{$column} ? 'Yes' : 'No'));
+    }
 }

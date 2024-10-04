@@ -1786,6 +1786,10 @@ class BaseController extends Controller
         }
 
         foreach ($editColumnData as $column => $functionname) {
+            $param = null;
+            if (is_string($functionname) && ('boolToLanguageString' == $functionname)) {
+                $param = $column;
+            }
             if ($column == $firstColumn) {
                 $DT->editColumn($column, function ($model) use ($functionname) {
                     $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
@@ -1794,10 +1798,16 @@ class BaseController extends Controller
                         '"><strong>'.$model->view_icon().$functionname($model).'</strong></a>';
                 });
             } else {
-                $DT->editColumn($column, function ($model) use ($functionname) {
-                    $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
+                $DT->editColumn($column, function ($model) use ($functionname, $param) {
+                    if (is_null($param)) {
+                        $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
 
-                    return $functionname($model);
+                        return $functionname($model);
+                    } else {
+                        $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname($param);
+
+                        return $functionname($model, $param);
+                    }
                 });
             }
         }
