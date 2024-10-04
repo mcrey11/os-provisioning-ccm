@@ -61,7 +61,6 @@ class FirmwareUpgradeController extends BaseController
                 'form_type' => 'checkbox',
                 'name' => 'restart_only',
                 'description' => trans('view.firmwareUpgrade.restartOnly'),
-                'options' => [],
                 'help' => trans('helper.restart_only'),
             ],
             [
@@ -133,6 +132,8 @@ class FirmwareUpgradeController extends BaseController
 
     public function prepare_input($data)
     {
+        $data = parent::prepare_input($data);
+
         ['date' => $data['start_date'], 'time' => $data['start_time']] = $this->getStartDateDefaults();
 
         return $data;
