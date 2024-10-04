@@ -531,6 +531,7 @@ class BaseModel extends Eloquent
             'country_id',	// not used yet
             'debt_import_id',
             'documenttemplate_id',
+            'firmware_upgrade_id',
             //'mibfile_id',
             //'oid_id',
             'node_id',

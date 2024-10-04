@@ -44,6 +44,13 @@ class FirmwareUpgrade extends \BaseModel
         'firmware_match_string',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::observe(new \Modules\ProvBase\Observers\FirmwareUpgradeObserver);
+    }
+
     /**
      * See FirmwareUpgradeController::prepare_rules as well
      */
