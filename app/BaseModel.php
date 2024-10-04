@@ -1025,7 +1025,7 @@ class BaseModel extends Eloquent
      *
      * @author Nino Ryschawy, Patrick Reichel
      */
-    public function boolToStringFilter(string $column): string
+    public static function boolToStringFilter(string $column): string
     {
         $yes = trans('messages.Yes');
         $no = trans('messages.No');
@@ -1044,7 +1044,7 @@ class BaseModel extends Eloquent
      *
      * @author Nino Ryschawy, Patrick Reichel
      */
-    public function boolToLanguageString($column)
+    public function boolToLanguageString(string $column): string
     {
         return trans('messages.'.($this->{$column} ? 'Yes' : 'No'));
     }

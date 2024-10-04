@@ -1668,6 +1668,7 @@ class BaseController extends Controller
         $model = static::get_model_obj();
         $dtConfig = $model->view_index_label();
         $headerFields = $dtConfig['index_header'];
+        $beautifyBooleanColumnsData = $dtConfig['beautifyBooleanColumns'];
         $joins = $dtConfig['join'] ?? [];
         $editColumnData = $dtConfig['edit'] ?? [];
         $filterColumnData = $dtConfig['filter'] ?? [];
@@ -1675,6 +1676,14 @@ class BaseController extends Controller
         $rawColumns = $dtConfig['raw_columns'] ?? []; // not run through htmlentities()
         $selectQuery = [$dtConfig['table'].'.*'];
         $query = $model::selectRaw(implode(',', $joins ? array_merge($selectQuery, array_merge(...array_map(fn ($join) => $join['select'], $joins))) : $selectQuery));
+
+        // set edit and filter values for boolean columns to make them natural language and filterable
+        foreach ($beautifyBooleanColumnsData as $column) {
+            // use BaseModel::boolToLanguageString() method to translate boolean values
+            $editColumnData[$column] = 'boolToLanguageString';
+            // use BaseMdodel::boolToStringFilter method for filtering in datatables
+            $filterColumnData[$column] = \App\BaseModel::boolToStringFilter($column);
+        }
 
         foreach ($joins as $join) {
             $joinTable = $join['table'];
