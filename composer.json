@@ -30,7 +30,8 @@
         "guzzlehttp/guzzle": "^7.5",
         "swen100/geophp": "^1.0",
         "livewire/livewire": "^3.4",
-        "chrome-php/chrome": "^1.9"
+        "chrome-php/chrome": "^1.9",
+        "horstoeko/zugferd": "^1.0"
     },
     "require-dev": {
         "laravel/tinker": "^2.5",
