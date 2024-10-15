@@ -262,6 +262,11 @@ class ImportTvCustomersCommand extends Command
             'email' => self::$line[self::C_MAIL],
         ];
 
+        // Discard contracts that ended last year
+        if ($contract['contract_end'] && $contract['contract_end'] < date('Y-01-01')) {
+            Log::info("Contract $number is out of date ({$contract['contract_start']} - {$contract['contract_end']})");
+        }
+
         if (self::validationFailed('Contract', $contract, ['Number' => $number])) {
             return;
         }
