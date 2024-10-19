@@ -226,6 +226,9 @@ class FormBuilder
      */
     private function getFormattedErrors($name)
     {
+        // Remove parenthesises from multiselect column name to search in errors
+        $name = str_replace(['[', ']'], '', $name);
+
         if (! $this->hasErrors($name)) {
             // If the form element does not have any errors, return
             // an emptry string.
@@ -248,7 +251,7 @@ class FormBuilder
         // Append the name of the group to the groupStack.
         $this->groupStack[] = $name;
 
-        if ($this->hasErrors($name)) {
+        if ($this->hasErrors(str_replace(['[', ']'], '', $name))) {
             $div->class('has-error');
         }
 
