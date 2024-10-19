@@ -489,7 +489,7 @@ class BaseViewController extends Controller
                         ? date('H:i', strtotime($field['field_value']))
                         : null;
 
-                    $currentFormfield[] = Form::time($field['name'], $field['field_value'], $options);
+                    $currentFormfield[] = Form::time($field['name'], $field['field_value'], $options, false);
                     break;
 
                 case 'collapse':
