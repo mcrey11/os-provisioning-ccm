@@ -47,7 +47,7 @@ return [
         'reverb' => [
             'host' => env('REVERB_SERVER_HOST', '127.0.0.1'),
             'port' => env('REVERB_SERVER_PORT', 6001),
-            'hostname' => env('REVERB_HOST', '46.167.48.61'),
+            'hostname' => env('REVERB_HOST', '127.0.0.1'),
             'options' => [
                 'tls' => [
                     'local_cert' => $cert[1] ?? env('LARAVEL_WEBSOCKETS_SSL_LOCAL_CERT', '/etc/httpd/ssl/httpd.pem'),
