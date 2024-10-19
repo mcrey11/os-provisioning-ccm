@@ -229,7 +229,7 @@ class Kernel extends ConsoleKernel
             // $schedule->command('nms:hardware-support')->twiceDaily(10, 14);
 
             $schedule->command('firmware:upgrade')->everyMinute()->when(function () {
-                \Modules\ProvBase\Services\FirmwareUpgradeService::mustRun();
+                return \Modules\ProvBase\Services\FirmwareUpgradeService::mustRun();
             });
         }
 
