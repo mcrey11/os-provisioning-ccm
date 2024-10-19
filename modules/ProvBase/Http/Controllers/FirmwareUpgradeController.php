@@ -42,6 +42,12 @@ class FirmwareUpgradeController extends BaseController
         $fromConfigfiles = $model->fromConfigfile()->pluck('configfile_id', 'configfile_id')->toArray();
         $toConfigfiles = $model->configfile()->pluck('id', 'id')->toArray();
 
+        if (! $model->exists) {
+            $defaults = $this->getStartDateDefaults();
+            $model->start_date = $defaults['date'];
+            $model->start_time = $defaults['time'];
+        }
+
         $form = [
             [
                 'form_type' => 'date',
@@ -128,15 +134,6 @@ class FirmwareUpgradeController extends BaseController
             'date' => $now->toDateString(),
             'time' => $now->setHour(3)->setMinutes(30)->format('H:i'),
         ];
-    }
-
-    public function prepare_input($data)
-    {
-        $data = parent::prepare_input($data);
-
-        ['date' => $data['start_date'], 'time' => $data['start_time']] = $this->getStartDateDefaults();
-
-        return $data;
     }
 
     public function prepare_rules($rules, $data)
