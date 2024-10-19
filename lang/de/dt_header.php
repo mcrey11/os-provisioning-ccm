@@ -334,6 +334,7 @@ return [
     ],
     'mail' => 'Mail',
     'modem' => [
+        'additional' => 'Zusatz',
         'city' => 'Stadt',
         'district' => 'Bezirk',
         'firstname' => 'Vorname',

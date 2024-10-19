@@ -215,6 +215,8 @@ class ModemController extends \BaseController
             $c[] = ['form_type' => 'text', 'name' => 'apartment_nr', 'description' => 'Apartment number'];
         }
 
+        $c[] = ['form_type' => 'text', 'name' => 'additional', 'description' => 'Additional info', 'help' => trans('helper.modem.additional'), 'autocomplete' => []];
+
         if (Module::collections()->has('BillingBase')) {
             if (! $model->exists) {
                 request()->mergeIfMissing(['qos_id'=> Contract::find(request('contract_id'))?->qos_id]);
@@ -247,7 +249,6 @@ class ModemController extends \BaseController
             ['form_type' => 'date', 'name' => 'installation_address_change_date', 'description' => 'Date of installation address change', 'hidden' => 'C', 'options' => $installation_address_change_date_options, 'help' => trans('helper.Modem_InstallationAddressChangeDate')], // Date of adress change for notification at telephone provider - important for localisation of emergency calls
             ['form_type' => 'text', 'name' => 'inventar_num', 'description' => 'Inventar Number'],
             ['form_type' => 'textarea', 'name' => 'description', 'description' => 'Description'],
-            ['form_type' => 'text', 'name' => 'additional', 'description' => 'Additional info', 'help' => trans('helper.modem.additional'), 'autocomplete' => [], 'space' => 1],
         ];
 
         $smartont = [];

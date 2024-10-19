@@ -215,6 +215,7 @@ class Modem extends \BaseModel
             $this->table.'.street',
             $this->table.'.house_number',
             $this->table.'.apartment_nr',
+            $this->table.'.additional',
             'geocode_source',
             $this->table.'.inventar_num',
             'contract_valid',

@@ -333,6 +333,7 @@ return [
     ],
     'mail' => 'Mail',
     'modem' => [
+        'additional' => 'Additional info',
         'city' => 'City',
         'district' => 'District',
         'firstname' => 'First name',
