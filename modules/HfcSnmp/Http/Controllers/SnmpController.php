@@ -34,35 +34,27 @@ class SnmpController extends \BaseController
     private $timeout = 1000000;
     private $retry = 1;
 
-    /**
-     * @var object NetElement
-     */
+    /** @var Max data length for broadcasting values */
+    private const maxDataLength = 7500;
+
+    /** @var Max data array size for broadcasting values resulting from length on values and maxDataLength */
+    private $chunkSize = 0;
+
+    /** @var object NetElement */
     private $netelement;
     private $netelementIp;
 
-    /**
-     * @var object Used for parent netgw of a cluster
-     */
+    /** @var object Used for parent netgw of a cluster */
     private $parent_device;
 
-    /**
-     * @var array of OID-Strings that threw an exception during SNMP-Set
-     */
+    /** @var array of OID-Strings that threw an exception during SNMP-Set */
     private $errors = [];
 
-    /**
-     * If set we only want to show the 3rd dimension parameters of this parameter and index in the controlling view
-     *
-     * @var int
-     */
+    /** @var int If set we only want to show the 3rd dimension parameters of this parameter and index in the controlling view */
     private $index = 0;
     private $paramId = 0;
 
-    /**
-     * Key to get values from cache - set in init() function
-     *
-     * @var string
-     */
+    /** @var string Key to get values from cache - set in init() function */
     private $cacheKey;
 
     /**
@@ -243,9 +235,13 @@ class SnmpController extends \BaseController
             $data = $this->getSnmpValues(false, $params);
             // $data = json_encode(['.1.2.3.3.3' => rand(1, 100), '.1.23.4.5' => rand(1, 100)]);    // Testdata
             $queryTime = microtime(true) - $start;
+            $chunks = $this->getDataChunks($data);
 
-            $newSnmpValues->setData($data);
-            event($newSnmpValues);
+            foreach ($chunks as $chunk) {
+                $newSnmpValues->setData($chunk);
+
+                event($newSnmpValues);
+            }
 
             Log::debug("Send data to channel $channelName: ".substr($data, 0, 90).(strlen($data) > 90 ? ' ... }' : '').' - Query time: '.round($queryTime, 3));
 
@@ -253,6 +249,45 @@ class SnmpController extends \BaseController
         } while ($websocketApi->channelHasSubscribers($channelName));
 
         return 'stopped';
+    }
+
+    /**
+     * Chunk data into array to not exceed laravel data size limit
+     */
+    private function getDataChunks($data): array
+    {
+        if (strlen($data) < self::maxDataLength) {
+            return [$data];
+        }
+
+        $this->chunkSize = $this->chunkSize ?: $this->getChunkSize($data);
+
+        // Chunk data
+        $data = json_decode($data, true);
+        $offset = 0;
+        $ret = [];
+        $size = count($data);
+
+        do {
+            $ret[] = json_encode(array_slice($data, $offset, $this->chunkSize));
+            $offset += $this->chunkSize;
+        } while ($offset < $size);
+
+        return $ret;
+    }
+
+    /**
+     * Get Array size for the data to split the data into multiple chunks to avoid laravel exception when sending to much data at once
+     */
+    private function getChunkSize($data): int
+    {
+        $array = explode(',', $data);
+
+        usort($array, function ($a, $b) {
+            return strlen($b) <=> strlen($a);
+        });
+
+        return floor(self::maxDataLength / strlen($array[0]));
     }
 
     /**
