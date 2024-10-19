@@ -94,18 +94,18 @@ class FirmwareUpgrade extends \BaseModel
     public function label()
     {
         $fromConfigfilesCount = $this->fromConfigfile()->count();
-        $restartOnlyText = $this->restart_only ? ' (restart only)' : '';
         $toConfigfileName = $this->configfile ? $this->configfile->name : '';
-
         $fromText = $fromConfigfilesCount == 1
-            ? "From {$this->fromConfigfile()->first()->name}"
-            : "For {$fromConfigfilesCount} configfiles";
+            ? ucwords(trans('view.from')).' '.$this->fromConfigfile()->first()->name
+            : "{$fromConfigfilesCount} configfiles";
 
         if ($this->restart_only || $toConfigfileName === null) {
-            return "{$fromText}{$restartOnlyText}";
+            $restartOnlyText = $this->restart_only ? trans('view.firmwareUpgrade.restartOnly') : '';
+
+            return "$restartOnlyText: {$fromText}";
         }
 
-        return "{$fromText} to {$toConfigfileName}";
+        return $fromText.' '.trans('view.to').' '.$toConfigfileName;
     }
 
     /**
