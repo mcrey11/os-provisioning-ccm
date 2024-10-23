@@ -800,17 +800,6 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Deletes the configfiles with all modem dhcp entries - used to refresh the config through artisan nms:dhcp command
-     *
-     * @author Nino Ryschawy
-     */
-    public static function clear_dhcp_conf_files()
-    {
-        File::put(self::CONF_FILE_PATH, '');
-        File::put(self::CONF_FILE_PATH_PUB, '');
-    }
-
-    /**
      * Make DHCP config files for all CMs including EPs - used in dhcpCommand after deleting
      * the config files with all entries
      *
@@ -820,7 +809,13 @@ class Modem extends \BaseModel
     {
         Log::info('dhcp: update '.self::CONF_FILE_PATH.', '.self::CONF_FILE_PATH_PUB);
 
-        self::clear_dhcp_conf_files();
+        // lock
+        $fp = fopen(self::CONF_FILE_PATH, 'r+');
+        flock($fp, LOCK_EX);
+
+        // empty the config files
+        File::put(self::CONF_FILE_PATH, '');
+        File::put(self::CONF_FILE_PATH_PUB, '');
 
         $chunksize = 1000;
         $count = self::count();
@@ -846,9 +841,13 @@ class Modem extends \BaseModel
             echo $i * $chunksize.'/'.$count."\r";
             $i++;
 
-            file_put_contents(self::CONF_FILE_PATH, $data, FILE_APPEND | LOCK_EX);
-            file_put_contents(self::CONF_FILE_PATH_PUB, $data_pub, FILE_APPEND | LOCK_EX);
+            file_put_contents(self::CONF_FILE_PATH, $data, FILE_APPEND);
+            file_put_contents(self::CONF_FILE_PATH_PUB, $data_pub, FILE_APPEND);
         });
+
+        // unlock
+        flock($fp, LOCK_UN);
+        fclose($fp);
     }
 
     /**
