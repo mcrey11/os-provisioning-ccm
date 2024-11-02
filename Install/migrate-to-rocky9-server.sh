@@ -56,19 +56,63 @@ migrateDhcp () {
     systemctl start dhcpd
 }
 
-migrateFirewalld () {
+configureFirewalld () {
     # /usr/lib/firewalld/zones are our default zones
     # /etc/firewalld has overwritten zones
     rm -f /etc/firewalld/zones/*
+    scp -r $centos7Server:/etc/firewalld/services/* /etc/firewalld/services/
     scp -r $centos7Server:/etc/firewalld/zones/* /etc/firewalld/zones/
+    rm -f /etc/firewalld/zones/.* /etc/firewalld/zones/*.xml.* 2>/dev/null
 
-    # Restart firewalld only if its active
-    systemctl status firewalld | grep -wq "Active: active (running)" && systemctl restart firewalld
+    # Restart firewalld only manually
+    # systemctl status firewalld | grep -wq "Active: active (running)" && systemctl restart firewalld
 }
 
-migrateHttpd () {
-    # nothing to do as certificates should be created manually by hand
-    return
+prepareHttpdConf () {
+    # Check if SSLCertif contains 3 entries - 2 are default self signed cert
+    certs=$(ssh $centos7Server 'grep "SSLCertificate" /etc/httpd/conf.d/nmsprime-admin.conf | grep -v "#.*SSLCertificate" | wc -l')
+
+    if [ $certs != 3 ]; then
+        return
+    fi
+
+    # Assume to have called this function already when this file is present
+    if [ -f /var/lib/acme/private/account.key ]; then
+        return
+    fi
+
+    yum -y install acme-tiny
+
+    scp $centos7Server:/var/lib/acme/private/account.key /var/lib/acme/private/account.key
+    scp $centos7Server:/var/lib/acme/csr/* /var/lib/acme/csr/
+    chown acme:acme /var/lib/acme/private/account.key
+    chmod 0400 /var/lib/acme/private/account.key
+
+    adminFile=/etc/httpd/conf.d/nmsprime-admin.conf
+    cccFile=/etc/httpd/conf.d/nmsprime-ccc.conf
+    acsFile=/etc/httpd/conf.d/nmsprime-acs.conf
+
+    sed -i 's/[^#] SSLCertificate/  # SSLCertificate/' $adminFile
+    #lineAdmin=$(grep -n "SSLCertificate" $adminFile | tail -1 | cut -d ':' -f1)
+    if [ -f $cccFile ]; then
+        sed -i 's/[^#] SSLCertificate/  # SSLCertificate/' $cccFile
+        #lineCcc=$(grep -n "SSLCertificate" $cccFile | tail -1 | cut -d ':' -f1)
+    fi
+
+    certs=$(ssh $centos7Server "grep SSLCertificate $adminFile | grep -v \"#.*SSLCertificate\" | cut -d '/' -f2-10")
+
+    for cert in $certs; do
+        fpath="/$cert"
+        dir=$(dirname $fpath)
+        test -d $dir && mkdir -p $dir
+
+        test -f $fpath && scp $centos7Server:$fpath $fpath
+    done
+
+    chown acme:acme /var/lib/acme/certs/*
+    chgrp apache /etc/pki/tls/private/*
+
+    systemctl enable --now acme-tiny
 }
 
 migrateGenieAcs () {
@@ -95,11 +139,6 @@ migrateGenieAcs () {
 migrateGrafana () {
     return
     # /etc/ ini ?
-}
-
-migrateHttpd () {
-    # certificates
-    # scp $centos7Server:/etc/httpd/ssl/* /etc/httpd/ssl/
 }
 
 migrateIcinga () {
@@ -350,8 +389,8 @@ migrateNmsprimeDB
 migrateCacti
 migrateIcinga
 migrateDhcp
-# migrateFirewalld
-migrateHttpd
+configureFirewalld
+prepareHttpdConf
 migrateLogs
 migrateNamed
 migrateNtp
