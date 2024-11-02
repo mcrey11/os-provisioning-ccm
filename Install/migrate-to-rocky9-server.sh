@@ -400,7 +400,7 @@ migrateTftp
 syncCron
 finalize
 
-yum install bash-completion htop
+yum install -y bash-completion htop
 grep -q "firewall" /root/.bashrc || echo 'alias firewall-list-active-zones="firewall-cmd --list-all-zones | awk '"'"'!/^[[:blank:]]/ && /active/ {p=1} !/^[[:blank:]]/ && !/active/ {p=0} p'"'"'"' >> /root/.bashrc
 grep -q "psqlcon" /root/.bashrc || echo "alias psqlcon='sudo -u postgres psql'" >> /root/.bashrc; alias psqlcon='sudo -u postgres psql'
 
@@ -411,12 +411,8 @@ exit
     # Check + Add (static) routes
     # Merge /etc/genieacs/genieacs.env
     # Merge specific entries from laravel env files
-    # Setup httpd ssl certificates
+        # global.env: Geocoding
+        # ticket.env: mail
+    # Setup httpd ssl certificates - grep "SSLCertificate" /etc/httpd/conf.d/nmsprime-admin.conf # /etc/httpd/conf.d/nmsprime-ccc.conf
+    # Adapt voipmonitor DB conf (/etc/voipmonitor.conf on Voipmon server)
 # Prepares
-scp ninovm-rocky9:/var/www/nmsprime/Install/migrate-to-rocky9-server.sh server:/var/www/nmsprime/
-echo "Host centos7
-    HostName
-    User root
-" >> /root/.ssh/config
-ssh-keygen
-cat /root/.ssh/id_rsa.pub
