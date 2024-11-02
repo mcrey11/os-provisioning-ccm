@@ -383,7 +383,7 @@ done
 
 test
 copyRootFolder
-setupBackup
+$test || setupBackup
 migrateRadius
 migrateNmsprimeDB
 migrateCacti
@@ -407,7 +407,6 @@ grep -q "psqlcon" /root/.bashrc || echo "alias psqlcon='sudo -u postgres psql'" 
 exit
 
 # TODOs
-    # Check /etc/cron.d/backup-nmsprime
     # Check and restart firewall manually
     # Check + Add (static) routes
     # Merge /etc/genieacs/genieacs.env
