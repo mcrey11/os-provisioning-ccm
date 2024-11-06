@@ -216,7 +216,11 @@ class HandleGenieAcsPresetJob implements ShouldQueue
             }
         }
 
+        $prov[] = "if (declare('Tags.sync', {value: 1}).value == 'true,xsd:boolean') {";
+        $prov[] = "declare('Tags.sync', null, {value: false});";
         $prov[] = "ext('delete-sync-preset', 'ret', '{$this->modem->id}');";
+        $prov[] = '}';
+
         $this->modem::callGenieAcsApi("provisions/prov-{$this->modem->id}", 'PUT', implode("\n", $prov));
     }
 }

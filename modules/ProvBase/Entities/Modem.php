@@ -1412,6 +1412,10 @@ class Modem extends \BaseModel
             ],
         ];
 
+        // add sync tag to modem which will be removed in the main provision when the sync preset is beeing deleted
+        // prevents deleting the sync preset when the main provision is beeing executed at every event
+        self::callGenieAcsApi("devices/$id/tags/sync", 'POST');
+
         self::callGenieAcsApi("presets/sync-{$this->id}", 'PUT', json_encode($preset));
 
         self::callGenieAcsApi("devices/$id/tasks?connection_request", 'POST');
