@@ -355,7 +355,7 @@ migrateStorage () {
 
 migrateTftp () {
     # firmware files
-    scp -r $centos7Server:/tftpboot/fw/* /tftpboot/fw
+    rsync -a -e ssh $centos7Server:/tftpboot/fw/* /tftpboot/fw
 }
 
 prepareVm () {
