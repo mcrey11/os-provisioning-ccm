@@ -360,6 +360,9 @@ migrateTftp () {
 
 syncCron () {
     rsync -a -e ssh --ignore-existing $centos7Server:/etc/cron.d/ /etc/cron.d/
+
+    # Disable all cron jobs on old server when it's not a test run
+    $test || ssh $centos7Server "sed -i -e 's/^[^#]/#/' /etc/cron.d/*"
 }
 
 # Main
