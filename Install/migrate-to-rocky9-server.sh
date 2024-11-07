@@ -358,6 +358,15 @@ migrateTftp () {
     scp -r $centos7Server:/tftpboot/fw/* /tftpboot/fw
 }
 
+prepareVm () {
+    # TODO? Copy authorized keys?
+
+    yum install -y bash-completion htop
+
+    grep -q "firewall" /root/.bashrc || echo 'alias firewall-list-active-zones="firewall-cmd --list-all-zones | awk '"'"'!/^[[:blank:]]/ && /active/ {p=1} !/^[[:blank:]]/ && !/active/ {p=0} p'"'"'"' >> /root/.bashrc
+    grep -q "psqlcon" /root/.bashrc || echo "alias psqlcon='sudo -u postgres psql'" >> /root/.bashrc; alias psqlcon='sudo -u postgres psql'
+}
+
 syncCron () {
     rsync -a -e ssh --ignore-existing $centos7Server:/etc/cron.d/ /etc/cron.d/
 
@@ -385,6 +394,7 @@ do
 done
 
 test
+prepareVm
 copyRootFolder
 $test || setupBackup
 migrateRadius
@@ -403,11 +413,9 @@ migrateTftp
 syncCron
 finalize
 
-yum install -y bash-completion htop
-grep -q "firewall" /root/.bashrc || echo 'alias firewall-list-active-zones="firewall-cmd --list-all-zones | awk '"'"'!/^[[:blank:]]/ && /active/ {p=1} !/^[[:blank:]]/ && !/active/ {p=0} p'"'"'"' >> /root/.bashrc
-grep -q "psqlcon" /root/.bashrc || echo "alias psqlcon='sudo -u postgres psql'" >> /root/.bashrc; alias psqlcon='sudo -u postgres psql'
-
-exit
+echo ""
+echo "ATTENTION: DON'T FORGET TO DO MANUAL TASKS!"
+tail -13 $(realpath "$0")
 
 # TODOs
     # Check and restart firewall manually
@@ -416,6 +424,8 @@ exit
     # Merge specific entries from laravel env files
         # global.env: Geocoding
         # ticket.env: mail
-    # Setup httpd ssl certificates - grep "SSLCertificate" /etc/httpd/conf.d/nmsprime-admin.conf # /etc/httpd/conf.d/nmsprime-ccc.conf
+    # Setup httpd ssl certificates - grep "SSLCertificate" /etc/httpd/conf.d/nmsprime-admin.conf
+        # /etc/httpd/conf.d/nmsprime-acs.conf
+        # /etc/httpd/conf.d/nmsprime-ccc.conf
     # Adapt voipmonitor DB conf (/etc/voipmonitor.conf on Voipmon server)
-# Prepares
+    # systemctl start radiusd
