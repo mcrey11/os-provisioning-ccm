@@ -76,7 +76,7 @@ class ConfigfileController extends \BaseController
             ],
             ['form_type' => 'select', 'name' => 'parent_id', 'description' => 'Parent Configfile', 'value' => $this->setupSelect2Field($model, 'Parent'), 'options' => ['class' => 'select2-ajax', 'data-allow-clear' => 'true', 'ajax-route' => route('Configfile.select2', ['model' => $model, 'relation' => 'parent'])]],
             ['form_type' => 'select', 'name' => 'public', 'description' => 'Public Use', 'value' => ['yes' => 'Yes', 'no' => 'No']],
-            ['form_type' => 'textarea', 'name' => 'text', 'description' => 'Config File Parameters'],
+            ['form_type' => 'textarea', 'name' => 'text', 'description' => 'Config File Parameters', 'options' => ['v-pre']],
             ['form_type' => 'select', 'name' => 'firmware', 'description' => 'Choose Firmware/Dialplan File', 'value' => $firmware_files],
             ['form_type' => 'file', 'name' => 'firmware_upload', 'description' => 'or: Upload Firmware/Dialplan File'],
             ['form_type' => 'text', 'name' => 'monitoring', 'description' => 'Monitoring String', 'hidden' => true],
