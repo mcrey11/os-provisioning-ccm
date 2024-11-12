@@ -194,6 +194,7 @@ class Contract extends \BaseModel
             }
             $ret[] = 'street';
             $ret[] = $this->table.'.house_number';
+            $ret[] = 'national_building_id';
 
             return $ret;
         }
@@ -210,6 +211,7 @@ class Contract extends \BaseModel
         $ret[] = 'district';
         $ret[] = 'street';
         $ret[] = $this->table.'.house_number';
+        $ret[] = 'national_building_id';
         $ret[] = $this->table.'.apartment_nr';
         $ret[] = $this->table.'.additional';
         $ret[] = $this->table.'.contract_start';

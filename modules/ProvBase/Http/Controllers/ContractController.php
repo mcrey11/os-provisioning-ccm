@@ -109,6 +109,12 @@ class ContractController extends \BaseController
             ],
             [
                 'form_type' => 'text',
+                'name' => 'national_building_id',
+                'description' => $this->translateNationalBuildingId($model->country_code),
+                'create' => ['Modem'],
+            ],
+            [
+                'form_type' => 'text',
                 'name' => 'country_code',
                 'description' => 'Country code',
                 'create' => ['Modem'],
