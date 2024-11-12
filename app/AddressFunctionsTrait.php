@@ -174,4 +174,55 @@ trait AddressFunctionsTrait
 
         return [$street, $housenr];
     }
+
+    /**
+     * Try to get a country code.
+     *
+     * @author Patrick Reichel
+     */
+    public function determineCountryCode($countryCode = null)
+    {
+        // return if given
+        if ($countryCode) {
+            return $countryCode;
+        }
+
+        // try to get from instance (ignore if empty string)
+        if (isset($this->country_code) && $this->country_code) {
+            return $this->country_code;
+        }
+
+        // try to get from model (ignore if empty string)
+        if (isset($this->model) && isset($this->model->country_code) && $this->model->country_code) {
+            return $this->model->country_code;
+        }
+
+        // try to get from global config (ignore if empty string)
+        $globalConfig = GlobalConfig::find(1);
+        if ($globalConfig->default_country_code) {
+            return $globalConfig->default_country_code;
+        }
+
+        return null;
+    }
+
+    /**
+     * Translates the government building ID depending on local and global country code.
+     *
+     * @author Patrick Reichel
+     */
+    public function translateNationalBuildingId($countryCode = null)
+    {
+        $code = $this->determineCountryCode($countryCode);
+        $translateStringShort = 'dt_header.national_building_id';
+        $translateStringLong = $translateStringShort.'_'.$code;
+
+        // return translation with country code (if exists)
+        if (trans($translateStringLong) != $translateStringLong) {
+            return trans($translateStringLong);
+        }
+
+        // return general translation
+        return trans($translateStringShort);
+    }
 }
