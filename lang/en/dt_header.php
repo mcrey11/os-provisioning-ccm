@@ -713,4 +713,10 @@ return [
     'valid_from' => 'Valid from',
     'valid_to' => 'Valid to (inclusive)',
     'verified' => 'Verified',
+
+    // national_building_id may have country specific translations
+    // add them below by using the country codes usable in global config
+    'national_building_id' => 'National building ID',
+    'national_building_id_CH' => 'EGID',
+    'national_building_id_US' => 'UBID',
 ];
