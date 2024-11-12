@@ -45,6 +45,10 @@ class Contract extends \BaseModel
 
     public const GROUNDS_FOR_DISMISSAL = ['unknown', 'relocation', 'unsatisfied', 'canceled by us', 'deceased', 'competitor', 'fiber', 'customer recovery denied'];
 
+    public $countryDependingTranslationFields = [
+        'national_building_id',
+    ];
+
     // Add your validation rules here
     // TODO: dependencies of active modules (billing)
     public function rules()

@@ -136,14 +136,33 @@
                 {{-- Get Header if possible with new Format - for Backwards compatibility old one stays --}}
                 @if (isset($model) && $methodExists && is_array($indexTableInfo) && isset($indexTableInfo['index_header']))
                     @foreach ($indexTableInfo['index_header'] as $field)
-                        <th class="content" style="text-align:center; vertical-align:middle;">{{ trans('dt_header.'.$field).' ' }}
-                        @if (isset($indexTableInfo['sortsearch'][$field]) && $indexTableInfo['sortsearch'][$field]['order'] === 'false')
-                            <i class="fa fa-info-circle text-info" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top"
-                                data-delay='{"show":"250"}' data-original-title="{{trans('helper.SortSearchColumn')}}"></i>
-                        @elseif (! empty($indexTableInfo['help'][$field]))
-                            <i class="fa fa-info-circle text-info" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top"
-                                data-delay='{"show":"250"}' data-original-title="{{trans('helper.'.$indexTableInfo['help'][$field])}}"></i>
-                        @endif
+
+                        <th class="content" style="text-align:center; vertical-align:middle;">
+                            @if ((! $model->countryDependingTranslationFields) || (! in_array($field, $model->countryDependingTranslationFields)))
+                                {{-- default header translation --}}
+                                {{ trans('dt_header.'.$field).' ' }}
+                            @else
+                                {{-- there may be country specicfic translations --}}
+                                @php
+                                    $tmpTranslateShort = 'dt_header.'.$field;
+                                    $tmpTranslateLong = $tmpTranslateShort.'_'.$globalConfig['default_country_code'];
+                                @endphp
+                                @if (trans($tmpTranslateLong) != $tmpTranslateLong)
+                                    {{-- Use translation for given country code available --}}
+                                    {{ trans($tmpTranslateLong).' ' }}
+                                @else
+                                    {{-- Use general translation --}}
+                                    {{ trans($tmpTranslateShort).' ' }}
+                                @endif
+                            @endif
+
+                            @if (isset($indexTableInfo['sortsearch'][$field]) && $indexTableInfo['sortsearch'][$field]['order'] === 'false')
+                                <i class="fa fa-info-circle text-info" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top"
+                                    data-delay='{"show":"250"}' data-original-title="{{trans('helper.SortSearchColumn')}}"></i>
+                            @elseif (! empty($indexTableInfo['help'][$field]))
+                                <i class="fa fa-info-circle text-info" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top"
+                                    data-delay='{"show":"250"}' data-original-title="{{trans('helper.'.$indexTableInfo['help'][$field])}}"></i>
+                            @endif
                         </th>
                     @endforeach
                 @endif

@@ -104,6 +104,12 @@ class BaseModel extends Eloquent
     ];
 
     /**
+     * Array holding database columns where translation is chosen by country
+     * code (and not the user's language) – e.g. EGID for Switzerland
+     */
+    public $countryDependingTranslationFields = [];
+
+    /**
      * Helper to get the model name.
      *
      * @author Patrick Reichel
