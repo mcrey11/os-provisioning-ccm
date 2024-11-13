@@ -200,6 +200,12 @@ class ContractController extends \BaseController
                 'name' => 'description',
                 'description' => 'Description',
             ],
+            [
+                'form_type' => 'date',
+                'name' => 'contract_start',
+                'description' => 'Contract Start',
+                'hidden' => 1,
+            ],
         ];
 
         return $fields;
@@ -291,18 +297,16 @@ class ContractController extends \BaseController
                 'description' => 'E-Mail Address',
                 'space' => '1',
             ],
-            /* [ */
-            /*     'form_type' => 'text', */
-            /*     'name' => 'type', */
-            /*     'description' => 'Type', */
-            /*     'create' => ['Modem'], */
-            /*     'options' => ['readonly'], */
-            /*     'hidden' => '1', */
-            /* ], */
             [
                 'form_type' => 'textarea',
                 'name' => 'description',
                 'description' => 'Description',
+            ],
+            [
+                'form_type' => 'date',
+                'name' => 'contract_start',
+                'description' => 'Contract Start',
+                'hidden' => 1,
             ],
         ];
 
@@ -521,8 +525,16 @@ class ContractController extends \BaseController
         // ISO 3166 country codes are uppercase
         $data['country_code'] = \Str::upper($data['country_code']);
 
+        $defaultContractStart = date('Y-m-d');
+
+        if (Module::collections()->has('SmartOnt')) {
+            // contract_start not used in SmartOnt
+            // this date indicates that and avoids possible later confusion
+            $defaultContractStart = '1900-01-01';
+        }
+
         // set contract_start to today if none is given
-        $data['contract_start'] = $data['contract_start'] ?: date('Y-m-d');
+        $data['contract_start'] = $data['contract_start'] ?: $defaultContractStart;
 
         if (! Module::collections()->has('SmartOnt')) {
             // generate contract number
@@ -542,7 +554,6 @@ class ContractController extends \BaseController
 
         // set this to null if no value is given
         $nullable_fields = [
-            'contract_start',
             'contract_end',
             'voip_contract_start',
             'voip_contract_end',
@@ -575,7 +586,6 @@ class ContractController extends \BaseController
         $data = parent::default_input($data);
 
         $nullable_fields = [
-            'contract_start',
             'contract_end',
             'voip_contract_start',
             'voip_contract_end',
