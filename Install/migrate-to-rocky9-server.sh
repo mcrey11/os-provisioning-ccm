@@ -397,20 +397,20 @@ test
 prepareVm
 copyRootFolder
 $test || setupBackup
-migrateRadius
-migrateNmsprimeDB
-migrateCacti
-migrateIcinga
-migrateDhcp
 configureFirewalld
 prepareHttpdConf
-migrateLogs
-migrateNamed
 migrateNtp
-migrateGenieAcs
 migrateStorage
 migrateTftp
 syncCron
+migrateGenieAcs
+migrateLogs
+migrateNamed
+migrateCacti
+migrateIcinga
+migrateRadius
+migrateNmsprimeDB
+migrateDhcp
 finalize
 
 echo ""
