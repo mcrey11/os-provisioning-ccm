@@ -175,7 +175,7 @@ migrateLogs () {
 
 migrateNamed () {
     ssh $centos7Server "rndc sync -clean"
-    scp $centos7Server:/etc/resolv.conf /etc/resolv.conf
+    rsync -e ssh $centos7Server:/etc/resolv.conf /etc/resolv.conf
 
     systemctl stop named
     scp $centos7Server:/etc/named-nmsprime.conf /etc/named-nmsprime.conf
