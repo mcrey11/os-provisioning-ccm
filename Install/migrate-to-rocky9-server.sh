@@ -81,6 +81,13 @@ prepareHttpdConf () {
         return
     fi
 
+    # Check if acme-tiny is installed on centos server
+    ssh $centos7Server 'yum list installed acme-tiny'
+
+    if [ $? != 0 ]; then
+        return
+    fi
+
     yum -y install acme-tiny
 
     scp $centos7Server:/var/lib/acme/private/account.key /var/lib/acme/private/account.key
