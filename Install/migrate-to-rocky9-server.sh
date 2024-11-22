@@ -422,7 +422,8 @@ finalize
 
 echo ""
 echo "ATTENTION: DON'T FORGET TO DO MANUAL TASKS!"
-tail -13 $(realpath "$0")
+cd /var/www/nmsprime/
+tail -18 $(realpath "$0")
 
 # TODOs
     # Check and restart firewall manually
@@ -434,5 +435,11 @@ tail -13 $(realpath "$0")
     # Setup httpd ssl certificates - grep "SSLCertificate" /etc/httpd/conf.d/nmsprime-admin.conf
         # /etc/httpd/conf.d/nmsprime-acs.conf
         # /etc/httpd/conf.d/nmsprime-ccc.conf
-    # Adapt voipmonitor DB conf (/etc/voipmonitor.conf on Voipmon server)
+    # Adapt voipmonitor
+        # DB conf (/etc/voipmonitor.conf on Voipmon server)
+        # SSH tunnel
     # systemctl start radiusd
+
+# VERIFICATION
+    # Modem analysis page
+    # psqlcon radius -c "select radacctid, acctstarttime, acctstoptime, framedipaddress from radacct order by acctstarttime desc limit 10"
