@@ -17,14 +17,16 @@ const map = L.map('map', {
 @endif
 
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxNativeZoom: 19, // OSM max available zoom is at 19
+    maxZoom: 21 // Leaflet can still zoom in more, but doesn't load new tiles (images) - just rerenders them
 }).addTo(map)
 
 @if (config('app.hereMapApiKey'))
     const here = {apiKey: '{{ config('app.hereMapApiKey') }}'}
-    const hereHybrid = L.tileLayer(`https://{m}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/512/png8?apiKey=${here.apiKey}&pois=true&ppi=320`, {m: Math.floor(Math.random() * 3 + 1)})
-    const hereStreet = L.tileLayer(`https://{m}.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day.transit/{z}/{x}/{y}/512/png8?apiKey=${here.apiKey}&pois=true&ppi=320`, {m: Math.floor(Math.random() * 3 + 1)})
-    const hereTerrain = L.tileLayer(`https://{m}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/terrain.day/{z}/{x}/{y}/512/png8?apiKey=${here.apiKey}&pois=true&ppi=320`, {m: Math.floor(Math.random() * 3 + 1)})
+    const hereHybrid = L.tileLayer(`https://{m}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/512/png8?apiKey=${here.apiKey}&pois=true&ppi=320`, {m: Math.floor(Math.random() * 3 + 1, ), maxNativeZoom: 19, maxZoom: 21})
+    const hereStreet = L.tileLayer(`https://{m}.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day.transit/{z}/{x}/{y}/512/png8?apiKey=${here.apiKey}&pois=true&ppi=320`, {m: Math.floor(Math.random() * 3 + 1), maxNativeZoom: 19, maxZoom: 21})
+    const hereTerrain = L.tileLayer(`https://{m}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/terrain.day/{z}/{x}/{y}/512/png8?apiKey=${here.apiKey}&pois=true&ppi=320`, {m: Math.floor(Math.random() * 3 + 1), maxNativeZoom: 19, maxZoom: 21})
 @endif
 
 @if (config('app.googleApiKey'))
