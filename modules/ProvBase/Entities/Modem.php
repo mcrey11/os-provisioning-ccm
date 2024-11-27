@@ -1144,7 +1144,10 @@ class Modem extends \BaseModel
         // Evaluate network access (NA) and MaxCPE count
         // Note: NA becomes only zero when internet is disabled on contract (no valid tariff) or modem (manually) and contract has no telephony
         $cpe_cnt = ProvBase::first()->max_cpe;
+
+        $cpe_cnt = (-1 == $cpe_cnt) ? 254 : $cpe_cnt;   // check if unlimited (value is “-1”) and set to DOCSIS max if so
         $max_cpe = $cpe_cnt ?: 2; 		// default 2
+
         $internet_access = 1;
 
         if (Module::collections()->has('ProvVoip') && count($this->mtas)) {
