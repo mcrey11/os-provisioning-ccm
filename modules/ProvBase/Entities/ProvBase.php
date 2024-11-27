@@ -180,6 +180,7 @@ class ProvBase extends \BaseModel
         $domainName = $this->domain_name;
         $defLeaseTime = $this->dhcp_def_lease_time;
         $maxLeaseTime = $this->dhcp_max_lease_time;
+        $hasLeaseLimit = (-1 == $this->max_cpe) ? false : true;
         $leaseLimit = $this->max_cpe ?: 4;
 
         $stbVendorClassIds = IpPool::where('type', 'STB')
@@ -242,7 +243,19 @@ class ProvBase extends \BaseModel
         }
         $dhcpFqdn .= '\\000';
 
-        $data = view('provbase::DHCP.global', compact('ownIp', 'ipList', 'domainName', 'defLeaseTime', 'maxLeaseTime', 'leaseLimit', 'stbMatch', 'cpeMatch', 'vivso', 'dhcpFqdn'))->render();
+        $data = view('provbase::DHCP.global', compact(
+            'ownIp',
+            'ipList',
+            'domainName',
+            'defLeaseTime',
+            'maxLeaseTime',
+            'hasLeaseLimit',
+            'leaseLimit',
+            'stbMatch',
+            'cpeMatch',
+            'vivso',
+            'dhcpFqdn'
+        ))->render();
 
         File::put('/etc/dhcp-nmsprime/global.conf', $data);
     }

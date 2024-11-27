@@ -43,20 +43,26 @@ class "MTA" {
 class "STB" {
     match if (({!!$stbMatch!!}));
     spawn with binary-to-ascii(16, 8, ":", substring(option agent.remote-id, 0, 6)); # create a sub-class automatically
+@if ($hasLeaseLimit){{-- Indention looks ugly in blade but results in nice config file --}}
     lease limit {{$leaseLimit}}; # max number of stbs per cm
+@endif
 }
 @endif
 
 class "Client" {
     match if (({!!$cpeMatch!!}));
     spawn with binary-to-ascii(16, 8, ":", substring(option agent.remote-id, 0, 6)); # create a sub-class automatically
+@if ($hasLeaseLimit){{-- Indention looks ugly in blade but results in nice config file --}}
     lease limit {{$leaseLimit}}; # max number of private cpes per cm
+@endif
 }
 
 class "Client-Public" {
     match if (({!!$cpeMatch!!}));
     match pick-first-value (option agent.remote-id);
+@if ($hasLeaseLimit){{-- The if clause causes indention of the following line – make the blade ugly to get a nice config file… --}}
     lease limit {{$leaseLimit}}; # max number of public cpes per cm
+@endif
 }
 
 # All CPEs of modems without internet access - will be defined as subclass
