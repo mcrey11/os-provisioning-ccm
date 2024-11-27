@@ -148,6 +148,7 @@ return [
     'acct_interim_interval'         => 'Die Zeit in Sekunden zwischen vom NAS gesendeten Interim Updates (PPPoE).',
     'openning_new_tab_for_modem' => 'Öffnet die Modem-Edit Seite in einem neuen Fenster (Topographie).',
     'ppp_session_timeout'           => 'In Sekunden. Bei einem Wert von 0 werden die PPP Sessions nicht getrennt.',
+    'max_cpe' => 'Mindestens 2, Standard 2. Ein Wert von „-1“ entfernt „lease limit“ aus der DHCP-Konfiguration und setzt MaxCPE in DOCSIS-Konfigurationsdateien auf 254.',
     //ModemController
     'modem' => [
         'internetAccess' => 'Internetzugriff für CPEs. (MTAs werden nicht beachtet und gehen immer online, wenn alle restlich notwendigen Konfigurationen korrekt vorgenommen wurden) - Achtung: Mit Billingmodul wird diese Checkbox während der nächtlichen Prüfung (nur) bei Tarifänderung überschrieben. Kann nicht mehr gesetzt werden, wenn Vertrag abgelaufen ist.',
