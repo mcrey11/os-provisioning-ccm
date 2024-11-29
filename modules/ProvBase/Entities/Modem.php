@@ -2348,13 +2348,15 @@ class Modem extends \BaseModel
     /**
      * Get GenieACS CWMP ID for cURL requests.
      *
+     * @param  bool  $percentEncode
      * @return string
      *
      * @author Roy Schneider
      */
-    public function getGenieId()
+    public function getGenieId($percentEncode = true)
     {
-        return rawurlencode($this->getGenieAcsModel('_id'));
+        // rawurlencode for API/URI else to grep logs
+        return $percentEncode ? rawurlencode($this->getGenieAcsModel('_id')) : $this->getGenieAcsModel('_id');
     }
 
     /**
@@ -2569,7 +2571,7 @@ class Modem extends \BaseModel
             $genieId = $this->getGenieId();
 
             // Log tab
-            $tr069Log = $genieId ? $this->getTr069LogEntries($genieId) : [];
+            $tr069Log = $genieId ? $this->getTr069LogEntries($this->getGenieId(false)) : [];
 
             // Wifi and LAN tab
             $dataModel = $this->getCwmpDataModel($genieId);
