@@ -173,7 +173,7 @@ class Modem extends \BaseModel
         $rules['serial_num'][] = 'nullable';
 
         if ($this->contract && $this->contract->isCanceled()) {
-            $rules['internet_access'][] = 'In:null,0,false';
+            $rules['internet_access'] = ['false'];
         }
 
         return $rules;

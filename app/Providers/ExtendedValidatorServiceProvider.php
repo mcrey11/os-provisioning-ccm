@@ -38,6 +38,7 @@ class ExtendedValidatorServiceProvider extends ServiceProvider
         $this->app['validator']->extend('docsis', 'App\extensions\validators\ExtendedValidator@validateDocsis');
         $this->app['validator']->extend('geopos', 'App\extensions\validators\ExtendedValidator@validateGeopos');
         $this->app['validator']->extend('comma_separated_hostnames_or_ips', 'App\extensions\validators\ExtendedValidator@validateCommaSeparatedHostnamesOrIps');
+        $this->app['validator']->extend('false', 'App\extensions\validators\ExtendedValidator@false');
         $this->app['validator']->extend('hostname_or_ip', 'App\extensions\validators\ExtendedValidator@validateHostnameOrIp');
         $this->app['validator']->extend('ip_in_range', 'App\extensions\validators\ExtendedValidator@validateIpInRange');
         $this->app['validator']->extend('ip_larger', 'App\extensions\validators\ExtendedValidator@ipLarger');
@@ -51,6 +52,7 @@ class ExtendedValidatorServiceProvider extends ServiceProvider
         $this->app['validator']->extend('product', 'App\extensions\validators\ExtendedValidator@validateProductType');
         $this->app['validator']->extend('template_type_unique', 'App\extensions\validators\ExtendedValidator@validateDocumentTemplateTypeIsUnique');
         $this->app['validator']->extend('empty', 'App\extensions\validators\ExtendedValidator@validateEmpty');
+        $this->app['validator']->extend('true', 'App\extensions\validators\ExtendedValidator@true');
         $this->app['validator']->extend('iunique', 'App\extensions\validators\ExtendedValidator@validateUniqueCaseInsensitive');
 
         // the following validators needs to be extended implicit – have to be called even if an empty value is passed

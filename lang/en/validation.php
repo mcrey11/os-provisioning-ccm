@@ -169,6 +169,7 @@ return [
     'creditor_id'          => ':attribute is not valid.',
     'docsis'               => ':attribute',
     'geopos'               => 'No valid position. Please make sure, there are no white spaces and the position is given in the format ´Longitude,Latitude´. The precision of the position should be limited to 11 digits after the comma.',
+    'false' => ':attribute must be unchecked, false or zero.',
     'hostname_or_ip'       => 'This is neither a hostname nor an IP address',
     'invalid_input'        => 'Input invalid – please correct the following errors.',
     'ip_in_range'          => 'The IP address is not inside the previous specified range',
@@ -183,6 +184,7 @@ return [
 
     'needed_depending_on_salutation' => 'The :attribute field is required for the chosen salutation.',
     'reassign_phonenumber_to_mta_fail' => 'Reassignement of phonenumber to MTA :id not allowed',
+    'true' => ':attribute must be checked, true or one.',
 
     /*
     |--------------------------------------------------------------------------

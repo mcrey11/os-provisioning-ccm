@@ -31,6 +31,16 @@ use PHP_IBAN\IBAN;
  */
 class ExtendedValidator
 {
+    public function false($attribute, $value, $parameters)
+    {
+        return ! filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    public function true($attribute, $value, $parameters)
+    {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+
     public function notNull($attribute, $value, $parameters)
     {
         if ($value == '' || $value == '0' || $value == null || $value == '0000-00-00') {
