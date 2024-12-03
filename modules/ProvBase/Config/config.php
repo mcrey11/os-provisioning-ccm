@@ -18,7 +18,27 @@
 
 namespace Modules\ProvBase\Entities;
 
-return  [
+// this file seems to be included multiple times (e.g. in “php artisan route:cache”
+// or “php artisan config:cache”)
+// to avoid redeclaration of this function check if already defined
+if (! function_exists('Modules\ProvBase\Entities\convertThresholdStrings')) {
+    function convertThresholdStrings($valueIn)
+    {
+        $valueTmp = preg_replace('/[^0-9,-\.]/', '', $valueIn);
+        $valueTmp = explode(',', $valueTmp);
+        $valueOut = [];
+        if (! in_array(count($valueTmp), [2, 4])) {
+            throw new \Exception('Expecting 2 or 4 values for thresholds. String “'.$valueIn.'” is not valid.');
+        }
+        foreach ($valueTmp as $key => $value) {
+            $valueOut[$key] = (float) $value;
+        }
+
+        return $valueOut;
+    }
+}
+
+return [
     'link' => 'ProvBase.index',
     'MenuItems' => [
         'Contracts' => [
@@ -70,4 +90,17 @@ return  [
     'cwmpConnectionRequest' => env('CWMP_CONNECTION_REQUEST', 1),
     'cwmpConnectionRequestTimeout' => env('CWMP_CONNECTION_REQUEST_TIMEOUT', 3000),
     'cwmpMonitoringEvents' => env('CWMP_MONITORING_EVENTS', 2),
+    'qualityColorThresholds' => [
+        'AvgUtilization' => convertThresholdStrings(env('STATUS_THRESHOLDS_AVG_UTILIZATION', '0, 0, 70, 90')),
+        'DocsisDsPwr' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_DS_PWR', '20, -10, 15, 20')),
+        'DocsisDsUs' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_DS_US', '-12, -5, 5, 12')),
+        'DocsisMicRef' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_MICREF', '20, 30')),
+        'DocsisRxPwr' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_RX_PWR', '-3, -1, 15, 20')),
+        'DocsisUsPwr' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_US_PWR', '22, 27, 50, 56')),
+        'DocsisSnrQpsk' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_SNR_QPSK', '14, 17')),
+        'DocsisSnrQam16' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_SNR_QAM16', '20, 23')),
+        'DocsisSnrQam32' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_SNR_QAM32', '22, 25')),
+        'DocsisSnrQam64' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_SNR_QAM64', '26, 29')),
+        'DocsisSnrQam256' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_SNR_QAM256', '32, 35')),
+    ],
 ];

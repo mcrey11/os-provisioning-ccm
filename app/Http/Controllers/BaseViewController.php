@@ -984,58 +984,62 @@ class BaseViewController extends Controller
             3 => '',
         ];
 
+        if (! Module::collections()->has('ProvBase')) {
+            return $toString ? $colors[$ret] : $ret;
+        }
+
         if ($val === 'n/a') {
             return $toString ? $colors[$ret] : $ret;
         }
 
         switch ($entity) {
             case 'Rx Power dBmV':
-                $ret = self::colorize($val, [-3, -1, 15, 20], false);
+                $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisRxPwr'), false);
                 break;
             case 'pwr':
             case 'Power dBmV':
                 if ($dir == 'ds') {
-                    $ret = self::colorize($val, [-20, -10, 15, 20], false);
+                    $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisDsPwr'), false);
                 }
                 if ($dir == 'us') {
-                    $ret = self::colorize($val, [22, 27, 50, 56]);
+                    $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisUsPwr'));
                 }
                 break;
             case 'Microreflection -dBc':
                 if ($val == 0) {
                     break;
                 }
-                $ret = self::colorize($val, [20, 30]);
+                $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisMicRef'));
                 break;
             case 'Avg Utilization %':
-                $ret = self::colorize($val, [0, 0, 70, 90], false);
+                $ret = self::colorize($val, config('provbase.qualityColorThresholds.AvgUtilization'), false);
                 break;
             case 'snr':
             case 'SNR dB':
             case 'MER dB':
                 if ($mod == 'QPSK') {
-                    $ret = self::colorize($val, [14, 17]);
+                    $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisSnrQpsk'));
                 }
                 if ($mod == 'QAM16') {
-                    $ret = self::colorize($val, [20, 23]);
+                    $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisSnrQam16'));
                 }
                 if ($mod == 'QAM32') {
-                    $ret = self::colorize($val, [22, 25]);
+                    $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisSnrQam32'));
                 }
                 // $mod == '0': no docsIfCmtsModulationTable entry
                 // $dir == 'us': snr_us modem property in CustomerTopoController
                 if ($mod == 'QAM64' || $mod == '0' || $dir == 'us') {
-                    $ret = self::colorize($val, [26, 29]);
+                    $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisSnrQam64'));
                 }
                 // $dir = 'ds': snr_ds modem property in CustomerTopoController
                 if ($mod == 'QAM256' || $dir == 'ds') {
-                    $ret = self::colorize($val, [32, 35]);
+                    $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisSnrQam256'));
                 }
                 break;
                 // ds_us modem property in CustomerTopoController
             case 'us':
                 if ($dir == 'ds') {
-                    $ret = self::colorize($val, [-12, -5, 5, 12], false);
+                    $ret = self::colorize($val, config('provbase.qualityColorThresholds.DocsisDsUs'), false);
                 }
                 break;
         }
