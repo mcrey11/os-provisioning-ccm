@@ -293,22 +293,6 @@ class Modem extends \BaseModel
         return $this->getIndexHeaderDefault();
     }
 
-    /**
-     * Get edit entry for view_index_label
-     *
-     * @author Ole Ernst, Patrick Reichel
-     */
-    protected function getEditEntry()
-    {
-        if (Module::collections()->has('SmartOnt')) {
-            if ('GESA' == config('smartont.flavor.active')) {
-                return ['contract_valid' => 'get_contract_valid', 'ipv4' => 'getIpv4'];
-            }
-        }
-
-        return ['contract_valid' => 'get_contract_valid'];
-    }
-
     // AJAX Index list function
     // generates datatable content and classes for model
     public function view_index_label()
@@ -319,7 +303,7 @@ class Modem extends \BaseModel
         $ret['index_header'] = $this->getIndexHeader();
         $ret['bsclass'] = $bsclass;
         $ret['header'] = $this->label();
-        $ret['edit'] = $this->getEditEntry();
+        $ret['edit'] = ['contract_valid' => 'get_contract_valid'];
         $ret['eager_loading'] = ['configfile', 'contract', 'qos', 'netgw'];
         $ret['sortsearch'] = ['contract_valid' => ['order' => 'false', 'search' => 'false']];
         $ret['help'] = [$this->table.'.model' => 'modem_update_frequency', $this->table.'.sw_rev' => 'modem_update_frequency'];
@@ -425,11 +409,6 @@ class Modem extends \BaseModel
     public function get_contract_valid()
     {
         return $this?->contract->isValid('Now') ? \App\Http\Controllers\BaseViewController::translate_label('yes') : \App\Http\Controllers\BaseViewController::translate_label('no');
-    }
-
-    public function getIpv4()
-    {
-        return long2ip($this->ipv4);
     }
 
     public function getSupportState()
