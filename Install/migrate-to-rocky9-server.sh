@@ -8,6 +8,7 @@ test () {
 }
 
 finalize () {
+    php artisan optimize
     php /var/www/nmsprime/artisan nms:configfile
     php /var/www/nmsprime/artisan nms:icinga-netelement all
 }
