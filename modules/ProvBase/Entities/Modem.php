@@ -269,7 +269,7 @@ class Modem extends \BaseModel
         if ('GESA' == config('smartont.flavor.active')) {
             $ret[] = 'contract.type';
         }
-        $ret[] = $this->table.'.geocode_source';
+        $ret[] = 'geocode_source';
 
         $ret[] = $this->table.'.us_pwr';
         $ret[] = $this->table.'.ds_pwr';
