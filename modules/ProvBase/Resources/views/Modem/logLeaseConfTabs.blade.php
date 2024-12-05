@@ -120,7 +120,7 @@
                 </thead>
                 <tbody>
                 @foreach ($eventlog as $row)
-                    <tr class = "{{$row[2]}}">
+                    <tr class = "{{$row[2] ?? ''}}">
                         @foreach ($row as $idx => $data)
                             @if($idx != 2)
                                 <td><span>{{$data}}</span></td>
