@@ -56,11 +56,4 @@ class Domain extends \BaseModel
             'bsclass' => $bsclass,
             'order_by' => ['0' => 'asc'], ];
     }
-
-    public function get_bsclass()
-    {
-        $bsclass = 'success';
-
-        return $bsclass;
-    }
 }

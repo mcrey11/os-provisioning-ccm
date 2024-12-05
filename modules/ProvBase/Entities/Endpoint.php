@@ -97,9 +97,15 @@ class Endpoint extends \BaseModel
 
     public function get_bsclass()
     {
-        $bsclass = 'success';
+        if ($this->fixed_ip) {
+            return 'success';
+        }
 
-        return $bsclass;
+        if ($this->version == '4') {
+            return 'info';
+        }
+
+        return '';
     }
 
     public function label()

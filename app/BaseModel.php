@@ -148,7 +148,7 @@ class BaseModel extends Eloquent
      */
     public function get_bsclass()
     {
-        return 'success';
+        return 'info';
     }
 
     /**

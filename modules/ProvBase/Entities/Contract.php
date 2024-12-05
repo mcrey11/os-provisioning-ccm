@@ -294,34 +294,52 @@ class Contract extends \BaseModel
     /**
      * @return string Bootstrap Color Class
      */
-    public function get_bsclass()
+    public function get_bsclass(): string
     {
+        // Don't do anything when index table header is determined
+        if (! $this->id) {
+            return '';
+        }
+
         // special case SmartOnt OTO
         if (in_array($this->type, ['OTO_FTTH_FR', 'OTO_OWN', 'OTO_STORAGE'])) {
             return $this->getBsclassDfOto();
         }
 
-        // default NMSPrime contract
-        $bsclass = 'success';
+        if ($this->contract_start > date('Y-m-d')) {
+            return 'info';
+        }
 
         if ($this->lawsuit) {
             return 'danger';
         }
 
-        if ($this->group_contract) {
-            return 'info';
+        if ($this->contract_end && $this->contract_end < date('Y-m-d')) {
+            return 'active';
         }
 
-        if (! ($this->internet_access || $this->has_telephony)) {
-            $bsclass = 'active';
-
-            // '$this->id' to dont check when index table header is determined!
-            if ($this->id && $this->isValid('now')) {
-                $bsclass = 'warning';
-            }
+        if ($this->hasWarnings()) {
+            return 'warning';
         }
 
-        return $bsclass;
+        return 'success';
+    }
+
+    /**
+     * Check if contract shall be marked in yellow to indicate warnings
+     */
+    private function hasWarnings(): bool
+    {
+        if ($this->items->isEmpty()) {
+            return true;
+        }
+
+        // Attention: This reduces performance when user shows many entries in index table - 250 seems still be ok, but it's recognizable
+        if ($this->shouldDebtsBlockInetAccess()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

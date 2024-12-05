@@ -18,14 +18,13 @@
 ?>
 {{-- https://laracasts.com/discuss/channels/laravel/categories-tree-view/replies/114604 --}}
 
-<?php   $color_classes = ['default-1', 'default-2', 'default-3', 'default-4']; // default
-?>
+<?php $color_classes = ['default-1', 'default-2', 'default-3', 'default-4']; // default - overwrite in Model::get_icon_type ?>
 
 <ul>
 @foreach($items as $key => $item)
     @if (gettype($item) == 'object')
         <?php
-            $type = method_exists($item, 'get_icon_type') ? $item->get_icon_type() : $color_classes[$color % 4];
+            $type = method_exists($item, 'get_icon_type') ? $item->get_icon_type() : $color_classes[3];
         ?>
         <li id="ids[{{$item->id}}]"
             class="f-s-14 p-t-5 {{in_array($item->id, $undeletables) ? 'nocheck' : ''}}
@@ -35,9 +34,7 @@
             {{ html()->a(route("$route_name.edit", $item->id), $item->view_index_label()) }}
 
             @if($item->children->count() > 0)
-                @include('Generic.tree_item', ['items' => $item->children, 'color' => $color++])
-            @else
-                <?php $color++; ?>
+                @include('Generic.tree_item', ['items' => $item->children])
             @endif
         </li>
     @else
