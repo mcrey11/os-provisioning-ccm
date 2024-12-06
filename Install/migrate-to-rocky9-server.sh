@@ -130,8 +130,9 @@ mergeNmsEnv () {
         sed -i "s/$key=.*/$entry/" /etc/nmsprime/env/global.env
     done
 
-    # scp ticket.env
-    rsync -e ssh $centos7Server:/etc/nmsprime/env/ticket.env /etc/nmsprime/env/ticket.env
+    # Just copy
+    scp $centos7Server:/etc/nmsprime/env/ticket.env /etc/nmsprime/env/ticket.env
+    test -f /etc/nmsprime/env/provvoipenvia.env && scp $centos7Server:/etc/nmsprime/env/provvoipenvia.env /etc/nmsprime/env/provvoipenvia.env
 }
 
 migrateGenieAcs () {
@@ -436,15 +437,12 @@ finalize
 echo ""
 echo "ATTENTION: DON'T FORGET TO DO MANUAL TASKS!"
 cd /var/www/nmsprime/
-tail -18 $(realpath "$0")
+tail -15 $(realpath "$0")
 
 # TODOs
     # Check and restart firewall manually
     # Check + Add (static) routes
     # Merge /etc/genieacs/genieacs.env
-    # Merge specific entries from laravel env files
-        # global.env: Geocoding
-        # ticket.env: mail
     # Setup httpd ssl certificates - grep "SSLCertificate" /etc/httpd/conf.d/nmsprime-admin.conf
         # /etc/httpd/conf.d/nmsprime-acs.conf
         # /etc/httpd/conf.d/nmsprime-ccc.conf
