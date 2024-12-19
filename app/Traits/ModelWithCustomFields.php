@@ -62,10 +62,10 @@ trait ModelWithCustomFields
      *
      * @author Patrick Reichel
      */
-    public function expandCustomFields()
+    public function expandCustomFields($key)
     {
         $customData = json_decode($this->custom_data, true);
-        foreach (self::getCustomFields($this->reselling_partner) as $field) {
+        foreach (self::getCustomFields($key) as $field) {
             $this->$field = $customData[$field] ?? '';
         }
         unset($this->custom_data);
@@ -91,10 +91,10 @@ trait ModelWithCustomFields
      *
      * @author Patrick Reichel
      */
-    public function collapseCustomFields()
+    public function collapseCustomFields($key)
     {
         $customData = [];
-        foreach ($this->getCustomFields($this->reselling_partner) as $field) {
+        foreach ($this->getCustomFields($key) as $field) {
             $customData[$field] = $this->{$field} ?? '';
             unset($this->{$field});
         }
