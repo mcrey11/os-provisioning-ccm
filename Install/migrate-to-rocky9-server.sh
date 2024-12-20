@@ -3,7 +3,7 @@
 targetDb=nmsprime
 test=false
 
-test () {
+localTest () {
     return
 }
 
@@ -413,7 +413,7 @@ do
 	esac
 done
 
-test
+localTest
 prepareVm
 copyRootFolder
 $test || setupBackup
