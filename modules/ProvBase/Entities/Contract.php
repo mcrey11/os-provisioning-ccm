@@ -1537,7 +1537,7 @@ class Contract extends \BaseModel
             // this rebuilds configfile, too (at least one relevant field changed)
             if ($modem->getDirty()) {
                 $modem->save();
-                $modem->restart_modem();
+
                 continue;
             }
 
