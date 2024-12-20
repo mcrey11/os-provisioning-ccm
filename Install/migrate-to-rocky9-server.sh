@@ -8,7 +8,9 @@ localTest () {
 }
 
 finalize () {
-    php artisan optimize
+    php /var/www/nmsprime/artisan optimize
+    php /var/www/nmsprime/artisan nms:dhcp
+    systemctl restart dhcpd
     php /var/www/nmsprime/artisan nms:configfile
     php /var/www/nmsprime/artisan nms:icinga-netelement all
 }
