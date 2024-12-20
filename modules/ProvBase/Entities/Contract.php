@@ -330,7 +330,7 @@ class Contract extends \BaseModel
      */
     private function hasWarnings(): bool
     {
-        if ($this->items->isEmpty()) {
+        if (Module::collections()->has('BillingBase') && $this->items->isEmpty()) {
             return true;
         }
 
