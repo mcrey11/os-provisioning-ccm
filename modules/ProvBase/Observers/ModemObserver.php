@@ -270,11 +270,7 @@ class ModemObserver
         }
 
         if ($modem->isTR069()) {
-            $modem->deleteGenieAcsProvision();
-            $modem->deleteGenieAcsPreset();
-            $modem->deleteGenieAcsTasks();
-            $modem->factoryReset();
-            $modem->deleteGenieAcsDevice();
+            \Queue::pushOn('serial', new \Modules\ProvBase\Jobs\HandleGenieAcsPresetJob($modem, null, true));
         }
 
         $modem->updateRadius();

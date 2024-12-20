@@ -25,7 +25,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Modules\ProvBase\Entities\ProvBase;
 
-class CreateGenieAcsPresetJob implements ShouldQueue
+class HandleGenieAcsPresetJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -38,10 +38,11 @@ class CreateGenieAcsPresetJob implements ShouldQueue
     {
         $this->modem = $modem;
         $this->text = $text;
+        $this->delete = $delete;
     }
 
     /**
-     * Create TR-069 configfile.
+     * Handle TR-069 configfile.
      * GenieACS API: http://docs.genieacs.com/en/latest/
      *
      * @author Ole Ernst
@@ -50,6 +51,16 @@ class CreateGenieAcsPresetJob implements ShouldQueue
      */
     public function handle()
     {
+        if ($this->delete) {
+            $this->modem->deleteGenieAcsPreset();
+            $this->modem->deleteGenieAcsProvision();
+            $this->modem->deleteGenieAcsTasks();
+            $this->modem->factoryReset();
+            $this->modem->deleteGenieAcsDevice();
+
+            return;
+        }
+
         $text = $this->text ?? $this->modem->configfile->text;
         if (! $text) {
             return;

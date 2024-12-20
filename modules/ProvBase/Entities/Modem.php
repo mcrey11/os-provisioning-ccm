@@ -1099,8 +1099,8 @@ class Modem extends \BaseModel
 
         if ($this->isTR069()) {
             \Queue::pushOn(
-                'low',
-                new \Modules\ProvBase\Jobs\CreateGenieAcsPresetJob($this, $this->configfile->text_make($this, 'tr069'))
+                'serial',
+                new \Modules\ProvBase\Jobs\HandleGenieAcsPresetJob($this, $this->configfile->text_make($this, 'tr069'), false)
             );
 
             return;
