@@ -298,10 +298,10 @@ migrateNmsprimeDB () {
     '
 
     remoteCmd="$remoteCmd
-        sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c \"COPY (select * from monitoring.modems $limit) TO '$dir/monitoring.modems.pgsql';\";
-        sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c \"COPY (select * from monitoring.modems_summary_30minutes $limit) TO '$dir/monitoring.modems_summary_30minutes.pgsql';\";
-        sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c \"COPY (select * from monitoring.modems_summary_2hours $limit) TO '$dir/monitoring.modems_summary_2hours.pgsql';\";
         sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c \"COPY (select * from monitoring.modems_summary_24hours $limit) TO '$dir/monitoring.modems_summary_24hours.pgsql';\";
+        sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c \"COPY (select * from monitoring.modems_summary_2hours $limit) TO '$dir/monitoring.modems_summary_2hours.pgsql';\";
+        sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c \"COPY (select * from monitoring.modems_summary_30minutes $limit) TO '$dir/monitoring.modems_summary_30minutes.pgsql';\";
+        sudo -u postgres /usr/pgsql-13/bin/psql nmsprime -c \"COPY (select * from monitoring.modems $limit) TO '$dir/monitoring.modems.pgsql';\";
     "
 
     ssh $centos7Server "$remoteCmd"
