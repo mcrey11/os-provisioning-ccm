@@ -103,10 +103,9 @@ prepareHttpdConf () {
     acsFile=/etc/httpd/conf.d/nmsprime-acs.conf
 
     sed -i 's/[^#] SSLCertificate/  # SSLCertificate/' $adminFile
-    #lineAdmin=$(grep -n "SSLCertificate" $adminFile | tail -1 | cut -d ':' -f1)
+    sed -i 's/[^#] SSLCertificate/  # SSLCertificate/' $acsFile
     if [ -f $cccFile ]; then
         sed -i 's/[^#] SSLCertificate/  # SSLCertificate/' $cccFile
-        #lineCcc=$(grep -n "SSLCertificate" $cccFile | tail -1 | cut -d ':' -f1)
     fi
 
     certs=$(ssh $centos7Server "grep SSLCertificate $adminFile | grep -v \"#.*SSLCertificate\" | cut -d '/' -f2-10")
