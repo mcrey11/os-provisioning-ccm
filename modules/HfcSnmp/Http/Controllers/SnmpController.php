@@ -235,6 +235,8 @@ class SnmpController extends \BaseController
             $data = $this->getSnmpValues(false, $params);
             // $data = json_encode(['.1.2.3.3.3' => rand(1, 100), '.1.23.4.5' => rand(1, 100)]);    // Testdata
             $queryTime = microtime(true) - $start;
+
+            // Note: Can probably be removed with PHP 8.4 as SSL bug (eof) should be fixed then with libcurl version > 7.88
             $chunks = $this->getDataChunks($data);
 
             foreach ($chunks as $chunk) {
