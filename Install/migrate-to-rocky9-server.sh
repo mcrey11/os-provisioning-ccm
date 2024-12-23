@@ -447,11 +447,12 @@ finalize
 echo ""
 echo "ATTENTION: DON'T FORGET TO DO MANUAL TASKS!"
 cd /var/www/nmsprime/
-tail -15 $(realpath "$0")
+tail -16 $(realpath "$0")
 
 # TODOs
     # Check and restart firewall manually
     # Check + Add (static) routes
+        # ip r | grep via | grep -v "default" | cut -d ' ' -f1,3 | sed -e 's/ /,/' -e 's/^/route=/'
     # Merge /etc/genieacs/genieacs.env
     # Setup httpd ssl certificates - grep "SSLCertificate" /etc/httpd/conf.d/nmsprime-admin.conf
         # /etc/httpd/conf.d/nmsprime-acs.conf
