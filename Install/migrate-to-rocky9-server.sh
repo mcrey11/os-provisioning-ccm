@@ -131,7 +131,7 @@ prepareHttpdConf () {
 
 mergeNmsEnv () {
     # global.env - copy map API keys
-    for key in $(echo "GOOGLE_API_KEY HERE_GEOCODE_API_KEY HERE_JS_API_KEY OSM_NOMINATIM_EMAIL"); do
+    for key in $(echo "APP_LOCALE APP_TIMEZONE GOOGLE_API_KEY HERE_GEOCODE_API_KEY HERE_JS_API_KEY OSM_NOMINATIM_EMAIL"); do
         entry=$(ssh $centos7Server "grep $key /etc/nmsprime/env/global.env");
         sed -i "s/$key=.*/$entry/" /etc/nmsprime/env/global.env
     done
