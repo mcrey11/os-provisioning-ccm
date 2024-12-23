@@ -15,6 +15,11 @@ finalize () {
     php /var/www/nmsprime/artisan nms:icinga-netelement all
 }
 
+configureSystem () {
+    scp $centos7Server:/etc/sysctl.conf /etc/sysctl.conf
+    sysctl -p
+}
+
 copyRootFolder () {
     scp -r $centos7Server:/root/*tinker* /root/
     scp $centos7Server:/root/*.sh /root/
@@ -54,7 +59,7 @@ migrateDhcp () {
     systemctl stop dhcpd
     rsync -aI -e ssh --exclude='cmts_gws/' $centos7Server:/etc/dhcp-nmsprime/ /etc/dhcp-nmsprime/
     scp $centos7Server:/var/lib/dhcpd/dhcpd*.leases /var/lib/dhcpd/
-    scp -q $centos7Server:/var/lib/dhcpd/data_retention.sh /var/lib/dhcpd/data_retention.sh 2> /dev/null
+    scp -q $centos7Server:/var/lib/dhcpd/data_retention* /var/lib/dhcpd/ 2> /dev/null
     php /var/www/nmsprime/artisan nms:dhcp
     systemctl start dhcpd
 }
@@ -134,6 +139,9 @@ mergeNmsEnv () {
     # Just copy
     scp $centos7Server:/etc/nmsprime/env/ticket.env /etc/nmsprime/env/ticket.env
     test -f /etc/nmsprime/env/provvoipenvia.env && scp $centos7Server:/etc/nmsprime/env/provvoipenvia.env /etc/nmsprime/env/provvoipenvia.env
+    test -f /etc/nmsprime/env/overduedebts.env && scp $centos7Server:/etc/nmsprime/env/overduedebts.env /etc/nmsprime/env/overduedebts.env
+
+    # php artisan config:cache
 }
 
 migrateGenieAcs () {
@@ -375,8 +383,8 @@ migrateStorage () {
 }
 
 migrateTftp () {
-    # firmware files
     rsync -a -e ssh $centos7Server:/tftpboot/fw/* /tftpboot/fw
+    rsync -a -e ssh $centos7Server:/tftpboot/dialplan/* /tftpboot/dialplan
 }
 
 prepareVm () {
@@ -416,6 +424,7 @@ done
 
 localTest
 prepareVm
+configureSystem
 copyRootFolder
 $test || setupBackup
 configureFirewalld
