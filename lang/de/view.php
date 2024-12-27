@@ -836,7 +836,7 @@ return [
         'functions' => [
             'postInvoices' => 'Erstelle PDF mit postalischen Rechnungen',
             'revenueList' => 'Erstelle Umsatzliste (pro Kostenstelle)',
-            'sendIppayTransactions' => 'Sende IPpay Transaktionen',
+            'sendTransactions' => 'Sende Transaktionen',
         ],
         'repeat' => 'Wiederhole für SEPA-Konto',
         'restart' => 'Rechnungslauf neustarten',
