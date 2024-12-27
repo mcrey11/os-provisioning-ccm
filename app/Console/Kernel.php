@@ -280,6 +280,14 @@ class Kernel extends ConsoleKernel
 
             // Remove all old CDRs & Invoices
             $schedule->call('\Modules\BillingBase\Entities\Invoice@cleanup')->monthly();
+
+            if ($modules->has('PaymentGws')) {
+                $schedule->call(function () {
+                    $sr = \Modules\BillingBase\Entities\SettlementRun::where('verified', true)->orderBy('id', 'desc')->first();
+
+                    Queue::pushOn('low', new \Modules\PaymentGws\Jobs\SendTransactionsJob($sr));
+                })->dailyAt('05:12');
+            }
         }
 
         if ($modules->has('ProvVoip')) {
