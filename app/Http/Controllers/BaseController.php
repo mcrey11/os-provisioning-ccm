@@ -1668,7 +1668,7 @@ class BaseController extends Controller
         $model = static::get_model_obj();
         $dtConfig = $model->view_index_label();
         $headerFields = $dtConfig['index_header'];
-        $translateBooleanColumnsData = $dtConfig['translateBooleanColumns'];
+        $translateBooleanColumnsData = $dtConfig['translateBooleanColumns'] ?? [];
         $joins = $dtConfig['join'] ?? [];
         $editColumnData = $dtConfig['edit'] ?? [];
         $filterColumnData = $dtConfig['filter'] ?? [];
