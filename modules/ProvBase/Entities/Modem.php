@@ -1041,14 +1041,13 @@ class Modem extends \BaseModel
      */
     public function blockCpeViaDhcp($unblock = false, $macChanged = false)
     {
-        // Open file and lock/wait for lock
-        // Do so for the whole method and release before returning
-        $fh = fopen(self::BLOCKED_CPE_FILE_PATH, 'c+');
-        flock($fh, LOCK_EX);
-
         // Add (Block)
         if (! $unblock) {
+            $fh = fopen(self::BLOCKED_CPE_FILE_PATH, 'c+');
+            flock($fh, LOCK_EX);
+
             exec('grep -i '.$this->mac.' '.self::BLOCKED_CPE_FILE_PATH, $out, $ret);
+            $out = [];
 
             // not found
             if ($ret) {
@@ -1059,14 +1058,17 @@ class Modem extends \BaseModel
                 Log::info("DHCP - Add modem $this->id ($this->mac) to list for blocked CPEs");
             }
 
-            if (! $macChanged) {
-                fclose($fh);    // Close (and release lock)
+            fclose($fh);    // Close (and release lock)
 
+            if (! $macChanged) {
                 return;
             }
         }
 
         // Remove (Unblock)
+        $fh = fopen(self::BLOCKED_CPE_FILE_PATH, 'c+');
+        flock($fh, LOCK_EX);
+
         $mac = $macChanged ? $this->getRawOriginal('mac') : $this->mac;
 
         exec('grep -vi '.$mac.' '.self::BLOCKED_CPE_FILE_PATH, $out, $ret);
