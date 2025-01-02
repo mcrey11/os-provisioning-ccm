@@ -1686,23 +1686,22 @@ class BaseController extends Controller
         }
 
         foreach ($joins as $join) {
-            $joinTable = $join['table'];
-            $localKey = $join['local_key'];
-            $foreignKey = $join['foreign_key'];
-            $joinType = $join['type'] ?? 'inner';
-            $joinGroupBy = $join['group_by'] ?? null;
-
-            switch ($joinType) {
+            switch ($join['type'] ?? null) {
                 case 'left':
-                    $query->leftJoin($joinTable, $localKey, '=', $foreignKey);
+                    $query->leftJoin($join['table'], $join['local_key'], '=', $join['foreign_key']);
+                    break;
+                case 'leftsub':
+                    $query->leftJoinSub($join['query'], $join['table'], function ($joinQuery) use ($join) {
+                        $joinQuery->on($join['local_key'], '=', $join['foreign_key']);
+                    });
                     break;
                 default:
-                    $query->join($joinTable, $localKey, '=', $foreignKey);
+                    $query->join($join['table'], $join['local_key'], '=', $join['foreign_key']);
                     break;
             }
 
-            if ($joinGroupBy) {
-                $query->groupBy($joinGroupBy);
+            if ($join['group_by'] ?? null) {
+                $query->groupBy($join['group_by']);
             }
         }
 
@@ -1713,6 +1712,12 @@ class BaseController extends Controller
         if (isset($dtConfig['scope'])) {
             $scope = $dtConfig['scope'];
             $query->$scope();
+        }
+
+        if (isset($dtConfig['selectRaw'])) {
+            foreach ($dtConfig['selectRaw'] as $selectRaw) {
+                $query->selectRaw($selectRaw);
+            }
         }
 
         $DT = DataTables::make($query)
@@ -1734,11 +1739,15 @@ class BaseController extends Controller
         }
         */
 
-        // TODO: Just set this in where clause in query?
+        // Filters
         foreach ($filterColumnData as $column => $customQuery) {
             // backward compatibility – accept strings as input, too
             if (is_string($customQuery)) {
                 $customQuery = ['query' => $customQuery, 'eagers' => [], 'exact' => false];
+            } elseif (is_callable($customQuery)) {
+                $DT->filterColumn($column, $customQuery);
+
+                continue;
             } elseif (! is_array($customQuery)) {
                 throw new \Exception('$customQuery has to be string or array');
             }
@@ -1756,6 +1765,7 @@ class BaseController extends Controller
             });
         }
 
+        // Edits
         $firstColumn = head($headerFields);
         if (Str::startsWith(head($headerFields), $dtConfig['table'])) {
             $firstColumn = substr($firstColumn, strlen($dtConfig['table']) + 1);
@@ -1825,6 +1835,7 @@ class BaseController extends Controller
             }
         }
 
+        // Colors
         $DT->setRowClass(function ($model) {
             if (method_exists($model, 'get_bsclass')) {
                 return $model->get_bsclass();

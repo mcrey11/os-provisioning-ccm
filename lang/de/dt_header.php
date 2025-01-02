@@ -27,6 +27,7 @@ return [
     'floor' => 'Etage',
     'group_contract' => 'Gruppen-vertrag',
     'house_nr' => 'Hausnr',
+    'ia_blocked' => 'gesperrt',
     'iban' => 'IBAN',
     'id'            => 'ID',
     'invoice_date' => 'Rechnungsdatum',

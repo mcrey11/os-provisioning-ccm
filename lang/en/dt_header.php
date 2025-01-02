@@ -27,6 +27,7 @@ return [
     'floor' => 'Floor',
     'group_contract' => 'Group contract',
     'house_nr' => 'Housenr',
+    'ia_blocked' => 'internet access blocked',
     'iban' => 'IBAN',
     'id'            => 'ID',
     'invoice_date' => 'Date of invoice',
