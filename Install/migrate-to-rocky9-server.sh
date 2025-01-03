@@ -187,6 +187,9 @@ migrateIcinga () {
     done
 
     sudo -u postgres psql icinga2 < /tmp/icinga2.psql
+
+    scp $centos7Server:/etc/icinga2/conf.d/{users,notifications}.conf /etc/icinga2/conf.d/
+    systemctl restart icinga2
 }
 
 migrateLogs () {
@@ -447,7 +450,7 @@ finalize
 echo ""
 echo "ATTENTION: DON'T FORGET TO DO MANUAL TASKS!"
 cd /var/www/nmsprime/
-tail -16 $(realpath "$0")
+tail -17 $(realpath "$0")
 
 # TODOs
     # Check and restart firewall manually
@@ -461,6 +464,7 @@ tail -16 $(realpath "$0")
         # DB conf (/etc/voipmonitor.conf on Voipmon server)
         # SSH tunnel
     # systemctl start radiusd
+    # Merge Mail account - grep "smtp=" /etc/mail.rc --> /etc/s-nail.rc
 
 # VERIFICATION
     # Modem analysis page
