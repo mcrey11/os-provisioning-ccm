@@ -140,6 +140,7 @@ mergeNmsEnv () {
     scp $centos7Server:/etc/nmsprime/env/ticket.env /etc/nmsprime/env/ticket.env
     test -f /etc/nmsprime/env/provvoipenvia.env && scp $centos7Server:/etc/nmsprime/env/provvoipenvia.env /etc/nmsprime/env/provvoipenvia.env
     test -f /etc/nmsprime/env/overduedebts.env && scp $centos7Server:/etc/nmsprime/env/overduedebts.env /etc/nmsprime/env/overduedebts.env
+    test -f /etc/nmsprime/env/hfccustomer.env && scp $centos7Server:/etc/nmsprime/env/hfccustomer.env /etc/nmsprime/env/hfccustomer.env
 
     # php artisan config:cache
 }
