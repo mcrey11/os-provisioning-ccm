@@ -422,6 +422,7 @@ class NetGw extends \BaseModel
         foreach (Storage::files(self::US_SNR_PATH) as $file) {
             // ignore files older than 10 minutes, e.g. from a decommissioned cmts
             if (Storage::lastModified($file) > $outdated &&
+                Str::endsWith($file, '.json') &&
                 ($snrs = json_decode(Storage::get($file), true)) !== null &&
                 array_key_exists($ip, $snrs)) {
                 return $snrs[$ip];
