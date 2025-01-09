@@ -103,11 +103,6 @@ return [
     'Menu_DFSubscriptionEvents' => 'Dreamfiber events',
     'Menu_Invoices'             => 'Invoices',
 
-    // CCC
-    'Menu_Ccc_Invoices'         => 'My invoices',
-    'Menu_Ccc_Documents'        => 'Documents',
-    'Menu_Ccc_Speedtest'        => 'Speedtest',
-
     //User Settings
     'Menu_UserSettings'         => 'User Settings',
     'Menu_UserGlobSettings'     => 'Global User Settings',
@@ -431,6 +426,15 @@ return [
         'Grafana' => 'The open and composable observability and data visualization platform.',
         // source https://icinga.com/docs/icinga-2/latest
         'Icinga' => 'Icinga is a monitoring system which checks the availability of your network resources, notifies users of outages, and generates performance data for reporting.',
+    ],
+
+    'menu' => [
+        'ccc' => [
+            'invoices' => 'My invoices',
+            'documents' => 'Documents',
+            'paymentMethod' => 'Payment method',
+            'speedtest' => 'Speedtest',
+        ],
     ],
 
     // NetElement

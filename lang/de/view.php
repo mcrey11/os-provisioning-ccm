@@ -103,11 +103,6 @@ return [
     'Menu_DFSubscriptionEvents' => 'Dreamfiber-Ereignisse',
     'Menu_Invoices'             => 'Rechnungen',
 
-    // CCC
-    'Menu_Ccc_Invoices'         => 'Meine Rechnungen',
-    'Menu_Ccc_Documents'            => 'Dokumente',
-    'Menu_Ccc_Speedtest'            => 'Speedtest',
-
     //User Settings
     'Menu_UserSettings'         => 'Nutzereinstellungen',
     'Menu_UserGlobSettings'     => 'Globale Nutzereinstellungen',
@@ -431,6 +426,15 @@ return [
         'Grafana' => 'Plattformübergreifende Open-Source-Anwendung zur grafischen Darstellung von Daten aus verschiedenen Datenquellen.',
         // source: own translation
         'Icinga' => 'Anwendung zur System-und Netzwerküberwachung.',
+    ],
+
+    'menu' => [
+        'ccc' => [
+            'invoices' => 'Meine Rechnungen',
+            'documents' => 'Dokumente',
+            'paymentMethod' => 'Zahlmethode',
+            'speedtest' => 'Speedtest',
+        ],
     ],
 
     // NetElement
