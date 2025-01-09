@@ -49,6 +49,13 @@ class UserObserver
         }
     }
 
+    public function updated($user)
+    {
+        if ($this->haveRolesChanged($user)) {
+            Bouncer::refreshFor($user);
+        }
+    }
+
     public function deleting($user)
     {
         $self = \Auth::user();
@@ -61,5 +68,17 @@ class UserObserver
         if ($self->hasSameRankAs($user) || $self->hasLowerRankThan($user)) {
             return false;
         }
+    }
+
+    private function haveRolesChanged($user): bool
+    {
+        if (! request()->has('roles_ids')) {
+            return false;
+        }
+
+        $oldRoles = $user->roles()->pluck('id')->all();
+        $newRoles = array_map(fn ($value): int => intval($value), request()->get('roles_ids'));
+
+        return array_diff($oldRoles, $newRoles) ? true : false;
     }
 }

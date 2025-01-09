@@ -145,8 +145,6 @@ class UserController extends BaseController
             session()->forget('GlobalNotification.shouldChangePassword');
         }
 
-        Bouncer::refresh();
-
         return parent::prepare_input_post_validation($data);
     }
 
