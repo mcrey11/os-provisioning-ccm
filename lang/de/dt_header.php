@@ -157,10 +157,11 @@ return [
     'item.accounting_text' => 'Verwendungszweck',
     'fee' => 'Gebühr',
     'product' => [
-        'proportional' => 'Anteilig',
-        'type' => 'Typ',
+        'maturity_min' => 'Mindestlaufzeit',
         'name' => 'Produkt',
         'price' => 'Preis',
+        'proportional' => 'Anteilig',
+        'type' => 'Typ',
     ],
     // Salesman
     'salesman.id' => 'ID',

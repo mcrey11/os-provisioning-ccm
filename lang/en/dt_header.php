@@ -157,10 +157,11 @@ return [
     'item.accounting_text' => 'Purpose',
     'fee' => 'Fee',
     'product' => [
-        'proportional' => 'Proportionate',
-        'type' => 'Type',
+        'maturity_min' => 'Minimum maturity',
         'name' => 'Product Name',
         'price' => 'Price',
+        'proportional' => 'Proportionate',
+        'type' => 'Type',
     ],
     // Salesman
     'salesman.id' => 'ID',
