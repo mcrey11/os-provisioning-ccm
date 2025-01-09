@@ -725,6 +725,9 @@ return [
             'multiSuccess' => 'Deleted :deleted out of :to_delete :model',
         ],
     ],
+    'paymentGwResponse' => [
+        'success' => 'Successfully updated payment method!',
+    ],
     'pleaseWait'                => 'This may take a few seconds. Please wait until the process has finished.',
     'import'                    => 'Import',
     'exportConfigfiles'         => 'Export this Configfile and all it\'s children.',

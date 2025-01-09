@@ -725,6 +725,9 @@ return [
             'multiSuccess' => ':deleted von :to_delete :model gelöscht',
         ],
     ],
+    'paymentGwResponse' => [
+        'success' => 'Bezahlmethode erfolgreich gespeichert!',
+    ],
     'pleaseWait'                => 'Das Erstellen des Spektrums kann einige Sekunden dauern.',
     'import'                    => 'Importieren',
     'exportConfigfiles'         => 'Exportiert diese Konfigurationsdatei und deren untergeordnete Dateien.',
