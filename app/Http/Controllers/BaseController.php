@@ -1681,8 +1681,8 @@ class BaseController extends Controller
         foreach ($translateBooleanColumnsData as $column) {
             // use BaseModel::boolToLanguageString() method to translate boolean values
             $editColumnData[$column] = 'boolToLanguageString';
-            // use BaseMdodel::boolToStringFilter method for filtering in datatables
-            $filterColumnData[$column] = \App\BaseModel::boolToStringFilter($column);
+            // use BaseModel::boolToStringFilter method for filtering in datatables
+            $filterColumnData[$column] = BaseModel::boolToStringFilter($column);
         }
 
         foreach ($joins as $join) {
@@ -1797,8 +1797,12 @@ class BaseController extends Controller
         foreach ($editColumnData as $column => $functionname) {
             $param = null;
             if (is_string($functionname) && ('boolToLanguageString' == $functionname)) {
+                if (strpos($column, '.') !== false) {
+                    $column = substr($column, strrpos($column, '.') + 1);
+                }
                 $param = $column;
             }
+
             if ($column == $firstColumn) {
                 $DT->editColumn($column, function ($model) use ($functionname) {
                     $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
