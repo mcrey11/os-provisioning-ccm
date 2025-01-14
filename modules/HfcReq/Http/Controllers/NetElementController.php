@@ -205,6 +205,9 @@ class NetElementController extends BaseController
         return auth()->user()->favNetelements()->detach([$netelement->id]);
     }
 
+    /**
+     * Get results from net search in left sidebar
+     */
     public function searchForNetsAndClusters(Request $request)
     {
         if (! $request->get('query')) {
@@ -219,10 +222,14 @@ class NetElementController extends BaseController
             ->where('name', 'ilike', '%'.$request->get('query').'%')
             ->limit(25)
             ->orderBy('base_type_id', 'ASC')
+            ->orderBy('name')
             ->get(['name', 'id', 'base_type_id'])
             ->toJson();
     }
 
+    /**
+     * Get clusters of net when elapsing a net in left sidebar
+     */
     public function searchClusters($netId)
     {
         return NetElement::without('netelementtype')
@@ -230,6 +237,8 @@ class NetElementController extends BaseController
             ->where('net', $netId)
             ->limit(25)
             ->get(['name', 'id', 'base_type_id'])
+            ->sortBy('name', SORT_NATURAL)
+            ->values()
             ->toJson();
     }
 }
