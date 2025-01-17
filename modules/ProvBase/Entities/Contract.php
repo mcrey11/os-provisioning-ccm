@@ -437,7 +437,9 @@ class Contract extends \BaseModel
                 $ret[$i18nContract]['DebtResult']['view']['vars']['bsclass'] = $resultingDebt['bsclass'];
 
                 $ret['Billing']['Debt']['class'] = 'Debt';
-                $ret['Billing']['Debt']['relation'] = $this->debts;
+                $ret['Billing']['Debt']['count'] = $this->debtCount;
+                $ret['Billing']['Debt']['relation'] = $this->debtCount >= $relationThreshold ?
+                    collect([new \Modules\OverdueDebts\Entities\Debt()]) : $this->debts;
             }
 
             $ret['Billing']['Invoice']['class'] = 'Invoice';
@@ -532,6 +534,11 @@ class Contract extends \BaseModel
             $this->items_count = $this->items->count();
         }
 
+        if (Module::collections()->has('OverdueDebts')) {
+            $this->setRelation('debts', $this->debts()->limit($threshold)->get());
+            $this->debtCount = $this->debts->count();
+        }
+
         if ($this->relationLoaded('modems')) {
             $this->modems_count = $this->modems->count();
 
@@ -572,6 +579,11 @@ class Contract extends \BaseModel
     public function debts()
     {
         return $this->hasMany(\Modules\OverdueDebts\Entities\Debt::class)->orderBy('date', 'desc')->orderBy('id', 'desc');
+    }
+
+    public function unclearedDebts()
+    {
+        return $this->debts()->where('cleared', false);
     }
 
     public function modems()
@@ -1731,13 +1743,13 @@ class Contract extends \BaseModel
     public function resultingDebt()
     {
         // https://stackoverflow.com/questions/17210787/php-float-calculation-error-when-subtracting
-        // return \Modules\OverdueDebts\Entities\Debt::where('contract_id', $this->id)
-        //     ->groupBy('contract_id')
+        // $sum = $this->unclearedDebts()
         //     ->select('missing_amount')
         //     ->sum('missing_amount');
+        // return round($sum, 2);
 
         $totalAmount = 0;
-        foreach ($this->debts as $debt) {
+        foreach ($this->unclearedDebts as $debt) {
             $totalAmount += $debt->missing_amount;
         }
 
@@ -1788,7 +1800,7 @@ class Contract extends \BaseModel
         }
 
         $parser = new \Modules\OverdueDebts\Utils\DefaultTransactionParser;
-        $debts = clone $this->debts;
+        $debts = clone $this->unclearedDebts;
 
         // Filter special debts to exclude (special voucher number and customer had less then 4 weeks to pay)
         foreach ($debts as $key => $debt) {
