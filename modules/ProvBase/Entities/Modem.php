@@ -83,6 +83,9 @@ class Modem extends \BaseModel
         'sw_rev',
     ];
 
+    /** @var string GenieACS model ID - temporary storage to not call GenieACS multiple times */
+    private $genieId;
+
     public function rules()
     {
         $id = $this->id ?: 0;
@@ -1364,7 +1367,7 @@ class Modem extends \BaseModel
      */
     public function getGenieAcsTasks()
     {
-        $genieId = rawurlencode($this->getGenieAcsModel('_id'));
+        $genieId = $this->getGenieId();
 
         return self::callGenieAcsApi("tasks?query={\"device\":\"$genieId\"}", 'GET');
     }
@@ -1378,7 +1381,7 @@ class Modem extends \BaseModel
      */
     public function createSyncPreset()
     {
-        $id = rawurlencode($this->getGenieAcsModel('_id'));
+        $id = $this->getGenieId();
 
         $preset = [
             'weight' => 0,
@@ -1433,7 +1436,7 @@ class Modem extends \BaseModel
      */
     public function deleteGenieAcsDevice()
     {
-        $genieId = rawurlencode($this->getGenieAcsModel('_id'));
+        $genieId = $this->getGenieId();
         self::callGenieAcsApi("devices/$genieId", 'DELETE');
     }
 
@@ -2107,8 +2110,12 @@ class Modem extends \BaseModel
      */
     public function getGenieId($percentEncode = true)
     {
+        if (! $genieId = $this->genieId) {
+            $genieId = $this->getGenieAcsModel('_id');
+        }
+
         // rawurlencode for API/URI else to grep logs
-        return $percentEncode ? rawurlencode($this->getGenieAcsModel('_id')) : $this->getGenieAcsModel('_id');
+        return $percentEncode ? rawurlencode($genieId) : $genieId;
     }
 
     /**
@@ -2722,7 +2729,7 @@ class Modem extends \BaseModel
                 array_map(fn ($entry) => $entry[0], $entries['entries'])
             );
 
-            $id = rawurlencode($this->getGenieAcsModel('_id'));
+            $id = $this->getGenieId();
             self::callGenieAcsApi("devices/$id/tasks?connection_request", 'POST', json_encode($request));
         }
 
