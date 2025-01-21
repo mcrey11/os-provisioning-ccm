@@ -97,6 +97,8 @@ class Modem extends \BaseModel
             'serial_num' => ["iunique:modem,serial_num,{$id},id,deleted_at,NULL"],
             'ppp_username' => ["unique:modem,ppp_username,{$id},id,deleted_at,NULL", 'not_regex:/\s/'],
             'installation_address_change_date' => ['nullable', 'date_format:Y-m-d'],
+            'lat' => ['nullable', 'numeric'],
+            'lng' => ['nullable', 'numeric'],
         ];
 
         if (! Module::collections()->has('BillingBase')) {
