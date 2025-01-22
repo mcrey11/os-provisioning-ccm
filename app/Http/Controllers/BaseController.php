@@ -58,16 +58,19 @@ class BaseController extends Controller
     protected $second_button_name = 'Missing action name';
     protected $second_button_title_key = null;
     protected $second_button_icon = null;
+    protected $second_button_class = 'primary';
 
     protected $edit_view_third_button = false;
     protected $third_button_name = 'Missing action name';
     protected $third_button_title_key = null;
     protected $third_button_icon = null;
+    protected $third_button_class = 'primary';
 
     protected $edit_view_fourth_button = false;
     protected $fourth_button_name = 'Missing action name';
     protected $fourth_button_title_key = null;
     protected $fourth_button_icon = null;
+    protected $fourth_button_class = 'primary';
 
     protected $printButton = false;
 
@@ -577,12 +580,15 @@ class BaseController extends Controller
         $a['edit_view_second_button'] = $this->edit_view_second_button;
         $a['second_button_title_key'] = $this->second_button_title_key;
         $a['second_button_icon'] = $this->second_button_icon;
+        $a['second_button_class'] = $this->second_button_class;
         $a['third_button_name'] = $this->third_button_name;
         $a['third_button_icon'] = $this->third_button_icon;
+        $a['third_button_class'] = $this->third_button_class;
         $a['edit_view_third_button'] = $this->edit_view_third_button;
         $a['third_button_title_key'] = $this->third_button_title_key;
         $a['fourth_button_name'] = $this->fourth_button_name;
         $a['fourth_button_icon'] = $this->fourth_button_icon;
+        $a['fourth_button_class'] = $this->fourth_button_class;
         $a['edit_view_fourth_button'] = $this->edit_view_fourth_button;
         $a['fourth_button_title_key'] = $this->fourth_button_title_key;
         $a['save_button_title_key'] = $this->save_button_title_key;

@@ -62,7 +62,7 @@
         @endif
         @if ($edit_view_second_button)
             <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-4 w-full" style="simple" name="_2nd_action" value="1" title="{{ $second_button_title }}">
+                <button type="submit" class="btn btn-{{ $second_button_class }} mt-4 w-full" style="simple" name="_2nd_action" value="1" title="{{ $second_button_title }}">
                     <i class="fa fa-{{ $second_button_icon }} fa-lg m-r-10" aria-hidden="true"></i>
                     {{ \App\Http\Controllers\BaseViewController::translate_view($second_button_name , 'Button') }}
                 </button>
@@ -70,7 +70,7 @@
         @endif
         @if ($edit_view_third_button)
             <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-4 w-full" style="simple" name="_3rd_action" value="1" title="{{ $third_button_title }}">
+                <button type="submit" class="btn btn-{{ $third_button_class }} mt-4 w-full" style="simple" name="_3rd_action" value="1" title="{{ $third_button_title }}">
                     <i class="fa fa-{{ $third_button_icon }} fa-lg m-r-10" aria-hidden="true"></i>
                     {{ \App\Http\Controllers\BaseViewController::translate_view($third_button_name , 'Button') }}
                 </button>
@@ -78,7 +78,7 @@
         @endif
         @if ($edit_view_fourth_button)
             <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-4 w-full" style="simple" name="_4th_action" value="1" title="{{ $fourth_button_title }}">
+                <button type="submit" class="btn btn-{{ $fourth_button_class }} mt-4 w-full" style="simple" name="_4th_action" value="1" title="{{ $fourth_button_title }}">
                     <i class="fa fa-{{ $fourth_button_icon }} fa-lg m-r-10" aria-hidden="true"></i>
                     {{ \App\Http\Controllers\BaseViewController::translate_view($fourth_button_name , 'Button') }}
                 </button>
