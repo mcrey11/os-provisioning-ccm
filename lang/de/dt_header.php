@@ -48,7 +48,7 @@ return [
         'occupied' => 'Bewohnt',
         'code' => 'WE-Schlüssel',
         'debts' => 'Ausstehender Betrag durch OPs',
-        'number' => 'Nummer',
+        'number' => 'WE-Nummer',
     ],
     'contact' => [
         'administration' => 'Hausverwaltung',

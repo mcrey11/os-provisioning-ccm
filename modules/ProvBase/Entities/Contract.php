@@ -216,7 +216,14 @@ class Contract extends \BaseModel
         $ret[] = 'street';
         $ret[] = $this->table.'.house_number';
         $ret[] = 'national_building_id';
-        $ret[] = $this->table.'.apartment_nr';
+
+        if (Module::collections()->has('PropertyManagement')) {
+            $ret[] = 'apartment.number';
+            $ret[] = 'contact_id';
+        } else {
+            $ret[] = $this->table.'.apartment_nr';
+        }
+
         $ret[] = $this->table.'.additional';
         $ret[] = $this->table.'.contract_start';
         $ret[] = $this->table.'.contract_end';
@@ -224,10 +231,6 @@ class Contract extends \BaseModel
 
         if (Module::collections()->has('BillingBase')) {
             $ret[] = 'costcenter.name';
-        }
-
-        if (Module::collections()->has('PropertyManagement')) {
-            $ret[] = 'contact_id';
         }
 
         $ret[] = 'created_at';
@@ -252,11 +255,22 @@ class Contract extends \BaseModel
         ];
 
         if (Module::collections()->has('BillingBase')) {
-            $ret['eager_loading'] = ['costcenter'];
+            $ret['eager_loading'] = ['apartment', 'costcenter'];
             $ret['edit']['costcenter.name'] = 'get_costcenter_name';
         }
 
         if (Module::collections()->has('PropertyManagement')) {
+            $ret['edit']['apartment.number'] = 'indexTableApartmentNr';
+            $ret['sortsearch'][] = ['apartment.number' => ['order' => 'false', 'search' => 'false']];
+            // Disabled because this join (needed for search and order) decreases performance dramatically - Can be enabled for small DBs or by adding an index
+            // $ret['join'] = [[
+            //     'table' => 'apartment',
+            //     'local_key' => $this->table.'.apartment_id',
+            //     'foreign_key' => 'contract.id',
+            //     // 'select' => ['apartment.number as ap_nr', 'apartment.floor'],
+            //     'type' => 'left',
+            // ]];
+            // $ret['filter']['apartment.number'] = "concat(apartment.floor, '/', apartment.number) ilike ?";
             $ret['edit']['contact_id'] = 'isGroupContractAsString';
             $ret['filter']['contact_id'] = $this->groupContractFilterQuery();
         }
@@ -267,6 +281,11 @@ class Contract extends \BaseModel
     public function isGroupContractAsString()
     {
         return $this->group_contract ? trans('view.true') : trans('view.false');
+    }
+
+    public function indexTableApartmentNr()
+    {
+        return $this->apartment ? $this->apartment->floor.'/'.$this->apartment->number : '';
     }
 
     /**
