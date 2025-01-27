@@ -1675,7 +1675,7 @@ class BaseController extends Controller
         $eagerLoadingTables = $dtConfig['eager_loading'] ?? [];
         $rawColumns = $dtConfig['raw_columns'] ?? []; // not run through htmlentities()
         $selectQuery = [$dtConfig['table'].'.*'];
-        $query = $model::selectRaw(implode(',', $joins ? array_merge($selectQuery, array_merge(...array_map(fn ($join) => $join['select'], $joins))) : $selectQuery));
+        $query = $model::selectRaw(implode(',', $joins ? array_merge($selectQuery, array_merge(...array_map(fn ($join) => $join['select'] ?? [], $joins))) : $selectQuery));
 
         // set edit and filter values for boolean columns to make them natural language and filterable
         foreach ($translateBooleanColumnsData as $column) {
