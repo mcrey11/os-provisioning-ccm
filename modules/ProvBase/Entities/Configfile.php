@@ -389,7 +389,7 @@ class Configfile extends \BaseModel
         /*
          * Search and Replace Configfile TEXT
          */
-        $text = str_replace($search, $replace, $this->text ?? $device->text);
+        $text = str_replace($search, $replace, $this->text ?? ($device->text ?: ''));
 
         $rows = explode("\n", $text);
 
