@@ -1161,7 +1161,7 @@ class ModemController extends \BaseController
             $ping = null;
         }
 
-        $lease['text'] = Modem::searchLease("mta-$mta->id.");
+        $lease['text'] = Modem::searchLease("mta-$mta->id\.");
         $lease = Modem::validateLease($lease, $type);
 
         $configfile = Modem::getConfigfileText("/tftpboot/mta/$mta->hostname");
@@ -1170,7 +1170,7 @@ class ModemController extends \BaseController
         $ip = gethostbyname($mta->hostname);
         $ip = $mta->hostname == $ip ? null : $ip;
         $mac = strtolower($mta->mac);
-        $search = $ip ? "$mac|$mta->hostname|$ip " : "$mac|$mta->hostname";
+        $search = $ip ? "$mac|$hostname|$ip " : "$mac|$hostname";
         $log = $modem->getSyslogEntries($search, '| tail -n 25 | tac');
 
         end:
