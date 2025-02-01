@@ -348,7 +348,7 @@ class ContractController extends \BaseController
         // label has to be the same like column in sql table
         $a = [
             // basic data
-            ['form_type' => 'text', 'name' => 'number', 'description' => $model->get_column_description('number'), 'help' => trans('helper.contract_number')],
+            ['form_type' => 'text', 'name' => 'number', 'description' => $model->get_column_description('number'), 'help' => trans('helper.contract.number')],
             [
                 'form_type' => 'collapse', 'name' => 'collapse', 'description' => trans('view.collapseNumbers'), 'space' => 1, 'form_fields' => [
                     ['form_type' => 'text', 'name' => 'number2', 'description' => $model->get_column_description('number2')],
@@ -359,7 +359,7 @@ class ContractController extends \BaseController
             // 'create' makes this field a hidden input field in Modem create form - so the company, etc. will be already set from contract when the user wants to create a new modem
             ['form_type' => 'text', 'name' => 'company', 'description' => 'Company', 'create' => ['Modem']],
             ['form_type' => 'text', 'name' => 'department', 'description' => 'Department', 'create' => ['Modem']],
-            ['form_type' => 'select', 'name' => 'salutation', 'description' => 'Salutation', 'value' => $model->getSalutationOptions(), 'create' => ['Modem']],
+            ['form_type' => 'select', 'name' => 'salutation', 'description' => 'Salutation', 'value' => $model->getSalutationOptions(), 'create' => ['Modem'], 'help' => trans('helper.contract.salutation')],
             ['form_type' => 'select', 'name' => 'academic_degree', 'description' => 'Academic Degree', 'value' => $model->getAcademicDegreeOptions()],
             ['form_type' => 'text', 'name' => 'firstname', 'description' => 'Firstname', 'create' => ['Modem']],
             ['form_type' => 'text', 'name' => 'lastname', 'description' => 'Lastname', 'create' => ['Modem'], 'space' => '1'],

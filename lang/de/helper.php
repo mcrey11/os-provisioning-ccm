@@ -137,6 +137,8 @@ return [
      */
     'contract' => [
         'lastAmendment' => 'Tag an dem die letzte Vertragsänderung vorgenommen wurde. Dies hat Einfluss auf die Vertragsbestätigung. Nur Tarife/Posten, die nach diesem Datum hinzugefügt wurden, werden aufgeführt und bezüglich der Bestimmung Laufzeiten einbezogen.',
+        'number' => 'Achtung - Kundenkennwort wird bei Änderung automatisch geändert!',
+        'salutation' => 'Zum Ändern der Optionen bitte die Datei(en) '.storage_path('app/config/provbase/formoptions/salutations_').'{person,institution}.txt ändern!',
         'valueDate' => 'Tag im Monat des separaten Buchungsdatums. Überschreibt das Fälligkeitsdatum aus den globalen Konfigurationen für diesen Vertrag in der SEPA XML. Die Bank bucht den Betrag dann an diesem Tag ab.',
     ],
     'rate_coefficient'              => 'MaxRateSustained wird mit diesem Wert multipliziert, um den Nutzer eine höhere (> 1.0) Übertragungsrate als gebucht zu gewähren.',
@@ -164,7 +166,6 @@ return [
         'not-supported' => 'Weniger als 80% der integrierten Module wurden als unterstützte Geräte gelistet.',
         'verifying' => 'Weniger als 80% der integrierten Module wurden als unterstützte Geräte gelistet. Das netGw befindet aber noch in der Verifikationszeitspanne von 6 Wochen.',
     ],
-    'contract_number'               => 'Achtung - Kundenkennwort wird bei Änderung automatisch geändert!',
     'mac_formats'                   => "Erlaubte Formate (Groß-/Kleinschreibung nicht unterschieden):\n\n1) AA:BB:CC:DD:EE:FF\n2) AABB.CCDD.EEFF\n3) AABBCCDDEEFF",
     'fixed_ip_warning'              => 'Die Nutzung fester IP Adressen ist nicht empfohlen, da hierbei Modems und ihre zugehörigen CPEs nicht mehr zwsichen NetGws verschoben werden können. Anstatt den Endkunden die jeweilige IP Adresse zu nennen, sollte ihnen der Hostname mitgeteilt werden, da sich dieser nicht ändert.',
     'addReverse'                    => 'Zum Setzen eines zusätzlichen Reverse DNS Eintrags, z.B. für E-Mail Server',

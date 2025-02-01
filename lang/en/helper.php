@@ -137,6 +137,8 @@ return [
      */
     'contract' => [
         'lastAmendment' => 'Day when last change to contract regarding tariffs was done. This influences the contract confirmation. Only tariffs added after this date will appear on the PDF and will be considered to determine periods.',
+        'number' => 'Attention - Customer login password is changed automatically on changing this field!',
+        'salutation' => 'To change the options please change the content of the file(s) '.storage_path('app/config/provbase/formoptions/salutations_').'{person,institution}.txt!',
         'valueDate' => 'Day of month for specific date of value. Overrides the requested collection date from global config for this contract in the SEPA XML.',
     ],
     'rate_coefficient'              => 'MaxRateSustained will be multiplied by this value to grant the user more (> 1.0) throughput than subscribed.',
@@ -164,7 +166,6 @@ return [
         'not-supported' => 'Less than 80% of netGw modules are listed as supported devices.',
         'verifying' => 'Less than 80% of netGw modules are listed as supported devices, but the netGw is still within the verification period of 6 weeks',
     ],
-    'contract_number'               => 'Attention - Customer login password is changed automatically on changing this field!',
     'mac_formats'                   => "Allowed formats (case-insensitive):\n\n1) AA:BB:CC:DD:EE:FF\n2) AABB.CCDD.EEFF\n3) AABBCCDDEEFF",
     'fixed_ip_warning'              => 'Using fixed IP address is highly discouraged, as this breaks the ability to move modems and their CPEs freely among NetGws. Instead of telling the customer a fixed IP address they should be supplied with the hostname, which will not change.',
     'addReverse'                    => 'To set an additional reverse DNS record, e.g. for e-mail servers',
