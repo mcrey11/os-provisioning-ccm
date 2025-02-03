@@ -157,6 +157,8 @@ return [
     'Main Menu'                 => 'Hauptmenü',
     'Maturity'                  => 'Laufzeit',
     'modem' => [
+        'restartedViaSnmp' => 'Das Modem wurde erfolgreich direkt über SNMP neu gestartet',
+        'restartedViaTr069' => 'Das Modem wurde erfolgreich über TR069 neugestartet',
         'setProvisionError' => 'Fehler beim Setzen der Modem Config (Provision) im ACS Server',
     ],
     'cdr'                   => 'Evn',
@@ -388,7 +390,6 @@ return [
     'modem_restart_warning_dns' => 'Neustart des Modems fehlgeschlagen, da der Hostname nicht aufgelöst werden konnte (Modem hat kein aktives DHCP Lease), um das verantwortliche NetGw zu ermitteln.',
     'Accounting Text (optional)'=> 'Verwendungszweck (optional)',
     'Cost Center (optional)'    => 'Kostenstelle (optional)',
-    'modem_restart_success_direct' => 'Das Modem wurde erfolgreich direkt über SNMP/TR069 neu gestartet',
     'modem_disconnect_radius_success' => 'Das Modem wurde erfolgreich über RADIUS (Change of Authorization) getrennt',
     'modem_disconnect_radius_warning' => 'Das Modem konnte wegen einer der nachfolgenden Gründe nicht per RADIUS neu gestartet werden:<ul><li>NetGw der PPP Session konnte nicht bestimmt werden</li><li>Das NAS Secret des NetGws wurde nicht gesetzt</li><li>Der Change of Authorization Port des NetGws wurde nicht gesetzt</li></ul>',
     'Item'                      => 'Posten',

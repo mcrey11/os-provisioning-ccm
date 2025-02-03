@@ -1462,129 +1462,39 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Restarts modem through snmpset
+     * Restart modem
+     *
+     * @var bool  mac_changed  Info to get proper OID when MAC has changed on a DOCSIS modem
+     * @var bool  modem_reset  Reset Modem directly via SNMP
+     * @var bool  factoryReset  Factory reset vs reboot for TR069 devices
+     * @var bool  silent  Doesnt push to session as e.g. analysis page would fail on reload then
+     *
+     * @author Nino Ryschawy
      */
-    public function restart($mac_changed = false, $modem_reset = false, $factoryReset = false)
+    public function restart($mac_changed = false, $modem_reset = false, $factoryReset = false, $silent = false)
     {
         // Log
         Log::info(($factoryReset ? 'factoryReset' : 'restart').' modem '.$this->hostname);
 
-        if (! $factoryReset && $this->successfulRadiusModemDisconnect()) {
+        if (! $factoryReset && $this->successfulRadiusModemDisconnect($silent)) {
             return;
         }
 
         if ($this->isSmartOnt()) {
-            /* Session::push('tmp_error_above_form', 'RESTARTING NOT YET IMPLEMENTED'); */
-            // not an error :-)
+            if (! $silent) {
+                Session::push('tmp_error_above_form', 'RESTARTING NOT YET IMPLEMENTED');
+            }
 
             return;
         }
 
         if ($this->isTR069()) {
-            $id = rawurlencode($this->getGenieAcsModel('_id'));
-            if (! $id) {
-                Session::push('tmp_error_above_form', trans('messages.modem_restart_error'));
-
-                return;
-            }
-
-            $action = $factoryReset ? 'factoryReset' : 'reboot';
-
-            if (json_decode(self::callGenieAcsApi("tasks?query={\"device\":\"$id\",\"name\":\"$action\"}", 'GET'))) {
-                // A factoryReset/reboot of device has already been scheduled, no need to spawn another task
-                return;
-            }
-
-            $timeout = config('provbase.cwmpConnectionRequestTimeout');
-            $conReq = config('provbase.cwmpConnectionRequest') ? '&connection_request' : '';
-            $success = self::callGenieAcsApi("devices/$id/tasks?timeout={$timeout}{$conReq}", 'POST', "{ \"name\" : \"$action\" }");
-            if (! $success) {
-                Session::push('tmp_error_above_form', trans('messages.modem_restart_error'));
-
-                return;
-            }
-
-            Session::push('tmp_info_above_form', trans('messages.modem_restart_success_direct'));
+            (new Tr069Modem($this))->restart(false, false, $factoryReset, $silent);
 
             return;
         }
 
-        // if hostname cant be resolved we dont want to have an php error
-        try {
-            $config = ProvBase::first();
-            $fqdn = $this->hostname.'.'.$config->domain_name;
-            $ip = gethostbyname($fqdn);
-            $netgw = self::get_netgw($ip);
-            $mac = $mac_changed ? $this->getRawOriginal('mac') : $this->mac;
-
-            if ($modem_reset) {
-                throw new \Exception('Reset Modem directly');
-            }
-
-            if ($fqdn == $ip) {
-                Session::push('tmp_warning_above_form', trans('messages.modem_restart_warning_dns'));
-                throw new \Exception(trans('messages.modem_restart_warning_dns'));
-            }
-
-            if (! $netgw) {
-                throw new \Exception('NetGw could not be determined for modem');
-            }
-
-            if (! in_array($netgw->company, ['Casa', 'Cisco', 'Motorola'])) {
-                throw new \Exception("Modem restart via NetGw vendor $netgw->company not yet implemented");
-            }
-
-            if ($netgw->company == 'Cisco') {
-                $param = [
-                    '1.3.6.1.4.1.9.9.116.1.3.1.1.9.'.implode('.', array_map('hexdec', explode(':', $mac))),
-                    'i',
-                    '1',
-                ];
-            }
-
-            if ($netgw->company == 'Casa') {
-                $param = [
-                    '1.3.6.1.4.1.20858.10.12.1.3.1.7.'.implode('.', array_map('hexdec', explode(':', $mac))),
-                    'i',
-                    '1',
-                ];
-            }
-
-            if ($netgw->company == 'Motorola') {
-                $param = [
-                    '1.3.6.1.4.1.4981.2.2.2.0',
-                    'lng',
-                    implode(' ', explode(':', $mac)),
-                ];
-            }
-
-            snmpset($netgw->ip, $netgw->get_rw_community(), $param[0], $param[1], $param[2], 300000, 1);
-
-            // success message
-            Session::push('tmp_info_above_form', trans('messages.modem_restart_success_netgw'));
-        } catch (\Exception $e) {
-            Log::warning("Could not delete $this->hostname from NETGW ('".$e->getMessage()."'). Let's try to restart it directly.");
-
-            try {
-                // restart modem - DOCS-CABLE-DEV-MIB::docsDevResetNow
-                snmpset($fqdn, $config->rw_community, '1.3.6.1.2.1.69.1.1.3.0', 'i', '1', 300000, 1);
-
-                // success message - make it a warning as sth is wrong when it's not already restarted by NETGW??
-                Session::push('tmp_info_above_form', trans('messages.modem_restart_success_direct'));
-            } catch (\Exception $e) {
-                Log::error("Could not restart $this->hostname directly ('".$e->getMessage()."')");
-
-                if (((strpos($e->getMessage(), 'php_network_getaddresses: getaddrinfo failed: Name or service not known') !== false) ||
-                    (strpos($e->getMessage(), 'snmpset(): No response from') !== false)) ||
-                    // this is not necessarily an error, e.g. the modem was deleted (i.e. Cisco) and user clicked on restart again
-                    (strpos($e->getMessage(), 'noSuchName') !== false)) {
-                    Session::push('tmp_error_above_form', trans('messages.modem_restart_error'));
-                } else {
-                    // Inform and log for all other exceptions
-                    Session::push('tmp_error_above_form', \App\Http\Controllers\BaseViewController::translate_label('Unexpected exception').': '.$e->getMessage());
-                }
-            }
-        }
+        (new DocsisModem($this))->restart($mac_changed, $modem_reset);
     }
 
     /**
@@ -1597,7 +1507,7 @@ class Modem extends \BaseModel
      *
      * @author Ole Ernst
      */
-    private function successfulRadiusModemDisconnect(): bool
+    private function successfulRadiusModemDisconnect($silent = false): bool
     {
         if (! $this->isPPP()) {
             return false;
@@ -1614,7 +1524,9 @@ class Modem extends \BaseModel
 
         // no NetGw of PPP session found, NetGw has no NAS assigned, NAS has no secret or Change of Authorization port not set
         if (! $netgw || ! $netgw->nas || ! $netgw->nas->secret || ! $netgw->coa_port) {
-            Session::push('tmp_warning_above_form', trans('messages.modem_disconnect_radius_warning'));
+            if (! $silent) {
+                Session::push('tmp_warning_above_form', trans('messages.modem_disconnect_radius_warning'));
+            }
 
             return false;
         }
@@ -1626,12 +1538,16 @@ class Modem extends \BaseModel
         exec($cmd, $out, $ret);
 
         if ($ret !== 0) {
-            Session::push('tmp_error_above_form', implode('<br>', $out));
+            if (! $silent) {
+                Session::push('tmp_error_above_form', implode('<br>', $out));
+            }
 
             return false;
         }
 
-        Session::push('tmp_info_above_form', trans('messages.modem_disconnect_radius_success'));
+        if (! $silent) {
+            Session::push('tmp_info_above_form', trans('messages.modem_disconnect_radius_success'));
+        }
 
         return true;
     }

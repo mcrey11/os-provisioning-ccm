@@ -19,6 +19,8 @@
 
 namespace Modules\ProvBase\Entities;
 
+use Session;
+
 class Tr069Modem extends Modem implements ModemType
 {
     public function __construct(protected $modem)
@@ -82,10 +84,41 @@ class Tr069Modem extends Modem implements ModemType
                 return $action.trans('messages.modemAnalysis.actionAlreadyScheduled');
             }
         }
+    }
 
-        Modem::callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', $task);
+    public function restart($mac_changed = false, $modem_reset = false, $factoryReset = false, $silent = false)
+    {
+        $id = $this->modem->getGenieId();
+        if (! $id) {
+            if (! $silent) {
+                Session::push('tmp_error_above_form', trans('messages.modem_restart_error'));
+            }
 
-        return trans('messages.modemAnalysis.actionExecuted');
+            return;
+        }
+
+        $action = $factoryReset ? 'factoryReset' : 'reboot';
+
+        if (json_decode(self::callGenieAcsApi("tasks?query={\"device\":\"$id\",\"name\":\"$action\"}", 'GET'))) {
+            // A factoryReset/reboot of device has already been scheduled, no need to spawn another task
+            return 'isScheduled';
+        }
+
+        $timeout = config('provbase.cwmpConnectionRequestTimeout');
+        $conReq = config('provbase.cwmpConnectionRequest') ? '&connection_request' : '';
+        $success = self::callGenieAcsApi("devices/$id/tasks?timeout={$timeout}{$conReq}", 'POST', "{ \"name\" : \"$action\" }");
+
+        if (! $success) {
+            if (! $silent) {
+                Session::push('tmp_error_above_form', trans('messages.modem_restart_error'));
+            }
+
+            return;
+        }
+
+        if (! $silent) {
+            Session::push('tmp_info_above_form', trans('messages.modem.restartedViaTr069'));
+        }
     }
 
     /**

@@ -157,6 +157,8 @@ return [
     'Main Menu'                 => 'Main Menu',
     'Maturity'                  => 'Maturity',
     'modem' => [
+        'restartedViaSnmp' => 'Successfully restarted modem directly via SNMP',
+        'restartedViaTr069' => 'Successfully restarted modem via TR069',
         'setProvisionError' => 'Error on setting modem config in ACS server',
     ],
     'cdr'                   => 'cdr',
@@ -388,7 +390,6 @@ return [
     'modem_restart_warning_dns' => 'Restart failed, since hostname could not be resolved (modem has no active DHCP lease) to determine the responsible NetGw.',
     'Accounting Text (optional)'=> 'Accounting Text (optional)',
     'Cost Center (optional)'    => 'Cost Center (optional)',
-    'modem_restart_success_direct' => 'Restarted Modem directly via SNMP/TR069',
     'modem_disconnect_radius_success' => 'Disconnected Modem via RADIUS (Change of Authorization)',
     'modem_disconnect_radius_warning' => 'Device cannot be restarted via RADIUS, due to one of the following reasons:<ul><li>NetGw of PPP session cannot be determined</li><li>NetGw has no NAS secret set</li><li>NetGw has no Change of Authorization port set.</li></ul>',
     'Item'                      => 'Item',
