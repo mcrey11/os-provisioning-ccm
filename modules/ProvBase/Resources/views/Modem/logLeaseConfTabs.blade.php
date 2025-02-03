@@ -44,18 +44,18 @@
 
         @include('Generic.above_infos')
 
-        <form v-if="taskOptions" @@submit.prevent="updateTasks" class="mb-3">
+        <form v-if="taskOptions" v-on:submit.prevent="updateTasks" class="mb-3">
             <div class="flex">
                 <div style="flex: 1;">
-                    <select2 v-model="selectedTask" @@input="setTask" :as-array="true">
-                        <option v-for="(option, i) in taskOptions" :key="i" :value="option.task" v-text="option.name"></option>
+                    <select2 v-model="selectedTask" v-on:input="setTask" :as-array="true">
+                        <option v-for="(option, i) in taskOptions" :key="i" v-bind:value="option.task" v-text="option.name"></option>
                     </select2>
                 </div>
                 <button v-if="! isForm" type="submit" class="btn btn-primary ml-3">{{ trans('view.Button_Submit') }}</button>
             </div>
         </form>
         <div v-cloak v-if="selectedTask == 'custom/setWlan'" class="mb-3">
-            <form @@submit.prevent="setWlan" class="space-y-2">
+            <form v-on:submit.prevent="setWlan" class="space-y-2">
                 <div v-if="isTr069">
                     <div class="form-group row">
                         <label for="WLANIndex" class="flex items-center col-sm-2 col-form-label">{{ trans('view.modemAnalysis.index') }}</label>
@@ -73,8 +73,8 @@
                 <div v-else>
                     <div class="flex flex-row">
                         <label for="Channel" class="flex items-center col-sm-2 col-form-label pl-0">{{ trans('view.modemAnalysis.channel') }}</label>
-                        <select2 v-model="getWlanSettings['channel']" @@input="setChannel">
-                            <option v-for="channel in channels" :value="channel" v-text="channel"></option>
+                        <select2 v-model="getWlanSettings['channel']" v-on:input="setChannel">
+                            <option v-for="channel in channels" v-bind:value="channel" v-text="channel"></option>
                         </select2>
                     </div>
                     <div class="flex flex-row">
@@ -163,7 +163,7 @@
             <div class="flex w-full justify-end mb-3">
                 <button
                     id="{{ 'refresh'.ucfirst($tab) }}"
-                    @@click="refreshTable('{{ $tab }}')"
+                    v-on:click="refreshTable('{{ $tab }}')"
                     type="button"
                     class="btn mr-4 border border-gray-800 btn-dark"
                 >

@@ -61,7 +61,7 @@
                 <div class="row flex">
                     <div class="flex-1">
                         <select2 id="pingselect" v-model="selectedPing" :initial="1" :i18n="{ all: '{{ trans('messages.all') }}'}">
-                            <option v-for="option in pingOptions" :key="option.id" :value="option.id" v-text="option.text" :selected="option.id == 1"></option>
+                            <option v-for="option in pingOptions" v-bind:key="option.id" v-bind:value="option.id" v-text="option.text" v-bind:selected="option.id == 1"></option>
                         </select2>
                     </div>
                     <div class="text-center">
