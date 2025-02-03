@@ -94,7 +94,7 @@ class IpPool extends \BaseModel
         $bsclass = $this->get_bsclass();
 
         return ['table' => $this->table,
-            'index_header' => [$this->table.'.id', 'netgw.hostname', $this->table.'.type', 'version', $this->table.'.net', $this->table.'.router_ip', $this->table.'.description'],
+            'index_header' => [$this->table.'.id', 'netgw.hostname', $this->table.'.type', 'version', $this->table.'.net', $this->table.'.router_ip', $this->table.'.description', 'active'],
             'header' =>  $this->type.': '.$this->net,
             'bsclass' => $bsclass,
             'eager_loading' => ['netgw'], ];
@@ -102,19 +102,20 @@ class IpPool extends \BaseModel
 
     public function get_bsclass()
     {
-        $bsclass = 'info';
-
-        if ($this->type == 'CPEPub') {
-            $bsclass = 'active';
-        }
-        if ($this->type == 'CPEPriv') {
-            $bsclass = '';
-        }
-        if ($this->type == 'MTA') {
-            $bsclass = 'success';
+        if (! $this->active) {
+            return 'active';
         }
 
-        return $bsclass;
+        // TODO: Check if router IP is pingable
+        // if (! $this->routerPingable) {
+        //     return 'warning';
+        // }
+
+        if (in_array($this->type, ['CM', 'MTA'])) {
+            return '';
+        }
+
+        return 'info';
     }
 
     /**
