@@ -65,6 +65,9 @@ class Modem extends \BaseModel
     protected const BLOCKED_CPE_FILE_PATH = '/etc/dhcp-nmsprime/blocked.conf';
     protected $domainName = '';
 
+    /** @var RadAcct object storage to save 1 DB query */
+    protected $currentRadacct;
+
     // The associated SQL table for this Model
     public $table = 'modem';
 
@@ -2350,6 +2353,7 @@ class Modem extends \BaseModel
         $lease['text'] = self::searchLease($mac ? "hardware ethernet $mac" : '');
         $lease = self::validateLease($lease, null, $online && $this->isTR069());
 
+        // WARNING: This function can take a very long time dependent on how many DB entries exist
         $radius = $this->radiusData();
 
         if ($api) {
@@ -2485,6 +2489,7 @@ class Modem extends \BaseModel
         if ($this->isPPP()) {
             $cur = $this->radacct()->latest('acctstarttime')->first();
             if ($cur && ! $cur->acctstoptime) {
+                $this->currentRadacct = $cur;
                 $ip = $hostname = $cur->framedipaddress;
             }
 
@@ -2610,7 +2615,8 @@ class Modem extends \BaseModel
         }
 
         // Current
-        $cur = $this->radacct()->latest('acctstarttime')->first();
+
+        $cur = $this->currentRadacct ?: $this->radacct()->latest('acctstarttime')->first();
         if ($cur && ! $cur->acctstoptime) {
             $ret['DT_Current Session']['Start'] = [$cur->acctstarttime];
             $ret['DT_Current Session']['Last Update'] = [$cur->acctupdatetime];
@@ -2635,6 +2641,7 @@ class Modem extends \BaseModel
             ['callingstationid', 'MAC', null],
             ['framedipaddress', 'IP', null],
         ];
+
         $sessions = $this->radacct()
             ->where('acctstarttime', '>', \Carbon\Carbon::now()->subDays(10))
             ->latest('acctstarttime')
