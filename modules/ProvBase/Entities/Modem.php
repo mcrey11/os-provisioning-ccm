@@ -692,7 +692,6 @@ class Modem extends \BaseModel
         return $pills;
     }
 
-
     public function analysisTabs()
     {
         if (
@@ -1495,10 +1494,10 @@ class Modem extends \BaseModel
     /**
      * Restart modem
      *
-     * @var bool  mac_changed  Info to get proper OID when MAC has changed on a DOCSIS modem
-     * @var bool  modem_reset  Reset Modem directly via SNMP
-     * @var bool  factoryReset  Factory reset vs reboot for TR069 devices
-     * @var bool  silent  Doesnt push to session as e.g. analysis page would fail on reload then
+     * @var bool mac_changed  Info to get proper OID when MAC has changed on a DOCSIS modem
+     * @var bool modem_reset  Reset Modem directly via SNMP
+     * @var bool factoryReset  Factory reset vs reboot for TR069 devices
+     * @var bool silent  Doesnt push to session as e.g. analysis page would fail on reload then
      *
      * @author Nino Ryschawy
      */
@@ -2314,7 +2313,6 @@ class Modem extends \BaseModel
 
             // Log tab
             $tr069Log = $genieId ? $this->getTr069LogEntries($genieId) : [];
-
         } else {
             $configfile = self::getConfigfileText("/tftpboot/cm/$this->hostname");
         }
@@ -2649,7 +2647,6 @@ class Modem extends \BaseModel
                 return $a[0];
             }, $sessionItems));
 
-
         foreach ($sessionItems as $item) {
             $values = $sessions->pluck($item[0])->toArray();
             $ret[trans('view.modemAnalysis.lastSessions')][$item[1]] = $item[2] ? array_map($item[2], $values) : $values;
@@ -2666,7 +2663,6 @@ class Modem extends \BaseModel
             ->get(array_map(function ($a) {
                 return $a[0];
             }, $replyItems));
-
 
         $repliesKey = trans('view.modemAnalysis.replies');
         foreach ($replyItems as $item) {

@@ -19,8 +19,8 @@
 
 namespace Modules\ProvBase\Entities;
 
-use Log;
 use Exception;
+use Log;
 use Session;
 
 class DocsisModem extends Modem implements ModemType
