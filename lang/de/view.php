@@ -755,6 +755,7 @@ return [
             'stopped' => 'Auto-Refresh gestoppt. Zum aktivieren klicken!',
         ],
     ],
+    'no' => 'nein',
     'option' => [
         'statisticsQuery' => [
             'customerType' => [
@@ -1149,4 +1150,5 @@ return [
         'warning' => 'Warnung',
         'withState' => 'mit Status',
     ],
+    'yes' => 'ja',
 ];
