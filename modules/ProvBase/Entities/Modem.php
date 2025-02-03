@@ -2078,18 +2078,6 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Get host name.
-     *
-     * @author Roy Schneider
-     */
-    public function getHostName()
-    {
-        $provBase = ProvBase::first();
-
-        return "{$this->hostname}.{$provBase->domain_name}";
-    }
-
-    /**
      * Get modem type class based on technology.
      * To thin out Modem/ModemController class.
      *
