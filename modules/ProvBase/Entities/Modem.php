@@ -1464,7 +1464,7 @@ class Modem extends \BaseModel
     /**
      * Restarts modem through snmpset
      */
-    public function restart_modem($mac_changed = false, $modem_reset = false, $factoryReset = false)
+    public function restart($mac_changed = false, $modem_reset = false, $factoryReset = false)
     {
         // Log
         Log::info(($factoryReset ? 'factoryReset' : 'restart').' modem '.$this->hostname);
@@ -1658,7 +1658,7 @@ class Modem extends \BaseModel
             'model_id' => $this->id,
         ]);
 
-        return $this->restart_modem(false, false, true);
+        return $this->restart(false, false, true);
     }
 
     /**
@@ -2244,7 +2244,7 @@ class Modem extends \BaseModel
             $check = $this->radcheckPool;
             $check->value = $this->public ? 'CPEPub' : 'CPEPriv';
             $check->save();
-            $this->restart_modem();
+            $this->restart();
         }
     }
 
@@ -2286,7 +2286,7 @@ class Modem extends \BaseModel
                 ->update(['groupname' => $this->qos_id]);
 
             if (! $this->wasRecentlyCreated) {
-                $this->restart_modem();
+                $this->restart();
             }
         }
     }

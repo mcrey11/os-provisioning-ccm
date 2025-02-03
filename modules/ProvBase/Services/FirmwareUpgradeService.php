@@ -82,7 +82,7 @@ class FirmwareUpgradeService
     private function onlyRestartDevices($firmwareUpgrade)
     {
         foreach ($this->modems as $modem) {
-            $modem->restart_modem();
+            $modem->restart();
         }
 
         foreach ($this->mtas as $mta) {

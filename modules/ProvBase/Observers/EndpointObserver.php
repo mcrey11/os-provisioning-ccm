@@ -48,7 +48,7 @@ class EndpointObserver
         self::validateDhcpConfig($endpoint->version);
         $endpoint->nsupdate();
 
-        $endpoint->modem->restart_modem();
+        $endpoint->modem->restart();
     }
 
     public function updating($endpoint)
@@ -92,7 +92,7 @@ class EndpointObserver
         self::validateDhcpConfig($endpoint->version);
         $endpoint->nsupdate();
 
-        $endpoint->modem->restart_modem();
+        $endpoint->modem->restart();
     }
 
     public function deleting($endpoint)
@@ -131,6 +131,6 @@ class EndpointObserver
         self::validateDhcpConfig($endpoint->version);
         $endpoint->nsupdate(true);
 
-        $endpoint->modem->restart_modem();
+        $endpoint->modem->restart();
     }
 }

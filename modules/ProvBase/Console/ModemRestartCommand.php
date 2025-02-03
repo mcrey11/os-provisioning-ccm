@@ -134,7 +134,7 @@ class ModemRestartCommand extends Command
                 } else {
                     echo "restarting cm-{$modem->id}\n";
                     if (! $this->option('dry-run')) {
-                        $modem->restart_modem();
+                        $modem->restart();
                     }
                 }
 

@@ -40,7 +40,7 @@ class ModemOptionObserver
         $modem = $option->modem;
         $modem->make_configfile();
         if (! $modem->isTR069()) {
-            $modem->restart_modem();
+            $modem->restart();
         }
     }
 }

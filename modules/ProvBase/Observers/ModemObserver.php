@@ -200,7 +200,7 @@ class ModemObserver
                     $modem->blockCpeViaDhcp(boolval($modem->internet_access), $macChanged);
                 }
 
-                $modem->restart_modem($macChanged);
+                $modem->restart($macChanged);
             }
 
             $modem->make_configfile();
@@ -280,7 +280,7 @@ class ModemObserver
             $modem->blockCpeViaDhcp(true);
         }
         $modem->make_dhcp_cm(true);
-        $modem->restart_modem();
+        $modem->restart();
         $modem->delete_configfile();
 
         if ($modem->isAltiplano() && Module::collections()->has('Altiplano')) {

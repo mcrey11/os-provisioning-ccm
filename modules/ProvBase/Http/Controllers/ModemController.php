@@ -660,7 +660,7 @@ class ModemController extends \BaseController
         }
 
         $modem = static::get_model_obj()->findOrFail($id);
-        $modem->restart_modem();
+        $modem->restart();
 
         return response()->v0ApiReply([], true, $id);
     }
@@ -672,7 +672,7 @@ class ModemController extends \BaseController
         }
 
         $modem = static::get_model_obj()->findOrFail($id);
-        $modem->restart_modem(false, false, true);
+        $modem->restart(false, false, true);
 
         return response()->v0ApiReply([], true, $id);
     }
@@ -1010,7 +1010,7 @@ class ModemController extends \BaseController
             return \Redirect::back();
         }
 
-        $modem->restart_modem(false, Request::filled('_3rd_action'));
+        $modem->restart(false, Request::filled('_3rd_action'));
 
         return \Redirect::back();
     }

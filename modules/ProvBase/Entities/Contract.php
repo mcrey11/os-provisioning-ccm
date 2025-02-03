@@ -1545,7 +1545,7 @@ class Contract extends \BaseModel
             // this is needed e.g. on activation of voip only items
             if ($hasTelephonyChanged || $this->isDirty('has_telephony')) {
                 $modem->make_configfile();
-                $modem->restart_modem();
+                $modem->restart();
             }
         }
     }
