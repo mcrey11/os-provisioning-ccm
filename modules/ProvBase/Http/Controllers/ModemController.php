@@ -1064,7 +1064,7 @@ class ModemController extends \BaseController
             return ltrim($byte, '0');
         }, explode(':', $modem_mac)));
 
-        $ep = $modem->endpoints->first();
+        $ep = $modem->endpoints->where('version', '4')->first();
         if ($ep?->fixed_ip && $ep?->ip) {
             $lease = $this->_fake_lease($modem, $ep);
         } else {
