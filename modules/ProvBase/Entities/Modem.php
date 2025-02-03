@@ -2346,10 +2346,9 @@ class Modem extends \BaseModel
 
         // Log dhcp (discover, ...), tftp (configfile or firmware)
         // NOTE: This function takes a long time if syslog file is large - 0.4 to 0.6 sec
-        $search = $mac ? "$mac|" : '';
-        $search .= "$this->hostname[^0-9]";
-        $search .= $ip ? "|$ip " : '';
-        $dhcpLog = $this->getSyslogEntries($search, '| grep -v MTA | grep -v CPE | tail -n 30 | tac');
+        // TODO: Discard for TR069 modems when no DHCP is used ? - could maybe be configured somewhere - or figured out (dhcp server running, logs existing, etc.) and cached
+        $grepStr = $mac.($this->hostname ? "|$this->hostname[^0-9]" : '').($ip ? "|$ip " : '');
+        $dhcpLog = $this->getSyslogEntries($grepStr, '| grep -v MTA | grep -v CPE | tail -n 30 | tac');
         $lease['text'] = self::searchLease($mac ? "hardware ethernet $mac" : '');
         $lease = self::validateLease($lease, null, $online && $this->isTR069());
 
