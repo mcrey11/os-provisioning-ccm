@@ -35,13 +35,6 @@
 
 <div class="tab-pane fade in" id="configfile">
     @if ($configfile && data_get($configfile, 'text', null))
-        @if ($modem->configfile->device != 'tr069')
-            <div class="text-green-600 pb-2"><b>Modem Configfile ({{$configfile['mtime']}})</b></div>
-            @if (isset($configfile['warn']))
-                <div class="text-red-600"><b>{{ $configfile['warn'] }}</b></div>
-            @endif
-        @endif
-
         @include('Generic.above_infos')
 
         <form v-if="taskOptions.length" v-on:submit.prevent="updateTasks" class="mb-3">
