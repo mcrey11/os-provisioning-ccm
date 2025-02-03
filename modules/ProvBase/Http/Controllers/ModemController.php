@@ -769,14 +769,17 @@ class ModemController extends \BaseController
         $modem = static::get_model_obj()->findOrFail($id);
 
         $cwmpModel = $modem->dataModel();
-        ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns_enable'], ['value' => 'true']);
-        ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns'], ['value' => request('dns')]);
+        $ret = $cwmpModel->setDns(request('dns'));
 
-        if ($cwmpModel) {
-            $cwmpModel->setDns(request('dns'));
+        if ($ret == trans('messages.modemAnalysis.setDnsFinished')) {
+            ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns_enable'], ['value' => 'true']);
+            ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns'], ['value' => request('dns')]);
+            $ret = [];
+        } else {
+            $ret = ['validations' => $ret];
         }
 
-        return response()->v0ApiReply([], true, $id);
+        return response()->v0ApiReply($ret, true, $id);
     }
 
     /**
@@ -794,7 +797,7 @@ class ModemController extends \BaseController
 
         $modem = static::get_model_obj()->findOrFail($id);
 
-        $cwmpModel = $modem->getCwmpDataModel($modem->getGenieId());
+        $cwmpModel = $modem->dataModel($modem->getGenieId());
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns_enable'], ['value' => 'false']);
 
         if ($cwmpModel) {
