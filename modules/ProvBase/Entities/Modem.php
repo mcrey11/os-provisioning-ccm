@@ -662,6 +662,34 @@ class Modem extends \BaseModel
         return $ret;
     }
 
+    /**
+     * Get tabs in right panel auf analysis page dependent on type of modem
+     */
+    public function analysisPills($dhcpLog, $tr069Log): array
+    {
+        $pills = ['dhcpLog', 'tr069Log', 'lease', 'configfile', 'eventlog', 'wifi'];
+
+        if ($this->configfile->device == 'cm') {
+            if (! $tr069Log) {
+                unset($pills[1]);
+            }
+        } else {
+            unset($pills[4]);
+
+            if (! $dhcpLog) {
+                unset($pills[0], $pills [2]);
+            }
+
+            $pills[] = 'lan';
+            $pills[] = trans('view.modemAnalysis.lastSessions');
+            $pills[] = trans('view.modemAnalysis.replies');
+            $pills[] = trans('view.modemAnalysis.authentications');
+        }
+
+        return $pills;
+    }
+
+
     public function analysisTabs()
     {
         if (
@@ -2328,7 +2356,7 @@ class Modem extends \BaseModel
         }
 
         $tabs = $this->analysisTabs();
-        $pills = ['dhcpLog', 'tr069Log', 'lease', 'configfile', 'eventlog', 'wifi', 'lan'];
+        $pills = $this->analysisPills($dhcpLog, $tr069Log);
         $view_header = 'Modem-'.trans('view.analysis');
         $this->help = 'modem_analysis';
         $modem = $this;
@@ -2614,9 +2642,10 @@ class Modem extends \BaseModel
                 return $a[0];
             }, $sessionItems));
 
+
         foreach ($sessionItems as $item) {
             $values = $sessions->pluck($item[0])->toArray();
-            $ret['DT_Last Sessions'][$item[1]] = $item[2] ? array_map($item[2], $values) : $values;
+            $ret[trans('view.modemAnalysis.lastSessions')][$item[1]] = $item[2] ? array_map($item[2], $values) : $values;
         }
 
         // Replies
@@ -2631,17 +2660,21 @@ class Modem extends \BaseModel
                 return $a[0];
             }, $replyItems));
 
+
+        $repliesKey = trans('view.modemAnalysis.replies');
         foreach ($replyItems as $item) {
-            $ret['DT_Replies'][$item[1]] = $replies->pluck($item[0])->toArray();
+            $ret[$repliesKey][$item[1]] = $replies->pluck($item[0])->toArray();
         }
         // add sequence number for proper sorting
-        $ret['DT_Replies'] = array_merge(['#' => array_keys(reset($ret['DT_Replies']))], $ret['DT_Replies']);
+        $ret[$repliesKey] = array_merge(['#' => array_keys(reset($ret[$repliesKey]))], $ret[$repliesKey]);
 
         // Authentications
         $authItems = [
             ['authdate', 'Date'],
             ['reply', 'Reply'],
         ];
+
+        // WARNING: This DB query potentially takes a very long time and can result in request timeout
         $auths = $this->radpostauth()
             ->where('authdate', '>', \Carbon\Carbon::now()->subDays(10))
             ->latest('id')
@@ -2651,7 +2684,7 @@ class Modem extends \BaseModel
             }, $authItems));
 
         foreach ($authItems as $item) {
-            $ret['DT_Authentications'][$item[1]] = $auths->pluck($item[0])->toArray();
+            $ret[trans('view.modemAnalysis.authentications')][$item[1]] = $auths->pluck($item[0])->toArray();
         }
 
         return $ret;

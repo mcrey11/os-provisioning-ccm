@@ -1,7 +1,7 @@
 @if ($radius)
     @foreach($radius as $tablename => $tableData)
         {{-- ['DT_Last Sessions', 'DT_Replies', 'DT_Authentications'] --}}
-        <div class="tab-pane fade in" id="{{ Str::slug($tablename, '_') }}">
+        <div class="tab-pane fade in" id="{{ str_replace(' ', '_', $tablename) }}">
 
             <div class="table-responsive">
                 <table class="table streamtable table-bordered radius-table" width="auto">
@@ -29,6 +29,12 @@
                 </table>
             </div>
 
+        </div>
+    @endforeach
+@else
+    @foreach(['lastSessions', 'replies', 'authentications'] as $tablename)
+        <div class="tab-pane fade in" id="{{ str_replace(' ', '_', trans('view.modemAnalysis.'.$tablename)) }}">
+            <div class="text-red-600">{{ trans('messages.noData') }}</div>
         </div>
     @endforeach
 @endif

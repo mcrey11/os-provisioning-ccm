@@ -96,22 +96,8 @@
         @php
             $panelHeader = '<ul class="nav nav-pills" id="loglease">';
             foreach ($pills as $pill) {
-                if (${$pill}) {
-                    $panelHeader .= "<li role=\"presentation\"><a href=\"#$pill\" data-toggle=\"pill\">".ucfirst($pill).'</a></li>';
-                }
+                $panelHeader .= '<li role="presentation"><a href="#'.str_replace(' ', '_', $pill).'" data-toggle="pill">'.ucfirst($pill).'</a></li>';
             }
-
-            if (isset($radius)) {
-                foreach ($radius as $table => $data) {
-                    if ($table == 'DT_Current Session') {
-                        continue;
-                    }
-
-                    $panelHeader .= "<li role=\"presentation\"><a href=\"#".Str::slug($table, '_')
-                        ."\" data-toggle=\"pill\">".trans("view.modemAnalysis.$table").'</a></li>';
-                }
-            }
-
             $panelHeader .= '</ul>';
         @endphp
 

@@ -406,6 +406,7 @@ return [
     'Configfile'                => 'Konfigurationsdatei',
     'Mta'                       => 'MTA',
     'month'                 => 'Monat',
+    'noData' => 'Keine Daten gefunden',
     'Configfiles'               => 'Konfigurationsdatei',
     'Choose Firmware File'      => 'Firmware-Datei auswählen',
     'Config File Parameters'    => 'Parameter für die Konfigurationsdatei',

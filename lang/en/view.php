@@ -708,9 +708,9 @@ return [
         'currentSession' => 'Current Session',
         'Discontinuity Time' => 'Discontinuity Time',
         'doNotRefresh' => 'Don\'t refresh',
-        'DT_Last Sessions' => 'Last Sessions',
-        'DT_Replies' => 'RadReplies',
-        'DT_Authentications' => 'Auth',
+        'lastSessions' => 'Last Sessions',
+        'replies' => 'RadReplies',
+        'authentications' => 'Auth',
         'encryption' => 'Enable encryption',
         'floodping' => [
             'lowLoad' => 'low load: 500 packets of 56 Byte (~ 5s)',

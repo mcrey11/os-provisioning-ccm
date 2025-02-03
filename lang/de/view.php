@@ -707,9 +707,9 @@ return [
         'currentSession' => 'Aktuelle Session',
         'doNotRefresh' => 'Nicht aktualisieren',
         'Discontinuity Time' => 'Letzte Unterbrechung',
-        'DT_Last Sessions' => 'Letzte Sessions',
-        'DT_Replies' => 'RadReplies',
-        'DT_Authentications' => 'Auth',
+        'lastSessions' => 'Letzte Sessions',
+        'replies' => 'RadReplies',
+        'authentications' => 'Auth',
         'encryption' => 'Verschlüsselung aktivieren',
         'floodping' => [
             'lowLoad' => 'geringe Last: 500 Pakete mit 56 Bytes (~ 5s)',
