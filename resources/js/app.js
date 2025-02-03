@@ -65,7 +65,9 @@ window.main = createApp(app, {
   .component('skeleton', skeletonComponent)
   .component('popover', popover)
   .component('collapse', Collapse)
-  .use(snotify)
+  .use(snotify, { toast: {
+    timeout: 3500,
+  }})
   .mount('#page-container')
 }
 
