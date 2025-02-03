@@ -2304,13 +2304,14 @@ class Modem extends \BaseModel
             }
 
             foreach (json_decode($this->getGenieAcsTasks(), true) ?? [] as $task) {
-                $cmds[trans('messages.delete_task')." {$task['name']} {$task['device']}"] = "tasks/{$task['_id']}";
+                $cmds[trans('messages.delete_task')." {$task['name']} {$task['device']}"] = "delete/tasks/{$task['_id']}";
             }
 
-            $genieId = $this->getGenieId();
+            $genieId = $this->getGenieId(false);
 
             // Log tab
             $tr069Log = $genieId ? $this->getTr069LogEntries($genieId) : [];
+
         } else {
             $configfile = self::getConfigfileText("/tftpboot/cm/$this->hostname");
         }

@@ -44,7 +44,7 @@
 
         @include('Generic.above_infos')
 
-        <form v-if="taskOptions" v-on:submit.prevent="updateTasks" class="mb-3">
+        <form v-if="taskOptions.length" v-on:submit.prevent="updateTasks" class="mb-3">
             <div class="flex">
                 <div style="flex: 1;">
                     <select2 v-model="selectedTask" v-on:input="setTask" :as-array="true">
@@ -54,33 +54,33 @@
                 <button v-if="! isForm" type="submit" class="btn btn-primary ml-3">{{ trans('view.Button_Submit') }}</button>
             </div>
         </form>
-        <div v-cloak v-if="selectedTask == 'custom/setWlan'" class="mb-3">
-            <form v-on:submit.prevent="setWlan" class="space-y-2">
+        <div v-cloak v-if="selectedTask == 'tasks/setWifi'" class="mb-3">
+            <form v-on:submit.prevent="setWifi" class="space-y-2">
                 <div v-if="isTr069">
                     <div class="form-group row">
                         <label for="WLANIndex" class="flex items-center col-sm-2 col-form-label">{{ trans('view.modemAnalysis.index') }}</label>
                         <div class="col-sm-10">
-                            <input v-model="getWlanSettings['index']" type="number" class="form-control" id="WLANIndex">
+                            <input v-model="wifiSettings['index']" type="number" class="form-control" id="WLANIndex">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="Channel" class="flex items-center col-sm-2 col-form-label">{{ trans('view.modemAnalysis.channel') }}</label>
                         <div class="col-sm-10">
-                            <input v-model="getWlanSettings['channel']" type="number" class="form-control" id="Channel" placeholder="{{ trans('view.modemAnalysis.wlanChannelInfo') }}" title="{{ trans('view.modemAnalysis.wlanChannelInfo') }}">
+                            <input v-model="wifiSettings['channel']" type="number" class="form-control" id="Channel" placeholder="{{ trans('view.modemAnalysis.wlanChannelInfo') }}" title="{{ trans('view.modemAnalysis.wlanChannelInfo') }}">
                         </div>
                     </div>
                 </div>
                 <div v-else>
                     <div class="flex flex-row">
                         <label for="Channel" class="flex items-center col-sm-2 col-form-label pl-0">{{ trans('view.modemAnalysis.channel') }}</label>
-                        <select2 v-model="getWlanSettings['channel']" v-on:input="setChannel">
+                        <select2 v-model="wifiSettings['channel']" v-on:input="setChannel">
                             <option v-for="channel in channels" v-bind:value="channel" v-text="channel"></option>
                         </select2>
                     </div>
                     <div class="flex flex-row">
                         <label for="Encryption" class="flex items-center col-sm-2 col-form-label pl-0">{{ trans('view.modemAnalysis.encryption') }}</label>
                         <input
-                            v-model="getWlanSettings['encryption']"
+                            v-model="wifiSettings['encryption']"
                             class="form-control mt-2"
                             type="checkbox"
                         >
@@ -89,24 +89,24 @@
                 <div class="form-group row">
                     <label for="SSID" class="flex items-center col-sm-2 col-form-label">SSID</label>
                     <div class="col-sm-10">
-                        <input v-model="getWlanSettings['ssid']" type="text" class="form-control" id="SSID" placeholder="SSID">
+                        <input v-model="wifiSettings['ssid']" type="text" class="form-control" id="SSID" placeholder="SSID">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="Password" class="flex items-center col-sm-2 col-form-label">{{ trans('messages.Password') }}</label>
                     <div class="col-sm-10">
-                        <input v-model="getWlanSettings['password']" type="password" class="form-control" id="Password" placeholder="{{ trans('messages.Password') }}">
+                        <input v-model="wifiSettings['password']" type="password" class="form-control" id="Password" placeholder="{{ trans('messages.Password') }}">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">{{ trans('view.Button_Submit') }}</button>
             </form>
         </div>
-        <div v-cloak v-if="selectedTask == 'custom/setDns'" class="mb-3">
+        <div v-cloak v-if="selectedTask == 'tasks/setDns'" class="mb-3">
             <form v-on:submit.prevent="setDns" style="margin-top: 10px;">
                 <div class="form-group row">
-                    <label for="DNS" class="flex items-center col-sm-2 col-form-label">DNS</label>
+                    <label for="DNS" class="flex items-center col-sm-2 col-form-label">DNS Server</label>
                     <div class="col-sm-10">
-                        <input v-model="getDnsSettings['dns']" type="text" class="form-control" id="DNS" placeholder="0.0.0.0,0.0.0.0">
+                        <input v-model="dnsSettings['servers']" type="text" class="form-control" id="DNS" placeholder="0.0.0.0,0.0.0.0">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">{{ trans('view.Button_Submit') }}</button>

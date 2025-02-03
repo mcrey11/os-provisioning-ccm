@@ -32,8 +32,14 @@ class DocsisModem extends Modem implements ModemType
 
     public function executeTask()
     {
-        if (\Str::startsWith(request('taskName'), 'custom/')) {
-            return $this->modem->dataModel()->setWlan();
+        $task = request('task');
+
+        if ($task == 'tasks/setWifi') {
+            return $this->modem->dataModel()->setWifi();
+        }
+
+        if ($task == 'tasks/factoryReset') {
+            return $this->modem->dataModel()->factoryReset();
         }
     }
 

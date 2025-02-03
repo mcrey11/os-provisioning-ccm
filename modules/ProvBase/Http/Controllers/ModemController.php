@@ -820,7 +820,7 @@ class ModemController extends \BaseController
         }
 
         if (! in_array(request('model'), ['TG862', 'TG3442S', 'TG3442SP'])) {
-            $errors[] = 'unknown model';
+            $errors[] = 'unsupported model';
         }
 
         $onlineStatus = $modem->onlineStatus();

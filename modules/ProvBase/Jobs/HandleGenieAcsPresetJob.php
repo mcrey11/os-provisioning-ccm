@@ -34,7 +34,7 @@ class HandleGenieAcsPresetJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(protected $modem, protected $text)
+    public function __construct(protected $modem, protected $text, protected $delete)
     {
         $this->modem = $modem;
         $this->text = $text;

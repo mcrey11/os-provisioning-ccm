@@ -30,60 +30,78 @@ class Tr069Modem extends Modem implements ModemType
 
     public function executeTask()
     {
-        // setWlan and setDns
-        $formInput = request('taskName');
-        $task = request('task');
-
         if (! $genieId = $this->modem->getGenieId()) {
+            // TODO: Fail message
             return;
         }
 
-        // used for commands like: "cmd;Fernzugang aktivieren;set;InternetGatewayDevice.User.1.Enable;1"
-        if (is_array($task) && ! $formInput) {
-            foreach ($task as $data) {
-                $this->modem->callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', json_encode($data));
-            }
+        $task = request('task');
 
-            return trans('messages.modemAnalysis.actionExecuted');
+        // Manually delete tasks
+        if (Str::startsWith($task, 'delete/tasks/')) {
+            return $this->deleteTask($task);
         }
 
-        // setWlan, setDns, blockDhcp, unblockDhcp
-        if ($formInput || \Str::startsWith($task, 'custom/')) {
-            $cwmpModel = (new DataModel($this->modem))->getDataModel();
-            $task = request('taskName') ?? $task;
-            $taskName = \Str::after($task, 'custom/');
-
-            return $cwmpModel->$taskName();
+        // setWifi, setDns, blockDhcp, unblockDhcp
+        if (Str::startsWith($task, 'tasks/')) {
+            return $this->executePredefinedTask($task);
         }
 
-        // manually delete tasks
-        if (\Str::startsWith($task, 'tasks/')) {
-            Modem::callGenieAcsApi($task, 'DELETE');
-
-            return trans('messages.modemAnalysis.actionExecuted');
-        }
-
-        $taskDecode = json_decode($task, true);
-        if ($taskDecode === null) {
+        // Used for commands like: "cmd;Fernzugang aktivieren;set;InternetGatewayDevice.User.1.Enable;1"
+        if (($tasks = json_decode('['.$task.']')) === null) {
+            // TODO: Improve message
             return trans('messages.JsonDecodeFailed');
         }
 
-        if ($taskDecode == ['name' => 'connection_request']) {
-            $this->modem->callGenieAcsApi("devices/$genieId/tasks?timeout=3000&connection_request", 'POST', '');
+        Modem::callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', $task);
 
-            Session::push('tmp_info_above_form', trans('messages.modemAnalysis.actionExecuted'));
+        return trans('messages.modemAnalysis.actionExecuted');
+    }
+
+    private function deleteTask($task)
+    {
+        $task = str_replace('delete/', '', $task);
+
+        Modem::callGenieAcsApi($task, 'DELETE');
+
+        return trans('messages.modemAnalysis.actionExecuted');
+    }
+
+    /**
+     * Tasks: Connection Request|Factory Reset|Reboot|setWifi|setDns|blockDhcp|unblockDhcp
+     */
+    private function executePredefinedTask($task)
+    {
+        $taskName = Str::after($task, 'tasks/');
+
+        if ($taskName == 'connection_request') {
+            $this->connectionRequest();
 
             return trans('messages.modemAnalysis.actionExecuted');
         }
 
-        foreach (['factoryReset', 'reboot'] as $action) {
-            if (
-                $taskDecode === ['name' => $action] &&
-                json_decode(Modem::callGenieAcsApi("tasks?query={\"device\":\"$genieId\",\"name\":\"$action\"}", 'GET'))
-            ) {
-                return $action.trans('messages.modemAnalysis.actionAlreadyScheduled');
+        if (in_array($taskName, ['factoryReset', 'reboot'])) {
+            $ret = $this->restart(false, false, $taskName == 'factoryReset', true);
+
+            if ($ret == 'isScheduled') {
+                return trans('messages.modemAnalysis.actionAlreadyScheduled');
             }
+
+            return trans('messages.modemAnalysis.actionExecuted');
         }
+
+        // setWifi, setDns, blockDhcp, unblockDhcp
+        $cwmpModel = (new DataModel($this->modem))->getDataModel();
+
+        return $cwmpModel->$taskName();
+    }
+
+    public function connectionRequest()
+    {
+        $genieId = $this->modem->getGenieId();
+        $timeout = config('provbase.cwmpConnectionRequestTimeout');
+
+        self::callGenieAcsApi("devices/$genieId/tasks?timeout=$timeout&connection_request", 'POST', '');
     }
 
     public function restart($mac_changed = false, $modem_reset = false, $factoryReset = false, $silent = false)
@@ -128,7 +146,7 @@ class Tr069Modem extends Modem implements ModemType
      */
     public function refreshObject(): void
     {
-        $this->modem::callGenieAcsApi(
+        self::callGenieAcsApi(
             'devices/'.$this->modem->getGenieId().'/tasks?timeout=3000&connection_request',
             'POST',
             json_encode(['name' => 'refreshObject', 'objectName' => request('object')])
