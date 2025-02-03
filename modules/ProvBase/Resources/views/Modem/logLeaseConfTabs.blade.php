@@ -112,9 +112,11 @@
                 <button type="submit" class="btn btn-primary mt-3">{{ trans('view.Button_Submit') }}</button>
             </form>
         </div>
-        <div class="text-green-600 pb-2">
-            <b>{{ trans('view.modemAnalysis.lastUpdatedOn', ['date' => $configfile['mtime']]) }}</b>
-        </div>
+        @if (isset($configfile['mtime']))
+            <div class="text-green-600 pb-2">
+                <b>{{ trans('view.modemAnalysis.lastUpdatedOn', ['date' => $configfile['mtime']]) }}</b>
+            </div>
+        @endif
         @if (isset($configfile['warn']))
             <div class="text-red-600"><b>{{ $configfile['warn'] }}</b></div>
         @endif
