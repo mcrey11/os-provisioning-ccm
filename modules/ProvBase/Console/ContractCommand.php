@@ -46,6 +46,13 @@ class ContractCommand extends Command
     protected $i;
 
     /**
+     * Item types to be used in daily conversion
+     *
+     * @var array
+     */
+    protected $itemTypesForDailyConversion = [];
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -53,6 +60,15 @@ class ContractCommand extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->itemTypesForDailyConversion = [
+            'Internet',
+            'Voip',
+        ];
+
+        if (\Module::collections()->has('WaipuTV')) {
+            $this->itemTypesForDailyConversion[] = 'TV';
+        }
     }
 
     /**
@@ -89,7 +105,7 @@ class ContractCommand extends Command
                     ->where('contract_start', '<=', $today)
                     ->join('item', 'contract.id', '=', 'item.contract_id')
                     ->join('product', 'product.id', '=', 'item.product_id')
-                    ->whereIn('product.type', ['Internet', 'Voip'])
+                    ->whereIn('product.type', $this->itemTypesForDailyConversion)
                     ->where(function ($query) use ($min_date, $max_date) {
                         // using advanced where clause to set brackets properly
                         $query

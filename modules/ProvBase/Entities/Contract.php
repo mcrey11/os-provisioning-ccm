@@ -965,6 +965,15 @@ class Contract extends \BaseModel
      */
     public function daily_conversion()
     {
+        $productTypesForDailyConversion = [
+            'Internet',
+            'Voip',
+        ];
+
+        if (\Module::collections()->has('WaipuTV')) {
+            $productTypesForDailyConversion[] = 'TV';
+        }
+
         // ignore SmartOnt OTO
         if (Module::collections()->has('SmartOnt') && in_array($this->type, ['OTO_FTTH_FR', 'OTO_OWN', 'OTO_STORAGE'])) {
             return;
@@ -985,7 +994,7 @@ class Contract extends \BaseModel
             // with that there are no more refresh database queries necessary (items do not have to be reloaded again)
             $items = $this->items()
                 ->leftJoin('product', 'product.id', '=', 'item.product_id')
-                ->whereIn('product.type', ['Internet', 'Voip'])
+                ->whereIn('product.type', $productTypesForDailyConversion)
                 ->where(whereLaterOrEqual('item.valid_to', date('Y-m-d', strtotime("-$item_max_ended_before days"))))
                 // ->orderBy('valid_from', 'desc')
                 ->select('item.*')
@@ -1003,6 +1012,10 @@ class Contract extends \BaseModel
             // Task 4: Check and possibly change product related data (qos_id, voip, purchase_tariff)
             // for this contract depending on the start/end times of its items
             $this->update_product_related_data();
+
+            if (\Module::collections()->has('WaipuTV')) {
+                $this->updateTVItemsForWaipuTV();
+            }
 
             // NOTE: Keep this order! - update network access after all adaptions are made
             // Task 1 & 2 included
@@ -1152,6 +1165,10 @@ class Contract extends \BaseModel
             $item_changed = false;
             $type = $item->product->type;
 
+            if (! in_array($type, ['Internet', 'Voip'])) {
+                continue;
+            }
+
             // if the startdate is fixed: ignore
             if (! boolval($item->valid_from_fixed)) {
                 // set to tomorrow if there is a start date but this is less then tomorrow
@@ -1193,6 +1210,172 @@ class Contract extends \BaseModel
                 $item->save();
             }
         }
+    }
+
+    /**
+     * This method triggers actions against the waipu.tv API according to the waipu.tv related status
+     * of previous, current and next TV items.
+     *
+     * @author Patrick Reichel
+     */
+    protected function updateTVItemsForWaipuTV()
+    {
+        $items = $this->extractRelevantTVItems();
+        $today = date('Y-m-d');
+
+        // Special case: new waipu.tv account may start soon
+        if ($items['next']['isWaipuTV'] && (! $items['current']['isWaipuTV'])) {
+            // No early return here! One of the next checks may get true, too.
+            $this->handleFutureWaipuTV($items);
+        }
+
+        // Current is waipu, previous was not
+        if ($items['current']['isWaipuTV'] && (! $items['previous']['isWaipuTV'])) {
+            return $this->handleCreateWaipuTV($items);
+        }
+
+        // Previous was waipu, current is not
+        if ($items['previous']['isWaipuTV'] && (! $items['current']['isWaipuTV'])) {
+            return $this->handleCancelWaipuTV($items);
+        }
+
+        // Previous and current are waipu
+        if ($items['previous']['isWaipuTV'] && $items['current']['isWaipuTV']) {
+            return $this->handleChangeWaipuTV($items);
+        }
+    }
+
+    /**
+     * This extracts the (max) three waipu.tv relevant items to be checked.
+     *
+     * @author Patrick Reichel
+     */
+    protected function extractRelevantTVItems()
+    {
+        $relevantItems = [
+            'previous' => [
+                'item' => null,
+                'isWaipuTV' => false,
+            ],
+            'current' => [
+                'item' => null,
+                'isWaipuTV' => false,
+            ],
+            'next' => [
+                'item' => null,
+                'isWaipuTV' => false,
+            ],
+        ];
+        $today = date('Y-m-d');
+
+        foreach ($this->items as $item) {
+            // Not a TV item
+            if ('TV' != $item->product->type) {
+                continue;
+            }
+
+            // this is not really a beautiful solution – but it works
+            if ('Modules\WaipuTV\Entities\WaipuTVItem' == $item->qualified_model_class) {
+                $item = \Modules\WaipuTV\Entities\WaipuTVItem::find($item->id);
+            }
+
+            // Current or previous?
+            if ($item->valid_from <= $today) {
+                if ((! $item->valid_to) || ($item->valid_to >= $today)) {
+                    $relevantItems['current']['item'] = $item;
+                    $relevantItems['current']['isWaipuTV'] = ('Modules\WaipuTV\Entities\WaipuTVItem' == $item->qualified_model_class);
+                    continue;
+                }
+
+                if (is_null($relevantItems['previous']['item']) || ($item->valid_to > $relevantItems['previous']['item']->valid_to)) {
+                    $relevantItems['previous']['item'] = $item;
+                    $relevantItems['previous']['isWaipuTV'] = ('Modules\WaipuTV\Entities\WaipuTVItem' == $item->qualified_model_class);
+                    continue;
+                }
+
+                continue;
+            }
+
+            // Next?
+            if ((! $relevantItems['next']['item']) || ($item->valid_from < $relevantItems['next']['item']->valid_from)) {
+                $relevantItems['next']['item'] = $item;
+                $relevantItems['next']['isWaipuTV'] = ('Modules\WaipuTV\Entities\WaipuTVItem' == $item->qualified_model_class);
+                continue;
+            }
+        }
+
+        return $relevantItems;
+    }
+
+    protected function handleFutureWaipuTV($items)
+    {
+        $remoteOrderThresholdDate = date('Y-m-d', strtotime('+'.config('waiputv.vars.daysToOrderRemoteInAdvance').' days'));
+
+        // Already handled
+        if ($items['next']['item']->hasBeenOrdered()) {
+            return;
+        }
+
+        // Handle later
+        if ($items['next']['item']->valid_from > $remoteOrderThresholdDate) {
+            return;
+        }
+
+        // Called from edit view ⇒ do live
+        if (! \App::runningInConsole()) {
+            return $items['next']['item']->waipuTVAction('waipuTVCreateAccount');
+        }
+
+        // Called from daily conversion ⇒ use job
+        \Queue::pushOn('medium', new \Modules\WaipuTV\Jobs\WaipuTVItemUpdaterJob('create', $items['next']['item']->id));
+    }
+
+    protected function handleCreateWaipuTV($items)
+    {
+        // Already handled
+        if ($items['current']['item']->hasBeenOrdered()) {
+            return;
+        }
+
+        // Called from edit view ⇒ do live
+        if (! \App::runningInConsole()) {
+            return $items['current']['item']->waipuTVAction('waipuTVCreateAccount');
+        }
+
+        // Called from daily conversion ⇒ use job
+        \Queue::pushOn('medium', new \Modules\WaipuTV\Jobs\WaipuTVItemUpdaterJob('create', $items['current']['item']->id));
+    }
+
+    protected function handleCancelWaipuTV($items)
+    {
+        // Already handled
+        if ($items['previous']['item']->hasBeenFinished()) {
+            return;
+        }
+
+        // Called from edit view ⇒ do live
+        if (! \App::runningInConsole()) {
+            return $items['previous']['item']->waipuTVAction('waipuTVCancelAccount');
+        }
+
+        // Called from daily conversion ⇒ use job
+        \Queue::pushOn('medium', new \Modules\WaipuTV\Jobs\WaipuTVItemUpdaterJob('cancel', $items['previous']['item']->id));
+    }
+
+    protected function handleChangeWaipuTV($items)
+    {
+        // Already handled
+        if ($items['current']['item']->hasBeenOrdered()) {
+            return;
+        }
+
+        // Called from edit view ⇒ do live
+        if (! \App::runningInConsole()) {
+            return $items['current']['item']->waipuTVAction('waipuTVChangeAccount');
+        }
+
+        // Called from daily conversion ⇒ use job
+        \Queue::pushOn('medium', new \Modules\WaipuTV\Jobs\WaipuTVItemUpdaterJob('change', $items['current']['item']->id));
     }
 
     /**
@@ -1412,6 +1595,10 @@ class Contract extends \BaseModel
             }
 
             $type = $item->product->type;
+
+            if (! in_array($type, ['Internet', 'Voip'])) {
+                continue;
+            }
 
             // check which month is affected by the currently investigated item
             if (
