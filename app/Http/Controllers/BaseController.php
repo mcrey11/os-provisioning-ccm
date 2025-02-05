@@ -35,6 +35,7 @@ use Redirect;
 use Request;
 use Session;
 use Str;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Validator;
 use View;
 use Yajra\DataTables\DataTables;
@@ -1041,6 +1042,24 @@ class BaseController extends Controller
     {
         $model = static::get_model_obj();
         $view_var = $model->findOrFail($id);
+
+        // check if correct route is called (e.g. Item.edit instead WaipuTVItem.edit)
+        // if not: redirect
+        if ($newRoute = $this->checkRedirectToOtherRoute($view_var, 'edit')) {
+            try {
+                return \Redirect::route($newRoute, [$id]);
+            } catch (RouteNotFoundException $ex) {
+                $url = Request::url();
+                $msg = trans('messages.routeNotFoundError', ['url' => $url, 'route' => $newRoute]);
+                $model->addAboveMessage($msg, 'error');
+                Log::error($msg);
+
+                return redirect()->back();
+            } catch (\Throwable $ex) {
+                throw $ex;
+            }
+        }
+
         $view_var->loadEditViewRelations();
 
         $view_header = BaseViewController::translate_view($model->view_headline(), 'Header');
@@ -2217,5 +2236,21 @@ class BaseController extends Controller
         }
 
         return $select += array_combine($files, $files);
+    }
+
+    protected function checkRedirectToOtherRoute($model, $method)
+    {
+        if (! $model->qualified_model_class) {
+            return;
+        }
+
+        if ($model->qualified_model_class == get_class($model)) {
+            return;
+        }
+
+        $tmp = explode('\\', $model->qualified_model_class);
+        $modelName = array_pop($tmp);
+
+        return $modelName.'.'.$method;
     }
 }
