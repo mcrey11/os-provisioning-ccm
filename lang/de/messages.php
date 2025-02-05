@@ -922,4 +922,12 @@ return [
     'worker' => [
         'stopped' => 'Der Hintergrundprozess zum Abarbeiten von Jobs läuft nicht. Bitte wenden Sie sich an Ihren Administrator!',
     ],
+    'waipuTV' => [
+        'button' => [
+            'activate_account' => 'Manuelle Aktivierung des Kontos (z.B. Setzen des Passworts)',
+            'unlock_account' => 'Entsperrt das Konto (Nutzer kann wieder fernsehen)',
+            'lock_account' => 'Sperrt das Konto (z.B. wegen Nichtbezahlens)',
+        ],
+    ],
+    'routeNotFoundError' => 'FEHLER: Kann die Seite „:url“ nicht laden (die Route „:route“ existiert nicht)',
 ];

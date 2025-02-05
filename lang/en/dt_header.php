@@ -156,6 +156,7 @@ return [
     'item.valid_to' => 'Valid to',
     'item.valid_to_fixed' => 'Valid to fixed',
     'item.accounting_text' => 'Purpose',
+    'item.external_status' => 'External status',
     'fee' => 'Fee',
     'product' => [
         'maturity_min' => 'Minimum maturity',
@@ -164,6 +165,7 @@ return [
         'proportional' => 'Proportionate',
         'tax' => 'Calculate tax?',
         'type' => 'Type',
+        'reselling_partner' => 'Reselling partner',
     ],
     // Salesman
     'salesman.id' => 'ID',

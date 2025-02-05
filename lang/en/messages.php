@@ -922,4 +922,12 @@ return [
     'worker' => [
         'stopped' => 'The background process to perform the job is not running. Please refer to your administrator!',
     ],
+    'waipuTV' => [
+        'button' => [
+            'activate_account' => 'Activate the account manually (setting password, etc.)',
+            'unlock_account' => 'Unlocks the account (customer can watch TV again)',
+            'lock_account' => 'Locks the account (e.g. because of missing payments)',
+        ],
+    ],
+    'routeNotFoundError' => 'ERROR: Cannot load page “:url” (route “:route” does not exist)',
 ];

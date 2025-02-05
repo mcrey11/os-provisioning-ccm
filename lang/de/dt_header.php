@@ -156,6 +156,7 @@ return [
     'item.valid_to' => 'Gültig bis',
     'item.valid_to_fixed' => 'Festes Enddatum',
     'item.accounting_text' => 'Verwendungszweck',
+    'item.external_status' => 'Externer Status',
     'fee' => 'Gebühr',
     'product' => [
         'maturity_min' => 'Mindestlaufzeit',
@@ -164,6 +165,7 @@ return [
         'proportional' => 'Anteilig',
         'tax' => 'Steuer berechnen?',
         'type' => 'Typ',
+        'reselling_partner' => 'Wiederverkaufspartner',
     ],
     // Salesman
     'salesman.id' => 'ID',
