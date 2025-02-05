@@ -4,15 +4,17 @@ namespace App\Traits;
 
 trait ModelWithCustomFields
 {
+    public static $customFieldsPrefix = 'custom_field__';
+
     /**
      * Get names of the custom fields.
      *
      * @author Patrick Reichel
      */
-    public static function getCustomFields($key)
+    public static function getCustomFields()
     {
         $fields = [];
-        $fieldsRaw = self::$customFieldDefinitions[$key] ?? [];
+        $fieldsRaw = self::$customFieldDefinitions ?? [];
 
         foreach ($fieldsRaw as $field => $rule) {
             $fields[] = self::$customFieldsPrefix.$field;
@@ -26,10 +28,10 @@ trait ModelWithCustomFields
      *
      * @author Patrick Reichel
      */
-    public static function getCustomRules($key)
+    public static function getCustomRules()
     {
         $rules = [];
-        $fieldsRaw = self::$customFieldDefinitions[$key] ?? [];
+        $fieldsRaw = self::$customFieldDefinitions ?? [];
 
         foreach ($fieldsRaw as $field => $config) {
             if ($config['rule']) {
@@ -45,10 +47,10 @@ trait ModelWithCustomFields
      *
      * @author Patrick Reichel
      */
-    public static function getCustomFormMethods($key)
+    public static function getCustomFormMethods()
     {
         $formMethods = [];
-        $fieldsRaw = self::$customFieldDefinitions[$key] ?? [];
+        $fieldsRaw = self::$customFieldDefinitions ?? [];
 
         foreach ($fieldsRaw as $field => $config) {
             $formMethods[self::$customFieldsPrefix.$field] = $config['formMethod'];
@@ -62,10 +64,16 @@ trait ModelWithCustomFields
      *
      * @author Patrick Reichel
      */
-    public function expandCustomFields($key)
+    public function expandCustomFields()
     {
+        // property_exists() does not work with dynamically added ones
+        if (! isset($this['custom_data'])) {
+            // Already expanded
+            return;
+        }
+
         $customData = json_decode($this->custom_data, true);
-        foreach (self::getCustomFields($key) as $field) {
+        foreach (self::getCustomFields() as $field) {
             $this->$field = $customData[$field] ?? '';
         }
         unset($this->custom_data);
@@ -76,10 +84,10 @@ trait ModelWithCustomFields
      *
      * @author Patrick Reichel
      */
-    public static function collapseCustomFieldsInInput(&$data, $key)
+    public static function collapseCustomFieldsInInput(&$data)
     {
         $customData = [];
-        foreach (self::getCustomFields($key) as $field) {
+        foreach (self::getCustomFields() as $field) {
             $customData[$field] = $data[$field] ?? '';
             unset($data[$field]);
         }
@@ -91,10 +99,15 @@ trait ModelWithCustomFields
      *
      * @author Patrick Reichel
      */
-    public function collapseCustomFields($key)
+    public function collapseCustomFields()
     {
+        if (property_exists(get_class($this), 'custom_data')) {
+            // Already collapsed
+            return;
+        }
+
         $customData = [];
-        foreach ($this->getCustomFields($key) as $field) {
+        foreach ($this->getCustomFields() as $field) {
             $customData[$field] = $this->{$field} ?? '';
             unset($this->{$field});
         }
