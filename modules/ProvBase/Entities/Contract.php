@@ -954,6 +954,7 @@ class Contract extends \BaseModel
      *  1. Check if $this contract end date is expired -> disable internet_access
      *  2. Check if $this is a new contract and activate it -> enable internet_access
      *  3. Change QoS id and Voip id if actual valid (billing-) tariff changes
+     *  4. If module waiputv is enabled: Trigger actions against the waipu.tv API if needed.
      *
      * Attention: To avoid endless loops the Observers of Contract & Item need to be disabled before calling save()
      *      as they would call daily_conversion again. Please only adapt this function with testing all cases. See
