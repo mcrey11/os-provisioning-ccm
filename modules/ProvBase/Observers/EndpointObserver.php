@@ -18,6 +18,7 @@
 
 namespace Modules\ProvBase\Observers;
 
+use Modules\ProvBase\Entities\Endpoint;
 use Modules\ProvBase\Traits\AdaptsDhcpConf;
 use Nwidart\Modules\Facades\Module;
 
@@ -25,14 +26,14 @@ class EndpointObserver
 {
     use AdaptsDhcpConf;
 
-    public function creating($endpoint)
+    public function creating(Endpoint $endpoint)
     {
         if (! $endpoint->fixed_ip) {
             $endpoint->ip = null;
         }
     }
 
-    public function created($endpoint)
+    public function created(Endpoint $endpoint)
     {
         if (Module::collections()->has('SmartOnt')) {
             \Queue::pushOn('serial', new \Modules\SmartOnt\Jobs\EndpointStateChangerJob($endpoint->id));
@@ -51,7 +52,7 @@ class EndpointObserver
         $endpoint->modem->restart();
     }
 
-    public function updating($endpoint)
+    public function updating(Endpoint $endpoint)
     {
         if (! $endpoint->fixed_ip) {
             $endpoint->ip = null;
@@ -83,7 +84,7 @@ class EndpointObserver
         $endpoint->nsupdate(true);
     }
 
-    public function updated($endpoint)
+    public function updated(Endpoint $endpoint)
     {
         $endpoint->reserveAddress();
 
@@ -95,7 +96,7 @@ class EndpointObserver
         $endpoint->modem->restart();
     }
 
-    public function deleting($endpoint)
+    public function deleting(Endpoint $endpoint)
     {
         if (! Module::collections()->has('SmartOnt')) {
             return;
@@ -116,7 +117,7 @@ class EndpointObserver
         $endpoint->description = $desc.$endpoint->description;
     }
 
-    public function deleted($endpoint)
+    public function deleted(Endpoint $endpoint)
     {
         if (Module::collections()->has('SmartOnt')) {
             \Queue::pushOn('serial', new \Modules\SmartOnt\Jobs\EndpointStateChangerJob($endpoint->id));
