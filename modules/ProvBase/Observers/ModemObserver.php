@@ -61,7 +61,7 @@ class ModemObserver
         }
 
         if (! $modem->internet_access) {
-            $modem->blockCpeViaDhcp();
+            $modem->dhcpBlockCpe();
         }
 
         if ($modem->isAltiplano() && Module::collections()->has('Altiplano')) {
@@ -197,7 +197,7 @@ class ModemObserver
                 $macChanged = array_key_exists('mac', $diff);
 
                 if (multi_array_key_exists(['internet_access', 'mac'], $diff)) {
-                    $modem->blockCpeViaDhcp(boolval($modem->internet_access), $macChanged);
+                    $modem->handleDhcpCpeBlock(! boolval($modem->internet_access), $macChanged);
                 }
 
                 $modem->restart($macChanged);
@@ -277,7 +277,7 @@ class ModemObserver
 
         Modem::create_ignore_cpe_dhcp_file();
         if (! $modem->internet_access) {
-            $modem->blockCpeViaDhcp(true);
+            $modem->dhcpUnblockCpe();
         }
         $modem->make_dhcp_cm(true);
         $modem->restart();

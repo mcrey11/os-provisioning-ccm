@@ -1080,37 +1080,71 @@ class Modem extends \BaseModel
      *      * so maybe we end with the modem deleted but the MAC still in blocked file
      *  Therefore: Rebuild the whole DHCP config (e.g. daily)
      */
-    public function blockCpeViaDhcp($unblock = false, $macChanged = false)
+    public function handleDhcpCpeBlock($block = true, $macChanged = false)
     {
-        // Add (Block)
-        if (! $unblock) {
-            $fh = fopen(self::BLOCKED_CPE_FILE_PATH, 'c+');
-            flock($fh, LOCK_EX);
+        Log::debug(__METHOD__.' started for '.$this->hostname);
 
-            exec('grep -i '.$this->mac.' '.self::BLOCKED_CPE_FILE_PATH, $out, $ret);
-            $out = [];
-
-            // not found
-            if ($ret) {
-                fseek($fh, 0, SEEK_END);    // Set pointer to end of the file
-                fwrite($fh, "\n".$this->getDhcpBlockedCpeSublass());    // Add line
-                fflush($fh);    // Empty buffer
-
-                Log::info("DHCP - Add modem $this->id ($this->mac) to list for blocked CPEs");
-            }
-
-            fclose($fh);    // Close (and release lock)
+        if ($block) {
+            $this->dhcpBlockCpe();
 
             if (! $macChanged) {
                 return;
             }
         }
 
-        // Remove (Unblock)
+        $this->dhcpUnblockCpe($macChanged);
+    }
+
+    /**
+     * Add modem MAC to DHCP block file (Doesn't allow CPEs of the modem to get an IP)
+     *
+     * @param  bool  $macChanged
+     */
+    public function dhcpBlockCpe()
+    {
+        if (! $this->mac) {
+            return;
+        }
+
+        Log::debug(__METHOD__.' started for '.$this->hostname);
+
         $fh = fopen(self::BLOCKED_CPE_FILE_PATH, 'c+');
         flock($fh, LOCK_EX);
 
+        Log::debug('grep -i '.$this->mac.' '.self::BLOCKED_CPE_FILE_PATH);
+
+        exec('grep -i '.$this->mac.' '.self::BLOCKED_CPE_FILE_PATH, $out, $ret);
+        $out = [];
+
+        // not found
+        if ($ret) {
+            fseek($fh, 0, SEEK_END);    // Set pointer to end of the file
+            fwrite($fh, "\n".$this->getDhcpBlockedCpeSublass());    // Add line
+            fflush($fh);    // Empty buffer
+
+            Log::info("DHCP - Add modem $this->id ($this->mac) to list for blocked CPEs");
+        }
+
+        fclose($fh);    // Close (and release lock)
+    }
+
+    /**
+     * Remove from DHCP block file
+     *
+     * @param  bool  $macChanged
+     */
+    public function dhcpUnblockCpe($macChanged = false)
+    {
+        Log::debug(__METHOD__.' started for '.$this->hostname);
+
         $mac = $macChanged ? $this->getRawOriginal('mac') : $this->mac;
+
+        if (! $mac) {
+            return;
+        }
+
+        $fh = fopen(self::BLOCKED_CPE_FILE_PATH, 'c+');
+        flock($fh, LOCK_EX);
 
         exec('grep -vi '.$mac.' '.self::BLOCKED_CPE_FILE_PATH, $out, $ret);
         ftruncate($fh, 0);  // Empty the file
