@@ -162,7 +162,7 @@ class EndpointController extends \BaseController
         return $data;
     }
 
-    protected function prepare_rules($rules, $data)
+    public function prepare_rules($rules, $data)
     {
         if ($data['version'] == '6') {
             $rules['prefix'][] = 'required';

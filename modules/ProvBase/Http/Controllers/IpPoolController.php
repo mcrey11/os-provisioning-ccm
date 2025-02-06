@@ -162,7 +162,7 @@ class IpPoolController extends \BaseController
         return parent::prepare_input($data);
     }
 
-    protected function prepare_rules($rules, $data)
+    public function prepare_rules($rules, $data)
     {
         if ($data['type'] == 'STB') {
             $rules['vendor_class_identifier'][] = 'required';

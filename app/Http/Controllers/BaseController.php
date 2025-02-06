@@ -326,7 +326,7 @@ class BaseController extends Controller
      *
      * Note: Will be running before Validation
      */
-    protected function prepare_rules($rules, $data)
+    public function prepare_rules($rules, $data)
     {
         return $rules;
     }

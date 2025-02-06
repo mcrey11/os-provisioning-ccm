@@ -122,6 +122,11 @@ class BaseModel extends Eloquent
         return array_pop($model_name);
     }
 
+    public function getModuleName(): string
+    {
+        return explode('\\', get_class($this))[1];
+    }
+
     /**
      * Init Observer
      */
