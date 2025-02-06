@@ -20,9 +20,13 @@ namespace Modules\ProvBase\Console;
 
 use App\ImportTrait;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Modules\BillingBase\Entities\Item;
+use Modules\BillingBase\Entities\Product;
 use Modules\ProvBase\Entities\Address;
+use Modules\ProvBase\Entities\Configfile;
 use Modules\ProvBase\Entities\Contract;
+use Modules\ProvBase\Entities\Endpoint;
 use Modules\ProvBase\Entities\Modem;
 use Modules\ProvVoip\Entities\Mta;
 use Modules\ProvVoip\Entities\Phonenumber;
@@ -40,7 +44,7 @@ class ImportCsvCommand extends Command
     use \App\AddressFunctionsTrait;
 
     /** @var array Keys of data that shall not be validated */
-    private $validationExceptions = ['email', 'number', 'salutation'];
+    private $validationExceptions = ['mac', 'number'];
 
     /** @var \Modules\ProvBase\Entities\Contract Currently processed contract */
     private $contract;
@@ -78,7 +82,8 @@ class ImportCsvCommand extends Command
         $bar = $this->output->createProgressBar($num);
         $bar->start();
 
-        $this->availableProdIds = \Modules\BillingBase\Entities\Product::pluck('id');
+        $this->availableProdIds = Product::get()->keyBy('name');
+        $this->availableConfigfileIds = Configfile::get()->keyBy('name');
 
         foreach ($list as $line) {
             $bar->advance();
@@ -137,64 +142,38 @@ class ImportCsvCommand extends Command
 
     private function addContract()
     {
-        $number = $this->currentLine[10];
+        $number = $this->currentLine[0];
         $this->contract = null;
-        $description = null;
-
-        if (strpos($number, 'Node') !== false) {
-            $this->contract = Contract::find(615);
-        } elseif (Contract::where('number', $number)->first()) {
-            $description = "belongs to $number";
-            $number = '';
-        } else {
-            $this->addAddress();
-        }
+        $description = $this->currentLine[27];
 
         if (! $this->contract) {
-            $addr = explode(' ', $this->currentLine[20], 2);
-            $housenr = $addr[0];
-            $street = $addr[1] ?? null;
+            $housenr = $this->currentLine[10];
+            $street = $this->currentLine[9];
 
             $data = [
-                'apartment_nr' => $this->currentLine[3],
-                'city' => $this->currentLine[21] ?: $this->currentLine[4],
-                'company' => $this->currentLine[11] ?: null,
+                'academic_degree' => $this->currentLine[1],
+                'apartment_nr' => $this->currentLine[11],
+                'city' => $this->currentLine[7],
+                'company' => $this->currentLine[5] ?: null,
                 'contract_start' => '2000-01-01',
                 'costcenter_id' => $this->argument('contract-cc'),
-                'country_code' => $this->currentLine[22], // State
+                // 'country_code' => $this->currentLine[22], // State
                 'create_invoice' => true,
                 'description' => $description,
-                'email' => $this->currentLine[14],
-                'lat' => $this->currentLine[8] ? (is_float($this->currentLine[8]) ? $this->currentLine[8] : null) : null,
-                'lng' => $this->currentLine[7] ? (is_float($this->currentLine[7]) ? $this->currentLine[7] : null) : null,
+                'email' => $this->currentLine[12],
+                // 'lat' => $this->currentLine[8] ? (is_float($this->currentLine[8]) ? $this->currentLine[8] : null) : null,
+                // 'lng' => $this->currentLine[7] ? (is_float($this->currentLine[7]) ? $this->currentLine[7] : null) : null,
                 // 'contract_end' => ,
-                'firstname' => $this->currentLine[13],
-                'house_number' => $housenr ? $housenr : $this->currentLine[1],
-                'lastname' => $this->currentLine[12],
+                'firstname' => $this->currentLine[3],
+                'house_number' => $housenr,
+                'lastname' => $this->currentLine[4],
                 'number' => (string) $number,
-                'phone' => $this->currentLine[15],
+                'phone' => $this->currentLine[32],
                 // Salutation is required but rules is removed in isDataValid()
-                // 'salutation' => self::map_salutation(self::$line[self::C_SALUT]),
-                'street' => $street ?: $this->currentLine[2],
-                'zip' => $this->currentLine[23] ?: $this->currentLine[6],
+                'salutation' => $this->currentLine[2],
+                'street' => $street,
+                'zip' => str_pad($this->currentLine[8], 5, '0', STR_PAD_LEFT),
             ];
-
-            // if (! $data['street'] && ! $data['firstname'] && ! $data['company']) {
-            //     return;
-            // }
-
-            if ($data['street'] != $this->currentLine[2] ||
-                $data['house_number'] != $this->currentLine[1] ||
-                $data['zip'] != $this->currentLine[6] ||
-                $data['city'] != $this->currentLine[4]
-            ) {
-                unset($data['lat']);
-                unset($data['lng']);
-            }
-
-            // if (! $this->isDataValid('Contract', $data)) {
-            //     return;
-            // }
 
             $this->contract = Contract::create($data);
         }
@@ -204,51 +183,54 @@ class ImportCsvCommand extends Command
 
     private function addModem()
     {
-        $mac = $this->currentLine[69] ?? null;
+        $mac = $this->currentLine[16];
 
-        if (! $mac) {
-            if (! isset($this->currentLine[69])) {
-                $this->line(implode(';', $this->currentLine));
-            }
+        // if (! $mac) {
+        //     $this->line(implode(';', $this->currentLine));
 
-            return;
-        }
+        //     return;
+        // }
+        $this->modem = null;
 
         $data = [
-            'city' => $this->currentLine[4],
+            'city' => $this->contract->city,
             'configfile_id' => $this->getModemConfigfileId(),
             'contract_id' => $this->contract->id,
             'firstname' => $this->contract->firstname,
-            'house_number' => $this->currentLine[1],
+            'house_number' => $this->contract->house_number,
+            'internet_access' => $this->currentLine[14],
             'lastname' => $this->contract->lastname,
-            'mac' => $mac,
-            'street' => $this->currentLine[2],
-            'zip' => $this->currentLine[6],
-            'lat' => $this->currentLine[8] ? (is_float($this->currentLine[8]) ? $this->currentLine[8] : null) : null,
-            'lng' => $this->currentLine[7] ? (is_float($this->currentLine[7]) ? $this->currentLine[7] : null) : null,
+            'mac' => $mac ?: null,
+            'ppp_password' => $this->currentLine[22],
+            'ppp_username' => str_replace(' ', '', $this->currentLine[21]),
+            'public' => true,
+            'street' => $this->contract->street,
+            'zip' => $this->contract->zip,
+            // 'lat' => $this->currentLine[8] ? (is_float($this->currentLine[8]) ? $this->currentLine[8] : null) : null,
+            // 'lng' => $this->currentLine[7] ? (is_float($this->currentLine[7]) ? $this->currentLine[7] : null) : null,
         ];
 
-        if (! $this->isDataValid('Modem', $data)) {
-            return;
+        if (! $this->isDataValid(new Modem, $data)) {
+            $this->modem = Modem::where('mac', $mac)->first();
+
+            if (! $this->modem) {
+                return;
+            }
         }
 
-        $this->modem = Modem::create($data);
+        if (! $this->modem) {
+            $this->modem = Modem::create($data);
+        }
 
+        $this->addEndpoint();
         $this->addMta();
     }
 
-    private function isDataValid(string $classname, array $data): bool
+    private function isDataValid($obj, array $data): bool
     {
-        $module = [
-            'Contract' => 'ProvBase',
-            'Modem' => 'ProvBase',
-            'Mta' => 'ProvVoip',
-            'Phonenumber' => 'ProvVoip',
-        ];
-
-        $fqClassName = '\Modules\\'.$module[$classname]."\Entities\\$classname";
-        $obj = new $fqClassName;
-        $fqControllerName = '\Modules\\'.$module[$classname]."\Http\Controllers\\$classname".'Controller';
+        $className = $obj->get_model_name();
+        $module = $obj->getModuleName();
+        $fqControllerName = '\Modules\\'.$module."\Http\Controllers\\$className".'Controller';
         $controller = new $fqControllerName;
 
         $rules = $controller->prepare_rules($obj->rules(), $data);
@@ -261,106 +243,165 @@ class ImportCsvCommand extends Command
 
         $validator = Validator::make($data, $rules);
 
-        if ($validator->fails()) {
-            echo "\n";
-            $ref = $data['number'] ?? ($data['mac'] ?? '');
-            // dd($validator->errors()->);
-            $this->line("$classname validation error for $ref: ".implode(', ', array_keys($validator->errors()->messages())));
-            // $this->line(implode(';', $this->currentLine));
-            echo "\n";
-            // $this->warnings[] = "$classname validation error: ".$validator->errors();
-
-            return false;
+        if (! $validator->fails()) {
+            return true;
         }
 
-        return true;
+        $ref = $data['number'] ?? ($data['mac'] ?? '');
+        $failedKeys = array_keys($validator->errors()->messages());
+
+        foreach ($data as $key => $value) {
+            if (! in_array($key, $failedKeys)) {
+                unset($data[$key]);
+            }
+        }
+
+        $this->line("\n$className validation error for $ref: ".implode(', ', Arr::flatten($validator->errors()->messages())).' ['.implode(',', $data)."]\n");
+
+        return false;
     }
 
     private function getModemConfigfileId()
     {
-        $bridgeProdIds = [4, 7, 9, 11];
+        if ($this->currentLine[13] != 'CABLEMODEM') {
+            return 29;
+        }
 
-        foreach ($bridgeProdIds as $prodId) {
-            if (strpos($this->currentLine[60], "$prodId,") !== false) {
-                // Bridge no WiFi configfile
-                return 6;
+        $name = $this->currentLine[18];
+
+        if (! isset($this->availableConfigfileIds[$name])) {
+            $this->line("\n Configfile $name does not exist. Use Base Configfile");
+
+            return 1;
+        }
+
+        return $this->availableConfigfileIds[$name]->id;
+    }
+
+    private function addEndpoint()
+    {
+        $ip = $this->currentLine[25];
+
+        if (! $ip) {
+            return;
+        }
+
+        $data = [
+            'fixed_ip' => true,
+            'hostname' => 'cpe-'.$this->modem->id,
+            'ip' => $ip,
+            'mac' => strpos($this->currentLine[26], '--') === false ? $this->currentLine[26] : null,
+            'modem_id' => $this->modem->id,
+            'version' => '4',
+        ];
+
+        if (! $this->isDataValid(new Endpoint, $data)) {
+            if (Endpoint::where('hostname', $data['hostname'])->first()) {
+                $data['hostname'] .= '-2';
+            } else {
+                return;
             }
         }
 
-        // Base Configfile
-        return 1;
+        Endpoint::create($data);
     }
 
     private function addMta()
     {
-        if (! $this->currentLine[70]) {
+        $mac = $this->currentLine[33];
+        $this->mta = null;
+
+        if (! $mac) {
+            if ($this->currentLine[28] && $this->currentLine[13] != 'CABLEMODEM') {
+                $this->line("Modem {$this->modem->mac} has phonenumber but no MTA\n");
+            }
+
             return;
         }
 
         $data = [
             'configfile_id' => $this->getMtaConfigfileId(),
-            'mac' => $this->currentLine[70],
+            'mac' => $mac,
             'modem_id' => $this->modem->id,
             'type' => 'sip',
         ];
 
-        if (! $this->isDataValid('Mta', $data)) {
-            return;
+        if (! $this->isDataValid(new Mta, $data)) {
+            $this->mta = Mta::where('mac', $mac)->first();
+
+            if (! $this->mta) {
+                return;
+            }
         }
 
-        $this->mta = Mta::create($data);
+        if (! $this->mta) {
+            $this->mta = Mta::create($data);
+        }
 
         $this->addPhonenumber();
     }
 
     private function getMtaConfigfileId()
     {
-        return 9;
+        $name = $this->currentLine[19];
+        $cf = Configfile::where('name', 'ilike', $name.'%')->first();
+
+        if (! $cf) {
+            $this->line("\n Configfile $name does not exist for MTA");
+
+            return;
+        }
+
+        return $cf->id;
     }
 
     private function addPhonenumber()
     {
-        if (! $this->currentLine[71]) {
-            return;
+        foreach ([28, 30] as $key) {
+            if (! $this->currentLine[$key]) {
+                return;
+            }
+
+            $data = [
+                'active' => true,
+                'country_code' => '0043',
+                'prefix_number' => '0535',
+                'mta_id' => $this->mta->id,
+                'number' => str_replace(['0535', '-'], '', $this->currentLine[$key]),
+                'password' => $this->currentLine[$key + 1],
+                'port' => $key == 28 ? 1 : 2,
+                'sipdomain' => '',
+                'username' => str_replace('-', '', $this->currentLine[$key]),
+            ];
+
+            if (! $this->isDataValid(new Phonenumber, $data)) {
+                return;
+            }
+
+            Phonenumber::create($data);
         }
-
-        $data = [
-            'active' => true,
-            'country_code' => '001',
-            'prefix_number' => '352',
-            'mta_id' => $this->mta->id,
-            'number' => str_replace(['352', '-'], '', $this->currentLine[71]),
-            'password' => $this->currentLine[72],
-            'port' => 1,
-            'sipdomain' => 'mwnms1.mitotec.com',
-            'username' => str_replace('-', '', $this->currentLine[71]),
-        ];
-
-        if (! $this->isDataValid('Phonenumber', $data)) {
-            return;
-        }
-
-        Phonenumber::create($data);
     }
 
     private function addItems()
     {
-        $productIds = explode(',', $this->currentLine[60]);
+        $prodName = $this->currentLine[15];
 
-        foreach ($productIds as $pId) {
-            if (! $pId || ! $this->availableProdIds->contains($pId)) {
-                continue;
-            }
+        if (! isset($this->availableProdIds[$prodName])) {
+            $this->line("\nMissing product in DB for $prodName");
 
-            $data = [
-                'contract_id' => $this->contract->id,
-                'payed_until_before_sr' => date('Y-m-d', strtotime('last day of next month')),
-                'product_id' => $pId,
-                'valid_from' => '2000-01-01',
-            ];
-
-            \Modules\BillingBase\Entities\Item::create($data);
+            return;
         }
+
+        $pId = $this->availableProdIds[$prodName]->id;
+
+        $data = [
+            'contract_id' => $this->contract->id,
+            'payed_until_before_sr' => date('Y-m-d', strtotime('last day of next month')),
+            'product_id' => $pId,
+            'valid_from' => '2000-01-01',
+        ];
+
+        Item::create($data);
     }
 
     private function printWarnings()
