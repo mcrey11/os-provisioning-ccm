@@ -213,6 +213,11 @@ class Endpoint extends \BaseModel
             ->get();
 
         foreach ($endpoints as $ep) {
+            // Don't break DHCP config when PPPoE modems and endpoints are specified without MAC
+            if (! $ep->mac && ! $ep->modemmac) {
+                continue;
+            }
+
             $data .= "host $ep->hostname { ";
             $data .= $ep->mac ? "hardware ethernet $ep->mac" : "host-identifier option agent.remote-id $ep->modemmac";
             $data .= ' ; ';
