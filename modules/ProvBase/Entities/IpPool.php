@@ -97,6 +97,7 @@ class IpPool extends \BaseModel
                 $this->table.'.router_ip', $this->table.'.description', 'active'],
             'header' =>  $this->type.': '.$this->net,
             'bsclass' => $this->get_bsclass(),
+            'translateBooleanColumns' => ['active'],
             'eager_loading' => ['netgw'],
         ];
     }
