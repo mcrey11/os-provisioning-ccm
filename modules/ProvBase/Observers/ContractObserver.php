@@ -59,9 +59,6 @@ class ContractObserver
 
     public function updating($contract)
     {
-        $original_number = $contract->getRawOriginal('number');
-        $original_costcenter_id = $contract->getRawOriginal('costcenter_id');
-
         // set geocode
         if (! ($contract->wasRecentlyCreated && $contract->lng && $contract->lat && $contract->geocode_source)) {
             $contract->setGeocodes();
