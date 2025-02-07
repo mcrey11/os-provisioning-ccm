@@ -104,7 +104,7 @@ class DocsisModem extends Modem implements ModemType
             // success message
             Session::push('tmp_info_above_form', trans('messages.modem_restart_success_netgw'));
         } catch (Exception $e) {
-            Log::warning("Could not delete $this->modem->hostname from NETGW ('".$e->getMessage()."'). Let's try to restart it directly.");
+            Log::warning("Could not delete {$this->modem->hostname} from NETGW ('".$e->getMessage()."'). Let's try to restart it directly.");
 
             try {
                 // restart modem - DOCS-CABLE-DEV-MIB::docsDevResetNow
@@ -113,7 +113,7 @@ class DocsisModem extends Modem implements ModemType
                 // success message - make it a warning as sth is wrong when it's not already restarted by NETGW??
                 Session::push('tmp_info_above_form', trans('messages.modem.restartedViaSnmp'));
             } catch (Exception $e) {
-                Log::error("Could not restart $this->modem->hostname directly ('".$e->getMessage()."')");
+                Log::error("Could not restart {$this->modem->hostname} directly ('".$e->getMessage()."')");
 
                 if (((strpos($e->getMessage(), 'php_network_getaddresses: getaddrinfo failed: Name or service not known') !== false) ||
                     (strpos($e->getMessage(), 'snmpset(): No response from') !== false)) ||
