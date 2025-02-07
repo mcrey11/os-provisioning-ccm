@@ -91,13 +91,14 @@ class IpPool extends \BaseModel
     // generates datatable content and classes for model
     public function view_index_label()
     {
-        $bsclass = $this->get_bsclass();
-
-        return ['table' => $this->table,
-            'index_header' => [$this->table.'.id', 'netgw.hostname', $this->table.'.type', 'version', $this->table.'.net', $this->table.'.router_ip', $this->table.'.description', 'active'],
+        return [
+            'table' => $this->table,
+            'index_header' => [$this->table.'.id', 'netgw.hostname', $this->table.'.type', 'version', $this->table.'.net',
+                $this->table.'.router_ip', $this->table.'.description', 'active'],
             'header' =>  $this->type.': '.$this->net,
-            'bsclass' => $bsclass,
-            'eager_loading' => ['netgw'], ];
+            'bsclass' => $this->get_bsclass(),
+            'eager_loading' => ['netgw'],
+        ];
     }
 
     public function get_bsclass()
