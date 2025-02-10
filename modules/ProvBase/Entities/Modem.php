@@ -108,8 +108,9 @@ class Modem extends \BaseModel
             $rules['qos_id'] = ['required', 'exists:qos,id,deleted_at,NULL'];
         }
 
-        if (request('configfile_id')) {
-            $configfile = Configfile::find(Request::get('configfile_id'));
+        $cfId = request('configfile_id') ?: ($this->id ? $this->configfile_id : null);
+        if ($cfId) {
+            $configfile = Configfile::find($cfId);
         }
 
         if (Module::collections()->has('SmartOnt')) {
