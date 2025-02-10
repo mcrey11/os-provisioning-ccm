@@ -162,6 +162,7 @@ return [
         'name' => 'Product Name',
         'price' => 'Price',
         'proportional' => 'Proportionate',
+        'tax' => 'Calculate tax?',
         'type' => 'Type',
     ],
     // Salesman

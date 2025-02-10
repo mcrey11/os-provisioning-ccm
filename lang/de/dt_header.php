@@ -162,6 +162,7 @@ return [
         'name' => 'Produkt',
         'price' => 'Preis',
         'proportional' => 'Anteilig',
+        'tax' => 'Steuer berechnen?',
         'type' => 'Typ',
     ],
     // Salesman
