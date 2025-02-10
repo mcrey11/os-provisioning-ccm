@@ -46,13 +46,7 @@
 
 @foreach($form_fields as $fields)
     @foreach (Illuminate\Support\Arr::flatten($fields['html']) as $input)
-        @if ($avoidInterpolation = \Str::contains($input, '{{') || \Str::contains($input, '}}'))
-        <div v-pre>
-        @endif
-            {{ $input }}
-        @if ($avoidInterpolation)
-        </div>
-        @endif
+        {{ $input }}
     @endforeach
 @endforeach
 

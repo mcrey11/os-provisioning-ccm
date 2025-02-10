@@ -502,6 +502,7 @@ class BaseViewController extends Controller
 
                 default:
                     $form = $field['form_type'];
+                    $options[] = 'v-pre';
                     $currentFormfield[] = Form::$form($field['name'], $field['field_value'], $options);
                     break;
             }
