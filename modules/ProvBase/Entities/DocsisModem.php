@@ -94,7 +94,7 @@ class DocsisModem extends Modem implements ModemType
             if ($netgw->company == 'Motorola') {
                 $param = [
                     '1.3.6.1.4.1.4981.2.2.2.0',
-                    'lng',
+                    'x',
                     implode(' ', explode(':', $mac)),
                 ];
             }
