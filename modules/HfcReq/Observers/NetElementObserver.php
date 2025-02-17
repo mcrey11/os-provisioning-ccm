@@ -75,6 +75,10 @@ class NetElementObserver
             $netelement->load('netelementtype');
             $netelement->base_type_id = $netelement->netelementtype->base_type_id;
 
+            if (! in_array($netelement->base_type_id, [3, 4, 5])) {
+                $netelement->prov_device_id = null;
+            }
+
             // if netelementtype_id changes -> indices have to change their parameter id - otherwise they are not used anymore
             $this->reassignParameters($netelement);
             $this->handleTypeChangeForCoreMon($netelement);
