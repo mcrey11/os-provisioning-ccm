@@ -98,8 +98,10 @@ class BaseModel extends Eloquent
         'BaseModel',
         'BillingLogger',
         'CarrierCode', // cron updated data; not for standalone use
+        'DocsisModem',
         'EkpCode', // cron updated data; not for standalone use
         'ProvVoipEnviaHelpers',
+        'Tr069Modem',
         'TRCClass',	// static data; not for standalone use
     ];
 
