@@ -59,10 +59,7 @@ class ContractObserver
 
     public function updating($contract)
     {
-        // set geocode
-        if (! ($contract->wasRecentlyCreated && $contract->lng && $contract->lat && $contract->geocode_source)) {
-            $contract->setGeocodes();
-        }
+        $contract->setGeocodes();
 
         if (! Module::collections()->has('BillingBase')) {
             $contract->sepa_iban = strtoupper($contract->sepa_iban);

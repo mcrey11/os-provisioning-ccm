@@ -158,9 +158,7 @@ class ModemObserver
             }
         }
 
-        if (! ($modem->wasRecentlyCreated && $modem->lng && $modem->lat && $modem->geocode_source)) {
-            $modem->setGeocodes();
-        }
+        $modem->setGeocodes();
 
         // check if more values have changed – especially “x” and “y” which refreshes MPR
         $diff = $modem->getDirty();
