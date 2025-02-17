@@ -71,34 +71,22 @@ class NetElementObserver
             return;
         }
 
-        // if netelementtype_id changes -> indices have to change their parameter id
-        // otherwise they are not used anymore
         if ($netelement->isDirty('netelementtype_id')) {
             $netelement->load('netelementtype');
             $netelement->base_type_id = $netelement->netelementtype->base_type_id;
 
-            $new_params = $netelement->netelementtype->parameters;
-            foreach ($netelement->indices as $indices) {
-                // assign each indices of parameter to new parameter with same oid
-                if ($new_params->contains('oid_id', $indices->parameter->oid->id)) {
-                    $indices->parameter_id = $new_params->where('oid_id', $indices->parameter->oid->id)->first()->id;
-                    $indices->save();
-                } else {
-                    // Show Alert that not all indices could be assigned to the new parameter -> user has to create new indices and delete the old ones
-                    // We also could delete them directly, so that user has to add them again
-                    Session::put('alert.info', trans('messages.indices_unassigned'));
-                }
-            }
-
+            // if netelementtype_id changes -> indices have to change their parameter id - otherwise they are not used anymore
+            $this->reassignParameters($netelement);
             $this->handleTypeChangeForCoreMon($netelement);
         }
 
         if ($netelement->isDirty('parent_id', 'name', 'netelementtype_id')) {
             $this->flushSidebarNetCache();
+        }
 
+        if ($netelement->isDirty('parent_id')) {
             $netelement->net = $netelement->get_native_net();
             $netelement->cluster = $netelement->get_native_cluster();
-            $netelement->base_type_id = $netelement->netelementtype->base_type_id;
             $this->checkNetCluster($netelement);
 
             // Change Net & cluster of all childrens too
@@ -201,5 +189,24 @@ class NetElementObserver
 
         // Delete
         $netelement->connectedModel->delete();
+    }
+
+    // Assign each indices of parameter to new parameter with same oid
+    private function reassignParameters($netelement)
+    {
+        $params = $netelement->netelementtype->parameters;
+
+        foreach ($netelement->indices as $indices) {
+            if (! $params->contains('oid_id', $indices->parameter->oid->id)) {
+                // Show Alert that not all indices could be assigned to the new parameter -> user has to create new indices and delete the old ones
+                // We also could delete them directly, so that user has to add them again
+                Session::put('alert.info', trans('messages.indices_unassigned'));
+
+                continue;
+            }
+
+            $indices->parameter_id = $params->where('oid_id', $indices->parameter->oid->id)->first()->id;
+            $indices->save();
+        }
     }
 }
