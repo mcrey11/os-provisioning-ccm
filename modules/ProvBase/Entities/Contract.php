@@ -1018,8 +1018,7 @@ class Contract extends \BaseModel
             BaseObserver::addLogEntry($this, 'updated');
             $hasTelephonyChanged = $this->isDirty('has_telephony');
 
-            $this->observer_enabled = false;
-            $this->save();
+            $this->saveQuietly();
 
             $this->pushToModems($hasTelephonyChanged);
         }
