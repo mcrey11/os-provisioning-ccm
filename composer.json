@@ -32,7 +32,7 @@
         "livewire/livewire": "^3.4",
         "chrome-php/chrome": "^1.9",
         "horstoeko/zugferd": "^1.0",
-        "league/omnipay": "^3",
+        "league/omnipay": "^3.2",
         "dranes/omnipay-ippay": "^2.0"
     },
     "require-dev": {
