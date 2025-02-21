@@ -501,7 +501,7 @@ class Phonenumber extends \BaseModel
             /* 	$this->active = False; */
             /* 	$changed = True; */
             /* } */
-            Log::info('No PhonenumberManagement for phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.') – will not change the active state.');
+            Log::debug('No PhonenumberManagement for phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.') – will not change the active state.');
         } else {
             // get the dates for this number
             $act = $management->activation_date;
