@@ -284,7 +284,7 @@ class BaseViewController extends Controller
             // 4. (sub-task)
             // write explicitly given init_value to field_value
             // this is needed e.g. by Patrick to prefill new PhonenumberManagement and PhonebookEntry with data from Contract
-            if (array_key_exists('init_value', $field) && $field['init_value']) {
+            if (isset($field['init_value']) && ! $field['field_value']) {
                 $field['field_value'] = $field['init_value'];
             }
 
