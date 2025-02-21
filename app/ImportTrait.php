@@ -73,14 +73,16 @@ trait ImportTrait
      *
      * @author Roy Schneider
      *
-     * @param  string  $modelName
+     * @param  object  $model
      * @param  array  $data
      * @param  array  $identifier
      * @return bool|void
      */
-    public static function validationFailed($modelName, $data, $identifier)
+    public static function validationFailed($model, $data, $identifier)
     {
-        $validator = \Validator::make($data, (new $modelName)->rules());
+        $validator = \Validator::make($data, (new $model)->rules());
+
+        $modelName = (new \ReflectionClass($model))->getShortName();
 
         if ($validator->fails()) {
             $identifier = implode(

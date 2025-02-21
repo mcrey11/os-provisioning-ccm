@@ -134,7 +134,7 @@ class ImportTvCustomersCommand extends Command
         $bar = $this->output->createProgressBar($num);
 
         // skip headline
-        // unset($file_arr[0]);
+        unset($file_arr[0]);
 
         echo "Import TV customers\n";
         Log::info("Import potentially $num TV customers");
@@ -267,7 +267,7 @@ class ImportTvCustomersCommand extends Command
             Log::info("Contract $number is out of date ({$contract['contract_start']} - {$contract['contract_end']})");
         }
 
-        if (self::validationFailed('Contract', $contract, ['Number' => $number])) {
+        if (self::validationFailed(Contract::class, $contract, ['Number' => $number])) {
             return;
         }
 
@@ -470,7 +470,7 @@ class ImportTvCustomersCommand extends Command
 
         $iban = self::$line[self::S_IBAN];
 
-        if (self::validationFailed('SepaMandate', $sepa, ['IBAN' => $iban])) {
+        if (self::validationFailed(SepaMandate::class, $sepa, ['IBAN' => $iban])) {
             return;
         }
 
