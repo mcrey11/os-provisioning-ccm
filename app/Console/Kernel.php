@@ -228,7 +228,7 @@ class Kernel extends ConsoleKernel
             // Hardware support check for modems and CMTS
             // $schedule->command('nms:hardware-support')->twiceDaily(10, 14);
 
-            $schedule->command('firmware:upgrade')->everyMinute()->when(function () {
+            $schedule->command('firmware:upgrade')->everyFiveMinutes()->when(function () {
                 return \Modules\ProvBase\Services\FirmwareUpgradeService::mustRun();
             });
         }
