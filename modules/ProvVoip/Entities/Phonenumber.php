@@ -19,6 +19,7 @@
 namespace Modules\ProvVoip\Entities;
 
 use Illuminate\Support\Collection;
+use Log;
 
 class Phonenumber extends \BaseModel
 {
@@ -500,7 +501,7 @@ class Phonenumber extends \BaseModel
             /* 	$this->active = False; */
             /* 	$changed = True; */
             /* } */
-            \Log::info('No PhonenumberManagement for phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.') – will not change the active state.');
+            Log::info('No PhonenumberManagement for phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.') – will not change the active state.');
         } else {
             // get the dates for this number
             $act = $management->activation_date;
@@ -545,9 +546,9 @@ class Phonenumber extends \BaseModel
         // write to database if there are changes
         if ($changed) {
             if ($this->active) {
-                \Log::info('Activating phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.').');
+                Log::info('Activating phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.').');
             } else {
-                \Log::info('Deactivating phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.').');
+                Log::info('Deactivating phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.').');
             }
 
             $this->save();
@@ -589,7 +590,7 @@ class Phonenumber extends \BaseModel
         $this->reassignable = true;
         $this->save();
 
-        \Log::info('Phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.'). is now free for reassignment');
+        Log::info('Phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.'). is now free for reassignment');
     }
 
     /**
