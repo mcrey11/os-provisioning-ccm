@@ -23,6 +23,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Modules\BillingBase\Entities\Item;
 use Modules\BillingBase\Entities\SepaMandate;
+use Modules\Ccc\Entities\CccUser;
 use Modules\ProvBase\Entities\Contract;
 
 class ImportTvCustomersCommand extends Command
@@ -149,9 +150,9 @@ class ImportTvCustomersCommand extends Command
             $bar->advance();
 
             self::$line = str_getcsv($line, ';');
-
             // self::$line = str_getcsv(self::$line, "\t");
-            self::$contract = self::findOrAddContract($this->option('ag'), $this->argument('ccContract'));
+
+            self::$contract = $this->findOrAddContract($this->option('ag'), $this->argument('ccContract'));
 
             if (! self::$contract) {
                 continue;
@@ -220,7 +221,7 @@ class ImportTvCustomersCommand extends Command
      *
      * @return object New created contract or if found the already existing one
      */
-    private static function findOrAddContract($contact, $ccContract)
+    private function findOrAddContract($contact, $ccContract)
     {
         $number = self::getNumber();
         ['firstName' => $firstName, 'lastName' => $lastName] = self::getFirstAndLastName();
@@ -228,12 +229,15 @@ class ImportTvCustomersCommand extends Command
         ['city' => $city, 'district' => $district] = self::getCityAndDistrict();
 
         $contract = self::contractExists($number, $firstName, $lastName, $street, $city, $houseNr);
+
         // if existing contract was found update the contact and return it
         if ($contract) {
             self::$newCustomer = false;
             if ($contact) {
                 Contract::where('id', $contract->id)->update(['contact' => $contact]);
             }
+
+            $this->setNewsletterFlag($contract);
 
             return $contract;
         }
@@ -273,7 +277,11 @@ class ImportTvCustomersCommand extends Command
 
         Log::info("Add Contract {$number}: {$firstName}, {$lastName}");
 
-        return Contract::create($contract);
+        $contract = Contract::create($contract);
+
+        $this->setNewsletterFlag($contract);
+
+        return $contract;
     }
 
     public static function map_academic_degree($string)
@@ -300,6 +308,25 @@ class ImportTvCustomersCommand extends Command
         }
 
         return 'Frau';
+    }
+
+    private function setNewsletterFlag($contract)
+    {
+        if (self::$line[25] != 'ja') {
+            return;
+        }
+
+        if (! $contract->cccUser) {
+            $cccUser = (new CccUser)->setRelation('contract', $contract);
+            $cccUser->contract_id = $contract->id;
+            $cccUser->store();
+            $contract->load('cccUser');
+        } elseif ($contract->cccUser->newsletter) {
+            return;
+        }
+
+        $contract->cccUser->newsletter = true;
+        $contract->cccUser->save();
     }
 
     private static function addTariff()
@@ -530,7 +557,7 @@ class ImportTvCustomersCommand extends Command
 
         foreach ($file as $line) {
             self::$line = str_getcsv($line, ';');
-            self::$contract = $contract = self::findOrAddContract($ag, $ccContract);
+            self::$contract = $contract = $this->findOrAddContract($ag, $ccContract);
 
             self::addTariff();
             self::addCredit();

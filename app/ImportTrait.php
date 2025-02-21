@@ -22,7 +22,7 @@ trait ImportTrait
      */
     public static function contractExists($number, $firstname, $lastname, $street, $city, $houseNr)
     {
-        $contract = Contract::where('number', $number)->first();
+        $contract = Contract::with('cccUser')->where('number', $number)->first();
 
         if ($contract) {
             // Check if name and address differs - could be a different customer
