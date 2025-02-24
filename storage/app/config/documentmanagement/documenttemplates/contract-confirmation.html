@@ -1,0 +1,77 @@
+<!--
+    <Config tarrifable-product-types="internet,tv,voip" />
+ -->
+
+<table x-remove="[contract-info],[salutation],[greetings]">
+    <style>
+        #contract-info > tr > :where(th,td) {padding-inline: 6px;}
+        #contract-info > tr > *:first-child {padding-left: 0;}
+    </style>
+    <tbody id="contract-info">
+        <tr>
+            <td style="padding-bottom: 1rem;">Vertragsnummer:</td>
+            <td style="padding-bottom: 1rem;">
+                <span>{{ contract.number }}</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Kundennummer:</th>
+            <td>
+                <span>{{ contract.number }}</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Vertragsbeginn:</th>
+            <td>{{ dayjs(contract.contract_start ?? undefined).format('D.M.YYYY') }}</td>
+        </tr>
+        <tr>
+            <th>Tarif:</th>
+            <td>
+                <template x-for="tariff in contract.computed.tariffs" :key="tariff.id">
+                    <div>
+                        {{ tariff.accounting_text ?? tariff.product?.name }}
+                        ({{ tariff.computed.display_price }} {{ meta?.currency }} {{tariff.computed.billing_cycle}} inkl. Mwst.)
+                        <template x-if="tariff.product.type.toLowerCase() != 'once'">
+                            <span>
+                                (
+                                {{ dayjs(tariff.valid_from).format('D.M.YYYY') }}
+                                -
+                                {{ tariff.valid_to ? dayjs(tariff.valid_to).format('D.M.YYYY') :'Offen' }}
+                                )
+                            </span>
+                        </template>
+                    </div>
+                </template>
+            </td>
+        </tr>
+        <tr x-show="meta.tariff_product_types?.filter(type => type != 'tv')?.length">
+            <th>Kündigungsfrist:</th>
+            <td>{{ meta.period_of_notice }}</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    <span x-show="sepamandate">
+        {{ 'Der Betrag wird von folgendem Konto abgebucht:' }}
+    </span>
+    <span x-show="!sepamandate">
+        {{ 'Bitte überweisen Sie den Rechnungsbetrag unter Angabe des auf der Rechnung stehenden Verwendungszwecks Innerhalb von 14 Tagen auf das angegebene Konto:' }}
+    </span>
+</p>
+<table>
+    <tbody>
+        <tr>
+            <th>IBAN</th>
+            <td>{{ sepamandate?.iban ?? sepaaccount?.iban }}</th>
+        </tr>
+        <tr>
+            <th>BIC</th>
+            <td>{{ sepamandate?.bic  ?? sepaaccount?.bic }}</th>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Ihre monatliche Rechnung finden Sie auf der Homepage im Kundenbereich unter Angabe von
+    Kundennummer ({{ contract.number }}) und Passwort. Das Passwort entnehmen Sie bitte den beiliegenden
+    Anschluss-Informationen.
+</p>

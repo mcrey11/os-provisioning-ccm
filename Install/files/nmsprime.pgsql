@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.2
--- Dumped by pg_dump version 16.2
+-- Dumped from database version 16.8
+-- Dumped by pg_dump version 16.8
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -5487,6 +5487,9 @@ COPY nmsprime.document (id, created_at, updated_at, deleted_at, model_type, mode
 --
 
 COPY nmsprime.documenttemplate (id, created_at, updated_at, deleted_at, name, company_id, document_type, type_view, file, format, filename_pattern, is_default) FROM stdin;
+1	2025-02-21 16:52:07+01	2025-02-21 16:52:07+01	\N	Connection Information	\N	Modules\\DocumentManagement\\DocumentTypes\\ConnectionInformation	Connection Information	connection-information.html	HTML	{contract.number}_{contract.firstname}_{contract.lastname}_{doc_type}	f
+2	2025-02-21 16:52:32+01	2025-02-21 16:52:32+01	\N	Contract Confirmation	\N	Modules\\DocumentManagement\\DocumentTypes\\ContractConfirmation	Contract Confirmation	contract-confirmation.html	HTML	{contract.number}_{contract.firstname}_{contract.lastname}_{doc_type}	f
+3	2025-02-24 11:53:20+01	2025-02-24 11:53:20+01	\N	Letterhead	\N	Modules\\DocumentManagement\\DocumentTypes\\Letterhead	Letterhead	letterhead.html	HTML	{contract.number}_{contract.firstname}_{contract.lastname}_{doc_type}	f
 \.
 
 
@@ -6864,7 +6867,7 @@ SELECT pg_catalog.setval('nmsprime.document_id_seq', 1, false);
 -- Name: documenttemplate_id_seq; Type: SEQUENCE SET; Schema: nmsprime; Owner: nmsprime
 --
 
-SELECT pg_catalog.setval('nmsprime.documenttemplate_id_seq', 1, false);
+SELECT pg_catalog.setval('nmsprime.documenttemplate_id_seq', 3, true);
 
 
 --

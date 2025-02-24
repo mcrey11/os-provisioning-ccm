@@ -1,0 +1,109 @@
+<template id="greetings">
+    <p style="margin-bottom: 0.5rem;" greetings>{{ meta.greetings }}</p>
+</template>
+<template id="contract-info">
+    <table style="max-width: fit-content; margin-top: 0;" contract-info>
+        <tbody>
+            <tr>
+                <th style="padding-left: 0;">Vertragsnummer:</th>
+                <td>{{ contract.number }}</td>
+            </tr>
+            <tr>
+                <th style="padding-left: 0;">Vertragsbeginn:</th>
+                <td>{{ dayjs(contract.contract_start ?? undefined).format('L') }}</td>
+            </tr>
+        </tbody>
+    </table>
+</template>
+
+<header>
+    <template x-if="company.logo">
+        <logo>
+            <img :src="company.logo" style="height: var(--header-max-height, 1in); object-fit: contain;" />
+        </logo>
+    </template>
+</header>
+<letter>
+    <row style="margin-block-start: 6%;">
+        <company x-show="company">
+            <span>{{ company.name }}</span>
+            <span>{{ company.street }}</span>
+            <span>{{ company.zip }} {{ company.city }}</city>
+        </company>
+
+        <style>
+            #company-contact {flex-direction: column; gap: 0px; font-size: smaller; line-height: initial;}
+            #company-contact > {white-space: nowrap; justify-items: end; gap: 0.5rem;}
+        </style>
+        <row id="company-contact">
+            <row><label>Tel</label>{{ company.phone }}</row>
+            <row><label>Fax</label>{{ company.fax }}</row>
+            <row><label>Mail</label>{{ company.mail }}</row>
+            <row><label>Web</label>{{ company.web }}</row>
+        </row>
+    </row>
+    <to>
+        <row>{{ contract.company ?? '' }}</row>
+        <row>{{ contract.department ?? '' }}</row>
+        <row>{{ contract.academic_degree ?? '' }} {{ contract.firstname ?? '' }} {{ contract.lastname ?? '' }}</row>
+        <row>{{ contract.district ?? '' }}</row>
+        <row>{{ contract.street ?? '' }} {{ contract.house_number ?? '' }}</row>
+        <row>{{ contract.zip ?? '' }} {{ contract.city ?? '' }}</row>
+    </to>
+    <row style="margin-block-start: 15%; flex-wrap: wrap;">
+        <template x-if="meta.date">
+            <date style="display: block; width: 100%; text-align: right;">{{ dayjs(meta.date).format('L') }}</date>
+        </template>
+        <subject style="display: block; font-weight: bold; font-size: large; padding-block-end: 1.5rem;">{{ meta.type }}</subject>
+    </row>
+    <span x-component:contract-info></span>
+    <span x-component:greetings></span>
+
+    <DocumentContent />
+
+    <p style="margin-top: 1.75rem;">Mit freundlichen Grüßen</p>
+    <p>{{ company.name }}</p>
+</letter>
+
+<footer>
+    <row style="gap: 0.5rem;">
+        <column>
+            <strong>Registergericht:</strong>
+            <div>{{ company.registration_court_1 }}</div>
+            <div>{{ company.registration_court_2 }}</div>
+            <div>{{ company.registration_court_3 }}</div>
+        </column>
+        <column x-show="(company.directorate ?? '').split(',').filter(m => m.trim()).length">
+            <strong>Vorstand:</strong>
+            <template x-for="(directorate, index) in (company.directorate ?? '').split(',').filter(m => m.trim())" :key="index">
+                <div>{{ directorate }}</div>
+            </template>
+        </column>
+        <column x-show="(company.management ?? '').split(',').filter(m => m.trim()).length">
+            <strong>Geschäftsführer:</strong>
+            <template x-for="(management, index) in (company.management ?? '').split(',').filter(m => m.trim())" :key="index">
+                <div>{{ management }}</div>
+            </template>
+        </column>
+        <column>
+            <strong>Bankverbindung:</strong>
+            <br />
+            {{ sepaaccount.institute }}
+            <br />
+            <nowrap><label>IBAN</label> {{ sepaaccount.iban }}</nowrap>
+            <br />
+            <nowrap><label>BIC</label> {{ sepaaccount.bic }}</nowrap>
+        </column>
+        <column>
+            <strong>Steuer:</strong>
+            <br />
+            <nowrap><label>USt.-IdNr.</label> {{ company.tax_id_nr ?? '' }}</nowrap>
+            <br />
+            <nowrap><label>Steuer-Nr.</label> {{ company.tax_nr ?? '' }}</nowrap>
+        </column>
+        <column x-show="company.web">
+            <strong>Internet:</strong>
+            <div>{{company.web}}</div>
+        </column>
+    </row>
+</footer>
