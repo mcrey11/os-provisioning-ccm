@@ -23,7 +23,7 @@
 <div class="tab-pane fade in" id="lease">
     @if ($lease)
         <div class="{{ $lease['state'] }} pb-2"><b>{{ $lease['forecast'] }}</b></div>
-        <div class="space-y-3">
+        <div v-pre class="space-y-3">
             @foreach ($lease['text'] as $line)
                 <pre class="text-gray-500 whitespace-pre-wrap">{{ $line }}</pre>
             @endforeach
@@ -113,7 +113,7 @@
         @if (isset($configfile['warn']))
             <div class="text-red-600"><b>{{ $configfile['warn'] }}</b></div>
         @endif
-        <div class="space-y-1">
+        <div v-pre class="space-y-1">
             @foreach ($configfile['text'] as $line)
                 <pre class="text-gray-500 whitespace-pre-wrap">{{ $line }}</pre>
             @endforeach
