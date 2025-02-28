@@ -959,8 +959,8 @@ class ModemController extends \BaseController
             $data['ppp_password'] = null;
         }
 
-        $data['lat'] = str_replace(',', '.', $data['lat'] ?: null);
-        $data['lng'] = str_replace(',', '.', $data['lng'] ?: null);
+        $data['lat'] = data_get($data, 'lat') ? str_replace(',', '.', $data['lat']) : null;
+        $data['lng'] = data_get($data, 'lng') ? str_replace(',', '.', $data['lng']) : null;
 
         if (Module::collections()->has('SmartOnt')) {
             if ($this->configfile && $this->configfile->is_multiservice_ont) {
