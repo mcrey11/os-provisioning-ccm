@@ -46,11 +46,11 @@ return [
             'icon'	=> 'fa-address-book-o',
             'class' => Contract::class,
         ],
-        'Domains' => [
-            'link' 	=> 'Domain.index',
-            'icon'	=> 'fa-tag',
-            'class' => Domain::class,
-        ],
+        // 'Domains' => [
+        //     'link' 	=> 'Domain.index',
+        //     'icon'	=> 'fa-tag',
+        //     'class' => Domain::class,
+        // ],
         'Modems' => [
             'link'	=> 'Modem.index',
             'icon'	=> 'fa-hdd-o',
