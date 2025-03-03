@@ -1069,6 +1069,8 @@ class ModemController extends \BaseController
         if ($ep?->fixed_ip && $ep?->ip) {
             $lease = $this->_fake_lease($modem, $ep);
         } else {
+            // Bug: billing subclass is not present when there is no lease limit set -> global config max cpe count = -1
+            // Then a lease is never found
             $lease['text'] = Modem::searchLease("billing subclass \".*\" \"$dhcpd_mac\";");
             $lease = Modem::validateLease($lease, $type);
         }
