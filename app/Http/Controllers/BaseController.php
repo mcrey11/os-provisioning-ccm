@@ -1738,20 +1738,7 @@ class BaseController extends Controller
             ->addColumn('checkbox', '');
 
         // index caching is currently disabled, see: https://github.com/nmsprime/nmsprimeNG/commit/5f58c7b1cba87775aee418374154d36ce268583a
-        /*
-        if (config('datatables.isIndexCachingEnabled')) {
-            $count = $model->cachedIndexTableCount;
-            if (! $count) {
-                $count = $model::count();
-
-                cache(['indexTables.'.$model->table => $count]);
-            }
-
-            $DT->setTotalRecords($count);
-            // ->setFilteredRecords(10000)
-            // ->skipTotalRecords()
-        }
-        */
+        // $this->cacheTableEntryCount($DT, $model);
 
         // Filters
         foreach ($filterColumnData as $column => $customQuery) {
@@ -1861,6 +1848,28 @@ class BaseController extends Controller
         array_unshift($rawColumns, 'checkbox', $firstColumn); // add everywhere used raw columns
 
         return $DT->rawColumns($rawColumns)->make();
+    }
+
+    /**
+     * Cache count of index table entries to omit one expensive DB query
+     */
+    private function cacheTableEntryCount($dt, $model)
+    {
+        if (! config('datatables.isIndexCachingEnabled')) {
+            return;
+        }
+
+        $count = $model->cachedIndexTableCount;
+
+        if (! $count) {
+            $count = $model::count();
+
+            cache(['indexTables.'.$model->table => $count]);
+        }
+
+        $dt->setTotalRecords($count);
+        // ->setFilteredRecords(10000)
+        // ->skipTotalRecords()
     }
 
     /**
