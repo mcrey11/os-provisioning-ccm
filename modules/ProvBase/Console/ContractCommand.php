@@ -46,32 +46,6 @@ class ContractCommand extends Command
     protected $i;
 
     /**
-     * Item types to be used in daily conversion
-     *
-     * @var array
-     */
-    protected $itemTypesForDailyConversion = [];
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->itemTypesForDailyConversion = [
-            'Internet',
-            'Voip',
-        ];
-
-        if (\Module::collections()->has('WaipuTV')) {
-            $this->itemTypesForDailyConversion[] = 'TV';
-        }
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -101,11 +75,12 @@ class ContractCommand extends Command
             if (\Module::collections()->has('BillingBase')) {
                 // attention: do not check if valid_to or valid_from is fixed – we need them both
                 //      (change item dates, trigger online state of modems)
+                $productTypesForDailyConversion = \Modules\BillingBase\Entities\Product::productTypesForDailyConversion();
                 $contractsQuery = Contract::where(whereLaterOrEqual('contract_end', $min_date))
                     ->where('contract_start', '<=', $today)
                     ->join('item', 'contract.id', '=', 'item.contract_id')
                     ->join('product', 'product.id', '=', 'item.product_id')
-                    ->whereIn('product.type', $this->itemTypesForDailyConversion)
+                    ->whereIn('product.type', $productTypesForDailyConversion)
                     ->where(function ($query) use ($min_date, $max_date) {
                         // using advanced where clause to set brackets properly
                         $query

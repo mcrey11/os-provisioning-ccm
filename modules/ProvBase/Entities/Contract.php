@@ -966,15 +966,6 @@ class Contract extends \BaseModel
      */
     public function daily_conversion()
     {
-        $productTypesForDailyConversion = [
-            'Internet',
-            'Voip',
-        ];
-
-        if (\Module::collections()->has('WaipuTV')) {
-            $productTypesForDailyConversion[] = 'TV';
-        }
-
         // ignore SmartOnt OTO
         if (Module::collections()->has('SmartOnt') && in_array($this->type, ['OTO_FTTH_FR', 'OTO_OWN', 'OTO_STORAGE'])) {
             return;
@@ -993,6 +984,7 @@ class Contract extends \BaseModel
         } else {
             // Get items by only 1 db query & set them as contract relations to work with them in next functions
             // with that there are no more refresh database queries necessary (items do not have to be reloaded again)
+            $productTypesForDailyConversion = \Modules\BillingBase\Entities\Product::productTypesForDailyConversion();
             $items = $this->items()
                 ->leftJoin('product', 'product.id', '=', 'item.product_id')
                 ->whereIn('product.type', $productTypesForDailyConversion)
