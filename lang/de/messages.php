@@ -930,4 +930,5 @@ return [
         ],
     ],
     'routeNotFoundError' => 'FEHLER: Kann die Seite „:url“ nicht laden (die Route „:route“ existiert nicht)',
+    'productChangeNotAllowedExternalStatus' => 'Ändern des Produktes ist nicht erlaubt („Externer Status“ ist nicht leer).',
 ];

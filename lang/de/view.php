@@ -829,7 +829,7 @@ return [
             'tv' => 'TV',
             'voip' => 'VOIP',
         ],
-        'resellingPartner' => 'Wiederverkaufspartner',
+        'resellingPartner' => 'Vertriebspartner',
         'custom_field__api_success_tickettype_id' => 'Tickettyp für erfolgreiche API-Aktion',
         'custom_field__api_error_tickettype_id' => 'Tickettyp für API-Fehler',
         'custom_field__waipu_product_name' => 'waipu.tv-Produkt',

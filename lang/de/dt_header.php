@@ -165,7 +165,7 @@ return [
         'proportional' => 'Anteilig',
         'tax' => 'Steuer berechnen?',
         'type' => 'Typ',
-        'reselling_partner' => 'Wiederverkaufspartner',
+        'reselling_partner' => 'Vertriebspartner',
     ],
     // Salesman
     'salesman.id' => 'ID',
