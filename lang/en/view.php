@@ -327,7 +327,7 @@ return [
     'Button_Create'             => 'Create',
     'Button_Export'             => 'Export',
     'Button_Delete'             => 'Delete marked Elements',
-    'Button_Force Restart'      => 'Force Restart',
+    'Button_Restart via NetGw'  => 'Restart via gateway',
     'Button_Save'               => 'Save',
     'Button_Save / Restart'     => 'Save / Restart',
     'Button_Search'             => 'Search',

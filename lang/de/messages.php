@@ -297,7 +297,7 @@ return [
     'Mark solved'           => 'Als gelöst markieren?',
     'missing_product'       => 'Fehlendes Produkt!',
     'modem_eventlog_error'  => 'Modem Eventlog nicht gefunden',
-    'modem_force_restart_button_title' => 'Startet nur das Modem neu. Speichert keine geänderten Daten!',
+    'modem_force_restart_button_title' => 'Startet nur das Modem neu (über CMTS/BRAS/BNG). Speichert keine geänderten Daten!',
     'modem_reset_button_title' => 'Resettet nur das Modem. Speichert keine geänderten Daten!',
     'CDR retention period'      => 'Aufbewahrungsfrist für Einzelverbindungsnachweise',
     'Day of Requested Collection Date' => 'Nächster Buchungstag (Default)',

@@ -297,7 +297,7 @@ return [
     'Mark solved'           => 'Mark as solved?',
     'missing_product'       => 'Missing Product!',
     'modem_eventlog_error'  => 'Modem eventlog not found',
-    'modem_force_restart_button_title' => 'Only restarts the modem. Doesn\'t save any changed data!',
+    'modem_force_restart_button_title' => 'Only restarts the modem (via CMTS/BRAS/BNG). Doesn\'t save any changed data!',
     'modem_reset_button_title' => 'Only resets the modem. Doesn\'t save any changed data!',
     'CDR retention period'      => 'CDR retention period',
     'Day of Requested Collection Date'  => 'Day of Requested Collection Date',
