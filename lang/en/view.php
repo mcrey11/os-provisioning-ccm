@@ -79,6 +79,7 @@ return [
     'Menu_Items'                => 'Items',
     'Menu_OverdueDebts'         => 'Overdue debts',
     'Menu_ProvVoip'             => 'VoIP',
+    'Menu_ProvVoipEnvia' => 'EnviaTel',
     'Menu_PropertyManagement'   => 'Property Management',
     'Menu_DocumentManagement'    => 'Document Management',
     'Menu_DocumentTemplates'    => 'Templates',
