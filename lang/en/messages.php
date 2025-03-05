@@ -876,6 +876,7 @@ return [
     ],
     'iperf_max_stream'          => 'Maximum display value for the iPerf diagram in Mbit/s',
     'flapping_dhcp_threshold'   => 'Minimum number of messages per 24 hours for DHCP flapping',
+    'telCalls' => 'Telephone Calls',
 
     // SmartOnt
     'alau_order_ref'            => 'Own order reference',

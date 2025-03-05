@@ -876,6 +876,7 @@ return [
     ],
     'iperf_max_stream'          => 'Maximaler Anzeigewert des iPerf Diagramms in Mbit/s',
     'flapping_dhcp_threshold'   => 'Minimale Anzahl Meldungen pro 24 Stunden für DHCP Flapping',
+    'telCalls' => 'Telefongespräche',
 
     // SmartOnt
     'alau_order_ref'            => 'Eigene Aufragskennung',
