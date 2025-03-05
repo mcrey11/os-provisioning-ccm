@@ -1045,19 +1045,8 @@ class BaseController extends Controller
 
         // check if correct route is called (e.g. Item.edit instead WaipuTVItem.edit)
         // if not: redirect
-        if ($newRoute = $this->checkRedirectToOtherRoute($view_var, 'edit')) {
-            try {
-                return \Redirect::route($newRoute, [$id]);
-            } catch (RouteNotFoundException $ex) {
-                $url = Request::url();
-                $msg = trans('messages.routeNotFoundError', ['url' => $url, 'route' => $newRoute]);
-                $model->addAboveMessage($msg, 'error');
-                Log::error($msg);
-
-                return redirect()->back();
-            } catch (\Throwable $ex) {
-                throw $ex;
-            }
+        if ($redirect = $this->checkRedirectToOtherRoute($view_var, 'edit', $id)) {
+            return $redirect;
         }
 
         $view_var->loadEditViewRelations();
@@ -2238,7 +2227,13 @@ class BaseController extends Controller
         return $select += array_combine($files, $files);
     }
 
-    protected function checkRedirectToOtherRoute($model, $method)
+    /**
+     * Method checks if the current model is the same as described in
+     * qualified_model_class database field.
+     *
+     * @return null if model class is correct, else a redirect to matching model route
+     */
+    protected function checkRedirectToOtherRoute($model, $method, $id)
     {
         if (! $model->qualified_model_class) {
             return;
@@ -2250,7 +2245,19 @@ class BaseController extends Controller
 
         $tmp = explode('\\', $model->qualified_model_class);
         $modelName = array_pop($tmp);
+        $routeName = $modelName.'.'.$method;
 
-        return $modelName.'.'.$method;
+        try {
+            return \Redirect::route($routeName, [$id]);
+        } catch (RouteNotFoundException $ex) {
+            $url = Request::url();
+            $msg = trans('messages.routeNotFoundError', ['url' => $url, 'route' => $routeName]);
+            $model->addAboveMessage($msg, 'error');
+            Log::error($msg);
+
+            return redirect()->back();
+        } catch (\Throwable $ex) {
+            throw $ex;
+        }
     }
 }
