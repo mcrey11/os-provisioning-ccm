@@ -83,9 +83,13 @@
             @foreach ($form_fields['frame']['linear'] as $frame)
                 <div class="col-md-{{$col_width}} well">
                     @foreach ($frame as $field)
-                        @foreach (Illuminate\Support\Arr::flatten($field) as $input)
-                            {{ $input }}
-                        @endforeach
+                        @if (is_array($field))
+                            @foreach (Illuminate\Support\Arr::flatten($field) as $input)
+                                {{ $input }}
+                            @endforeach
+                        @else
+                            {!! $field !!}
+                        @endif
                     @endforeach
                 </div>
             @endforeach
@@ -98,9 +102,13 @@
                 @foreach ($row as $col)
                     <div class="col-md-{{$col_width}} well">
                         @foreach ($col as $field)
-                            @foreach (Illuminate\Support\Arr::flatten($field) as $input)
-                                {{ $input }}
-                            @endforeach
+                            @if (is_array($field))
+                                @foreach (Illuminate\Support\Arr::flatten($field) as $input)
+                                    {{ $input }}
+                                @endforeach
+                            @else
+                                {!! $field !!}
+                            @endif
                         @endforeach
                     </div>
                 @endforeach
