@@ -159,7 +159,7 @@ class Modem extends \BaseModel
                 if (! Module::collections()->has('Altiplano')) {
                     $rules['ppp_password'][] = 'required';
                     array_unshift($rules['ppp_username'], 'required');
-                } else {
+                } elseif (! Modules\Altiplano\Entities\Altiplano::first()->global_ont) {
                     $rules['fiber_name'][] = 'required';
                 }
 
@@ -2125,14 +2125,14 @@ class Modem extends \BaseModel
     /**
      * Check if modem is an Altiplano modem
      *
-     * @return true if fiber_name is set
-     *              false if fiber_name is not used
+     * @return true if configfile text contains 'start-ont-json:'
+     *              false if configfile text does not contain 'start-ont-json:'
      *
      * @author Khairull Jamlus
      */
     public function isAltiplano()
     {
-        return boolval($this->fiber_name);
+        return str_contains($this->configfile->text, 'start-ont-json:');
     }
 
     /**

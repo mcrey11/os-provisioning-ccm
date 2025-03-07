@@ -306,6 +306,9 @@ return [
     // 'Create'                 => 'Erstelle ',
     // 'Edit'                       => 'Ändere ',
 
+    // Altiplano
+    'Altiplano' => 'Altiplano',
+
     // SmartOnt
     'Header_SmartOnt' => 'Smart ONT',
     'Header_DfSubscription'     => 'Dreamfiber subscription',

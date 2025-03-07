@@ -236,6 +236,7 @@ class ModemController extends \BaseController
         }
 
         if (Module::collections()->has('Altiplano') &&
+            ! Modules\Altiplano\Entities\Altiplano::first()->global_ont &&
             (new \Modules\Altiplano\Helpers\AltiplanoApi())->token
         ) {
             $availableFiberNames = \Modules\Altiplano\Services\AltiplanoService::resolveAvailableFiberNames();
