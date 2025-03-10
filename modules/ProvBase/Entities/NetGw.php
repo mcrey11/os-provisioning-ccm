@@ -462,7 +462,13 @@ class NetGw extends \BaseModel
         }, $freqs);
 
         $ips = array_map(function ($hex) {
-            return long2ip(hexdec(preg_replace('/[^[:xdigit:]]/', '', $hex)));
+            $ipHexString = preg_replace('/[^[:xdigit:]]/', '', $hex);
+            if (strlen($ipHexString) != 8) {
+                // some CMTSs return an ascii hexstring
+                return hex2bin($ipHexString);
+            }
+
+            return long2ip(hexdec($ipHexString));
         }, $ips);
 
         foreach ($ips as $ipIdx => $ip) {
