@@ -113,6 +113,11 @@ class Kernel extends ConsoleKernel
                     'type' => 'DPIC_CARD_UTIL',
                 ]));
             })->cron('4-49/15 * * * *');
+
+            // Clean Up of topology svg diagrams
+            $schedule->call(function () {
+                exec('rm -rf '.storage_path('app/'.\Modules\CoreMon\Http\Controllers\TopologyController::PATH_REL));
+            })->hourly();
         }
 
         // Parse News from repo server and save to local JSON file
@@ -250,13 +255,6 @@ class Kernel extends ConsoleKernel
             // Clean Up of HFC Base
             $schedule->call(function () {
                 \Storage::deleteDirectory(\Modules\HfcBase\Http\Controllers\TreeErdController::$path_rel);
-            })->hourly();
-        }
-
-        if ($modules->has('CoreMon')) {
-            // Clean Up of topology svg diagrams
-            $schedule->call(function () {
-                exec('rm -rf '.storage_path('app/'.\Modules\CoreMon\Http\Controllers\TopologyController::PATH_REL));
             })->hourly();
         }
 
