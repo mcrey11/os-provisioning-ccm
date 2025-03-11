@@ -39,7 +39,7 @@ return new class extends BaseMigration
             $table->boolean('global_ont')->default(false);
         });
 
-        DB::insert("INSERT INTO {$this->tableName} (global_ont) VALUES (false)");
+        DB::insert("INSERT INTO {$this->tableName} (created_at,updated_at,global_ont) VALUES (now(),now(),false)");
     }
 
     /**
