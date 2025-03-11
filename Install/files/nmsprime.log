@@ -7,7 +7,7 @@
     notifempty
     create 644 apache apache
     postrotate
-        /usr/bin/supervisorctl update || true
+        /usr/bin/systemctl restart supervisord || true
     endscript
 }
 
@@ -19,7 +19,7 @@
     rotate 6
     create 644 apache apache
     postrotate
-        /usr/bin/supervisorctl update || true
+        /usr/bin/systemctl restart supervisord || true
     endscript
 }
 
@@ -30,7 +30,7 @@
     notifempty
     create 644 root apache
     postrotate
-        /usr/bin/supervisorctl update || true
+        /usr/bin/systemctl restart supervisord || true
     endscript
 }
 
@@ -41,6 +41,6 @@
     notifempty
     create 644 apache apache
     postrotate
-        /usr/bin/supervisorctl update || true
+        /usr/bin/systemctl restart supervisord || true
     endscript
 }
