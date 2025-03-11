@@ -1750,7 +1750,7 @@ class BaseController extends Controller
 
                 continue;
             } elseif (! is_array($customQuery)) {
-                throw new \Exception('$customQuery has to be string or array');
+                throw new \Exception('$customQuery has to be string, array or a function/callable');
             }
 
             $DT->filterColumn($column, function ($query, $keyword) use ($customQuery) {
