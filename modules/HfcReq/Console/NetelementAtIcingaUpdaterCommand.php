@@ -113,12 +113,19 @@ class NetelementAtIcingaUpdaterCommand extends Command
      */
     protected function createConfig()
     {
+        $s = microtime(true);
+
         foreach ($this->netelements as $ne) {
             // typecast to text adds netmask – remove it
             $ne->ip = explode('/', $ne->ip)[0];
             $config = view('hfcreq::Icinga2.hostconf', compact(['ne']))->render();
             $this->writeConfig($config, $ne->id);
         }
+
+        $e = microtime(true);
+        $diff = round($e - $s, 3);
+
+        Log::info(__CLASS__.": Writing icinga config for netelements to $this->configPath/ took $diff s");
     }
 
     /**
@@ -131,7 +138,7 @@ class NetelementAtIcingaUpdaterCommand extends Command
         $configFile = "$this->configPath/$id.conf";
         $msg = "Writing $configFile";
         $this->line($msg);
-        Log::info(__CLASS__.": $msg");
+        Log::debug(__CLASS__.": $msg");
         try {
             file_put_contents($configFile, $config);
         } catch (\Throwable $ex) {
