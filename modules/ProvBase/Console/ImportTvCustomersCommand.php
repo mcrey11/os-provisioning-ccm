@@ -131,12 +131,11 @@ class ImportTvCustomersCommand extends Command
         $this->validateUserInput();
 
         $file_arr = file($this->argument('file'));
-        $num = count($file_arr);
-        $bar = $this->output->createProgressBar($num);
-
         // skip headline
         unset($file_arr[0]);
 
+        $num = count($file_arr);
+        $bar = $this->output->createProgressBar($num);
         echo "Import TV customers\n";
         Log::info("Import potentially $num TV customers");
         $bar->start();
@@ -162,6 +161,8 @@ class ImportTvCustomersCommand extends Command
             self::addCredit();
             $this->addSepaMandate();
         }
+
+        $bar->finish();
 
         self::printImportantTodos();
     }
