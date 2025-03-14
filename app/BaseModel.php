@@ -750,6 +750,10 @@ class BaseModel extends Eloquent
         $start = $startEndDates ? $startEndDates[0]->timestamp : $this->get_start_time();
         $end = $startEndDates ? $startEndDates[1]?->timestamp : $this->validToAsInt();
 
+        if ($end && $start > $end) {
+            return false;
+        }
+
         if (! $time) {
             // Default - billing settlementruns/charges are calculated for last month
             $time = strtotime('midnight first day of last month');
