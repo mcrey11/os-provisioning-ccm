@@ -942,7 +942,7 @@ class NetElement extends \BaseModel
 
             return self::where('base_type_id', array_search('Net', NetElementType::$undeletables))
                 ->without('netelementtype')
-                ->limit(25)
+                ->limit(100)
                 ->orderBy('name')
                 ->get(['id', 'name', 'base_type_id']);
         });
