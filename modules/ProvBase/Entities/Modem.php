@@ -2385,6 +2385,7 @@ class Modem extends \BaseModel
                 $dash['modemConfigfileStatus'] = $modemConfigfileStatus;
             }
 
+            // TODO: This should be retrieved via Ajax as it takes much time - e.g. 3.5s for Arris TG3442S
             $eventlog = $this->get_eventlog($conf);
         }
 
