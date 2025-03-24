@@ -125,7 +125,7 @@ class Kernel extends ConsoleKernel
             $schedule->call('\Modules\Dashboard\Http\Controllers\DashboardController@newsLoadToFile')->hourly();
         }
 
-        if (config('datatables.isIndexCachingEnabled')) {
+        if (config('datatables.cacheIndexTableCount')) {
             $schedule->call(function () {
                 \App\Jobs\CacheIndexTableCountJob::dispatch();
             })->dailyAt('03:55');

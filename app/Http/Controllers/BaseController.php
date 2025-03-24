@@ -1737,8 +1737,7 @@ class BaseController extends Controller
         $DT = DataTables::make($query)
             ->addColumn('checkbox', '');
 
-        // index caching is currently disabled, see: https://github.com/nmsprime/nmsprimeNG/commit/5f58c7b1cba87775aee418374154d36ce268583a
-        // $this->cacheTableEntryCount($DT, $model);
+        $this->cacheTableEntryCount($DT, $model);
 
         // Filters
         foreach ($filterColumnData as $column => $customQuery) {
@@ -1855,7 +1854,7 @@ class BaseController extends Controller
      */
     private function cacheTableEntryCount($dt, $model)
     {
-        if (! config('datatables.isIndexCachingEnabled')) {
+        if (! config('datatables.cacheIndexTableCount')) {
             return;
         }
 

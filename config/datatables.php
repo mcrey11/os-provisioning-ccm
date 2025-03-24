@@ -138,8 +138,10 @@ return [
      * This currently affects only sorting. As sorting decreases the performance the most, sorting is removed
      * when the user initially opens the index page and no filter is set. Everytime a/the filter is changed the
      * sorting (order by) is initially removed
+     *
+     * Is currently disabled, see: https://github.com/nmsprime/nmsprimeNG/commit/5f58c7b1cba87775aee418374154d36ce268583a
      */
-    'isIndexCachingEnabled' => false,
+    'cacheIndexTableCount' => false,
     'hugeTableThreshold' => env('DATATABLES_HUGE_TABLE_THRESHOLD', 500000),
 
     /**

@@ -922,7 +922,7 @@ class BaseModel extends Eloquent
     public function hasHugeIndexTable()
     {
         if (
-            config('datatables.isIndexCachingEnabled') &&
+            config('datatables.cacheIndexTableCount') &&
             $this->cachedIndexTableCount > config('datatables.hugeTableThreshold')
         ) {
             return true;
