@@ -191,7 +191,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
                 $this->table.'.last_name',
                 'email',
                 $this->table.'.geopos_updated_at',
-                'active'
+                'active',
             ],
             'translateBooleanColumns' => ['active'],
             'header' => $this->first_name.' '.$this->last_name,
