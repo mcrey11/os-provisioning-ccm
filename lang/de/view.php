@@ -79,7 +79,7 @@ return [
     'Menu_Items'                => 'Posten',
     'Menu_OverdueDebts'         => 'Offene Posten',
     'Menu_ProvVoip'             => 'VoIP',
-    'Menu_ProvVoipEnvia' => 'EnviaTel',
+    'Menu_ProvVoipEnvia' => 'EnviaTEL',
     'Menu_PropertyManagement'   => 'Gebäudeverwaltung',
     'Menu_DocumentManagement'   => 'Dokumentenmanagement',
     'Menu_DocumentTemplates'    => 'Vorlagen',

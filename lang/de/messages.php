@@ -29,7 +29,7 @@ return [
         'cdr' => [
             'missingONKey' => 'Der private Schlüssel für den Zugang zum Opennumbers SFTP-Server fehlt. EVN konnte nicht geladen werden.',
             'missingProvVoip' => 'Ohne das Modul ProvVoip können die :provider EVNs nicht den Kunden zugewiesen werden.',
-            'missingProvVoipEnvia' => 'Ohne das Modul ProvVoip werden dem Kunde alle Gespräche aus dem EnviaTel EVN ohne besondere Prüfung zugeordnet.',
+            'missingProvVoipEnvia' => 'Ohne das Modul ProvVoip werden dem Kunde alle Gespräche aus dem EnviaTEL EVN ohne besondere Prüfung zugeordnet.',
             'noVoip' => 'VOIP-Tarif von Kunde :contract fehlt. Betrag wird mit Basic-Tarif und ohne Aufschlag berechnet!',
             'ropaCallsDiscarded' => 'CDR: Telefonnummer :phonenr fehlt in der NMSPrime Datenbank. :count Gespräche zum Preis von :price € können nicht zugeordnet werden',
         ],
