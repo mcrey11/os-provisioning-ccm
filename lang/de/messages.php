@@ -874,7 +874,6 @@ return [
         'measurementFinished'   => ':Direction Messung abgeschlossen.',
         'somethingWentWrong'    => 'Etwas ist schief gelaufen.',
     ],
-    'iperf_max_stream'          => 'Maximaler Anzeigewert des iPerf Diagramms in Mbit/s',
     'flapping_dhcp_threshold'   => 'Minimale Anzahl Meldungen pro 24 Stunden für DHCP Flapping',
     'telCalls' => 'Telefongespräche',
 
