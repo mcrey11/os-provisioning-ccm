@@ -27,7 +27,7 @@
 @endif
 
 @if (request()->is('customer*'))
-    <script src="{{ asset('js/ccc.js') }}"></script>
+  <script src="{{ asset('js/ccc.js') }}"></script>
 @endif
 
 <!-- ================== END BASE JS ================== -->
