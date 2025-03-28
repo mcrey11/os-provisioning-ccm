@@ -755,11 +755,12 @@ class Modem extends \BaseModel
         }
 
         // this should never happen, but has been seen in the wild
-        if (! $this->hostname) {
+        $hostname = $this->hostname;
+        if (! $hostname) {
             $hostname = 'cm-'.$this->id;
         }
 
-        return 'host '.$this->hostname.' { hardware ethernet '.$this->mac.'; filename "cm/'.$this->hostname.'.cfg"; ddns-hostname "'.$this->hostname.'";';
+        return 'host '.$hostname.' { hardware ethernet '.$this->mac.'; filename "cm/'.$hostname.'.cfg"; ddns-hostname "'.$hostname.'";';
     }
 
     /**
