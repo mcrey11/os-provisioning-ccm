@@ -205,6 +205,7 @@ migrateNamed () {
 
     systemctl stop named
     scp $centos7Server:/etc/named-nmsprime.conf /etc/named-nmsprime.conf
+    scp $centos7Server:/etc/named-ddns.sh /etc/named-ddns.sh
     scp $centos7Server:/var/named/dynamic/* /var/named/dynamic/
     rm -f /var/named/dynamic/*.jnl
     systemctl start named
