@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -524,7 +525,7 @@ class ExtendedValidator
      * Check values that are entry_type dependend
      *
      * @param  $parameters  first entry needs to be the entry_type value (add “entry_type” to \Modules\ProvVoip\Entities\PhonebookEntry::rules(); will
-     *                      then be set in PhonebookEntryController::prepare_rules
+     *                     then be set in PhonebookEntryController::prepare_rules
      *
      * @author Patrick Reichel
      */

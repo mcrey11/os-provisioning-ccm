@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -1220,7 +1221,7 @@ class NetElement extends \BaseModel
      * @param  string|array  $modifiers  string modifiers - order matters!
      * @return string
      */
-    public function getOriginalTypeName(string|array $modifiers = null): string
+    public function getOriginalTypeName(string|array|null $modifiers = null): string
     {
         $originalTypeName = NetElementType::$undeletables[$this->base_type_id];
 

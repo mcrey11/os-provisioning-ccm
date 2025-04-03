@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -359,7 +360,7 @@ class ModemController extends \BaseController
      * @param  string|null  $fn  Name of the relation(function)
      * @return array
      */
-    protected function setupSelect2Field($model, string $class, string $field = null, string $fn = null): array
+    protected function setupSelect2Field($model, string $class, ?string $field = null, ?string $fn = null): array
     {
         // chose the first ONT configfile for new smartont „modems“
         if (

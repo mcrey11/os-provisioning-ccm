@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -360,7 +361,7 @@ class Phonenumber extends \BaseModel
      *
      * @param  $withTrashed  boolean; if true return also soft deleted orders; default is false
      * @param  $whereStatement  raw SQL query; default is returning of all orders
-     *                          Attention: Syntax of given string has to meet SQL syntax!
+     *                         Attention: Syntax of given string has to meet SQL syntax!
      * @return EnviaOrders if module ProvVoipEnvia is enabled, else “null”
      *
      * @author Patrick Reichel

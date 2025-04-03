@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Clipboard fixing Bouncer performance issues (duplicate cache lookups)
  *

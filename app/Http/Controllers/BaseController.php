@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -1942,7 +1943,7 @@ class BaseController extends Controller
      * @param  string|null  $fn  Name of the relation(function)
      * @return array
      */
-    protected function setupSelect2Field($model, string $class, string $field = null, string $fn = null): array
+    protected function setupSelect2Field($model, string $class, ?string $field = null, ?string $fn = null): array
     {
         $lowerField = strtolower($class);
         $field = $field ?? "{$lowerField}_id";
@@ -1979,7 +1980,7 @@ class BaseController extends Controller
      * @param  string|null  $placeholder  The placeholder text for the select field (optional)
      * @return array An array of options for the select2 field (multiple)
      */
-    protected function setupSelect2FieldForPivotTable($model, string $relationship, string $class, string $placeholder = null): array
+    protected function setupSelect2FieldForPivotTable($model, string $relationship, string $class, ?string $placeholder = null): array
     {
         $placeholder = $placeholder ?? trans('view.select.base', ['model' => trans("view.select.{$class}")]);
 
