@@ -19,6 +19,7 @@
 
 namespace Modules\ProvVoip\Observers;
 
+use Illuminate\Support\Facades\Log;
 use Modules\ProvVoip\Entities\Mta;
 use Modules\ProvVoip\Entities\ProvVoip;
 
@@ -106,6 +107,7 @@ class PhonenumberObserver
         if ($phonenumber->active && $phonenumber->reassignable) {
             $msg = trans('validation.phonenumber_active_and_reassignable');
             $phonenumber->addAboveMessage($msg, 'error', 'form');
+            Log::error($msg);
 
             return false;
         }

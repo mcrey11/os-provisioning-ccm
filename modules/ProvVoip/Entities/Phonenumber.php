@@ -490,70 +490,58 @@ class Phonenumber extends \BaseModel
      */
     public function setActiveState()
     {
-        $changed = false;
-
-        $management = $this->phonenumbermanagement;
-
-        if (is_null($management)) {
-            // if there is still no management: deactivate the number
-            // TODO: decide if a phonenumbermanagement is required in each case or not
-            // until then: don't change the state on missing management
-            /* if ($this->active) { */
-            /* 	$this->active = False; */
-            /* 	$changed = True; */
-            /* } */
+        if (is_null($this->phonenumbermanagement)) {
             Log::debug('No PhonenumberManagement for phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.') – will not change the active state.');
+
+            return;
+        }
+
+        $this->active = $this->determineNextActiveState();
+
+        if (! $this->isDirty('active')) {
+            // Nothing to do
+            return;
+        }
+
+        if ($this->active) {
+            $this->reassignable = false;    // Active numbers are not reassignable
+            Log::info('Activating phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.').');
         } else {
-            // get the dates for this number
-            $act = $management->activation_date;
-            $deact = $management->deactivation_date;
-
-            if (! boolval($act)) {
-                // Activation date not yet reached: deactivate
-                if ($this->active) {
-                    $this->active = false;
-                    $changed = true;
-                }
-            } elseif ($act > date('c')) {
-                // Activation date not yet reached: deactivate
-                if ($this->active) {
-                    $this->active = false;
-                    $changed = true;
-                }
-            } else {
-                if (! boolval($deact)) {
-                    // activation date today or in the past, no deactivation date: activate
-                    if (! $this->active) {
-                        $this->active = true;
-                        $changed = true;
-                    }
-                } else {
-                    if ($deact > date('c')) {
-                        // activation date today or in the past, deactivation date in the future: activate
-                        if (! $this->active) {
-                            $this->active = true;
-                            $changed = true;
-                        }
-                    } else {
-                        // deactivation date today or in the past: deactivate
-                        if ($this->active) {
-                            $this->active = false;
-                            $changed = true;
-                        }
-                    }
-                }
-            }
+            Log::info('Deactivating phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.').');
         }
-        // write to database if there are changes
-        if ($changed) {
-            if ($this->active) {
-                Log::info('Activating phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.').');
-            } else {
-                Log::info('Deactivating phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.').');
-            }
 
-            $this->save();
+        $this->save();
+    }
+
+    protected function determineNextActiveState()
+    {
+        // Get the dates for this number
+        $activationDate = $this->phonenumbermanagement->activation_date;
+        $deactivationDate = $this->phonenumbermanagement->deactivation_date;
+
+        if (! $activationDate) {
+            // Activation date not set: inactive
+            return false;
         }
+
+        if ($activationDate > date('c')) {
+            // Activation date not yet reached: inactive
+            return false;
+        }
+
+        // From this point: activation date is today or in the past
+        if (! $deactivationDate) {
+            // No deactivation date: active
+            return true;
+        }
+
+        if ($deactivationDate > date('c')) {
+            // Deactivation date in the future: active
+            return true;
+        }
+
+        // Deactivation date today or in the past: inactive
+        return false;
     }
 
     /**
@@ -579,6 +567,11 @@ class Phonenumber extends \BaseModel
             return;
         }
 
+        // no deactivation date set
+        if (! $this->phonenumbermanagement->deactivation_date) {
+            return;
+        }
+
         $minWaitTime = config('provvoip.reassignableWaitTime');
         $dateTime = new \DateTime();
         $firstReassignable = $dateTime->sub(new \DateInterval('P'.$minWaitTime))->format('Y-m-d');
@@ -591,7 +584,7 @@ class Phonenumber extends \BaseModel
         $this->reassignable = true;
         $this->save();
 
-        Log::info('Phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.'). is now free for reassignment');
+        Log::info('Phonenumber '.$this->prefix_number.'/'.$this->number.' (ID '.$this->id.') is now free for reassignment.');
     }
 
     /**
