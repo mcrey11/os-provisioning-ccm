@@ -109,4 +109,8 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    'batching' => [
+        'database' => env('DB_CONNECTION', 'pgsql'),
+        'table' => 'job_batches',
+    ],
 ];
