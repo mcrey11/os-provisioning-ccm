@@ -1667,8 +1667,11 @@ class Modem extends \BaseModel
      *
      * @author: Ole Ernst
      */
-    public function get_eventlog($conf)
+    public function eventlog()
     {
+        Log::debug('Get modem '.$this->id.' eventlog');
+
+        $conf = ProvBase::first();
         $fqdn = $this->hostname.'.'.$conf->domain_name;
         $com = $conf->ro_community;
 
@@ -1676,16 +1679,23 @@ class Modem extends \BaseModel
         snmp_set_oid_output_format(SNMP_OID_OUTPUT_NUMERIC);
         snmp_set_valueretrieval(SNMP_VALUE_LIBRARY);
 
+        // TODO: It seems like some modems can be slow. We could reduce the amount of data retrieved here and remove the filtering afterwards below
         try {
             $log = snmp2_real_walk($fqdn, $com, '.1.3.6.1.2.1.69.1.5.8.1');
         } catch (\Exception $e) {
+            Log::debug('Try snmp v1 to get modem '.$this->id.' eventlog');
+
             try {
                 $log = snmprealwalk($fqdn, $com, '.1.3.6.1.2.1.69.1.5.8.1');
             } catch (\Exception $e) {
+                Log::debug('Failed to get modem '.$this->id.' eventlog');
+
                 return;
             }
         }
         $log = ArrayHelper::snmpwalk_fold($log);
+
+        Log::debug('Got modem '.$this->id.' eventlog');
 
         // filter unnecessary entries
         $log = array_filter($log, function ($k) {
@@ -2343,7 +2353,6 @@ class Modem extends \BaseModel
         $conf = ProvBase::first();
         $this->domainName = $conf->domain_name;
         $mac = strtolower($this->mac);
-        $eventlog = null;
         $wifi = null;
         $lan = null;
         $tickets = $this->tickets;
@@ -2392,9 +2401,6 @@ class Modem extends \BaseModel
             if ($modemConfigfileStatus = $this->configfileStatus()) {
                 $dash['modemConfigfileStatus'] = $modemConfigfileStatus;
             }
-
-            // TODO: This should be retrieved via Ajax as it takes much time - e.g. 3.5s for Arris TG3442S
-            $eventlog = $this->get_eventlog($conf);
         }
 
         // time of this function should be observed - can take a huge time as well
@@ -2412,6 +2418,8 @@ class Modem extends \BaseModel
         $radius = $this->radiusData();
 
         if ($api) {
+            $eventlog = $this->eventlog();
+
             return compact('online', 'lease', 'tr069Log', 'dhcpLog', 'configfile', 'eventlog', 'dash', 'ip', 'radius');
         }
 
@@ -2421,7 +2429,7 @@ class Modem extends \BaseModel
         $this->help = 'modem_analysis';
         $modem = $this;
 
-        return compact('online', 'lease', 'dhcpLog', 'tr069Log', 'configfile', 'eventlog', 'dash', 'ip',
+        return compact('online', 'lease', 'tr069Log', 'configfile', 'dash', 'ip',
             'cmds', 'modem', 'pills', 'tabs', 'view_header', 'tickets', 'radius', 'wifi', 'lan');
     }
 

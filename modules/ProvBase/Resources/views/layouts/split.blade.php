@@ -70,6 +70,8 @@
 >
 @endif
 
+    <livewire:provbase::modem-event-log lazy :modem-id="$modem->id"/>
+
     <div class="col-md-7 ui-sortable">
         @include ('bootstrap.panel', ['content' => 'content_dash', 'view_header' => 'Dashboard', 'i' => 1, 'overflow' => 'visible'])
         @if (isset($realtime))
@@ -114,6 +116,5 @@
         </div>
     @endif
 
-    </div>
-
+</div>
 @stop
