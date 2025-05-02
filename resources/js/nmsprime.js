@@ -50,55 +50,6 @@ $(function () {
   })
 })
 
-/* This bit can be used on the entire app over all pages and will work for both tabs and pills.
- * Also, make sure the tabs or pills are not active by default,
- * otherwise you will see a flicker effect at page load.
- * Important: Make sure the parent ul has an id. Thanks Alain
- * http://stackoverflow.com/posts/16984739/revisions
- */
-var saveTabPillState = function () {
-  $(function () {
-    var json, tabsState
-    $('a[data-toggle="pill"], a[data-toggle="tab"]').on(
-      'shown.bs.tab',
-      function (e) {
-        var href, json, parentId, tabsState
-
-        tabsState = localStorage.getItem('tabs-state')
-        json = JSON.parse(tabsState || '{}')
-        parentId = $(e.target)
-          .parents('ul.nav.nav-pills, ul.nav.nav-tabs, .nms-tabs')
-          .attr('id')
-        href = $(e.target).attr('href')
-        json[parentId] = href
-
-        // dont save logging tab
-        if (href === '#logging') {
-          return
-        }
-
-        return localStorage.setItem('tabs-state', JSON.stringify(json))
-      }
-    )
-
-    tabsState = localStorage.getItem('tabs-state')
-    json = JSON.parse(tabsState || '{}')
-
-    $.each(json, function (containerId, href) {
-      return $('#' + containerId + " a[href='" + href + "']").tab('show')
-    })
-
-    $('ul.nav.nav-pills, ul.nav.nav-tabs').each(function () {
-      var $this = $(this)
-      if (!json[$this.attr('id')]) {
-        return $this
-          .find('a[data-toggle=tab]:first, a[data-toggle=pill]:first')
-          .tab('show')
-      }
-    })
-  })
-}
-
 /**
  * Dispatches select2 input events to window/document events can be scoped further by adding
  * a `data-event-scope` attribute to select2 elements.
@@ -344,6 +295,54 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
     .responsive.recalc()
 })
 
+/* This bit can be used on the entire app over all pages and will work for both tabs and pills.
+ * Also, make sure the tabs or pills are not active by default,
+ * otherwise you will see a flicker effect at page load.
+ * Important: Make sure the parent ul has an id. Thanks Alain
+ * http://stackoverflow.com/posts/16984739/revisions
+ */
+function saveTabPillState (e) {
+  var href = $(e.target).attr('href')
+
+  // dont save logging tab
+  if (href === '#logging') {
+    return
+  }
+
+  var tabsState = localStorage.getItem('tabs-state')
+  var json = JSON.parse(tabsState || '{}')
+  var parentId = $(e.target)
+    .parents('ul.nav.nav-pills, ul.nav.nav-tabs, .nms-tabs')
+    .attr('id')
+  json[parentId] = href
+
+  localStorage.setItem('tabs-state', JSON.stringify(json))
+}
+
+function setTabPillState () {
+  let tabsState = localStorage.getItem('tabs-state')
+  let json = JSON.parse(tabsState || '{}')
+
+  $.each(json, function (containerId, href) {
+    return $('#' + containerId + " a[href='" + href + "']").tab('show')
+  })
+
+  $('ul.nav.nav-pills, ul.nav.nav-tabs').each(function () {
+    var $this = $(this)
+
+    if (! json[$this.attr('id')]) {
+      return $this
+        .find('a[data-toggle=tab]:first, a[data-toggle=pill]:first')
+        .tab('show')
+    }
+  })
+}
+
+
+$(document).on('shown.bs.tab', /*'a[data-toggle="pill"]',*/ function (e) {
+  saveTabPillState(e)
+});
+
 function rezizeTextareas() {
   $('textarea')
     .each(function () {
@@ -463,7 +462,7 @@ window.NMS = (function () {
     //main function
     init: function () {
       initSelect2Fields()
-      saveTabPillState()
+      setTabPillState()
       rezizeTextareas()
       rangeSlider()
     },
