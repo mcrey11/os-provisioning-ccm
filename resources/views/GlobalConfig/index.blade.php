@@ -56,26 +56,26 @@
 </div>
 
 <div>
-        <div class="tab-content">
-            @php
-                $blade_type = 'form';
-            @endphp
-            @include('Generic.above_infos')
+    <div class="tab-content">
+        @php
+            $blade_type = 'form';
+        @endphp
+        @include('Generic.above_infos')
 
-            @foreach($moduleModels as $slug => $model)
-                <div :class="{'active': tabStates['{{ $links[$slug]['name'] }}']}"
-                    class="tab-pane pt-2 {{ $loop->first ? 'active' : ''}}"
-                    v-show="tabStates['{{ $links[$slug]['name'] }}']"
-                    role="tabpanel">
-                    {{ Form::model($model, 'PUT', route($links[$slug]['link'].'.update', [1]))
-                        ->attributes(['files' => true])
-                        ->acceptsFiles()
-                        ->open()
-                    }}
-                        @include('Generic.form', ['view_var' => $model, 'form_fields' => $form_fields[$slug]])
-                    {{ html()->form()->close() }}
-                </div>
-            @endforeach
-        </div>
+        @foreach($moduleModels as $slug => $model)
+            <div :class="{'active': tabStates['{{ $links[$slug]['name'] }}']}"
+                class="tab-pane pt-2 {{ $loop->first ? 'active' : ''}}"
+                v-show="tabStates['{{ $links[$slug]['name'] }}']"
+                role="tabpanel">
+                {{ Form::model($model, 'PUT', route($links[$slug]['link'].'.update', [1]))
+                    ->attributes(['files' => true])
+                    ->acceptsFiles()
+                    ->open()
+                }}
+                    @include('Generic.form', ['view_var' => $model, 'form_fields' => $form_fields[$slug]])
+                {{ html()->form()->close() }}
+            </div>
+        @endforeach
+    </div>
 </div>
 @stop
