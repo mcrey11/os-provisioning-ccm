@@ -88,8 +88,8 @@
 
                             {{-- Link to separate view --}}
                             @if (isset($tab['route']))
-                                <li class="pb-1 pt-2 !px-3 border-b-2 hover:bg-slate-200 dark:hover:bg-slate-800 {{ $routeName == $tab['route'] ? ' border-cyan-500' : 'border-transparent hover:border-white'}}" role="tab">
-                                    <a href="{{ route($tab['route'], is_array($tab['link']) ? $tab['link'] : [$tab['link']]) }}{{ $routeName == $tab['route'] ? '#' : ''}}" class="p-0 no-underline">
+                                <li class="pb-1 pt-2 border-b-2 hover:bg-slate-200 dark:hover:bg-slate-800 {{ $routeName == $tab['route'] ? ' border-cyan-500' : 'border-transparent hover:border-white'}}" role="tab">
+                                    <a href="{{ route($tab['route'], is_array($tab['link']) ? $tab['link'] : [$tab['link']]) }}{{ $routeName == $tab['route'] ? '#' : ''}}" class="pb-3 pt-3 !px-3 no-underline">
                                         <span class="text-gray-800 dark:text-slate-100">
                                         @if (isset($tab['icon']))
                                             <i class="fa fa-{{ $tab['icon'] }}"></i>
