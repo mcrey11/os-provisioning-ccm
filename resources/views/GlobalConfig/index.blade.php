@@ -42,9 +42,9 @@
             @foreach($moduleModels as $slug => $model)
                 <li v-on:click="setAndStoreActiveTab('{{ $links[$slug]['name'] }}')"
                     :class="tabStates['{{ $links[$slug]['name'] }}'] ? '!border-cyan-500 hover:border-cyan-500' : 'hover:border-white border-transparent'"
-                    class="pb-1 pt-2 !px-3 border-b-2 hover:bg-slate-200 dark:hover:bg-slate-800 {{ $loop->first ? 'border-cyan-500' : 'border-transparent hover:border-white'}}"
+                    class="pb-1 pt-2 border-b-2 hover:bg-slate-200 dark:hover:bg-slate-800 {{ $loop->first ? 'border-cyan-500' : 'border-transparent hover:border-white'}}"
                     role="tab">
-                    <a class="p-0 no-underline" href="#{{$slug}}" data-toggle="tab">
+                    <a class="pb-3 pt-3 !px-3 no-underline" href="#{{$slug}}" data-toggle="tab">
                         <span class="text-gray-800 dark:text-slate-100">
                             {{ $links[$slug]['local'] }}
                         </span>
