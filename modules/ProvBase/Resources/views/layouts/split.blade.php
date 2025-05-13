@@ -70,6 +70,7 @@
 >
 @endif
 
+    <livewire:provbase::modem-dhcp-log lazy :modem-id="$modem->id"/>
     <livewire:provbase::modem-event-log lazy :modem-id="$modem->id"/>
 
     <div class="col-md-7 ui-sortable">

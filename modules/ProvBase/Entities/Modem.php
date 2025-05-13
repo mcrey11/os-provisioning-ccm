@@ -21,6 +21,7 @@ namespace Modules\ProvBase\Entities;
 
 use App\extensions\php\ArrayHelper;
 use App\Sla;
+use Cache;
 use Carbon\Carbon;
 use DB;
 use File;
@@ -679,9 +680,9 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Get tabs in right panel auf analysis page dependent on type of modem
+     * Get tabs in right panel of analysis page dependent on type of modem
      */
-    public function analysisPills($dhcpLog, $tr069Log): array
+    public function analysisPills(/*$dhcpLog, */$tr069Log): array
     {
         $pills = ['dhcpLog', 'tr069Log', 'lease', 'configfile', 'eventlog', 'wifi'];
 
@@ -692,9 +693,9 @@ class Modem extends \BaseModel
         } else {
             unset($pills[4]);
 
-            if (! $dhcpLog) {
-                unset($pills[0], $pills [2]);
-            }
+            // if (! $dhcpLog) {
+            //     unset($pills[0], $pills[2]);
+            // }
 
             $pills[] = 'lan';
             $pills[] = trans('view.modemAnalysis.lastSessions');
@@ -1743,33 +1744,133 @@ class Modem extends \BaseModel
     }
 
     /**
+     * Get DHCP syslog messages together with tftp (configfile, firmware) messages
+     *
+     * @param string|null
+     */
+    public function getDhcpLogEntries($ip): array
+    {
+        // TODO: Early return [] for TR069 modems when no DHCP is used ?
+        // Could maybe be configured somewhere - or figured out (dhcp server running, logs existing, etc.) and cached
+
+        $grepFor = [];
+
+        if ($this->mac) {
+            $grepFor[] = strtolower($this->mac);
+        }
+
+        if ($this->hostname) {
+            $grepFor[] = "$this->hostname[^0-9]";
+        }
+
+        if ($ip) {
+            $grepFor[] = "$ip ";
+        }
+
+        if (! $grepFor) {
+            return [];
+        }
+
+        $grepStr = escapeshellarg(implode('\|', $grepFor));
+        $pipes = "grep -v 'MTA\|CPE' | tail -n 30 | tac";
+        // $pipes = "tac | grep -m30 -v 'MTA\|CPE'"; // upper variant seems to be marginally better
+
+        return $this->getSyslogEntries($grepStr, $pipes);
+    }
+
+    public function getDhcpLogCacheKey($logfile, $device = 'modem')
+    {
+        $fname = basename($logfile);
+
+        return "logs.$device.$this->id.$fname";
+    }
+
+    /**
      * Get Syslog entries dependent on what should be searched and discarded.
      *
-     * @author Roy Schneider
+     * @author Roy Schneider, Nino Ryschawy
      *
-     * @param  string  $search  only look for entries matching $search
-     * @param  string  $pipes  slim down search result
+     * @param  string  $grepStr  only look for entries matching this string
+     * @param  string  $pipes  filter search result
      * @return array
      *
      * Attention: pipes must not contain user input!
      */
-    public function getSyslogEntries($search, $pipes = null)
+    public function getSyslogEntries($grepStr, $pipes = '', $device = 'modem', $max = 30, $baseLogfile = '/var/log/messages')
     {
-        return getLogEntries('egrep -i', $search, '/var/log/messages', $pipes);
+        // Always get everything from latest day
+        $cmd = "grep -ai $grepStr $baseLogfile".($pipes ? " | $pipes" : '');
+
+        exec($cmd, $logs);
+
+        $count = count($logs);
+        if ($count >= $max) {
+            return $logs;
+        }
+
+        // Get cached logs or get logs for last 6 days, cache and return them
+        $cacheKey = $this->getDhcpLogCacheKey($baseLogfile, $device);
+
+        // Cache::forget($cacheKey);
+
+        $pastLogs = Cache::remember($cacheKey, now()->endOfDay(), function () use ($baseLogfile, $count, $grepStr, $pipes, $max) {
+            $pastLogs = [];
+
+            $logfiles = glob($baseLogfile.'-*');
+            rsort($logfiles);
+            $logfiles = array_slice($logfiles, 0, 6);
+
+            foreach ($logfiles as $logfile) {
+                $singleDayLogs = [];
+                $cmd = "grep -ai $grepStr $logfile".($pipes ? " | $pipes" : '');
+
+                exec($cmd, $singleDayLogs);
+
+                $pastLogs = array_merge($pastLogs, $singleDayLogs);
+
+                if ($count + count($pastLogs) >= $max) {
+                    break;
+                }
+            }
+
+            return $pastLogs;
+        });
+
+        return array_merge($logs, $pastLogs);
     }
 
     /**
-     * Get TR-069 log entries dependent on what should be searched and discarded.
+     * Get TR-069 log entries
      *
-     * @author Roy Schneider
-     *
-     * @param  string  $search  only look for entries matching $search
-     * @param  string  $pipes  slim down search result
-     * @return array
+     * @author Roy Schneider, Nino Ryschawy
      */
-    public function getTr069LogEntries($search, $pipes = null)
+    public function getTr069LogEntries(): array
     {
-        return getLogEntries('tac /var/log/genieacs/genieacs-cwmp-access.log | egrep -i -m 30', $search, null, $pipes);
+        $genieId = $this->getGenieId(false);
+
+        if (! $genieId) {
+            return [];
+        }
+
+        $logfile = '/var/log/genieacs/genieacs-cwmp-access.log';
+        $ret = getLogEntries("tac $logfile | egrep -i -m 30", $genieId, null, '');
+        $count = count($ret);
+
+        if ($count >= 30) {
+            return $ret;
+        }
+
+        // Get logs from yesterday as well
+        $logfile = $logfile.'-'.date('Ymd');
+
+        if (! file_exists($logfile)) {
+            return $ret;
+        }
+
+        $count = 30 - $count;
+        $ret2 = getLogEntries("tac $logfile | egrep -i -m $count", $genieId, null, '');
+
+        return array_merge($ret, $ret2);
     }
 
     /**
@@ -2375,10 +2476,8 @@ class Modem extends \BaseModel
                 $cmds[trans('messages.delete_task')." {$task['name']} {$task['device']}"] = "delete/tasks/{$task['_id']}";
             }
 
-            $genieId = $this->getGenieId(false);
-
             // Log tab
-            $tr069Log = $genieId ? $this->getTr069LogEntries($genieId) : [];
+            $tr069Log = $this->getTr069LogEntries();
         } else {
             $configfile = self::getConfigfileText("/tftpboot/cm/$this->hostname");
         }
@@ -2403,14 +2502,8 @@ class Modem extends \BaseModel
             }
         }
 
-        // time of this function should be observed - can take a huge time as well
         $dash['modemServicesStatus'] = $this->servicesStatus($configfile);
 
-        // Log dhcp (discover, ...), tftp (configfile or firmware)
-        // NOTE: This function takes a long time if syslog file is large - 0.4 to 0.6 sec
-        // TODO: Discard for TR069 modems when no DHCP is used ? - could maybe be configured somewhere - or figured out (dhcp server running, logs existing, etc.) and cached
-        $grepStr = $mac.($this->hostname ? "|$this->hostname[^0-9]" : '').($ip ? "|$ip " : '');
-        $dhcpLog = $this->getSyslogEntries($grepStr, '| grep -v MTA | grep -v CPE | tail -n 30 | tac');
         $lease['text'] = self::searchLease($mac ? "hardware ethernet $mac" : '');
         $lease = self::validateLease($lease, null, $online && $this->isTR069());
 
@@ -2418,13 +2511,14 @@ class Modem extends \BaseModel
         $radius = $this->radiusData();
 
         if ($api) {
+            $dhcpLog = $this->getDhcpLogEntries($ip);
             $eventlog = $this->eventlog();
 
             return compact('online', 'lease', 'tr069Log', 'dhcpLog', 'configfile', 'eventlog', 'dash', 'ip', 'radius');
         }
 
         $tabs = $this->analysisTabs();
-        $pills = $this->analysisPills($dhcpLog, $tr069Log);
+        $pills = $this->analysisPills($tr069Log);
         $view_header = 'Modem-'.trans('view.analysis');
         $this->help = 'modem_analysis';
         $modem = $this;
