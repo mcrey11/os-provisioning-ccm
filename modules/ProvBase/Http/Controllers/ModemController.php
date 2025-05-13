@@ -1066,6 +1066,10 @@ class ModemController extends \BaseController
             return ltrim($byte, '0');
         }, explode(':', $modem_mac)));
 
+        if (preg_match('/:00$/', $modem_mac) && preg_match('/:0$/', $dhcpd_mac)) {
+            $dhcpd_mac = substr($modem_mac, 0, -3);
+        }
+
         $ep = $modem->endpoints->where('version', '4')->first();
         if ($ep?->fixed_ip && $ep?->ip) {
             $lease = $this->_fake_lease($modem, $ep);
@@ -1073,36 +1077,25 @@ class ModemController extends \BaseController
             // Bug: billing subclass is not present when there is no lease limit set -> global config max cpe count = -1
             // Then a lease is never found
             $lease['text'] = Modem::searchLease("billing subclass \".*\" \"$dhcpd_mac\";");
+
+            if (! $lease['text']) {
+                $lease['text'] = Modem::searchLease("set cm_mac = \"$dhcpd_mac\";", 'vendor-class-identifier = "eRouter');
+            }
+
             $lease = Modem::validateLease($lease, $type);
         }
 
-        /// get MAC of CPE first
-        $str = $modem->getSyslogEntries($modem_mac, '| grep CPE | tail -n 1 | tac');
-
-        if ($str == []) {
-            $mac = $modem_mac;
-            $mac[0] = ' ';
-            $mac = trim($mac);
-            $mac_bug = true;
-            $str = $modem->getSyslogEntries($mac, '| grep CPE | tail -n 1 | tac');
-
-            if (! $str && $lease['text']) {
-                // get cpe mac addr from lease - first option tolerates small structural changes in dhcpd.leases and assures that it's a mac address
-                preg_match_all('/(?:[0-9a-fA-F]{2}[:]?){6}/', substr($lease['text'][0], strpos($lease['text'][0], 'hardware ethernet'), 40), $cpeMac);
-            }
+        // Get MAC of CPE first
+        if ($lease['text']) {
+            // get cpe mac addr from lease - first option tolerates small structural changes in dhcpd.leases and assures that it's a mac address
+            preg_match('/(?:[0-9a-fA-F]{2}[:]?){6}/', substr($lease['text'][0], strpos($lease['text'][0], 'hardware ethernet'), 40), $cpeMac);
         }
 
-        if (isset($str[0])) {
-            if (isset($mac_bug)) {
-                preg_match_all('/([0-9a-fA-F][:]){1}(?:[0-9a-fA-F]{2}[:]?){5}/', $str[0], $cpeMac);
-            } else {
-                preg_match_all('/(?:[0-9a-fA-F]{2}[:]?){6}/', $str[0], $cpeMac);
-            }
-        }
+        $cpeMac = $cpeMac[0] ?? $modem->getCpeMacFromSyslog();
 
-        if (isset($cpeMac[0][0])) {
-            $cpeMac = $cpeMac[0][0];
-            $log = $modem->getSyslogEntries($cpeMac, '| tail -n 20 | tac');
+        if ($cpeMac) {
+            $log = $modem->getSyslogEntries("'$cpeMac'", 'tail -n30 | tac', 'cpe');
+
             $this->addIPv6LeaseInfo($cpeMac, $lease);
         }
 

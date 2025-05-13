@@ -1874,6 +1874,60 @@ class Modem extends \BaseModel
     }
 
     /**
+     * Attention: There is still a bug where logged CPE MAC is the same as the Modem MAC
+     * TODO: This should be excluded, but would either dramatically reduce performance or is a bigger effort to implement
+     */
+    public function getCpeMacFromSyslog()
+    {
+        $baseLogfile = '/var/log/messages';
+        $cmMac = strtolower($this->mac);
+        $logfiles = glob($baseLogfile.'-*');
+        rsort($logfiles);
+        $logfiles = array_merge([$baseLogfile], array_slice($logfiles, 0, 6));
+
+        // Default case
+        $grepStr = "CPE .* of Modem $cmMac";
+
+        foreach ($logfiles as $logfile) {
+            exec("grep -ai -m1 '$grepStr' $logfile", $line);
+
+            if ($line) {
+                break;
+            }
+        }
+
+        // Consider MAC "bug" stripping e.g. 00 at beginning or end of MAC
+        if (! $line) {
+            $macOption1 = substr($cmMac, 1);
+            $mac_bug = true;
+
+            if (preg_match('/:00$/', $cmMac)) {
+                $macOption2 = substr($cmMac, 0, -1);
+            }
+
+            $grepStr = "CPE .* of Modem $macOption1".(isset($macOption2) ? "\|CPE .* of Modem $macOption2" : '');
+
+            foreach ($logfiles as $logfile) {
+                exec("grep -ai -m1 \"$grepStr\" $logfile", $line);
+
+                if ($line) {
+                    break;
+                }
+            }
+        }
+
+        if (isset($line[0])) {
+            if (isset($mac_bug)) {
+                preg_match('/([0-9a-fA-F][:]){1}(?:[0-9a-fA-F]{2}[:]?){5}/', $line[0], $cpeMac);
+            } else {
+                preg_match('/(?:[0-9a-fA-F]{2}[:]?){6}/', $line[0], $cpeMac);
+            }
+        }
+
+        return $cpeMac[0] ?? null;
+    }
+
+    /**
      * Get Pre-equalization data of a modem via cacti
      *
      * @return: Array
@@ -2683,7 +2737,7 @@ class Modem extends \BaseModel
      *
      * @return array of lease entry strings
      */
-    public static function searchLease(string $search): array
+    public static function searchLease(string $search, $filter = ''): array
     {
         $ret = [];
 
@@ -2701,7 +2755,9 @@ class Modem extends \BaseModel
         // fetch all lines matching $search
         foreach (array_unique($leases[0]) as $leaseStr) {
             if (preg_match("/$search/", $leaseStr)) {
-                array_push($ret, $leaseStr);
+                if (! $filter || preg_match("/$filter/", $leaseStr)) {
+                    array_push($ret, $leaseStr);
+                }
             }
         }
 
