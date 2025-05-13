@@ -34,4 +34,10 @@ BaseRoute::group([], function () {
             'middleware' => ['api', 'can:update,Modules\ProvVoip\Entities\Mta'],
         ]);
     });
+
+    BaseRoute::get('modem/{id}/mtaAnalysis', [
+        'as' => 'Modem.mtaAnalysis',
+        'uses' => 'Modules\ProvVoip\Http\Controllers\MtaController@analysis',
+        'middleware' => ['can:view_analysis_pages_of,Modules\ProvBase\Entities\Modem'],
+    ]);
 });

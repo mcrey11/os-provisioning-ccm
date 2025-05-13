@@ -1131,54 +1131,6 @@ class ModemController extends \BaseController
     }
 
     /**
-     * Returns view of mta analysis page
-     *
-     * Note: This is never called if ProvVoip Module is not active
-     */
-    public function mtaAnalysis($id)
-    {
-        $ping = $lease = $log = $realtime = $configfile = null;
-        $dash = [];
-        $modem = Modem::with('mtas')->find($id);
-        $type = 'MTA';
-        $modem->help = 'mta_analysis';
-
-        $mtas = $modem->mtas;       // Note: we should use one-to-one relationship here
-        if (isset($mtas[0])) {
-            $mta = $mtas[0];
-        } else {
-            goto end;
-        }
-
-        // Ping
-        $hostname = $mta->hostname.'.'.ProvBase::first()->domain_name;
-
-        exec('sudo ping -c3 -i0 -w1 '.$hostname, $ping);
-        if (count(array_keys($ping)) <= 7) {
-            $ping = null;
-        }
-
-        $lease['text'] = Modem::searchLease("mta-$mta->id\.");
-        $lease = Modem::validateLease($lease, $type);
-
-        $configfile = Modem::getConfigfileText("/tftpboot/mta/$mta->hostname");
-
-        // log
-        $ip = gethostbyname($mta->hostname);
-        $ip = $mta->hostname == $ip ? null : $ip;
-        $mac = strtolower($mta->mac);
-        $search = $ip ? "$mac|$hostname|$ip " : "$mac|$hostname";
-        $log = $modem->getSyslogEntries($search, '| tail -n 25 | tac');
-
-        end:
-
-        $tabs = $modem->analysisTabs();
-        $view_header = 'Provmon-MTA';
-
-        return View::make('provbase::Modem.cpeAnalysis', $this->compact_prep_view(compact('modem', 'ping', 'type', 'tabs', 'lease', 'log', 'dash', 'realtime', 'configfile', 'view_header')));
-    }
-
-    /**
      * Add IPv6 leases of CPE to lease array
      *
      * colorized by expiry and lifetime (red: expired, yellow: half lifetime passed, green: less than half lifetime passed)

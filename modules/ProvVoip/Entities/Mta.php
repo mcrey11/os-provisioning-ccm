@@ -140,6 +140,62 @@ class Mta extends \BaseModel
     }
 
     /**
+     * Get DHCP syslog messages together with tftp (configfile, firmware) and remote messages directly from MTA
+     *
+     * @param string|null
+     */
+    public function getDhcpLogEntries(): array
+    {
+        $ip = gethostbyname($this->hostname);
+        $ip = $this->hostname == $ip ? null : $ip;
+        $grepFor = [];
+
+        if ($this->mac) {
+            $grepFor[] = strtolower($this->mac);
+        }
+
+        if ($this->hostname) {
+            $grepFor[] = "$this->hostname\.";
+        }
+
+        if ($ip) {
+            $grepFor[] = "$ip ";
+        }
+
+        if (! $grepFor) {
+            return [];
+        }
+
+        $grepStr = escapeshellarg(implode('\|', $grepFor));
+        $syslogs = $this->modem->getSyslogEntries($grepStr, 'tail -n20', 'mta', 20);
+
+        // Get remote logs
+        $grepStr = "'$this->id .*A'";
+        $remotelogs = $this->modem->getSyslogEntries($grepStr, 'tail -n20 | tac', 'mta', 20, '/var/log/remote');
+        $logs = array_merge($syslogs, $remotelogs);
+
+        // Sort by timestamp but keep order for entries with same timestamp (easy sort doesn't work)
+        $tsGroupedLogs = [];
+        foreach ($logs as $log) {
+            $matches = [];
+            preg_match('/\D{3} +\d+ (\d{2}:){2}\d{2}/', $log, $matches);
+
+            if (! isset($matches[0])) {
+                Log::error(__CLASS__.'::'.__FUNCTION__." regex not working for '$log'");
+
+                continue;
+            }
+
+            $tsGroupedLogs[$matches[0]][] = $log;
+        }
+
+        krsort($tsGroupedLogs);
+        $logs = \Illuminate\Support\Arr::flatten($tsGroupedLogs);
+
+        return $logs;
+    }
+
+    /**
      * Make Configfile for a single MTA
      *
      * @author Patrick Reichel

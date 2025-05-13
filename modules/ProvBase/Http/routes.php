@@ -151,12 +151,6 @@ BaseRoute::group([], function () {
         'middleware' => ['can:view_analysis_pages_of,Modules\ProvBase\Entities\Modem'],
     ]);
 
-    BaseRoute::get('modem/{id}/mtaAnalysis', [
-        'as' => 'Modem.mtaAnalysis',
-        'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@mtaAnalysis',
-        'middleware' => ['can:view_analysis_pages_of,Modules\ProvBase\Entities\Modem'],
-    ]);
-
     BaseRoute::post('modem/{modem}/floodPing', [
         'as' => 'Modem.floodPing',
         'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@floodPing',
