@@ -44,3 +44,10 @@
         /usr/bin/systemctl restart supervisord || true
     endscript
 }
+
+/var/log/remote {
+    daily
+    missingok
+    rotate 7
+    create 644 apache apache
+}

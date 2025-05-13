@@ -1,0 +1,10 @@
+/var/log/messages
+{
+    daily
+    rotate 45
+    missingok
+    sharedscripts
+    postrotate
+        /usr/bin/systemctl -s HUP kill rsyslog.service >/dev/null 2>&1 || true
+    endscript
+}
