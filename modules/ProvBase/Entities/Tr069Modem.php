@@ -19,6 +19,7 @@
 
 namespace Modules\ProvBase\Entities;
 
+use Illuminate\Support\Str;
 use Session;
 
 class Tr069Modem extends Modem implements ModemType
@@ -53,7 +54,9 @@ class Tr069Modem extends Modem implements ModemType
             return trans('messages.JsonDecodeFailed');
         }
 
-        Modem::callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', $task);
+        foreach ($tasks as $task) {
+            Modem::callGenieAcsApi("devices/$genieId/tasks?connection_request", 'POST', json_encode($task));
+        }
 
         return trans('messages.modemAnalysis.actionExecuted');
     }
