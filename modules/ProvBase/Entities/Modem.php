@@ -1750,6 +1750,8 @@ class Modem extends \BaseModel
      */
     public function getDhcpLogEntries($ip): array
     {
+        Log::debug('Get modem '.$this->id.' dhcpLog');
+
         // TODO: Early return [] for TR069 modems when no DHCP is used ?
         // Could maybe be configured somewhere - or figured out (dhcp server running, logs existing, etc.) and cached
 

@@ -14,16 +14,14 @@ class ModemEventLog extends Component
     /** @var Modules\ProvBase\Entities\Modem */
     private $modem;
 
-    public function mount()
+    public function boot()
     {
-        // \Log::debug(__CLASS__.'::'.__FUNCTION__);
+        $this->modem = Modem::find($this->modemId);
     }
 
     #[Computed()]
     protected function eventlog()
     {
-        $this->modem = Modem::find($this->modemId);
-
         if (config('app.env') == 'local') {
             return $this->getExampleLog();
         }
@@ -73,7 +71,7 @@ class ModemEventLog extends Component
 
     public function placeholder()
     {
-        return '<div></div>';
+        return view('Components.spinner');
     }
 
     public function render()

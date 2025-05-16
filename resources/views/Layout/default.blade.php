@@ -92,13 +92,13 @@
         <overlay/>
     </div>
 
-    @livewireScripts()
     @include('bootstrap.footer')
     @yield ('form-javascript')
     @yield ('javascript')
     @yield ('javascript_extra')
     @yield ('mycharts')
     @include('Generic.userGeopos')
+    @livewireScripts()
 
     {{-- scroll to top btn --}}
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade flex"

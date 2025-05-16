@@ -455,12 +455,27 @@ window.excerptStr = function (str, length = 10) {
   return str.length > length ? `${str.substring(0, length)}...` : str;
 }
 
+function handleLivewireInsideVue (){
+    Alpine.onAttributesAdded((el, attrs) => {
+        if (el.hasAttribute('data-v-app') == false) return
+
+        el.removeAttribute('x-ignore')
+        el.removeAttribute('x-init')
+        el.querySelectorAll('[wire\\:id]').forEach(wireEl => {
+            const parentEl = wireEl.parentElement
+            const clone = wireEl.cloneNode(true)
+            wireEl.remove()
+            setTimeout(() => parentEl.appendChild(clone))
+        })
+    })
+}
 window.NMS = (function () {
   'use strict'
 
   return {
     //main function
     init: function () {
+      handleLivewireInsideVue()
       initSelect2Fields()
       setTabPillState()
       rezizeTextareas()

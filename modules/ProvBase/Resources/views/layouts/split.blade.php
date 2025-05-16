@@ -30,6 +30,8 @@
 @if(Module::collections()->has('ProvMon'))
 <div
     v-pre
+    x-init
+    x-ignore
     id="EnterPriseModemAnalysis"
     class="row"
     data-realtime-broadcasting="{!! route('ProvMon.realtimeBroadcasting', ['id' => $modem->id]) !!}"
@@ -58,6 +60,8 @@
 @else
 <div
     v-pre
+    x-init
+    x-ignore
     id="OpenSourceModemAnalysis"
     class="row"
     data-modem-analysis-floodping-lowLoad="{{ trans('view.modemAnalysis.floodping.lowLoad') }}"
@@ -69,9 +73,6 @@
     data-route-modem-flood-ping="{{ route("Modem.floodPing", ["modem" => $modem->id]) }}"
 >
 @endif
-
-    <livewire:provbase::modem-dhcp-log lazy :modem-id="$modem->id"/>
-    <livewire:provbase::modem-event-log lazy :modem-id="$modem->id"/>
 
     <div class="col-md-7 ui-sortable">
         @include ('bootstrap.panel', ['content' => 'content_dash', 'view_header' => 'Dashboard', 'i' => 1, 'overflow' => 'visible'])
