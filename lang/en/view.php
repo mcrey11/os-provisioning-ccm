@@ -751,7 +751,7 @@ return [
         'notCapable' => 'This device is not capable of running this task.',
         'ofdmChannelDetails' => 'OFDM Channel Details',
         'sendPing' => 'Send Ping',
-        'startMeasurement' => 'Start Measurement',
+        'startMeasurement' => 'Start Iperf measurement',
         'Pilot Pattern' => 'Pilot Pattern',
         'Power dBmV' => 'Power / dBmV',
         'Received Bytes' => 'Received Bytes',

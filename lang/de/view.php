@@ -758,7 +758,7 @@ return [
         'RxMER average' => 'Durchschnittliche RxMER / dB',
         'RxMER standard deviation' => 'Standardabweichung RxMER / dB',
         'sendPing' => 'Ping',
-        'startMeasurement' => 'Messung starten',
+        'startMeasurement' => 'Iperf-Messung starten',
         'startAutoUpdate' => 'Automatisches aktualisieren aktivieren',
         'stopAutoUpdate' => 'Automatisches aktualisieren deaktivieren',
         'startUpdate' => 'Automatische Aktualisierung gestartet',

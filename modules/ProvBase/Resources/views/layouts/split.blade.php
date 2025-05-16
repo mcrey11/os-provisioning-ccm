@@ -90,7 +90,7 @@
                 <li role="presentation"><a href="#ping-test" data-toggle="pill">Default Ping</a></li>
                 <li role="presentation"><a href="#flood-ping" data-toggle="pill">Flood-Ping</a></li>';
         if (Module::collections()->has('ProvMon') && config('provmon.arrisIperf')['enable'] && \Str::contains($modem->model, 'TG3442S')) {
-            $panelHeaderPing .= '<li role="presentation"><a href="#arris-iperf" data-toggle="pill">Iperf</a></li>';
+            $panelHeaderPing .= '<li role="presentation"><a href="#arris-iperf" data-toggle="pill">Speedtest</a></li>';
         }
         $panelHeaderPing .= '</ul>';
         @endphp
