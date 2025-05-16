@@ -19,30 +19,28 @@
 
 namespace Modules\ProvBase\Console;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Modules\ProvBase\Entities\Configfile;
+use Modules\ProvBase\Entities\Modem;
 
-class ConfigfileCommand extends Command implements ShouldQueue
+class ConfigfileCommand extends Command
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'nms:configfile {filter?} {id?}';
+    protected $signature = 'nms:configfile
+        {filter? : cm|mta|tr069|configfile|qos - Only build configfiles of devices from type cm|mta|tr069 or all devices filtered via configfile or qos ID }
+        {--I|id= : Modem, MTA or QoS ID }';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'make all configfiles';
+    protected $description = 'Build configfiles';
 
     /**
      * Filters that can be handled by this command.
@@ -58,7 +56,7 @@ class ConfigfileCommand extends Command implements ShouldQueue
     /**
      * Filter (from argument) to only build cable modem or mta configfiles
      *
-     * @var string cm|mta|tr069
+     * @var string see possibleFilters above
      */
     protected $filter = '';
 
@@ -80,18 +78,53 @@ class ConfigfileCommand extends Command implements ShouldQueue
         parent::__construct();
     }
 
+    /**
+     * Creates all configfiles for all modems.
+     * Logic from ConfigfileCommand nms:configfile.
+     */
+    public function handle()
+    {
+        Log::debug(__METHOD__.'() called with $filter “'.$this->filter.'” and $id “'.$this->id.'”');
+
+        if ($this->input) {
+            $this->processArguments();
+        }
+
+        $this->sanitizeInput();
+
+        match ($this->filter) {
+            'qos' => $this->buildConfigfilesByQosId(),
+            'configfile' => $this->buildConfigfilesByConfigfileId(),
+            default => $this->buildConfigfilesForDevices(),
+        };
+    }
+
     protected function processArguments()
     {
         if ($this->argument('filter')) {
             $this->filter = $this->argument('filter');
         }
-        if ($this->argument('id')) {
-            $this->id = $this->argument('id');
+
+        if ($this->option('id')) {
+            $this->id = $this->option('id');
         }
     }
 
     protected function sanitizeInput()
     {
+        if (! is_null($this->id)) {
+            try {
+                $this->id = intval($this->id);
+                if ($this->id < 1) {
+                    throw new \Exception();
+                }
+            } catch (\Throwable $ex) {
+                Log::error(__METHOD__.'(): Parameter $this->id has to be null or a positive integer, '.$this->id.' given');
+
+                exit;
+            }
+        }
+
         if (! $this->filter) {
             // build configfiles for all devices
             return;
@@ -101,14 +134,16 @@ class ConfigfileCommand extends Command implements ShouldQueue
             $msg = 'Argument “filter” needs to be on of ['.implode(', ', $this->possibleFilters).'], “'.$this->filter.'” given. Exiting…';
             Log::error(__METHOD__.'(): '.$msg);
             $this->error($msg);
+
             exit(1);
         }
 
         if ('qos' == $this->filter) {
             if (! $this->id) {
-                $msg = 'If “qos” is passed as first argument the qos_id is needed, too. Exiting…';
+                $msg = 'If “qos” is passed as first argument the optional qos_id needs to be specified, too. Exiting…';
                 Log::error(__METHOD__.'(): '.$msg);
                 $this->error($msg);
+
                 exit(1);
             }
 
@@ -120,31 +155,136 @@ class ConfigfileCommand extends Command implements ShouldQueue
                 $msg = 'If “configfile” is passed as first argument the configfile_id is needed, too. Exiting…';
                 Log::error(__METHOD__.'(): '.$msg);
                 $this->error($msg);
+
                 exit(1);
             }
 
             return;
         }
+    }
 
-        if (! is_null($this->id)) {
-            $this->warn('Passing an ID does not affect this filter. Building configfiles for all '.$this->filter.'…');
+    private function buildCfForSingleDevice()
+    {
+        $modem = Modem::find($this->option('id'));
+
+        if ($modem) {
+            $modem->make_configfile();
+        }
+
+        if (\Module::collections()->has('ProvVoip')) {
+            $mta = \Modules\ProvVoip\Entities\Mta::find($this->option('id'));
+
+            if ($mta) {
+                $mta->make_configfile();
+            }
+        }
+
+        if (! $modem && (! \Module::collections()->has('ProvVoip') || ! $mta)) {
+            $this->error('Error: Could neither find modem nor MTA with ID: '.$this->option('id'));
         }
     }
 
     /**
-     * Execute the console command.
-     *
-     * @return mixed
+     * Re(Build) all configfiles related to a given QoS ID
      */
-    public function handle()
+    protected function buildConfigfilesByQosId()
     {
-        if ($this->input) {
-            $this->processArguments();
+        if (! $this->id) {
+            Log::error(__METHOD__.'(): $this->id cannot be “'.$this->id.'”');
+
+            return;
         }
 
-        $this->sanitizeInput();
+        foreach (Modem::TYPES as $type) {
+            $modemQuery = Modem::join('configfile', 'configfile.id', 'modem.configfile_id')
+                ->where('configfile.device', $type)
+                ->where('modem.qos_id', $this->id)
+                ->whereNull('configfile.deleted_at')
+                ->select('modem.*');
 
-        $configfile = new \Modules\ProvBase\Entities\Configfile;
-        $configfile->execute($this->filter, $this->id);
+            self::build_configfiles($modemQuery, $type);
+        }
+    }
+
+    /**
+     * Re(Build) all configfiles related to a given Configfile ID
+     */
+    protected function buildConfigfilesByConfigfileId()
+    {
+        if (! $this->id) {
+            Log::error(__METHOD__.'(): $this->id cannot be “'.$this->id.'”');
+
+            return;
+        }
+
+        $cf = Configfile::find($this->id);
+
+        if (! $cf) {
+            Log::warning(__METHOD__.'(): No configfile with id '.$this->id);
+
+            return;
+        }
+
+        $cf->build_corresponding_configfiles();
+        $cf->search_children(1);
+    }
+
+    /**
+     * Re(Build) all configfiles related given device(s)
+     */
+    protected function buildConfigfilesForDevices()
+    {
+        if ($this->option('id')) {
+            $this->buildCfForSingleDevice();
+
+            return;
+        }
+
+        // Modem
+        foreach (Modem::TYPES as $type) {
+            if (! $this->filter || $this->filter == $type) {
+                $modemQuery = Modem::join('configfile', 'configfile.id', 'modem.configfile_id')
+                    ->where('configfile.device', $type)
+                    ->whereNull('configfile.deleted_at')
+                    ->select('modem.*');
+
+                self::build_configfiles($modemQuery, $type);
+            }
+        }
+
+        if (! \Module::collections()->has('ProvVoip')) {
+            return;
+        }
+
+        // MTA
+        if (! $this->filter || $this->filter == 'mta') {
+            $mtaQuery = \Modules\ProvVoip\Entities\Mta::query();
+
+            self::build_configfiles($mtaQuery, 'mta');
+        }
+    }
+
+    /**
+     * @param array  Objects of Modem or Mta
+     */
+    public static function build_configfiles($deviceQuery, $type)
+    {
+        $type = strtoupper($type);
+        $num = (clone $deviceQuery)->count();
+
+        Log::info("Building $num $type configfiles");
+
+        $deviceQuery->chunk(1000, function ($devices) use ($num, $type) {
+            static $i = 1;
+
+            foreach ($devices as $device) {
+                echo "$type: create config files: $i/$num\r";
+                $device->make_configfile();
+
+                $i++;
+            }
+        });
+
+        echo "\n";
     }
 }

@@ -50,7 +50,6 @@ class ConfigfileJob implements ShouldQueue
      */
     public function handle()
     {
-        $configfile = new \Modules\ProvBase\Entities\Configfile;
-        $configfile->execute($this->filter, $this->id);
+        (new \Modules\ProvBase\Console\ConfigfileCommand($this->filter, $this->id))->handle();
     }
 }
