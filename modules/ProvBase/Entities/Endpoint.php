@@ -468,8 +468,9 @@ class Endpoint extends \BaseModel
      */
     public function reserveAddress()
     {
-        // delete radreply containing Framed-IP-Address
+        // delete radreply containing Framed-IP-Address and Framed-Route
         $this->modem->radreplyIp()->delete();
+        $this->modem->radreplyRoute()->delete();
 
         // add / update unreserved ip address in case it belongs to a bras IpPool
         if ($this->getRawOriginal('ip') && $this->getIpPool($this->getOriginal('ip'))?->netgw?->type == 'bras') {
@@ -486,9 +487,14 @@ class Endpoint extends \BaseModel
         // add new radreply
         $reply = new RadReply;
         $reply->username = $this->modem->ppp_username;
-        $reply->attribute = 'Framed-IP-Address';
         $reply->op = ':=';
-        $reply->value = $this->ip;
+        if ($this->prefix) {
+            $reply->attribute = 'Framed-Route';
+            $reply->value = "{$this->ip}/{$this->prefix} 0.0.0.1";
+        } else {
+            $reply->attribute = 'Framed-IP-Address';
+            $reply->value = $this->ip;
+        }
         $reply->save();
 
         // remove reserved ip address from ippool

@@ -128,7 +128,7 @@ class IpPoolController extends \BaseController
             ['form_type' => 'text', 'name' => 'dns1_ip', 'description' => 'DNS1 IP'],
             ['form_type' => 'text', 'name' => 'dns2_ip', 'description' => 'DNS2 IP'],
             ['form_type' => 'text', 'name' => 'dns3_ip', 'description' => 'DNS3 IP'],
-            ['form_type' => 'text', 'name' => 'prefix', 'description' => 'Prefix (IPv6)', 'select' => 'CPEPub', 'options' => ['placeholder' => 'fd00:1::']],
+            ['form_type' => 'text', 'name' => 'prefix', 'description' => 'Prefix', 'select' => 'CPEPub', 'options' => ['placeholder' => 'fd00:1::']],
             ['form_type' => 'text', 'name' => 'prefix_len', 'description' => 'Prefix length (IPv6)', 'select' => 'CPEPub', 'options' => ['placeholder' => '/48']],
             ['form_type' => 'text', 'name' => 'delegated_len', 'description' => 'Delegated length (IPv6)', 'select' => 'CPEPub', 'options' => ['placeholder' => '/48']],
             ['form_type' => 'textarea', 'name' => 'optional', 'description' => 'Additional Options'],

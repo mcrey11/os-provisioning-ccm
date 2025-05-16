@@ -581,6 +581,12 @@ class Modem extends \BaseModel
             ->where('attribute', 'Framed-IP-Address');
     }
 
+    public function radreplyRoute()
+    {
+        return $this->hasOne(RadReply::class, 'username', 'ppp_username')
+            ->where('attribute', 'Framed-Route');
+    }
+
     public function radreplyPool()
     {
         return $this->hasOne(RadReply::class, 'username', 'ppp_username')
