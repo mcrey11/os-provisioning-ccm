@@ -713,7 +713,7 @@ class BaseController extends Controller
                 continue;
             }
 
-            $hasAttribute = $model::where($name, $attribute)->first();
+            $hasAttribute = $model::where(\DB::raw("LOWER($name)"), strtolower($attribute))->first();
 
             if ($hasAttribute) {
                 $devices[] = $hasAttribute;
