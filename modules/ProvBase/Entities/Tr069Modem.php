@@ -49,7 +49,11 @@ class Tr069Modem extends Modem implements ModemType
         }
 
         // Used for commands like: "cmd;Fernzugang aktivieren;set;InternetGatewayDevice.User.1.Enable;1"
-        if (($tasks = json_decode('['.$task.']')) === null) {
+        if (! Str::startsWith($task, '[')) {
+            $task = '['.$task.']';
+        }
+
+        if (($tasks = json_decode($task)) === null) {
             // TODO: Improve message
             return trans('messages.JsonDecodeFailed');
         }
