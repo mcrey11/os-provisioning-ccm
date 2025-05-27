@@ -521,17 +521,80 @@ class Configfile extends \BaseModel
      */
     public function execute($filter = null, $id = null)
     {
-        \Log::debug("configfileCommand called with configfile id: $id");
+        if (! is_null($id)) {
+            try {
+                $id = intval($id);
+                if ($id < 1) {
+                    throw new \Exception();
+                }
+            } catch (\Throwable $ex) {
+                \Log::error(__METHOD__.'(): Parameter $id has to be null or a positive integer, '.$id.' given');
 
-        // handle configfile observer functionality via job in background
-        if ($id) {
-            $cf = self::find($id);
-            $cf->build_corresponding_configfiles();
-            $cf->search_children(1);
+                return;
+            }
+        }
+
+        \Log::debug(__METHOD__.'() called with $filter “'.$filter.'” and $id “'.$id.'”');
+
+        if ('qos' == $filter) {
+            $this->buildConfigfilesByQoSId($id);
 
             return;
         }
 
+        if ('configfile' == $filter) {
+            $this->buildConfigfilesByConfigfileId($id);
+
+            return;
+        }
+
+        $this->buildConfigfilesForDevices($filter);
+    }
+
+    /**
+     * Re(Build) all configfiles related to a given QoS ID
+     */
+    protected function buildConfigfilesByQoSId($id)
+    {
+        if (! $id) {
+            \Log::error(__METHOD__.'(): $id cannot be “'.$id.'”');
+        }
+
+        foreach (Modem::TYPES as $type) {
+            $modemQuery = Modem::join('configfile', 'configfile.id', 'modem.configfile_id')
+                ->where('configfile.device', $type)
+                ->where('modem.qos_id', $id)
+                ->whereNull('configfile.deleted_at')
+                ->select('modem.*');
+
+            self::build_configfiles($modemQuery, $type);
+        }
+    }
+
+    /**
+     * Re(Build) all configfiles related to a given Configfile ID
+     */
+    protected function buildConfigfilesByConfigfileId($id)
+    {
+        if (! $id) {
+            \Log::error(__METHOD__.'(): $id cannot be “'.$id.'”');
+        }
+
+        $cf = self::find($id);
+        if (! $cf) {
+            \Log::warning(__METHOD__.'(): No configfile with id '.$id);
+
+            return;
+        }
+        $cf->build_corresponding_configfiles();
+        $cf->search_children(1);
+    }
+
+    /**
+     * Re(Build) all configfiles related given device(s)
+     */
+    protected function buildConfigfilesForDevices($filter)
+    {
         // Modem
         foreach (Modem::TYPES as $type) {
             if (! $filter || $filter == $type) {
@@ -563,7 +626,7 @@ class Configfile extends \BaseModel
         $type = strtoupper($type);
         $num = (clone $deviceQuery)->count();
 
-        \Log::info("Build all $num $type configfiles");
+        \Log::info("Building $num $type configfiles");
 
         $deviceQuery->chunk(1000, function ($devices) use ($num, $type) {
             static $i = 1;

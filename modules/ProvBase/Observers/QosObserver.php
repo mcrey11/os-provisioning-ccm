@@ -90,6 +90,15 @@ class QosObserver
                 }
             }
         }
+
+        if ($qos->isDirty(
+            'ds_rate_max',
+            'ds_rate_max_help',
+            'us_rate_max',
+            'us_rate_max_help',
+        )) {
+            \Queue::pushOn('high', new \Modules\ProvBase\Jobs\ConfigfileJob('qos', $qos->id));
+        }
     }
 
     public function deleted($qos)

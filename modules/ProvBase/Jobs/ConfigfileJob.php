@@ -30,17 +30,17 @@ class ConfigfileJob implements ShouldQueue
 
     protected $filter;
 
-    protected $cfId;
+    protected $id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($filter = null, $cfId = null)
+    public function __construct($filter = null, $id = null)
     {
         $this->filter = $filter;
-        $this->cfId = $cfId;
+        $this->id = $id;
     }
 
     /**
@@ -51,12 +51,6 @@ class ConfigfileJob implements ShouldQueue
     public function handle()
     {
         $configfile = new \Modules\ProvBase\Entities\Configfile;
-        if (isset($this->cfId)) {
-            $configfile->execute(null, $this->cfId);
-
-            return;
-        }
-
-        $configfile->execute($this->filter);
+        $configfile->execute($this->filter, $this->id);
     }
 }

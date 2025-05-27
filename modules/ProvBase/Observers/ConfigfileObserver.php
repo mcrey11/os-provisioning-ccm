@@ -64,7 +64,7 @@ class ConfigfileObserver
     {
         $this->updateProvision($configfile, false);
 
-        Queue::pushOn('high', new \Modules\ProvBase\Jobs\ConfigfileJob(null, $configfile->id));
+        Queue::pushOn('high', new \Modules\ProvBase\Jobs\ConfigfileJob('configfile', $configfile->id));
         // $configfile->build_corresponding_configfiles();
         // with parameter one the children are built
         // $configfile->search_children(1);
@@ -82,7 +82,7 @@ class ConfigfileObserver
         $childrenQuery->update(['parent_id' => $configfile->parent_id]);
 
         foreach ($children as $child) {
-            Queue::pushOn('high', new \Modules\ProvBase\Jobs\ConfigfileJob(null, $child->id));
+            Queue::pushOn('high', new \Modules\ProvBase\Jobs\ConfigfileJob('configfile', $child->id));
         }
     }
 
