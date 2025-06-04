@@ -84,8 +84,20 @@ class LoginController extends Controller
             $bgImageRoute = '/storage/base/bg-images/'.$globalConfig->login_img;
         }
 
-        if (session()->has('url.intended') && $pos = strpos($url = session('url.intended'), 'admin')) {
-            $intended = substr($url, $pos + 6); // pos + admin/
+        if (session()->has('url.intended')) {
+            if ($pos = strpos($url = session('url.intended'), 'admin')) {
+                $intended = substr($url, $pos + 6); // pos + admin/
+            }
+
+            if (
+                (! str_contains(session('url.intended'), ':'.config('app.adminPort').'/')) &&
+                (! str_ends_with(session('url.intended'), ':'.config('app.adminPort')))
+            ) {
+                // url.intended is set to https://your.tld/customer in some cases (e.g. when directly visiting https://your.tld:8080 (without the /admin) after visiting https://your.tld
+                // which results in redirecting back to https://your.tld/customer after a successful login to the backend
+                // if we end up here we force to stay in admin area after the login process by deleting the previous URL from the session
+                session()->put('url.intended', null);
+            }
         }
 
         return \View::make('auth.login', compact('head1', 'head2', 'loginRoute', 'bgImageRoute', 'loginPage', 'logo', 'intended'));
