@@ -682,7 +682,7 @@ class Modem extends \BaseModel
     /**
      * Get tabs in right panel of analysis page dependent on type of modem
      */
-    public function analysisPills(/*$dhcpLog, */$tr069Log): array
+    public function analysisPills($tr069Log): array
     {
         $pills = ['dhcpLog', 'tr069Log', 'lease', 'configfile', 'eventlog', 'wifi'];
 
@@ -692,10 +692,6 @@ class Modem extends \BaseModel
             }
         } else {
             unset($pills[4]);
-
-            // if (! $dhcpLog) {
-            //     unset($pills[0], $pills[2]);
-            // }
 
             $pills[] = 'lan';
             $pills[] = trans('view.modemAnalysis.lastSessions');
