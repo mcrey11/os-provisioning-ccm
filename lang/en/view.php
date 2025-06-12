@@ -865,7 +865,8 @@ return [
         'functions' => [
             'postInvoices' => 'Create Postal Invoices PDF',
             'revenueList' => 'Create revenue list (per cost center)',
-            'sendTransactions' => 'Send transactions',
+            'sendTransactions' => 'Send transactions to payment gateway provider',
+            'serveIseInvoiceApi' => 'Send Ise invoice XML',
         ],
         'repeat' => 'Settlementrun for SEPA-account(s)', // Settlementrun repeat
         'restart' => 'Restart settlement run',

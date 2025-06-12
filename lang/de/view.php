@@ -864,7 +864,8 @@ return [
         'functions' => [
             'postInvoices' => 'Erstelle PDF mit postalischen Rechnungen',
             'revenueList' => 'Erstelle Umsatzliste (pro Kostenstelle)',
-            'sendTransactions' => 'Sende Transaktionen',
+            'sendTransactions' => 'Sende Transaktionen zu Zahlungsabwickler',
+            'serveIseInvoiceApi' => 'Sende Ise Rechnungs-XML',
         ],
         'repeat' => 'Wiederhole für SEPA-Konto',
         'restart' => 'Rechnungslauf neustarten',

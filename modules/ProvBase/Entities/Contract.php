@@ -601,6 +601,11 @@ class Contract extends \BaseModel
     /*
      * Relations
      */
+    public function accountingrecords()
+    {
+        return $this->hasMany(\Modules\BillingBase\Entities\AccountingRecord::class);
+    }
+
     public function debts()
     {
         return $this->hasMany(\Modules\OverdueDebts\Entities\Debt::class)->orderBy('date', 'desc')->orderBy('id', 'desc');
