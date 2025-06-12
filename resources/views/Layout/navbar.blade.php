@@ -16,6 +16,20 @@
  * limitations under the License.
  */
 ?>
+@php
+    $lookup = [
+        'smiley' => [
+            'OK' => 'fa fa-thumbs-up',
+            'WARNING' => 'fa fa-meh-o',
+            'CRITICAL' => 'fa fa-frown-o',
+        ],
+        'style' => [
+            'OK' => 'success',
+            'WARNING' => 'warning',
+            'CRITICAL' => 'danger',
+        ],
+    ];
+@endphp
 {{-- begin Navbar --}}
 <nav v-pre id="header" class="fixed h-[60px] header navbar navbar-expand navbar-default navbar-fixed-top d-print-none dark:shadow-slate-100 dark:shadow">
     {{-- only one row Navbar --}}
@@ -72,8 +86,8 @@
             {{-- Modem Statistics (Online/Offline) --}}
             <li class="md:flex pr-3" style='font-size: 2em; font-weight: bold'>
               <a class="flex" href="{{ route('HfcBase.index') }}" style="text-decoration: none;" data-toggle="tooltip" data-html="true" data-placement="auto" title="{!! $modem_statistics->text !!}">
-                  <i class="{{ $modem_statistics->fa }} fa-lg text-{{ $modem_statistics->style }}"></i>
-                  <div class="badge badge-{{ $modem_statistics->style }} hidden lg:block">{!! $modem_statistics->text !!}</div>
+                  <i class="{{ $lookup['smiley'][$modem_statistics->state] }} fa-lg text-{{ $lookup['style'][$modem_statistics->state] }}"></i>
+                  <div class="badge badge-{{ $lookup['style'][$modem_statistics->state] }} hidden lg:block">{!! $modem_statistics->text !!}</div>
               </a>
             </li>
           @endif
