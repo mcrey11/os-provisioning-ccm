@@ -37,7 +37,8 @@
         "goetas-webservices/xsd2php": "^0.4.14",
         "goetas-webservices/xsd2php-runtime": "^0.2.17",
         "mhmiton/laravel-modules-livewire": "^5.1",
-        "wire-elements/modal": "^3.0"
+        "wire-elements/modal": "^3.0",
+        "saloonphp/xml-wrangler": "^1.4"
     },
     "require-dev": {
         "laravel/tinker": "^2.5",
