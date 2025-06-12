@@ -647,6 +647,7 @@ return [
     'Balance'                   => 'Balance',
     'Week'                      => 'Week',
     'log_msg_descr'             => 'Click to see log message descriptions',
+    'phoneCalls' => 'Telefone Calls',
     'postalInvoices'            => 'Postal invoices',
     'zipCmdProcessing'          => 'PDF with postal invoices is being created',
     'last'                      => 'last',

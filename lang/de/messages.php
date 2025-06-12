@@ -647,6 +647,7 @@ return [
     'Balance'                   => 'Saldo',
     'Week'                      => 'Woche',
     'log_msg_descr'             => 'Zeige Beschreibungen zu den Logeinträgen',
+    'phoneCalls' => 'Telefone Calls',
     'postalInvoices'            => 'Postalische Rechnungen',
     'zipCmdProcessing'          => 'PDF mit postalischen Rechnungen wird erstellt',
     'last'                      => 'Letzter|Letzte',
