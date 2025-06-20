@@ -50,17 +50,15 @@ return new class extends BaseMigration
     create 644 apache apache
 }";
             file_put_contents('/etc/logrotate.d/nmsprime', $remoteConf, FILE_APPEND);
-
-            system('systemctl restart logrotate.service');
         }
 
         system("sed -i '/\/log\/messages/d' /etc/logrotate.d/rsyslog");
 
         if (! is_file('/etc/logrotate.d/messages')) {
             copy(base_path('Install/files/messages.log'), '/etc/logrotate.d/messages');
-
-            system('systemctl restart logrotate.service');
         }
+
+        system('systemctl restart logrotate.service');
     }
 
     /**
@@ -80,5 +78,8 @@ return new class extends BaseMigration
         if (is_file('/etc/logrotate.d/messages')) {
             unlink('/etc/logrotate.d/messages');
         }
+
+        system('systemctl restart logrotate.service');
+        system('systemctl restart rsyslogd');
     }
 };
