@@ -461,7 +461,7 @@ class Modem extends \BaseModel
             throw new \LogicException(__METHOD__.' only callable if module ProvVoipEnvia as active');
         }
 
-        return $this->hasMany(\Modules\ProvVoipEnvia\Entities\EnviaOrder::class)->where('ordertype', 'NOT LIKE', 'order/create_attachment');
+        return $this->hasMany(\Modules\ProvVoipEnvia\Entities\EnviaOrder::class, 'modem_id')->where('ordertype', 'NOT LIKE', 'order/create_attachment');
     }
 
     /**
@@ -472,7 +472,7 @@ class Modem extends \BaseModel
         if (! Module::collections()->has('ProvVoipEnvia')) {
             throw new \LogicException(__METHOD__.' only callable if module ProvVoipEnvia as active');
         } else {
-            return $this->hasMany(\Modules\ProvVoipEnvia\Entities\EnviaContract::class);
+            return $this->hasMany(\Modules\ProvVoipEnvia\Entities\EnviaContract::class, 'modem_id');
         }
     }
 
@@ -531,12 +531,12 @@ class Modem extends \BaseModel
 
     public function mtas()
     {
-        return $this->hasMany(\Modules\ProvVoip\Entities\Mta::class);
+        return $this->hasMany(\Modules\ProvVoip\Entities\Mta::class, 'modem_id');
     }
 
     public function endpoints()
     {
-        return $this->hasMany(Endpoint::class);
+        return $this->hasMany(Endpoint::class, 'modem_id');
     }
 
     public function netelement()
@@ -611,7 +611,7 @@ class Modem extends \BaseModel
 
     public function options()
     {
-        return $this->hasMany(ModemOption::class);
+        return $this->hasMany(ModemOption::class, 'modem_id');
     }
 
     public function nextPassiveElement()
