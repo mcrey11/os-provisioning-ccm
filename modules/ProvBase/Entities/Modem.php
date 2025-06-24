@@ -104,6 +104,7 @@ class Modem extends \BaseModel
             'installation_address_change_date' => ['nullable', 'date_format:Y-m-d'],
             'lat' => ['nullable', 'numeric'],
             'lng' => ['nullable', 'numeric'],
+            'qualified_model_class' => ['required'],
         ];
 
         if (! Module::collections()->has('BillingBase')) {
@@ -3225,5 +3226,21 @@ class Modem extends \BaseModel
 
         return self::whereIn('fiber_name', $distinctFiberNames->pluck('fiber_name'))
              ->get();
+    }
+
+    /**
+     * Get the modem class options (with leading null value).
+     *
+     * @return array
+     */
+    public function getModemClassOptions(): array
+    {
+        $ret = [null => ''];
+        foreach (config('provbase.availableModemClasses') as $modemClass) {
+            $ret[$modemClass] = trans('provbase::view.modemClass.'.$modemClass);
+        }
+        asort($ret);
+
+        return $ret;
     }
 }

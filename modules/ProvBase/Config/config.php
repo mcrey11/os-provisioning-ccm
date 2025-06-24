@@ -19,6 +19,8 @@
 
 namespace Modules\ProvBase\Entities;
 
+use Nwidart\Modules\Facades\Module;
+
 // this file seems to be included multiple times (e.g. in “php artisan route:cache”
 // or “php artisan config:cache”)
 // to avoid redeclaration of this function check if already defined
@@ -36,6 +38,20 @@ if (! function_exists('Modules\ProvBase\Entities\convertThresholdStrings')) {
         }
 
         return $valueOut;
+    }
+}
+
+if (! function_exists('Modules\ProvBase\Entities\getAvailableModemClasses')) {
+    function getAvailableModemClasses()
+    {
+        $ret = [
+            'Modules\ProvBase\Entities\Modem',
+        ];
+        if (Module::collections()->has('Calix')) {
+            $ret[] = 'Modules\Calix\Entities\CalixOnt';
+        }
+
+        return $ret;
     }
 }
 
@@ -104,4 +120,5 @@ return [
         'DocsisSnrQam64' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_SNR_QAM64', '26, 29')),
         'DocsisSnrQam256' => convertThresholdStrings(env('STATUS_THRESHOLDS_DOCSIS_SNR_QAM256', '32, 35')),
     ],
+    'availableModemClasses' => getAvailableModemClasses(),
 ];

@@ -155,6 +155,7 @@ class ModemController extends \BaseController
             ],
             ['form_type' => 'text', 'name' => 'hostname', 'description' => 'Hostname', 'options' => ['readonly'], 'hidden' => 'C', 'space' => 1],
             // TODO: show this dropdown only if necessary (e.g. not if creating a modem from contract context)
+            $this->getModemClassSelectField($model),
             ['form_type' => 'text', 'name' => 'mac', 'description' => 'MAC Address', 'options' => ['placeholder' => 'AA:BB:CC:DD:EE:FF'], 'autocomplete' => ['modem'], 'help' => trans('helper.mac_formats')],
             ['form_type' => 'text', 'name' => 'serial_num', 'description' => 'Serial Number / CWMP-ID'],
             ['form_type' => 'text', 'name' => 'ppp_username', 'description' => 'PPP Username', 'select' => $cfIds['tr069'], 'options' => [$model->exists ? 'readonly' : '']],
@@ -348,6 +349,28 @@ class ModemController extends \BaseController
         }
 
         return array_merge($a, $b, $c, $d, $smartont);
+    }
+
+    /**
+     * Get the modem class select field (with leading null value).
+     *
+     * @param  Modules\ProvBase\Entities\Modem  $model
+     * @return array
+     */
+    protected function getModemClassSelectField(Modem $model): array
+    {
+        $ret = [
+            'form_type' => 'select',
+            'name' => 'qualified_model_class',
+            'description' => 'Modem class',
+            'value' => $model->getModemClassOptions(),
+        ];
+        if (count($ret['value']) < 3) {  // 3 because of the null value
+            // hide the field if there is only one option
+            $ret['hidden'] = 1;
+        }
+
+        return $ret;
     }
 
     /**
