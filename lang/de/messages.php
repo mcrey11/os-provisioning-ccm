@@ -158,6 +158,7 @@ return [
     'MAC Address'               => 'MAC Adresse',
     'Main Menu'                 => 'Hauptmenü',
     'Maturity'                  => 'Laufzeit',
+    'Modem class'               => 'Modem-Klasse',
     'modem' => [
         'restartedViaSnmp' => 'Das Modem wurde erfolgreich direkt über SNMP neu gestartet',
         'restartedViaTr069' => 'Das Modem wurde erfolgreich über TR069 neugestartet',
@@ -231,6 +232,7 @@ return [
     'Save'                      => 'Speichern',
     'Save / Restart'            => 'Speichern / Neustart',
     'Serial Number / CWMP-ID'   => 'Seriennummer / CWMP-ID',
+    'Parent device'             => 'Elterngerät',
     'PPP Username'              => 'PPP Nutzername',
     'PPP Password'              => 'PPP Passwort',
     'Sign me in'                => 'Anmelden',
@@ -758,6 +760,8 @@ return [
     ],
     'missingModule' => ':module ist nicht installiert/aktiviert.',
     'Modem'                         => 'Modem',
+    'CalixOnt'                      => 'ONT (Calix)',
+    'Customer1001CalixOnt'          => 'ONT (Calix)',
     'PhonenumberManagement'         => 'Nummernverwaltung',
     'PhonebookEntry_lastExternalUpdateTelekom' => 'Letzte Aktualisierung bei Telekom',
     'PhonebookEntry_noExternalUpdateTelekom' => 'Noch nicht an Telekom übermittelt',
@@ -766,8 +770,8 @@ return [
     'EnviaOrder'                    => 'EnviaOrder',
     'Ticket'                        => 'Ticket',
     'CccUser'                       => 'CCC-Benutzer',
-    'EnviaOrderDocument'            => 'EnviaOrderDocument',
-    'EnviaContract'                 => 'Envia Vertag',
+    'EnviaOrderDocument'            => 'envia-TEL-Auftragsdokument',
+    'EnviaContract'                 => 'envia-TEL-Vertag',
     'endpoint' => [
         'noNgw' => 'Das CMTS des Endpunktes konnte nicht ermittelt werden. Damit könnte die DHCP Config fehlerhaft sein. Bitte prüfen Sie ob der passende IP-Pool angelegt wurde und die IP nicht mehr dynamisch vergeben werden kann (grep -Rn ":ip" /etc/dhcp-nmsprime/cmts_gws/ darf keinen Rückgabewert liefern).',
     ],
@@ -943,4 +947,5 @@ return [
     ],
     'routeNotFoundError' => 'FEHLER: Kann die Seite „:url“ nicht laden (die Route „:route“ existiert nicht)',
     'productChangeNotAllowedExternalStatus' => 'Ändern des Produktes ist nicht erlaubt („Externer Status“ ist nicht leer).',
+    'objectCreationFailed' => 'Konnte :class nicht anlegen.',
 ];

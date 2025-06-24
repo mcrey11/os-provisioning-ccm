@@ -1107,6 +1107,8 @@ return [
         'noModemTickets' => 'Aktuell besitzen die Modems dieses Vertrags keine Tickets!',
     ],
     'configfile' => [
+        'custom_field__ont_profile_id' => 'ONT Profil-ID',
+        'custom_field__sampling_point' => 'ONT sampling point',
         'deviceParameters' => 'Parameter von diesem Gerät',
         'listname'  => 'Neuer Listenname',
         'infoheader' => 'Oberflächengestaltung:',
@@ -1143,6 +1145,11 @@ return [
             'table' => 'Spalten',
             'paginated' => 'Mehrseitig',
         ],
+    ],
+    'qos' => [
+        'custom_field__ont_port_id' => 'ONT Port-ID',
+        'custom_field__service_type' => 'Service-Typ',
+        'custom_field__service_name' => 'Service-Name',
     ],
     'geocoding' => [
         'failed' => 'Leider konnten die Daten nicht in Koordinaten umgewandelt werden (:reason) – bitte manuell hinzufügen!',
@@ -1215,4 +1222,5 @@ return [
     ],
     'yes' => 'ja',
     'externalStatus' => 'Externer Status',
+    'Calix' => 'Calix',
 ];

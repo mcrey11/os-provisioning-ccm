@@ -1108,6 +1108,8 @@ return [
         'noModemTickets' => 'Currently none of the modems that belong to this contract have a ticket associated!',
     ],
     'configfile' => [
+        'custom_field__ont_profile_id' => 'ONT profile ID',
+        'custom_field__sampling_point' => 'ONT sampling point',
         'deviceParameters' => 'Parameters for this device',
         'listname'  => 'New list name',
         'infoheader' => 'Interfacecreation:',
@@ -1144,6 +1146,11 @@ return [
             'table' => 'Columns',
             'paginated' => 'Paginated',
         ],
+    ],
+    'qos' => [
+        'custom_field__ont_port_id' => 'ONT port ID',
+        'custom_field__service_type' => 'Service type',
+        'custom_field__service_name' => 'Service name',
     ],
     'geocoding' => [
         'failed' => 'Could not determine geo coordinates (:reason) – please add the coordinates manually!',
@@ -1216,4 +1223,5 @@ return [
     ],
     'yes' => 'yes',
     'externalStatus' => 'External status',
+    'Calix' => 'Calix',
 ];

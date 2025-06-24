@@ -158,6 +158,7 @@ return [
     'MAC Address'               => 'MAC Address',
     'Main Menu'                 => 'Main Menu',
     'Maturity'                  => 'Maturity',
+    'Modem class'               => 'Modem class',
     'modem' => [
         'restartedViaSnmp' => 'Successfully restarted modem directly via SNMP',
         'restartedViaTr069' => 'Successfully restarted modem via TR069',
@@ -231,6 +232,7 @@ return [
     'Save'                      => 'Save',
     'Save / Restart'            => 'Save / Restart',
     'Serial Number / CWMP-ID'   => 'Serial Number / CWMP-ID',
+    'Parent device'             => 'Parent device',
     'PPP Username'              => 'PPP Username',
     'PPP Password'              => 'PPP Password',
     'Sign me in'                => 'Sign me in',
@@ -758,6 +760,8 @@ return [
     ],
     'missingModule' => ':module is missing.',
     'Modem'                         => 'Modem',
+    'CalixOnt'                      => 'ONT (Calix)',
+    'Customer1001CalixOnt'          => 'ONT (Calix)',
     'PhonenumberManagement'         => 'Phonenumber Management',
     'PhonebookEntry_lastExternalUpdateTelekom' => 'Last update at Telekom',
     'PhonebookEntry_noExternalUpdateTelekom' => 'Not yet sent to Telekom',
@@ -766,8 +770,8 @@ return [
     'EnviaOrder'                    => 'EnviaOrder',
     'Ticket'                        => 'Ticket',
     'CccUser'                       => 'CCC-User',
-    'EnviaOrderDocument'            => 'Envia Order Document',
-    'EnviaContract'                 => 'Envia Contract',
+    'EnviaOrderDocument'            => 'envia TEL order document',
+    'EnviaContract'                 => 'envia TEL contract',
     'endpoint' => [
         'noNgw' => 'The CMTS of the endpoint could not be determined. DHCP Server could be misconfigured now. Please check if the appropriate IP-Pool exists and the IP can\'t be dynamically assigned anymore (grep -Rn ":ip" /etc/dhcp-nmsprime/cmts_gws/ must be empty).',
     ],
@@ -943,4 +947,5 @@ return [
     ],
     'routeNotFoundError' => 'ERROR: Cannot load page “:url” (route “:route” does not exist)',
     'productChangeNotAllowedExternalStatus' => 'Changing the product is not allowed (“External status” is not empty).',
+    'objectCreationFailed' => 'Could not create :class',
 ];
