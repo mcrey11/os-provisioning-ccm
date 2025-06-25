@@ -3,21 +3,30 @@
 # Acme-tiny can switch intermediate certs on cert renewal
 # Thx to https://www.krausmueller.de/en/2016/06/14/intermediate-certificate-for-acme-tiny/
 
+function downloadIntermediateCert() {
+    url=$(openssl x509 -in $cert -text -noout | grep "CA Issuers - URI:" | cut -d":" -f2-)
+    wget -O /tmp/intermediate.der $url
+    openssl x509 -in /tmp/intermediate.der -inform der -outform pem -out $intermediateFpath
+}
+
 # Check if correct intermediate cert is configured in Apache
-cert=$(grep SSLCertificateFile /etc/httpd/conf.d/nmsprime-admin.conf | sed 's/ //g' | grep -v "^#" | cut -d 'e' -f4-100)
-intermediate=$(openssl x509 -in $cert -text -noout | grep "Issuer: " | cut -d '=' -f4 | sed 's/ //g' | tr '[:upper:]' '[:lower:]')
+cert=$(grep -v '\s*#' /etc/httpd/conf.d/nmsprime-admin.conf | grep SSLCertificateFile | awk '{print $2}')
+intermediate=$(openssl x509 -in $cert -issuer -noout | cut -d '=' -f5 | sed 's/\s//g' | tr '[:upper:]' '[:lower:]')
 grep SSLCertificateChainFile /etc/httpd/conf.d/nmsprime-admin.conf | grep -q $intermediate && exit
 
 # Load intermediate if not already done or if outdated
 intermediateFpath=/var/lib/acme/lets-encrypt-$intermediate.pem
-enddate=$(openssl x509 -in $intermediateFpath -noout -enddate | cut -d '=' -f2)
-enddate=$(date -d "$enddate" +%s)
-date=$(date +%s)
 
-if [ ! -f $intermediateFpath ] || [ $enddate -le $date ]; then
-    url=`openssl x509 -in $cert -text -noout | grep "CA Issuers - URI:" | cut -d":" -f2,3`
-    wget -O - $url > /tmp/intermediate.der
-    openssl x509 -in /tmp/intermediate.der -inform der -outform pem -out $intermediateFpath
+if [ ! -f $intermediateFpath ]; then
+    downloadIntermediateCert
+else
+    enddate=$(openssl x509 -in $intermediateFpath -noout -enddate | cut -d '=' -f2)
+    enddate=$(date -d "$enddate" +%s)
+    date=$(date +%s)
+
+    if [ $enddate -le $date ]; then
+        downloadIntermediateCert
+    fi
 fi
 
 # Replace intermediate and restart Apache
