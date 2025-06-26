@@ -693,7 +693,7 @@ return [
         'status' => 'Status',
         'timestamp' => 'Zeitpunkt',
     ],
-
+    'services' => 'Verfügbare Services',
     'statistics_query' => [
         'name' => 'Name',
         'customer_type' => 'Kundentyp',
@@ -723,6 +723,7 @@ return [
         'revenue_change' => 'Umsatzänderung',
         'created_at' => 'Erstellt',
     ],
+    'technology' => 'Technologie',
     'valid_from' => 'Gültig ab',
     'valid_to' => 'Gültig bis (inklusive)',
     'verified' => 'Verifiziert',

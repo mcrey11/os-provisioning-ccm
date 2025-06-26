@@ -730,6 +730,7 @@ return [
         'success' => 'Bezahlmethode erfolgreich gespeichert!',
     ],
     'pleaseWait'                => 'Das Erstellen des Spektrums kann einige Sekunden dauern.',
+    'Possible services' => 'Verfügbare Dienste (max. Datenrate)',
     'import'                    => 'Importieren',
     'exportConfigfiles'         => 'Exportiert diese Konfigurationsdatei und deren untergeordnete Dateien.',
     'importTree'                => 'Bitte geben Sie die dazu zugehörige Übergeordnete Konfigurationsdatei an.',
@@ -877,6 +878,7 @@ return [
     ],
     'flapping_dhcp_threshold'   => 'Minimale Anzahl Meldungen pro 24 Stunden für DHCP Flapping',
     'telCalls' => 'Telefongespräche',
+    'Technology' => 'Technologie',
 
     // SmartOnt
     'alau_order_ref'            => 'Eigene Aufragskennung',

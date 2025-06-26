@@ -692,7 +692,7 @@ return [
         'status' => 'Status',
         'timestamp' => 'Timestamp',
     ],
-
+    'services' => 'Possible services',
     'statistics_query' => [
         'name' => 'Name',
         'customer_type' => 'Customer Type',
@@ -722,6 +722,7 @@ return [
         'revenue_change' => 'Revenue Change',
         'created_at' => 'Created',
     ],
+    'technology' => 'Technology',
     'valid_from' => 'Valid from',
     'valid_to' => 'Valid to (inclusive)',
     'verified' => 'Verified',

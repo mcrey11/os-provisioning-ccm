@@ -730,6 +730,7 @@ return [
         'success' => 'Successfully updated payment method!',
     ],
     'pleaseWait'                => 'This may take a few seconds. Please wait until the process has finished.',
+    'Possible services' => 'Possible services (max. throughput)',
     'import'                    => 'Import',
     'exportConfigfiles'         => 'Export this Configfile and all it\'s children.',
     'importTree'                => 'Please specify the related parent configfile.',
@@ -877,6 +878,7 @@ return [
     ],
     'flapping_dhcp_threshold'   => 'Minimum number of messages per 24 hours for DHCP flapping',
     'telCalls' => 'Telephone Calls',
+    'Technology' => 'Technology',
 
     // SmartOnt
     'alau_order_ref'            => 'Own order reference',
