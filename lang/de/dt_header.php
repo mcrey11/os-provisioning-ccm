@@ -138,6 +138,7 @@ return [
         'batch_size' => 'Anzahl Modems pro Ausführung',
     ],
     'geocode_source' => 'Geocode-Quelle',
+    'home_id' => 'Home-ID',
     //Invoices
     'invoice' => [
         'ccc' => [
