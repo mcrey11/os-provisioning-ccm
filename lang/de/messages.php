@@ -188,6 +188,7 @@ return [
     'device_probably_online' => ':type ist wahrscheinlich online',
     'eom'                   => 'zum Monatsende',
     'envia_no_interaction'  => 'Keine envia-TEL-Aufträge, die eine Bearbeitung benötigen',
+    'Fiber' => 'Faser',
     'Missing amount'        => 'Ausstand',
     'Month'                     => 'Monat',
     'envia_interaction'     => 'envia-TEL-Auftrag benötigt eine Bearbeitung|envia-TEL-Aufträge benötigen Bearbeitung',

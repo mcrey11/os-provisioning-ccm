@@ -36,6 +36,7 @@ return new class extends BaseMigration
         Schema::table($this->tableName, function (Blueprint $table) {
             $table->string('services')->nullable();
             $table->string('technology')->nullable();
+            $table->string('addtl_addr_info')->nullable();
         });
     }
 
@@ -47,7 +48,7 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropColumn(['services', 'technology']);
+            $table->dropColumn(['addtl_addr_info', 'services', 'technology']);
         });
     }
 };

@@ -35,6 +35,7 @@ return new class extends BaseMigration
     {
         Schema::table($this->tableName, function (Blueprint $table) {
             $table->string('home_id')->nullable();
+            $table->string('fiber', 50)->nullable();
         });
     }
 
@@ -46,7 +47,7 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropColumn('home_id');
+            $table->dropColumn('fiber', 'home_id');
         });
     }
 };

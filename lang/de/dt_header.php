@@ -3,6 +3,7 @@
 return [
     // Index DataTable Header
     'active' => 'Aktiv',
+    'addtl_addr_info' => 'Addresszusatz',
     'amount' => 'Betrag',
     'buttons' => [
         'clearFilter' => 'Suchfilter leeren',
@@ -21,6 +22,7 @@ return [
     'dpa' => 'DPA',
     'email' => 'Email',
     'expansion_degree' => 'Ausbaugrad',
+    'fiber' => 'Faser',
     'fiber_node' => 'Fiber node',
     'file' => 'Datei',
     'firstname' => 'Vorname',
