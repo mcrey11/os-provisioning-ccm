@@ -87,24 +87,21 @@ abstract class BaseTopographyController extends BaseController
             return collect();
         }
 
-        $lookup = [
-            \Modules\Ticketsystem\Entities\Ticket::STATES['New'] => 0,
-            \Modules\Ticketsystem\Entities\Ticket::STATES['Paused'] => 1,
-            \Modules\Ticketsystem\Entities\Ticket::STATES['In Progress'] => 1,
-            \Modules\Ticketsystem\Entities\Ticket::STATES['Closed'] => 2,
-        ];
-
         return \Modules\Ticketsystem\Entities\Ticket::with('ticketable', 'users:first_name,last_name')
-            ->where('state', '!=', \Modules\Ticketsystem\Entities\Ticket::STATES['Closed'])
+            ->where('ticket_type_state_id', '!=', \Modules\Ticketsystem\Entities\TicketTypeState::STATES['Closed'])
             ->orWhere(function ($query) {
-                $query->where('state', \Modules\Ticketsystem\Entities\Ticket::STATES['Closed'])
+                $query->where('ticket_type_state_id', \Modules\Ticketsystem\Entities\TicketTypeState::STATES['Closed'])
                     ->where('updated_at', '>=', now()->subMinutes(5));
             })
-            ->get(['id', 'name', 'priority', 'description', 'state', 'ticketable_id', 'ticketable_type'])
+            ->get(['id', 'name', 'priority', 'description', 'ticket_type_state_id', 'ticketable_id', 'ticketable_type'])
             ->filter->hasValidPositionData()
             ->map->setPositionData()
-            ->map(function ($ticket) use ($lookup) {
-                $ticket->icon = $lookup[$ticket->state];
+            ->map(function ($ticket) {
+                $ticket->icon = match ($ticket->ticket_type_state_id) {
+                    \Modules\Ticketsystem\Entities\TicketTypeState::STATES['New'] => 0,
+                    \Modules\Ticketsystem\Entities\TicketTypeState::STATES['Closed'] => 2,
+                    default => 1,
+                };
                 $ticket->link = route('Ticket.edit', $ticket['id']);
 
                 return $ticket;

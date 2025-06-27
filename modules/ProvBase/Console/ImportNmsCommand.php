@@ -38,6 +38,7 @@ use Modules\ProvVoip\Entities\Phonenumber;
 use Modules\ProvVoip\Entities\PhonenumberManagement;
 use Modules\Ticketsystem\Entities\Ticket;
 use Modules\Ticketsystem\Entities\TicketType;
+use Modules\Ticketsystem\Entities\TicketTypeState;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -568,7 +569,7 @@ class ImportNmsCommand extends Command
 
         $tickets = Ticket::on(self::DB_IMPORT_CON)
             ->whereNull('deleted_at')
-            ->where('state', '!=', 'Closed')
+            ->where('ticket_type_state_id', '!=', TicketTypeState::STATES['Closed'])
             ->whereIn('ticketable_type', $ticketTypes)
             ->with('user')
             ->get();

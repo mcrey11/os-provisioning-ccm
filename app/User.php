@@ -121,12 +121,17 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      */
     public function openTickets()
     {
-        return $this->tickets()->where('state', '!=', \Modules\Ticketsystem\Entities\Ticket::STATES['Closed']);
+        return $this->tickets()->where('ticket_type_state_id', '!=', \Modules\Ticketsystem\Entities\TicketTypeState::STATES['Closed']);
     }
 
     public function inWorkTickets()
     {
-        return $this->tickets()->where('state', \Modules\Ticketsystem\Entities\Ticket::STATES['In Progress']);
+        return $this->tickets()
+            ->where('paused', false)
+            ->whereNotIn('ticket_type_state_id', [
+                \Modules\Ticketsystem\Entities\TicketTypeState::STATES['New'],
+                \Modules\Ticketsystem\Entities\TicketTypeState::STATES['Closed'],
+            ]);
     }
 
     /**
