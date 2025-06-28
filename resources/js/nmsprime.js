@@ -100,6 +100,37 @@ var saveTabPillState = function () {
 }
 
 /**
+ * Dispatches select2 input events to window/document events can be scoped further by adding
+ * a `data-event-scope` attribute to select2 elements.
+ *
+ * This makes it easier to listen to select2 inputs
+ * changes and react to it using AlpineJS
+ *
+ * Currently `select2:select select2:unselect select2:change` events are supported
+ * when no `data-event-scope` is set on select element
+ *
+ * with `data-event-scope='foo-bar'`
+ * `select2:select:foo-bar select2:unselect:foo-bar select2:change:foo-bar` events
+ * will be dispatched to `window`
+ *
+ * AlpineJS example:
+ * <.. x-on:select2:change.window='handler' ../>
+ * <.. x-on:select2:change:foo-bar.window='handler' ../>
+ */
+const dispatchScopedSelect2Events = (e) => {
+    const prefix = 'select2:'
+    const {type, target, params} = e
+
+    const eventName =([type.startsWith(prefix) ? type : prefix + type, target.dataset.eventScope]).filter(i => i?.trim()).join(':')
+    const detail = {
+        select: $(target),
+        data: params?.data,
+        type: type,
+    }
+
+    dispatchEvent(new CustomEvent(eventName, {detail}))
+}
+/**
  * Init Select2 fields and resize them. Also get data via AJAX for specific
  * fields.
  */
@@ -128,6 +159,7 @@ window.initDefaultSelect2 = function (item, lang = null) {
       setTimeout(function() {document.querySelector('input.select2-search__field').focus();}, 300);
     }
   })
+  .on('select2:select select2:unselect change', dispatchScopedSelect2Events)
   .on('select2:select', function (e) {
     filterSelect2({e, item, lang})
   })
@@ -170,6 +202,7 @@ window.initAjaxSelect2 = function (item, lang = null) {
       // Preserve typed value
       searchTerm = $('.select2-search input').prop('value')
     })
+    .on('select2:select select2:unselect change', dispatchScopedSelect2Events)
     .on('select2:open', function (e) {
       // Fill preserved value back into Select2 input field and trigger the AJAX loading (if any)
       let search = $('.select2-search input')

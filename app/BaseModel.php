@@ -24,6 +24,7 @@ use App\Observers\BaseObserver;
 use DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Validator;
 use Log;
 use Module;
 use Schema;
@@ -1059,5 +1060,26 @@ class BaseModel extends Eloquent
     public function boolToLanguageString(string $column): string
     {
         return trans('messages.'.($this->{$column} ? 'Yes' : 'No'));
+    }
+
+    /**
+     * A callback/hook to inform the model about the validator
+     * which is going be used for validation.
+     *
+     * i.e. In \App\Http\Controllers\BaseController@{store|update}
+     *
+     * This can be further overriden by the child
+     * model classes if there is something to do.
+     *
+     * e.g. using custom attribute names in error messages
+     * by the \App\Utilities\DynamicFormFields
+     *
+     * @author Wali Razzaq
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    public function withValidator(Validator $validator)
+    {
     }
 }

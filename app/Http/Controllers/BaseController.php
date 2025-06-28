@@ -962,6 +962,7 @@ class BaseController extends Controller
         $data = $controller->prepare_input(Request::all());
         $rules = $controller->prepare_rules($obj->rules(), $data);
         $validator = Validator::make($data, $rules);
+        $obj->withValidator($validator);
 
         if ($validator->fails()) {
             Log::info('Validation Rule Error: '.$validator->errors());
@@ -1010,6 +1011,7 @@ class BaseController extends Controller
             $data = $controller->prepare_input($data);
             $rules = $controller->prepare_rules($obj->rules(), $data);
             $validator = Validator::make($data, $rules);
+            $obj->withValidator($validator);
 
             if ($validator->fails()) {
                 return response()->v0ApiReply(['validations' => $validator->errors()], false, $obj->id);
@@ -1102,6 +1104,7 @@ class BaseController extends Controller
         $data['id'] = $obj->id = $id;
         $rules = $controller->prepare_rules($obj->rules(), $data);
         $validator = Validator::make($data, $rules);
+        $obj->withValidator($validator);
 
         if ($validator->fails()) {
             Log::info('Validation Rule Error: '.$validator->errors());
@@ -1171,6 +1174,7 @@ class BaseController extends Controller
             $data = $controller->prepare_input($data);
             $rules = $controller->prepare_rules($obj->rules(), $data);
             $validator = Validator::make($data, $rules);
+            $obj->withValidator($validator);
             $data = $controller->prepare_input_post_validation($data);
 
             if ($validator->fails()) {

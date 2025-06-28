@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Stringable;
 use Silber\Bouncer\BouncerFacade as Bouncer;
 
 class AppServiceProvider extends ServiceProvider
@@ -61,6 +62,34 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('cron', function ($attribute, $value, $parameters, $validator) {
             return $value !== null && CronExpression::isValidExpression($value);
+        });
+
+        /**
+         * This macro is added to convert the strings like form field
+         * names to laravel's array/collection friendly
+         * keys
+         * e.g.
+         * tags[] -> tags
+         * tags[foo] -> tags.foo
+         * tags[foo][bar] -> tags.foo.bar
+         */
+        Stringable::macro('dotify', function () {
+            /** @var Stringable $this */
+            return str($this)->replaceMatches('/\[(.*?)\]/', '.$1')->trim('.');
+        });
+
+        /**
+         * Inverse of the dotify to make dotted strings
+         * to HTML form name's friendly
+         * e.g.
+         * tags.foo -> tags[foo]
+         * tags.foo.bar -> tags[foo][bar]
+         */
+        Stringable::macro('bracketify', function () {
+            /** @var Stringable $this */
+            $parts = $this->explode('.');
+
+            return str($parts->shift())->append($parts->map(fn ($part) => "[$part]")->implode(''));
         });
     }
 

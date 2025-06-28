@@ -23,6 +23,7 @@ use Auth;
 use BaseModel;
 use Bouncer;
 use Form;
+use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
 use Module;
 use Request;
@@ -218,6 +219,19 @@ class BaseViewController extends Controller
 
         // for all fields
         foreach ($fields as $field) {
+            /**
+             * Normalize the field name to make it compatible with
+             * array accessors e.g.
+             * tags[] =>  tags
+             * custom_data[foo] => custom_data.foo
+             * name_without_brackets =>  name_without_brackets
+             *
+             * `dotify(...)` is a macro and not Laravel's native helper
+             *
+             * @see \App\Providers\AppServiceProvider
+             */
+            $field_name = (string) str($field['name'])->dotify();
+
             if ($field['form_type'] === 'collapse') {
                 if (Str::endsWith(Route::currentRouteName(), '.api_create')) {
                     // API: show all possible fields in a flat layout
@@ -231,16 +245,19 @@ class BaseViewController extends Controller
             }
 
             // rule exists for actual field ?
-            if (isset($rules[$field['name']])) {
-                $rulesArray = is_array($rules[$field['name']]) ? $rules[$field['name']] : explode('|', $rules[$field['name']]);
+            if ($fieldRules = $rules[$field_name] ?? null) {
+                $fieldRules = is_array($fieldRules) ? $fieldRules : explode('|', $fieldRules);
 
                 // 1. Add a (*) to fields description if validation rule contains required
-                if (in_array('required', $rulesArray)) {
+                if (in_array('required', $fieldRules)) {
                     $field['description'] = $field['description'].' *';
+
+                    // Add the HTML required attribute to avoid an unecessay server round trip
+                    data_fill($field, 'options.required', true);
                 }
 
                 // 2. Add Placeholder YYYY-MM-DD for all date fields if not yet set
-                if (in_array('date', $rulesArray) && ! isset($field['options']['placeholder'])) {
+                if (in_array('date', $fieldRules) && ! isset($field['options']['placeholder'])) {
                     $field['options']['placeholder'] = 'YYYY-MM-DD';
                 }
             }
@@ -268,7 +285,7 @@ class BaseViewController extends Controller
                 $eval = $field['eval'];
                 $field['field_value'] = eval("return $eval;");
             } else {
-                $field['field_value'] = $model[$field['name']];
+                $field['field_value'] = data_get($model, $field_name);
             }
 
             // NOTE: Request::get should actually include $_POST global var and $_GET!!
@@ -465,6 +482,10 @@ class BaseViewController extends Controller
 
                 case 'password':
                     $currentFormfield[] = Form::password($field['name'], $options);
+                    break;
+
+                case 'number':
+                    $currentFormfield[] = Form::number($field['name'], $field['field_value'], ...Arr::only($options, ['min', 'max', 'step']));
                     break;
 
                 case 'link':

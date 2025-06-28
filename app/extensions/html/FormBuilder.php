@@ -23,6 +23,7 @@ use App\Http\Controllers\BaseViewController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Spatie\Html\BaseElement;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Html;
 
@@ -50,6 +51,14 @@ class FormBuilder
     {
         if (isset(static::$layout_form_col_md['form']) && ! $classes) {
             $col = static::$layout_form_col_md['form'];
+        }
+
+        /**
+         * This will add another bootstrap class to add error/red
+         * border and exclamation icon to inputs
+         */
+        if ($s instanceof BaseElement && ($name = $s->getAttribute('name'))) {
+            $s = $s->when($this->hasErrors($name))->class('is-invalid');
         }
 
         $classes = $isInput ? 'order-3 md:order-2'.$classes : $classes;
@@ -213,6 +222,8 @@ class FormBuilder
             return false;
         }
 
+        $name = (string) str($name)->dotify();
+
         // Get the errors from the session.
         $errors = Session::get('errors');
 
@@ -227,14 +238,14 @@ class FormBuilder
      */
     private function getFormattedErrors($name)
     {
-        // Remove parenthesises from multiselect column name to search in errors
-        $name = str_replace(['[', ']'], '', $name);
-
         if (! $this->hasErrors($name)) {
             // If the form element does not have any errors, return
             // an emptry string.
             return '';
         }
+
+        $name = (string) str($name)->dotify();
+
         // Get the errors from the session.
         $errors = Session::get('errors');
 
@@ -252,7 +263,7 @@ class FormBuilder
         // Append the name of the group to the groupStack.
         $this->groupStack[] = $name;
 
-        if ($this->hasErrors(str_replace(['[', ']'], '', $name))) {
+        if ($this->hasErrors($name)) {
             $div->class('has-error');
         }
 
