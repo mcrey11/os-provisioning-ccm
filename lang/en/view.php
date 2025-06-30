@@ -96,6 +96,7 @@ return [
     'Menu_Realty'               => 'Realties',
     'Menu_Taxes' => 'Taxes',
     'Menu_TicketType'           => 'TicketTypes',
+    'Menu_TicketTypeStates'     => 'Ticket Type States',
     'Menu_TicketReceiver'       => 'Ticket Receiver',
     'Menu_Nets'                 => 'Nets',
     'Menu_allNets'              => 'All networks',

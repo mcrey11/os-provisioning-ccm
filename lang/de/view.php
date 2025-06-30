@@ -96,6 +96,7 @@ return [
     'Menu_Realty'               => 'Liegenschaften',
     'Menu_Taxes' => 'Steuern',
     'Menu_TicketType'           => 'Tickettypen',
+    'Menu_TicketTypeStates'     => 'Tickettypzustände',
     'Menu_TicketReceiver'       => 'Ticketzentrale',
     'Menu_Nets'                 => 'Netze',
     'Menu_allNets'              => 'Alle Netze',
