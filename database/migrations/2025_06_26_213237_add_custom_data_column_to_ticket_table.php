@@ -35,7 +35,7 @@ return new class extends BaseMigration
     public function up()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->json('custom_data')->nullable();
+            $table->jsonb('custom_data')->nullable();
         });
     }
 
