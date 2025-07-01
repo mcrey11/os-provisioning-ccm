@@ -13,6 +13,7 @@
         "dev:pdf": "mix --mix-config=modules/DocumentManagement/webpack.mix.js"
     },
     "devDependencies": {
+        "@alpinejs/sort": "^3.14.9",
         "alpinejs": "^3.12.1",
         "autoprefixer": "^10.4.7",
         "dayjs": "^1.11.7",
