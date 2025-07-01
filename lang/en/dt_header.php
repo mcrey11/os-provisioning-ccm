@@ -663,6 +663,7 @@ return [
     ],
     'assigned_users' => 'Assigned Users',
     'tickettypes.name' => 'Type',
+    'ticketTypeState.name' => 'State',
     'ticket_type_state.name' => 'Name',
     'ticket_type_transition' => [
         'Start Work' => 'Start Work',
