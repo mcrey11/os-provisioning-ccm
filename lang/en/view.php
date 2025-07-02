@@ -952,6 +952,18 @@ return [
             'Paused' => 'Paused',
             'In Progress' => 'In Progress',
         ],
+        'transition' => [
+            'title' => 'State Transitions',
+            'currentState' => 'Current State:',
+            'startWork' => 'Start Work',
+            'pause' => 'Pause',
+            'close' => 'Close',
+            'resume' => 'Resume',
+            'reopen' => 'Reopen',
+            'noTransitions' => 'No transitions available from the current state.',
+            'noTicketType' => 'No ticket type assigned or no transitions configured for this ticket type.',
+            'noTicketTypeAssigned' => 'No ticket type assigned to this ticket.',
+        ],
         'notification' => [
             'NewTicket' => 'New Ticket',
             'NewComment' => 'New Comment',

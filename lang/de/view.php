@@ -951,6 +951,18 @@ return [
             'Paused' => 'In Bearbeitung (pausiert)',
             'In Progress' => 'Wird gerade bearbeitet',
         ],
+        'transition' => [
+            'title' => 'Zustandsübergänge',
+            'currentState' => 'Aktueller Zustand:',
+            'startWork' => 'Arbeit beginnen',
+            'pause' => 'Pausieren',
+            'close' => 'Abschließen',
+            'resume' => 'Fortsetzen',
+            'reopen' => 'Wiedereröffnen',
+            'noTransitions' => 'Keine Übergänge vom aktuellen Zustand verfügbar.',
+            'noTicketType' => 'Kein Tickettyp zugewiesen oder keine Übergänge für diesen Tickettyp konfiguriert.',
+            'noTicketTypeAssigned' => 'Diesem Ticket ist kein Tickettyp zugewiesen.',
+        ],
         'notification' => [
             'NewTicket' => 'Neues Ticket',
             'NewComment' => 'Neuer Kommentar',
