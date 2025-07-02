@@ -6,6 +6,7 @@ use App\BaseModel;
 use App\Http\Controllers\BaseViewController;
 use Closure;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Fluent;
 use Illuminate\Validation\Validator;
 
@@ -192,13 +193,22 @@ class DynamicFormFields implements Htmlable
 
                 $name = str("$this->name.$item->key");
 
+                // Handle database type by converting to select with database values
+                $formType = $item->type;
+                $value = data_get($data, $item->key);
+                
+                if ($item->type === 'database') {
+                    $formType = 'select';
+                    $value = $this->getDatabaseSelectValues($item);
+                }
+
                 $field = fluent([
                     ...$this->globalAttributes,
                     'name' => (string) $name->bracketify(),
-                    'form_type' => $item->type,
+                    'form_type' => $formType,
                     'description' => $item->name,
                     'help' => $item->help,
-                    'value' => data_get($data, $item->key),
+                    'value' => $value,
                 ]);
 
                 value($this->onFieldGenerated, $field, $item, $rules);
@@ -212,6 +222,102 @@ class DynamicFormFields implements Htmlable
         $this->setCustomAttributesToValidator();
 
         return $this;
+    }
+
+    /**
+     * Get select values from database for database type fields
+     */
+    protected function getDatabaseSelectValues($item): array
+    {
+        try {
+            $tableName = $item->tablename ?? '';
+            $keyValue = $item->key_value ?? '';
+            $displayFields = $item->display_fields ?? '';
+
+            if (empty($tableName) || empty($keyValue) || empty($displayFields)) {
+                return [];
+            }
+
+            // Parse display fields from list format
+            $concatParts = $this->parseDisplayFields($displayFields);
+            
+            if (empty($concatParts)) {
+                return [];
+            }
+
+            // Build the SQL query using CONCAT for display fields
+            $concatExpression = implode(', ', $concatParts);
+            $query = DB::table($tableName)
+                ->selectRaw("$keyValue as id, CONCAT($concatExpression) as display")
+                ->orderBy('display');
+
+            $results = $query->get();
+
+            // Convert to key-value array for select
+            $selectValues = [];
+            foreach ($results as $result) {
+                $selectValues[$result->id] = $result->display;
+            }
+
+            return $selectValues;
+        } catch (\Exception $e) {
+            // Log error and return empty array to prevent form breaking
+            \Log::error("Error loading database select values for field {$item->key}: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Parse display fields from comma-separated format to SQL CONCAT parts
+     */
+    protected function parseDisplayFields(string $displayFields): array
+    {
+        $parts = [];
+        $current = '';
+        $inQuotes = false;
+        $length = strlen($displayFields);
+
+        for ($i = 0; $i < $length; $i++) {
+            $char = $displayFields[$i];
+
+            if ($char === "'" && ($i === 0 || $displayFields[$i - 1] !== '\\')) {
+                $inQuotes = !$inQuotes;
+                $current .= $char;
+            } elseif ($char === ',' && !$inQuotes) {
+                $trimmed = trim($current);
+                if (!empty($trimmed)) {
+                    $parts[] = $trimmed;
+                }
+                $current = '';
+            } else {
+                $current .= $char;
+            }
+        }
+
+        // Add the last part
+        $trimmed = trim($current);
+        if (!empty($trimmed)) {
+            $parts[] = $trimmed;
+        }
+
+        // Process parts to handle quoted literals
+        $result = [];
+        foreach ($parts as $part) {
+            $part = trim($part);
+            if (empty($part)) {
+                continue;
+            }
+
+            // If part is quoted (starts and ends with single quote), treat as literal
+            if (preg_match('/^\'([^\']*)\'$/', $part, $matches)) {
+                $result[] = "'" . addslashes($matches[1]) . "'";
+            } else {
+                // Otherwise treat as field name
+                $result[] = $part;
+            }
+        }
+
+        return $result;
     }
 
     protected function setCustomAttributesToValidator()
