@@ -248,8 +248,15 @@ class DynamicFormFields implements Htmlable
             // Build the SQL query using CONCAT for display fields
             $concatExpression = implode(', ', $concatParts);
             $query = DB::table($tableName)
-                ->selectRaw("$keyValue as id, CONCAT($concatExpression) as display")
-                ->orderBy('display');
+                ->selectRaw("$keyValue as id, CONCAT($concatExpression) as display");
+
+            // Apply SQL filter if provided
+            $sqlFilter = $item->sql_filter ?? '';
+            if (!empty($sqlFilter)) {
+                $query->whereRaw($sqlFilter);
+            }
+
+            $query->orderBy('display');
 
             $results = $query->get();
 
