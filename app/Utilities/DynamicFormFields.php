@@ -6,6 +6,7 @@ use App\BaseModel;
 use App\Http\Controllers\BaseViewController;
 use Closure;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Fluent;
 use Illuminate\Validation\Validator;
@@ -41,6 +42,7 @@ class DynamicFormFields implements Htmlable
      *  'help' => 'e.g help icon', #optional
      *  'required' => 'a boolean to explicitly make field nullable|required',
      *  'rules' => 'array of laravel validation rules', #optional
+     *  'select_options' => 'comma separated options if type is `select`', #optional
      * ]
      */
     protected ?Closure $schema = null;
@@ -194,7 +196,6 @@ class DynamicFormFields implements Htmlable
                     ->merge($item->rules ?? []);
 
                 $name = str("$this->name.$item->key");
-
                 // Prefer request value, fallback to model/array value
                 $value = array_key_exists($item->key, $requestCustomData)
                     ? $requestCustomData[$item->key]
@@ -202,10 +203,32 @@ class DynamicFormFields implements Htmlable
 
                 // Handle database type by converting to select with database values
                 $formType = $item->type;
-                
+                $selectOptions = [];
+
                 if ($item->type === 'database') {
                     $formType = 'select';
-                    $value = $this->getDatabaseSelectValues($item);
+                    $selectOptions = $this->getDatabaseSelectValues($item);
+                }
+
+                $options = Arr::pull($this->globalAttributes, 'options', []);
+                $values = [
+                    'value' => $selectOptions,
+                    'selected' => $value,
+                ];
+
+                if ($item->type == 'select') {
+                    $selectOptions = str($item->select_options)
+                        ->explode(',')
+                        ->unshift('') // Add empty option
+                        ->mapWithKeys(fn ($o) => [trim($o) => trim($o)]);
+
+                    // FIXME: Remove `nms-select2` class once the livewire/select2 issue is fixed
+                    $options['class'] = 'nms-select2 '.($options['class'] ?? '');
+
+                    $values = [
+                        'value' => $selectOptions,
+                        'selected' => $values['value'],
+                    ];
                 }
 
                 $field = fluent([
@@ -214,7 +237,8 @@ class DynamicFormFields implements Htmlable
                     'form_type' => $formType,
                     'description' => $item->name,
                     'help' => $item->help,
-                    'value' => $value,
+                    'options' => $options,
+                    ...$values,
                 ]);
 
                 value($this->onFieldGenerated, $field, $item, $rules);
@@ -246,7 +270,7 @@ class DynamicFormFields implements Htmlable
 
             // Parse display fields from list format
             $concatParts = $this->parseDisplayFields($displayFields);
-            
+
             if (empty($concatParts)) {
                 return [];
             }
