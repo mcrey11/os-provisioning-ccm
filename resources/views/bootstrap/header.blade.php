@@ -34,4 +34,8 @@
       @if (request()->is('customer*'))
             <link href="{{ mix('css/ccc.css') }}" rel="stylesheet" />
       @endif
+      
+      @if (request()->is('ticket*') || request()->is('Ticket*') || request()->is('TicketReceiver*'))
+            <link href="{{ mix('css/ticketsystem.css') }}" rel="stylesheet" />
+      @endif
       <!-- ================== END BASE CSS STYLE ================== -->
