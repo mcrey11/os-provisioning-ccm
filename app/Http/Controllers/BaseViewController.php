@@ -288,12 +288,13 @@ class BaseViewController extends Controller
                 $field['field_value'] = data_get($model, $field_name);
             }
 
-            // NOTE: Request::get should actually include $_POST global var and $_GET!!
-            // 4.(sub-task) auto-fill all field_value's with HTML Input
-            if (Request::get($field['name'])) {
-                $field['field_value'] = Request::get($field['name']);
+            // PATCH: Allow pre-filling array fields (e.g. custom_data[addressId]) from GET/POST using dot notation
+            $field_value_from_request = \Request::input(str($field['name'])->dotify(), null);
+            if (!is_null($field_value_from_request)) {
+                $field['field_value'] = $field_value_from_request;
             }
 
+            // NOTE: Request::get should actually include $_POST global var and $_GET!!
             // 4.(sub-task) auto-fill all field_value's with HTML POST array if supposed
             if (isset($_POST[$field['name']])) {
                 $field['field_value'] = $_POST[$field['name']];

@@ -100,4 +100,29 @@ NOTE: - java include section is in default blade at bottom of text
         @include('Generic.form-js-fill-input-from-href')
 
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ticketTypeId = urlParams.get('tickettypes_ids');
+        if (ticketTypeId) {
+            // Try both single and multi-select field names
+            const selects = [
+                document.querySelector('select[name="tickettypes_ids[]"]'),
+                document.querySelector('select[name="tickettypes_ids"]')
+            ];
+            selects.forEach(function(select) {
+                if (select) {
+                    // Set value and trigger change for Select2 or native
+                    if (window.jQuery && window.jQuery(select).data('select2')) {
+                        window.jQuery(select).val(ticketTypeId).trigger('change');
+                    } else {
+                        select.value = ticketTypeId;
+                        select.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                }
+            });
+        }
+    });
+    </script>
 @stop

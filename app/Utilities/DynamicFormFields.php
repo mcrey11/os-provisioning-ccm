@@ -182,20 +182,26 @@ class DynamicFormFields implements Htmlable
 
     protected function build(): static
     {
+        // Prefer request('custom_data') for pre-filling, fallback to fieldable/model data
+        $requestCustomData = request()->input($this->name, []);
         $data = is_array($this->fieldable) ? $this->fieldable : data_get($this->fieldable, $this->name, []);
         $this->fields = collect(value($this->schema))
             ->mapInto(Fluent::class)
             ->reject(fn ($item) => empty($item->key)) // remove any item having no key
-            ->map(function (Fluent $item) use ($data) {
+            ->map(function (Fluent $item) use ($data, $requestCustomData) {
                 $rules = collect([$item->required ? 'required' : 'nullable'])
                     ->when($item->type == 'checkbox')->push('boolean')
                     ->merge($item->rules ?? []);
 
                 $name = str("$this->name.$item->key");
 
+                // Prefer request value, fallback to model/array value
+                $value = array_key_exists($item->key, $requestCustomData)
+                    ? $requestCustomData[$item->key]
+                    : data_get($data, $item->key);
+
                 // Handle database type by converting to select with database values
                 $formType = $item->type;
-                $value = data_get($data, $item->key);
                 
                 if ($item->type === 'database') {
                     $formType = 'select';
