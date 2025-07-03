@@ -48,7 +48,11 @@ if (! function_exists('Modules\ProvBase\Entities\getAvailableModemClasses')) {
             'Modules\ProvBase\Entities\Modem',
         ];
         if (Module::collections()->has('Calix')) {
-            $ret[] = 'Modules\Calix\Entities\CalixOnt';
+            if ('tks' == config('app.nmsprimeCustomer')) {
+                $ret[] = 'Modules\Calix\Entities\TksCalixOnt';
+            } else {
+                $ret[] = 'Modules\Calix\Entities\CalixOnt';
+            }
         }
 
         return $ret;

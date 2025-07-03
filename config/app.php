@@ -256,11 +256,12 @@ return [
     | They are all set in your global.env file.
     |
     */
-    'osmNominatimApiMail' => env('OSM_NOMINATIM_EMAIL'),
+    'adminPort' => env('HTTPS_ADMIN_PORT', 8080),
+    'cccPort' => env('HTTPS_CCC_PORT', 443),
     'googleApiKey' => env('GOOGLE_API_KEY'),
     'hereApiKey' => env('HERE_GEOCODE_API_KEY'),
     'hereMapApiKey' => env('HERE_JS_API_KEY'),
-    'adminPort' => env('HTTPS_ADMIN_PORT', 8080),
-    'cccPort' => env('HTTPS_CCC_PORT', 443),
-    'domain' => env('DOMAIN', 'localhost'),
+    'nmsprimeCustomer' => strtolower(env('NMSPRIME_CUSTOMER', 'generic')),
+    'nmsprimeRole' => strtolower(env('NMSPRIME_ROLE', 'default')),
+    'osmNominatimApiMail' => env('OSM_NOMINATIM_EMAIL'),
 ];
