@@ -742,7 +742,9 @@ class Modem extends \BaseModel
         parent::boot();
 
         self::observe(new \App\Observers\SystemdObserver);
-        self::observe(new \Modules\ProvBase\Observers\ModemObserver);
+        if ('Modules\ProvBase\Entities\Modem' == __CLASS__) {
+            self::observe(new \Modules\ProvBase\Observers\ModemObserver);
+        }
     }
 
     /**
