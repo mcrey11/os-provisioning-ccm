@@ -735,4 +735,9 @@ return [
     'national_building_id' => 'Nationale Gebäude-ID',
     'national_building_id_CH' => 'EGID',
     'national_building_id_US' => 'UBID',
+
+    // New translations
+    'spri_business_case.id' => 'ID',
+    'spri_business_case.case' => 'Geschäftsfall',
+    'ticket_type.name' => 'Tickettyp',
 ];

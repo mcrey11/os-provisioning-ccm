@@ -97,6 +97,7 @@ return [
     'Menu_Taxes' => 'Steuern',
     'Menu_TicketType'           => 'Tickettypen',
     'Menu_TicketTypeStates'     => 'Tickettypzustände',
+    'Menu_SpriBusinessCase'     => 'S/PRI Geschäftsfälle',
     'Menu_TicketReceiver'       => 'Ticketzentrale',
     'Menu_Nets'                 => 'Netze',
     'Menu_allNets'              => 'Alle Netze',
@@ -104,6 +105,7 @@ return [
     'Menu_DFSubscriptions'      => 'Dreamfiber-Abonnements',
     'Menu_DFSubscriptionEvents' => 'Dreamfiber-Ereignisse',
     'Menu_Invoices'             => 'Rechnungen',
+    'Menu_SPRI Lieferanten'     => 'S/PRI Lieferanten',
 
     //User Settings
     'Menu_UserSettings'         => 'Nutzereinstellungen',
@@ -235,6 +237,7 @@ return [
     'Header_Ticket'             => 'Ticket|Tickets',
     'Header_EditTicket'         => 'Ticket bearbeiten',
     'Header_TicketType'         => 'Tickettyp|Tickettypen',
+    'Header_SpriBusinessCase'   => 'S/PRI Geschäftsfall|S/PRI Geschäftsfälle',
     'Header_TicketReceiver'     => 'Ticketzentrale',
     // Documents
     'Header_Document'           => 'Dokument|Dokumente',
@@ -1105,7 +1108,7 @@ return [
         'diagramOperandPlaceholder' => 'Wert zur Berechnung des Parameters für das Diagramm',
         'colorize' => 'Auf der Karte farbig darstellen?',
         'selectMapParameter' => 'Auswählen, als welcher Parameter der Wert auf der Karte angezeigt werden soll.',
-        'thresholds' => 'Optional: Schwellwerte für ":Severity" (:color) – z.B.: “..10”, “-1.5..1.5”, “-20..-10;10..20” oder “20..”',
+        'thresholds' => 'Optional: Schwellwerte für ":Severity" (:color) – z.B.: "..10", "-1.5..1.5", "-20..-10;10..20" oder "20.."',
         'listtype' => [
             'list' => 'Zeilen',
             'table' => 'Spalten',

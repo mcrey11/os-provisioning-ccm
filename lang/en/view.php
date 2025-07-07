@@ -97,6 +97,7 @@ return [
     'Menu_Taxes' => 'Taxes',
     'Menu_TicketType'           => 'TicketTypes',
     'Menu_TicketTypeStates'     => 'Ticket Type States',
+    'Menu_SpriBusinessCase'     => 'S/PRI Business Cases',
     'Menu_TicketReceiver'       => 'Ticket Receiver',
     'Menu_Nets'                 => 'Nets',
     'Menu_allNets'              => 'All networks',
@@ -104,6 +105,7 @@ return [
     'Menu_DFSubscriptions'      => 'Dreamfiber subscriptions',
     'Menu_DFSubscriptionEvents' => 'Dreamfiber events',
     'Menu_Invoices'             => 'Invoices',
+    'Menu_SPRI Lieferanten'     => 'S/PRI Suppliers',
 
     //User Settings
     'Menu_UserSettings'         => 'User Settings',
@@ -235,6 +237,7 @@ return [
     'Header_Ticket'             => 'Ticket|Tickets',
     'Header_EditTicket'         => 'Edit Ticket',
     'Header_TicketType'         => 'Ticket Types',
+    'Header_SpriBusinessCase'   => 'S/PRI Business Case|S/PRI Business Cases',
     'Header_TicketReceiver'     => 'Ticket Receiver',
     // Documents
     'Header_Document'           => 'Document|Documents',
@@ -1106,7 +1109,7 @@ return [
         'diagramOperandPlaceholder' => 'Calculation value for the monitoring diagram',
         'colorize' => 'Colorize On Map?',
         'selectMapParameter' => 'Select as which parameter it should appear on the map',
-        'thresholds' => 'Optional: Threshold(s) for :severity (:color) – e.g. “..10” or “-1.5..1.5” or “-20..-10;10..20” or “20..”',
+        'thresholds' => 'Optional: Threshold(s) for :severity (:color) – e.g. "..10" or "-1.5..1.5" or "-20..-10;10..20" or "20.."',
         'listtype' => [
             'list' => 'Rows',
             'table' => 'Columns',

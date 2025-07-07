@@ -734,4 +734,7 @@ return [
     'national_building_id' => 'National building ID',
     'national_building_id_CH' => 'EGID',
     'national_building_id_US' => 'UBID',
+    'spri_business_case.id' => 'ID',
+    'spri_business_case.case' => 'Business Case',
+    'ticket_type.name' => 'Ticket Type',
 ];
