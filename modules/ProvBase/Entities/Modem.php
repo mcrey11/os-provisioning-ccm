@@ -722,7 +722,7 @@ class Modem extends \BaseModel
             $tabs[array_key_last($tabs)]['route'] = 'ProvMon.analysis';
         }
 
-        if ($this->configfile && $this->configfile->device == 'cm') {
+        if ($this->configfile && $this->configfile->device == 'cm' || $this->isAltiplano()) {
             $tabs[] = ['name' => 'CPE-'.trans('view.analysis'), 'icon' => 'area-chart', 'route' => 'Modem.cpeAnalysis', 'link' => $this->id];
 
             if (Module::collections()->has('ProvVoip') && isset($this->mtas) && isset($this->mtas[0])) {

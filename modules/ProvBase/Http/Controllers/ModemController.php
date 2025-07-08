@@ -1074,12 +1074,16 @@ class ModemController extends \BaseController
         if ($ep?->fixed_ip && $ep?->ip) {
             $lease = $this->_fake_lease($modem, $ep);
         } else {
-            // Bug: billing subclass is not present when there is no lease limit set -> global config max cpe count = -1
-            // Then a lease is never found
-            $lease['text'] = Modem::searchLease("billing subclass \".*\" \"$dhcpd_mac\";");
+            if ($modem->isAltiplano()) {
+                $lease['text'] = $modem->searchLease(":{$modem->id}:VENET");
+            } else {
+                // Bug: billing subclass is not present when there is no lease limit set -> global config max cpe count = -1
+                // Then a lease is never found
+                $lease['text'] = Modem::searchLease("billing subclass \".*\" \"$dhcpd_mac\";");
 
-            if (! $lease['text']) {
-                $lease['text'] = Modem::searchLease("set cm_mac = \"$dhcpd_mac\";", 'vendor-class-identifier = "eRouter');
+                if (! $lease['text']) {
+                    $lease['text'] = Modem::searchLease("set cm_mac = \"$dhcpd_mac\";", 'vendor-class-identifier = "eRouter');
+                }
             }
 
             $lease = Modem::validateLease($lease, $type);
