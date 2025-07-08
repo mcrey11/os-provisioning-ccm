@@ -2212,6 +2212,7 @@ class Contract extends \BaseModel
                 'tickettypes_ids' => $businessCaseData->ticket_type_id,
                 'name' => $businessCaseData->ticketType->name.' ['.$businessCaseData->case.']',
                 'contract_id' => $this->id,
+                'spri' => '1',
             ]);
 
             $htmlButtons .= '<a href="'.e($url).'" class="btn btn-primary mr-2 mb-2">'.$businessCaseData->ticketType->name.' ['.$businessCaseData->case.']</a>';
