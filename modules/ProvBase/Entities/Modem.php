@@ -2690,7 +2690,13 @@ class Modem extends \BaseModel
             $connectionRequestURL = $this->getGenieAcsModel('InternetGatewayDevice.ManagementServer.ConnectionRequestURL')?->_value;
             $deviceIp = parse_url($connectionRequestURL, PHP_URL_HOST);
 
-            exec('sudo ping -c1 -i0 -w1 '.$deviceIp, $ping, $ret);
+            if ($deviceIp) {
+                // L3 device
+                exec('sudo ping -c1 -i0 -w1 '.$deviceIp, $ping, $ret);
+            } else {
+                // L2 device
+                $ret = ! $this->us_pwr;
+            }
 
             return ['ip' => $deviceIp, 'online' => ! $ret];
         }
