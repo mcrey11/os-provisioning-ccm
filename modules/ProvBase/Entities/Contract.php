@@ -473,7 +473,7 @@ class Contract extends \BaseModel
         }
 
         if (Module::collections()->has('SpriSupplierApi')) {
-            $this->addSpriOrderTicketPanel($ret, 'Tickets', ['KUE-AG', 'KUE-LE', 'LAE', 'AEN-LMAE', 'PV']);
+            $this->addSpriOrderTicketPanel($ret, 'S/PRI', ['KUE-AG', 'KUE-LE', 'LAE', 'AEN-LMAE', 'PV']);
         }
 
         if (Module::collections()->has('Ticketsystem')) {
@@ -2185,7 +2185,7 @@ class Contract extends \BaseModel
      * @param array $businessCases
      * @return void
      */
-    public function addSpriOrderTicketPanel(&$ret, $tabName = 'Edit', $businessCases = ['NEU'])
+    public function addSpriOrderTicketPanel(&$ret, $tabName = 'Tickets', $businessCases = ['NEU'])
     {
         if (!Module::collections()->has('SpriSupplierApi')) {
             return;
@@ -2228,6 +2228,7 @@ class Contract extends \BaseModel
         $ret[$tabName]['S/PRI']['relation'] = $this->spri($businessCases)->get();
         $ret[$tabName]['S/PRI']['options']['hide_create_button'] = 1;
         $ret[$tabName]['S/PRI']['options']['hide_delete_button'] = 1;
+        $ret[$tabName]['icon'] = 'briefcase';
     }
 
     /**
