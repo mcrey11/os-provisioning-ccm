@@ -97,7 +97,6 @@ return [
     'Menu_Taxes' => 'Taxes',
     'Menu_TicketType'           => 'TicketTypes',
     'Menu_TicketTypeStates'     => 'Ticket Type States',
-    'Menu_SpriBusinessCase'     => 'S/PRI Business Cases',
     'Menu_TicketReceiver'       => 'Ticket Receiver',
     'Menu_Nets'                 => 'Nets',
     'Menu_allNets'              => 'All networks',
@@ -116,6 +115,11 @@ return [
     'Menu_CDRs'                 => 'CDRs',
     'Menu_Tickets'              => 'Tickets',
     'Menu_Comment'              => 'Comments',
+
+    'Menu_SpriSupplierApi'      => 'S/PRI',
+    'Menu_SpriTicket'           => 'S/PRI Tickets',
+    'Menu_SpriBusinessCase'     => 'S/PRI Business Cases',
+
     //HEADER
     'Header_Apartment' => 'Apartments',
     'Header_CorrespondenceRecipient' => 'Correspondence recipient',

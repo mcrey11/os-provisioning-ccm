@@ -737,4 +737,6 @@ return [
     'spri_business_case.id' => 'ID',
     'spri_business_case.case' => 'Business Case',
     'ticket_type.name' => 'Ticket Type',
+    'SpriTicket.index' => 'S/PRI Tickets',
+    'SpriSupplierApi' => 'S/PRI',
 ];

@@ -97,7 +97,6 @@ return [
     'Menu_Taxes' => 'Steuern',
     'Menu_TicketType'           => 'Tickettypen',
     'Menu_TicketTypeStates'     => 'Tickettypzustände',
-    'Menu_SpriBusinessCase'     => 'S/PRI Geschäftsfälle',
     'Menu_TicketReceiver'       => 'Ticketzentrale',
     'Menu_Nets'                 => 'Netze',
     'Menu_allNets'              => 'Alle Netze',
@@ -116,6 +115,11 @@ return [
     'Menu_CDRs'                 => 'EVNs',
     'Menu_Tickets'              => 'Tickets',
     'Menu_Comment'              => 'Kommentare',
+
+    'Menu_SpriSupplierApi'      => 'S/PRI',
+    'Menu_SpriTicket'           => 'S/PRI Tickets',
+    'Menu_SpriBusinessCase'     => 'S/PRI Geschäftsfälle',
+
     //HEADER
     'Header_Apartment' => 'Wohnungen',
     'Header_CorrespondenceRecipient' => 'Korrespondenzempfänger',

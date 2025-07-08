@@ -50,6 +50,8 @@ class BaseRoute
     {
         $models = BaseModel::get_models();
         if (! isset($models[$name])) {
+            \Log::error("ERROR: Model '$name' not found in BaseRoute::resource() - this route will not be registered!");
+            dd("ERROR: Model '$name' not found in BaseRoute::resource() - this route will not be registered!"   );
             return;
         }
 
