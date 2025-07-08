@@ -30,6 +30,7 @@ class Contract extends \BaseModel
     use \App\AddressFunctionsTrait;
     use \App\extensions\geocoding\GeoReferencable;
     use \App\Traits\HasTickets;
+    use \Modules\SpriSupplierApi\Traits\SpriSupplier;
 
     // The associated SQL table for this Model
     public $table = 'contract';
@@ -469,6 +470,10 @@ class Contract extends \BaseModel
             $ret['Billing']['Invoice']['relation'] = $this->invoices_count >= $relationThreshold ?
                 collect([new \Modules\BillingBase\Entities\Invoice()]) :
                 $this->invoices;
+        }
+
+        if (Module::collections()->has('SpriSupplierApi')) {
+            $this->addSpriOrderTicketPanel($ret, 'Tickets', ['KUE-AG', 'KUE-LE', 'LAE', 'AEN-LMAE', 'PV']);
         }
 
         if (Module::collections()->has('Ticketsystem')) {
@@ -2170,4 +2175,80 @@ class Contract extends \BaseModel
 
         return $description->prepend('STORAGE: ');
     }
+
+    /**
+     * Add S/PRI Order Ticket panel to an edit view. This method should be called inside
+     * the view_has_many() method and adds a relationship panel to the edit blade.
+     *
+     * @param array $ret
+     * @param string $tabName
+     * @param array $businessCases
+     * @return void
+     */
+    public function addSpriOrderTicketPanel(&$ret, $tabName = 'Edit', $businessCases = ['NEU'])
+    {
+        if (!Module::collections()->has('SpriSupplierApi')) {
+            return;
+        }
+
+        // Fetch all business cases with their ticket types in one query
+        $businessCasesData = \Modules\SpriSupplierApi\Entities\SpriBusinessCase::with('ticketType')
+            ->whereIn('case', $businessCases)
+            ->get();
+
+        if ($businessCasesData->isEmpty()) {
+            return;
+        }
+
+        $htmlButtons = '';
+
+        // Create individual buttons for each business case
+        foreach ($businessCasesData as $businessCaseData) {
+            if (!$businessCaseData->ticket_type_id || !$businessCaseData->ticketType) {
+                continue;
+            }
+
+            $url = route('Ticket.create', [
+                'tickettypes_ids' => $businessCaseData->ticket_type_id,
+                'name' => $businessCaseData->ticketType->name.' ['.$businessCaseData->case.']',
+                'contract_id' => $this->id,
+            ]);
+
+            $htmlButtons .= '<a href="'.e($url).'" class="btn btn-primary mr-2 mb-2">'.$businessCaseData->ticketType->name.' ['.$businessCaseData->case.']</a>';
+        }
+
+        if (empty($htmlButtons)) {
+            return;
+        }
+
+        // Note: translation makes no sense here, since S/PRI is only a germany
+        $ret[$tabName]['S/PRI']['html'] = '<div class="card card-body">'.$htmlButtons.'</div>';
+        
+        $ret[$tabName]['S/PRI']['class'] = 'Ticket';
+        $ret[$tabName]['S/PRI']['relation'] = $this->spri($businessCases)->get();
+        $ret[$tabName]['S/PRI']['options']['hide_create_button'] = 1;
+        $ret[$tabName]['S/PRI']['options']['hide_delete_button'] = 1;
+    }
+
+    /**
+     * Get the button text for a specific S/PRI business case.
+     *
+     * @param string $businessCase
+     * @return string
+     */
+    private function getSpriButtonText($businessCase)
+    {
+        // Fetch the business case data with the associated ticket type
+        $businessCaseData = \Modules\SpriSupplierApi\Entities\SpriBusinessCase::with('ticketType')
+            ->where('case', $businessCase)
+            ->first();
+
+        if (!$businessCaseData || !$businessCaseData->ticketType) {
+            return 'S/PRI Auftrag anlegen ['.$businessCase.']';
+        }
+
+        // Use the ticket type name + business case
+        return $businessCaseData->ticketType->name.' ['.$businessCase.']';
+    }
+
 }

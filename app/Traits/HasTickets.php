@@ -22,7 +22,13 @@ trait HasTickets
     {
         if (Module::collections()->has('Ticketsystem')) {
             $ret[$tabName]['Ticket']['class'] = 'Ticket';
-            $ret[$tabName]['Ticket']['relation'] = $this->tickets;
+            
+            // Check if the entity uses the SpriSupplier trait
+            if (Module::collections()->has('SpriSupplierApi') && method_exists($this, 'no_spri')) {
+                $ret[$tabName]['Ticket']['relation'] = $this->no_spri()->get();
+            } else {
+                $ret[$tabName]['Ticket']['relation'] = $this->tickets;
+            }
         }
     }
 
