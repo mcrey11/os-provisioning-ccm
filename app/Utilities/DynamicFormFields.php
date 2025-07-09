@@ -222,13 +222,15 @@ class DynamicFormFields implements Htmlable
                         ->unshift('') // Add empty option
                         ->mapWithKeys(fn ($o) => [trim($o) => trim($o)]);
 
+                        $values = [
+                            'value' => $selectOptions,
+                            'selected' => $values['value'],
+                        ];
+                    }
+
+                if($formType == 'select') {
                     // FIXME: Remove `nms-select2` class once the livewire/select2 issue is fixed
                     $options['class'] = 'nms-select2 '.($options['class'] ?? '');
-
-                    $values = [
-                        'value' => $selectOptions,
-                        'selected' => $values['value'],
-                    ];
                 }
 
                 $field = fluent([
