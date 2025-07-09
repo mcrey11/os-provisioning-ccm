@@ -68,12 +68,7 @@ class ConfigfileController extends \BaseController
                 'form_type' => 'select',
                 'name' => 'device',
                 'description' => 'Device',
-                'value' => [
-                    'cm' => 'CM',
-                    'mta' => 'MTA',
-                    'tr069' => 'TR-69',
-                    'ont' => 'ONT',
-                ],
+                'value' => $this->getDeviceFieldValues(),
             ],
             ['form_type' => 'select', 'name' => 'parent_id', 'description' => 'Parent Configfile', 'value' => $this->setupSelect2Field($model, 'Parent'), 'options' => ['class' => 'select2-ajax', 'data-allow-clear' => 'true', 'ajax-route' => route('Configfile.select2', ['model' => $model, 'relation' => 'parent'])]],
             ['form_type' => 'select', 'name' => 'public', 'description' => 'Public Use', 'value' => ['yes' => 'Yes', 'no' => 'No']],
@@ -116,6 +111,21 @@ class ConfigfileController extends \BaseController
         }
 
         return $form;
+    }
+    protected function getDeviceFieldValues()
+    {
+        $values = [
+            'cm' => 'CM',
+            'mta' => 'MTA',
+            'tr069' => 'TR-69',
+            'ont' => 'ONT',
+        ];
+
+        if (Module::collections()->has('Calix')) {
+            $values['calixont'] = 'ONT (Calix OLT)';
+        }
+
+        return $values;
     }
 
     /**
