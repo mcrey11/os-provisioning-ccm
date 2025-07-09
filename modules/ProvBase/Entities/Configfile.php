@@ -25,10 +25,15 @@ use Nwidart\Modules\Facades\Module;
 
 class Configfile extends \BaseModel
 {
+    use \App\Traits\ModelWithCustomFields;
+
     // The associated SQL table for this Model
     public $table = 'configfile';
 
     public $guarded = ['firmware_upload', 'import'];
+
+    public static $customFieldsPrefix = 'custom_field__';
+    public static $customFieldDefinitions = [];
 
     // Add your validation rules here
     public function rules()
@@ -40,6 +45,44 @@ class Configfile extends \BaseModel
             // including foldername 'dialplan/' there are 55 characters left
             'firmware' => 'string|min:1|max:55|nullable',
         ];
+    }
+
+    /**
+     * Constructor
+     *
+     * @param  array  $attributes
+     *
+     * @author Patrick Reichel
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        self::setCustomFieldDefinitions($this->device);
+    }
+
+    /**
+     * Set custom field definitions for the configfile model depending on the device
+     *
+     * @return void
+     *
+     * @author Patrick Reichel
+     */
+    public static function setCustomFieldDefinitions($device)
+    {
+        if ('calixont' == $device) {
+            self::$customFieldDefinitions = [
+                'ont_profile_id' => [
+                    'formMethod' => 'customFormTextDefault',
+                ],
+                'ont_port_id' => [
+                    'formMethod' => 'customFormTextDefault',
+                ],
+            ];
+
+            return;
+        }
+
+        self::$customFieldDefinitions = [];
     }
 
     // Name of View

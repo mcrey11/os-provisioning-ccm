@@ -29,6 +29,8 @@ use Storage;
 
 class ConfigfileController extends \BaseController
 {
+    use \App\Traits\ControllerWithCustomFields;
+
     protected $index_tree_view = true;
 
     protected $edit_view_second_button = true;
@@ -110,8 +112,24 @@ class ConfigfileController extends \BaseController
             ];
         }
 
+        // Add custom fields for the configfile model depending on the device
+        $requestDevice = Request::get('device') ?? $model->device ?? null;
+        Configfile::setCustomFieldDefinitions($requestDevice);
+        $model->expandCustomFields();
+        $formMethods = Configfile::getCustomFormMethods();
+        foreach (Configfile::getCustomFields() as $field) {
+            $method = $formMethods[$field];
+            $form[] = $this->$method($model, $field, []);
+        }
+
         return $form;
     }
+
+    /**
+     * Get device field values
+     *
+     * @author Patrick Reichel
+     */
     protected function getDeviceFieldValues()
     {
         $values = [
@@ -142,6 +160,19 @@ class ConfigfileController extends \BaseController
         }
 
         return $rules;
+    }
+
+    /**
+     * Take care of the custom fields after validating them
+     *
+     * @author Patrick Reichel
+     */
+    protected function prepare_input_post_validation($data)
+    {
+        Configfile::setCustomFieldDefinitions($data['device']);
+        Configfile::collapseCustomFieldsInInput($data);
+
+        return $data;
     }
 
     /**
