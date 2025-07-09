@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -38,7 +39,7 @@ return new class extends BaseMigration
 
             $table->string('case');
             $table->unsignedBigInteger('ticket_type_id');
-            
+
             $table->foreign('ticket_type_id')->references('id')->on('ticket_type')->onDelete('cascade');
         });
     }

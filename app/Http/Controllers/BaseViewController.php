@@ -290,7 +290,7 @@ class BaseViewController extends Controller
 
             // PATCH: Allow pre-filling array fields (e.g. custom_data[addressId]) from GET/POST using dot notation
             $field_value_from_request = \Request::input(str($field['name'])->dotify(), null);
-            if (!is_null($field_value_from_request)) {
+            if (! is_null($field_value_from_request)) {
                 $field['field_value'] = $field_value_from_request;
             }
 

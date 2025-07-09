@@ -2180,14 +2180,14 @@ class Contract extends \BaseModel
      * Add S/PRI Order Ticket panel to an edit view. This method should be called inside
      * the view_has_many() method and adds a relationship panel to the edit blade.
      *
-     * @param array $ret
-     * @param string $tabName
-     * @param array $businessCases
+     * @param  array  $ret
+     * @param  string  $tabName
+     * @param  array  $businessCases
      * @return void
      */
     public function addSpriOrderTicketPanel(&$ret, $tabName = 'Tickets', $businessCases = ['NEU'])
     {
-        if (!Module::collections()->has('SpriSupplierApi')) {
+        if (! Module::collections()->has('SpriSupplierApi')) {
             return;
         }
 
@@ -2204,7 +2204,7 @@ class Contract extends \BaseModel
 
         // Create individual buttons for each business case
         foreach ($businessCasesData as $businessCaseData) {
-            if (!$businessCaseData->ticket_type_id || !$businessCaseData->ticketType) {
+            if (! $businessCaseData->ticket_type_id || ! $businessCaseData->ticketType) {
                 continue;
             }
 
@@ -2224,7 +2224,7 @@ class Contract extends \BaseModel
 
         // Note: translation makes no sense here, since S/PRI is only a germany
         $ret[$tabName]['S/PRI']['html'] = '<div class="card card-body">'.$htmlButtons.'</div>';
-        
+
         $ret[$tabName]['S/PRI']['class'] = 'Ticket';
         $ret[$tabName]['S/PRI']['relation'] = $this->spri($businessCases)->get();
         $ret[$tabName]['S/PRI']['options']['hide_create_button'] = 1;
@@ -2235,7 +2235,7 @@ class Contract extends \BaseModel
     /**
      * Get the button text for a specific S/PRI business case.
      *
-     * @param string $businessCase
+     * @param  string  $businessCase
      * @return string
      */
     private function getSpriButtonText($businessCase)
@@ -2245,12 +2245,11 @@ class Contract extends \BaseModel
             ->where('case', $businessCase)
             ->first();
 
-        if (!$businessCaseData || !$businessCaseData->ticketType) {
+        if (! $businessCaseData || ! $businessCaseData->ticketType) {
             return 'S/PRI Auftrag anlegen ['.$businessCase.']';
         }
 
         // Use the ticket type name + business case
         return $businessCaseData->ticketType->name.' ['.$businessCase.']';
     }
-
 }

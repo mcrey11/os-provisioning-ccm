@@ -222,13 +222,13 @@ class DynamicFormFields implements Htmlable
                         ->unshift('') // Add empty option
                         ->mapWithKeys(fn ($o) => [trim($o) => trim($o)]);
 
-                        $values = [
-                            'value' => $selectOptions,
-                            'selected' => $values['value'],
-                        ];
-                    }
+                    $values = [
+                        'value' => $selectOptions,
+                        'selected' => $values['value'],
+                    ];
+                }
 
-                if($formType == 'select') {
+                if ($formType == 'select') {
                     // FIXME: Remove `nms-select2` class once the livewire/select2 issue is fixed
                     $options['class'] = 'nms-select2 '.($options['class'] ?? '');
                 }
@@ -284,7 +284,7 @@ class DynamicFormFields implements Htmlable
 
             // Apply SQL filter if provided
             $sqlFilter = $item->sql_filter ?? '';
-            if (!empty($sqlFilter)) {
+            if (! empty($sqlFilter)) {
                 $query->whereRaw($sqlFilter);
             }
 
@@ -301,7 +301,8 @@ class DynamicFormFields implements Htmlable
             return $selectValues;
         } catch (\Exception $e) {
             // Log error and return empty array to prevent form breaking
-            \Log::error("Error loading database select values for field {$item->key}: " . $e->getMessage());
+            \Log::error("Error loading database select values for field {$item->key}: ".$e->getMessage());
+
             return [];
         }
     }
@@ -320,11 +321,11 @@ class DynamicFormFields implements Htmlable
             $char = $displayFields[$i];
 
             if ($char === "'" && ($i === 0 || $displayFields[$i - 1] !== '\\')) {
-                $inQuotes = !$inQuotes;
+                $inQuotes = ! $inQuotes;
                 $current .= $char;
-            } elseif ($char === ',' && !$inQuotes) {
+            } elseif ($char === ',' && ! $inQuotes) {
                 $trimmed = trim($current);
-                if (!empty($trimmed)) {
+                if (! empty($trimmed)) {
                     $parts[] = $trimmed;
                 }
                 $current = '';
@@ -335,7 +336,7 @@ class DynamicFormFields implements Htmlable
 
         // Add the last part
         $trimmed = trim($current);
-        if (!empty($trimmed)) {
+        if (! empty($trimmed)) {
             $parts[] = $trimmed;
         }
 
@@ -349,7 +350,7 @@ class DynamicFormFields implements Htmlable
 
             // If part is quoted (starts and ends with single quote), treat as literal
             if (preg_match('/^\'([^\']*)\'$/', $part, $matches)) {
-                $result[] = "'" . addslashes($matches[1]) . "'";
+                $result[] = "'".addslashes($matches[1])."'";
             } else {
                 // Otherwise treat as field name
                 $result[] = $part;
