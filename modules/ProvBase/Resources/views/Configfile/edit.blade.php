@@ -65,4 +65,5 @@ $(document).ready(function()
 });
 </script>
 @endif
+@include('provbase::Configfile.device-change-js')
 @stop
