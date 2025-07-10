@@ -155,7 +155,7 @@ migrateGenieAcs () {
 
     # TODO?: /etc/genieacs/genieacs.env
 
-    yum list installed | grep "mongodb-mongosh" -q || yum install -y mongodb-mongosh
+    yum list installed | grep "mongodb-mongosh-shared-openssl" -q || yum install -y mongodb-mongosh-shared-openssl3
     # mongodump --db=genieacs --gzip --archive=/tmp/genieacs.bak.gz
     mongosh --eval "use genieacs" --eval "db.dropDatabase()" --eval "use genieacs"
 
