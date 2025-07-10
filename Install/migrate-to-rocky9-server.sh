@@ -137,7 +137,7 @@ mergeNmsEnv () {
     done
 
     # Just copy
-    scp $centos7Server:/etc/nmsprime/env/ticket.env /etc/nmsprime/env/ticket.env
+    test -f /etc/nmsprime/env/ticket.env && scp $centos7Server:/etc/nmsprime/env/ticket.env /etc/nmsprime/env/ticket.env
     test -f /etc/nmsprime/env/provvoipenvia.env && scp $centos7Server:/etc/nmsprime/env/provvoipenvia.env /etc/nmsprime/env/provvoipenvia.env
     test -f /etc/nmsprime/env/overduedebts.env && scp $centos7Server:/etc/nmsprime/env/overduedebts.env /etc/nmsprime/env/overduedebts.env
     test -f /etc/nmsprime/env/hfccustomer.env && scp $centos7Server:/etc/nmsprime/env/hfccustomer.env /etc/nmsprime/env/hfccustomer.env
@@ -163,7 +163,7 @@ migrateGenieAcs () {
     systemctl start genieacs-{cwmp,fs,nbi,ui}
 
     # Config in /etc
-    ssh $centos7Server 'test $(grep GENIEACS_CWMP_PORT /etc/genieacs/genieacs.env | cut -d '"'"'='"'"' -f2) = "7548" || echo "PLEASE merge /etc/genieacs/genieacs.env"'
+    ssh $centos7Server 'test $(grep GENIEACS_CWMP_PORT /etc/genieacs/genieacs.env | grep -v "^#" | cut -d '"'"'='"'"' -f2) = "7548" || echo "PLEASE merge /etc/genieacs/genieacs.env"'
 }
 
 migrateGrafana () {
