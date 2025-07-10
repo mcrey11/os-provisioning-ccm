@@ -2208,7 +2208,7 @@ class Contract extends \BaseModel
                 continue;
             }
 
-            $url = route('Ticket.create', [
+            $url = route('SpriTicket.create', [
                 'tickettypes_ids' => $businessCaseData->ticket_type_id,
                 'name' => $businessCaseData->ticketType->name.' ['.$businessCaseData->case.']',
                 'contract_id' => $this->id,
@@ -2224,8 +2224,7 @@ class Contract extends \BaseModel
 
         // Note: translation makes no sense here, since S/PRI is only a germany
         $ret[$tabName]['S/PRI']['html'] = '<div class="card card-body">'.$htmlButtons.'</div>';
-
-        $ret[$tabName]['S/PRI']['class'] = 'Ticket';
+        $ret[$tabName]['S/PRI']['class'] = 'SpriTicket';
         $ret[$tabName]['S/PRI']['relation'] = $this->spri($businessCases)->get();
         $ret[$tabName]['S/PRI']['options']['hide_create_button'] = 1;
         $ret[$tabName]['S/PRI']['options']['hide_delete_button'] = 1;
