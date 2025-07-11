@@ -67,10 +67,11 @@ Relation Blade is used inside a Panel Element to display relational class object
             @endforeach
 
             <div class="col align-self-start">
-                <a href="{{ isset($options['add_url']) ? $options['add_url'] : route($class.'.create', [$key => $view_var->id]) }}"
-                   class="btn btn-outline-primary float-right m-b-10"
-                   title="{{ isset($options['create_button_text']) ? trans($options['create_button_text']) : trans('view.createButtonTitle.'.$class) }}">
-                    <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                <a href="{{ isset($options['add_url']) ? $options['add_url'] : route($class.'.create', [$key => $view_var->id]) }}">
+                    <button style="simple" type="submit" class="btn btn-outline-primary float-right m-b-10"
+                        title="{{ isset($options['create_button_text']) ? trans($options['create_button_text']) : trans('view.createButtonTitle.'.$class) }}">
+                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                    </button>
                 </a>
             </div>
 
