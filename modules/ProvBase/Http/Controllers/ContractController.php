@@ -339,7 +339,7 @@ class ContractController extends \BaseController
         // Compose related phonenumbers as readonly info field
         $model->related_phonenrs = $model->relatedPns();
 
-        $r = $a = $b = $c1 = $c2 = $d = [];
+        $a = $c2 = $d = [];
 
         $selectPropertyMgmt = [];
         if (Module::collections()->has('PropertyManagement')) {
@@ -357,6 +357,7 @@ class ContractController extends \BaseController
                     ['form_type' => 'text', 'name' => 'number4', 'description' => $model->get_column_description('number4')],
                 ],
             ],
+            ['form_type' => 'text', 'name' => 'debtor', 'description' => 'Debtor'],
             // 'create' makes this field a hidden input field in Modem create form - so the company, etc. will be already set from contract when the user wants to create a new modem
             ['form_type' => 'text', 'name' => 'company', 'description' => 'Company', 'create' => ['Modem']],
             ['form_type' => 'text', 'name' => 'department', 'description' => 'Department', 'create' => ['Modem']],

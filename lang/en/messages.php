@@ -85,6 +85,7 @@ return [
     ],
     'Debt to clear'             => 'Debt to clear',
     'Debt Management Type'      => 'Debt Management Type',
+    'Debtor' => 'Debtor number',
     'Default country code'      => 'Default country code',
     'Default login page'        => 'Default login page',
     'Delete'                    => 'Delete',

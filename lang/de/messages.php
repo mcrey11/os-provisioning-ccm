@@ -85,6 +85,7 @@ return [
     ],
     'Debt to clear'             => 'Zu verrechnender OP',
     'Debt Management Type'      => 'Form der OP-Verwaltung',
+    'Debtor' => 'Debitorennummer',
     'Default country code'      => 'Default Ländercode',
     'Default login page'        => 'Default Login Seite',
     'Delete'                    => 'Lösche',
