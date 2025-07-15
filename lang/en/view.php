@@ -43,6 +43,7 @@ return [
     //Main Menu
     'Menu_Apartment'            => 'Apartments',
     'Menu_BillingBase'          => 'Billing',
+    'Menu_Booking Accounts' => 'Booking accounts',
     'Menu_Contact'              => 'Contacts',
     'Menu_CorrespondenceRecipient' => 'Correspondence recipient',
     'Menu_CutoffList'           => 'Cut Off List',
@@ -122,6 +123,7 @@ return [
 
     //HEADER
     'Header_Apartment' => 'Apartments',
+    'Header_Booking Account' => 'Booking accounts',
     'Header_CorrespondenceRecipient' => 'Correspondence recipient',
     //General
     'Header_GlobalSearch'       => 'Global Search',

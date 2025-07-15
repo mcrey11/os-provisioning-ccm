@@ -43,6 +43,7 @@ return [
     //Main Menu
     'Menu_Apartment'            => 'Wohnungen',
     'Menu_BillingBase'          => 'Billing',
+    'Menu_Booking Accounts' => 'Kontenplan',
     'Menu_Contact'              => 'Ansprechpartner',
     'Menu_CorrespondenceRecipient' => 'Korrespondenzempfänger',
     'Menu_CutoffList'           => 'Abschaltliste',
@@ -122,6 +123,7 @@ return [
 
     //HEADER
     'Header_Apartment' => 'Wohnungen',
+    'Header_Booking Account' => 'Kontenplan',
     'Header_CorrespondenceRecipient' => 'Korrespondenzempfänger',
     //General
     'Header_GlobalSearch'       => 'Systemweite Suche',
