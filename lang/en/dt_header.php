@@ -46,11 +46,13 @@ return [
     'version' => 'Version',
     'to_disconnect' => 'To disconnect',
     'apartment' => [
-        'connected' => 'Connected',
-        'occupied' => 'Occupied',
+        'amplifier' => 'Amplifier',
         'code' => 'Code',
+        'connected' => 'Connected',
         'debts' => 'Sum of Debts',
+        'lockable' => 'Lockable',
         'number' => 'Number',
+        'occupied' => 'Occupied',
     ],
     'contact' => [
         'administration' => 'Administration',

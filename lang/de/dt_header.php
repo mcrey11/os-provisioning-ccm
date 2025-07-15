@@ -46,11 +46,13 @@ return [
     'version' => 'Version',
     'to_disconnect' => 'Abzuschalten',
     'apartment' => [
-        'connected' => 'Angeschlossen',
-        'occupied' => 'Bewohnt',
+        'amplifier' => 'Verstärker',
         'code' => 'WE-Schlüssel',
+        'connected' => 'Angeschlossen',
         'debts' => 'Ausstehender Betrag durch OPs',
+        'lockable' => 'Sperrbar',
         'number' => 'WE-Nummer',
+        'occupied' => 'Bewohnt',
     ],
     'contact' => [
         'administration' => 'Hausverwaltung',
