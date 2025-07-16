@@ -19,16 +19,24 @@
 
 namespace Modules\ProvBase\Http\Controllers;
 
+use Illuminate\Support\Facades\Request;
 use Modules\ProvBase\Entities\ProvBase;
+use Modules\ProvBase\Entities\Qos;
 use Nwidart\Modules\Facades\Module;
 
 class QosController extends \BaseController
 {
+    use \App\Traits\ControllerWithCustomFields;
+
     /**
      * defines the formular fields for the edit and create view
      */
     public function view_form_fields($model = null)
     {
+        if (! $model) {
+            $model = new Qos;
+        }
+
         // label has to be the same like column in sql table
         $ret = [];
 
@@ -38,7 +46,18 @@ class QosController extends \BaseController
             'description' => 'Name',
         ];
 
-        if ((! $model) || ('smartont' != $model->type)) {
+        $requestType = Request::get('type') ?? $model->type ?? 'default';
+        $types = $this->getTypeFieldValues();
+        $hidden = count($types) < 2 ? 1 : 0;
+        $ret[] = [
+            'form_type' => 'select',
+            'name' => 'type',
+            'description' => 'Type',
+            'value' => $types,
+            'hidden' => $hidden,
+        ];
+
+        if (! in_array($requestType, ['smartont', 'calixont'])) {
             $ret[] = [
                 'form_type' => 'text',
                 'name' => 'ds_rate_max',
@@ -62,16 +81,6 @@ class QosController extends \BaseController
         }
 
         if (Module::collections()->has('SmartOnt')) {
-            $types = [
-                'default' => 'Default',
-                'smartont' => 'SmartOnt',
-            ];
-            $ret[] = [
-                'form_type' => 'select',
-                'name' => 'type',
-                'value' => $types,
-                'description' => 'Type',
-            ];
             $ret[] = [
                 'form_type' => 'text',
                 'name' => 'vlan_id',
@@ -103,7 +112,60 @@ class QosController extends \BaseController
             }
         }
 
+        // Add custom fields for the qos model depending on the type
+        $requestType = Request::get('type') ?? $model->type ?? null;
+        Qos::setCustomFieldDefinitions($requestType);
+        $model->expandCustomFields();
+        $formMethods = Qos::getCustomFormMethods();
+
+        // Check if form can be filled with default values
+        if (! $model->exists) {
+            if (Module::collections()->has('Calix') && boolval($formMethods)) {
+                $calix = \Modules\Calix\Entities\Calix::first();
+                $model->custom_field__service_type = $calix->default_service_type;
+            }
+        }
+
+        foreach (Qos::getCustomFields() as $field) {
+            $method = $formMethods[$field];
+            $ret[] = $this->$method($model, $field, []);
+        }
+
         return $ret;
+    }
+
+    protected function getTypeFieldValues()
+    {
+        $ret = [
+            'default' => 'Default',
+        ];
+
+        if (Module::collections()->has('Calix')) {
+            $ret['calixont'] = 'ONT (Calix OLT)';
+        }
+
+        if (Module::collections()->has('SmartOnt')) {
+            $ret['smartont'] = 'Smart ONT';
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Take care of the custom fields after validating them
+     *
+     * @author Patrick Reichel
+     */
+    protected function prepare_input_post_validation($data)
+    {
+        Qos::setCustomFieldDefinitions($data['type']);
+        Qos::collapseCustomFieldsInInput($data);
+
+        $pb = ProvBase::first();
+        $data['ds_rate_max_help'] = $data['ds_rate_max'] * 1000 * 1000 * $pb->ds_rate_coefficient;
+        $data['us_rate_max_help'] = $data['us_rate_max'] * 1000 * 1000 * $pb->us_rate_coefficient;
+
+        return parent::prepare_input_post_validation($data);
     }
 
     /**
@@ -117,20 +179,11 @@ class QosController extends \BaseController
 
         $data['vlan_id'] = $data['vlan_id'] ?? 0;
 
-        if (Module::collections()->has('SmartOnt') && ('smartont' == $data['type'])) {
+        if (in_array($data['type'], ['smartont', 'calixont'])) {
             $data['ds_rate_max'] = $data['ds_rate_max'] ?? 0;
             $data['us_rate_max'] = $data['us_rate_max'] ?? 0;
         }
 
         return $data;
-    }
-
-    public function prepare_input_post_validation($data)
-    {
-        $pb = ProvBase::first();
-        $data['ds_rate_max_help'] = $data['ds_rate_max'] * 1000 * 1000 * $pb->ds_rate_coefficient;
-        $data['us_rate_max_help'] = $data['us_rate_max'] * 1000 * 1000 * $pb->us_rate_coefficient;
-
-        return parent::prepare_input_post_validation($data);
     }
 }

@@ -21,8 +21,13 @@ namespace Modules\ProvBase\Entities;
 
 class Qos extends \BaseModel
 {
+    use \App\Traits\ModelWithCustomFields;
+
     // The associated SQL table for this Model
     public $table = 'qos';
+
+    public static $customFieldsPrefix = 'custom_field__';
+    public static $customFieldDefinitions = [];
 
     // Add your validation rules here
     public function rules()
@@ -37,6 +42,41 @@ class Qos extends \BaseModel
             'ont_line_profile_id' => 'nullable|integer',
             'service_profile_id' => 'nullable|integer',
         ];
+    }
+
+    /**
+     * Constructor
+     *
+     * @param  array  $attributes
+     *
+     * @author Patrick Reichel
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        self::setCustomFieldDefinitions($this->type);
+    }
+
+    /**
+     * Set custom field definitions for the qos model depending on the type
+     *
+     * @return void
+     *
+     * @author Patrick Reichel
+     */
+    public static function setCustomFieldDefinitions($type)
+    {
+        if ('calixont' == $type || 'customer1001calixont' == $type) {
+            self::$customFieldDefinitions = [
+                'service_type' => [
+                    'formMethod' => 'customFormTextDefault',
+                ],
+            ];
+
+            return;
+        }
+
+        self::$customFieldDefinitions = [];
     }
 
     /**
