@@ -261,7 +261,7 @@ return [
     'googleApiKey' => env('GOOGLE_API_KEY'),
     'hereApiKey' => env('HERE_GEOCODE_API_KEY'),
     'hereMapApiKey' => env('HERE_JS_API_KEY'),
-    'nmsprimeCustomer' => strtolower(env('NMSPRIME_CUSTOMER', 'generic')),
+    'nmsprimeCustomerId' => intval(env('NMSPRIME_CUSTOMER_ID', 0)),
     'nmsprimeRole' => strtolower(env('NMSPRIME_ROLE', 'default')),
     'osmNominatimApiMail' => env('OSM_NOMINATIM_EMAIL'),
 ];
