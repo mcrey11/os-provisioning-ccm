@@ -736,19 +736,6 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Init modem observer
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        self::observe(new \App\Observers\SystemdObserver);
-        if ('Modules\ProvBase\Entities\Modem' == __CLASS__) {
-            self::observe(new \Modules\ProvBase\Observers\ModemObserver);
-        }
-    }
-
-    /**
      * Returns the host line for the cm dhcp entry
      *
      * @author Nino Ryschawy, Ole Ernst, Patrick Reichel

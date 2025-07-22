@@ -21,15 +21,4 @@ namespace Modules\ProvBase\Entities;
 
 class Ont extends Modem
 {
-    /**
-     * Init observers.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        if ('Modules\ProvBase\Entities\Ont' == __CLASS__) {
-            self::observe(new \Modules\ProvBase\Observers\OntObserver);
-        }
-    }
 }

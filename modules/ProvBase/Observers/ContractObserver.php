@@ -66,6 +66,16 @@ class ContractObserver
             $contract->sepa_iban = strtoupper($contract->sepa_iban);
             $contract->sepa_bic = strtoupper($contract->sepa_bic);
         }
+
+        if (\Module::collections()->has('Calix')) {
+            $calixOnt = $contract->modem->where('qualified_model_class', 'like', '%CalixOnt')->first();
+            if ($calixOnt) {
+                $smxApi = new \Modules\Calix\Helpers\SMxApi($calixOnt);
+                if (! $smxApi->subscriberUpdate()) {
+                    return false;
+                }
+            }
+        }
     }
 
     public function updated(Contract $contract)
@@ -125,6 +135,19 @@ class ContractObserver
     {
         if (Module::collections()->has('BillingBase') && Module::collections()->has('Ccc') && $contract->cccUser) {
             $contract->cccUser->delete();
+        }
+
+        if (\Module::collections()->has('Calix')) {
+            $calixOnt = null;
+            if ($contract->modem) {
+                $calixOnt = $contract->modem->where('qualified_model_class', 'like', '%CalixOnt')->first();
+            }
+            if ($calixOnt) {
+                $smxApi = new \Modules\Calix\Helpers\SMxApi($calixOnt);
+                if (! $smxApi->subscriberDelete()) {
+                    return false;
+                }
+            }
         }
     }
 

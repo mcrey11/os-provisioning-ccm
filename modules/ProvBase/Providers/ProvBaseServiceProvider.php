@@ -68,6 +68,7 @@ class ProvBaseServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerObservers();
         $this->loadMigrationsFrom(module_path('ProvBase', 'Database/Migrations'));
     }
 
@@ -134,6 +135,18 @@ class ProvBaseServiceProvider extends ServiceProvider
         } else {
             $this->loadTranslationsFrom(__DIR__.'/../lang', 'provbase');
         }
+    }
+
+    /**
+     * Register observers.
+     *
+     * @return void
+     */
+    public function registerObservers()
+    {
+        \Modules\ProvBase\Entities\Modem::observe(\App\Observers\SystemdObserver::class);
+        \Modules\ProvBase\Entities\Modem::observe(\Modules\ProvBase\Observers\ModemObserver::class);
+        \Modules\ProvBase\Entities\Ont::observe(\Modules\ProvBase\Observers\OntObserver::class);
     }
 
     /**

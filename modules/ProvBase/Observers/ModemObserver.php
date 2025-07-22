@@ -252,6 +252,11 @@ class ModemObserver
         }
     }
 
+    public function deleting(Modem $modem)
+    {
+        // Leave here because it may be called from a sub-class
+    }
+
     public function deleted(Modem $modem)
     {
         Log::debug(__METHOD__.' started for CM '.($modem->hostname ?: $modem->id));
