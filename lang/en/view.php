@@ -943,7 +943,7 @@ return [
     'tax' => [
         'types' => [
             'normal' => 'normal',
-            'fix' => 'fix',
+            'fix per item' => 'fix per item',
         ],
     ],
     'taxes' => 'Taxes',
