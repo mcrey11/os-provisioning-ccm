@@ -48,6 +48,13 @@ class ModemController extends \BaseController
     protected $second_button_title_key = 'modem_force_restart_button_title';
 
     /**
+     * The route name for the select2 AJAX endpoint.
+     *
+     * @var string
+     */
+    protected $select2AjaxRoute = 'Modem.select2';
+
+    /**
      * Contains the configfile of the modem object for the current request to only have one DB query
      *
      * @var obj
@@ -149,7 +156,7 @@ class ModemController extends \BaseController
                 'help' => trans('helper.configfile_count').' '.trans('helper.modem.configfileSelect'),
                 'options' => [
                     'class' => 'select2-ajax',
-                    'ajax-route' => route('Modem.select2', ['relation' => 'configfiles']),
+                    'ajax-route' => route($this->select2AjaxRoute, ['relation' => 'configfiles']),
                 ],
                 'select' => $cfIds['keyById'],
             ],
@@ -168,7 +175,7 @@ class ModemController extends \BaseController
                 'value' => Module::collections()->has('SmartOnt') ? $model->selectOTO() : $this->setupSelect2Field($model, 'Contract'),
                 'options' => Module::collections()->has('SmartOnt') ? [] : [
                     'class' => 'select2-ajax',
-                    'ajax-route' => route('Modem.select2', ['relation' => 'contracts']),
+                    'ajax-route' => route($this->select2AjaxRoute, ['relation' => 'contracts']),
                 ],
                 $help['contract'],
             ],
@@ -226,7 +233,7 @@ class ModemController extends \BaseController
 
             $b = [[
                 'form_type' => 'select', 'name' => 'qos_id', 'description' => 'QoS', 'value' => $this->setupSelect2Field($model, 'Qos'), 'help' => trans('helper.modem.qosCount'),
-                'options' => ['class' => 'select2-ajax', 'ajax-route' => route('Modem.select2', ['relation' => 'qos'])],
+                'options' => ['class' => 'select2-ajax', 'ajax-route' => route($this->select2AjaxRoute, ['relation' => 'qos'])],
             ]];
             $c[] = ['form_type' => 'checkbox', 'name' => 'address_to_invoice', 'description' => trans('billingbase::view.modemAddressToInvoice'), 'space' => '1', 'help' => trans('billingbase::messages.modemAddressToInvoice')];
         } elseif (Module::collections()->has('SmartOnt') && $model->configfile && $model->configfile->is_multiservice_ont) {
