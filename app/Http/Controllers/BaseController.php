@@ -167,6 +167,13 @@ class BaseController extends Controller
 
     public static function get_model_obj()
     {
+        // If the request contains a qualified_model_class, use it to get the correct model object
+        // This is used for API calls to ensure that the correct model object is used
+        $qualifiedModelClass = Request::get('qualified_model_class');
+        if ($qualifiedModelClass && class_exists($qualifiedModelClass)) {
+            return new $qualifiedModelClass;
+        }
+
         $classname = NamespaceController::get_model_name();
 
         // Rewrite model to check with new assigned Model
@@ -185,6 +192,16 @@ class BaseController extends Controller
 
     public static function get_controller_obj()
     {
+        // If the request contains a qualified_model_class, use it to get the correct controller object
+        // This is used for API calls to ensure that the correct controller object is used
+        $qualifiedModelClass = Request::get('qualified_model_class');
+        if ($qualifiedModelClass) {
+            $qualifiedControllerClass = str_replace('\\Entities\\', '\\Http\\Controllers\\', $qualifiedModelClass).'Controller';
+            if (class_exists($qualifiedControllerClass)) {
+                return new $qualifiedControllerClass;
+            }
+        }
+
         $classname = NamespaceController::get_controller_name();
 
         if (! $classname) {
@@ -1166,6 +1183,15 @@ class BaseController extends Controller
     {
         if ($ver === '0') {
             $obj = static::get_model_obj()->findOrFail($id);
+
+            // If the model has a defined class, but the request does not, we still need to get the correct object
+            if ((! Request::get('qualified_model_class')) && $obj->qualified_model_class && ($obj->qualified_model_class != get_class($obj))) {
+                // Inject the correct class into the request
+                Request::merge(['qualified_model_class' => $obj->qualified_model_class]);
+                // Get the object again
+                $obj = static::get_model_obj()->findOrFail($id);
+            }
+
             $controller = static::get_controller_obj();
 
             // Prepare and Validate Input
@@ -1335,6 +1361,9 @@ class BaseController extends Controller
 
             foreach (Request::get('ids') as $id => $val) {
                 $obj = $obj->findOrFail($id);
+                if ($obj->qualified_model_class && $obj->qualified_model_class != get_class($obj)) {
+                    $obj = $obj->qualified_model_class::findOrFail($id);
+                }
                 $to_delete++;
 
                 /* detach all pivot entries if many-to-many relations exist
@@ -1353,8 +1382,11 @@ class BaseController extends Controller
             }
         } else {
             $to_delete++;
-            $obj = static::get_model_obj();
-            if ($obj->findOrFail($id)->delete()) {
+            $obj = static::get_model_obj()->findOrFail($id);
+            if ($obj->qualified_model_class && $obj->qualified_model_class != get_class($obj)) {
+                $obj = $obj->qualified_model_class::findOrFail($id);
+            }
+            if ($obj->delete()) {
                 $deleted++;
             }
         }
@@ -1389,9 +1421,17 @@ class BaseController extends Controller
     public function api_destroy($ver, $id)
     {
         if ($ver === '0') {
-            $obj = static::get_model_obj();
+            $obj = static::get_model_obj()->findOrFail($id);
 
-            return response()->v0ApiReply([], $obj->findOrFail($id)->delete());
+            // If the model has a defined class, but the request does not, we need to get the correct object
+            if ((! Request::get('qualified_model_class')) && $obj->qualified_model_class && ($obj->qualified_model_class != get_class($obj))) {
+                // Inject the correct class into the request
+                Request::merge(['qualified_model_class' => $obj->qualified_model_class]);
+                // Get the object again
+                $obj = static::get_model_obj()->findOrFail($id);
+            }
+
+            return response()->v0ApiReply([], $obj->delete());
         } elseif ($ver === '1') {
             $service = new Service(new Repository(static::get_model_obj()));
             $data = $service->delete($id);
