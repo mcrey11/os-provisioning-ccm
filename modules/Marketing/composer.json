@@ -1,0 +1,25 @@
+{
+    "name": "NMS Prime/marketing",
+    "description": "Marketing Module for NMS Prime",
+    "authors": [
+        {
+            "name": "NMS Prime",
+            "email": "support@nmsprime.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Marketing\\Providers\\MarketingServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Marketing\\": ""
+        }
+    }
+}

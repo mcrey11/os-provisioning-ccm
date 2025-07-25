@@ -1,0 +1,15 @@
+{
+    "name": "Marketing",
+    "alias": "marketing",
+    "icon": "Prime_Marketing.png",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Marketing\\Providers\\MarketingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
