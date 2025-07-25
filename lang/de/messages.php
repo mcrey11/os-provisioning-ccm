@@ -926,6 +926,7 @@ return [
     'subscription_end_point_id' => 'SEP-ID',
     'subscription_id'           => 'Externe ID',
     'switchdate'                => 'Schaltdatum',
+    'Tax exempted due to §13' => 'Steuerbefreit gemäß §13 UStG',
     'timestamp'                 => 'Zeitpunkt',
     'wishdate'                  => 'Wunschdatum',
     'worker' => [

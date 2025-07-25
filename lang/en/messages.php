@@ -926,6 +926,7 @@ return [
     'subscription_end_point_id' => 'SEP ID',
     'subscription_id'           => 'External ID',
     'switchdate'                => 'Switchdate',
+    'Tax exempted due to §13' => 'Tax exempted due to german §13 (UStG)',
     'timestamp'                 => 'Timestamp',
     'wishdate'                  => 'Wishdate',
     'worker' => [

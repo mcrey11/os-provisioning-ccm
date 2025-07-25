@@ -492,6 +492,10 @@ class ContractController extends \BaseController
 
         $d[] = ['form_type' => 'checkbox', 'name' => 'lawsuit', 'description' => 'Ongoing lawsuit'];
 
+        if (config('app.locale') == 'de') {
+            $d[] = ['form_type' => 'checkbox', 'name' => 'paragraph_13', 'description' => 'Tax exempted due to §13'];
+        }
+
         return array_merge($a, $b1, $b2, $b3, $c, $d);
     }
 
