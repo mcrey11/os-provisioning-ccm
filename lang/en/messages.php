@@ -12,7 +12,7 @@ return [
     'Active?'                   => 'Active?',
     'Additional info'           => 'Additional info',
     'Additional Options'        => 'Additional Options',
-    'Address'                   => 'Adress',
+    'Address'                   => 'Address',
     'Address Line 1'            => 'Address Line 1',
     'Address Line 2'            => 'Address Line 2',
     'Address Line 3'            => 'Address Line 3',

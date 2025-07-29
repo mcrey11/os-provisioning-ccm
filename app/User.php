@@ -23,9 +23,11 @@ use App;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Nwidart\Modules\Facades\Module;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
@@ -305,5 +307,21 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     public function isGeoposOutdated()
     {
         return $this->geopos_updated_at->lte(now()->sub(self::GEOPOS_EXPIRATION_TIME));
+    }
+
+    protected function avatarPlaceholder(): Attribute
+    {
+        return Attribute::get(function () {
+            return str($this->label())
+                ->squish()
+                ->explode(' ')
+                ->map(fn ($part) => preg_replace('/[^a-zA-Z0-9]/', '', $part))
+                ->filter()
+                ->when(
+                    value: fn (Collection $parts) => $parts->containsOneItem(),
+                    callback: fn (Collection $parts) => substr($parts->first(), 0, 2),
+                    default: fn (Collection $parts) => substr($parts->first(), 0, 1).substr($parts->skip(1)->first(), 0, 1),
+                );
+        });
     }
 }

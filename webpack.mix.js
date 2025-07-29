@@ -129,3 +129,4 @@ mix.extract()
 
 mix.vue()
 mix.version()
+mix.styles('resources/css/daisy/*.css', 'public/css/daisy.css')
