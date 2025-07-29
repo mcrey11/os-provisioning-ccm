@@ -98,7 +98,8 @@
     @yield ('javascript_extra')
     @yield ('mycharts')
     @include('Generic.userGeopos')
-    @livewireScripts()
+    @livewireScripts
+    @livewire('wire-elements-modal')
 
     {{-- scroll to top btn --}}
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade flex"

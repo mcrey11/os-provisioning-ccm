@@ -455,20 +455,34 @@ window.excerptStr = function (str, length = 10) {
   return str.length > length ? `${str.substring(0, length)}...` : str;
 }
 
-function handleLivewireInsideVue (){
-    Alpine.onAttributesAdded((el, attrs) => {
-        if (el.hasAttribute('data-v-app') == false) return
 
+function handleLivewireInsideVue() {
+    const rewire = (el) => {
         el.removeAttribute('x-ignore')
         el.removeAttribute('x-init')
         el.querySelectorAll('[wire\\:id]').forEach(wireEl => {
+            console.log(el.id, wireEl.__livewire)
             const parentEl = wireEl.parentElement
             const clone = wireEl.cloneNode(true)
             wireEl.remove()
             setTimeout(() => parentEl.appendChild(clone))
         })
+    }
+
+    /**
+     * TODO: Try uncommenting following line in case
+     * Livewire components don't work on Modem analysis page
+     */
+    // document.querySelectorAll("[data-v-app]").forEach(el => rewire(el))
+
+    Alpine.onAttributesAdded((el, attrs) => {
+        const isVueEl = attrs.some(attr => attr.name == 'data-v-app')
+        if (el.hasAttribute('data-v-app') && isVueEl) {
+            rewire(el)
+        }
     })
 }
+
 window.NMS = (function () {
   'use strict'
 
