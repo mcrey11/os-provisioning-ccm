@@ -398,8 +398,7 @@ class ProvBase extends \BaseModel
             'fi',
             '',
             '# we use a secret to salt the generation of hostnames (base32 encoded and truncated to 6 characters)',
-            '# the python code should be replaced by coreutuils base32, which will be available with version 8.25',
-            'mangle=$(echo "$1" | tr -cd "[:xdigit:]" | xxd -r -p | openssl dgst -sha256 -mac hmac -macopt hexkey:$(cat /etc/named-ddns-cpe.key) -binary | python -c \'import base64; import sys; print(base64.b32encode(sys.stdin.read())[:6].lower())\')',
+            'mangle=$(echo "$1" | tr -cd "[:xdigit:]" | xxd -r -p | openssl dgst -sha256 -mac hmac -macopt hexkey:$(cat /etc/named-ddns-cpe.key) -binary | base32 | cut -c1-6 | tr \'[:upper:]\' \'[:lower:]\')',
             'rev=$(awk -F. \'{OFS="."; print $4,$3,$2,$1}\' <<< "$2")',
             '',
         ];
