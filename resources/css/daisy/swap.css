@@ -1,0 +1,104 @@
+/**
+ * Combined by jsDelivr.
+ * Original files:
+ * - /npm/daisyui@5.0.50/components/swap.css
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+/*! 🌼 daisyUI 5.0.49 - MIT License */
+@layer utilities {
+    .daisy-swap {
+        cursor: pointer;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        user-select: none;
+        place-content: center;
+        display: inline-grid;
+        position: relative;
+
+        & input {
+            appearance: none;
+            border: none
+        }
+
+        &>* {
+            grid-row-start: 1;
+            grid-column-start: 1;
+            transition-property: transform, rotate, opacity;
+            transition-duration: .2s;
+            transition-timing-function: cubic-bezier(0, 0, .2, 1)
+        }
+
+        & .daisy-swap-on,
+        & .daisy-swap-indeterminate,
+        & input:indeterminate~.daisy-swap-on {
+            opacity: 0
+        }
+
+        & input:is(:checked, :indeterminate) {
+            &~.daisy-swap-off {
+                opacity: 0
+            }
+        }
+
+        & input:checked~.daisy-swap-on,
+        & input:indeterminate~.daisy-swap-indeterminate {
+            opacity: 1;
+            backface-visibility: visible
+        }
+    }
+
+    .daisy-swap-active {
+        & .daisy-swap-off {
+            opacity: 0
+        }
+
+        & .daisy-swap-on {
+            opacity: 1
+        }
+    }
+
+    .daisy-swap-rotate {
+
+        & .daisy-swap-on,
+        & input:indeterminate~.daisy-swap-on {
+            rotate: 45deg
+        }
+
+        & input:is(:checked, :indeterminate)~.daisy-swap-on,
+        &.daisy-swap-active .daisy-swap-on {
+            rotate: none
+        }
+
+        & input:is(:checked, :indeterminate)~.daisy-swap-off,
+        &.daisy-swap-active .daisy-swap-off {
+            rotate: -45deg
+        }
+    }
+
+    .daisy-swap-flip {
+        transform-style: preserve-3d;
+        perspective: 20rem;
+
+        & .daisy-swap-on,
+        & .daisy-swap-indeterminate,
+        & input:indeterminate~.daisy-swap-on {
+            backface-visibility: hidden;
+            transform: rotateY(180deg)
+        }
+
+        & input:is(:checked, :indeterminate)~.daisy-swap-on,
+        &.daisy-swap-active .daisy-swap-on {
+            transform: rotateY(0)
+        }
+
+        & input:is(:checked, :indeterminate)~.daisy-swap-off,
+        &.daisy-swap-active .daisy-swap-off {
+            backface-visibility: hidden;
+            opacity: 1;
+            transform: rotateY(-180deg)
+        }
+    }
+}
+
+/*# sourceMappingURL=/sm/998ea5220904239feaffd611d552328c49b6c8ad2c7cbe236a98f97d22fb23cc.map */
