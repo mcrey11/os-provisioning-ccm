@@ -205,7 +205,9 @@ return [
     'settlementrun' => [
         'accounting_month' => 'Accounting month',
         'created_at' => 'Created at',
-        'executed_at' => 'Executed at',
+        'rcd' => 'Requested Collection date',
+        'executed_at' => 'Last executed at',
+        'sepaaccount_id' => 'Last for account',
         'verified' => 'Verified?',
     ],
     // MPR

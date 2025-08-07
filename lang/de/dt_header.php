@@ -204,8 +204,10 @@ return [
     'sepamandate.disable' => 'Deaktiviert',
     'settlementrun' => [
         'accounting_month' => 'Abrechnungsmonat',
-        'created_at' => 'Erstellt am',
-        'executed_at' => 'Durchgeführt am',
+        'created_at' => 'Erstellt',
+        'rcd' => 'Buchungstag',
+        'executed_at' => 'Zuletzt durchgeführt',
+        'sepaaccount_id' => 'Zuletzt für Konto',
     ],
     'verified' => 'Überprüft?',
     // MPR

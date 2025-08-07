@@ -710,6 +710,7 @@ return [
         'custom_field__login' => 'Login',
         'custom_field__password' => 'Password',
     ],
+    'lastCreatedFor' => 'Last time created for',
     'Level' => 'Level',
     'loginImg' => 'Login background image',
     'loginImgUpload' =>  'Upload login background image',

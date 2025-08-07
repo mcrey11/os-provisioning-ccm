@@ -709,6 +709,7 @@ return [
         'custom_field__login' => 'Login',
         'custom_field__password' => 'Passwort',
     ],
+    'lastCreatedFor' => 'Zuletzt erstellt für',
     'Level' => 'Level',
     'loginImg' =>  'Login Hintergrundbild',
     'loginImgUpload' =>  'Login Hintergrundbild hochladen',
