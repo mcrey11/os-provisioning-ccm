@@ -996,6 +996,10 @@ class BaseController extends Controller
 
         $obj = $obj::create($data);
 
+        if (! $obj->exists) {
+            return Redirect::back()->withInput();
+        }
+
         // Add N:M Relations
         $this->_set_many_to_many_relations($obj, $data);
 
