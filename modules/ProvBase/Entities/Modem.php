@@ -67,6 +67,11 @@ class Modem extends \BaseModel
     protected const BLOCKED_CPE_FILE_PATH = '/etc/dhcp-nmsprime/blocked.conf';
     protected $domainName = '';
 
+    /**
+     * QoS types to exclude from dropdown
+     */
+    public static $excludeQosTypes = ['calixont'];
+
     /** @var RadAcct object storage to save 1 DB query */
     protected $currentRadacct;
 
@@ -434,7 +439,11 @@ class Modem extends \BaseModel
      */
     public function qualities()
     {
-        return DB::table('qos')->whereNull('deleted_at')->get();
+        return DB::table('qos')->whereNull('deleted_at')
+            ->when(isset(static::$excludeQosTypes), function ($query) {
+                return $query->whereNotIn('type', static::$excludeQosTypes);
+            })
+            ->get();
     }
 
     /**
@@ -521,6 +530,9 @@ class Modem extends \BaseModel
     {
         return Qos::select('id', 'name as text')
             ->withCount('modem as count')
+            ->when(isset(static::$excludeQosTypes), function ($query) {
+                return $query->whereNotIn('type', static::$excludeQosTypes);
+            })
             ->when($search, function ($query, $search) {
                 foreach (['name'] as $field) {
                     $query = $query->orWhere($field, 'ilike', "%{$search}%");
