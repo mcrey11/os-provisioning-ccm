@@ -68,7 +68,13 @@ class ContractObserver
         }
 
         if (\Module::collections()->has('Calix')) {
-            $calixOnt = $contract->modem->where('qualified_model_class', 'like', '%CalixOnt')->first();
+            $calixOnt = null;
+            foreach ($contract->modems as $modem) {
+                if (str_ends_with($modem->qualified_model_class ?? '', 'CalixOnt')) {
+                    $calixOnt = $modem;
+                    break;
+                }
+            }
             if ($calixOnt) {
                 $smxApi = new \Modules\Calix\Helpers\SMxApi($calixOnt);
                 if (! $smxApi->subscriberUpdate()) {
@@ -139,8 +145,11 @@ class ContractObserver
 
         if (\Module::collections()->has('Calix')) {
             $calixOnt = null;
-            if ($contract->modem) {
-                $calixOnt = $contract->modem->where('qualified_model_class', 'like', '%CalixOnt')->first();
+            foreach ($contract->modems as $modem) {
+                if (str_ends_with($modem->qualified_model_class ?? '', 'CalixOnt')) {
+                    $calixOnt = $modem;
+                    break;
+                }
             }
             if ($calixOnt) {
                 $smxApi = new \Modules\Calix\Helpers\SMxApi($calixOnt);
