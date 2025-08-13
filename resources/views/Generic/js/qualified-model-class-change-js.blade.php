@@ -47,6 +47,9 @@
      * @param {URLSearchParams} urlParams - The URLSearchParams object to add form data to
      */
     function preserveFormData(urlParams) {
+        // Fields to ignore when preserving form data
+        const ignoredFields = ['configfile_id', 'qos_id'];
+
         // Get all form elements on the page
         const forms = document.querySelectorAll('form');
 
@@ -57,6 +60,11 @@
             formElements.forEach(function(element) {
                 // Skip elements without name attribute or disabled elements
                 if (!element.name || element.disabled) {
+                    return;
+                }
+
+                // Skip ignored fields
+                if (ignoredFields.includes(element.name)) {
                     return;
                 }
 
