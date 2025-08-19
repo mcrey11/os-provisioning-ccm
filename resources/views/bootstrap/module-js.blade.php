@@ -17,5 +17,11 @@
  */
 ?>
 @foreach (Module::collections()->keys() as $module)
-    <script src="{{ mix('js/'.strtolower($module).'.js') }}"></script>
+    @if (file_exists(public_path('js/'.strtolower($module).'.js')))
+        <script src="{{ mix('js/'.strtolower($module).'.js') }}"></script>
+    @else
+        <script>
+            console.warn('Module "{{ $module }}" JavaScript file not found: js/{{ strtolower($module) }}.js - Run "npm run dev" to compile assets');
+        </script>
+    @endif
 @endforeach
