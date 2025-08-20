@@ -418,7 +418,7 @@ class Contract extends \BaseModel
 
         $ret[$i18nContract]['Modem']['relation'] = collect([new Modem()]);
         if ($this->modems_count <= $relationThreshold) {
-            $this->setRelation('modems', $this->modems()->with('contract')->get());
+            $this->setRelation('modems', $this->getPolymorphicModems());
             $ret[$i18nContract]['Modem']['relation'] = $this->modems;
         }
 
@@ -630,6 +630,20 @@ class Contract extends \BaseModel
     public function modems()
     {
         return $this->hasMany(Modem::class);
+    }
+
+    /**
+     * Get modems with polymorphic model instantiation.
+     * This ensures that the correct derived class (like CalixOnt) is instantiated
+     * instead of the base Modem class.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPolymorphicModems()
+    {
+        return $this->modems()->with('contract')->get()->map(function ($modem) {
+            return \Modules\ProvBase\Entities\Modem::instantiatePolymorphicModel($modem);
+        });
     }
 
     public function dfsubscriptions()

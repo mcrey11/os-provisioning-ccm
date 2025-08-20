@@ -21,6 +21,7 @@ namespace Modules\ProvBase\Entities;
 
 use App\extensions\php\ArrayHelper;
 use App\Sla;
+use App\Traits\PolymorphicModelTrait;
 use Cache;
 use Carbon\Carbon;
 use DB;
@@ -41,6 +42,7 @@ class Modem extends \BaseModel
     use \App\AddressFunctionsTrait; // get functions for some address select options
     use \App\extensions\geocoding\GeoReferencable;
     use \App\Traits\HasTickets;
+    use PolymorphicModelTrait;
 
     public const TYPES = ['cm', 'tr069', 'ont'];
     public const CWMP_EVENTS = [
