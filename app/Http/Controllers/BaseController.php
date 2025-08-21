@@ -1767,7 +1767,10 @@ class BaseController extends Controller
             }
         }
 
-        // Filters
+        /* Filters
+            ATTENTION: Filter keys must be called exactly like the column names. E.g when used with table name then settlementrun.sepaaccount_id.
+            For edits of columns the column base name is sufficient
+        */
         foreach ($filterColumnData as $column => $customQuery) {
             // backward compatibility – accept strings as input, too
             if (is_string($customQuery)) {
