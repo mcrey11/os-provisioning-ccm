@@ -248,7 +248,7 @@ return [
      */
     'endpointMac' => 'Can be left empty for all PPPoE provisioned modems (PPP username is used instead of MAC). With DHCP it can be left empty for IPv4. Then all devices behind the modem will get the specified IP, but only the last one that requested the IP will have a working IP connectivity. This is not yet implemented for IPv6 - please always specify the CPE MAC that shall get the public or fixed IP.',
     'settlementrun' => [
-        'rcd' => 'Date the bookings shall be made by the bank. This can be overwritten for specific contracts by the appropriate setting in the contract',
+        'rcd' => 'Date the bookings shall be made by the bank. Changing this let\'s settlement rerun. This date can also be overwritten for specific contracts on the contract edit page.',
     ],
     'statisticsQuery' => [
         'upsell' => 'Include product upsell: Includes existing customers who have purchased another product/tariff change',

@@ -248,7 +248,7 @@ return [
      */
     'endpointMac' => 'Kann für alle PPPoE provisionierte Modems frei gelassen werden (dann wird der PPP Nutzername statt der MAC genutzt). Mit DHCP kann das Feld für IPv4 frei gelassen werden. Dann bekommen alle Geräte hinter dem Modem die spezifizierte IP, wobei nur das Gerät, dass sich zuletzt gemeldet hat, eine funktionierende IP-Konnektivität erhält. Für IPv6 ist dies noch nicht implementiert - bitte geben Sie hier immer die MAC des CPE an, das eine öffentliche oder feste IP erhalten soll!',
     'settlementrun' => [
-        'rcd' => 'Das Datum an dem die Bank die Buchungen vornehmen soll. Dieses Datum kann für einzelne Verträge über die entsprechende Einstellung im Vertrag angepasst werden.',
+        'rcd' => 'Das Datum an dem die Bank die Buchungen vornehmen soll. Bei Änderung wird der Rechnungslauf für alle Konten erneut ausgeführt. Dieses Datum kann für einzelne Verträge auch spefizisch im Vertrag angepasst werden.',
     ],
     'statisticsQuery' => [
         'upsell' => 'Produkt-Upsell miteinbeziehen: Bezieht bereits bestehende Kunden mit ein, welche eine weiteres Produkt (Tarifwechsel) gekauft haben.',
