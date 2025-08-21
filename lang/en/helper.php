@@ -257,4 +257,33 @@ return [
     'statsSummary' => [
         'upsell' => 'Also counts active customers that already had a valid tariff in the past (but e.g. had a tariff change within the given time span)',
     ],
+    
+    /*
+     * MODULE: CRM
+     */
+    'crm' => [
+        'contact' => [
+            'type' => 'Select whether this is an individual person or an organization/company',
+            'salutation' => 'Formal title or greeting (e.g., Mr., Mrs., Dr.)',
+            'firstname' => 'First name of the individual contact',
+            'lastname' => 'Last name of the individual contact',
+            'company' => 'Company or organization name (required for organization type)',
+            'email' => 'Primary email address for communication',
+            'phone' => 'Primary phone number for communication',
+            'birthday' => 'Date of birth (for individual contacts)',
+            'apartment' => 'Optional link to a specific apartment in the property management system',
+            'party_id_ext' => 'External identifier from TMF (TeleManagement Forum) or other external systems',
+            'notes' => 'Additional information or comments about this contact',
+        ],
+        'lead' => [
+            'status' => 'Current status of the lead in the sales process',
+            'priority' => 'Importance level for follow-up and resource allocation',
+            'source' => 'How this lead was originally acquired or discovered',
+        ],
+        'opportunity' => [
+            'status' => 'Current stage of the opportunity in the sales pipeline',
+            'priority' => 'Business importance and urgency level',
+            'source' => 'Origin of this business opportunity',
+        ],
+    ],
 ];

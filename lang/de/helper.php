@@ -257,4 +257,33 @@ return [
     'statsSummary' => [
         'upsell' => 'Zählt ebenfalls bestehende Kunden, die bereits einen gültigen Tarif hatten (und im Zeitraum z.B. einen Tarifwechsel vorgenommen haben).',
     ],
+    
+    /*
+     * MODULE: CRM
+     */
+    'crm' => [
+        'contact' => [
+            'type' => 'Wählen Sie, ob es sich um eine Privatperson oder eine Organisation/Firma handelt',
+            'salutation' => 'Formelle Anrede oder Gruß (z.B. Herr, Frau, Dr.)',
+            'firstname' => 'Vorname des privaten Kontakts',
+            'lastname' => 'Nachname des privaten Kontakts',
+            'company' => 'Firmen- oder Organisationsname (erforderlich für Organisationstyp)',
+            'email' => 'Primäre E-Mail-Adresse für die Kommunikation',
+            'phone' => 'Primäre Telefonnummer für die Kommunikation',
+            'birthday' => 'Geburtsdatum (für private Kontakte)',
+            'apartment' => 'Optionaler Link zu einer bestimmten Wohnung im Immobilienverwaltungssystem',
+            'party_id_ext' => 'Externer Bezeichner von TMF (TeleManagement Forum) oder anderen externen Systemen',
+            'notes' => 'Zusätzliche Informationen oder Kommentare zu diesem Kontakt',
+        ],
+        'lead' => [
+            'status' => 'Aktueller Status des Leads im Verkaufsprozess',
+            'priority' => 'Wichtigkeitsstufe für Nachverfolgung und Ressourcenzuweisung',
+            'source' => 'Wie dieser Lead ursprünglich erworben oder entdeckt wurde',
+        ],
+        'opportunity' => [
+            'status' => 'Aktuelle Phase der Chance im Verkaufspipeline',
+            'priority' => 'Geschäftliche Wichtigkeit und Dringlichkeitsstufe',
+            'source' => 'Ursprung dieser Geschäftschance',
+        ],
+    ],
 ];
