@@ -286,4 +286,35 @@ return [
             'source' => 'Ursprung dieser Geschäftschance',
         ],
     ],
+    
+    /*
+     * MODULE: ContactBase (Global - same as contact_point for consistency)
+     */
+    'contact' => [
+        'type' => 'Wählen Sie, ob es sich um eine Privatperson oder eine Organisation/Firma handelt',
+        'salutation' => 'Formelle Anrede oder Gruß (z.B. Herr, Frau, Dr.)',
+        'firstname' => 'Vorname des privaten Kontakts',
+        'lastname' => 'Nachname des privaten Kontakts',
+        'company' => 'Firmen- oder Organisationsname (erforderlich für Organisationstyp)',
+        'email' => 'Primäre E-Mail-Adresse für die Kommunikation',
+        'phone' => 'Primäre Telefonnummer für die Kommunikation',
+        'birthday' => 'Geburtsdatum (für private Kontakte)',
+        'apartment' => 'Optionaler Link zu einer bestimmten Wohnung im Immobilienverwaltungssystem',
+        'party_id_ext' => 'Externer Bezeichner von TMF (TeleManagement Forum) oder anderen externen Systemen',
+        'notes' => 'Zusätzliche Informationen oder Kommentare zu diesem Kontakt',
+    ],
+    
+    /*
+     * MODULE: Address (Global)
+     */
+    'address' => [
+        'street' => 'Straßenname und -nummer',
+        'house_number' => 'Haus- oder Gebäudenummer',
+        'zip' => 'Postleitzahl',
+        'city' => 'Stadt- oder Ortsname',
+        'district' => 'Bezirk oder Stadtteil',
+        'source' => 'Quelle der Adressdaten (z.B. manueller Eintrag, Geocodierung)',
+        'lat' => 'Geografische Breitenkoordinate',
+        'lng' => 'Geografische Längenkoordinate',
+    ],
 ];

@@ -286,4 +286,52 @@ return [
             'source' => 'Origin of this business opportunity',
         ],
     ],
+    
+    /*
+     * MODULE: Contact Point (Global)
+     */
+    'contact_point' => [
+        'type' => 'Select whether this is an individual person or an organization/company',
+        'salutation' => 'Formal title or greeting (e.g., Mr., Mrs., Dr.)',
+        'firstname' => 'First name of the individual contact',
+        'lastname' => 'Last name of the individual contact',
+        'company' => 'Company or organization name (required for organization type)',
+        'email' => 'Primary email address for communication',
+        'phone' => 'Primary phone number for communication',
+        'birthday' => 'Date of birth (for individual contacts)',
+        'apartment' => 'Optional link to a specific apartment in the property management system',
+        'party_id_ext' => 'External identifier from TMF (TeleManagement Forum) or other external systems',
+        'notes' => 'Additional information or comments about this contact',
+    ],
+    
+    /*
+     * MODULE: ContactBase (Global - same as contact_point for consistency)
+     */
+    'contact' => [
+        'type' => 'Select whether this is an individual person or an organization/company',
+        'salutation' => 'Formal title or greeting (e.g., Mr., Mrs., Dr.)',
+        'firstname' => 'First name of the individual contact',
+        'lastname' => 'Last name of the individual contact',
+        'company' => 'Company or organization name (required for organization type)',
+        'email' => 'Primary email address for communication',
+        'phone' => 'Primary phone number for communication',
+        'birthday' => 'Date of birth (for individual contacts)',
+        'apartment' => 'Optional link to a specific apartment in the property management system',
+        'party_id_ext' => 'External identifier from TMF (TeleManagement Forum) or other external systems',
+        'notes' => 'Additional information or comments about this contact',
+    ],
+    
+    /*
+     * MODULE: Address (Global)
+     */
+    'address' => [
+        'street' => 'Street name and number',
+        'house_number' => 'House or building number',
+        'zip' => 'Postal/ZIP code',
+        'city' => 'City or town name',
+        'district' => 'District or neighborhood',
+        'source' => 'Source of the address data (e.g., manual entry, geocoding)',
+        'lat' => 'Geographic latitude coordinate',
+        'lng' => 'Geographic longitude coordinate',
+    ],
 ];

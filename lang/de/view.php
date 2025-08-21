@@ -303,7 +303,8 @@ return [
     'Header_ProvVoipEnvia'      => 'envia-TEL Vertragsmanagement|envia-TEL Vertragsmanagement',
 
     'Header_Contact'            => 'Ansprechpartner / Hausverwaltungen',
-    'Header_CrmContact'         => 'CRM-Kontakt|CRM-Kontakte',
+            'Header_CrmContact'         => 'CRM-Kontakt|CRM-Kontakte',
+        'Header_ContactPoint'       => 'Kontaktpunkt|Kontaktpunkte',
     'Header_Documents'          => 'Dokumente',
     'Header_Debt'               => 'Offene Posten',
     'Header_DebtImport'         => 'OP-Import',
@@ -1313,4 +1314,67 @@ return [
             'pipeline' => 'Pipeline',
         ],
     ],
+    
+    // Contact Point (Global)
+    'contact_point' => [
+        'type' => 'Kontakttyp',
+        'salutation' => 'Anrede',
+        'notes' => 'Notizen',
+        'firstname' => 'Vorname',
+        'lastname' => 'Nachname',
+        'company' => 'Firma',
+        'email' => 'E-Mail-Adresse',
+        'phone' => 'Telefonnummer',
+        'birthday' => 'Geburtstag',
+        'street' => 'Straße',
+        'house_number' => 'Hausnummer',
+        'zip' => 'PLZ',
+        'city' => 'Stadt',
+        'apartment' => 'Wohnung (Optional LS-Link)',
+        'party_id_ext' => 'Externe Parteien-ID (TMF)',
+        'unnamed_organization' => 'Unbenannte Organisation',
+        'unnamed_contact' => 'Unbenannter Kontakt',
+        'individual' => 'Einzelperson',
+        'organization' => 'Organisation',
+    ],
+    
+    // ContactBase (Global - same as contact_point for consistency)
+    'contact' => [
+        'type' => 'Kontakttyp',
+        'salutation' => 'Anrede',
+        'notes' => 'Notizen',
+        'firstname' => 'Vorname',
+        'lastname' => 'Nachname',
+        'company' => 'Firma',
+        'email' => 'E-Mail-Adresse',
+        'phone' => 'Telefonnummer',
+        'birthday' => 'Geburtstag',
+        'street' => 'Straße',
+        'house_number' => 'Hausnummer',
+        'zip' => 'PLZ',
+        'city' => 'Stadt',
+        'apartment' => 'Wohnung (Optional LS-Link)',
+        'party_id_ext' => 'Externe Parteien-ID (TMF)',
+        'unnamed_organization' => 'Unbenannte Organisation',
+        'unnamed_contact' => 'Unbenannter Kontakt',
+        'individual' => 'Einzelperson',
+        'organization' => 'Organisation',
+    ],
+    
+    // Address (Global)
+    'address' => [
+        'street' => 'Straße',
+        'house_number' => 'Hausnummer',
+        'zip' => 'PLZ',
+        'city' => 'Stadt',
+        'district' => 'Bezirk',
+        'source' => 'Quelle',
+        'lat' => 'Breitengrad',
+        'lng' => 'Längengrad',
+    ],
+    
+    // ContactBase Module Headers
+    'Header_Contact' => 'Kontakt',
+    'Header_ContactBase' => 'Kontakt Basis',
+    'description' => 'Kernsystem für Kontakt- und Adressverwaltung',
 ];

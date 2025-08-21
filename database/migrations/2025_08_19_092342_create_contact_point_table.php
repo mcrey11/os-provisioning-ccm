@@ -24,7 +24,7 @@ return new class extends BaseMigration
 {
     public $migrationScope = 'database';
 
-    protected $tableName = 'crm_contact';
+    protected $tableName = 'contact_point';
 
     /**
      * Run the migrations.
