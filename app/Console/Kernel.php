@@ -278,7 +278,7 @@ class Kernel extends ConsoleKernel
             $schedule->call('\Modules\BillingBase\Helpers\BillingAnalysis@saveContractsToJson')->hourly();
 
             // Remove all old CDRs & Invoices
-            $schedule->call('\Modules\BillingBase\Entities\Invoice@cleanup')->monthly();
+            $schedule->call('\Modules\BillingBase\Entities\Invoice@cleanup')->weekly();
 
             if ($modules->has('PaymentGws')) {
                 $schedule->call(function () {

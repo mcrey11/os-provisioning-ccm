@@ -596,7 +596,7 @@ return [
     '7 losses in a row'     => '7 Pakete in Folge verloren',
     '8 losses in a row'     => '8 Pakete in Folge verloren',
     '9 losses in a row'     => '9 Pakete in Folge verloren',
-    'phoneCall' => 'Telefonverbindung',
+    'phoneCall' => 'Telefonverbindung|Telefonverbindungen',
     'PDV 50ms - 70ms' => 'PDV von 50 bis 70ms',
     'PDV 70ms - 90ms' => 'PDV von 70 bis 90ms',
     'PDV 90ms - 120ms' => 'PDV von 90 bis 120ms',

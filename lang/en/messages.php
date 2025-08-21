@@ -596,7 +596,7 @@ return [
     '7 losses in a row'     => '7 losses in a row',
     '8 losses in a row'     => '8 losses in a row',
     '9 losses in a row'     => '9 losses in a row',
-    'phoneCall' => 'Phone call',
+    'phoneCall' => 'Phone call|Phone calls',
     'PDV 50ms - 70ms'       => 'PDV 50ms - 70ms',
     'PDV 70ms - 90ms'       => 'PDV 70ms - 90ms',
     'PDV 90ms - 120ms'      => 'PDV 90ms - 120ms',
