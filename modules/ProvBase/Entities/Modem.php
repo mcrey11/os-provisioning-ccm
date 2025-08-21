@@ -2643,7 +2643,7 @@ class Modem extends \BaseModel
             $conf['warn'] = trans('messages.configfile_outdated');
         }
 
-        $conf['mtime'] = Carbon::parse(filemtime("$path.cfg"))->isoFormat('lll');
+        $conf['mtime'] = Carbon::parse(filemtime("$path.cfg"), config('app.timezone'))->isoFormat('lll');
 
         exec("cd /tmp; docsis -d $path.cfg", $conf['text']);
 
