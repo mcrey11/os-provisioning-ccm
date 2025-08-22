@@ -276,9 +276,15 @@ return [
             'notes' => 'Zusätzliche Informationen oder Kommentare zu diesem Kontakt',
         ],
         'lead' => [
-            'status' => 'Aktueller Status des Leads im Verkaufsprozess',
-            'priority' => 'Wichtigkeitsstufe für Nachverfolgung und Ressourcenzuweisung',
             'source' => 'Wie dieser Lead ursprünglich erworben oder entdeckt wurde',
+            'status' => 'Aktueller Status des Leads im Verkaufsprozess',
+            'legal_basis' => 'Rechtliche Grundlage für die Verarbeitung der Daten dieses Leads (DSGVO-Konformität)',
+            'contact_point' => 'Zugehörige Kontaktinformationen für diesen Lead',
+            'realty' => 'Immobilie oder Grundstück, das mit diesem Lead verbunden ist',
+            'apartment' => 'Bestimmte Wohneinheit, die mit diesem Lead verbunden ist',
+            'owner' => 'Vertriebsmitarbeiter oder Teammitglied, das für diesen Lead verantwortlich ist',
+            'disqual_reason' => 'Grund, warum dieser Lead nicht qualifiziert wurde (wird nur angezeigt, wenn der Status "nicht qualifiziert" ist)',
+            'notes' => 'Zusätzliche Informationen, Nachverfolgungsnotizen oder Kommentare zu diesem Lead',
         ],
         'opportunity' => [
             'status' => 'Aktuelle Phase der Chance im Verkaufspipeline',
