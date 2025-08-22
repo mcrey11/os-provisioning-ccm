@@ -466,7 +466,7 @@ class ContractController extends \BaseController
 
         if (Module::collections()->has('PropertyManagement')) {
             $c[] = ['form_type' => 'checkbox', 'name' => 'group_contract', 'description' => 'Group Contract', 'space' => 1];
-            $c[] = ['form_type' => 'select', 'name' => 'contact_id', 'description' => 'Contact',
+            $c[] = ['form_type' => 'select', 'name' => 'contact_point_id', 'description' => 'Contact',
                 'value' => $this->setupSelect2Field($model, 'Contact'),
                 'options' => ['class' => 'select2-ajax', 'data-allow-clear' => 'true', 'ajax-route' => route('Contact.select2', ['relation' => 'contacts'])],
             ];

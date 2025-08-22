@@ -303,8 +303,8 @@ return [
     'Header_ProvVoipEnvia'      => 'envia-TEL management|envia-TEL management',
 
     'Header_Contact'            => 'Contacts',
-            'Header_CrmContact'         => 'CRM Contact|CRM Contacts',
-        'Header_ContactPoint'       => 'Contact Point|Contact Points',
+    'Header_CrmContact'         => 'CRM Contact|CRM Contacts',
+    'Header_ContactPoint'       => 'Contact Point|Contact Points',
     'Header_Documents'          => 'Documents',
     'Header_Debt'               => 'Debt History',
     'Header_DebtImport'         => 'Debt Import',

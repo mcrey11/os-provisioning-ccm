@@ -238,6 +238,7 @@ return [
     'Header_EnviaOrder'         => 'envia TEL order|envia TEL orders',
 
     'Header_Contact'            => 'Contacts',
+    'Header_ContactPoint'       => 'Yhteyspiste|Yhteyspisteet',
     'Header_Debt'               => 'Debt history',
     'Header_DebtResult'         => 'Outstanding payments total',
     'Header_Node'               => 'Nodes',

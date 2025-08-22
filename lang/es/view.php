@@ -240,6 +240,7 @@ return [
     'Header_EnviaOrder'         => 'envia TEL orden|envia TEL ordenes',
 
     'Header_Contact'            => 'Contactos',
+    'Header_ContactPoint'       => 'Punto de contacto|Puntos de contacto',
     'Header_Debt'               => 'Historial de deuda',
     'Header_DebtResult'         => 'Total de pagos pendientes',
     'Header_Node'               => 'Nodos',

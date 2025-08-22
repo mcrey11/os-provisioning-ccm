@@ -238,6 +238,7 @@ return [
     'Header_EnviaOrder'         => 'envia TEL order|envia TEL orders',
 
     'Header_Contact'            => 'Contacts',
+    'Header_ContactPoint'       => 'Điểm liên lạc|Điểm liên lạc',
     'Header_Debt'               => 'Debt history',
     'Header_DebtResult'         => 'Outstanding payments total',
     'Header_Node'               => 'Nodes',
