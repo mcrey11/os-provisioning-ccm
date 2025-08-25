@@ -29,6 +29,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Nwidart\Modules\Facades\Module;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
@@ -323,5 +324,20 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
                     default: fn (Collection $parts) => substr($parts->first(), 0, 1).substr($parts->skip(1)->first(), 0, 1),
                 );
         });
+    }
+
+    /**
+     * Format Users for edit view select field and allow for searching.
+     * This method is required for select2 functionality in forms.
+     *
+     * @param  string|null  $search
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function select2Users(?string $search): \Illuminate\Database\Eloquent\Builder
+    {
+        return static::select('id', \DB::raw("CONCAT(login_name, ' (', first_name, ' ', last_name, ')') as text"))
+            ->when($search, function ($query, $search) {
+                return $query->where(\DB::raw("CONCAT(login_name, ' (', first_name, ' ', last_name, ')')"), 'ilike', "%{$search}%");
+            });
     }
 }
