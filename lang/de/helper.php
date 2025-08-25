@@ -295,6 +295,18 @@ return [
             'key' => 'Eindeutiger Bezeichner für die Pipeline (z.B. "sales", "support")',
             'name' => 'Anzeigename für die Pipeline',
             'is_default' => 'Markieren Sie diese Pipeline als Standard für neue Chancen',
+            'stages' => 'Verwalten Sie die Stufen, die diesen Pipeline-Workflow bilden',
+        ],
+        'pipeline_stage' => [
+            'pipeline_id' => 'Wählen Sie die Pipeline aus, zu der diese Stufe gehört',
+            'key' => 'Eindeutiger Bezeichner für diese Stufe innerhalb der Pipeline (z.B. "Prospektion", "Qualifizierung")',
+            'name' => 'Anzeigename für die Stufe',
+            'order_index' => 'Position dieser Stufe in der Pipeline-Sequenz (0-basiert)',
+            'default_probability_pct' => 'Standard-Wahrscheinlichkeitsprozentsatz für Chancen in dieser Stufe (0-100)',
+            'color' => 'Farbcode für die UI-Anzeige (z.B. "#FF0000" oder "rot")',
+            'is_terminal' => 'Markieren Sie, wenn dies eine Endstufe ist, die den Pipeline-Fluss stoppt',
+            'is_won' => 'Markieren Sie, wenn diese Stufe eine gewonnene Chance darstellt',
+            'is_lost' => 'Markieren Sie, wenn diese Stufe eine verlorene Chance darstellt',
         ],
     ],
     

@@ -757,4 +757,14 @@ return [
     'ticket_type.name' => 'Ticket Type',
     'SpriTicket.index' => 'S/PRI Tickets',
     'SpriSupplierApi' => 'S/PRI',
+    
+    // CRM Pipeline Stage
+    'pipeline_id' => 'Pipeline',
+    'key' => 'Stage Key',
+    'order_index' => 'Order Index',
+    'default_probability_pct' => 'Default Probability (%)',
+    'color' => 'Color',
+    'is_terminal' => 'Terminal Stage',
+    'is_won' => 'Won Stage',
+    'is_lost' => 'Lost Stage',
 ];
