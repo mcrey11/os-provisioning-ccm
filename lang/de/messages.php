@@ -945,7 +945,7 @@ return [
             'lock_account' => 'Sperrt das Konto (z.B. wegen Nichtbezahlens)',
         ],
     ],
-    'routeNotFoundError' => 'FEHLER: Kann die Seite „:url“ nicht laden (die Route „:route“ existiert nicht)',
-    'productChangeNotAllowedExternalStatus' => 'Ändern des Produktes ist nicht erlaubt („Externer Status“ ist nicht leer).',
-    'objectCreationFailed' => 'Konnte :class nicht anlegen.',
+    'routeNotFoundError' => 'FEHLER: Kann die Seite „:url" nicht laden (die Route „:route" existiert nicht)',
+    'productChangeNotAllowedExternalStatus' => 'Ändern des Produktes ist nicht erlaubt („Externer Status" ist nicht leer).',
+    'Please_select_pipeline_first' => 'Bitte wählen Sie zuerst eine Pipeline aus',
 ];

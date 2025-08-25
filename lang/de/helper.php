@@ -287,9 +287,22 @@ return [
             'notes' => 'Zusätzliche Informationen, Nachverfolgungsnotizen oder Kommentare zu diesem Lead',
         ],
         'opportunity' => [
-            'status' => 'Aktuelle Phase der Chance im Verkaufspipeline',
-            'priority' => 'Geschäftliche Wichtigkeit und Dringlichkeitsstufe',
-            'source' => 'Ursprung dieser Geschäftschance',
+            'contact_point_id' => 'Wählen Sie den Kontaktpunkt für diese Chance',
+            'created_from_lead_id' => 'Wählen Sie den Lead aus, aus dem diese Chance erstellt wurde (optional, eindeutig)',
+            'realty_id' => 'Wählen Sie die Immobilie für diese Chance (optional)',
+            'apartment_id' => 'Wählen Sie die spezifische Wohnung für diese Chance (optional)',
+            'pipeline_id' => 'Wählen Sie den Verkaufspipeline für diese Chance',
+            'stage_id' => 'Wählen Sie die aktuelle Stufe im Pipeline',
+            'amount_cents' => 'Geben Sie den Chancenbetrag in Cent ein (z.B. 10000 für €100,00)',
+            'probability_pct' => 'Geben Sie den Wahrscheinlichkeitsprozentsatz ein (0-100)',
+            'expected_close_date' => 'Wählen Sie das erwartete Abschlussdatum für diese Chance',
+            'is_preorder' => 'Markieren Sie, wenn es sich um eine Vorbestellungs-Chance handelt',
+            'is_switcher' => 'Markieren Sie, wenn es sich um einen Kunden handelt, der von einem anderen Anbieter wechselt',
+            'external_order_no' => 'Geben Sie die externe Bestellnummer ein, falls zutreffend',
+            'precheck_result' => 'Geben Sie Vorprüfungsergebnisse als JSON ein (optional)',
+            'deal_terms_json' => 'Geben Sie Deal-Bedingungen als JSON ein (optional)',
+            'porting_requested_at' => 'Wählen Sie aus, wann die Portierung angefordert wurde (optional)',
+            'porting_date' => 'Wählen Sie das tatsächliche Portierungsdatum (optional)',
         ],
         'pipeline' => [
             'key' => 'Eindeutiger Bezeichner für die Pipeline (z.B. "sales", "support")',
@@ -347,4 +360,11 @@ return [
         'lat' => 'Geografische Breitenkoordinate',
         'lng' => 'Geografische Längenkoordinate',
     ],
+    
+    /*
+     * CRM Opportunity Helper Texts
+     */
+    'amount_cents_help' => 'Geben Sie den Chancenbetrag in Cent ein (z.B. 10000 für €100,00)',
+    'probability_pct_help' => 'Geben Sie den Wahrscheinlichkeitsprozentsatz ein (0-100)',
+    'please_select_pipeline_first' => 'Bitte wählen Sie zuerst eine Pipeline aus, um verfügbare Stufen zu sehen',
 ];

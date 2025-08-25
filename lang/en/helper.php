@@ -315,6 +315,25 @@ return [
             'guard_expr' => 'JSON expression that must evaluate to true for this transition to be allowed (optional)',
             'autofail_message' => 'Message to display when this transition fails validation (optional)',
         ],
+        'opportunity' => [
+            'contact_point_id' => 'Select the contact point for this opportunity',
+            'created_from_lead_id' => 'Select the lead this opportunity was created from (optional, unique)',
+            'realty_id' => 'Select the realty property for this opportunity (optional)',
+            'apartment_id' => 'Select the specific apartment for this opportunity (optional)',
+            'pipeline_id' => 'Select the sales pipeline for this opportunity',
+            'stage_id' => 'Select the current stage in the pipeline',
+            'amount_cents' => 'Enter the opportunity amount in cents (e.g., 10000 for €100.00)',
+            'probability_pct' => 'Enter the probability percentage (0-100)',
+            'expected_close_date' => 'Select the expected closing date for this opportunity',
+            'is_preorder' => 'Check if this is a pre-order opportunity',
+            'is_switcher' => 'Check if this is a customer switching from another provider',
+            'external_order_no' => 'Enter the external order number if applicable',
+            'precheck_result' => 'Enter precheck results as JSON (optional)',
+            'deal_terms_json' => 'Enter deal terms as JSON (optional)',
+            'porting_requested_at' => 'Select when porting was requested (optional)',
+            'porting_date' => 'Select the actual porting date (optional)',
+            'contact_type_help' => 'Select whether this is an individual person or an organization/company',
+        ],
     ],
     
     /*
@@ -364,4 +383,11 @@ return [
         'lat' => 'Geographic latitude coordinate',
         'lng' => 'Geographic longitude coordinate',
     ],
+    
+    /*
+     * CRM Opportunity Helper Texts
+     */
+    'amount_cents_help' => 'Enter the opportunity amount in cents (e.g., 10000 for €100.00)',
+    'probability_pct_help' => 'Enter the probability percentage (0-100)',
+    'please_select_pipeline_first' => 'Please select a pipeline first to see available stages',
 ];

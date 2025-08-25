@@ -945,7 +945,7 @@ return [
             'lock_account' => 'Locks the account (e.g. because of missing payments)',
         ],
     ],
-    'routeNotFoundError' => 'ERROR: Cannot load page “:url” (route “:route” does not exist)',
-    'productChangeNotAllowedExternalStatus' => 'Changing the product is not allowed (“External status” is not empty).',
-    'objectCreationFailed' => 'Could not create :class',
+    'routeNotFoundError' => 'ERROR: Cannot load page ":url" (route ":route" does not exist)',
+    'productChangeNotAllowedExternalStatus' => 'Changing the product is not allowed ("External status" is not empty).',
+    'Please_select_pipeline_first' => 'Please select pipeline first',
 ];

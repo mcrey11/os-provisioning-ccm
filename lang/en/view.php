@@ -80,6 +80,7 @@ return [
     'Menu_Contacts'             => 'Contacts',
     'Menu_Leads'                => 'Leads',
     'Menu_Opportunities'        => 'Opportunities',
+    'Menu_CrmOpportunities'     => 'CRM Opportunities',
     'Menu_Contracts'            => 'Contracts',
     'Menu_Modems'               => 'Modems'.(Module::collections()->has('SmartOnt') ? '/ONTs' : ''),
     'Menu_Endpoint'             => 'Endpoints',
@@ -1374,6 +1375,24 @@ return [
             'no_transitions_help' => 'This pipeline doesn\'t have any stage transitions defined yet.',
             'create_first' => 'Create First Transition',
         ],
+        'opportunity' => [
+            'contact_point_id' => 'Contact Point',
+            'created_from_lead_id' => 'Created from Lead',
+            'realty_id' => 'Realty',
+            'apartment_id' => 'Apartment',
+            'pipeline_id' => 'Pipeline',
+            'stage_id' => 'Stage',
+            'amount_cents' => 'Amount (Cents)',
+            'probability_pct' => 'Probability (%)',
+            'expected_close_date' => 'Expected Close Date',
+            'is_preorder' => 'Pre-order',
+            'is_switcher' => 'Switcher',
+            'external_order_no' => 'External Order No.',
+            'precheck_result' => 'Precheck Result',
+            'deal_terms_json' => 'Deal Terms',
+            'porting_requested_at' => 'Porting Requested At',
+            'porting_date' => 'Porting Date',
+        ],
     ],
     
     // Contact Point (Global)
@@ -1437,5 +1456,6 @@ return [
     // ContactBase Module Headers
     'Header_Contact' => 'Contact',
     'Header_ContactBase' => 'Contact Base',
+    'Header_CrmOpportunity' => 'CRM Opportunity',
     'description' => 'Core contact and address management system',
 ];

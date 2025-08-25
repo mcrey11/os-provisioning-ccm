@@ -119,6 +119,7 @@ return [
     'required_unless'      => ':attribute muss ausgefüllt werden, wenn :other nicht den Wert :values hat.',
     'required_with'        => ':attribute muss angegeben werden, wenn :values ausgefüllt wurde.',
     'required_with_all'    => ':attribute muss angegeben werden, wenn :values ausgefüllt wurde.',
+    'required_if_stage_quote' => 'Das Wohnungsfeld ist erforderlich, wenn die Stufe "Angebot" oder höher ist.',
     'required_without'     => ':attribute muss angegeben werden, wenn :values nicht ausgefüllt wurde.',
     'required_without_all' => ':attribute muss angegeben werden, wenn keines der Felder :values ausgefüllt wurde.',
     'same'                 => ':attribute und :other müssen übereinstimmen.',
