@@ -308,6 +308,13 @@ return [
             'is_won' => 'Markieren Sie, wenn diese Stufe eine gewonnene Chance darstellt',
             'is_lost' => 'Markieren Sie, wenn diese Stufe eine verlorene Chance darstellt',
         ],
+        'stage_transition' => [
+            'pipeline_id' => 'Wählen Sie die Pipeline aus, zu der dieser Übergang gehört',
+            'from_stage_id' => 'Wählen Sie die Startstufe für diesen Übergang',
+            'to_stage_id' => 'Wählen Sie die Zielstufe für diesen Übergang',
+            'guard_expr' => 'JSON-Ausdruck, der zu true ausgewertet werden muss, damit dieser Übergang erlaubt ist (optional)',
+            'autofail_message' => 'Nachricht, die angezeigt wird, wenn dieser Übergang die Validierung nicht besteht (optional)',
+        ],
     ],
     
     /*

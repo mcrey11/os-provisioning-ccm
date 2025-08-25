@@ -767,4 +767,13 @@ return [
     'is_terminal' => 'Terminal Stage',
     'is_won' => 'Won Stage',
     'is_lost' => 'Lost Stage',
+    
+    // CRM Stage Transition
+    'crm_stage_transition' => [
+        'pipeline_id' => 'Pipeline',
+        'from_stage_id' => 'From Stage',
+        'to_stage_id' => 'To Stage',
+        'guard_expr' => 'Guard Expression',
+        'autofail_message' => 'Auto-fail Message',
+    ],
 ];

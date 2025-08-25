@@ -308,6 +308,13 @@ return [
             'is_won' => 'Mark if this stage represents a won opportunity',
             'is_lost' => 'Mark if this stage represents a lost opportunity',
         ],
+        'stage_transition' => [
+            'pipeline_id' => 'Select the pipeline this transition belongs to',
+            'from_stage_id' => 'Select the starting stage for this transition',
+            'to_stage_id' => 'Select the target stage for this transition',
+            'guard_expr' => 'JSON expression that must evaluate to true for this transition to be allowed (optional)',
+            'autofail_message' => 'Message to display when this transition fails validation (optional)',
+        ],
     ],
     
     /*

@@ -771,4 +771,13 @@ return [
     'is_terminal' => 'Endstufe',
     'is_won' => 'Gewonnene Stufe',
     'is_lost' => 'Verlorene Stufe',
+    
+    // CRM Stage Transition
+    'crm_stage_transition' => [
+        'pipeline_id' => 'Pipeline',
+        'from_stage_id' => 'Von Stufe',
+        'to_stage_id' => 'Zu Stufe',
+        'guard_expr' => 'Bedingungsausdruck',
+        'autofail_message' => 'Auto-Fehler-Nachricht',
+    ],
 ];
