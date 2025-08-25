@@ -305,6 +305,7 @@ return [
     'Header_Contact'            => 'Contacts',
             'Header_CrmContact'         => 'CRM Contact|CRM Contacts',
         'Header_CrmLead'            => 'CRM Lead|CRM Leads',
+        'Header_CrmPipeline'        => 'CRM Pipeline|CRM Pipelines',
     'Header_ContactPoint'       => 'Contact Point|Contact Points',
     'Header_Documents'          => 'Documents',
     'Header_Debt'               => 'Debt History',
@@ -1342,6 +1343,11 @@ return [
             'category' => 'Category',
             'stage' => 'Stage',
             'pipeline' => 'Pipeline',
+        ],
+        'pipeline' => [
+            'key' => 'Pipeline Key',
+            'name' => 'Pipeline Name',
+            'is_default' => 'Default Pipeline',
         ],
     ],
     

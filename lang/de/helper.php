@@ -291,6 +291,11 @@ return [
             'priority' => 'Geschäftliche Wichtigkeit und Dringlichkeitsstufe',
             'source' => 'Ursprung dieser Geschäftschance',
         ],
+        'pipeline' => [
+            'key' => 'Eindeutiger Bezeichner für die Pipeline (z.B. "sales", "support")',
+            'name' => 'Anzeigename für die Pipeline',
+            'is_default' => 'Markieren Sie diese Pipeline als Standard für neue Chancen',
+        ],
     ],
     
     /*

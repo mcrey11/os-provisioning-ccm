@@ -291,6 +291,11 @@ return [
             'priority' => 'Business importance and urgency level',
             'source' => 'Origin of this business opportunity',
         ],
+        'pipeline' => [
+            'key' => 'Unique identifier for the pipeline (e.g., "sales", "support")',
+            'name' => 'Display name for the pipeline',
+            'is_default' => 'Mark this pipeline as the default one for new opportunities',
+        ],
     ],
     
     /*

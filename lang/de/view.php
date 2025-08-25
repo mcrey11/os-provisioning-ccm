@@ -305,6 +305,7 @@ return [
     'Header_Contact'            => 'Ansprechpartner / Hausverwaltungen',
             'Header_CrmContact'         => 'CRM-Kontakt|CRM-Kontakte',
         'Header_CrmLead'            => 'CRM-Lead|CRM-Leads',
+        'Header_CrmPipeline'        => 'CRM-Pipeline|CRM-Pipelines',
         'Header_ContactPoint'       => 'Kontaktpunkt|Kontaktpunkte',
     'Header_Documents'          => 'Dokumente',
     'Header_Debt'               => 'Offene Posten',
@@ -1341,6 +1342,11 @@ return [
             'category' => 'Kategorie',
             'stage' => 'Phase',
             'pipeline' => 'Pipeline',
+        ],
+        'pipeline' => [
+            'key' => 'Pipeline-Schlüssel',
+            'name' => 'Pipeline-Name',
+            'is_default' => 'Standard-Pipeline',
         ],
     ],
     
