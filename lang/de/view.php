@@ -941,6 +941,12 @@ return [
         'sessions' =>  'Sitzungen',
     ],
     'tax' => [
+        'categories' => [
+            'aa' => 'reduziert',
+            'e' => 'steuerfrei (ohne Vorsteuerabzug)',
+            's' => 'standard',
+            'z' => 'steuerfrei (mit Vorsteuerabzug)',
+        ],
         'types' => [
             'normal' => 'normal',
             'fix per item' => 'fix pro Posten',

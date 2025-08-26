@@ -942,6 +942,12 @@ return [
         'sessions' =>  'Sessions',
     ],
     'tax' => [
+        'categories' => [
+            'aa' => 'reduced',
+            'e' => 'exempt',
+            's' => 'standard',
+            'z' => 'zero',
+        ],
         'types' => [
             'normal' => 'normal',
             'fix per item' => 'fix per item',
