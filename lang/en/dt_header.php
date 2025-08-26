@@ -821,7 +821,6 @@ return [
     
     // CRM Pipeline Stage
     'pipeline_id' => 'Pipeline',
-    'key' => 'Stage Key',
     'order_index' => 'Order Index',
     'default_probability_pct' => 'Default Probability (%)',
     'color' => 'Color',

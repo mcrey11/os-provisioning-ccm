@@ -1363,14 +1363,12 @@ return [
             'pipeline' => 'Pipeline',
         ],
         'pipeline' => [
-            'key' => 'Pipeline-Schlüssel',
             'name' => 'Pipeline-Name',
             'is_default' => 'Standard-Pipeline',
             'stages' => 'Pipeline-Stufen',
         ],
         'pipeline_stage' => [
             'pipeline_id' => 'Pipeline',
-            'key' => 'Stufen-Schlüssel',
             'name' => 'Stufen-Name',
             'order_index' => 'Reihenfolge',
             'default_probability_pct' => 'Standard-Wahrscheinlichkeit (%)',

@@ -1363,14 +1363,12 @@ return [
             'pipeline' => 'Pipeline',
         ],
         'pipeline' => [
-            'key' => 'Pipeline Key',
             'name' => 'Pipeline Name',
             'is_default' => 'Default Pipeline',
             'stages' => 'Pipeline Stages',
         ],
         'pipeline_stage' => [
             'pipeline_id' => 'Pipeline',
-            'key' => 'Stage Key',
             'name' => 'Stage Name',
             'order_index' => 'Order Index',
             'default_probability_pct' => 'Default Probability (%)',

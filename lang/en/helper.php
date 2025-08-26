@@ -290,14 +290,12 @@ return [
             'source' => 'Origin of this business opportunity',
         ],
         'pipeline' => [
-            'key' => 'Unique identifier for the pipeline (e.g., "sales", "support")',
             'name' => 'Display name for the pipeline',
             'is_default' => 'Mark this pipeline as the default one for new opportunities',
             'stages' => 'Manage the stages that make up this pipeline workflow',
         ],
         'pipeline_stage' => [
             'pipeline_id' => 'Select the pipeline this stage belongs to',
-            'key' => 'Unique identifier for this stage within the pipeline (e.g., "prospecting", "qualification")',
             'name' => 'Display name for the stage',
             'order_index' => 'Position of this stage in the pipeline sequence (0-based)',
             'default_probability_pct' => 'Default probability percentage for opportunities in this stage (0-100)',
