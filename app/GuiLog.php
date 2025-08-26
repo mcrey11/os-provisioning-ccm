@@ -98,13 +98,14 @@ class GuiLog extends \BaseModel
      */
     public static function cleanup($months = 48)
     {
-        \Log::notice('GuiLog: Execute cleanup() - Delete Log entries older than '.$months.' months - (hard delete older than '.(($months + 24) / 12).' years)');
+        \Log::notice('GuiLog: Execute cleanup() - Delete Log entries older than '.$months.' months - (hard delete older than '.(($months + 12) / 12).' years)');
 
-        $softDeleteDate = \Carbon\Carbon::now()->subMonths($months);
-        $hardDeleteDate = $softDeleteDate->subMonths(24);
+        $softDeleteDate = now()->subMonths($months);
+        $hardDeleteDate = $softDeleteDate->subMonths(12);
 
-        self::where('created_at', '<', $softDeleteDate->toDateString())->delete();
-        self::where('created_at', '<', $hardDeleteDate->toDateString())->forceDelete();
+        self::where('created_at', '<', $softDeleteDate)->delete();
+        self::where('created_at', '<', $hardDeleteDate)->forceDelete();
+        self::where('created_at', '<', now()->subYear(1)->where('model', 'User')->where('text', 'like', 'last_login_at%'))->delete();
     }
 
     public static function log_changes($data)
