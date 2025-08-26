@@ -29,7 +29,15 @@ return [
     'floor' => 'Floor',
     'group_contract' => 'Group contract',
     'house_nr' => 'Housenr',
+    'house_number' => 'House Number',
     'ia_blocked' => 'internet access blocked',
+    'stage_id' => 'Stage',
+    'amount_cents' => 'Amount (Cents)',
+    'probability_pct' => 'Probability (%)',
+    'expected_close_date' => 'Expected Close Date',
+    'is_preorder' => 'Pre-order',
+    'is_switcher' => 'Switcher',
+    'external_order_no' => 'External Order No.',
     'iban' => 'IBAN',
     'id'            => 'ID',
     'invoice_date' => 'Date of invoice',
@@ -93,6 +101,7 @@ return [
         'apartment_id' => 'Apartment',
         'pipeline_id' => 'Pipeline',
         'stage_id' => 'Stage',
+        'owner_id' => 'Owner',
         'amount_cents' => 'Amount (Cents)',
         'probability_pct' => 'Probability (%)',
         'expected_close_date' => 'Expected Close Date',
@@ -723,6 +732,28 @@ return [
         'contract_id' => 'Contract',
     ],
     'created_at' => 'Created at',
+
+    // CRM Lead fields
+    'source' => 'Source',
+    'status' => 'Status',
+    'legal_basis' => 'Legal Basis',
+    'contact_point_id' => 'Contact Point',
+    'realty_id' => 'Realty',
+    'apartment_id' => 'Apartment',
+    'owner_id' => 'Owner',
+    
+    // Contact Point relationship fields
+    'contactPoint.firstname' => 'First Name',
+    'contactPoint.lastname' => 'Last Name',
+    'contactPoint.company' => 'Company',
+    'contactPoint.email' => 'Email',
+    'contactPoint.phone' => 'Phone',
+    
+    // Address relationship fields
+    'address.street' => 'Street',
+    'address.house_number' => 'House Number',
+    'address.zip' => 'ZIP',
+    'address.city' => 'City',
 
     // SmartOnt
     'dfsubscription' => [

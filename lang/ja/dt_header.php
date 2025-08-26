@@ -304,4 +304,14 @@ return [
     'ticket.assigned_users' => 'Assigned Users',
     'assigned_users' => 'Assigned Users',
     'tickettypes.name' => 'Type',
+    
+    // CRM Lead fields
+    'source' => 'ソース',
+    'status' => 'ステータス',
+    'legal_basis' => '法的根拠',
+    'contact_point_id' => '連絡先',
+    'realty_id' => '不動産',
+    'apartment_id' => 'アパート',
+    'owner_id' => '所有者',
+    'created_at' => '作成日',
 ];

@@ -1382,6 +1382,7 @@ return [
             'apartment_id' => 'Wohnung',
             'pipeline_id' => 'Pipeline',
             'stage_id' => 'Stufe',
+            'owner_id' => 'Eigentümer',
             'amount_cents' => 'Betrag (Cent)',
             'probability_pct' => 'Wahrscheinlichkeit (%)',
             'expected_close_date' => 'Erwartetes Abschlussdatum',

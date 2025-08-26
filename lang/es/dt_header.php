@@ -304,4 +304,27 @@ return [
     'ticket.assigned_users' => 'Usuarios asignados',
     'assigned_users' => 'Usuarios asignados',
     'tickettypes.name' => 'Tipo',
+    
+    // CRM Lead fields
+    'source' => 'Fuente',
+    'status' => 'Estado',
+    'legal_basis' => 'Base legal',
+    'contact_point_id' => 'Punto de contacto',
+    'realty_id' => 'Propiedad',
+    'apartment_id' => 'Apartamento',
+    'owner_id' => 'Propietario',
+    'created_at' => 'Creado el',
+    
+    // Contact Point relationship fields
+    'contactPoint.firstname' => 'Nombre',
+    'contactPoint.lastname' => 'Apellido',
+    'contactPoint.company' => 'Empresa',
+    'contactPoint.email' => 'Correo electrónico',
+    'contactPoint.phone' => 'Teléfono',
+    
+    // Address relationship fields
+    'address.street' => 'Calle',
+    'address.house_number' => 'Número de casa',
+    'address.zip' => 'Código postal',
+    'address.city' => 'Ciudad',
 ];

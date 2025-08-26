@@ -304,4 +304,14 @@ return [
     'ticket.assigned_users' => 'Assigned Users',
     'assigned_users' => 'Assigned Users',
     'tickettypes.name' => 'Type',
+    
+    // CRM Lead fields
+    'source' => '来源',
+    'status' => '状态',
+    'legal_basis' => '法律依据',
+    'contact_point_id' => '联系点',
+    'realty_id' => '房地产',
+    'apartment_id' => '公寓',
+    'owner_id' => '所有者',
+    'created_at' => '创建时间',
 ];

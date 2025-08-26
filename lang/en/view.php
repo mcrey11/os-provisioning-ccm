@@ -1382,6 +1382,7 @@ return [
             'apartment_id' => 'Apartment',
             'pipeline_id' => 'Pipeline',
             'stage_id' => 'Stage',
+            'owner_id' => 'Owner',
             'amount_cents' => 'Amount (Cents)',
             'probability_pct' => 'Probability (%)',
             'expected_close_date' => 'Expected Close Date',

@@ -304,4 +304,14 @@ return [
     'ticket.assigned_users' => 'Assigned Users',
     'assigned_users' => 'Assigned Users',
     'tickettypes.name' => 'Type',
+    
+    // CRM Lead fields
+    'source' => '소스',
+    'status' => '상태',
+    'legal_basis' => '법적 근거',
+    'contact_point_id' => '연락처',
+    'realty_id' => '부동산',
+    'apartment_id' => '아파트',
+    'owner_id' => '소유자',
+    'created_at' => '생성일',
 ];

@@ -304,4 +304,14 @@ return [
     'ticket.assigned_users' => 'Assigned Users',
     'assigned_users' => 'Assigned Users',
     'tickettypes.name' => 'Type',
+    
+    // CRM Lead fields
+    'source' => 'Источник',
+    'status' => 'Статус',
+    'legal_basis' => 'Правовое основание',
+    'contact_point_id' => 'Контактная точка',
+    'realty_id' => 'Недвижимость',
+    'apartment_id' => 'Квартира',
+    'owner_id' => 'Владелец',
+    'created_at' => 'Создано',
 ];
