@@ -940,7 +940,9 @@ class ModemController extends \BaseController
         $data['house_number'] = str_replace(' ', '', strtolower($data['house_number']));
 
         if (! $data['country_code']) {
-            $config = GlobalConfig::find(1);
+            $config = cache('GlobalConfig', function () {
+                return GlobalConfig::first();
+            });
             $data['country_code'] = $config->default_country_code;
         }
         // ISO 3166 country codes are uppercase

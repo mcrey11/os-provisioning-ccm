@@ -526,7 +526,9 @@ class ContractController extends \BaseController
     public function prepare_input($data)
     {
         if (! $data['country_code']) {
-            $config = GlobalConfig::find(1);
+            $config = cache('GlobalConfig', function () {
+                return GlobalConfig::first();
+            });
             $data['country_code'] = $config->default_country_code;
         }
         // ISO 3166 country codes are uppercase
