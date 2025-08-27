@@ -3214,8 +3214,20 @@ class Modem extends \BaseModel
             return false;
         }
 
+        if ($this->hasChildModems()) {
+            $this->addAboveMessage(trans('provbase::messages.modemCannotBeDeletedBecauseItIsParentDevice', ['class' => class_basename(self::class), 'id' => $this->id]), 'error');
+            Log::error(class_basename(self::class).' '.$this->id.' cannot be deleted because it has child modems');
+
+            return false;
+        }
+
         // when arriving here: start the standard deletion procedure
         return parent::delete();
+    }
+
+    protected function hasChildModems()
+    {
+        return boolval(Modem::where('parent_id', $this->id)->count());
     }
 
     public static function resolveModemsWithFiberNames()
@@ -3243,5 +3255,16 @@ class Modem extends \BaseModel
         asort($ret);
 
         return $ret;
+    }
+
+    /**
+     * Mutator to convert parent_id 0 to null for database storage
+     *
+     * @param  mixed  $value
+     * @return void
+     */
+    public function setParentIdAttribute($value)
+    {
+        $this->attributes['parent_id'] = ($value == 0) ? null : $value;
     }
 }

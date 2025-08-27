@@ -163,6 +163,7 @@ class ModemController extends \BaseController
             ['form_type' => 'text', 'name' => 'hostname', 'description' => 'Hostname', 'options' => ['readonly'], 'hidden' => 'C', 'space' => 1],
             // TODO: show this dropdown only if necessary (e.g. not if creating a modem from contract context)
             $this->getModemClassSelectField($model),
+            $this->getParentIdSelectField($model),
             ['form_type' => 'text', 'name' => 'mac', 'description' => 'MAC Address', 'options' => ['placeholder' => 'AA:BB:CC:DD:EE:FF'], 'autocomplete' => ['modem'], 'help' => trans('helper.mac_formats')],
             ['form_type' => 'text', 'name' => 'serial_num', 'description' => 'Serial Number / CWMP-ID'],
             ['form_type' => 'text', 'name' => 'ppp_username', 'description' => 'PPP Username', 'select' => $cfIds['tr069'], 'options' => [$model->exists ? 'readonly' : '']],
@@ -380,6 +381,47 @@ class ModemController extends \BaseController
         return $ret;
     }
 
+    protected function getParentIdSelectField(Modem $model): array
+    {
+        $default = [
+            'form_type' => 'text',
+            'name' => 'parent_id',
+            'value' => null,
+            'description' => 'Parent Modem',
+            'hidden' => 1,
+        ];
+
+        // only to be shown with active Calix module
+        if (! Module::collections()->has('Calix')) {
+            return $default;
+        }
+
+        // CalixONTs cannot have a parent
+        if (str_ends_with(get_class($model), 'CalixOnt')) {
+            return $default;
+        }
+
+        if (1001 == config('app.nmsprimeCustomerId')) {
+            $routeName = 'Customer1001CalixOnt.select2';
+        } else {
+            $routeName = 'CalixOnt.select2';
+        }
+
+        return [
+            'form_type' => 'select',
+            'name' => 'parent_id',
+            'description' => 'Parent Calix ONT',
+            'value' => $this->setupSelect2Field($model, 'parentModem'),
+            'options' => [
+                'class' => 'select2-ajax',
+                'ajax-route' => route($routeName, [
+                    'model' => $model,
+                    'relation' => 'parent',
+                ]),
+            ],
+        ];
+    }
+
     /**
      * Prepare the preselected model for the select 2 field. Currently only
      * single select is supported.
@@ -402,6 +444,15 @@ class ModemController extends \BaseController
             $cf = Configfile::where('device', '=', 'ont')->select('id', 'name')->first();
 
             return [$cf->id => $cf->name];
+        }
+
+        if ('parentModem' == $class) {
+            $parentModem = Modem::find($model->parent_id);
+            if (! $parentModem || $model->parent_id == 0) {
+                return [0 => '–'];
+            }
+
+            return [$parentModem->id => $parentModem->model.' ('.$parentModem->serial_num.', '.$parentModem->hostname.')'];
         }
 
         // default – use version of BaseController
