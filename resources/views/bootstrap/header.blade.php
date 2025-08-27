@@ -35,4 +35,8 @@
             <link href="{{ mix('css/ccc.css') }}" rel="stylesheet" />
       @endif
 
+      @if (request()->is('admin/Crm*'))
+            <link href="{{ mix('css/crm.css') }}" rel="stylesheet" />
+      @endif
+
       <!-- ================== END BASE CSS STYLE ================== -->
