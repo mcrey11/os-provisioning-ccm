@@ -14,6 +14,7 @@ return [
     'house_nr' => 'Housenr',
     'iban' => 'IBAN',
     'id'            => 'ID',
+    'is_default' => 'Default',
     'name' => 'Name',
     'number' => 'Number',
     'occupied' => 'Occupied',

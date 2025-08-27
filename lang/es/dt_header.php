@@ -14,6 +14,7 @@ return [
     'house_nr' => 'Numero de vivienda',
     'iban' => 'Cuenta bancaria (código IBAN)',
     'id'            => 'ID',
+    'is_default' => 'Default',
     'name' => 'Nombre',
     'number' => 'Número',
     'occupied' => 'Ocupado',
