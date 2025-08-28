@@ -1038,6 +1038,8 @@ return [
         'ticketReceiver' => 'TicketReceiver',
         'toTicketReceiver' => 'Show TicketReceiver',
         'legacyTicket' => 'This Ticket has no relation, hence no details can be displayed!',
+        'noComments' => 'No comments available',
+        'noTicketsDescription' => 'There are currently no tickets associated with this item.',
         'late' => 'late',
         'showContract' => 'Show Contract',
         'modemAnalysis' => 'Modem Analysis',

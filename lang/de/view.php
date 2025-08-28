@@ -1039,6 +1039,8 @@ return [
         'ticketReceiver' => 'Ticketzentrale',
         'toTicketReceiver' => 'Zur Ticketzentrale',
         'legacyTicket' => 'Dieses Ticket besitzt keine Verknüpfung. Es sind daher keine weiteren Details verfügbar.',
+        'noComments' => 'Keine Kommentare verfügbar',
+        'noTicketsDescription' => 'Es sind derzeit keine Tickets mit diesem Element verknüpft.',
         'late' => 'verspätet',
         'showContract' => 'Zum Vertrag',
         'modemAnalysis' => 'Modem Analyse',
