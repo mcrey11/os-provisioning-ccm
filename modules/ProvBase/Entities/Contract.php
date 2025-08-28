@@ -552,6 +552,8 @@ class Contract extends \BaseModel
                     'hide_create_button' => true,
                 ],
             ]);
+
+            $ret['Documents']['icon'] = 'clock-o';
         }
 
         if (Module::collections()->has('ConsentMgmt') && \Bouncer::can('view', \Modules\ConsentMgmt\Entities\ContractConsent::class)) {
@@ -571,6 +573,14 @@ class Contract extends \BaseModel
             ];
             $ret[$i18nConsentMgmt]['icon'] = 'check-square-o';
         }
+
+        if (Module::collections()->has('Crm')) {
+            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['class'] = 'CrmOpportunity';
+            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['relation'] = collect([$this->createdFromOpportunity]);
+            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['options']['hide_create_button'] = 1;
+            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['options']['hide_delete_button'] = 1;
+            $ret[trans('view.Menu_Crm')]['icon'] = 'exchange';
+         }
 
         return $ret;
     }
@@ -801,6 +811,14 @@ class Contract extends \BaseModel
     public function correspondenceRecipient()
     {
         return $this->belongsTo(\Modules\Customer1000\Entities\CorrespondenceRecipient::class);
+    }
+
+    /**
+     * Belongs to the opportunity this contract was created from (if any)
+     */
+    public function createdFromOpportunity()
+    {
+        return $this->belongsTo(\Modules\Crm\Entities\CrmOpportunity::class, 'created_from_opportunity_id');
     }
 
     /**

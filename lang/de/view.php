@@ -1119,6 +1119,8 @@ return [
     ],
     'collapseNumbers' => 'Weitere Vertragsnummern',
     'contract' => [
+        'number' => 'Vertragsnummer',
+        'contract_start' => 'Vertragsbeginn',
         'groundForDismissal' => 'Kündigungsgrund',
         'groundsForDismissal' => [
             'unknown' => 'unbekannt',
@@ -1409,6 +1411,24 @@ return [
             'porting_requested_at' => 'Portierung angefordert am',
             'porting_date' => 'Portierungsdatum',
             'lead' => 'Lead',
+            // Conversion translations
+            'convert_to_contract' => 'Zu Vertrag konvertieren',
+            'convert_to_contract_description' => 'Konvertieren Sie diese Chance zu einem aktiven Vertrag. Alle Kontaktinformationen und Angebotsposten werden in den neuen Vertrag kopiert.',
+            'opportunity_info' => 'Chance-Informationen',
+            'convert_confirm' => 'Bestätigung',
+            'convert_confirm_text' => 'Ich bestätige, dass ich diese Chance zu einem Vertrag konvertieren möchte',
+            'convert_confirmation_dialog' => 'Sind Sie sicher, dass Sie diese Chance zu einem Vertrag konvertieren möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
+            'convert_success' => 'Chance erfolgreich zu Vertrag #:contract_id konvertiert',
+            'convert_error' => 'Fehler beim Konvertieren der Chance zu einem Vertrag. Bitte versuchen Sie es erneut.',
+            'converted_contract' => 'Konvertierter Vertrag',
+            'already_converted' => 'Diese Chance wurde bereits zu einem Vertrag konvertiert.',
+            'already_converted_error' => 'Diese Chance wurde bereits zu einem Vertrag konvertiert.',
+            'converted_on' => 'Konvertiert am :date',
+            'contract_details' => 'Vertragsdetails',
+            'view_contract' => 'Vertrag anzeigen',
+            'items_will_be_copied' => 'Angebotsposten werden kopiert',
+            'items_count' => ':count Posten werden in den neuen Vertrag kopiert:',
+            'unknown_product' => 'Unbekanntes Produkt',
         ],
         'sales_funnel' => [
             'select_pipeline' => 'Pipeline auswählen',

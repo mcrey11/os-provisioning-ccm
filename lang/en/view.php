@@ -1118,6 +1118,8 @@ return [
     ],
     'collapseNumbers' => 'Additional Contract Numbers',
     'contract' => [
+        'number' => 'Contract Number',
+        'contract_start' => 'Contract Start',
         'groundForDismissal' => 'Ground for dismissal',
         'groundsForDismissal' => [
             'unknown' => 'unknown',
@@ -1408,6 +1410,24 @@ return [
             'porting_requested_at' => 'Porting Requested At',
             'porting_date' => 'Porting Date',
             'lead' => 'Lead',
+            // Conversion translations
+            'convert_to_contract' => 'Convert to Contract',
+            'convert_to_contract_description' => 'Convert this opportunity to an active contract. All contact information and opportunity items will be copied to the new contract.',
+            'opportunity_info' => 'Opportunity Information',
+            'convert_confirm' => 'Confirmation',
+            'convert_confirm_text' => 'I confirm that I want to convert this opportunity to a contract',
+            'convert_confirmation_dialog' => 'Are you sure you want to convert this opportunity to a contract? This action cannot be undone.',
+            'convert_success' => 'Opportunity successfully converted to contract #:contract_id',
+            'convert_error' => 'Failed to convert opportunity to contract. Please try again.',
+            'converted_contract' => 'Converted Contract',
+            'already_converted' => 'This opportunity has already been converted to a contract.',
+            'already_converted_error' => 'This opportunity has already been converted to a contract.',
+            'converted_on' => 'Converted on :date',
+            'contract_details' => 'Contract Details',
+            'view_contract' => 'View Contract',
+            'items_will_be_copied' => 'Opportunity Items will be copied',
+            'items_count' => ':count items will be copied to the new contract:',
+            'unknown_product' => 'Unknown Product',
         ],
         'sales_funnel' => [
             'select_pipeline' => 'Select Pipeline',
