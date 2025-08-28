@@ -839,4 +839,37 @@ return [
         'guard_expr' => 'Guard Expression',
         'autofail_message' => 'Auto-fail Message',
     ],
+    
+    // CRM Opportunity related tabs
+    'crm_opportunity_tabs' => [
+        'stage_history' => 'Stage History',
+        'lead' => 'Lead',
+        'tickets' => 'Tickets',
+    ],
+    
+    // CRM Opportunity Item
+    'crm_opportunity_item' => [
+        'headline' => 'Opportunity Item',
+        'opportunity_id' => 'CRM Opportunity',
+        'contract_id' => 'Contract',
+        'product_id' => 'Product',
+        'count' => 'Count',
+        'valid_from' => 'Valid from',
+        'valid_from_fixed' => 'Valid from fixed',
+        'valid_to' => 'Valid to',
+        'valid_to_fixed' => 'Valid to fixed',
+        'credit_amount' => 'Credit amount',
+        'costcenter_id' => 'Cost Center',
+        'accounting_text' => 'Accounting text',
+        'payed_month' => 'Payed month',
+        'smartcardids' => 'Smartcard IDs',
+        'settlementrun_id' => 'Settlement run',
+        'payed_until_before_sr' => 'Payed until before SR',
+        'payed_until_after_sr' => 'Payed until after SR',
+        'custom_data' => 'Custom data',
+        'external_status' => 'External status',
+    ],
+    
+    'count' => 'Count',
+    'smartcardids' => 'Smartcard IDs',
 ];

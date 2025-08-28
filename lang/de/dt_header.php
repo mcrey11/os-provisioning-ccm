@@ -843,4 +843,37 @@ return [
         'guard_expr' => 'Bedingungsausdruck',
         'autofail_message' => 'Auto-Fehler-Nachricht',
     ],
+    
+    // CRM Opportunity related tabs
+    'crm_opportunity_tabs' => [
+        'stage_history' => 'Stufen-Historie',
+        'lead' => 'Chance',
+        'tickets' => 'Tickets',
+    ],
+    
+    // CRM Opportunity Item
+    'crm_opportunity_item' => [
+        'headline' => 'Angebotsposten',
+        'opportunity_id' => 'CRM-Gelegenheit',
+        'contract_id' => 'Vertrag',
+        'product_id' => 'Produkt',
+        'count' => 'Anzahl',
+        'valid_from' => 'Gültig von',
+        'valid_from_fixed' => 'Gültig von fixiert',
+        'valid_to' => 'Gültig bis',
+        'valid_to_fixed' => 'Gültig bis fixiert',
+        'credit_amount' => 'Gutschriftsbetrag',
+        'costcenter_id' => 'Kostenstelle',
+        'accounting_text' => 'Buchungstext',
+        'payed_month' => 'Bezahlter Monat',
+        'smartcardids' => 'Smartcard-IDs',
+        'settlementrun_id' => 'Abrechnungslauf',
+        'payed_until_before_sr' => 'Bezahlt bis vor SR',
+        'payed_until_after_sr' => 'Bezahlt bis nach SR',
+        'custom_data' => 'Benutzerdefinierte Daten',
+        'external_status' => 'Externer Status',
+    ],
+    
+    'count' => 'Anzahl',
+    'smartcardids' => 'Smartcard-IDs',
 ];

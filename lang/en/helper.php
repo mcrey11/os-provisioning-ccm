@@ -60,6 +60,15 @@ return [
         'validToFixed'             => 'Checked by default! Uncheck if the end date is uncertain. If unchecked the tariff will not end and will be charged until you activate the checkbox. Further when the end date is reached it will be incremented every day by one day. Info: The date is not updated by external orders (e.g. from telephony provider).',
         'creditAmount'             => 'Overwrites the price of the corresponding product. For Credits: Net Amount to be credited to Customer. Take Care: a negative amount becomes a debit! (on credits)',
     ],
+    
+    'crmOpportunityItem' => [
+        'productId' => 'Product the opportunity item is assigned to. Select the appropriate product for this CRM opportunity.',
+        'validFrom' => 'Date from when the opportunity item should be valid.',
+        'validFromFixed' => 'If checked the date is fixed and will not be changed.',
+        'validTo' => 'Date until when the opportunity item should be valid. You can use format 12M for 12 months from valid from date.',
+        'validToFixed' => 'If checked the date is fixed and will not be changed.',
+        'creditAmount' => 'If set this amount will be used instead of the product price for this opportunity item.',
+    ],
 
     //ProductController
     'product' => [

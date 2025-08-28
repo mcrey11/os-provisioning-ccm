@@ -60,6 +60,15 @@ return [
         'validToFixed'             => 'Dieses Feld ist standardmäßig gesetzt! Deaktivieren Sie diese Checkbox, wenn das Enddatum noch ungewiss ist. Der Tarif bleibt damit aktiv und wird weiterhin abgerechnet bis Sie die Checkbox aktivieren. Bei Erreichen des Enddatums wird dieses außerdem jeden Tag erneut auf den darauffolgenden Tag gesetzt. Info: Feste Termine werden nicht durch externe Aufträge (z.B. vom Telefonie-Provider) aktualisiert.',
         'creditAmount'             => 'Überschreibt den Preis des Produktes. Bei Gutschriften: Nettobetrag, der dem Kunde gutgeschrieben werden soll. Achtung: Bei Gutschriften wird ein negativer Betrag dem Kunde abgezogen!',
     ],
+    
+    'crmOpportunityItem' => [
+        'productId' => 'Produkt, dem der Gelegenheits-Artikel zugeordnet ist. Wählen Sie das entsprechende Produkt für diese CRM-Gelegenheit.',
+        'validFrom' => 'Datum, ab dem der Gelegenheits-Artikel gültig sein soll.',
+        'validFromFixed' => 'Wenn aktiviert, ist das Datum fixiert und wird nicht geändert.',
+        'validTo' => 'Datum, bis zu dem der Gelegenheits-Artikel gültig sein soll. Sie können das Format 12M für 12 Monate ab dem Gültig-von-Datum verwenden.',
+        'validToFixed' => 'Wenn aktiviert, ist das Datum fixiert und wird nicht geändert.',
+        'creditAmount' => 'Falls gesetzt, wird dieser Betrag anstelle des Produktpreises für diesen Gelegenheits-Artikel verwendet.',
+    ],
 
     //ProductController
     'product' => [
