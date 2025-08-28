@@ -1415,6 +1415,7 @@ return [
             // Conversion translations
             'convert_to_contract' => 'Convert to Contract',
             'convert_to_contract_description' => 'Convert this opportunity to an active contract. All contact information and opportunity items will be copied to the new contract.',
+            'import_ticket_title' => 'CRM Excel Import Ticket',
             'opportunity_info' => 'Opportunity Information',
             'convert_confirm' => 'Confirmation',
             'convert_confirm_text' => 'I confirm that I want to convert this opportunity to a contract',

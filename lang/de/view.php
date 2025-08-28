@@ -1416,6 +1416,7 @@ return [
             // Conversion translations
             'convert_to_contract' => 'Zu Vertrag konvertieren',
             'convert_to_contract_description' => 'Konvertieren Sie diese Chance zu einem aktiven Vertrag. Alle Kontaktinformationen und Angebotsposten werden in den neuen Vertrag kopiert.',
+            'import_ticket_title' => 'CRM Excel Import Ticket',
             'opportunity_info' => 'Chance-Informationen',
             'convert_confirm' => 'Bestätigung',
             'convert_confirm_text' => 'Ich bestätige, dass ich diese Chance zu einem Vertrag konvertieren möchte',
