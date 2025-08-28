@@ -292,6 +292,7 @@ return [
             'pipeline_id' => 'Wählen Sie den Verkaufspipeline für diese Chance',
             'stage_id' => 'Wählen Sie die aktuelle Stufe im Pipeline',
             'amount_cents' => 'Geben Sie den Chancenbetrag in Cent ein (z.B. 10000 für €100,00)',
+            'deal_size' => 'Geben Sie die Geschäftsgröße in Cent ein (z.B. 10000 für €100,00)',
             'probability_pct' => 'Geben Sie den Wahrscheinlichkeitsprozentsatz ein (0-100)',
             'expected_close_date' => 'Wählen Sie das erwartete Abschlussdatum für diese Chance',
             'is_preorder' => 'Markieren Sie, wenn es sich um eine Vorbestellungs-Chance handelt',
@@ -360,6 +361,7 @@ return [
      * CRM Opportunity Helper Texts
      */
     'amount_cents_help' => 'Geben Sie den Chancenbetrag in Cent ein (z.B. 10000 für €100,00)',
+    'deal_size_help' => 'Geben Sie die Geschäftsgröße in Cent ein (z.B. 10000 für :currency100,00)',
     'probability_pct_help' => 'Geben Sie den Wahrscheinlichkeitsprozentsatz ein (0-100)',
     'please_select_pipeline_first' => 'Bitte wählen Sie zuerst eine Pipeline aus, um verfügbare Stufen zu sehen',
 ];

@@ -1397,6 +1397,7 @@ return [
             'stage_id' => 'Stage',
             'owner_id' => 'Owner',
             'amount_cents' => 'Amount (Cents)',
+            'deal_size' => 'Deal Size',
             'probability_pct' => 'Probability (%)',
             'expected_close_date' => 'Expected Close Date',
             'is_preorder' => 'Pre-order',

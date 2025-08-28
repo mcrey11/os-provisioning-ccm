@@ -319,6 +319,7 @@ return [
             'pipeline_id' => 'Select the sales pipeline for this opportunity',
             'stage_id' => 'Select the current stage in the pipeline',
             'amount_cents' => 'Enter the opportunity amount in cents (e.g., 10000 for €100.00)',
+            'deal_size' => 'Enter the deal size in cents (e.g., 10000 for €100.00)',
             'probability_pct' => 'Enter the probability percentage (0-100)',
             'expected_close_date' => 'Select the expected closing date for this opportunity',
             'is_preorder' => 'Check if this is a pre-order opportunity',
@@ -384,6 +385,7 @@ return [
      * CRM Opportunity Helper Texts
      */
     'amount_cents_help' => 'Enter the opportunity amount in cents (e.g., 10000 for €100.00)',
+    'deal_size_help' => 'Enter the deal size in cents (e.g., 10000 for :currency100.00)',
     'probability_pct_help' => 'Enter the probability percentage (0-100)',
     'please_select_pipeline_first' => 'Please select a pipeline first to see available stages',
 ];

@@ -1398,6 +1398,7 @@ return [
             'stage_id' => 'Stufe',
             'owner_id' => 'Eigentümer',
             'amount_cents' => 'Betrag (Cent)',
+            'deal_size' => 'Geschäftsgröße',
             'probability_pct' => 'Wahrscheinlichkeit (%)',
             'expected_close_date' => 'Erwartetes Abschlussdatum',
             'is_preorder' => 'Vorbestellung',
