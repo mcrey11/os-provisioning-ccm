@@ -285,7 +285,7 @@ class Configfile extends \BaseModel
                     array_push($config_extensions, "SwUpgradeFilename \"fw/$this->firmware\";");
                     array_push($config_extensions, "SnmpMibObject docsDevSwFilename.0 String \"fw/{$this->firmware}\";");
                     array_push($config_extensions, 'SnmpMibObject docsDevSwAdminStatus.0 Integer 2;');
-                    exec("openssl pkcs7 -print_certs -inform DER -in /tftpboot/fw/$this->firmware | openssl x509 -outform DER | xxd -p -c 254 | sed 's/^/MfgCVCData 0x/; s/$/;/'", $config_extensions);
+                    $this->addCvc($config_extensions);
                 }
 
                 // populate modem options
@@ -596,5 +596,22 @@ class Configfile extends \BaseModel
     public function isInUse()
     {
         return $this->isInUseOnModem();
+    }
+
+    /**
+     * Add CVC certificate (MfgCVCData) or CVC certificate chain (ManufacturerCVCChain)
+     * from the firmware file and convert it into the correct format for the DOCSIS tool
+     *
+     * @author Ole Ernst
+     */
+    public function addCVC(&$config)
+    {
+        $cvcCount = exec("openssl pkcs7 -print_certs -inform DER -in /tftpboot/fw/{$this->firmware} | grep 'BEGIN CERTIFICATE' | wc -l");
+
+        if ($cvcCount == 1) {
+            exec("openssl pkcs7 -print_certs -inform DER -in /tftpboot/fw/{$this->firmware} | openssl x509 -outform DER | xxd -p -c 254 | sed 's/^/MfgCVCData 0x/; s/$/;/'", $config);
+        } else {
+            exec("openssl crl2pkcs7 -nocrl -certfile <(openssl pkcs7 -print_certs -inform DER -in /tftpboot/fw/{$this->firmware}) | openssl pkcs7 -outform DER | xxd -p -c 254 | sed 's/^/ManufacturerCVCChain 0x/; s/$/;/'", $config);
+        }
     }
 }
