@@ -1854,26 +1854,32 @@ class BaseController extends Controller
         }
 
         $DT->editColumn('checkbox', function ($model) {
-            if (method_exists($model, 'set_index_delete')) {
-                $model->set_index_delete();
+            // Ensure we have the correct polymorphic model instance
+            $polymorphicModel = $this->ensurePolymorphicModel($model);
+
+            if (method_exists($polymorphicModel, 'set_index_delete')) {
+                $polymorphicModel->set_index_delete();
             }
 
-            return "<input style='simple' align='center' class='' name='ids[".$model->id."]' type='checkbox' value='1' ".
-                ($model->index_delete_disabled ? 'disabled' : '').'>';
+            return "<input style='simple' align='center' class='' name='ids[".$polymorphicModel->id."]' type='checkbox' value='1' ".
+                ($polymorphicModel->index_delete_disabled ? 'disabled' : '').'>';
         })->editColumn($firstColumn, function ($model) use ($firstColumn) {
-            $content = $model[$firstColumn];
+            // Ensure we have the correct polymorphic model instance
+            $polymorphicModel = $this->ensurePolymorphicModel($model);
+
+            $content = $polymorphicModel[$firstColumn];
             // Get cell content when data is eager loaded on first column
             if (strpos($firstColumn, '.') !== false) {
                 $chain = explode('.', $firstColumn);
 
-                $content = $model;
+                $content = $polymorphicModel;
                 foreach ($chain as $value) {
                     $content = $content->{$value};
                 }
             }
 
-            return '<a href="'.route(NamespaceController::get_route_name().'.edit', $model->id).'"><strong>'.
-                $model->view_icon().$content.'</strong></a>';
+            return '<a href="'.route(NamespaceController::get_route_name().'.edit', $polymorphicModel->id).'"><strong>'.
+                $polymorphicModel->view_icon().$content.'</strong></a>';
         });
 
         if (in_array('created_at', $headerFields) || in_array("{$model->table}.created_at", $headerFields)) {
@@ -1897,21 +1903,27 @@ class BaseController extends Controller
 
             if ($column == $firstColumn) {
                 $DT->editColumn($column, function ($model) use ($functionname) {
+                    // Ensure we have the correct polymorphic model instance
+                    $polymorphicModel = $this->ensurePolymorphicModel($model);
+
                     $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
 
-                    return '<a href="'.route(NamespaceController::get_route_name().'.edit', $model->id).
-                        '"><strong>'.$model->view_icon().$functionname($model).'</strong></a>';
+                    return '<a href="'.route(NamespaceController::get_route_name().'.edit', $polymorphicModel->id).
+                        '"><strong>'.$polymorphicModel->view_icon().$functionname($polymorphicModel).'</strong></a>';
                 });
             } else {
                 $DT->editColumn($column, function ($model) use ($functionname, $param) {
+                    // Ensure we have the correct polymorphic model instance
+                    $polymorphicModel = $this->ensurePolymorphicModel($model);
+
                     if (is_null($param)) {
                         $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
 
-                        return $functionname($model);
+                        return $functionname($polymorphicModel);
                     } else {
                         $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname($param);
 
-                        return $functionname($model, $param);
+                        return $functionname($polymorphicModel, $param);
                     }
                 });
             }
@@ -1919,16 +1931,62 @@ class BaseController extends Controller
 
         // Colors
         $DT->setRowClass(function ($model) {
-            if (method_exists($model, 'get_bsclass')) {
-                return $model->get_bsclass();
+            // Ensure we have the correct polymorphic model instance
+            $polymorphicModel = $this->ensurePolymorphicModel($model);
+
+            if (method_exists($polymorphicModel, 'get_bsclass')) {
+                return $polymorphicModel->get_bsclass();
             }
 
-            return $model->view_index_label()['bsclass'] ?? 'info';
+            return $polymorphicModel->view_index_label()['bsclass'] ?? 'info';
         });
 
         array_unshift($rawColumns, 'checkbox', $firstColumn); // add everywhere used raw columns
 
         return $DT->rawColumns($rawColumns)->make();
+    }
+
+    /**
+     * Ensure that the model instance is the correct polymorphic class.
+     * This is needed for models that use the qualified_model_class field
+     * to determine their actual class (e.g., Modem -> CalixOnt).
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    private function ensurePolymorphicModel($model)
+    {
+        // Check if the model uses the PolymorphicModelTrait
+        if (method_exists($model, 'instantiatePolymorphicModel')) {
+            return $model::instantiatePolymorphicModel($model);
+        }
+
+        // Check if the model has a qualified_model_class field and it's different from the current class
+        if (isset($model->qualified_model_class) &&
+            $model->qualified_model_class &&
+            class_exists($model->qualified_model_class) &&
+            $model->qualified_model_class !== get_class($model)) {
+            // Create a new instance of the derived class
+            $instance = new $model->qualified_model_class();
+
+            // Set the table name to ensure it uses the correct table
+            $instance->setTable($model->getTable());
+
+            // Set the attributes
+            $instance->setRawAttributes($model->getAttributes(), true);
+
+            // Set the original attributes
+            $instance->syncOriginal();
+
+            // Set the loaded relationships
+            foreach ($model->getRelations() as $relation => $value) {
+                $instance->setRelation($relation, $value);
+            }
+
+            return $instance;
+        }
+
+        return $model;
     }
 
     /**
