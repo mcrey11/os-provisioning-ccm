@@ -138,6 +138,13 @@ class ImportCrmOpportunitiesCommand extends Command
     ];
 
     /**
+     * Average runtime in months for deal size calculation
+     *
+     * @var int
+     */
+    protected $avgRuntime = 36;
+
+    /**
      * Statistics tracking
      *
      * @var array
@@ -543,16 +550,34 @@ class ImportCrmOpportunitiesCommand extends Command
     }
 
     /**
-     * Calculate deal size based on tariff
+     * Calculate deal size based on tariff product price multiplied by average runtime
      */
     protected function calculateDealSize(string $tariff): int
     {
-        // Extract number from tariff string
-        preg_match('/(\d+)/', $tariff, $matches);
-        $speed = isset($matches[1]) ? (int) $matches[1] : 50;
+        // Find the product ID for this tariff
+        $tariffValue = trim($tariff);
+        $productId = $this->tariffMappings[$tariffValue] ?? null;
         
-        // Simple calculation: speed * base price
-        return $speed * 30; // 30€ per Mbit as base calculation
+        if (!$productId) {
+            // Log warning if product mapping not found
+            Log::warning("No product mapping found for tariff: {$tariff}");
+            return 0;
+        }
+        
+        // Get the actual product price
+        $product = Product::find($productId);
+        if (!$product) {
+            Log::warning("Product not found for ID: {$productId} (tariff: {$tariff})");
+            return 0;
+        }
+        
+        if (!$product->price) {
+            Log::warning("Product {$productId} has no price set (tariff: {$tariff})");
+            return 0;
+        }
+        
+        // Calculate: product price * average runtime (in months)
+        return (int) round($product->price * $this->avgRuntime);
     }
 
     /**
