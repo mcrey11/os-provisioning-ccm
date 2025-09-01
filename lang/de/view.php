@@ -307,7 +307,7 @@ return [
             'Header_CrmContact'         => 'CRM-Kontakt|CRM-Kontakte',
         'Header_CrmLead'            => 'CRM-Lead|CRM-Leads',
         'Header_CrmOpportunity'     => 'CRM-Chance|CRM-Chancen',
-        'Header_CrmSalesFunnel'     => 'CRM-Verkaufstrichter',
+        'Header_CrmSalesFunnel'     => 'Vertriebspipeline',
         'Header_CrmPipeline'        => 'CRM-Pipeline|CRM-Pipelines',
         'Header_CrmPipelineStage'   => 'CRM-Pipeline-Stufe|CRM-Pipeline-Stufen',
         'Header_CrmStageTransition' => 'CRM-Stufenübergang|CRM-Stufenübergänge',

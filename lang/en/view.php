@@ -1543,6 +1543,6 @@ return [
     'Header_Contact' => 'Contact',
     'Header_ContactBase' => 'Contact Base',
     'Header_CrmOpportunity' => 'CRM Opportunity',
-    'Header_CrmSalesFunnel' => 'CRM Sales Funnel',
+    'Header_CrmSalesFunnel' => 'Pipeline',
     'description' => 'Core contact and address management system',
 ];
