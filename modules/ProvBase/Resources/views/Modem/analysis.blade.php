@@ -47,6 +47,16 @@
 
 @section('content_ping')
     <div class="tab-content min-h-[16rem]">
+
+        @if ($parent)
+            <div>
+                <h4 class="inline-block h4">Parent:&nbsp;</h4>
+                <div class="inline-block alert alert-{{ $parent['bsclass'] }} fade show">
+                    <a href="{{ route($parent['route'], $modem->parent_id) }}">{{ $parent['text'] }}</a>
+                </div>
+            </div>
+        @endif
+
         <div class="tab-pane" id="ping-test">
             @if ($online)
                 <div class="font-semibold text-green-600"><b>{{ trans('messages.deviceOnline', ['Device' => 'Modem']) }}</b></div>
