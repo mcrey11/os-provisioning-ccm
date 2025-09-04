@@ -443,4 +443,10 @@ return [
         'deleted' => 'Customer interaction category field rule has been deleted successfully.',
         'not_found' => 'Customer interaction category field rule not found.',
     ],
+    'ci_customer_interaction' => [
+        'created' => 'Customer interaction has been created successfully.',
+        'updated' => 'Customer interaction has been updated successfully.',
+        'deleted' => 'Customer interaction has been deleted successfully.',
+        'not_found' => 'Customer interaction not found.',
+    ],
 ];

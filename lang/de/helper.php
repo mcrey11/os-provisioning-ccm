@@ -420,4 +420,10 @@ return [
         'deleted' => 'Kundeninteraktions-Kategorie-Feld-Regel wurde erfolgreich gelöscht.',
         'not_found' => 'Kundeninteraktions-Kategorie-Feld-Regel nicht gefunden.',
     ],
+    'ci_customer_interaction' => [
+        'created' => 'Kundeninteraktion wurde erfolgreich erstellt.',
+        'updated' => 'Kundeninteraktion wurde erfolgreich aktualisiert.',
+        'deleted' => 'Kundeninteraktion wurde erfolgreich gelöscht.',
+        'not_found' => 'Kundeninteraktion nicht gefunden.',
+    ],
 ];

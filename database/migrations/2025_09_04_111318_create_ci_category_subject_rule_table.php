@@ -23,34 +23,33 @@ use Illuminate\Support\Facades\Schema;
 return new class extends BaseMigration
 {
     public $migrationScope = 'database';
-
-    protected $tableName = 'ci_status';
-
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create($this->tableName, function (Blueprint $table) {
+        Schema::create('ci_category_subject_rule', function (Blueprint $table) {
             $this->upTableGeneric($table);
-            $table->string('label', 191);
-            $table->boolean('is_final')->default(false);
-            $table->boolean('is_active')->default(true);
-            $table->integer('sort_order')->default(0);
+            $table->bigInteger('ci_category_id')->unsigned();
+            $table->integer('subject_type_id');
+            $table->boolean('active')->default(true);
+            
+            // Foreign key constraint
+            $table->foreign('ci_category_id')->references('id')->on('ci_category')->onDelete('restrict');
+            
+            // Unique constraint
+            $table->unique(['ci_category_id', 'subject_type_id']);
+            
+            // Index for performance
+            $table->index(['subject_type_id', 'active']);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists($this->tableName);
+        Schema::dropIfExists('ci_category_subject_rule');
     }
-
-
 };

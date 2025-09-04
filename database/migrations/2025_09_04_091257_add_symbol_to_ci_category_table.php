@@ -17,14 +17,15 @@
  */
 
 use Database\Migrations\BaseMigration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends BaseMigration
 {
     public $migrationScope = 'database';
 
-    protected $tableName = 'ci_status';
+    protected $tableName = 'ci_category';
 
     /**
      * Run the migrations.
@@ -33,12 +34,8 @@ return new class extends BaseMigration
      */
     public function up()
     {
-        Schema::create($this->tableName, function (Blueprint $table) {
-            $this->upTableGeneric($table);
-            $table->string('label', 191);
-            $table->boolean('is_final')->default(false);
-            $table->boolean('is_active')->default(true);
-            $table->integer('sort_order')->default(0);
+        Schema::table($this->tableName, function (Blueprint $table) {
+            $table->string('symbol', 64)->nullable()->after('label');
         });
     }
 
@@ -49,8 +46,8 @@ return new class extends BaseMigration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tableName);
+        Schema::table($this->tableName, function (Blueprint $table) {
+            $table->dropColumn('symbol');
+        });
     }
-
-
 };

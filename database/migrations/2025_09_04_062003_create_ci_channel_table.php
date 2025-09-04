@@ -52,4 +52,6 @@ return new class extends BaseMigration
     {
         Schema::dropIfExists($this->tableName);
     }
+
+
 };

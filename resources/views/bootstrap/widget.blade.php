@@ -43,7 +43,7 @@
     <div class="stats-link {{$noHover}}">
         <a href="{{ $link }}">
             @if($link != '#')
-                {{ trans('view.dashboard.linkDetails') }} <i class="fa fa-arrow-circle-o-right"></i>
+                {{ $link_text ?? trans('view.dashboard.linkDetails') }} <i class="fa fa-arrow-circle-o-right"></i>
             @else
                 &nbsp;
             @endif
