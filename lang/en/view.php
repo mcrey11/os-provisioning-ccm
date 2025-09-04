@@ -1552,5 +1552,29 @@ return [
     'Header_ContactBase' => 'Contact Base',
     'Header_CrmOpportunity' => 'CRM Opportunity',
     'Header_CrmSalesFunnel' => 'Pipeline',
+    'Header_CiChannel' => 'Customer Interaction Channels',
+    'Header_CiDirection' => 'Customer Interaction Directions',
+    'Header_CiStatus' => 'Customer Interaction Statuses',
+    'Header_CiCategory' => 'Customer Interaction Categories',
+    'Header_CiField' => 'Customer Interaction Fields',
+    'Header_CiRequirementLevel' => 'Customer Interaction Requirement Levels',
+    'Header_CiCategoryFieldRule' => 'Customer Interaction Category Field Rules',
     'description' => 'Core contact and address management system',
+    
+    // CustomerInteraction (Global)
+    'description' => 'Manage customer interaction channels and communication methods',
+    'key' => 'Key',
+    'label' => 'Label',
+    'description' => 'Description',
+    'is_active' => 'Active',
+    'sort_order' => 'Sort Order',
+    
+    // CustomerInteraction Menu Items
+    'Menu_Channels' => 'Channels',
+    'Menu_Directions' => 'Directions',
+    'Menu_Statuses' => 'Statuses',
+    'Menu_Categories' => 'Categories',
+    'Menu_Fields' => 'Fields',
+    'Menu_Requirement Levels' => 'Requirement Levels',
+    'Menu_Field Rules' => 'Field Rules',
 ];

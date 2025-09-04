@@ -1551,5 +1551,29 @@ return [
     // ContactBase Module Headers
     'Header_Contact' => 'Kontakt',
     'Header_ContactBase' => 'Kontakt Basis',
+    'Header_CiChannel' => 'Kundeninteraktions-Kanäle',
+    'Header_CiDirection' => 'Kundeninteraktions-Richtungen',
+    'Header_CiStatus' => 'Kundeninteraktions-Status',
+    'Header_CiCategory' => 'Kundeninteraktions-Kategorien',
+    'Header_CiField' => 'Kundeninteraktions-Felder',
+    'Header_CiRequirementLevel' => 'Kundeninteraktions-Anforderungsstufen',
+    'Header_CiCategoryFieldRule' => 'Kundeninteraktions-Kategorie-Feld-Regeln',
     'description' => 'Kernsystem für Kontakt- und Adressverwaltung',
+    
+    // CustomerInteraction (Global)
+    'description' => 'Kundeninteraktions-Kanäle und Kommunikationsmethoden verwalten',
+    'key' => 'Schlüssel',
+    'label' => 'Bezeichnung',
+    'description' => 'Beschreibung',
+    'is_active' => 'Aktiv',
+    'sort_order' => 'Sortierreihenfolge',
+    
+    // CustomerInteraction Menu Items
+    'Menu_Channels' => 'Kanäle',
+    'Menu_Directions' => 'Richtungen',
+    'Menu_Statuses' => 'Status',
+    'Menu_Categories' => 'Kategorien',
+    'Menu_Fields' => 'Felder',
+    'Menu_Requirement Levels' => 'Anforderungsstufen',
+    'Menu_Field Rules' => 'Feld-Regeln',
 ];

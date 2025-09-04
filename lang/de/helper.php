@@ -374,4 +374,50 @@ return [
     'deal_size_help' => 'Geben Sie die Geschäftsgröße in Cent ein (z.B. 10000 für :currency100,00)',
     'probability_pct_help' => 'Geben Sie den Wahrscheinlichkeitsprozentsatz ein (0-100)',
     'please_select_pipeline_first' => 'Bitte wählen Sie zuerst eine Pipeline aus, um verfügbare Stufen zu sehen',
+    
+    /*
+     * MODULE: CustomerInteraction (Global)
+     */
+    'ci_channel' => [
+        'created' => 'Kundeninteraktions-Kanal wurde erfolgreich erstellt.',
+        'updated' => 'Kundeninteraktions-Kanal wurde erfolgreich aktualisiert.',
+        'deleted' => 'Kundeninteraktions-Kanal wurde erfolgreich gelöscht.',
+        'not_found' => 'Kundeninteraktions-Kanal nicht gefunden.',
+    ],
+    'ci_direction' => [
+        'created' => 'Kundeninteraktions-Richtung wurde erfolgreich erstellt.',
+        'updated' => 'Kundeninteraktions-Richtung wurde erfolgreich aktualisiert.',
+        'deleted' => 'Kundeninteraktions-Richtung wurde erfolgreich gelöscht.',
+        'not_found' => 'Kundeninteraktions-Richtung nicht gefunden.',
+    ],
+    'ci_status' => [
+        'created' => 'Kundeninteraktions-Status wurde erfolgreich erstellt.',
+        'updated' => 'Kundeninteraktions-Status wurde erfolgreich aktualisiert.',
+        'deleted' => 'Kundeninteraktions-Status wurde erfolgreich gelöscht.',
+        'not_found' => 'Kundeninteraktions-Status nicht gefunden.',
+    ],
+    'ci_category' => [
+        'created' => 'Kundeninteraktions-Kategorie wurde erfolgreich erstellt.',
+        'updated' => 'Kundeninteraktions-Kategorie wurde erfolgreich aktualisiert.',
+        'deleted' => 'Kundeninteraktions-Kategorie wurde erfolgreich gelöscht.',
+        'not_found' => 'Kundeninteraktions-Kategorie nicht gefunden.',
+    ],
+    'ci_field' => [
+        'created' => 'Kundeninteraktions-Feld wurde erfolgreich erstellt.',
+        'updated' => 'Kundeninteraktions-Feld wurde erfolgreich aktualisiert.',
+        'deleted' => 'Kundeninteraktions-Feld wurde erfolgreich gelöscht.',
+        'not_found' => 'Kundeninteraktions-Feld nicht gefunden.',
+    ],
+    'ci_requirement_level' => [
+        'created' => 'Kundeninteraktions-Anforderungsstufe wurde erfolgreich erstellt.',
+        'updated' => 'Kundeninteraktions-Anforderungsstufe wurde erfolgreich aktualisiert.',
+        'deleted' => 'Kundeninteraktions-Anforderungsstufe wurde erfolgreich gelöscht.',
+        'not_found' => 'Kundeninteraktions-Anforderungsstufe nicht gefunden.',
+    ],
+    'ci_category_field_rule' => [
+        'created' => 'Kundeninteraktions-Kategorie-Feld-Regel wurde erfolgreich erstellt.',
+        'updated' => 'Kundeninteraktions-Kategorie-Feld-Regel wurde erfolgreich aktualisiert.',
+        'deleted' => 'Kundeninteraktions-Kategorie-Feld-Regel wurde erfolgreich gelöscht.',
+        'not_found' => 'Kundeninteraktions-Kategorie-Feld-Regel nicht gefunden.',
+    ],
 ];

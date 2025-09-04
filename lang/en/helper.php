@@ -397,4 +397,50 @@ return [
     'deal_size_help' => 'Enter the deal size in cents (e.g., 10000 for :currency100.00)',
     'probability_pct_help' => 'Enter the probability percentage (0-100)',
     'please_select_pipeline_first' => 'Please select a pipeline first to see available stages',
+    
+    /*
+     * MODULE: CustomerInteraction (Global)
+     */
+    'ci_channel' => [
+        'created' => 'Customer interaction channel has been created successfully.',
+        'updated' => 'Customer interaction channel has been updated successfully.',
+        'deleted' => 'Customer interaction channel has been deleted successfully.',
+        'not_found' => 'Customer interaction channel not found.',
+    ],
+    'ci_direction' => [
+        'created' => 'Customer interaction direction has been created successfully.',
+        'updated' => 'Customer interaction direction has been updated successfully.',
+        'deleted' => 'Customer interaction direction has been deleted successfully.',
+        'not_found' => 'Customer interaction direction not found.',
+    ],
+    'ci_status' => [
+        'created' => 'Customer interaction status has been created successfully.',
+        'updated' => 'Customer interaction status has been updated successfully.',
+        'deleted' => 'Customer interaction status has been deleted successfully.',
+        'not_found' => 'Customer interaction status not found.',
+    ],
+    'ci_category' => [
+        'created' => 'Customer interaction category has been created successfully.',
+        'updated' => 'Customer interaction category has been updated successfully.',
+        'deleted' => 'Customer interaction category has been deleted successfully.',
+        'not_found' => 'Customer interaction category not found.',
+    ],
+    'ci_field' => [
+        'created' => 'Customer interaction field has been created successfully.',
+        'updated' => 'Customer interaction field has been updated successfully.',
+        'deleted' => 'Customer interaction field has been deleted successfully.',
+        'not_found' => 'Customer interaction field not found.',
+    ],
+    'ci_requirement_level' => [
+        'created' => 'Customer interaction requirement level has been created successfully.',
+        'updated' => 'Customer interaction requirement level has been updated successfully.',
+        'deleted' => 'Customer interaction requirement level has been deleted successfully.',
+        'not_found' => 'Customer interaction requirement level not found.',
+    ],
+    'ci_category_field_rule' => [
+        'created' => 'Customer interaction category field rule has been created successfully.',
+        'updated' => 'Customer interaction category field rule has been updated successfully.',
+        'deleted' => 'Customer interaction category field rule has been deleted successfully.',
+        'not_found' => 'Customer interaction category field rule not found.',
+    ],
 ];
