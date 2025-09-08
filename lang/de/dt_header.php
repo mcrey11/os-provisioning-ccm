@@ -3,6 +3,7 @@
 return [
     // Index DataTable Header
     'active' => 'Aktiv',
+    'subject_type_id' => 'Art des Themas',
     'addtl_addr_info' => 'Addresszusatz',
     'amount' => 'Betrag',
     'buttons' => [
@@ -964,13 +965,14 @@ return [
         'ci_status_id' => 'Status',
     ],
     'ci_category_subject_rule' => [
-        'index' => 'Kundeninteraktions-Kategorie-Betreff-Regeln',
-        'create' => 'Kundeninteraktions-Kategorie-Betreff-Regel erstellen',
-        'edit' => 'Kundeninteraktions-Kategorie-Betreff-Regel bearbeiten',
-        'show' => 'Kundeninteraktions-Kategorie-Betreff-Regel Details',
+        'index' => 'Kundeninteraktions-Kategorie-Themen-Regeln',
+        'create' => 'Kundeninteraktions-Kategorie-Theme-Regel erstellen',
+        'edit' => 'Kundeninteraktions-Kategorie-Theme-Regel bearbeiten',
+        'show' => 'Kundeninteraktions-Kategorie-Theme-Regel Details',
         'id' => 'ID',
         'ci_category_id' => 'Kategorie',
-        'subject_type' => 'Betreff-Typ',
+        'subject_type' => 'Art des Themas',
+        'subject_type_id' => 'Art des Themas',
         'active' => 'Aktiv',
     ],
     'category' => [
@@ -982,7 +984,7 @@ return [
         'edit' => 'Kundeninteraktion bearbeiten',
         'show' => 'Kundeninteraktion Details',
         'id' => 'ID',
-        'subject_type' => 'Betreff-Typ',
+        'subject_type' => 'Art des Themas',
         'subject_id' => 'Betreff-ID',
         'contract_id' => 'Vertrag',
         'contact_point_id' => 'Kontaktpunkt',
@@ -990,7 +992,7 @@ return [
         'ci_direction_id' => 'Richtung',
         'ci_category_id' => 'Kategorie',
         'ci_status_id' => 'Status',
-        'subject' => 'Betreff',
+        'subject' => 'Themen',
         'notes' => 'Notizen',
         'requires_ticket' => 'Benötigt Ticket',
         'msisdn' => 'MSISDN',

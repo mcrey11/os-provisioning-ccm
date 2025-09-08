@@ -1582,7 +1582,7 @@ return [
     'Menu_CustomerInteraction' => 'Kundeninteraktion',
     'Requires Ticket' => 'Ticket erforderlich',
     'Notes Required' => 'Notizen erforderlich',
-    'Menu_Subject Rules' => 'Betreff-Regeln',
+    'Menu_Subject Rules' => 'Themen-Regeln',
 
     'customer_interaction_create' => 'Kunden Interaktion anlegen',
     'search_interactions' => 'Interaktionen suchen',
@@ -1656,6 +1656,6 @@ return [
         'select_category_for' => 'Kategorie auswählen für',
         'select_category_description' => 'Wählen Sie die passende Kategorie für diese Kundeninteraktion',
         'create_interaction' => 'Interaktion erstellen',
-        'Header_CiCategorySubjectRule' => 'Kategorie-Betreff-Regeln',
+        'Header_CiCategorySubjectRule' => 'Kategorie-Themen-Regeln',
     ],
 ];

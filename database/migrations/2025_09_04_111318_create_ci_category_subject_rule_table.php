@@ -31,7 +31,7 @@ return new class extends BaseMigration
         Schema::create('ci_category_subject_rule', function (Blueprint $table) {
             $this->upTableGeneric($table);
             $table->bigInteger('ci_category_id')->unsigned();
-            $table->integer('subject_type_id');
+            $table->string('subject_type_id');
             $table->boolean('active')->default(true);
             
             // Foreign key constraint

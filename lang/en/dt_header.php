@@ -3,6 +3,7 @@
 return [
     // Index DataTable Header
     'active' => 'Active',
+    'subject_type_id' => 'Subject Type',
     'addtl_addr_info' => 'Additional address info',
     'amount' => 'Amount',
     'buttons' => [
@@ -967,6 +968,7 @@ return [
         'id' => 'ID',
         'ci_category_id' => 'Category',
         'subject_type' => 'Subject Type',
+        'subject_type_id' => 'Subject Type',
         'active' => 'Active',
     ],
     'category' => [
