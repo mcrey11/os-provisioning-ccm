@@ -1319,7 +1319,7 @@ return [
         ],
         'menu' => [
             'contacts' => 'Kontakte',
-            'leads' => 'Leads',
+            'leads' => 'Anfragen (Leads)',
             'opportunities' => 'Chancen',
             'contracts' => 'Verträge',
         ],
