@@ -323,6 +323,10 @@ class IpPool extends \BaseModel
             return "\t\t\trange ".implode(' ', array_map('long2ip', array_unique($range))).';';
         }, $ranges);
 
+        if (! $ranges) {
+            return;
+        }
+
         return implode("\n", $ranges)."\n";
     }
 
