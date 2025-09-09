@@ -866,6 +866,7 @@ return [
     'settlementrun' => [
         '' => 'Settlement run',
         'functions' => [
+            'concatInvoices' => 'Concatenate invoices and create ZIP file',
             'postInvoices' => 'Create Postal Invoices PDF',
             'revenueList' => 'Create revenue list (per cost center)',
             'sendTransactions' => 'Send transactions to payment gateway provider',
