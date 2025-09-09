@@ -17,14 +17,15 @@
  */
 
 use Database\Migrations\BaseMigration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends BaseMigration
 {
     public $migrationScope = 'database';
 
-    protected $tableName = 'ci_requirement_level';
+    protected $tableName = 'ci_category';
 
     /**
      * Run the migrations.
@@ -33,9 +34,8 @@ return new class extends BaseMigration
      */
     public function up()
     {
-        Schema::create($this->tableName, function (Blueprint $table) {
-            $this->upTableGeneric($table);
-            $table->string('label', 191);
+        Schema::table($this->tableName, function (Blueprint $table) {
+            $table->json('dynamic_fields')->nullable()->after('sort_order');
         });
     }
 
@@ -46,8 +46,8 @@ return new class extends BaseMigration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tableName);
+        Schema::table($this->tableName, function (Blueprint $table) {
+            $table->dropColumn('dynamic_fields');
+        });
     }
-
-
 };
