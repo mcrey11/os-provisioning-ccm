@@ -18,92 +18,98 @@
 ?>
 @extends ('provbase::layouts.split')
 
-@section('content_dash')
-    <div class="relative flex min-h-[5rem]">
-        <div class="absolute right-0 top-0">
-            @include('Generic.documentation', ['documentation' => $modem->help])
-        </div>
-        @if ($dash)
-            <div class="{{ count($dash) == 1 ? 'col-sm-10 col-xl-11 order-2' : '' }} ">
-                @foreach ($dash as $key => $info)
-                    @if (! $info)
-                        @continue
-                    @endif
-                    <div class="alert alert-{{ $info['bsclass'] }} fade show">
-                        <div>
-                            {{ $info['text'] }}
-                        </div>
-                        @if (isset($info['instructions']))
-                            <div class="m-t-10 m-b-5">
-                                <code class="p-5">{{ $info['instructions'] }}</code>
-                            </div>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
-        @endif
-    </div>
-@stop
-
-@section('content_ping')
-    <div class="tab-content min-h-[16rem]">
-
+@if(in_array('dashboard', $viewPanels))
+    @section('content_dash')
         @if ($parent)
             <div>
-                <h4 class="inline-block h4">Parent:&nbsp;</h4>
+                <h4 class="inline-block h4">Parent device:&nbsp;</h4>
                 <div class="inline-block alert alert-{{ $parent['bsclass'] }} fade show">
                     <a href="{{ route($parent['route'], $modem->parent_id) }}">{{ $parent['text'] }}</a>
                 </div>
             </div>
         @endif
+        <div class="relative flex min-h-[5rem]">
+            <div class="absolute right-0 top-0">
+                @include('Generic.documentation', ['documentation' => $modem->help])
+            </div>
 
-        <div class="tab-pane" id="ping-test">
-            @if ($online)
-                <div class="font-semibold text-green-600"><b>{{ trans('messages.deviceOnline', ['Device' => 'Modem']) }}</b></div>
-            @else
-                <div class="font-semibold text-red-600">{{ trans('messages.deviceOffline', ['Device' => 'Modem']) }}</div>
-            @endif
-            {{-- pings are appended dynamically here by javascript --}}
-        </div>
-
-        <div class="tab-pane fade in px-2" id="flood-ping">
-            <form v-on:submit.prevent="floodPing">
-                <div class="row flex">
-                    <div class="flex-1">
-                        <select2 id="pingselect" v-model="selectedPing" :initial="1" :i18n="{ all: '{{ trans('messages.all') }}'}">
-                            <option v-for="option in pingOptions" v-bind:key="option.id" v-bind:value="option.id" v-text="option.text" v-bind:selected="option.id == 1"></option>
-                        </select2>
-                    </div>
-                    <div class="text-center">
-                        <button class="btn btn-primary ml-3 mb-3" type="submit">{{ trans('view.modemAnalysis.sendPing') }}</button>
-                    </div>
+            @if ($dash)
+                <div class="{{ count($dash) == 1 ? 'col-sm-10 col-xl-11 order-2' : '' }} ">
+                    @foreach ($dash as $key => $info)
+                        @if (! $info)
+                            @continue
+                        @endif
+                        <div class="alert alert-{{ $info['bsclass'] }} fade show">
+                            <div>
+                                {{ $info['text'] }}
+                            </div>
+                            @if (isset($info['instructions']))
+                                <div class="m-t-10 m-b-5">
+                                    <code class="p-5">{{ $info['instructions'] }}</code>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
-            </form>
-            {{-- Result --}}
-            <div v-if="pingStarted && ! floodPingResult" class="flex justify-content-center m-t-20" style="position:relative;height:200px;">
-                <div id="loader" style="position: absolute;"></div>
-            </div>
-            <div v-if="floodPingResult">
-                <table>
-                    <tr v-for="line in floodPingResult">
-                        <td>
-                            <p style="color: grey" v-text="line"></p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            @endif
         </div>
+    @stop
+@endif
 
-        @yield('arris_iperf')
-    </div>
-@stop
+@if(in_array('ping', $viewPanels))
+    @section('content_ping')
+        <div class="tab-content min-h-[16rem]">
 
-@section('content_log')
-    <div class="tab-content">
-        @include('provbase::Modem.logLeaseConfTabs')
-        @include('provbase::Modem.radiusTabs')
-    </div>
-@stop
+            <div class="tab-pane" id="ping-test">
+                @if ($online)
+                    <div class="font-semibold text-green-600"><b>{{ trans('messages.deviceOnline', ['Device' => 'Modem']) }}</b></div>
+                @else
+                    <div class="font-semibold text-red-600">{{ trans('messages.deviceOffline', ['Device' => 'Modem']) }}</div>
+                @endif
+                {{-- pings are appended dynamically here by javascript --}}
+            </div>
+
+            <div class="tab-pane fade in px-2" id="flood-ping">
+                <form v-on:submit.prevent="floodPing">
+                    <div class="row flex">
+                        <div class="flex-1">
+                            <select2 id="pingselect" v-model="selectedPing" :initial="1" :i18n="{ all: '{{ trans('messages.all') }}'}">
+                                <option v-for="option in pingOptions" v-bind:key="option.id" v-bind:value="option.id" v-text="option.text" v-bind:selected="option.id == 1"></option>
+                            </select2>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary ml-3 mb-3" type="submit">{{ trans('view.modemAnalysis.sendPing') }}</button>
+                        </div>
+                    </div>
+                </form>
+                {{-- Result --}}
+                <div v-if="pingStarted && ! floodPingResult" class="flex justify-content-center m-t-20" style="position:relative;height:200px;">
+                    <div id="loader" style="position: absolute;"></div>
+                </div>
+                <div v-if="floodPingResult">
+                    <table>
+                        <tr v-for="line in floodPingResult">
+                            <td>
+                                <p style="color: grey" v-text="line"></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            @yield('arris_iperf')
+        </div>
+    @stop
+@endif
+
+@if(in_array('log', $viewPanels))
+    @section('content_log')
+        <div class="tab-content">
+            @include('provbase::Modem.logLeaseConfTabs')
+            @include('provbase::Modem.radiusTabs')
+        </div>
+    @stop
+@endif
 
 @section('content_realtime')
     @if (array_key_exists('DT_Current Session', $radius))

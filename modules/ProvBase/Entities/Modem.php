@@ -2509,6 +2509,12 @@ class Modem extends \BaseModel
      */
     public function getAnalysisBaseData($api = false)
     {
+        $viewPanels = [
+            'dashboard',
+            'log',
+            'ping',
+            'spectrum',
+        ];
         $conf = ProvBase::first();
         $this->domainName = $conf->domain_name;
         $mac = strtolower($this->mac);
@@ -2582,7 +2588,7 @@ class Modem extends \BaseModel
         $modem = $this;
 
         return compact('online', 'lease', 'tr069Log', 'configfile', 'dash', 'ip',
-            'cmds', 'modem', 'pills', 'tabs', 'view_header', 'tickets', 'radius', 'wifi', 'lan');
+            'cmds', 'modem', 'pills', 'tabs', 'view_header', 'tickets', 'radius', 'wifi', 'lan', 'viewPanels');
     }
 
     /**

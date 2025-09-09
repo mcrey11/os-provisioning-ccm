@@ -74,6 +74,7 @@
 >
 @endif
 
+@if(in_array('dashboard', $viewPanels))
     <div class="col-md-7 ui-sortable">
         @include ('bootstrap.panel', ['content' => 'content_dash', 'view_header' => 'Dashboard', 'i' => 1, 'overflow' => 'visible'])
         @if (isset($realtime))
@@ -83,8 +84,10 @@
             @include ('bootstrap.panel', ['content' => 'content_cacti', 'view_header' => 'Monitoring', 'i' => 3])
         @endif
     </div>
+@endif
 
     <div class="col-md-5 ui-sortable">
+    @if(in_array('ping', $viewPanels))
         @php
         $panelHeaderPing = '<ul class="nav nav-pills" id="ping-tab">
                 <li role="presentation"><a href="#ping-test" data-toggle="pill">Default Ping</a></li>
@@ -96,7 +99,9 @@
         @endphp
 
         @include ('bootstrap.panel', ['content' => 'content_ping', 'view_header' => $panelHeaderPing, 'i' => 4])
+    @endif
 
+    @if(in_array('log', $viewPanels))
         @php
             $panelHeader = '<ul class="nav nav-pills" id="loglease">';
             foreach ($pills as $pill) {
@@ -106,17 +111,20 @@
         @endphp
 
         @include ('bootstrap.panel', ['content' => 'content_log', 'view_header' => $panelHeader, 'i' => 5])
+    @endif
 
         @if (\Module::collections()->has('HfcCustomer'))
             @include ('bootstrap.panel', ['content' => 'content_proximity_search', 'view_header' => trans('messages.proximity'), 'i' => 6])
         @endif
     </div>
 
+@if(in_array('spectrum', $viewPanels))
     @if (Module::collections()->has('ProvMon') && ! $modem->isPPP())
         <div class="col-md-12 ui-sortable">
             @include ('bootstrap.panel', ['content' => 'spectrum-analysis', 'view_header' => trans('messages.spectrum'),  'i' => 7])
         </div>
     @endif
+@endif
 
 </div>
 @stop
