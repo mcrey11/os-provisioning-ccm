@@ -582,6 +582,14 @@ class Contract extends \BaseModel
             $ret[trans('view.Menu_Crm')]['icon'] = 'exchange';
          }
 
+        if (Module::collections()->has('CustomerInteraction')) {
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['class'] = 'CiCustomerInteraction';
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['relation'] = $this->customerInteractions()->orderBy('created_at', 'desc')->limit($relationThreshold)->get();
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['options']['hide_create_button'] = 1;
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['options']['hide_delete_button'] = 1;
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['icon'] = 'exchange';
+        }
+
         return $ret;
     }
 
@@ -819,6 +827,11 @@ class Contract extends \BaseModel
     public function createdFromOpportunity()
     {
         return $this->belongsTo(\Modules\Crm\Entities\CrmOpportunity::class, 'created_from_opportunity_id');
+    }
+
+    public function customerInteractions()
+    {
+        return $this->morphMany(\Modules\CustomerInteraction\Entities\CiCustomerInteraction::class, 'subject');
     }
 
     /**
