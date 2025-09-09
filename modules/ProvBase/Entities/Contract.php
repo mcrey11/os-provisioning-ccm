@@ -1897,7 +1897,7 @@ class Contract extends \BaseModel
             return false;
         }
 
-        $realty = $this->apartment_id ? $this->apartment->realty : $this->realty;
+        $realty = $this->apartment_id ? $this->apartment?->realty : $this->realty;
 
         if (! $realty) {
             return false;
