@@ -753,4 +753,48 @@ class ExtendedValidator
 
         return ! $query->whereRaw("lower({$column}) = lower('$value')")->count();
     }
+
+    /**
+     * Check if the number range overlaps with an existing number range.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array  $parameters
+     *
+     * @author Nino Ryschawy
+     */
+    public function validateOverlappingNumberRange($attribute, $value, $parameters): bool
+    {
+        $id = $parameters[0] ?: 0;
+        $start = $parameters[1];
+        $end = $parameters[2];
+        $prefix = $parameters[3];
+        $suffix = $parameters[4];
+
+        $exists = \Modules\BillingBase\Entities\NumberRange::where('id', '!=', $id)
+            ->where(function ($query) use ($value, $start, $end) {
+                $query->whereRaw($value.' between start and "end"')
+                    ->orWhere(function ($query) use ($start, $end) {
+                        $query->where('start', '>', $start)
+                            ->where('end', '<', $end);
+                    });
+            })
+            ->where(function ($query) use ($prefix) {
+                $query->where('prefix', $prefix);
+
+                if (! $prefix) {
+                    $query->orWhereNull('prefix');
+                }
+            })
+            ->where(function ($query) use ($suffix) {
+                $query->where('suffix', $suffix);
+
+                if (! $suffix) {
+                    $query->orWhereNull('suffix');
+                }
+            })
+            ->exists();
+
+        return ! $exists;
+    }
 }

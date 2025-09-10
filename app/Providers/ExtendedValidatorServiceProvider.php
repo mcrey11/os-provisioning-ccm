@@ -55,6 +55,7 @@ class ExtendedValidatorServiceProvider extends ServiceProvider
         $this->app['validator']->extend('empty', 'App\extensions\validators\ExtendedValidator@validateEmpty');
         $this->app['validator']->extend('true', 'App\extensions\validators\ExtendedValidator@true');
         $this->app['validator']->extend('iunique', 'App\extensions\validators\ExtendedValidator@validateUniqueCaseInsensitive');
+        $this->app['validator']->extend('not_overlapping', 'App\extensions\validators\ExtendedValidator@validateOverlappingNumberRange');
 
         // the following validators needs to be extended implicit – have to be called even if an empty value is passed
         $this->app['validator']->extendImplicit('phonebook_entry_type_dependend', 'App\extensions\validators\ExtendedValidator@validatePhonebookEntryTypeDependend');

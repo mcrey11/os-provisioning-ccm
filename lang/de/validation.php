@@ -105,6 +105,7 @@ return [
         'array'   => ':attribute muss mindestens :min Elemente haben.',
     ],
     'not_in'               => 'Der gewählte Wert für :attribute ist ungültig.',
+    'not_overlapping' => 'Die Nummer ist bereits in einem anderen Nummernkreis enthalten.',
     'not_regex'            => ':attribute hat ein ungültiges Format.',
     'numeric'              => ':attribute muss eine Zahl sein.',
     'password'             => 'Das Passwort ist falsch.',
