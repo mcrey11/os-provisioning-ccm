@@ -1,6 +1,6 @@
 <?php
 
-use \Modules\Marketing\Entities\Consent;
+use Modules\Marketing\Entities\Consent;
 
 return [
     'name' => 'Marketing',

@@ -11,7 +11,7 @@
 |
 */
 
-BaseRoute::group([], function() {
+BaseRoute::group([], function () {
     BaseRoute::get('Marketing/index', [
         'as' => 'Marketing.index',
         'uses' => 'MarketingController@index',

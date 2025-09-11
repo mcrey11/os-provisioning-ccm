@@ -2,8 +2,8 @@
 
 namespace Modules\Marketing\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\ServiceProvider;
 
 class MarketingServiceProvider extends ServiceProvider
 {
@@ -58,11 +58,11 @@ class MarketingServiceProvider extends ServiceProvider
         $sourcePath = module_path('Marketing', 'Resources/views');
 
         $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
+            $sourcePath => $viewPath,
+        ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/marketing';
+            return $path.'/modules/marketing';
         }, \Config::get('view.paths')), [$sourcePath]), 'marketing');
     }
 

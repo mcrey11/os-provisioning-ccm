@@ -6,7 +6,7 @@ class MarketingController
 {
     /**
      * Dashboard view
-
+     *
      * @return View
      */
     public function index()
