@@ -72,9 +72,13 @@ class Configfile extends \BaseModel
         if ('calixont' == $device) {
             self::$customFieldDefinitions = [
                 'ont_profile_id' => [
+                    'rule' => 'required',
                     'formMethod' => 'customFormTextDefault',
                 ],
                 'ont_port_id' => [
+                    'formMethod' => 'customFormTextDefault',
+                ],
+                'sampling_point' => [
                     'formMethod' => 'customFormTextDefault',
                 ],
             ];
