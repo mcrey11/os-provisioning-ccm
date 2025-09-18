@@ -148,6 +148,15 @@
 
 		~\\
 
+		% §13 tax exemption info
+		\ifthenelse{\equal{{p13\_tax\_exempted}}{true}}
+		{
+			\begin{flushleft}
+				Leistungen unterliegen gemäß § 13b UStG dem Reverse-Charge-Verfahren. Die Steuerschuld liegt beim Leistungsempfänger.
+			\end{flushleft}
+		}
+		{} % else
+
 		% Laufzeit- & Kündigungsinformationen
 		\begin{flushleft}
 			\ifthenelse{\equal{{invoice\_headline}}{Kostenumlage}}

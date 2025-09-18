@@ -423,15 +423,20 @@ class ContractController extends \BaseController
             $days[0] = null;
 
             $c = [
-                ['form_type' => 'checkbox', 'name' => 'has_telephony', 'description' => 'Has telephony', 'help' => trans('helper.has_telephony'), 'hidden' => 1],
-                ['form_type' => 'checkbox', 'name' => 'create_invoice', 'description' => 'Create Invoice', 'checked' => 1],
+                // ['form_type' => 'checkbox', 'name' => 'has_telephony', 'description' => 'Has telephony', 'help' => trans('helper.has_telephony'), 'hidden' => 1],
                 ['form_type' => 'select', 'name' => 'costcenter_id', 'description' => 'Cost Center', 'value' => selectList('costcenter', 'name', true)],
-                ['form_type' => 'select', 'name' => 'value_date', 'description' => 'Date of value', 'value' => $days, 'help' => trans('helper.contract.valueDate')],
-                // NOTE: qos is required as hidden field to automatically create modem with correct contract qos class
-                ['form_type' => 'text', 'name' => 'qos_id', 'description' => 'QoS', 'create' => ['Modem'], 'hidden' => 1],
-                ['form_type' => 'select', 'name' => 'salesman_id', 'description' => 'Salesman', 'value' => selectList('salesman', ['firstname', 'lastname'], true, ' - ')],
-                ['form_type' => 'checkbox', 'name' => 'block_funds_payout', 'description' => trans('billingbase::view.contract.blockFundsPayout')],
+                ['form_type' => 'checkbox', 'name' => 'create_invoice', 'description' => 'Create Invoice', 'checked' => 1],
             ];
+
+            if (config('app.locale') == 'de') {
+                $c[] = ['form_type' => 'checkbox', 'name' => 'paragraph_13', 'description' => 'Tax exempted due to §13'];
+            }
+
+            $c[] = ['form_type' => 'checkbox', 'name' => 'block_funds_payout', 'description' => trans('billingbase::view.contract.blockFundsPayout')];
+            $c[] = ['form_type' => 'select', 'name' => 'value_date', 'description' => 'Date of value', 'value' => $days, 'help' => trans('helper.contract.valueDate')];
+            // NOTE: qos is required as hidden field to automatically create modem with correct contract qos class
+            $c[] = ['form_type' => 'text', 'name' => 'qos_id', 'description' => 'QoS', 'create' => ['Modem'], 'hidden' => 1];
+            $c[] = ['form_type' => 'select', 'name' => 'salesman_id', 'description' => 'Salesman', 'value' => selectList('salesman', ['firstname', 'lastname'], true, ' - ')];
         } else {
             $b3[2][] = ['space' => 1];
 
@@ -491,10 +496,6 @@ class ContractController extends \BaseController
         }
 
         $d[] = ['form_type' => 'checkbox', 'name' => 'lawsuit', 'description' => 'Ongoing lawsuit'];
-
-        if (config('app.locale') == 'de') {
-            $d[] = ['form_type' => 'checkbox', 'name' => 'paragraph_13', 'description' => 'Tax exempted due to §13'];
-        }
 
         return array_merge($a, $b1, $b2, $b3, $c, $d);
     }
