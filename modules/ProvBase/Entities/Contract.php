@@ -826,7 +826,7 @@ class Contract extends \BaseModel
      */
     public function createdFromOpportunity()
     {
-        return $this->belongsTo(\Modules\Crm\Entities\CrmOpportunity::class, 'created_from_opportunity_id');
+        return $this->belongsTo(\Modules\Sales\Entities\CrmOpportunity::class, 'created_from_opportunity_id');
     }
 
     public function customerInteractions()
