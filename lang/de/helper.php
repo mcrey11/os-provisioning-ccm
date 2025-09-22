@@ -47,6 +47,13 @@ return [
     'Company_Directorate'           => 'Trennung der Namen durch Komma.',
     'Company_TransferReason'        => 'Vorlage aller Rechnungsklassen als Datenfeld-Schlüssel - Vertrags- und Rechnungsnummer sind standardmäßig ausgewählt.',
     'conn_info_template'            => 'TeX Vorlage für das Anschlussinformationsblatt. (Kann auf der Kundenvertragsseite erstellt werden)',
+    
+    // Web Order
+    'web_order' => [
+        'availability_snapshot_help' => 'JSON-Daten mit Verfügbarkeitsprüfungsergebnissen und Service-Optionen für die Kundenadresse.',
+        'utm_json_help' => 'JSON-Daten mit UTM-Parametern und Tracking-Informationen aus der Web-Bestellungsquelle.',
+        'consent_json_help' => 'JSON-Daten mit Kundeneinverständnis-Informationen und DSGVO-Compliance-Daten.',
+    ],
 
     //CostCenterController
     'CostCenter_BillingMonth'       => 'Abrechnungsmonat für jährliche Posten. Gilt für den Monat für den die Rechnungen erstellt werden. Standard: 6 (Juni) - wenn nicht festgelegt. Bitte seien Sie vorsichtig beim Ändern innerhalb des Jahres: das Resultat könnten fehlende Zahlungen sein!',

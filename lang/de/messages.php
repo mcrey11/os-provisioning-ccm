@@ -37,6 +37,12 @@ return [
     'Birthday'                  => 'Geburtstag',
     'bookingAccount' => 'Buchungskonto',
     'Business'                  => 'Berufs-/Geschäftsbezeichnung',
+    
+    // Web Order Messages
+    'web_order' => [
+        'converted_to_opportunity' => 'Web-Bestellung erfolgreich zu Opportunity #:id konvertiert',
+        'conversion_failed' => 'Fehler beim Konvertieren der Web-Bestellung zu einer Opportunity: :error',
+    ],
     'canNotBeRestored' => 'kann nicht wiederhergestellt werden',
     'City'                      => 'Stadt',
     'Choose Infrastructure file' => 'Infrastruktur-Datei auswählen',

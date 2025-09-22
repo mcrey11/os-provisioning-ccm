@@ -47,6 +47,13 @@ return [
     'Company_Directorate'           => 'Comma separated list of names',
     'Company_TransferReason'        => 'Template from all Invoice class data field keys - Contract Number and Invoice Nr is default',
     'conn_info_template'            => 'Tex Template used to Create Connection Information on the Contract Page for a Customer',
+    
+    // Web Order
+    'web_order' => [
+        'availability_snapshot_help' => 'JSON data containing availability check results and service options for the customer address.',
+        'utm_json_help' => 'JSON data containing UTM parameters and tracking information from the web order source.',
+        'consent_json_help' => 'JSON data containing customer consent information and GDPR compliance data.',
+    ],
 
     //CostCenterController
     'CostCenter_BillingMonth'       => 'Accounting for yearly charged items - corresponds to the month the invoices are created for. Default: 6 (June) - if not set. Please be careful to not miss any payments when changing this!',
