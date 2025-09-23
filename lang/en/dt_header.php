@@ -135,6 +135,7 @@ return [
         'service_address_id' => 'Service Address',
         'billing_address_id' => 'Billing Address',
         'crm_opportunity_id' => 'CRM Opportunity',
+        'apartment_id' => 'Apartment',
         'customer_type' => 'Customer Type',
         'is_switcher' => 'Switcher',
         'state' => 'State',

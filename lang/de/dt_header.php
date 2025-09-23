@@ -136,6 +136,7 @@ return [
         'service_address_id' => 'Service-Adresse',
         'billing_address_id' => 'Rechnungsadresse',
         'crm_opportunity_id' => 'CRM-Opportunity',
+        'apartment_id' => 'Wohnung',
         'customer_type' => 'Kundentyp',
         'is_switcher' => 'Wechsler',
         'state' => 'Status',

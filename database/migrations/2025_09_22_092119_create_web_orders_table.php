@@ -41,6 +41,7 @@ return new class extends BaseMigration
             $table->bigInteger('service_address_id')->nullable();
             $table->bigInteger('billing_address_id')->nullable();
             $table->bigInteger('crm_opportunity_id')->nullable();
+            $table->bigInteger('apartment_id')->nullable();
             
             // Business fields
             $table->string('customer_type', 20)->nullable(false);
@@ -58,6 +59,7 @@ return new class extends BaseMigration
             $table->index('service_address_id', 'idx_web_orders_service_addr');
             $table->index('billing_address_id', 'idx_web_orders_billing_addr');
             $table->index('crm_opportunity_id', 'idx_web_orders_crm_opp');
+            $table->index('apartment_id', 'idx_web_orders_apartment');
             
             // Business indexes
             $table->index('state', 'idx_web_orders_state');
@@ -70,6 +72,7 @@ return new class extends BaseMigration
             $table->foreign('service_address_id')->references('id')->on('address')->onDelete('restrict');
             $table->foreign('billing_address_id')->references('id')->on('address')->onDelete('restrict');
             $table->foreign('crm_opportunity_id')->references('id')->on('crm_opportunity')->onDelete('restrict');
+            $table->foreign('apartment_id')->references('id')->on('apartment')->onDelete('restrict');
         });
         
         // Add check constraints using raw SQL
