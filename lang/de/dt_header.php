@@ -48,6 +48,10 @@ return [
     'lastname' => 'Nachname',
     'mac' => 'MAC',
     'name' => 'Name',
+    'web_order_id' => 'Web-Bestellung',
+    'product_id' => 'Produkt-ID',
+    'qty' => 'Menge',
+    'sort' => 'Sortierung',
     'number' => 'Nummer',
     'occupied' => 'Bewohnt',
     'prio'          => 'Priorität',
@@ -1057,4 +1061,15 @@ return [
     'closed_at' => 'Geschlossen um',
     'users_created_by_id' => 'Erstellt von',
     'users_closed_by_id' => 'Geschlossen von',
+
+// Web Order Item
+'web_order_item' => [
+    'headline' => 'Web-Bestellposition',
+    'web_order_id' => 'Web-Bestellung',
+    'type' => 'Typ',
+    'product_id' => 'Produkt-ID',
+    'name' => 'Bezeichnung',
+    'qty' => 'Menge',
+    'sort' => 'Sortierung',
+],
 ];

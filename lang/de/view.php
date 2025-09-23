@@ -78,6 +78,15 @@ return [
     'Menu_Sales'                => 'Verkauf',
     'Menu_OrderPortal'          => 'Bestellportal',
     'Menu_WebOrders'            => 'Web-Bestellungen',
+    'Menu_WebOrderItems'        => 'Web-Bestellpositionen',
+    'web_order_item' => [
+        'type' => [
+            'plan' => 'Tarif',
+            'addon' => 'Zusatz',
+            'hardware' => 'Hardware',
+            'service' => 'Service',
+        ],
+    ],
     'Menu_CrmContact'           => 'CRM-Kontakte',
     'Menu_Contacts'             => 'Kontakte',
     'Menu_Leads'                => 'Leads',

@@ -78,6 +78,7 @@ return [
     'Menu_Sales'                => 'Sales',
     'Menu_OrderPortal'          => 'Order Portal',
     'Menu_WebOrders'            => 'Web Orders',
+    'Menu_WebOrderItems'        => 'Web Order Items',
     'Menu_CrmContact'           => 'CRM Contacts',
     'Menu_Contacts'             => 'Contacts',
     'Menu_Leads'                => 'Leads',
@@ -1691,5 +1692,14 @@ return [
         'select_category_description' => 'Choose the appropriate category for this customer interaction',
         'create_interaction' => 'Create Interaction',
         'Header_CiCategorySubjectRule' => 'Category Subject Rules',
+    ],
+    // Web Order Item
+    'web_order_item' => [
+        'type' => [
+            'plan' => 'Plan',
+            'addon' => 'Add-on',
+            'hardware' => 'Hardware',
+            'service' => 'Service',
+        ],
     ],
 ];

@@ -48,6 +48,10 @@ return [
     'lastname' => 'Surname',
     'mac' => 'MAC',
     'name' => 'Name',
+    'web_order_id' => 'Web Order',
+    'product_id' => 'Product ID',
+    'qty' => 'Quantity',
+    'sort' => 'Sort',
     'number' => 'Number',
     'occupied' => 'Occupied',
     'prio'          => 'Priority',
@@ -145,6 +149,15 @@ return [
         'notes' => 'Notes',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
+    ],
+    'web_order_item' => [
+        'headline' => 'Web Order Item',
+        'web_order_id' => 'Web Order',
+        'type' => 'Type',
+        'product_id' => 'Product ID',
+        'name' => 'Name',
+        'qty' => 'Quantity',
+        'sort' => 'Sort',
     ],
     // Auth
     'users' => [
