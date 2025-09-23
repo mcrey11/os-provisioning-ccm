@@ -1368,6 +1368,11 @@ return [
             ],
             'state' => [
                 'draft' => 'Entwurf',
+                'availability_checked' => 'Verfügbarkeit geprüft',
+                'customer_type_selected' => 'Kundentyp gewählt',
+                'product_selected' => 'Produkt gewählt',
+                'order_details' => 'Bestelldaten',
+                'confirmation' => 'Bestätigung',
                 'submitted' => 'Eingereicht',
                 'pending_checks' => 'Prüfung ausstehend',
                 'manual_review' => 'Manuelle Prüfung',
