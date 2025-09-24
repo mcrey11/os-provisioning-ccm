@@ -68,8 +68,13 @@ class Qos extends \BaseModel
     {
         if ('calixont' == $type || 'customer1001calixont' == $type) {
             self::$customFieldDefinitions = [
+                'ont_port_id' => [
+                    'formMethod' => 'customFormTextDefault',
+                    'rule' => 'required',
+                ],
                 'service_type' => [
                     'formMethod' => 'customFormTextDefault',
+                    'rule' => 'required',
                 ],
             ];
 

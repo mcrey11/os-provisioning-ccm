@@ -75,9 +75,6 @@ class Configfile extends \BaseModel
                     'rule' => 'required',
                     'formMethod' => 'customFormTextDefault',
                 ],
-                'ont_port_id' => [
-                    'formMethod' => 'customFormTextDefault',
-                ],
                 'sampling_point' => [
                     'formMethod' => 'customFormTextDefault',
                 ],
