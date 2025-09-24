@@ -886,6 +886,7 @@ return [
     'flapping_dhcp_threshold'   => 'Minimum number of messages per 24 hours for DHCP flapping',
     'telCalls' => 'Telephone Calls',
     'Technology' => 'Technology',
+    'transferReason' => 'Transfer reason',
 
     // SmartOnt
     'alau_order_ref'            => 'Own order reference',
