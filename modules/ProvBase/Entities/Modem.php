@@ -111,7 +111,6 @@ class Modem extends \BaseModel
             'installation_address_change_date' => ['nullable', 'date_format:Y-m-d'],
             'lat' => ['nullable', 'numeric'],
             'lng' => ['nullable', 'numeric'],
-            'qualified_model_class' => ['required'],
         ];
 
         if (! Module::collections()->has('BillingBase')) {
@@ -194,6 +193,10 @@ class Modem extends \BaseModel
 
         if ($this->contract && $this->contract->isCanceled()) {
             $rules['internet_access'] = ['false'];
+        }
+
+        if (Module::collections()->has('Calix')) {
+            $rules['qualified_model_class'] = ['required'];
         }
 
         return $rules;

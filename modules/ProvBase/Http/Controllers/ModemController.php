@@ -1065,6 +1065,10 @@ class ModemController extends \BaseController
 
         $data['mac'] = unifyMac($data['mac'] ?? null);
 
+        if (! Module::collections()->has('Calix')) {
+            $data['qualified_model_class'] = 'Modules\ProvBase\Entities\Modem';
+        }
+
         return $data;
     }
 
