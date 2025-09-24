@@ -35,6 +35,7 @@ return [
         ],
     ],
     'Birthday'                  => 'Geburtstag',
+    'bookingAccount' => 'Buchungskonto',
     'Business'                  => 'Berufs-/Geschäftsbezeichnung',
     'canNotBeRestored' => 'kann nicht wiederhergestellt werden',
     'City'                      => 'Stadt',

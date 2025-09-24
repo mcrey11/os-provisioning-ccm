@@ -3,6 +3,7 @@
 return [
     'address' => 'Adress',
     'all' => 'All',
+    'bookingAccount' => 'Booking account',
     'buttons' => [
         'revertDebtUpload' => 'Revert Debt Upload',
     ],
@@ -698,6 +699,7 @@ return [
     ],
     'execute' => 'execute',
     'false' => 'false',
+    'for' => 'for',
     'Function' => 'Function',
     'Global' => 'Global',
     'Global notification' => 'Global notification',

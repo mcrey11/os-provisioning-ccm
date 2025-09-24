@@ -3,6 +3,7 @@
 return [
     'address' => 'Adresse',
     'all' => 'Alle',
+    'bookingAccount' => 'Buchungskonto',
     'buttons' => [
         'revertDebtUpload' => 'OP Upload rückgängig machen',
     ],
@@ -697,6 +698,7 @@ return [
     ],
     'execute' => 'ausführen',
     'false' => 'nein',
+    'for' => 'für',
     'Function' => 'Funktion',
     'Global' => 'Global',
     'Global notification' => 'Globale Benachrichtigung',
