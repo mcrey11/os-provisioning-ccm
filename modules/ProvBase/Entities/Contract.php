@@ -257,11 +257,15 @@ class Contract extends \BaseModel
         ];
 
         if (Module::collections()->has('BillingBase')) {
-            $ret['eager_loading'] = ['apartment', 'costcenter'];
+            $ret['eager_loading'] = ['costcenter'];
             $ret['edit']['costcenter.name'] = 'get_costcenter_name';
         }
 
         if (Module::collections()->has('PropertyManagement')) {
+            if (! isset($ret['eager_loading'])) {
+                $ret['eager_loading'] = [];
+            }
+            $ret['eager_loading'][] = 'apartment';
             $ret['edit']['apartment.number'] = 'indexTableApartmentNr';
             $ret['sortsearch'][] = ['apartment.number' => ['order' => 'false', 'search' => 'false']];
             // Disabled because this join (needed for search and order) decreases performance dramatically - Can be enabled for small DBs or by adding an index
