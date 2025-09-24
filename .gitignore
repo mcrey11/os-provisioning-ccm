@@ -83,3 +83,4 @@ npm-debug.log
 # sql files
 *.sql
 
+venv
