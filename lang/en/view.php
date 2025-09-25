@@ -1382,6 +1382,10 @@ return [
             'converted_on' => 'Converted on :date',
             'opportunity_details' => 'Opportunity Details',
             'view_opportunity' => 'View Opportunity',
+            // Missing keys used in WebOrder conversion view
+            'web_order_info' => 'Web Order Information',
+            'already_converted' => 'This web order has already been converted to an opportunity.',
+            'opportunity_info' => 'Opportunity Information',
         ],
         'fields' => [
             'title' => 'Title',
@@ -1740,4 +1744,6 @@ return [
             ],
         ],
     ],
+
+    // Web Order conversion moved under crm.web_order
 ];

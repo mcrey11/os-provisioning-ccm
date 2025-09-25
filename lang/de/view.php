@@ -1392,6 +1392,10 @@ return [
             'converted_on' => 'Konvertiert am :date',
             'opportunity_details' => 'Opportunity-Details',
             'view_opportunity' => 'Opportunity anzeigen',
+            // Fehlende Schlüssel, die in der WebOrder-Konvertierungsansicht verwendet werden
+            'web_order_info' => 'Web-Bestellinformationen',
+            'already_converted' => 'Diese Web-Bestellung wurde bereits zu einer Opportunity konvertiert.',
+            'opportunity_info' => 'Opportunity-Informationen',
         ],
         'fields' => [
             'title' => 'Titel',
