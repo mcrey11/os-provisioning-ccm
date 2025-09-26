@@ -285,8 +285,8 @@ if (! function_exists('pdflatex')) {
         */
 
         // take care - when we start process in background we don't get the return value anymore
-        $cmd = "( /usr/bin/pdflatex \"$filename\" -interaction=nonstopmode; rm -f \"$filename.aux\" ) &>/dev/null";
-        $cmd .= $background ? ' &' : '';
+        $cmd = "/usr/bin/pdflatex \"$filename\" -interaction=nonstopmode &>/dev/null";
+        $cmd .= $background ? " & echo $! > \"$filename.pid\"" : '';
 
         system($cmd, $ret);
 
