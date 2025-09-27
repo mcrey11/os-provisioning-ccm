@@ -475,9 +475,20 @@ return [
 
     'menu' => [
         'ccc' => [
-            'invoices' => 'My invoices',
+            'account' => 'Account',
+            'profile' => 'Profile',
+            'invoice_address' => 'Invoice Address',
+            'billing' => 'Billing',
+            'invoices' => 'My Invoices',
+            'paymentMethod' => 'Payment Method',
+            'modem_address' => 'Modem Address',
+            'subscriptions' => 'Subscriptions',
+            'manage' => 'Manage',
+            'orders' => 'Orders',
+            'shop' => 'Shop / Offers',
+            'support' => 'Support',
+            'changeRequest' => 'Change Request',
             'documents' => 'Documents',
-            'paymentMethod' => 'Payment method',
             'speedtest' => 'Speedtest',
         ],
     ],
