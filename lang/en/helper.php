@@ -48,6 +48,37 @@ return [
     'Company_TransferReason'        => 'Template from all Invoice class data field keys - Contract Number and Invoice Nr is default',
     'conn_info_template'            => 'Tex Template used to Create Connection Information on the Contract Page for a Customer',
     
+    // ProductRegionRule helper translations
+    'product_region_rule' => [
+        'scope_ref_id' => 'Reference ID for the selected scope type (DMA ID, City ID, Street ID, etc.)',
+        'requires_right_code' => 'Optional: Code of a specific user right required to access this product',
+        'effective_from' => 'Optional: Start date when this rule becomes active',
+        'effective_to' => 'Optional: End date when this rule expires',
+        'priority' => 'Priority order for rule evaluation (lower numbers = higher priority)',
+    ],
+    
+    // ProductLayer helper translations
+    'product_layer' => [
+        'sequence' => 'Display order for layers (lower numbers appear first)',
+    ],
+    
+    // ProductLayerAssignment helper translations
+    'product_layer_assignment' => [
+        'sort' => 'Sort order within the layer (lower numbers appear first)',
+    ],
+    
+    // ProductConstraint helper translations
+    'product_constraint' => [
+        'min_qty' => 'Minimum quantity required when enforcement is for product type',
+    ],
+    
+    // ProductAddon helper translations
+    'product_addon' => [
+        'base_product_id_or_type' => 'Either select a specific product OR enter a product type in the base_type field',
+        'base_type_explanation' => 'Alternative to base product: Specify a product type (e.g., "internet", "tv") to apply addon to all products of this type',
+        'max_qty' => 'Maximum quantity of this addon that can be selected',
+    ],
+    
     // Web Order
     'web_order' => [
         'availability_snapshot_help' => 'JSON data containing availability check results and service options for the customer address.',

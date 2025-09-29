@@ -48,6 +48,37 @@ return [
     'Company_TransferReason'        => 'Vorlage aller Rechnungsklassen als Datenfeld-Schlüssel - Vertrags- und Rechnungsnummer sind standardmäßig ausgewählt.',
     'conn_info_template'            => 'TeX Vorlage für das Anschlussinformationsblatt. (Kann auf der Kundenvertragsseite erstellt werden)',
     
+    // ProductRegionRule helper translations
+    'product_region_rule' => [
+        'scope_ref_id' => 'Referenz-ID für den ausgewählten Bereichstyp (DMA-ID, Stadt-ID, Straßen-ID, etc.)',
+        'requires_right_code' => 'Optional: Code eines spezifischen Benutzerrechts, das für den Zugriff auf dieses Produkt erforderlich ist',
+        'effective_from' => 'Optional: Startdatum, ab dem diese Regel aktiv wird',
+        'effective_to' => 'Optional: Enddatum, bis zu dem diese Regel gültig ist',
+        'priority' => 'Prioritätsreihenfolge für die Regelauswertung (niedrigere Zahlen = höhere Priorität)',
+    ],
+    
+    // ProductLayer helper translations
+    'product_layer' => [
+        'sequence' => 'Anzeigereihenfolge für Ebenen (niedrigere Zahlen erscheinen zuerst)',
+    ],
+    
+    // ProductLayerAssignment helper translations
+    'product_layer_assignment' => [
+        'sort' => 'Sortierreihenfolge innerhalb der Ebene (niedrigere Zahlen erscheinen zuerst)',
+    ],
+    
+    // ProductConstraint helper translations
+    'product_constraint' => [
+        'min_qty' => 'Mindestmenge, die erforderlich ist, wenn die Durchsetzung für einen Produkttyp gilt',
+    ],
+    
+    // ProductAddon helper translations
+    'product_addon' => [
+        'base_product_id_or_type' => 'Entweder ein spezifisches Produkt auswählen ODER einen Produkttyp im base_type-Feld eingeben',
+        'base_type_explanation' => 'Alternative zum Basisprodukt: Geben Sie einen Produkttyp ein (z.B. "internet", "tv"), um das Add-on auf alle Produkte dieses Typs anzuwenden',
+        'max_qty' => 'Maximale Menge dieses Add-ons, die ausgewählt werden kann',
+    ],
+    
     // Web Order
     'web_order' => [
         'availability_snapshot_help' => 'JSON-Daten mit Verfügbarkeitsprüfungsergebnissen und Service-Optionen für die Kundenadresse.',
