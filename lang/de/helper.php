@@ -74,8 +74,8 @@ return [
     
     // ProductAddon helper translations
     'product_addon' => [
-        'base_product_id_or_type' => 'Entweder ein spezifisches Produkt auswählen ODER einen Produkttyp im base_type-Feld eingeben',
-        'base_type_explanation' => 'Alternative zum Basisprodukt: Geben Sie einen Produkttyp ein (z.B. "internet", "tv"), um das Add-on auf alle Produkte dieses Typs anzuwenden',
+        'base_product_id_or_layer' => 'Entweder ein bestimmtes Produkt auswählen ODER eine Produkt-Ebene angeben',
+        'product_layer_id_explanation' => 'Produkt-Ebene, für die dieses Addon gilt (Addons werden nach Ebenenabschluss angezeigt)',
         'max_qty' => 'Maximale Menge dieses Add-ons, die ausgewählt werden kann',
     ],
     

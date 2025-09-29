@@ -1719,4 +1719,39 @@ return [
         'create_interaction' => 'Interaktion erstellen',
         'Header_CiCategorySubjectRule' => 'Kategorie-Themen-Regeln',
     ],
+    
+    'customer' => [
+        'weborder' => [
+            'step' => [
+                'availability' => 'Verfügbarkeit',
+                'customer_type' => 'Kundentyp',
+                'product' => 'Produkt',
+                'order' => 'Bestellung',
+                'confirmation' => 'Bestätigung',
+            ],
+            'form' => [
+                'back' => 'Zurück',
+                'continue' => 'Weiter',
+                'processing' => 'Verarbeitung...',
+                'select_all_options' => 'Bitte wählen Sie alle erforderlichen Optionen aus, um fortzufahren.',
+                'product_layers' => 'Produktschichten',
+            ],
+            'customer_type' => [
+                'title' => 'Kundentyp',
+                'description' => 'Bitte teilen Sie uns mit, welche Art von Kunde Sie sind.',
+                'customer_type_label' => 'Wählen Sie Ihren Kundentyp',
+                'customer_status_label' => 'Sind Sie ein neuer Kunde oder wechseln Sie?',
+                'residential' => 'Privatkunde',
+                'residential_description' => 'Privathaushalt',
+                'business' => 'Geschäftskunde',
+                'business_description' => 'Unternehmen oder Organisation',
+                'new_customer' => 'Neukunde',
+                'new_customer_description' => 'Ich bin ein neuer Kunde',
+                'switching_customer' => 'Wechselkunde',
+                'switching_customer_description' => 'Ich möchte von einem anderen Anbieter wechseln',
+                'success' => 'Ihre Auswahl wurde gespeichert',
+                'error' => 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
+            ],
+        ],
+    ],
 ];

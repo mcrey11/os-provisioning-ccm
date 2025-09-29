@@ -74,8 +74,8 @@ return [
     
     // ProductAddon helper translations
     'product_addon' => [
-        'base_product_id_or_type' => 'Either select a specific product OR enter a product type in the base_type field',
-        'base_type_explanation' => 'Alternative to base product: Specify a product type (e.g., "internet", "tv") to apply addon to all products of this type',
+        'base_product_id_or_layer' => 'Either select a specific product OR specify a product layer',
+        'product_layer_id_explanation' => 'Product layer this addon applies to (addons show after layer completion)',
         'max_qty' => 'Maximum quantity of this addon that can be selected',
     ],
     

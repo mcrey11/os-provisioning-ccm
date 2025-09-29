@@ -1164,7 +1164,7 @@ return [
     'product_addon' => [
         'headline' => 'Product Addons',
         'base_product_id' => 'Base Product',
-        'base_type' => 'Base Type',
+        'product_layer_id' => 'Product Layer',
         'addon_product_id' => 'Addon Product',
         'required' => 'Required',
         'max_qty' => 'Maximum Quantity',

@@ -1736,6 +1736,7 @@ return [
                 'continue' => 'Continue',
                 'processing' => 'Processing...',
                 'select_all_options' => 'Please select all required options to continue.',
+                'product_layers' => 'Product Layers',
             ],
             'customer_type' => [
                 'title' => 'Customer Type',
