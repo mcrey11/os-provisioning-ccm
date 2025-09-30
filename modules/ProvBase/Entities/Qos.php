@@ -76,6 +76,10 @@ class Qos extends \BaseModel
                     'formMethod' => 'customFormTextDefault',
                     'rule' => 'required',
                 ],
+                'service_name' => [
+                    'formMethod' => 'customFormTextDefault',
+                    'rule' => 'required',
+                ],
             ];
 
             return;
