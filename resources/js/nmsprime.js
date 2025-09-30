@@ -494,6 +494,7 @@ window.NMS = (function () {
       setTabPillState()
       rezizeTextareas()
       rangeSlider()
+      
     },
     isEmpty: function (value) {
       if (Array.isArray(value) || typeof value === 'string') {
@@ -506,3 +507,4 @@ window.NMS = (function () {
     }
   }
 })()
+
