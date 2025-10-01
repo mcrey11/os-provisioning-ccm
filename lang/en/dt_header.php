@@ -42,7 +42,7 @@ return [
     'is_switcher' => 'Switcher',
     'external_order_no' => 'External Order No.',
     'iban' => 'IBAN',
-    'id'            => 'ID',
+    'id' => 'ID',
     'invoice_date' => 'Date of invoice',
     'is_default' => 'Default',
     'lastname' => 'Surname',
@@ -54,7 +54,7 @@ return [
     'sort' => 'Sort',
     'number' => 'Number',
     'occupied' => 'Occupied',
-    'prio'          => 'Priority',
+    'prio' => 'Priority',
     'street' => 'Street',
     'sum' => 'Sum',
     'type' => 'Type',
@@ -140,6 +140,7 @@ return [
         'billing_address_id' => 'Billing Address',
         'crm_opportunity_id' => 'CRM Opportunity',
         'apartment_id' => 'Apartment',
+        'realty_id' => 'Realty',
         'customer_type' => 'Customer Type',
         'is_switcher' => 'Switcher',
         'state' => 'State',
@@ -160,7 +161,9 @@ return [
         'sort' => 'Sort',
     ],
     'product_region_rule' => [
+        'type' => 'Type',
         'product_id' => 'Product',
+        'product_layer_id' => 'Product Layer',
         'rule' => 'Rule',
         'scope_type' => 'Scope Type',
         'scope_ref_id' => 'Scope Reference ID',
@@ -246,7 +249,7 @@ return [
         'format' => 'Template format',
         'type_view' => 'Type',
     ],
-    //FirmwareUpgrade
+    // FirmwareUpgrade
     'firmware_upgrade' => [
         'start_date' => 'Start date',
         'start_time' => 'Start time',
@@ -256,7 +259,7 @@ return [
     ],
     'geocode_source' => 'Geocode origin',
     'home_id' => 'Home-ID',
-    //Invoices
+    // Invoices
     'invoice' => [
         'ccc' => [
             'number' => 'Invoice Number',
@@ -268,7 +271,7 @@ return [
         'amount' => 'Amount',
         'cdr' => 'Call Data Record',
     ],
-    //Item
+    // Item
     'item.valid_from' => 'Valid from',
     'item.valid_from_fixed' => 'Valid from fixed',
     'item.valid_to' => 'Valid to',
@@ -287,22 +290,22 @@ return [
     ],
     // Salesman
     'salesman.id' => 'ID',
-    'salesman_id' 		=> 'Salesman-ID',
+    'salesman_id' => 'Salesman-ID',
     'salesman_firstname' => 'Firstname',
     'salesman_lastname' => 'Lastname',
-    'commission in %' 	=> 'Commission in %',
-    'contract_nr' 		=> 'Contractnr',
-    'contract_name' 	=> 'Customer',
-    'contract_start' 	=> 'Contract start',
-    'contract_end' 		=> 'Contract end',
-    'product_name' 		=> 'Product',
-    'product_type' 		=> 'Product type',
-    'product_count' 	=> 'Count',
-    'charge' 			=> 'Charge',
+    'commission in %' => 'Commission in %',
+    'contract_nr' => 'Contractnr',
+    'contract_name' => 'Customer',
+    'contract_start' => 'Contract start',
+    'contract_end' => 'Contract end',
+    'product_name' => 'Product',
+    'product_type' => 'Product type',
+    'product_count' => 'Count',
+    'charge' => 'Charge',
     'salesman.lastname' => 'Lastname',
     'salesman.firstname' => 'Firstname',
     'salesman_commission' => 'Commission',
-    'sepaaccount_id' 	=> 'SEPA-account',
+    'sepaaccount_id' => 'SEPA-account',
     'sepaaccount' => [
         'iban' => 'IBAN',
         'institute' => 'Institute',
@@ -325,7 +328,7 @@ return [
     ],
     // MPR
     'mpr.name' => 'Name',
-    'mpr.id'    => 'ID',
+    'mpr.id' => 'ID',
     // NetElement
     'netelement' => [
         'id' => 'ID',
@@ -388,9 +391,9 @@ return [
     ],
     // NetElementType
     'netelementtype.name' => 'Netelementtype',
-    //HfcSnmp
+    // HfcSnmp
     'parameter.oid.name' => 'OID Name',
-    //Mibfile
+    // Mibfile
     'mibfile.id' => 'ID',
     'mibfile.name' => 'Mibfile',
     'mibfile.version' => 'Version',
@@ -399,7 +402,7 @@ return [
     'oid.name' => 'OID Name',
     'oid.oid' => 'OID',
     'oid.access' => 'Access Type',
-    //SnmpValue
+    // SnmpValue
     'snmpvalue.oid_index' => 'OID Index',
     'snmpvalue.value' => 'OID Value',
     // MAIL
@@ -540,17 +543,17 @@ return [
         'usable' => 'Usable',
     ],
     // ENVIA enviaorder
-    'enviaorder.ordertype'  => 'Order Type',
-    'enviaorder.orderstatus'  => 'Order Status',
+    'enviaorder.ordertype' => 'Order Type',
+    'enviaorder.orderstatus' => 'Order Status',
     'escalation_level' => 'Escalation Level',
-    'enviaorder.created_at'  => 'Created at',
-    'enviaorder.updated_at'  => 'Updated at',
-    'enviaorder.orderdate'  => 'Order date',
-    'enviaorder_current'  => 'Action needed?',
+    'enviaorder.created_at' => 'Created at',
+    'enviaorder.updated_at' => 'Updated at',
+    'enviaorder.orderdate' => 'Order date',
+    'enviaorder_current' => 'Action needed?',
     'enviaorder.contract.number' => 'Contract',
     'enviaorder.modem.id' => 'Modem',
     'phonenumber.number' => 'Phonenumber',
-    //ENVIA Contract
+    // ENVIA Contract
     'enviacontract.contract.number' => 'Contract',
     'enviacontract.end_date' => 'End Date',
     'enviacontract.envia_contract_reference' => 'envia TEL contract reference',
@@ -814,14 +817,14 @@ return [
     'realty_id' => 'Realty',
     'apartment_id' => 'Apartment',
     'owner_id' => 'Owner',
-    
+
     // Contact Point relationship fields
     'contactPoint.firstname' => 'First Name',
     'contactPoint.lastname' => 'Last Name',
     'contactPoint.company' => 'Company',
     'contactPoint.email' => 'Email',
     'contactPoint.phone' => 'Phone',
-    
+
     // Address relationship fields
     'address.street' => 'Street',
     'address.house_number' => 'House Number',
@@ -891,7 +894,7 @@ return [
     'ticket_type.name' => 'Ticket Type',
     'SpriTicket.index' => 'S/PRI Tickets',
     'SpriSupplierApi' => 'S/PRI',
-    
+
     // CRM Pipeline Stage
     'pipeline_id' => 'Pipeline',
     'order_index' => 'Order Index',
@@ -900,7 +903,7 @@ return [
     'is_terminal' => 'Terminal Stage',
     'is_won' => 'Won Stage',
     'is_lost' => 'Lost Stage',
-    
+
     // CRM Stage Transition
     'crm_stage_transition' => [
         'pipeline_id' => 'Pipeline',
@@ -909,14 +912,14 @@ return [
         'guard_expr' => 'Guard Expression',
         'autofail_message' => 'Auto-fail Message',
     ],
-    
+
     // CRM Opportunity related tabs
     'crm_opportunity_tabs' => [
         'stage_history' => 'Stage History',
         'lead' => 'Lead',
         'tickets' => 'Tickets',
     ],
-    
+
     // CRM Opportunity Item
     'crm_opportunity_item' => [
         'headline' => 'Opportunity Item',
@@ -939,10 +942,10 @@ return [
         'custom_data' => 'Custom data',
         'external_status' => 'External status',
     ],
-    
+
     'count' => 'Count',
     'smartcardids' => 'Smartcard IDs',
-    
+
     // CustomerInteraction
     'customerinteraction' => [
         'index' => 'Customer Interaction Dashboard',
@@ -1067,7 +1070,7 @@ return [
         'users_created_by_id' => 'Created By',
         'users_closed_by_id' => 'Closed By',
     ],
-    
+
     // Global field translations for index tables
     'symbol' => 'Symbol',
     'label' => 'Label',
@@ -1105,9 +1108,14 @@ return [
     'closed_at' => 'Closed At',
     'users_created_by_id' => 'Created By',
     'users_closed_by_id' => 'Closed By',
+    'scope_ref_label' => 'Scope Reference',
     'product_region_rule' => [
         'headline' => 'Product Region Rules',
+        'type' => 'Type',
+        'type.product' => 'Product',
+        'type.layer' => 'Layer',
         'product_id' => 'Product',
+        'product_layer_id' => 'Product Layer',
         'rule' => 'Rule',
         'rule.allow' => 'Allow',
         'rule.deny' => 'Deny',
@@ -1120,6 +1128,11 @@ return [
         'scope_type.segment' => 'Segment',
         'scope_type.managed_network' => 'Managed Network',
         'scope_ref_id' => 'Scope Reference ID',
+        'scope_ref_label' => 'Scope Reference',
+        'city' => 'City',
+        'street' => 'Street',
+        'realty' => 'Realty',
+        'apartment' => 'Apartment',
         'requires_right_code' => 'Requires Right Code',
         'managed_only' => 'Managed Only',
         'effective_from' => 'Effective From',

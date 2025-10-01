@@ -42,7 +42,7 @@ return [
     'is_switcher' => 'Wechsler',
     'external_order_no' => 'Externe Bestellnummer',
     'iban' => 'IBAN',
-    'id'            => 'ID',
+    'id' => 'ID',
     'invoice_date' => 'Rechnungsdatum',
     'is_default' => 'Standard',
     'lastname' => 'Nachname',
@@ -54,7 +54,7 @@ return [
     'sort' => 'Sortierung',
     'number' => 'Nummer',
     'occupied' => 'Bewohnt',
-    'prio'          => 'Priorität',
+    'prio' => 'Priorität',
     'street' => 'Straße',
     'sum' => 'Summe',
     'type' => 'Typ',
@@ -141,6 +141,7 @@ return [
         'billing_address_id' => 'Rechnungsadresse',
         'crm_opportunity_id' => 'CRM-Opportunity',
         'apartment_id' => 'Wohnung',
+        'realty_id' => 'Immobilie',
         'customer_type' => 'Kundentyp',
         'is_switcher' => 'Wechsler',
         'state' => 'Status',
@@ -199,7 +200,7 @@ return [
         'format' => 'Template Format',
         'type_view' => 'Typ',
     ],
-    //FirmwareUpgrade
+    // FirmwareUpgrade
     'firmware_upgrade' => [
         'start_date' => 'Startdatum',
         'start_time' => 'Startzeit',
@@ -209,7 +210,7 @@ return [
     ],
     'geocode_source' => 'Geocode-Quelle',
     'home_id' => 'Home-ID',
-    //Invoices
+    // Invoices
     'invoice' => [
         'ccc' => [
             'number' => 'Rechnungsnummer',
@@ -221,7 +222,7 @@ return [
         'amount' => 'Betrag',
         'cdr' => 'Einzelverbindungsnachweis',
     ],
-    //Item
+    // Item
     'item.valid_from' => 'Gültig ab',
     'item.valid_from_fixed' => 'Ab Startdatum aktiv',
     'item.valid_to' => 'Gültig bis',
@@ -240,22 +241,22 @@ return [
     ],
     // Salesman
     'salesman.id' => 'ID',
-    'salesman_id' 		=> 'Verkäufer-ID',
+    'salesman_id' => 'Verkäufer-ID',
     'salesman_firstname' => 'Vorname',
     'salesman_lastname' => 'Nachname',
-    'commission in %' 	=> 'Provision in %',
-    'contract_nr' 		=> 'Kundennr',
-    'contract_name' 	=> 'Kunde',
-    'contract_start' 	=> 'Vertragsbeginn',
-    'contract_end' 		=> 'Vertragsende',
-    'product_name' 		=> 'Produkt',
-    'product_type' 		=> 'Produkttyp',
-    'product_count' 	=> 'Anzahl',
-    'charge' 			=> 'Gebühr',
+    'commission in %' => 'Provision in %',
+    'contract_nr' => 'Kundennr',
+    'contract_name' => 'Kunde',
+    'contract_start' => 'Vertragsbeginn',
+    'contract_end' => 'Vertragsende',
+    'product_name' => 'Produkt',
+    'product_type' => 'Produkttyp',
+    'product_count' => 'Anzahl',
+    'charge' => 'Gebühr',
     'salesman.lastname' => 'Nachname',
     'salesman.firstname' => 'Vorname',
     'salesman_commission' => 'Provision',
-    'sepaaccount_id' 	=> 'SEPA-Konto',
+    'sepaaccount_id' => 'SEPA-Konto',
     'sepaaccount' => [
         'iban' => 'IBAN',
         'institute' => 'Bank',
@@ -278,7 +279,7 @@ return [
     'verified' => 'Überprüft?',
     // MPR
     'mpr.name' => 'Name',
-    'mpr.id'    => 'ID',
+    'mpr.id' => 'ID',
     // NetElement
     'netelement' => [
         'id' => 'ID',
@@ -341,9 +342,9 @@ return [
     ],
     // NetElementType
     'netelementtype.name' => 'Netzelementtyp',
-    //HfcSnmp
+    // HfcSnmp
     'parameter.oid.name' => 'OID Bezeichnung',
-    //Mibfile
+    // Mibfile
     'mibfile.id' => 'ID',
     'mibfile.name' => 'Mibfilename',
     'mibfile.version' => 'Version',
@@ -352,7 +353,7 @@ return [
     'oid.name' => 'OID Bezeichnung',
     'oid.oid' => 'OID',
     'oid.access' => 'Schreibschutz',
-    //SnmpValue
+    // SnmpValue
     'snmpvalue.oid_index' => 'OID Index',
     'snmpvalue.value' => 'OID Wert',
     // MAIL
@@ -494,17 +495,17 @@ return [
         'usable' => 'Verfügbar',
     ],
     // ENVIA enviaorder
-    'enviaorder.ordertype'  => 'Bestelltyp',
-    'enviaorder.orderstatus'  => 'Bestellstatus',
+    'enviaorder.ordertype' => 'Bestelltyp',
+    'enviaorder.orderstatus' => 'Bestellstatus',
     'escalation_level' => 'Statuslevel',
-    'enviaorder.created_at'  => 'Erstellt am',
-    'enviaorder.updated_at'  => 'Bearbeitet am',
-    'enviaorder.orderdate'  => 'Bestelldatum',
-    'enviaorder_current'  => 'Bearbeitung notwendig?',
+    'enviaorder.created_at' => 'Erstellt am',
+    'enviaorder.updated_at' => 'Bearbeitet am',
+    'enviaorder.orderdate' => 'Bestelldatum',
+    'enviaorder_current' => 'Bearbeitung notwendig?',
     'enviaorder.contract.number' => 'Vertrag',
     'enviaorder.modem.id' => 'Modem',
     'phonenumber.number' => 'Rufnummer',
-    //ENVIA Contract
+    // ENVIA Contract
     'enviacontract.contract.number' => 'Vertrag',
     'enviacontract.end_date' => 'Enddatum',
     'enviacontract.envia_contract_reference' => 'envia-TEL-Vertragsreferenz',
@@ -768,14 +769,14 @@ return [
     'realty_id' => 'Immobilie',
     'apartment_id' => 'Wohnung',
     'owner_id' => 'Eigentümer',
-    
+
     // Contact Point relationship fields
     'contactPoint.firstname' => 'Vorname',
     'contactPoint.lastname' => 'Nachname',
     'contactPoint.company' => 'Firma',
     'contactPoint.email' => 'E-Mail',
     'contactPoint.phone' => 'Telefon',
-    
+
     // Address relationship fields
     'address.street' => 'Straße',
     'address.house_number' => 'Hausnummer',
@@ -847,7 +848,7 @@ return [
     'ticket_type.name' => 'Tickettyp',
     'SpriTicket.index' => 'S/PRI Tickets',
     'SpriSupplierApi' => 'S/PRI',
-    
+
     // CRM Pipeline Stage
     'pipeline_id' => 'Pipeline',
     'order_index' => 'Reihenfolge',
@@ -856,7 +857,7 @@ return [
     'is_terminal' => 'Endstufe',
     'is_won' => 'Gewonnene Stufe',
     'is_lost' => 'Verlorene Stufe',
-    
+
     // CRM Stage Transition
     'crm_stage_transition' => [
         'pipeline_id' => 'Pipeline',
@@ -865,14 +866,14 @@ return [
         'guard_expr' => 'Bedingungsausdruck',
         'autofail_message' => 'Auto-Fehler-Nachricht',
     ],
-    
+
     // CRM Opportunity related tabs
     'crm_opportunity_tabs' => [
         'stage_history' => 'Stufen-Historie',
         'lead' => 'Chance',
         'tickets' => 'Tickets',
     ],
-    
+
     // CRM Opportunity Item
     'crm_opportunity_item' => [
         'headline' => 'Angebotsposten',
@@ -895,10 +896,10 @@ return [
         'custom_data' => 'Benutzerdefinierte Daten',
         'external_status' => 'Externer Status',
     ],
-    
+
     'count' => 'Anzahl',
     'smartcardids' => 'Smartcard-IDs',
-    
+
     // CustomerInteraction
     'customerinteraction' => [
         'index' => 'Kundeninteraktions-Dashboard',
@@ -1023,7 +1024,7 @@ return [
         'users_created_by_id' => 'Erstellt von',
         'users_closed_by_id' => 'Geschlossen von',
     ],
-    
+
     // Global field translations for index tables
     'symbol' => 'Symbol',
     'label' => 'Bezeichnung',
@@ -1061,92 +1062,102 @@ return [
     'closed_at' => 'Geschlossen um',
     'users_created_by_id' => 'Erstellt von',
     'users_closed_by_id' => 'Geschlossen von',
+    'scope_ref_label' => 'Bereichsreferenz',
 
-// Web Order Item
-'web_order_item' => [
-    'headline' => 'Web-Bestellposition',
-    'web_order_id' => 'Web-Bestellung',
-    'type' => 'Typ',
-    'product_id' => 'Produkt-ID',
-    'name' => 'Bezeichnung',
-    'qty' => 'Menge',
-    'sort' => 'Sortierung',
-],
-'product_region_rule' => [
-    'headline' => 'Produkt-Regionen-Regeln',
-    'product_id' => 'Produkt',
-    'rule' => 'Regel',
-    'rule.allow' => 'Erlaubt',
-    'rule.deny' => 'Verweigert',
-    'scope_type' => 'Bereichstyp',
-    'scope_type.dma' => 'DMA',
-    'scope_type.city' => 'Stadt',
-    'scope_type.street' => 'Straße',
-    'scope_type.realty' => 'Immobilie',
-    'scope_type.apartment' => 'Wohnung',
-    'scope_type.segment' => 'Segment',
-    'scope_type.managed_network' => 'Verwaltetes Netzwerk',
-    'scope_ref_id' => 'Bereichsreferenz-ID',
-    'requires_right_code' => 'Benötigt Rechte-Code',
-    'managed_only' => 'Nur verwaltet',
-    'effective_from' => 'Gültig ab',
-    'effective_to' => 'Gültig bis',
-    'priority' => 'Priorität',
-],
-'product_layer' => [
-    'headline' => 'Produkt-Ebenen',
-    'code' => 'Code',
-    'name' => 'Name',
-    'sequence' => 'Sequenz',
-    'selection_policy' => 'Auswahlrichtlinie',
-    'selection_policy.single' => 'Einzelauswahl',
-    'selection_policy.multiple' => 'Mehrfachauswahl',
-    'selection_policy.at_least_one' => 'Mindestens eine erforderlich',
-    'selection_policy.optional' => 'Optional',
-],
-'product_layer_assignment' => [
-    'headline' => 'Produkt-Ebenen-Zuordnungen',
-    'product_id' => 'Produkt',
-    'product_layer_id' => 'Produktebene',
-    'sort' => 'Sortierung',
-],
-'product_constraint' => [
-    'headline' => 'Produkt-Einschränkungen',
-    'product_id' => 'Produkt',
-    'relation' => 'Relation',
-    'relation.requires' => 'Erfordert',
-    'relation.excludes' => 'Schließt aus',
-    'requirement_kind' => 'Anforderungstyp',
-    'requirement_kind.product' => 'Bestimmtes Produkt',
-    'requirement_kind.type' => 'Produkttyp',
-    'required_product_id' => 'Erforderliches Produkt',
-    'required_type' => 'Erforderlicher Typ',
-    'enforcement' => 'Durchsetzung',
-    'enforcement.hard' => 'Strenge Durchsetzung',
-    'enforcement.auto_add' => 'Automatisch hinzufügen',
-    'enforcement.warn' => 'Nur Warnung',
-    'auto_add_product_id' => 'Automatisch hinzuzufügendes Produkt',
-    'min_qty' => 'Mindestmenge',
-],
-'product_addon' => [
-    'headline' => 'Produkt-Add-Ons',
-    'base_product_id' => 'Basisprodukt',
-    'base_type' => 'Basistyp',
-    'addon_product_id' => 'Add-on-Produkt',
-    'required' => 'Erforderlich',
-    'max_qty' => 'Maximale Menge',
-],
-'product_layer' => [
-    'headline' => 'Produkt-Ebenen',
-    'code' => 'Code',
-    'name' => 'Name',
-    'sequence' => 'Sequenz',
-    'selection_policy' => 'Auswahlrichtlinie',
-    'selection_policy_options' => [
-        'single' => 'Einzelauswahl',
-        'multiple' => 'Mehrfachauswahl',
-        'at_least_one' => 'Mindestens eine erforderlich',
-        'optional' => 'Optional',
+    // Web Order Item
+    'web_order_item' => [
+        'headline' => 'Web-Bestellposition',
+        'web_order_id' => 'Web-Bestellung',
+        'type' => 'Typ',
+        'product_id' => 'Produkt-ID',
+        'name' => 'Bezeichnung',
+        'qty' => 'Menge',
+        'sort' => 'Sortierung',
     ],
-],
+    'product_region_rule' => [
+        'headline' => 'Produkt-Regionen-Regeln',
+        'type' => 'Typ',
+        'type.product' => 'Produkt',
+        'type.layer' => 'Schicht',
+        'product_id' => 'Produkt',
+        'product_layer_id' => 'Produktschicht',
+        'rule' => 'Regel',
+        'rule.allow' => 'Erlaubt',
+        'rule.deny' => 'Verweigert',
+        'scope_type' => 'Bereichstyp',
+        'scope_type.dma' => 'DMA',
+        'scope_type.city' => 'Stadt',
+        'scope_type.street' => 'Straße',
+        'scope_type.realty' => 'Immobilie',
+        'scope_type.apartment' => 'Wohnung',
+        'scope_type.segment' => 'Segment',
+        'scope_type.managed_network' => 'Verwaltetes Netzwerk',
+        'scope_ref_id' => 'Bereichsreferenz-ID',
+        'scope_ref_label' => 'Bereichsreferenz',
+        'city' => 'Stadt',
+        'street' => 'Straße',
+        'realty' => 'Immobilie',
+        'apartment' => 'Wohnung',
+        'requires_right_code' => 'Benötigt Rechte-Code',
+        'managed_only' => 'Nur verwaltet',
+        'effective_from' => 'Gültig ab',
+        'effective_to' => 'Gültig bis',
+        'priority' => 'Priorität',
+    ],
+    'product_layer' => [
+        'headline' => 'Produkt-Ebenen',
+        'code' => 'Code',
+        'name' => 'Name',
+        'sequence' => 'Sequenz',
+        'selection_policy' => 'Auswahlrichtlinie',
+        'selection_policy.single' => 'Einzelauswahl',
+        'selection_policy.multiple' => 'Mehrfachauswahl',
+        'selection_policy.at_least_one' => 'Mindestens eine erforderlich',
+        'selection_policy.optional' => 'Optional',
+    ],
+    'product_layer_assignment' => [
+        'headline' => 'Produkt-Ebenen-Zuordnungen',
+        'product_id' => 'Produkt',
+        'product_layer_id' => 'Produktebene',
+        'sort' => 'Sortierung',
+    ],
+    'product_constraint' => [
+        'headline' => 'Produkt-Einschränkungen',
+        'product_id' => 'Produkt',
+        'relation' => 'Relation',
+        'relation.requires' => 'Erfordert',
+        'relation.excludes' => 'Schließt aus',
+        'requirement_kind' => 'Anforderungstyp',
+        'requirement_kind.product' => 'Bestimmtes Produkt',
+        'requirement_kind.type' => 'Produkttyp',
+        'required_product_id' => 'Erforderliches Produkt',
+        'required_type' => 'Erforderlicher Typ',
+        'enforcement' => 'Durchsetzung',
+        'enforcement.hard' => 'Strenge Durchsetzung',
+        'enforcement.auto_add' => 'Automatisch hinzufügen',
+        'enforcement.warn' => 'Nur Warnung',
+        'auto_add_product_id' => 'Automatisch hinzuzufügendes Produkt',
+        'min_qty' => 'Mindestmenge',
+    ],
+    'product_addon' => [
+        'headline' => 'Produkt-Add-Ons',
+        'base_product_id' => 'Basisprodukt',
+        'base_type' => 'Basistyp',
+        'addon_product_id' => 'Add-on-Produkt',
+        'required' => 'Erforderlich',
+        'max_qty' => 'Maximale Menge',
+    ],
+    'product_layer' => [
+        'headline' => 'Produkt-Ebenen',
+        'code' => 'Code',
+        'name' => 'Name',
+        'sequence' => 'Sequenz',
+        'selection_policy' => 'Auswahlrichtlinie',
+        'selection_policy_options' => [
+            'single' => 'Einzelauswahl',
+            'multiple' => 'Mehrfachauswahl',
+            'at_least_one' => 'Mindestens eine erforderlich',
+            'optional' => 'Optional',
+        ],
+    ],
 ];
