@@ -1027,13 +1027,15 @@ class ModemController extends \BaseController
             }
         }
 
-        if (! in_array(request('model'), ['TG862', 'TG3442S', 'TG3442SP'])) {
+        if (! in_array(request('model'), ['TG862', 'TG3442S', 'TG3442SP', '4050', '4690', '5530', '5590'])) {
             $errors[] = 'unsupported model';
         }
 
-        $onlineStatus = $modem->onlineStatus();
-        if (! $onlineStatus['online']) {
-            $errors[] = 'modem is offline';
+        if (in_array(request('model'), ['TG862', 'TG3442S', 'TG3442SP'])) {
+            $onlineStatus = $modem->onlineStatus();
+            if (! $onlineStatus['online']) {
+                $errors[] = 'modem is offline';
+            }
         }
 
         if ($errors) {
@@ -1071,6 +1073,22 @@ class ModemController extends \BaseController
                     snmpset($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.26.1.2.10101', 's', request('psk'));
                     // apply setting to non-volatile memory
                     snmpset($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.1001.0', 'i', 1);
+                    break;
+                case '4050':
+                case '4690':
+                case '5530':
+                case '5590':
+                    $data = [
+                        'name' => 'setParameterValues',
+                        'parameterValues' => [
+                            ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.SSID', request('ssid'), 'xsd:string'],
+                            ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.PreSharedKey.1.PreSharedKey', request('psk'), 'xsd:string'],
+                            ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.2.SSID', request('ssid'), 'xsd:string'],
+                            ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.2.PreSharedKey.1.PreSharedKey', request('psk'), 'xsd:string'],
+                        ],
+                    ];
+
+                    $modem::callGenieAcsApi("devices/{$modem->getGenieId()}/tasks?timeout=3000&connection_request", 'POST', json_encode($data));
                     break;
             }
         } catch (\Exception $e) {
