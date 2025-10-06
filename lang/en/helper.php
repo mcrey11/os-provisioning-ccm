@@ -84,6 +84,7 @@ return [
         'availability_snapshot_help' => 'JSON data containing availability check results and service options for the customer address.',
         'utm_json_help' => 'JSON data containing UTM parameters and tracking information from the web order source.',
         'consent_json_help' => 'JSON data containing customer consent information and GDPR compliance data.',
+        'payment_data_help' => 'JSON data containing encrypted payment information (IBAN, credit card details, etc.) for verification purposes.',
     ],
 
     //CostCenterController

@@ -84,6 +84,7 @@ return [
         'availability_snapshot_help' => 'JSON-Daten mit Verfügbarkeitsprüfungsergebnissen und Service-Optionen für die Kundenadresse.',
         'utm_json_help' => 'JSON-Daten mit UTM-Parametern und Tracking-Informationen aus der Web-Bestellungsquelle.',
         'consent_json_help' => 'JSON-Daten mit Kundeneinverständnis-Informationen und DSGVO-Compliance-Daten.',
+        'payment_data_help' => 'JSON-Daten mit verschlüsselten Zahlungsinformationen (IBAN, Kreditkartendetails, etc.) für Verifizierungszwecke.',
     ],
 
     //CostCenterController
