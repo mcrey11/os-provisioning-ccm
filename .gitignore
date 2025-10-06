@@ -83,5 +83,4 @@ npm-debug.log
 # sql files
 *.sql
 
-venv
-phpunit/out/*.htm
+logs/logs.log

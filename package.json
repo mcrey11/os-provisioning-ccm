@@ -24,6 +24,7 @@
         "laravel-mix-merge-manifest": "^2.0.0",
         "lint-staged": "^16.2.7",
         "lodash": "^4.17.19",
+        "log-reader-mcp": "^2.0.2",
         "mix-env-file": "^0.1.1",
         "pagedjs": "^0.4.1",
         "path": "^0.12.7",
