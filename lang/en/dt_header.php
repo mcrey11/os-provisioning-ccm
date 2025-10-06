@@ -134,6 +134,7 @@ return [
         'party_id_ext' => 'External Party ID',
         'notes' => 'Notes',
     ],
+    'order_number' => 'Order Number',
     'web_order' => [
         'contact_point_id' => 'Contact Point',
         'service_address_id' => 'Service Address',
@@ -148,6 +149,8 @@ return [
         'payment_status' => 'Payment Status',
         'payment_reference' => 'Payment Reference',
         'payment_data' => 'Payment Data',
+        'hash' => 'Hash',
+        'order_number' => 'Order Number',
         'availability_snapshot' => 'Availability Snapshot',
         'utm_json' => 'UTM Data',
         'consent_json' => 'Consent Data',

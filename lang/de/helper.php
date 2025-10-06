@@ -81,6 +81,7 @@ return [
     
     // Web Order
     'web_order' => [
+        'order_number_help' => 'Kurze, benutzerfreundliche Bestellnummer, die aus dem Hash für Anzeigezwecke generiert wird.',
         'availability_snapshot_help' => 'JSON-Daten mit Verfügbarkeitsprüfungsergebnissen und Service-Optionen für die Kundenadresse.',
         'utm_json_help' => 'JSON-Daten mit UTM-Parametern und Tracking-Informationen aus der Web-Bestellungsquelle.',
         'consent_json_help' => 'JSON-Daten mit Kundeneinverständnis-Informationen und DSGVO-Compliance-Daten.',

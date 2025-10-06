@@ -135,6 +135,7 @@ return [
         'party_id_ext' => 'Externe Parteien-ID',
         'notes' => 'Notizen',
     ],
+    'order_number' => 'Bestellnummer',
     'web_order' => [
         'contact_point_id' => 'Kontaktpunkt',
         'service_address_id' => 'Service-Adresse',
@@ -149,6 +150,8 @@ return [
         'payment_status' => 'Zahlungsstatus',
         'payment_reference' => 'Zahlungsreferenz',
         'payment_data' => 'Zahlungsdaten',
+        'hash' => 'Hash',
+        'order_number' => 'Bestellnummer',
         'availability_snapshot' => 'Verfügbarkeits-Snapshot',
         'utm_json' => 'UTM-Daten',
         'consent_json' => 'Einverständnis-Daten',
