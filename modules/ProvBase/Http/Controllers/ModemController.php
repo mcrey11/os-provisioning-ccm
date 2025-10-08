@@ -1918,4 +1918,30 @@ class ModemController extends \BaseController
 
         return redirect($this->redirectUrl);
     }
+
+    /**
+     * API method to get modems by contract ID
+     * 
+     * @param int $contractId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_getByContract($ver, $contractId)
+    {
+        try {
+            $modems = Modem::where('contract_id', $contractId)
+                ->whereNull('deleted_at')
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $modems->toArray(),
+                'count' => $modems->count()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error retrieving modems: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

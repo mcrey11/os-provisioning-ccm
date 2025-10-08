@@ -304,7 +304,7 @@ return [
     'edit_invoice_address' => 'Rechnungsadresse bearbeiten',
     'edit_invoice_address_data' => 'Rechnungsadressdaten bearbeiten',
     'invoice_address_updated' => 'Rechnungsadresse erfolgreich aktualisiert',
-    'edit_modem_address' => 'Modem-Adresse bearbeiten',
+    'edit_modem_address' => 'Modem-Adress-Umzug beantragen für Modem ',
     'modem_address_updated' => 'Modem-Adresse erfolgreich aktualisiert',
     'invoice_delivery_method' => 'Rechnungsversand-Methode',
     'paper_invoice' => 'Papierrechnung',
