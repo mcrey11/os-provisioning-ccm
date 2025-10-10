@@ -1195,11 +1195,16 @@ return [
         'name' => 'Name',
         'sequence' => 'Sequence',
         'selection_policy' => 'Selection Policy',
+        'customer_type' => 'Customer Type',
         'selection_policy_options' => [
             'single' => 'Single Selection',
             'multiple' => 'Multiple Selection',
             'at_least_one' => 'At Least One Required',
             'optional' => 'Optional',
+        ],
+        'customer_type_options' => [
+            'residential' => 'Residential',
+            'business' => 'Business',
         ],
     ],
 ];

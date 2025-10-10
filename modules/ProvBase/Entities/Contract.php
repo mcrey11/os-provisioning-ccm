@@ -2330,4 +2330,25 @@ class Contract extends \BaseModel
         // Use the ticket type name + business case
         return $businessCaseData->ticketType->name.' ['.$businessCase.']';
     }
+
+    /**
+     * Determine customer type based on contract data.
+     * 
+     * @return string 'residential' or 'business'
+     */
+    public function getCustomerType(): string
+    {
+        // Check if company field is filled (business customer)
+        if (!empty($this->company)) {
+            return 'business';
+        }
+        
+        // Check salutation for institution type
+        if ($this->salutation === 'placeholder_salutations_institution') {
+            return 'business';
+        }
+        
+        // Default to residential
+        return 'residential';
+    }
 }

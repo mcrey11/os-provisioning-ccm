@@ -1117,10 +1117,13 @@ return [
         'name' => 'Name',
         'sequence' => 'Sequenz',
         'selection_policy' => 'Auswahlrichtlinie',
+        'customer_type' => 'Kundentyp',
         'selection_policy.single' => 'Einzelauswahl',
         'selection_policy.multiple' => 'Mehrfachauswahl',
         'selection_policy.at_least_one' => 'Mindestens eine erforderlich',
         'selection_policy.optional' => 'Optional',
+        'customer_type.residential' => 'Privatkunde',
+        'customer_type.business' => 'Geschäftskunde',
     ],
     'product_layer_assignment' => [
         'headline' => 'Produkt-Ebenen-Zuordnungen',
