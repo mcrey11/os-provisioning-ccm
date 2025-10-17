@@ -10,7 +10,8 @@ return [
     'ccc' => [
         'bgImg' => 'Hintergrundbild der Loginseite',
     ],
-    'customerPortal' => 'Kundenportal',
+    'disabled' => 'deaktiviert',
+    'enabled' => 'aktiviert',
     //SEARCH
     'Search_EnterKeyword'       => 'Suchbegriff eingeben',
     'Search_MatchesFor'         => 'Ergebnis für|Ergebnisse für',
@@ -46,6 +47,8 @@ return [
     'Menu_Apartment'            => 'Wohnungen',
     'Menu_BillingBase'          => 'Billing',
     'Menu_Booking Accounts' => 'Kontenplan',
+    'Menu_Consent' => 'Einwilligungen',
+    'Menu_ConsentMgmt' => 'Einwilligungsmanagement',
     'Menu_Contact'              => 'Ansprechpartner',
     'Menu_CorrespondenceRecipient' => 'Korrespondenzempfänger',
     'Menu_CutoffList'           => 'Abschaltliste',
@@ -132,6 +135,8 @@ return [
     'Header_GlobalSearch'       => 'Systemweite Suche',
     'Header_Overview'           => 'Übersicht',
     'Header_Assigned'           => 'Zugewiesene',
+    'Header_ConsentHistory' => 'Historie',
+    'Header_Consents' => 'Einwilligungen',
     'Header_Create'             => 'Erstellen',
     'Header_Net'                => 'Netze',
     //Module specific
@@ -728,6 +733,9 @@ return [
     ],
     'markon' => 'Preisaufschlag in %',
     'Message' => 'Nachricht',
+    'Change' => 'Änderung',
+    'Date' => 'Datum',
+    'ID' => 'ID',
     'modemAnalysis' => [
         'channel' => 'Kanal',
         'channels' => 'Kanäle',

@@ -22,4 +22,8 @@
     @if (Module::collections()->has('PropertyManagement'))
         @include('provbase::Contract.hideAddress')
     @endif
+
+    @if (Module::collections()->has('ConsentMgmt'))
+        @include('consentmgmt::contract.historyTable')
+    @endif
 @stop

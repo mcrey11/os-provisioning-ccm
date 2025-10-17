@@ -10,7 +10,8 @@ return [
     'ccc' => [
         'bgImg' => 'Login page background image',
     ],
-    'customerPortal' => 'customer portal',
+    'disabled' => 'disabled',
+    'enabled' => 'enabled',
     //SEARCH
     'Search_EnterKeyword'       => 'Enter Keyword',
     'Search_MatchesFor'         => 'Match for|Matches for',
@@ -46,6 +47,8 @@ return [
     'Menu_Apartment'            => 'Apartments',
     'Menu_BillingBase'          => 'Billing',
     'Menu_Booking Accounts' => 'Booking accounts',
+    'Menu_Consent' => 'Consents',
+    'Menu_ConsentMgmt' => 'Consent management',
     'Menu_Contact'              => 'Contacts',
     'Menu_CorrespondenceRecipient' => 'Correspondence recipient',
     'Menu_CutoffList'           => 'Cut Off List',
@@ -132,6 +135,8 @@ return [
     'Header_GlobalSearch'       => 'Global Search',
     'Header_Overview'           => 'Overview',
     'Header_Assigned'           => 'Assigned',
+    'Header_ConsentHistory' => 'History',
+    'Header_Consents' => 'Consents',
     'Header_Create'             => 'Create',
     'Header_Net'                => 'Network',
     //Module specific
@@ -729,6 +734,9 @@ return [
     ],
     'markon' => 'Mark-On/Extra charge in %',
     'Message' => 'Message',
+    'Change' => 'Change',
+    'Date' => 'Date',
+    'ID' => 'ID',
     'modemAnalysis' => [
         'channel' => 'Channel',
         'channels' => 'Channels',

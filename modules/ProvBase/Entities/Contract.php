@@ -553,6 +553,24 @@ class Contract extends \BaseModel
             ]);
         }
 
+        if (Module::collections()->has('ConsentMgmt') && \Bouncer::can('view', \Modules\ConsentMgmt\Entities\ContractConsent::class)) {
+            $i18nConsentMgmt = trans('consentmgmt::view.consents');
+            $ret[$i18nConsentMgmt]['Consents']['html'] = \Livewire\Livewire::mount(
+                'consentmgmt::consentPanel',
+                ['contract' => $this->withoutRelations()]
+            );
+            $ret[$i18nConsentMgmt]['ConsentHistory']['view'] = [
+                'view' => 'consentmgmt::contract.consentHistory',
+                'vars' => [
+                    'changesExist' => \App\GuiLog::where('model', 'ContractConsent')
+                        ->whereIn('model_id', \Modules\ConsentMgmt\Entities\ContractConsent::where('contract_id', $this->id)->pluck('id'))
+                        ->limit(1)
+                        ->count(),
+                ],
+            ];
+            $ret[$i18nConsentMgmt]['icon'] = 'check-square-o';
+        }
+
         return $ret;
     }
 
@@ -615,6 +633,16 @@ class Contract extends \BaseModel
     public function cdrs()
     {
         return $this->hasMany(\Modules\BillingBase\Entities\Cdr::class);
+    }
+
+    public function consents()
+    {
+        return $this->belongsToMany(\Modules\ConsentMgmt\Entities\Consent::class, 'contract_consent', 'contract_id', 'consent_id')->withPivot('allowed');
+    }
+
+    public function contractConsents()
+    {
+        return $this->hasMany(\Modules\ConsentMgmt\Entities\ContractConsent::class);
     }
 
     public function debts()
