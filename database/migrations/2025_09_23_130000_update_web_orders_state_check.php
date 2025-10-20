@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
  */
 
 use Database\Migrations\BaseMigration;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends BaseMigration
 {
@@ -39,7 +39,7 @@ return new class extends BaseMigration
             "'rejected',".
             "'ready_for_sales',".
             "'converted'".
-            "))"
+            '))'
         );
     }
 
@@ -54,9 +54,7 @@ return new class extends BaseMigration
         \DB::statement(
             "ALTER TABLE {$this->tableName} ADD CONSTRAINT web_orders_state_check CHECK (state IN (".
             "'draft','submitted','pending_checks','manual_review','rejected','ready_for_sales','converted'".
-            "))"
+            '))'
         );
     }
 };
-
-

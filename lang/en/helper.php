@@ -42,12 +42,12 @@ return [
     'PasswordReset'                 => 'This property defines the timespan in days in which the users of the administration panel should change their passwords. If you want to disable the password reset message, set the value to 0.',
     'syncProvision'                 => 'TR-069 only: This property specifies if there is another button on the modem edit page, that synchronizes the modem with it\'s correlated configfile. This allows to update the modem (e.g. after adding a new phonenumber) without resetting it.',
 
-    //CompanyController
+    // CompanyController
     'Company_Management'            => 'Comma separated list of names',
     'Company_Directorate'           => 'Comma separated list of names',
     'Company_TransferReason'        => 'Template from all Invoice class data field keys - Contract Number and Invoice Nr is default',
     'conn_info_template'            => 'Tex Template used to Create Connection Information on the Contract Page for a Customer',
-    
+
     // ProductRegionRule helper translations
     'product_region_rule' => [
         'scope_ref_id' => 'Reference ID for the selected scope type (DMA ID, City ID, Street ID, etc.)',
@@ -56,29 +56,29 @@ return [
         'effective_to' => 'Optional: End date when this rule expires',
         'priority' => 'Priority order for rule evaluation (lower numbers = higher priority)',
     ],
-    
+
     // ProductLayer helper translations
     'product_layer' => [
         'sequence' => 'Display order for layers (lower numbers appear first)',
     ],
-    
+
     // ProductLayerAssignment helper translations
     'product_layer_assignment' => [
         'sort' => 'Sort order within the layer (lower numbers appear first)',
     ],
-    
+
     // ProductConstraint helper translations
     'product_constraint' => [
         'min_qty' => 'Minimum quantity required when enforcement is for product type',
     ],
-    
+
     // ProductAddon helper translations
     'product_addon' => [
         'base_product_id_or_layer' => 'Either select a specific product OR specify a product layer',
         'product_layer_id_explanation' => 'Product layer this addon applies to (addons show after layer completion)',
         'max_qty' => 'Maximum quantity of this addon that can be selected',
     ],
-    
+
     // Web Order
     'web_order' => [
         'order_number_help' => 'Short, user-friendly order number generated from the hash for display purposes.',
@@ -88,10 +88,10 @@ return [
         'payment_data_help' => 'JSON data containing encrypted payment information (IBAN, credit card details, etc.) for verification purposes.',
     ],
 
-    //CostCenterController
+    // CostCenterController
     'CostCenter_BillingMonth'       => 'Accounting for yearly charged items - corresponds to the month the invoices are created for. Default: 6 (June) - if not set. Please be careful to not miss any payments when changing this!',
 
-    //ItemController
+    // ItemController
     'item' => [
         'productId'                => 'All fields besides Billing Cycle have to be cleared before a type change! Otherwise items can not be saved in most cases',
         'validFrom'                => 'For One Time Payments the fields can be used to split payment - Only YYYY-MM is considered then!',
@@ -110,7 +110,7 @@ return [
         'creditAmount' => 'If set this amount will be used instead of the product price for this opportunity item.',
     ],
 
-    //ProductController
+    // ProductController
     'product' => [
         'billingCycles' => 'You can find the explanations to the billing/payroll cycles in the official documentation (web) -> Enterprise Applications -> Prime Billing -> Products',
         'bundle'                => 'On bundled tarifs the minimum runtime of the contract is determined only be the internet tariff. Otherwise the last starting valid tariff (Voip or Internet) dictates this date.',
@@ -126,7 +126,7 @@ return [
     ],
     'Product_Number_of_Cycles'      => 'Take Care!: for all repeatedly payed products the price stands for every charge, for Once payed products the Price is divided by the number of cycles',
 
-    //SalesmanController
+    // SalesmanController
     'Salesman_ProductList'          => 'Add all Product types he gets commission for - possible: ',
 
     // SepaMandate
@@ -201,7 +201,7 @@ return [
     'openning_new_tab_for_modem' => 'Check the box to open the modem edit page in new tab in topography view.',
     'ppp_session_timeout'           => 'In seconds. PPP session will not be terminated when setting the value to zero.',
     'max_cpe' => 'Minimum & default: 2. A value of -1 will remove “lease limit” from DHCP config and set “MaxCPE” in DOCSIS config files to 254.',
-    //ModemController
+    // ModemController
     'modem' => [
         'internetAccess' => 'Internet Access for CPEs. (MTAs are not considered and will always go online when all other configurations are correct). Take care: With Billing-Module this checkbox will be overwritten by daily check if tariff changes. Can not be set anymore when contract was canceled.',
         'qosCount' => 'The number in brackets indicates how often the respective QOS is already used.',
@@ -437,7 +437,7 @@ return [
     'deal_size_help' => 'Enter the deal size in cents (e.g., 10000 for :currency100.00)',
     'probability_pct_help' => 'Enter the probability percentage (0-100)',
     'please_select_pipeline_first' => 'Please select a pipeline first to see available stages',
-    
+
     /*
      * MODULE: CustomerInteraction (Global)
      */

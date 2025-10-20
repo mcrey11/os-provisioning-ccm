@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -17,9 +18,8 @@
  */
 
 use Database\Migrations\BaseMigration;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends BaseMigration
 {
@@ -35,6 +35,10 @@ return new class extends BaseMigration
     public function up()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
+            // First, update any NULL values to 0 to avoid constraint violations
+            \DB::statement('UPDATE address SET lat = 0 WHERE lat IS NULL');
+            \DB::statement('UPDATE address SET lng = 0 WHERE lng IS NULL');
+
             // Remove NOT NULL constraints from lat and lng fields
             $table->decimal('lat', 10, 8)->nullable()->change();
             $table->decimal('lng', 11, 8)->nullable()->change();

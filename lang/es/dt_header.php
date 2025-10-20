@@ -61,11 +61,11 @@ return [
         'total_fee' => 'Tarifa',
         'voucher_nr' => 'Nr de voucher',
     ],
-    //Invoices
+    // Invoices
     'invoice.type' => 'Tipo',
     'invoice.year' => 'Año',
     'invoice.month' => 'Mes',
-    //Item
+    // Item
     'item.valid_from' => 'Artículo válido desde',
     'item.valid_from_fixed' => 'Artículo válido de fijo',
     'item.valid_to' => 'Artículo válido para',
@@ -125,9 +125,9 @@ return [
     'netelement.options' => 'Opciones',
     // NetElementType
     'netelementtype.name' => 'Tipo de elemento de red',
-    //HfcSnmp
+    // HfcSnmp
     'parameter.oid.name' => 'Nombre OID',
-    //Mibfile
+    // Mibfile
     'mibfile.id' => 'ID',
     'mibfile.name' => 'Archivo MIB',
     'mibfile.version' => 'Versión',
@@ -136,7 +136,7 @@ return [
     'oid.name' => 'Nombre OID',
     'oid.oid' => 'OID',
     'oid.access' => 'Tipo de acceso',
-    //SnmpValue
+    // SnmpValue
     'snmpvalue.oid_index' => 'Indice OID',
     'snmpvalue.value' => 'Valor OID',
     // MAIL
@@ -254,7 +254,7 @@ return [
     'enviaorder_current'  => 'Acciones necesarias?',
     'enviaorder.contract.number' => 'Contrato',
     'phonenumber.number' => 'Numero',
-    //ENVIA Contract
+    // ENVIA Contract
     'enviacontract.contract.number' => 'Contrato',
     'enviacontract.end_date' => 'Fecha de desenlace',
     'enviacontract.envia_contract_reference' => 'envia TEL referencia de contrato',
@@ -305,7 +305,7 @@ return [
     'ticket.assigned_users' => 'Usuarios asignados',
     'assigned_users' => 'Usuarios asignados',
     'tickettypes.name' => 'Tipo',
-    
+
     // CRM Lead fields
     'source' => 'Fuente',
     'status' => 'Estado',
@@ -315,14 +315,14 @@ return [
     'apartment_id' => 'Apartamento',
     'owner_id' => 'Propietario',
     'created_at' => 'Creado el',
-    
+
     // Contact Point relationship fields
     'contactPoint.firstname' => 'Nombre',
     'contactPoint.lastname' => 'Apellido',
     'contactPoint.company' => 'Empresa',
     'contactPoint.email' => 'Correo electrónico',
     'contactPoint.phone' => 'Teléfono',
-    
+
     // Address relationship fields
     'address.street' => 'Calle',
     'address.house_number' => 'Número de casa',

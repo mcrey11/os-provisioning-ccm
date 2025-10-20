@@ -2,8 +2,8 @@
 
 use Database\Migrations\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends BaseMigration
 {
@@ -32,7 +32,7 @@ return new class extends BaseMigration
             $table->dropIndex(['base_product_id', 'base_type']);
             $table->dropIndex(['base_type', 'required']);
             $table->dropColumn('base_type');
-            
+
             // Add new indexes
             $table->index(['product_layer_id', 'required']);
             $table->index(['base_product_id', 'product_layer_id']);
@@ -54,16 +54,16 @@ return new class extends BaseMigration
         // Map product types to layers (you may need to adjust these mappings)
         $typeToLayerMapping = [
             'internet' => 1, // Internet layer
-            'tv' => 2,       // TV layer  
+            'tv' => 2,       // TV layer
             'tv_advanced' => 3, // TV Advanced layer
         ];
 
         foreach ($typeToLayerMapping as $baseType => $layerId) {
-            DB::table($this->tableName)
-                ->whereNotNull('base_type')
-                ->where('base_type', $baseType)
-                ->whereNull('deleted_at')
-                ->update([
+            DB::table($this->tableName)->
+                whereNotNull('base_type')->
+                where('base_type', $baseType)->
+                whereNull('deleted_at')->
+                update([
                     'product_layer_id' => $layerId,
                     'base_type' => null,
                 ]);
@@ -71,10 +71,10 @@ return new class extends BaseMigration
 
         // Remove any remaining base_type entries that couldn't be mapped
         // You might want to keep these as base_product_id only or handle them differently
-        DB::table($this->tableName)
-            ->whereNotNull('base_type')
-            ->whereNull('deleted_at')
-            ->update(['base_type' => null]);
+        DB::table($this->tableName)->
+            whereNotNull('base_type')->
+            whereNull('deleted_at')->
+            update(['base_type' => null]);
     }
 
     /**
@@ -85,20 +85,20 @@ return new class extends BaseMigration
     public function down()
     {
         // Restore unique constraints
-        DB::statement("DROP INDEX IF EXISTS product_addon_product_layer_id_addon_product_id_unique_active");
-        DB::statement("DROP INDEX IF EXISTS product_addon_base_product_id_addon_product_id_unique_active");
-        
+        DB::statement('DROP INDEX IF EXISTS product_addon_product_layer_id_addon_product_id_unique_active');
+        DB::statement('DROP INDEX IF EXISTS product_addon_base_product_id_addon_product_id_unique_active');
+
         DB::statement("ALTER TABLE {$this->tableName} ADD CONSTRAINT product_addon_base_product_id_addon_product_id_unique UNIQUE (base_product_id, addon_product_id)");
         DB::statement("ALTER TABLE {$this->tableName} ADD CONSTRAINT product_addon_product_layer_id_addon_product_id_unique UNIQUE (product_layer_id, addon_product_id)");
 
         Schema::table($this->tableName, function (Blueprint $table) {
             // Add back base_type column
             $table->string('base_type')->nullable()->after('product_layer_id');
-            
+
             // Restore indexes
             $table->index(['base_product_id', 'base_type']);
             $table->index(['base_type', 'required']);
-            
+
             // Remove new indexes
             $table->dropIndex(['product_layer_id', 'required']);
             $table->dropIndex(['base_product_id', 'product_layer_id']);

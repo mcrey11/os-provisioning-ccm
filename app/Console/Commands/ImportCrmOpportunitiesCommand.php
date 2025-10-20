@@ -24,15 +24,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Modules\BillingBase\Entities\Product;
 use Modules\ContactBase\Entities\ContactPoint;
+use Modules\PropertyManagement\Entities\Realty;
 use Modules\Sales\Entities\CrmOpportunity;
 use Modules\Sales\Entities\CrmOpportunityItem;
 use Modules\Sales\Entities\CrmPipeline;
-use Modules\Sales\Entities\CrmPipelineStage;
-use Modules\PropertyManagement\Entities\Realty;
-use Modules\Ticketsystem\Entities\Ticket;
 use Modules\Ticketsystem\Entities\Comment;
-use Modules\BillingBase\Entities\Product;
+use Modules\Ticketsystem\Entities\Ticket;
 
 class ImportCrmOpportunitiesCommand extends Command
 {
@@ -164,7 +163,9 @@ class ImportCrmOpportunitiesCommand extends Command
      * Default pipeline and stage for opportunities
      */
     protected $defaultPipeline;
+
     protected $defaultStage;
+
     protected $defaultUser;
 
     /**
@@ -181,26 +182,27 @@ class ImportCrmOpportunitiesCommand extends Command
         $skipTickets = $this->option('skip-tickets');
 
         // Validate file
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             $this->error("File not found: {$filePath}");
+
             return 1;
         }
 
         // Initialize defaults
-        if (!$this->initializeDefaults()) {
+        if (! $this->initializeDefaults()) {
             return 1;
         }
 
         $this->info("Starting CRM Opportunities import from: {$filePath}");
         if ($dryRun) {
-            $this->warn("DRY RUN MODE - No data will be imported");
+            $this->warn('DRY RUN MODE - No data will be imported');
         }
 
         try {
             DB::beginTransaction();
 
             // Disable notifications during import to avoid observer issues
-            if (!$dryRun) {
+            if (! $dryRun) {
                 Notification::fake();
             }
 
@@ -208,21 +210,22 @@ class ImportCrmOpportunitiesCommand extends Command
 
             if ($dryRun) {
                 DB::rollBack();
-                $this->info("DRY RUN completed - no changes made to database");
+                $this->info('DRY RUN completed - no changes made to database');
             } else {
                 DB::commit();
-                $this->info("Import completed successfully");
+                $this->info('Import completed successfully');
             }
 
             $this->displayStats();
 
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->error("Import failed: " . $e->getMessage());
-            Log::error("CRM Opportunities import failed", [
+            $this->error('Import failed: '.$e->getMessage());
+            Log::error('CRM Opportunities import failed', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
+
             return 1;
         }
 
@@ -236,41 +239,44 @@ class ImportCrmOpportunitiesCommand extends Command
     {
         // Get or create default pipeline
         $this->defaultPipeline = CrmPipeline::first();
-        if (!$this->defaultPipeline) {
-            $this->error("No CRM pipeline found. Please create at least one pipeline first.");
+        if (! $this->defaultPipeline) {
+            $this->error('No CRM pipeline found. Please create at least one pipeline first.');
+
             return false;
         }
 
         // Get first stage of the pipeline
         $this->defaultStage = $this->defaultPipeline->stages()->first();
-        if (!$this->defaultStage) {
+        if (! $this->defaultStage) {
             $this->error("No stages found for pipeline: {$this->defaultPipeline->name}");
+
             return false;
         }
 
         // Get default user (use root user with ID 1)
         $this->defaultUser = User::find(1);
 
-        if (!$this->defaultUser) {
+        if (! $this->defaultUser) {
             // Fallback to first admin user
             $this->defaultUser = User::whereHas('roles', function ($query) {
                 $query->where('name', 'admin');
             })->first();
         }
 
-        if (!$this->defaultUser) {
+        if (! $this->defaultUser) {
             // Final fallback to any user
             $this->defaultUser = User::first();
         }
 
-        if (!$this->defaultUser) {
-            $this->error("No users found in the system");
+        if (! $this->defaultUser) {
+            $this->error('No users found in the system');
+
             return false;
         }
 
         $this->info("Using pipeline: {$this->defaultPipeline->name}");
         $this->info("Using stage: {$this->defaultStage->name}");
-        $userName = trim(($this->defaultUser->first_name ?? '') . ' ' . ($this->defaultUser->last_name ?? ''));
+        $userName = trim(($this->defaultUser->first_name ?? '').' '.($this->defaultUser->last_name ?? ''));
         if (empty($userName)) {
             $userName = $this->defaultUser->login_name ?? 'Unknown User';
         }
@@ -285,8 +291,8 @@ class ImportCrmOpportunitiesCommand extends Command
     protected function processCSV(string $filePath, int $limit, bool $verbose, bool $dryRun, bool $skipTickets): void
     {
         $handle = fopen($filePath, 'r');
-        if (!$handle) {
-            throw new \Exception("Could not open CSV file");
+        if (! $handle) {
+            throw new \Exception('Could not open CSV file');
         }
 
         $rowNumber = 0;
@@ -308,6 +314,7 @@ class ImportCrmOpportunitiesCommand extends Command
                     if ($verbose) {
                         $this->line("Skipping empty row {$rowNumber}");
                     }
+
                     continue;
                 }
 
@@ -321,12 +328,12 @@ class ImportCrmOpportunitiesCommand extends Command
 
             } catch (\Exception $e) {
                 $this->stats['errors']++;
-                $this->error("Error processing row {$rowNumber}: " . $e->getMessage());
+                $this->error("Error processing row {$rowNumber}: ".$e->getMessage());
                 if ($verbose) {
-                    Log::error("Row processing error", [
+                    Log::error('Row processing error', [
                         'row' => $rowNumber,
                         'data' => $row,
-                        'error' => $e->getMessage()
+                        'error' => $e->getMessage(),
                     ]);
                 }
             }
@@ -341,7 +348,7 @@ class ImportCrmOpportunitiesCommand extends Command
     protected function shouldSkipRow(array $row): bool
     {
         // Skip if essential fields are empty
-        return empty(trim($row[$this->columnMapping['name']] ?? '')) && 
+        return empty(trim($row[$this->columnMapping['name']] ?? '')) &&
                empty(trim($row[$this->columnMapping['vorname']] ?? ''));
     }
 
@@ -357,7 +364,7 @@ class ImportCrmOpportunitiesCommand extends Command
         // Extract data from CSV row
         $data = $this->extractRowData($row);
 
-        if (!$dryRun) {
+        if (! $dryRun) {
             // Create contact point first
             $contactPoint = $this->createContactPoint($data);
 
@@ -372,7 +379,7 @@ class ImportCrmOpportunitiesCommand extends Command
             $this->createOpportunityItems($opportunity, $data);
 
             // Create ticket and comments if not skipped
-            if (!$skipTickets && !empty($data['bemerkung'])) {
+            if (! $skipTickets && ! empty($data['bemerkung'])) {
                 $this->createTicketWithComments($opportunity, $data['bemerkung']);
             }
         }
@@ -394,7 +401,7 @@ class ImportCrmOpportunitiesCommand extends Command
             'lastname' => trim($row[$this->columnMapping['name']] ?? ''),
             'firstname' => trim($row[$this->columnMapping['vorname']] ?? ''),
             'street' => trim($row[$this->columnMapping['strasse']] ?? ''),
-            'house_number' => trim($row[$this->columnMapping['hnr']] ?? '') . trim($row[$this->columnMapping['hnr_z']] ?? ''),
+            'house_number' => trim($row[$this->columnMapping['hnr']] ?? '').trim($row[$this->columnMapping['hnr_z']] ?? ''),
             'zip' => trim($row[$this->columnMapping['plz']] ?? ''),
             'city' => trim($row[$this->columnMapping['ort']] ?? ''),
             'district' => trim($row[$this->columnMapping['ortsteil']] ?? ''),
@@ -455,11 +462,11 @@ class ImportCrmOpportunitiesCommand extends Command
      */
     protected function createContactPoint(array $data): ContactPoint
     {
-        $contactPoint = new ContactPoint();
-        
+        $contactPoint = new ContactPoint;
+
         // Determine contact type
         $contactPoint->type = 'individual';
-        
+
         // Set contact fields
         $contactPoint->salutation = $data['salutation'];
         $contactPoint->firstname = $data['firstname'];
@@ -472,9 +479,9 @@ class ImportCrmOpportunitiesCommand extends Command
         $contactPoint->zip = $data['zip'];
         $contactPoint->city = $data['city'];
         $contactPoint->district = $data['district'];
-        
+
         $contactPoint->save();
-        
+
         return $contactPoint;
     }
 
@@ -483,12 +490,12 @@ class ImportCrmOpportunitiesCommand extends Command
      */
     protected function findMatchingRealty(array $data): ?Realty
     {
-        if (!class_exists(Realty::class)) {
+        if (! class_exists(Realty::class)) {
             return null;
         }
 
         // Try to match by home_id first
-        if (!empty($data['home_id'])) {
+        if (! empty($data['home_id'])) {
             $realty = Realty::where('number', $data['home_id'])->first();
             if ($realty) {
                 return $realty;
@@ -496,13 +503,13 @@ class ImportCrmOpportunitiesCommand extends Command
         }
 
         // Try to match by address
-        if (!empty($data['street']) && !empty($data['house_number']) && !empty($data['zip']) && !empty($data['city'])) {
-            $realty = Realty::where('street', 'ILIKE', '%' . $data['street'] . '%')
-                ->where('house_nr', $data['house_number'])
-                ->where('zip', $data['zip'])
-                ->where('city', 'ILIKE', '%' . $data['city'] . '%')
-                ->first();
-            
+        if (! empty($data['street']) && ! empty($data['house_number']) && ! empty($data['zip']) && ! empty($data['city'])) {
+            $realty = Realty::where('street', 'ILIKE', '%'.$data['street'].'%')->
+                where('house_nr', $data['house_number'])->
+                where('zip', $data['zip'])->
+                where('city', 'ILIKE', '%'.$data['city'].'%')->
+                first();
+
             if ($realty) {
                 return $realty;
             }
@@ -516,36 +523,36 @@ class ImportCrmOpportunitiesCommand extends Command
      */
     protected function createCrmOpportunity(array $data, ContactPoint $contactPoint, ?Realty $realty): CrmOpportunity
     {
-        $opportunity = new CrmOpportunity();
-        
+        $opportunity = new CrmOpportunity;
+
         // Set contact point
         $opportunity->contact_point_id = $contactPoint->id;
-        
+
         // Set basic fields
         $opportunity->pipeline_id = $this->defaultPipeline->id;
         $opportunity->stage_id = $this->defaultStage->id;
         $opportunity->owner_id = $this->defaultUser->id;
-        
+
         // Set realty if found
         if ($realty) {
             $opportunity->realty_id = $realty->id;
         }
-        
+
         // Set external order number
-        if (!empty($data['external_order_no'])) {
+        if (! empty($data['external_order_no'])) {
             $opportunity->external_order_no = $data['external_order_no'];
         }
-        
+
         // Set deal size based on tariff
-        if (!empty($data['tarif_mbit'])) {
+        if (! empty($data['tarif_mbit'])) {
             $opportunity->deal_size = $this->calculateDealSize($data['tarif_mbit']);
         }
-        
+
         $opportunity->probability_pct = 50; // Default probability
         $opportunity->is_preorder = true; // Since these are pre-orders
-        
+
         $opportunity->save();
-        
+
         return $opportunity;
     }
 
@@ -557,25 +564,28 @@ class ImportCrmOpportunitiesCommand extends Command
         // Find the product ID for this tariff
         $tariffValue = trim($tariff);
         $productId = $this->tariffMappings[$tariffValue] ?? null;
-        
-        if (!$productId) {
+
+        if (! $productId) {
             // Log warning if product mapping not found
             Log::warning("No product mapping found for tariff: {$tariff}");
+
             return 0;
         }
-        
+
         // Get the actual product price
         $product = Product::find($productId);
-        if (!$product) {
+        if (! $product) {
             Log::warning("Product not found for ID: {$productId} (tariff: {$tariff})");
+
             return 0;
         }
-        
-        if (!$product->price) {
+
+        if (! $product->price) {
             Log::warning("Product {$productId} has no price set (tariff: {$tariff})");
+
             return 0;
         }
-        
+
         // Calculate: product price * average runtime (in months)
         return (int) round($product->price * $this->avgRuntime);
     }
@@ -587,15 +597,15 @@ class ImportCrmOpportunitiesCommand extends Command
     {
         // Handle custom field mappings (devices, etc.)
         foreach ($this->customFieldMappings as $csvColumn => $productId) {
-            if (!empty($data[$csvColumn]) && !empty($productId)) {
+            if (! empty($data[$csvColumn]) && ! empty($productId)) {
                 $this->createOpportunityItem($opportunity, $csvColumn, $productId, $data[$csvColumn]);
             }
         }
 
         // Handle tariff mapping
-        if (!empty($data['tarif_mbit'])) {
+        if (! empty($data['tarif_mbit'])) {
             $tariffValue = trim($data['tarif_mbit']);
-            if (isset($this->tariffMappings[$tariffValue]) && !empty($this->tariffMappings[$tariffValue])) {
+            if (isset($this->tariffMappings[$tariffValue]) && ! empty($this->tariffMappings[$tariffValue])) {
                 $this->createOpportunityItem($opportunity, 'tarif_mbit', $this->tariffMappings[$tariffValue], $tariffValue);
             }
         }
@@ -607,26 +617,27 @@ class ImportCrmOpportunitiesCommand extends Command
     protected function createOpportunityItem(CrmOpportunity $opportunity, string $fieldName, int $productId, string $value): void
     {
         // Verify the product exists
-        if (!Product::find($productId)) {
+        if (! Product::find($productId)) {
             $this->warn("Product ID {$productId} not found for custom field: {$fieldName}");
+
             return;
         }
 
-        $item = new CrmOpportunityItem();
+        $item = new CrmOpportunityItem;
         $item->opportunity_id = $opportunity->id;
         $item->product_id = $productId;
         $item->accounting_text = "{$fieldName}: {$value}";
         $item->count = 1;
-        
+
         // Store the CSV value in custom_data for reference
         $item->custom_data = [
             'csv_field' => $fieldName,
             'csv_value' => $value,
-            'import_source' => 'yash_csv_import'
+            'import_source' => 'yash_csv_import',
         ];
-        
+
         $item->save();
-        
+
         $this->stats['created_items']++;
     }
 
@@ -635,27 +646,27 @@ class ImportCrmOpportunitiesCommand extends Command
      */
     protected function createTicketWithComments(CrmOpportunity $opportunity, string $bemerkung): void
     {
-        if (!class_exists(Ticket::class)) {
+        if (! class_exists(Ticket::class)) {
             return;
         }
 
         // Create the ticket
-        $ticket = new Ticket();
-        $ticket->name = 'CRM Excel Import Ticket - ' . ($opportunity->contactPoint ? $opportunity->contactPoint->label() : 'Unknown Contact');
+        $ticket = new Ticket;
+        $ticket->name = 'CRM Excel Import Ticket - '.($opportunity->contactPoint ? $opportunity->contactPoint->label() : 'Unknown Contact');
         $ticket->ticketable_type = CrmOpportunity::class;
         $ticket->ticketable_id = $opportunity->id;
         $ticket->user_id = $this->defaultUser->id;
         $ticket->priority = 'Minor';
         $ticket->duedate = now()->addDays(7);
-        
+
         // Set ticket type state to avoid observer issues
         $newState = \Modules\Ticketsystem\Entities\TicketTypeState::where('name', 'New')->first();
         if ($newState) {
             $ticket->ticket_type_state_id = $newState->id;
         }
-        
+
         $ticket->save();
-        
+
         $this->stats['created_tickets']++;
 
         // Add user to ticket
@@ -667,7 +678,7 @@ class ImportCrmOpportunitiesCommand extends Command
         $lines = explode("\n", $bemerkung);
         foreach ($lines as $line) {
             $line = trim($line);
-            if (!empty($line)) {
+            if (! empty($line)) {
                 $this->createComment($ticket, $line);
             }
         }
@@ -678,16 +689,16 @@ class ImportCrmOpportunitiesCommand extends Command
      */
     protected function createComment(Ticket $ticket, string $commentText): void
     {
-        if (!class_exists(Comment::class)) {
+        if (! class_exists(Comment::class)) {
             return;
         }
 
-        $comment = new Comment();
+        $comment = new Comment;
         $comment->ticket_id = $ticket->id;
         $comment->user_id = $this->defaultUser->id;
         $comment->comment = $commentText;
         $comment->save();
-        
+
         $this->stats['created_comments']++;
     }
 
@@ -705,7 +716,7 @@ class ImportCrmOpportunitiesCommand extends Command
         $this->info("Created tickets: {$this->stats['created_tickets']}");
         $this->info("Created comments: {$this->stats['created_comments']}");
         $this->info("Errors: {$this->stats['errors']}");
-        
+
         if ($this->stats['errors'] > 0) {
             $this->warn("There were {$this->stats['errors']} errors during import. Check the logs for details.");
         }

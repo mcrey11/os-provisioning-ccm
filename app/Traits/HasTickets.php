@@ -110,7 +110,7 @@ trait HasTickets
     public function tickets()
     {
         if (Module::collections()->has('Ticketsystem')) {
-            return  $this->morphMany(\Modules\Ticketsystem\Entities\Ticket::class, 'ticketable');
+            return $this->morphMany(\Modules\Ticketsystem\Entities\Ticket::class, 'ticketable');
         }
 
         return new \Illuminate\Database\Eloquent\Relations\HasMany($this->newQuery(), $this, '', '', '');

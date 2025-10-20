@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
@@ -14,10 +12,10 @@ return new class extends Migration
     {
         // Drop the existing check constraint first
         DB::statement('ALTER TABLE web_orders DROP CONSTRAINT IF EXISTS web_orders_state_check');
-        
+
         // Now update any existing invalid state values
         DB::statement("UPDATE web_orders SET state = 'products_selected' WHERE state = 'product_selected'");
-        
+
         // Add the new check constraint with all the states
         DB::statement("ALTER TABLE web_orders ADD CONSTRAINT web_orders_state_check 
             CHECK (state IN (
@@ -44,7 +42,7 @@ return new class extends Migration
     {
         // Drop the new check constraint
         DB::statement('ALTER TABLE web_orders DROP CONSTRAINT IF EXISTS web_orders_state_check');
-        
+
         // Restore the original check constraint (if needed)
         DB::statement("ALTER TABLE web_orders ADD CONSTRAINT web_orders_state_check 
             CHECK (state IN (

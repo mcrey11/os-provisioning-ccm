@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -35,47 +36,47 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             // Foreign key fields
             $table->unsignedBigInteger('contact_point_id')->nullable();
             $table->unsignedBigInteger('realty_id')->nullable();
             $table->unsignedBigInteger('apartment_id')->nullable();
             $table->unsignedBigInteger('owner_id')->nullable();
-            
+
             // Lead specific fields
             $table->string('source', 64)->nullable();
             $table->string('legal_basis', 32)->default('unknown');
             $table->string('status', 24)->default('cold');
             $table->string('disqual_reason', 191)->nullable();
             $table->text('notes')->nullable();
-            
+
             // Add foreign key constraints
-            $table->foreign('contact_point_id')
-                  ->references('id')
-                  ->on('contact_point')
-                  ->onDelete('restrict');
-                  
-            $table->foreign('realty_id')
-                  ->references('id')
-                  ->on('realty')
-                  ->onDelete('restrict');
-                  
-            $table->foreign('apartment_id')
-                  ->references('id')
-                  ->on('apartment')
-                  ->onDelete('restrict');
-                  
-            $table->foreign('owner_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('restrict');
-            
+            $table->foreign('contact_point_id')->
+                references('id')->
+                on('contact_point')->
+                onDelete('restrict');
+
+            $table->foreign('realty_id')->
+                references('id')->
+                on('realty')->
+                onDelete('restrict');
+
+            $table->foreign('apartment_id')->
+                references('id')->
+                on('apartment')->
+                onDelete('restrict');
+
+            $table->foreign('owner_id')->
+                references('id')->
+                on('users')->
+                onDelete('restrict');
+
             // Add indexes for all foreign keys
             $table->index('contact_point_id');
             $table->index('realty_id');
             $table->index('apartment_id');
             $table->index('owner_id');
-            
+
             // Add indexes for commonly queried fields
             $table->index('status');
             $table->index('source');

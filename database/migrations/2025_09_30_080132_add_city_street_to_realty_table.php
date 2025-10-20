@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -17,9 +18,8 @@
  */
 
 use Database\Migrations\BaseMigration;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends BaseMigration
 {
@@ -37,10 +37,10 @@ return new class extends BaseMigration
         Schema::table($this->tableName, function (Blueprint $table) {
             $table->unsignedBigInteger('city_id')->nullable();
             $table->unsignedBigInteger('street_id')->nullable();
-            
+
             $table->index('city_id');
             $table->index('street_id');
-            
+
             $table->foreign('city_id')->references('id')->on('city')->onDelete('restrict');
             $table->foreign('street_id')->references('id')->on('street')->onDelete('restrict');
         });

@@ -3,10 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Modules\CustomerInteraction\Entities\CiCustomerInteraction;
 use Modules\CustomerInteraction\Entities\CiCategory;
-use Modules\CustomerInteraction\Handlers\HandlerRegistry;
+use Modules\CustomerInteraction\Entities\CiCustomerInteraction;
 use Modules\CustomerInteraction\Handlers\HandlerDispatcher;
+use Modules\CustomerInteraction\Handlers\HandlerRegistry;
 
 class TestCustomerInteractionHandlers extends Command
 {
@@ -32,58 +32,60 @@ class TestCustomerInteractionHandlers extends Command
     public function handle()
     {
         $this->info('Testing Customer Interaction Handlers...');
-        
+
         // Get handler registry
         $registry = app(HandlerRegistry::class);
         $dispatcher = app(HandlerDispatcher::class);
-        
+
         // List all registered handlers
         $this->info("\nRegistered Handlers:");
         foreach ($registry->getAllHandlers() as $handler) {
             $this->line("- {$handler->getName()}: {$handler->getDescription()}");
         }
-        
+
         // Test with specific category if provided
         $categoryName = $this->option('category');
         $contractId = $this->option('contract-id');
-        
+
         if ($categoryName) {
             $category = CiCategory::where('label', $categoryName)->first();
-            if (!$category) {
+            if (! $category) {
                 $this->error("Category '{$categoryName}' not found");
+
                 return 1;
             }
-            
+
             $this->info("\nTesting category: {$category->label}");
-            
+
             // Check if category has a handler
             if ($registry->hasHandlerForCategory($category)) {
                 $handler = $registry->getHandlerForCategory($category);
                 $this->info("✓ Handler found: {$handler->getName()}");
-                
+
                 // Create test interaction
                 $testData = $this->getTestDataForCategory($category->label);
                 $interaction = $this->createTestInteraction($category, $contractId, $testData);
-                
+
                 if ($interaction) {
                     $this->info("✓ Test interaction created (ID: {$interaction->id})");
-                    
+
                     // Test validation
                     if ($handler->validate($interaction)) {
-                        $this->info("✓ Handler validation passed");
+                        $this->info('✓ Handler validation passed');
                     } else {
-                        $this->warn("⚠ Handler validation failed");
+                        $this->warn('⚠ Handler validation failed');
                     }
                 }
             } else {
                 $this->warn("⚠ No handler found for category: {$category->label}");
             }
         }
-        
+
         $this->info("\nHandler test completed!");
+
         return 0;
     }
-    
+
     /**
      * Get test data for specific category
      */
@@ -95,22 +97,22 @@ class TestCustomerInteractionHandlers extends Command
                 return [
                     'Neuer Tarif' => 'Test Internet 100',
                     'Wirksamkeitsdatum' => now()->addDays(7)->format('Y-m-d'),
-                    'Grund' => 'Test tariff change'
+                    'Grund' => 'Test tariff change',
                 ];
-                
+
             case 'Cancellation':
             case 'Kündigung':
                 return [
                     'Kündigungsdatum' => now()->format('Y-m-d'),
                     'Kündigungsgrund' => 'Test cancellation',
-                    'Kündigungsfrist' => '30'
+                    'Kündigungsfrist' => '30',
                 ];
-                
+
             default:
                 return [];
         }
     }
-    
+
     /**
      * Create test interaction
      */
@@ -131,10 +133,11 @@ class TestCustomerInteractionHandlers extends Command
                 'opened_at' => now(),
                 'users_created_by_id' => 1,
             ]);
-            
+
             return $interaction;
         } catch (\Exception $e) {
-            $this->error("Failed to create test interaction: " . $e->getMessage());
+            $this->error('Failed to create test interaction: '.$e->getMessage());
+
             return null;
         }
     }

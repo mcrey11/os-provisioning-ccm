@@ -29,7 +29,6 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Nwidart\Modules\Facades\Module;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
@@ -41,7 +40,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  */
 class User extends BaseModel implements AuthenticatableContract, AuthorizableContract
 {
-    use Authenticatable, Authorizable, HasRolesAndAbilities, Notifiable, HasFactory;
+    use Authenticatable, Authorizable, HasFactory, HasRolesAndAbilities, Notifiable;
 
     /**
      * The table associated with the model.
@@ -129,9 +128,9 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
 
     public function inWorkTickets()
     {
-        return $this->tickets()
-            ->where('paused', false)
-            ->whereNotIn('ticket_type_state_id', [
+        return $this->tickets()->
+            where('paused', false)->
+            whereNotIn('ticket_type_state_id', [
                 \Modules\Ticketsystem\Entities\TicketTypeState::STATES['New'],
                 \Modules\Ticketsystem\Entities\TicketTypeState::STATES['Closed'],
             ]);
@@ -254,7 +253,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      * Checks if this is the first own Login of a User.
      *
      * @param  App\User  $user
-     * @return bool
      */
     public function isFirstLogin(): bool
     {
@@ -266,7 +264,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      *
      * @param  App\User  $user
      * @param  Carbon\Carbon  $now
-     * @return bool
      */
     public function isPasswordExpired(): bool
     {
@@ -282,9 +279,9 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
             return true;
         }
 
-        return now()
-            ->subDays($passwordInterval)
-            ->greaterThan($this->password_changed_at);
+        return now()->
+            subDays($passwordInterval)->
+            greaterThan($this->password_changed_at);
     }
 
     /**
@@ -313,12 +310,12 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     protected function avatarPlaceholder(): Attribute
     {
         return Attribute::get(function () {
-            return str($this->label())
-                ->squish()
-                ->explode(' ')
-                ->map(fn ($part) => preg_replace('/[^a-zA-Z0-9]/', '', $part))
-                ->filter()
-                ->when(
+            return str($this->label())->
+                squish()->
+                explode(' ')->
+                map(fn ($part) => preg_replace('/[^a-zA-Z0-9]/', '', $part))->
+                filter()->
+                when(
                     value: fn (Collection $parts) => $parts->containsOneItem(),
                     callback: fn (Collection $parts) => substr($parts->first(), 0, 2),
                     default: fn (Collection $parts) => substr($parts->first(), 0, 1).substr($parts->skip(1)->first(), 0, 1),
@@ -329,14 +326,11 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     /**
      * Format Users for edit view select field and allow for searching.
      * This method is required for select2 functionality in forms.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Users(?string $search): \Illuminate\Database\Eloquent\Builder
     {
-        return static::select('id', \DB::raw("CONCAT(login_name, ' (', first_name, ' ', last_name, ')') as text"))
-            ->when($search, function ($query, $search) {
+        return static::select('id', \DB::raw("CONCAT(login_name, ' (', first_name, ' ', last_name, ')') as text"))->
+            when($search, function ($query, $search) {
                 return $query->where(\DB::raw("CONCAT(login_name, ' (', first_name, ' ', last_name, ')')"), 'ilike', "%{$search}%");
             });
     }

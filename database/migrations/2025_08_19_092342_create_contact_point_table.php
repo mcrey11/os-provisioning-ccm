@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -35,7 +36,7 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             // Contact type and basic info
             $table->string('type', 32); // individual|organization
             $table->string('salutation', 32)->nullable();
@@ -45,19 +46,19 @@ return new class extends BaseMigration
             $table->string('email', 191)->nullable()->index();
             $table->string('phone', 100)->nullable();
             $table->date('birthday')->nullable();
-            
+
             // Foreign key relationships
             $table->bigInteger('apartment_id')->nullable();
             $table->bigInteger('address_id')->nullable();
             $table->string('party_id_ext', 64)->nullable(); // external/TMF Party id
-            
+
             // Additional info
             $table->text('notes')->nullable();
-            
+
             // Indexes
             $table->index('apartment_id');
             $table->index('address_id');
-            
+
             // Foreign key constraints
             $table->foreign('apartment_id')->references('id')->on('apartment')->onDelete('restrict');
             $table->foreign('address_id')->references('id')->on('address')->onDelete('restrict');

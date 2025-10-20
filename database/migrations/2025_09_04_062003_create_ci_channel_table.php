@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -35,7 +36,7 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             $table->string('label', 191);
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
@@ -52,6 +53,4 @@ return new class extends BaseMigration
     {
         Schema::dropIfExists($this->tableName);
     }
-
-
 };

@@ -36,23 +36,23 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             // Product reference
             $table->bigInteger('product_id')->index();
             $table->foreign('product_id')->references('id')->on('product')->onDelete('restrict');
-            
+
             // Rule definition
             $table->string('rule'); // allow or deny
             $table->string('scope_type'); // dma|city|street|realty|apartment|segment|managed_network
             $table->bigInteger('scope_ref_id'); // ID in chosen scope (polymorphic)
-            
+
             // Additional fields
             $table->string('requires_right_code')->nullable();
             $table->boolean('managed_only')->default(false);
             $table->date('effective_from')->nullable();
             $table->date('effective_to')->nullable();
             $table->smallInteger('priority')->default(0);
-            
+
             // Indexes for common queries
             $table->index(['product_id', 'rule']);
             $table->index(['scope_type', 'scope_ref_id']);

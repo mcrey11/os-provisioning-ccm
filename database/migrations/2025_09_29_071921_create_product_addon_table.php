@@ -36,26 +36,26 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             // Base product reference (nullable for type-based addons)
             $table->bigInteger('base_product_id')->nullable()->index();
             $table->foreign('base_product_id')->references('id')->on('product')->onDelete('restrict');
-            
+
             // Alternative to base_product_id
             $table->string('base_type')->nullable(); // product type for type-based addons
-            
+
             // Add-on product (always required)
             $table->bigInteger('addon_product_id')->index();
             $table->foreign('addon_product_id')->references('id')->on('product')->onDelete('restrict');
-            
+
             // Addon options
             $table->boolean('required')->default(false);
             $table->smallInteger('max_qty')->default(1);
-            
+
             // Indexes for common queries
             $table->index(['base_product_id', 'base_type']);
             $table->index(['base_type', 'required']);
-            
+
             // Ensure at least one base reference is provided
             $table->index(['base_product_id', 'addon_product_id']);
         });

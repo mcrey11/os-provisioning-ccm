@@ -3,12 +3,12 @@
 return [
     'false' => 'false',
     'true' => 'true',
-    //SEARCH
+    // SEARCH
     'Search_EnterKeyword'       => 'Ingresar palabra clave',
     'Search_MatchesFor'         => 'Coincide para',
     'Search_In'                 => 'en la tabla',
-    //jQuery
-    //Translations for this at https://datatables.net/plug-ins/i18n/
+    // jQuery
+    // Translations for this at https://datatables.net/plug-ins/i18n/
     'jQuery_sEmptyTable'        => 'No hay datos disponibles en la tabla',
     'Search_Search ...'         => 'Ingrese un termino de busqueda',
     'jQuery_sInfo'              => 'Mostrando _START_ hasta _END_ de _TOTAL_ entradas',
@@ -32,8 +32,8 @@ return [
     'jQuery_colvisRestore'      => 'Restaurar',
     'jQuery_colvisReset'        => 'Reiniciar',
     'jQuery_ExportTo'           => 'Exportar a',
-    //MENU
-    //Main Menu
+    // MENU
+    // Main Menu
     'Menu_Apartment'            => 'Apartamentos',
     'Menu_BillingBase'          => 'Facturación',
     'Menu_Contact'              => 'Contactos',
@@ -80,7 +80,7 @@ return [
     'Menu_Nets'                 => 'Nets',
     'Menu_allNets'              => 'All networks',
 
-    //User Settings
+    // User Settings
     'Menu_UserSettings'         => 'Configuraciones de usuario',
     'Menu_UserGlobSettings'     => 'Conf. de usuarios (global)',
     'Menu_Logout'               => 'Cerrar sesion',
@@ -89,37 +89,37 @@ return [
     'Menu_CDRs'                 => 'EVNs',
     'Menu_Tickets'              => 'Tickets',
     'Menu_Comment'              => 'Comentarios',
-    //HEADER
+    // HEADER
     'Header_Apartment' => 'Apartamentos',
-    //General
+    // General
     'Header_GlobalSearch'       => 'Busqueda global',
     'Header_Overview'           => 'Panorama',
     'Header_Assigned'           => 'Designar',
     'Header_Create'             => 'Crear',
-    //Module specific
-    //BillingBase
-    //Product List
+    // Module specific
+    // BillingBase
+    // Product List
     'Header_Mpr'                => 'Reglas de posicionamiento',
     'Header_Modem Positioning Rule' => 'Reglas de posicionamiento de modem',
     'Header_EditModem Positioning Rule' => 'Editar reglas de posicionamiento de modem',
     'Header_MprGeopos'          => 'Geoposicion para reglas de posicionamiento de modem',
     'Header_Modem Positioning Rule Geoposition' => 'Geoposicion para reglas de posicionamiento de modem',
     'Header_EditModem Positioning Rule Geoposition' => 'Editar geoposicion para reglas de posicionamiento de modem',
-    //Global
-    //Logs
+    // Global
+    // Logs
     'Header_Logs'               => 'Registros',
     'Header_EditLogs'           => 'Editar registros',
     'Header_Roles'              => 'Funcion|Funciones',
-    //Billing Base
-    //Prduct Entry
+    // Billing Base
+    // Prduct Entry
     'Header_Product Entry'      => 'Productos',
     'Header_Users'              => 'Usuario|Usuarios',
     'Header_EditUsers'          => 'Editar usuarios',
     'Header_EditProduct Entry'  => 'Editar producto',
-    //SEPA Accounts
-    'Header_SEPA Account'       => 'Cuenta SEPA|Cuentas SEPA', //Workaround decide which one to use
+    // SEPA Accounts
+    'Header_SEPA Account'       => 'Cuenta SEPA|Cuentas SEPA', // Workaround decide which one to use
     'Header_EditSEPA Account'   => 'Editar cuenta SEPA',
-    //CostCenter
+    // CostCenter
     'Header_Global Configurations' => 'Configuracion del sistema',
     'Header_Global Config'      => 'Configuracion global',
     'Header_EditGlobal Config'  => 'Editar config. global',
@@ -133,10 +133,10 @@ return [
     'Header_EditProv Base Config'=> 'Editar abastecimiento',
     'Header_HfcBase'            => 'HFC',
     'Header_EditHfc Base Config'=> 'Editar HFC',
-    'Header_CostCenter'         => 'Centro de costos', //Workaround decide which one to use
+    'Header_CostCenter'         => 'Centro de costos', // Workaround decide which one to use
     'Header_Cost Center'        => 'Centro de costos',
     'Header_EditCost Center'    => 'Editar centro de costos',
-    //Company
+    // Company
     'Header_EditCompany'        => 'Editar compa&ntilde;ia',
     'Ability_Custom Abilities'  => 'Aptitudes personalizadas',
     'Ability_Authentication'        => 'Autenticación',
@@ -148,25 +148,25 @@ return [
     'Ability_ProvVoip'          => 'ProvVoip',
     'Ability_ProvVoipEnvia'     => 'ProvVoipEnvia',
     'Ability_VoipMon'           => 'VoipMon',
-    //Salesman
+    // Salesman
     'Header_EditSalesman'       => 'Editar vendedor',
-    //Items
+    // Items
     'Header_Item'               => 'Articulo|Articulos',
-    'Header_EditItem'           => 'Editar articulo', //??
-    //Numberrange
+    'Header_EditItem'           => 'Editar articulo', // ??
+    // Numberrange
     'Header_NumberRange'        => 'Rango numerico',
     'Header_Numberranges'        => 'Círculos de números',
     'Header_Files'              => 'Archivos',
     'Header_SepaAccount'        => 'Cuenta de SEPA',
-    //SNMP Modul
-    //Device
+    // SNMP Modul
+    // Device
     'Header_Device'             => 'Dispositivo|Dispositivos',
     'Header_EditDevice'         => 'Editar dispositivo',
-    //Device Type
+    // Device Type
     'Header_EditDevice Type'    => 'Editar tipo de dispositivo',
     'Header_Company'            => 'Compa&ntilde;ias',
-    //Provisioning
-    //Contract
+    // Provisioning
+    // Contract
     'Header_Salesman'           => 'Vendedores',
     'Header_Contract'           => 'Contrato|Contratos',
     'Header_ContractInfoApartment' => 'Contracts of realty (info)',
@@ -174,8 +174,8 @@ return [
     'Header_EditContract'       => 'Editar contrato',
     'Header_GroupContracts'      => 'Group Contracts',
     'Header_SepaMandate'        => 'Orden SEPA|Ordenes SEPA',
-    //Modems
-    'Header_Modems'             => 'Modem|Modems', //workaround
+    // Modems
+    'Header_Modems'             => 'Modem|Modems', // workaround
     'Header_Invoice'            => 'Facturas',
     'Header_OldInvoices'        => 'Facturas antiguas',
     'Header_EditModems'         => 'Editar modem',
@@ -184,21 +184,21 @@ return [
     'Header_EditModem'          => 'Editar modem',
     'Header_Settlement Run'     => 'Procesos de liquidacion',
     'Header_EditSettlement Run' => 'Editar procesos de liquidacion',
-    //Endpoint
+    // Endpoint
     'Header_Endpoints'          => 'Puntos finales',
     'Header_EditEndpoints'      => 'Editar puntos finales',
-    //Configfiles
+    // Configfiles
     'Header_Configfiles'        => 'Archivos de config.',
     'Header_EditConfigfiles'    => 'Editar a. de config.',
-    //QoS
+    // QoS
     'Header_QoS'                => 'Reglas-QoS',
     'Header_Device Type'        => 'Tipo de dispositivo',
     'Header_EditQoS'            => 'Editar reglas-QoS',
-    //NetGw
+    // NetGw
     'Header_NetGW'              => 'NetGW|NetGWs',
     'Header_EditNetGW'          => 'Edit NetGW',
     'Header_Config'             => 'Config. propuesta|Config. propuestas',
-    //IpPool
+    // IpPool
     'Header_IpPool'             => 'Pool de IP|IP-pool\'s',
     'Header_EditIpPool'         => 'Editar IP-Pool',
     'Header_IP-Pools'           => 'Pool de IP|IP-pool\'s',
@@ -207,21 +207,21 @@ return [
     'Header_Ticket'             => 'Ticket|Tickets',
     'Header_EditTicket'         => 'Editar Ticket',
     'Header_TicketTypes'        => 'Tipo de Ticket',
-    //HFC
-    //Topography
+    // HFC
+    // Topography
     'Header_Topography - Modems'=> 'Topografia - Modems',
     'navigate'                  => 'Navegar',
     'draw box'                  => 'Dibujar caja',
     'draw polygon'              => 'Dibujar poligono',
     'modify'                    => 'Modificar elementos',
     'Header_NetElement'         => 'Elemento de red',
-    //VOIP
-    //MTA
+    // VOIP
+    // MTA
     'Header_Mta'                => 'MTA|MTAs',
     'Header_EditMta'            => 'Editar MTA',
     'Header_MTAs'               => 'MTA|MTAs',
     'Header_EditMTAs'           => 'Editar MTA',
-    //Phonenumber
+    // Phonenumber
     'Header_Phonenumber'        => 'Numero telefonico',
     'Header_EditPhonenumber'    => 'Editar numero telefonico',
     'Header_Phonenumbers'       => 'Numeros telefonicos',
@@ -229,12 +229,12 @@ return [
     'Header_PhonebookEntry'     => 'Entrada de libreta telefónica',
     'Header_Tickets'            => 'Ticket|Tickets',
     'Header_EditTickets'        => 'Editar Ticket',
-    //Phone tariff
+    // Phone tariff
     'Header_Comment'            => 'Comentarios',
     'Header_EditComment'        => 'Editar comentarios',
     'Header_Phone tariffs'      => 'Tarifa telefonica|Tarifas telefonicas',
     'Header_EditPhone tariffs'  => 'Editar tarifas telefonicas',
-    //ProvVoipEnvia
+    // ProvVoipEnvia
     'Header_EnviaAPI'           => 'API TEL de envia',
     'Header_EnviaContract'      => 'contrato TEL de envia|contratos TEL de envia',
     'Header_EnviaOrder'         => 'envia TEL orden|envia TEL ordenes',
@@ -248,14 +248,14 @@ return [
     'Header_SubNetElement'      => 'Subordinated Netelements',
     'Header_tap'                => 'Controllable tap port',
 
-    //Header Relation
+    // Header Relation
     // 'Assigned'               => 'Zugewiesene',
-    //Header Controler index
+    // Header Controler index
     // 'SEPA Account'               => 'SEPA-Konten',
     // 'Create'                 => 'Erstelle ',
     // 'Edit'                       => 'Ändere ',
 
-    //BUTTON
+    // BUTTON
     'Sign me in'                => 'Iniciar sesion',
     'Button_Create'             => 'Crear',
     'Button_Create'             => 'Exportar',
@@ -274,28 +274,28 @@ return [
     'Button_Create Product Entry'   => 'Crear producto',
     'Button_Create Product' => 'Crear producto',
     'Button_Create SettlementRun'   => 'Crear proceso de liquidación',
-    //CostCenter
-    'Button_Create Cost Center'     => 'Crear centro costos', //Workaround decide which one to use
+    // CostCenter
+    'Button_Create Cost Center'     => 'Crear centro costos', // Workaround decide which one to use
     'Button_Create CostCenter'      => 'Crear centro costos',
     'Button_Create Users'           => 'Crear usuario',
-    //Company
+    // Company
     'Button_Create Company'         => 'Crear compa&ntilde;ia',
-    //Salesman
+    // Salesman
     'Button_Create Salesman'        => 'Crear vendedor',
-    //Item
+    // Item
     'Button_Create Item'            => 'Crear articulo',
     'sr_dl_logs'                    => 'Descargar logfile',
-    //Numberrange
+    // Numberrange
     'Button_Create NumberRange'     => 'Crear rango numerico',
-    //HFC
+    // HFC
     'Button_Create NetElementType' => 'Crear tipo de elemento de red',
     'Button_Create NetElement'     => 'Crear elemento de red',
     'Button_Create MibFile'     => 'Crear archivo Mib',
 
-    //SNMP Modul
-    //Device
+    // SNMP Modul
+    // Device
     'Button_Create Device'          => 'Crear dispositivo',
-    //Device Type
+    // Device Type
     'Button_Create Device Type'     => 'Crear tipo de dispositivo',
     'Button_Create Phonenumber'     => 'Crear numero telefonico',
     'Button_Create Tree Table'      => 'Crear tabla arbol',
@@ -308,16 +308,16 @@ return [
     'Button_Create TicketType'     => 'Crear tipo de ticket',
 
     'Button_Create Comment'     => 'Crear comentario',
-    //SEPA-Konto
+    // SEPA-Konto
     'Assigned'                  => 'Zugewiesene',
-    'Button_Create SEPA Account'    => 'Crear cuenta SEPA', //Workaround decide which one to use
+    'Button_Create SEPA Account'    => 'Crear cuenta SEPA', // Workaround decide which one to use
     'SEPA Account'              => 'Cuenta-SEPA',
     'Create'                    => 'Crear',
     'Edit'                      => 'Editar',
     'Button_Create SepaAccount'     => 'Crear cuenta SEPA',
 
-    //Provisioning
-    //Contract
+    // Provisioning
+    // Contract
     'Button_Create Apartment'       => 'Crear Apartamento',
     'Button_Create Node'            => 'Crear Nodo',
     'Button_Create Realty'          => 'Crear propiedad',
@@ -330,7 +330,7 @@ return [
     // //Endpoints
     'Button_Create Endpoints'       => 'Crear punto final',
     'Button_Create Endpoint'        => 'Crear punto final',
-    //MTA
+    // MTA
     'Button_Create Mta'             => 'Crear MTA',
     // //Phonenumber
     'Button_Create Phone tariffs'   => 'Crear tarifa telefonica',
@@ -347,7 +347,7 @@ return [
     'Button_Create NetGws'          => 'Create NetGw',
     'Button_Create Netgws'          => 'Create NetGw',
     // //IpPool
-    'Button_Create IpPool'          => 'Crear IP-Pool', //workaround
+    'Button_Create IpPool'          => 'Crear IP-Pool', // workaround
     'Button_Create IP-Pools'        => 'Crear IP-Pools',
 
     // DASHBOARD
@@ -376,7 +376,7 @@ return [
     //
     // Numberrange
     //
-    //Type
+    // Type
     'Numberrange_Type_contract' => 'Contrato',
     'Numberrange_Type_invoice' => 'Factura',
 

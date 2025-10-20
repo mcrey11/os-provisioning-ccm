@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -17,10 +18,9 @@
  */
 
 use Database\Migrations\BaseMigration;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends BaseMigration
 {
@@ -41,7 +41,7 @@ return new class extends BaseMigration
             $table->string('payment_reference', 255)->nullable()->after('payment_status');
             $table->json('payment_data')->nullable()->after('payment_reference');
         });
-        
+
         // Add check constraints using raw SQL
         DB::statement('ALTER TABLE web_orders ADD CONSTRAINT web_orders_payment_method_check CHECK (payment_method IS NULL OR payment_method IN (\'sepa\', \'card\'))');
         DB::statement('ALTER TABLE web_orders ADD CONSTRAINT web_orders_payment_status_check CHECK (payment_status IN (\'pending\', \'processing\', \'completed\', \'failed\', \'cancelled\'))');

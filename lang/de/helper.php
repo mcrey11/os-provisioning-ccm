@@ -42,12 +42,12 @@ return [
     'PasswordReset'                 => 'Diese Einstellung bestimmt, in welchem Intervall die Nutzer des Administrationsbereiches zum Ändern ihres Passworts aufgefordert werden. Setzen Sie diesen Wert auf 0, um Passwörter unendlich lang gültig zu halten.',
     'syncProvision'                 => 'Nur für TR-069: Diese Einstellung bestimmt, ob ein weiterer Knopf auf der Einstellungsseite des Modem angezeigt wird, welcher die Konfigurationsdatei mit dem Modem synchronisiert. Dadurch kann das Modem neue Einstellungen (z.B. eine neue Telefonnummer) übernehmen, ohne das es auf Werkseinstellungen zurückgesetzt werden muss.',
 
-    //CompanyController
+    // CompanyController
     'Company_Management'            => 'Trennung der Namen durch Komma.',
     'Company_Directorate'           => 'Trennung der Namen durch Komma.',
     'Company_TransferReason'        => 'Vorlage aller Rechnungsklassen als Datenfeld-Schlüssel - Vertrags- und Rechnungsnummer sind standardmäßig ausgewählt.',
     'conn_info_template'            => 'TeX Vorlage für das Anschlussinformationsblatt. (Kann auf der Kundenvertragsseite erstellt werden)',
-    
+
     // ProductRegionRule helper translations
     'product_region_rule' => [
         'scope_ref_id' => 'Referenz-ID für den ausgewählten Bereichstyp (DMA-ID, Stadt-ID, Straßen-ID, etc.)',
@@ -56,29 +56,29 @@ return [
         'effective_to' => 'Optional: Enddatum, bis zu dem diese Regel gültig ist',
         'priority' => 'Prioritätsreihenfolge für die Regelauswertung (niedrigere Zahlen = höhere Priorität)',
     ],
-    
+
     // ProductLayer helper translations
     'product_layer' => [
         'sequence' => 'Anzeigereihenfolge für Ebenen (niedrigere Zahlen erscheinen zuerst)',
     ],
-    
+
     // ProductLayerAssignment helper translations
     'product_layer_assignment' => [
         'sort' => 'Sortierreihenfolge innerhalb der Ebene (niedrigere Zahlen erscheinen zuerst)',
     ],
-    
+
     // ProductConstraint helper translations
     'product_constraint' => [
         'min_qty' => 'Mindestmenge, die erforderlich ist, wenn die Durchsetzung für einen Produkttyp gilt',
     ],
-    
+
     // ProductAddon helper translations
     'product_addon' => [
         'base_product_id_or_layer' => 'Entweder ein bestimmtes Produkt auswählen ODER eine Produkt-Ebene angeben',
         'product_layer_id_explanation' => 'Produkt-Ebene, für die dieses Addon gilt (Addons werden nach Ebenenabschluss angezeigt)',
         'max_qty' => 'Maximale Menge dieses Add-ons, die ausgewählt werden kann',
     ],
-    
+
     // Web Order
     'web_order' => [
         'order_number_help' => 'Kurze, benutzerfreundliche Bestellnummer, die aus dem Hash für Anzeigezwecke generiert wird.',
@@ -88,10 +88,10 @@ return [
         'payment_data_help' => 'JSON-Daten mit verschlüsselten Zahlungsinformationen (IBAN, Kreditkartendetails, etc.) für Verifizierungszwecke.',
     ],
 
-    //CostCenterController
+    // CostCenterController
     'CostCenter_BillingMonth'       => 'Abrechnungsmonat für jährliche Posten. Gilt für den Monat für den die Rechnungen erstellt werden. Standard: 6 (Juni) - wenn nicht festgelegt. Bitte seien Sie vorsichtig beim Ändern innerhalb des Jahres: das Resultat könnten fehlende Zahlungen sein!',
 
-    //ItemController
+    // ItemController
     'item' => [
         'productId'                => 'Alle Felder außer dem Abrechnungszyklus müssen vor eine Änderung des Produkts gelöscht werde! Andernfalls können die Produkte in den meisten Fällen nicht gespeichert werden.',
         'validFrom'                => 'Für einmalige (Zusatz-)Zahlungen kann das Feld genutzt werden, um die Zahlung zu teilen - nur  Jahr und Monat (jjjj.mm) werden berücksichtigt.',
@@ -110,7 +110,7 @@ return [
         'creditAmount' => 'Falls gesetzt, wird dieser Betrag anstelle des Produktpreises für diesen Gelegenheits-Artikel verwendet.',
     ],
 
-    //ProductController
+    // ProductController
     'product' => [
         'billingCycles' => 'Erklärungen zu den Abrechnungszyklen finden Sie in der offiziellen Dokumentation (Web) -> Enterprise Applications -> Prime Billing -> Products',
         'bundle'                => 'Ist der Tarif mit dem Voip-Tarif gebündelt, wird die Gesamtvertragslaufzeit eines Kunden nur anhand des Internet-Tarifs bestimmt. Anderenfalls bestimmt der Tarif (Voip oder Internet) darüber, der zuletzt begonnen hat.',
@@ -126,7 +126,7 @@ return [
     ],
     'Product_Number_of_Cycles'      => 'Achtung! Für alle Produkte, die in einem wiederkehrenden Zyklus bezahlt werden steht der Preis für jede einzelne Zahlung. Für Produkte, die einmalig bezahlt werden wird der Preis durch die Anzahl der Zyklen geteilt.',
 
-    //SalesmanController
+    // SalesmanController
     'Salesman_ProductList'          => 'Geben Sie alle Produkttypen an, für die der Verkäufer eine Provision erhalten soll. Möglich sind:',
 
     // SepaMandate
@@ -201,7 +201,7 @@ return [
     'openning_new_tab_for_modem' => 'Öffnet die Modem-Edit Seite in einem neuen Fenster (Topographie).',
     'ppp_session_timeout'           => 'In Sekunden. Bei einem Wert von 0 werden die PPP Sessions nicht getrennt.',
     'max_cpe' => 'Mindestens 2, Standard 2. Ein Wert von „-1“ entfernt „lease limit“ aus der DHCP-Konfiguration und setzt MaxCPE in DOCSIS-Konfigurationsdateien auf 254.',
-    //ModemController
+    // ModemController
     'modem' => [
         'internetAccess' => 'Internetzugriff für CPEs. (MTAs werden nicht beachtet und gehen immer online, wenn alle restlich notwendigen Konfigurationen korrekt vorgenommen wurden) - Achtung: Mit Billingmodul wird diese Checkbox während der nächtlichen Prüfung (nur) bei Tarifänderung überschrieben. Kann nicht mehr gesetzt werden, wenn Vertrag abgelaufen ist.',
         'qosCount' => 'Die Zahl in Klammern zeigt an, wie häufig der jeweilige QOS bereits verwendet wird.',
@@ -414,7 +414,7 @@ return [
     'deal_size_help' => 'Geben Sie die Geschäftsgröße in Cent ein (z.B. 10000 für :currency100,00)',
     'probability_pct_help' => 'Geben Sie den Wahrscheinlichkeitsprozentsatz ein (0-100)',
     'please_select_pipeline_first' => 'Bitte wählen Sie zuerst eine Pipeline aus, um verfügbare Stufen zu sehen',
-    
+
     /*
      * MODULE: CustomerInteraction (Global)
      */

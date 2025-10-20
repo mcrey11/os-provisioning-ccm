@@ -217,21 +217,21 @@ class ModemController extends \BaseController
         if (count($pos) == 2) {
             [$model['lat'], $model['lng']] = $pos;
 
-            $model->fill(Modem::where([['lng', $model['lng']], ['lat', $model['lat']]])
-                ->select('street', 'house_number', 'zip', 'city', 'district', 'country_code')
-                ->first()
-                ?->getAttributes()
-                ?? []
+            $model->fill(Modem::where([['lng', $model['lng']], ['lat', $model['lat']]])->
+                select('street', 'house_number', 'zip', 'city', 'district', 'country_code')->
+                first()?->
+                getAttributes() ??
+                []
             );
         }
 
         $installation_address_change_date_options = ['placeholder' => 'YYYY-MM-DD'];
         // check if installation_address_change_date is readonly (address change has been sent to envia TEL API)
         if ($model['installation_address_change_date'] && Module::collections()->has('ProvVoipEnvia')) {
-            $orders = \Modules\ProvVoipEnvia\Entities\EnviaOrder::where('modem_id', $model->id)
-                ->where('method', 'contract/relocate')
-                ->where('orderdate', '>=', $model['installation_address_change_date'])
-                ->get();
+            $orders = \Modules\ProvVoipEnvia\Entities\EnviaOrder::where('modem_id', $model->id)->
+                where('method', 'contract/relocate')->
+                where('orderdate', '>=', $model['installation_address_change_date'])->
+                get();
 
             foreach ($orders as $order) {
                 if (! \Modules\ProvVoipEnvia\Entities\EnviaOrder::orderstate_is_final($order)) {
@@ -1921,26 +1921,26 @@ class ModemController extends \BaseController
 
     /**
      * API method to get modems by contract ID
-     * 
-     * @param int $contractId
+     *
+     * @param  int  $contractId
      * @return \Illuminate\Http\JsonResponse
      */
     public function api_getByContract($ver, $contractId)
     {
         try {
-            $modems = Modem::where('contract_id', $contractId)
-                ->whereNull('deleted_at')
-                ->get();
+            $modems = Modem::where('contract_id', $contractId)->
+                whereNull('deleted_at')->
+                get();
 
             return response()->json([
                 'success' => true,
                 'data' => $modems->toArray(),
-                'count' => $modems->count()
+                'count' => $modems->count(),
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error retrieving modems: ' . $e->getMessage()
+                'message' => 'Error retrieving modems: '.$e->getMessage(),
             ], 500);
         }
     }

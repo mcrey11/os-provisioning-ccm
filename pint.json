@@ -1,15 +1,16 @@
 {
-    "preset": "laravel",
-    "rules": {
-        "operator_linebreak": {
-            "only_booleans": true,
-            "position": "end"
-        },
-        "phpdoc_summary": false
-    },
-    "exclude": [
-        "storage",
-        "vendor"
+  "preset": "laravel",
+  "rules": {
+    "operator_linebreak": { "position": "end" },
+    "phpdoc_summary": false,
+    "binary_operator_spaces": false
+  },
+  "exclude": [
+    "public",
+    "public-ccc",
+    "vendor",
+    "vendors",
+    "resources/lang"
   ],
   "notName": ["*.blade.php"]
 }

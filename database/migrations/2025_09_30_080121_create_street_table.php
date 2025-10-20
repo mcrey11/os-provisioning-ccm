@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -35,14 +36,14 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             $table->unsignedBigInteger('city_id');
             $table->string('name');
             $table->string('name_norm');
-            
+
             $table->unique(['city_id', 'name_norm']);
             $table->index('city_id');
-            
+
             $table->foreign('city_id')->references('id')->on('city')->onDelete('restrict');
         });
     }

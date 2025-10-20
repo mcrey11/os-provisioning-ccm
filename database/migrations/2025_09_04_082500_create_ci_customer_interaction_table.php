@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -35,11 +36,11 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             // Polymorphic relationship
             $table->string('subject_type', 191);
             $table->unsignedBigInteger('subject_id');
-            
+
             // Foreign key relationships
             $table->unsignedBigInteger('contract_id')->nullable();
             $table->unsignedBigInteger('contact_point_id')->nullable();
@@ -47,27 +48,27 @@ return new class extends BaseMigration
             $table->unsignedBigInteger('ci_direction_id');
             $table->unsignedBigInteger('ci_category_id');
             $table->unsignedBigInteger('ci_status_id');
-            
+
             // Content fields
             $table->string('subject', 191)->nullable();
             $table->text('notes')->nullable();
             $table->boolean('requires_ticket')->default(false);
-            
+
             // Contact information
             $table->string('msisdn', 64)->nullable();
             $table->string('email_address', 191)->nullable();
-            
+
             // Timestamps
             $table->timestamp('opened_at')->useCurrent();
             $table->timestamp('closed_at')->nullable();
-            
+
             // User relationships
             $table->unsignedBigInteger('users_created_by_id')->nullable();
             $table->unsignedBigInteger('users_closed_by_id')->nullable();
-            
+
             // Metadata
             $table->json('meta')->default('{}');
-            
+
             // Indexes
             $table->index(['subject_type', 'subject_id']);
             $table->index('contract_id');
@@ -80,7 +81,7 @@ return new class extends BaseMigration
             $table->index('users_closed_by_id');
             $table->index('opened_at');
             $table->index('closed_at');
-            
+
             // Foreign key constraints
             $table->foreign('contract_id')->references('id')->on('contract')->onDelete('restrict');
             $table->foreign('contact_point_id')->references('id')->on('contact_point')->onDelete('restrict');

@@ -36,19 +36,19 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             // Foreign keys
             $table->bigInteger('product_id')->index();
             $table->foreign('product_id')->references('id')->on('product')->onDelete('restrict');
-            
+
             $table->bigInteger('product_layer_id')->index();
             $table->foreign('product_layer_id')->references('id')->on('product_layer')->onDelete('restrict');
-            
+
             $table->integer('sort')->default(0);
-            
+
             // Ensure unique combination
             $table->unique(['product_id', 'product_layer_id']);
-            
+
             // Indexes for common queries
             $table->index(['product_layer_id', 'sort']);
             $table->index(['product_id', 'sort']);

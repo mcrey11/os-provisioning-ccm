@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends BaseMigration
 {
     public $migrationScope = 'database';
+
     /**
      * Run the migrations.
      */
@@ -33,13 +35,13 @@ return new class extends BaseMigration
             $table->bigInteger('ci_category_id')->unsigned();
             $table->string('subject_type_id');
             $table->boolean('active')->default(true);
-            
+
             // Foreign key constraint
             $table->foreign('ci_category_id')->references('id')->on('ci_category')->onDelete('restrict');
-            
+
             // Unique constraint
             $table->unique(['ci_category_id', 'subject_type_id']);
-            
+
             // Index for performance
             $table->index(['subject_type_id', 'active']);
         });

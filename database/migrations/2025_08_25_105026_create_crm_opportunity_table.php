@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -18,8 +19,8 @@
 
 use Database\Migrations\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends BaseMigration
 {
@@ -36,7 +37,7 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             // Foreign key relationships
             $table->bigInteger('contact_point_id');
             $table->bigInteger('created_from_lead_id')->nullable()->unique();
@@ -44,7 +45,7 @@ return new class extends BaseMigration
             $table->bigInteger('apartment_id')->nullable();
             $table->bigInteger('pipeline_id');
             $table->bigInteger('stage_id')->nullable();
-            
+
             // Business fields
             $table->bigInteger('amount_cents')->nullable();
             $table->smallInteger('probability_pct')->nullable();
@@ -52,22 +53,22 @@ return new class extends BaseMigration
             $table->boolean('is_preorder')->default(false);
             $table->boolean('is_switcher')->default(false);
             $table->string('external_order_no', 64)->nullable();
-            
+
             // JSON fields for flexible data storage
             $table->json('precheck_result')->nullable();
             $table->json('deal_terms_json')->nullable();
-            
+
             // Porting related fields
             $table->timestampTz('porting_requested_at')->nullable();
             $table->date('porting_date')->nullable();
-            
+
             // Indexes for foreign keys
             $table->index('contact_point_id');
             $table->index('realty_id');
             $table->index('apartment_id');
             $table->index('pipeline_id');
             $table->index('stage_id');
-            
+
             // Foreign key constraints
             $table->foreign('contact_point_id')->references('id')->on('contact_point')->onDelete('restrict');
             $table->foreign('created_from_lead_id')->references('id')->on('crm_lead')->onDelete('restrict');
@@ -87,10 +88,10 @@ return new class extends BaseMigration
     {
         // Drop the trigger first
         DB::unprepared('DROP TRIGGER IF EXISTS trigger_check_pipeline_stage_consistency ON crm_opportunity;');
-        
+
         // Drop the function
         DB::unprepared('DROP FUNCTION IF EXISTS check_pipeline_stage_consistency();');
-        
+
         Schema::dropIfExists($this->tableName);
     }
 };

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -50,6 +51,4 @@ return new class extends BaseMigration
     {
         Schema::dropIfExists($this->tableName);
     }
-
-
 };

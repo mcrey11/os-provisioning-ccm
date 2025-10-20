@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -18,8 +19,8 @@
 
 use Database\Migrations\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends BaseMigration
 {
@@ -36,27 +37,27 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             $table->bigInteger('pipeline_id')->unsigned();
             $table->bigInteger('from_stage_id')->unsigned();
             $table->bigInteger('to_stage_id')->unsigned();
             $table->json('guard_expr')->nullable();
             $table->string('autofail_message', 191)->nullable();
-            
+
             // Add indexes for foreign keys
             $table->index('pipeline_id');
             $table->index('from_stage_id');
             $table->index('to_stage_id');
-            
+
             // Add unique constraint (will be replaced with partial unique index below)
         });
-        
+
         // Add check constraint for from_stage_id <> to_stage_id using raw SQL
         DB::statement('ALTER TABLE crm_stage_transition ADD CONSTRAINT crm_stage_transition_check_stages CHECK (from_stage_id <> to_stage_id)');
-        
+
         // Add partial unique index that excludes soft-deleted records
         DB::statement('CREATE UNIQUE INDEX crm_stage_transition_unique ON crm_stage_transition (pipeline_id, from_stage_id, to_stage_id) WHERE deleted_at IS NULL');
-        
+
         // Add simple foreign key constraints
         DB::statement('ALTER TABLE crm_stage_transition ADD CONSTRAINT crm_stage_transition_pipeline_fk FOREIGN KEY (pipeline_id) REFERENCES crm_pipeline(id) ON DELETE RESTRICT');
         DB::statement('ALTER TABLE crm_stage_transition ADD CONSTRAINT crm_stage_transition_from_stage_fk FOREIGN KEY (from_stage_id) REFERENCES crm_pipeline_stage(id) ON DELETE RESTRICT');

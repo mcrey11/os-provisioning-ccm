@@ -61,11 +61,11 @@ return [
         'total_fee' => 'Fee',
         'voucher_nr' => 'Voucher nr',
     ],
-    //Invoices
+    // Invoices
     'invoice.type' => 'Type',
     'invoice.year' => 'Year',
     'invoice.month' => 'Month',
-    //Item
+    // Item
     'item.valid_from' => 'Item Valid from',
     'item.valid_from_fixed' => 'Item Valid from fixed',
     'item.valid_to' => 'Item Valid to',
@@ -125,9 +125,9 @@ return [
     'netelement.options' => 'Options',
     // NetElementType
     'netelementtype.name' => 'Netelementtype',
-    //HfcSnmp
+    // HfcSnmp
     'parameter.oid.name' => 'OID Name',
-    //Mibfile
+    // Mibfile
     'mibfile.id' => 'ID',
     'mibfile.name' => 'Mibfile',
     'mibfile.version' => 'Version',
@@ -136,7 +136,7 @@ return [
     'oid.name' => 'OID Name',
     'oid.oid' => 'OID',
     'oid.access' => 'Access Type',
-    //SnmpValue
+    // SnmpValue
     'snmpvalue.oid_index' => 'OID Index',
     'snmpvalue.value' => 'OID Value',
     // MAIL
@@ -254,7 +254,7 @@ return [
     'enviaorder_current'  => 'Action needed?',
     'enviaorder.contract.number' => 'Contract',
     'phonenumber.number' => 'Number',
-    //ENVIA Contract
+    // ENVIA Contract
     'enviacontract.contract.number' => 'Contract',
     'enviacontract.end_date' => 'End Date',
     'enviacontract.envia_contract_reference' => 'envia TEL Contract reference',
@@ -305,7 +305,7 @@ return [
     'ticket.assigned_users' => 'Assigned Users',
     'assigned_users' => 'Assigned Users',
     'tickettypes.name' => 'Type',
-    
+
     // CRM Lead fields
     'source' => 'Bron',
     'status' => 'Status',

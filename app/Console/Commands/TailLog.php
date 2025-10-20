@@ -8,6 +8,7 @@ use SplFileObject;
 class TailLog extends Command
 {
     protected $signature = 'logs:tail {--lines=150} {--file=laravel} {--redact}';
+
     protected $description = 'Print the last N lines from a log file, optionally redacting secrets.';
 
     public function handle(): int
@@ -15,12 +16,13 @@ class TailLog extends Command
         $lines = (int) $this->option('lines');
         $fileOpt = $this->option('file');
 
-        $file = $fileOpt === 'laravel'
-            ? storage_path('logs/laravel.log')
-            : $fileOpt;
+        $file = $fileOpt === 'laravel' ?
+            storage_path('logs/laravel.log') :
+            $fileOpt;
 
-        if (!is_readable($file)) {
+        if (! is_readable($file)) {
             $this->error("Not readable: {$file}");
+
             return 1;
         }
 
@@ -31,6 +33,7 @@ class TailLog extends Command
         }
 
         $this->line(implode(PHP_EOL, $out));
+
         return 0;
     }
 
@@ -44,6 +47,7 @@ class TailLog extends Command
             $f->seek($i);
             $buf[] = rtrim((string) $f->current(), "\r\n");
         }
+
         return array_reverse($buf);
     }
 
@@ -54,6 +58,7 @@ class TailLog extends Command
         $line = preg_replace('/(?i)bearer\s+[a-z0-9\-_\.]+/', 'Bearer [token]', $line);
         $line = preg_replace('/password=([^&\s]+)/i', 'password=[redacted]', $line);
         $line = preg_replace('/api(_)?key=([^&\s]+)/i', 'apiKey=[redacted]', $line);
+
         return $line;
     }
 }

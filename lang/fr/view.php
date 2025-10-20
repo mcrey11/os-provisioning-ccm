@@ -3,12 +3,12 @@
 return [
     'false' => 'false',
     'true' => 'true',
-    //SEARCH
+    // SEARCH
     'Search_EnterKeyword'       => 'Enter Keyword',
     'Search_MatchesFor'         => 'Matches for',
     'Search_In'                 => 'in',
-    //jQuery
-    //Translations for this at https://datatables.net/plug-ins/i18n/
+    // jQuery
+    // Translations for this at https://datatables.net/plug-ins/i18n/
     'jQuery_sEmptyTable'        => 'No data available in table',
     'Search_Search ...'         => 'Search ...',
     'jQuery_sInfo'              => 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -32,8 +32,8 @@ return [
     'jQuery_colvisRestore'      => 'Restore',
     'jQuery_colvisReset'        => 'Reset',
     'jQuery_ExportTo'           => 'Export to',
-    //MENU
-    //Main Menu
+    // MENU
+    // Main Menu
     'Menu_Apartment'            => 'Apartments',
     'Menu_BillingBase'          => 'Billing',
     'Menu_Contact'              => 'Contacts',
@@ -80,7 +80,7 @@ return [
     'Menu_Nets'                 => 'Nets',
     'Menu_allNets'              => 'All networks',
 
-    //User Settings
+    // User Settings
     'Menu_UserSettings'         => 'User Settings',
     'Menu_UserGlobSettings'     => 'Global User Settings',
     'Menu_Logout'               => 'Logout',
@@ -89,37 +89,37 @@ return [
     'Menu_CDRs'                 => 'CDRs',
     'Menu_Tickets'              => 'Tickets',
     'Menu_Comment'              => 'Comments',
-    //HEADER
+    // HEADER
     'Header_Apartment' => 'Apartments',
-    //General
+    // General
     'Header_GlobalSearch'       => 'Global Search',
     'Header_Overview'           => 'Overview',
     'Header_Assigned'           => 'Assigned',
     'Header_Create'             => 'Create',
-    //Module specific
-    //BillingBase
-    //Product List
+    // Module specific
+    // BillingBase
+    // Product List
     'Header_Mpr'                => 'MPR|MPRs',
     'Header_Modem Positioning Rule' => 'Modem Positioning Rule|Modem Positioning Rules',
     'Header_EditModem Positioning Rule' => 'Edit Modem Positioning Rule',
     'Header_MprGeopos'          => 'MPR Geoposition|MPR Geopositions',
     'Header_Modem Positioning Rule Geoposition' => 'Modem Positioning Rule Geoposition|Modem Positioning Rule Geopositions',
     'Header_EditModem Positioning Rule Geoposition' => 'Edit Modem Positioning Rule Geoposition',
-    //Global
-    //Logs
+    // Global
+    // Logs
     'Header_Logs'               => 'Logs',
     'Header_EditLogs'           => 'Edit Logs',
     'Header_Roles'              => 'Role|Roles',
-    //Billing Base
-    //Prduct Entry
+    // Billing Base
+    // Prduct Entry
     'Header_Product Entry'      => 'Product Entry|Product Entries',
     'Header_Users'              => 'User|Users',
     'Header_EditUsers'          => 'Edit User',
     'Header_EditProduct Entry'  => 'Edit Product Entry',
-    //SEPA Accounts
-    'Header_SEPA Account'       => 'SEPA Account|SEPA Accounts', //Workaround decide which one to use
+    // SEPA Accounts
+    'Header_SEPA Account'       => 'SEPA Account|SEPA Accounts', // Workaround decide which one to use
     'Header_EditSEPA Account'   => 'Edit SEPA Account',
-    //CostCenter
+    // CostCenter
     'Header_Global Configurations' => 'System Configurations',
     'Header_Global Config'      => 'Global Config|Global Configs',
     'Header_EditGlobal Config'  => 'Edit Global Config',
@@ -133,10 +133,10 @@ return [
     'Header_EditProv Base Config'=> 'Edit Modul Configuration for Provisioning',
     'Header_HfcBase'            => 'Modul Configuration for HFC',
     'Header_EditHfc Base Config'=> 'Edit Modul Configuration for HFC',
-    'Header_CostCenter'         => 'Cost Center|Cost Centers', //Workaround decide which one to use
+    'Header_CostCenter'         => 'Cost Center|Cost Centers', // Workaround decide which one to use
     'Header_Cost Center'        => 'Cost Center|Cost Centers',
     'Header_EditCost Center'    => 'Edit Cost Center',
-    //Company
+    // Company
     'Header_EditCompany'        => 'Edit Company',
     'Ability_Custom Abilities'  => 'Custom Abilities',
     'Ability_Authentication'        => 'Authentication',
@@ -148,25 +148,25 @@ return [
     'Ability_ProvVoip'          => 'ProvVoip',
     'Ability_ProvVoipEnvia'     => 'ProvVoipEnvia',
     'Ability_VoipMon'           => 'VoipMon',
-    //Salesman
+    // Salesman
     'Header_EditSalesman'       => 'Edit Salesman',
-    //Items
+    // Items
     'Header_Item'               => 'Item|Items',
-    'Header_EditItem'           => 'Edit Item', //??
-    //Numberrange
+    'Header_EditItem'           => 'Edit Item', // ??
+    // Numberrange
     'Header_NumberRange'        => 'Numberrange|Numberranges',
     'Header_Numberranges'        => 'Numberranges',
     'Header_Files'              => 'Files',
     'Header_SepaAccount'        => 'SEPA-Accounts',
-    //SNMP Modul
-    //Device
+    // SNMP Modul
+    // Device
     'Header_Device'             => 'Device|Devices',
     'Header_EditDevice'         => 'Edit Device',
-    //Device Type
+    // Device Type
     'Header_EditDevice Type'    => 'Edit Devicytype',
     'Header_Company'            => 'Company|Companies',
-    //Provisioning
-    //Contract
+    // Provisioning
+    // Contract
     'Header_Salesman'           => 'Salesman|Salesmen',
     'Header_Contract'           => 'Contract|Contracts',
     'Header_ContractInfoApartment' => 'Contracts of realty (info)',
@@ -174,8 +174,8 @@ return [
     'Header_EditContract'       => 'Edit Contract',
     'Header_GroupContracts'      => 'Group Contracts',
     'Header_SepaMandate'        => 'SEPA-Mandate|SEPA-Mandates',
-    //Modems
-    'Header_Modems'             => 'Modem|Modems', //workaround
+    // Modems
+    'Header_Modems'             => 'Modem|Modems', // workaround
     'Header_Invoice'            => 'Invoice|Invoices',
     'Header_OldInvoices'        => 'Old Invoices',
     'Header_EditModems'         => 'Edit Modem',
@@ -184,21 +184,21 @@ return [
     'Header_EditModem'          => 'Edit Modem',
     'Header_Settlement Run'     => 'Settlement Run|Settlement Runs',
     'Header_EditSettlement Run' => 'Edit Settlement Run',
-    //Endpoint
+    // Endpoint
     'Header_Endpoints'          => 'Endpoint|Endpoints',
     'Header_EditEndpoints'      => 'Edit Endpoints',
-    //Configfiles
+    // Configfiles
     'Header_Configfiles'        => 'Configfile|Configfiles',
     'Header_EditConfigfiles'    => 'Edit Configfile',
-    //QoS
+    // QoS
     'Header_QoS'                => 'QoS-Rule|QoS-Rules',
     'Header_Device Type'        => 'Device Type|Device Types',
     'Header_EditQoS'            => 'Edit QoS-Rule',
-    //NetGw
+    // NetGw
     'Header_NetGW'              => 'NetGW|NetGWs',
     'Header_EditNetGW'          => 'Edit NetGW',
     'Header_Config'             => 'Config proposal|Config proposals',
-    //IpPool
+    // IpPool
     'Header_IpPool'             => 'IP-Pool|IP-Pools',
     'Header_EditIpPool'         => 'Edit IP-Pool',
     'Header_IP-Pools'           => 'IP-Pool|IP-Pools',
@@ -207,21 +207,21 @@ return [
     'Header_Ticket'             => 'Ticket|Tickets',
     'Header_EditTicket'         => 'Edit Ticket',
     'Header_TicketTypes'        => 'TicketTypes',
-    //HFC
-    //Topography
+    // HFC
+    // Topography
     'Header_Topography - Modems'=> 'Topography - Modems',
     'navigate'                  => 'Navigate',
     'draw box'                  => 'Draw Box',
     'draw polygon'              => 'Draw Polygon',
     'modify'                    => 'Modify Elements',
     'Header_NetElement'         => 'Netelements',
-    //VOIP
-    //MTA
+    // VOIP
+    // MTA
     'Header_Mta'                => 'MTA|MTAs',
     'Header_EditMta'            => 'Edit MTA',
     'Header_MTAs'               => 'MTA|MTAs',
     'Header_EditMTAs'           => 'Edit MTA',
-    //Phonenumber
+    // Phonenumber
     'Header_Phonenumber'        => 'Phonenumber|Phonenumbers',
     'Header_EditPhonenumber'    => 'Edit Phonenumber',
     'Header_Phonenumbers'       => 'Phonenumber|Phonenumbers',
@@ -229,12 +229,12 @@ return [
     'Header_PhonebookEntry'     => 'Phonebook entry',
     'Header_Tickets'            => 'Ticket|Tickets',
     'Header_EditTickets'        => 'Edit Tickets',
-    //Phone tariff
+    // Phone tariff
     'Header_Comment'            => 'Comment|Comments',
     'Header_EditComment'        => 'Edit Comment',
     'Header_Phone tariffs'      => 'Phonetariff|Phonetariffs',
     'Header_EditPhone tariffs'  => 'Edit Phonetariffs',
-    //ProvVoipEnvia
+    // ProvVoipEnvia
     'Header_EnviaAPI'           => 'envia TEL API',
     'Header_EnviaContract'      => 'envia TEL contract|envia TEL contracts',
     'Header_EnviaOrder'         => 'envia TEL order|envia TEL orders',
@@ -248,14 +248,14 @@ return [
     'Header_SubNetElement'      => 'Subordinated Netelements',
     'Header_tap'                => 'Controllable tap port',
 
-    //Header Relation
+    // Header Relation
     // 'Assigned'               => 'Zugewiesene',
-    //Header Controler index
+    // Header Controler index
     // 'SEPA Account'               => 'SEPA-Konten',
     // 'Create'                 => 'Erstelle ',
     // 'Edit'                       => 'Ändere ',
 
-    //BUTTON
+    // BUTTON
     'Sign me in'                => 'Login',
     'Button_Create'             => 'Create',
     'Button_Create'             => 'Export',
@@ -274,28 +274,28 @@ return [
     'Button_Create Product Entry'   => 'Create Product Entry',
     'Button_Create Product' => 'Create Product',
     'Button_Create SettlementRun'   => 'Create Settlement Run',
-    //CostCenter
-    'Button_Create Cost Center'     => 'Create Cost Center', //Workaround decide which one to use
+    // CostCenter
+    'Button_Create Cost Center'     => 'Create Cost Center', // Workaround decide which one to use
     'Button_Create CostCenter'      => 'Create Cost Center',
     'Button_Create Users'           => 'Create User',
-    //Company
+    // Company
     'Button_Create Company'         => 'Create Company',
-    //Salesman
+    // Salesman
     'Button_Create Salesman'        => 'Create Salesman',
-    //Item
+    // Item
     'Button_Create Item'            => 'Create Item',
     'sr_dl_logs'                    => 'Download whole logfile',
-    //Numberrange
+    // Numberrange
     'Button_Create NumberRange'     => 'Create Numberrange',
-    //HFC
+    // HFC
     'Button_Create NetElementType' => 'Create NetElement Type',
     'Button_Create NetElement'     => 'Create NetElement',
     'Button_Create MibFile'     => 'Create Mib-File',
 
-    //SNMP Modul
-    //Device
+    // SNMP Modul
+    // Device
     'Button_Create Device'          => 'Create Device',
-    //Device Type
+    // Device Type
     'Button_Create Device Type'     => 'Create Devicetype',
     'Button_Create Phonenumber'     => 'Create Phonenumber',
     'Button_Create Tree Table'      => 'Create Tree Table',
@@ -308,16 +308,16 @@ return [
     'Button_Create TicketType'     => 'Create Ticket Type',
 
     'Button_Create Comment'     => 'Create Comment',
-    //SEPA-Konto
+    // SEPA-Konto
     'Assigned'                  => 'Assigned',
-    'Button_Create SEPA Account'    => 'Create SEPA Account', //Workaround decide which one to use
+    'Button_Create SEPA Account'    => 'Create SEPA Account', // Workaround decide which one to use
     'SEPA Account'              => 'SEPA-Account',
     'Create'                    => 'Create ',
     'Edit'                      => 'Edit ',
     'Button_Create SepaAccount'     => 'Create SEPA Account',
 
-    //Provisioning
-    //Contract
+    // Provisioning
+    // Contract
     'Button_Create Apartment'       => 'Create Apartment',
     'Button_Create Node'            => 'Create Node',
     'Button_Create Realty'          => 'Create Realty',
@@ -330,7 +330,7 @@ return [
     // //Endpoints
     'Button_Create Endpoints'       => 'Create Endpoints',
     'Button_Create Endpoint'        => 'Create Endpoint',
-    //MTA
+    // MTA
     'Button_Create Mta'             => 'Neues MTA',
     // //Phonenumber
     'Button_Create Phone tariffs'   => 'Create Phonetariffs',
@@ -347,7 +347,7 @@ return [
     'Button_Create NetGws'          => 'Create NetGw',
     'Button_Create Netgws'          => 'Create NetGw',
     // //IpPool
-    'Button_Create IpPool'          => 'Create IpPool', //workaround
+    'Button_Create IpPool'          => 'Create IpPool', // workaround
     'Button_Create IP-Pools'        => 'Create IpPools',
 
     // DASHBOARD
@@ -376,7 +376,7 @@ return [
     //
     // Numberrange
     //
-    //Type
+    // Type
     'Numberrange_Type_contract' => 'Contract',
     'Numberrange_Type_invoice' => 'Invoice',
 

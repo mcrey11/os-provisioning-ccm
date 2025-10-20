@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -19,8 +20,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Modules\PropertyManagement\Entities\Realty;
 use Modules\PropertyManagement\Entities\City;
+use Modules\PropertyManagement\Entities\Realty;
 use Modules\PropertyManagement\Entities\Street;
 
 class BackfillCityStreetData extends Command
@@ -47,7 +48,7 @@ class BackfillCityStreetData extends Command
     public function handle()
     {
         $isDryRun = $this->option('dry-run');
-        
+
         if ($isDryRun) {
             $this->info('DRY RUN MODE - No changes will be made');
         }
@@ -55,13 +56,13 @@ class BackfillCityStreetData extends Command
         $this->info('Starting city/street data backfill...');
 
         // Get all realties that have city/street text but no city_id/street_id
-        $realties = Realty::whereNotNull('city')
-            ->whereNotNull('street')
-            ->where(function ($query) {
-                $query->whereNull('city_id')
-                    ->orWhereNull('street_id');
-            })
-            ->get();
+        $realties = Realty::whereNotNull('city')->
+            whereNotNull('street')->
+            where(function ($query) {
+                $query->whereNull('city_id')->
+                    orWhereNull('street_id');
+            })->
+            get();
 
         $this->info("Found {$realties->count()} realties to process");
 
@@ -73,29 +74,29 @@ class BackfillCityStreetData extends Command
 
         foreach ($realties as $realty) {
             try {
-                if (!$isDryRun) {
+                if (! $isDryRun) {
                     // Use the observer logic to normalize city/street
                     $realty->city_id = null;
                     $realty->street_id = null;
-                    
+
                     // Create or find city
                     $city = City::firstOrCreateByName($realty->city);
                     $realty->city_id = $city->id;
-                    
+
                     // Create or find street
                     $street = Street::firstOrCreateByName($city->id, $realty->street);
                     $realty->street_id = $street->id;
-                    
+
                     // Save without triggering observers to avoid infinite loops
                     $realty->saveQuietly();
                 }
-                
+
                 $processed++;
             } catch (\Exception $e) {
                 $errors++;
-                $this->error("Error processing realty ID {$realty->id}: " . $e->getMessage());
+                $this->error("Error processing realty ID {$realty->id}: ".$e->getMessage());
             }
-            
+
             $progressBar->advance();
         }
 

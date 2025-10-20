@@ -36,12 +36,12 @@ return new class extends BaseMigration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $this->upTableGeneric($table);
-            
+
             $table->string('code')->unique();
             $table->string('name');
             $table->smallInteger('sequence')->default(0);
             $table->string('selection_policy'); // single|multiple|at_least_one|optional
-            
+
             // Indexes
             $table->index(['sequence', 'code']);
         });
