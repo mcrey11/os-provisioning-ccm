@@ -1287,6 +1287,7 @@ return [
             'birthday' => 'Geburtstag',
             'street' => 'Straße',
             'house_number' => 'Hausnummer',
+            'additional' => 'Zusatz',
             'zip' => 'PLZ',
             'city' => 'Stadt',
             'apartment' => 'Wohnung (Optional LS-Link)',
@@ -1585,6 +1586,7 @@ return [
         'birthday' => 'Geburtstag',
         'street' => 'Straße',
         'house_number' => 'Hausnummer',
+        'additional' => 'Zusatz',
         'zip' => 'PLZ',
         'city' => 'Stadt',
         'apartment' => 'Wohnung (Optional LS-Link)',
@@ -1599,6 +1601,7 @@ return [
     'address' => [
         'street' => 'Straße',
         'house_number' => 'Hausnummer',
+        'additional' => 'Zusatz',
         'zip' => 'PLZ',
         'city' => 'Stadt',
         'district' => 'Bezirk',
