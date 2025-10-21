@@ -19,6 +19,8 @@
 
 namespace App\Observers;
 
+use Log;
+
 /**
  * Systemd Observer Class - Handles changes on Model Gateways - restarts system services
  *
@@ -37,14 +39,17 @@ class SystemdObserver
 
     public function created($model)
     {
-        \Log::debug('systemd: observer called from create context');
+        Log::debug('systemd: observer called from create context');
 
         if (! is_dir(storage_path('systemd'))) {
             mkdir(storage_path('systemd'));
         }
 
         foreach ($this->services as $service) {
-            touch(storage_path('systemd/'.$service));
+            $f = storage_path('systemd/'.$service);
+            if (! file_exists($f)) {
+                touch(storage_path('systemd/'.$service));
+            }
         }
     }
 
@@ -62,27 +67,33 @@ class SystemdObserver
             return;
         }
 
-        \Log::debug('systemd: observer called from update context', [$model_name, $model->id]);
+        Log::debug('systemd: observer called from update context', [$model_name, $model->id]);
 
         if (! is_dir(storage_path('systemd'))) {
             mkdir(storage_path('systemd'));
         }
 
         foreach ($this->services as $service) {
-            touch(storage_path('systemd/'.$service));
+            $f = storage_path('systemd/'.$service);
+            if (! file_exists($f)) {
+                touch(storage_path('systemd/'.$service));
+            }
         }
     }
 
     public function deleted($model)
     {
-        \Log::debug('systemd: observer called from delete context');
+        Log::debug('systemd: observer called from delete context');
 
         if (! is_dir(storage_path('systemd'))) {
             mkdir(storage_path('systemd'));
         }
 
         foreach ($this->services as $service) {
-            touch(storage_path('systemd/'.$service));
+            $f = storage_path('systemd/'.$service);
+            if (! file_exists($f)) {
+                touch(storage_path('systemd/'.$service));
+            }
         }
     }
 }
