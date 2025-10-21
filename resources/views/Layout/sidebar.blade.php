@@ -251,7 +251,7 @@
                                                             'menu-{{ Str::slug($type, '_') }}')
                                                     }"
                                                     v-on:click="setSubMenu('menu-{{ Str::slug($type, '_') }}')">
-                                                    <a href="{{ route($valuearray['link']) }}" class="block py-1 text-neutral-500 font-light overflow-hidden whitespace-nowrap no-underline">
+                                                    <a href="{{ route($valuearray['link'], $valuearray['params'] ?? []) }}" class="block py-1 text-neutral-500 font-light overflow-hidden whitespace-nowrap no-underline">
                                                         <i class="fa fa-fw {{ $valuearray['icon'] }}"></i>
                                                         <span>{{ $type }}</span>
                                                     </a>
