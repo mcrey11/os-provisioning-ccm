@@ -31,6 +31,12 @@ module.exports = {
     safelist: [
         'bg-whitesmoke',
         'bg-gainsboro',
+        // Dashboard color classes
+        'bg-yellow-50', 'bg-yellow-100', 'bg-yellow-200', 'bg-yellow-600', 'bg-yellow-800', 'bg-yellow-900',
+        'text-yellow-400', 'text-yellow-600', 'text-yellow-800',
+        'border-yellow-200', 'border-yellow-700',
+        'hover:text-yellow-200', 'hover:text-yellow-800',
+        'dark:bg-yellow-900', 'dark:bg-yellow-800', 'dark:text-yellow-400', 'dark:text-yellow-200', 'dark:border-yellow-700',
         // Safelist for wire-elements/modal starts
         'sm:max-w-sm',
         'sm:max-w-md',

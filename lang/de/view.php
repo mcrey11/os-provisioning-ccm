@@ -1896,6 +1896,28 @@ return [
         ],
     ],
 
+    // OrderPortal Dashboard Translations
+    'orderportal' => [
+        'dashboard' => [
+            'title' => 'Bestellportal Dashboard',
+            'subtitle' => 'Übersicht der Web-Bestellungen und deren aktueller Status',
+            'total_orders' => 'Gesamtbestellungen',
+            'incomplete' => 'Unvollständig',
+            'converted' => 'Konvertiert',
+            'pending' => 'Eingereicht',
+            'rejected' => 'Abgelehnt',
+            'funnel_title' => 'Bestell-Trichter',
+            'funnel_subtitle' => 'Web-Bestellungen gruppiert nach aktuellem Status',
+            'orders' => 'Bestellungen',
+            'view_all' => 'Alle anzeigen',
+            'view_order' => 'Bestellung anzeigen',
+            'more_orders' => 'weitere',
+            'show_incomplete' => 'Unvollständige Anfragen anzeigen',
+            'no_orders' => 'Keine Bestellungen gefunden',
+            'no_orders_description' => 'Es befinden sich derzeit keine Web-Bestellungen im System.',
+        ],
+    ],
+
     // WebOrderPortal Component Translations
     'web_order_portal' => [
         'title' => 'Kundeninformationen',
