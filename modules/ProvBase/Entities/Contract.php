@@ -829,6 +829,14 @@ class Contract extends \BaseModel
         return $this->belongsTo(\Modules\Sales\Entities\CrmOpportunity::class, 'created_from_opportunity_id');
     }
 
+    /**
+     * Belongs to the web order this contract was created from (if any)
+     */
+    public function createdFromWebOrder()
+    {
+        return $this->belongsTo(\Modules\OrderPortal\Entities\WebOrder::class, 'created_from_web_order_id');
+    }
+
     public function customerInteractions()
     {
         return $this->morphMany(\Modules\CustomerInteraction\Entities\CiCustomerInteraction::class, 'subject');

@@ -42,6 +42,8 @@ return [
     'web_order' => [
         'converted_to_opportunity' => 'Web-Bestellung erfolgreich zu Opportunity #:id konvertiert',
         'conversion_failed' => 'Fehler beim Konvertieren der Web-Bestellung zu einer Opportunity: :error',
+        'converted_to_contract' => 'Web-Bestellung erfolgreich zu Vertrag #:id konvertiert',
+        'conversion_to_contract_failed' => 'Fehler beim Konvertieren der Web-Bestellung zu einem Vertrag: :error',
     ],
     'canNotBeRestored' => 'kann nicht wiederhergestellt werden',
     'City'                      => 'Stadt',

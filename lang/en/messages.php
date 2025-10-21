@@ -40,6 +40,8 @@ return [
     'web_order' => [
         'converted_to_opportunity' => 'Web order successfully converted to opportunity #:id',
         'conversion_failed' => 'Failed to convert web order to opportunity: :error',
+        'converted_to_contract' => 'Web order successfully converted to contract #:id',
+        'conversion_to_contract_failed' => 'Failed to convert web order to contract: :error',
     ],
     'canNotBeRestored' => 'can not be restored',
     'City'                      => 'City',
