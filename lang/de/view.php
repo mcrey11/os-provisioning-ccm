@@ -77,7 +77,13 @@ return [
     'Menu_Sales' => 'Verkauf',
     'Menu_OrderPortal' => 'Bestellportal',
     'Menu_WebOrders' => 'Web-Bestellungen',
-    'Menu_WebOrderItems' => 'Web-Bestellpositionen',
+    'Menu_IncompleteWebOrders' => 'Nicht vollständige Anfragen',
+    'Menu_WebOrderItems' => 'Web-Bestellarbeiten',
+    'Menu_ProductRegionRules' => 'Produkt-Regionen-Regeln',
+    'Menu_ProductLayers' => 'Produkt-Ebenen',
+    'Menu_ProductLayerAssignments' => 'Produkt-Ebenen-Zuordnungen',
+    'Menu_ProductConstraints' => 'Produkt-Einschränkungen',
+    'Menu_ProductAddons' => 'Produkt-Add-Ons',
     'web_order_item' => [
         'type' => [
             'plan' => 'Tarif',
@@ -1755,6 +1761,343 @@ return [
                 'success' => 'Ihre Auswahl wurde gespeichert',
                 'error' => 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
             ],
+        ],
+    ],
+
+    // OrderPortal Translations (moved from module)
+    'customer' => [
+        'weborder' => [
+            'title' => 'Web-Bestellportal',
+            'header' => 'Internetdienst bestellen',
+            'notification' => 'Benachrichtigung',
+
+            'step' => [
+                'availability' => 'Verfügbarkeit prüfen',
+                'customer_type' => 'Kundentyp',
+                'product' => 'Produkt',
+                'order' => 'Bestellung aufgeben',
+                'payment' => 'Zahlung',
+                'confirmation' => 'Bestätigung',
+            ],
+
+            'availability' => [
+                'title' => 'Service-Verfügbarkeit prüfen',
+                'subtitle' => 'Geben Sie Ihre Adresse ein, um zu prüfen, ob unsere Dienste an Ihrem Standort verfügbar sind',
+                'result_title' => 'Verfügbarkeitsergebnis',
+                'eligible' => 'Service verfügbar',
+                'connection_type' => 'Verbindungstyp',
+                'estimated_speed' => 'Geschätzte Geschwindigkeit',
+                'success' => 'Großartig! Der Service ist an Ihrem Standort verfügbar. Weiterleitung zum Bestellformular...',
+                'error' => 'Entschuldigung, beim Prüfen der Verfügbarkeit ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
+
+                'status' => [
+                    'available' => 'Verfügbar',
+                    'unavailable' => 'Nicht verfügbar',
+                    'unknown' => 'Wird geprüft...',
+                    'error' => 'Fehler',
+                ],
+            ],
+
+            'form' => [
+                'city' => 'Stadt',
+                'city_placeholder' => 'Stadt auswählen oder eingeben',
+                'select_city' => 'Stadt auswählen',
+                'street' => 'Straße',
+                'street_placeholder' => 'Straße auswählen oder eingeben',
+                'select_street' => 'Straße auswählen',
+                'house_number' => 'Hausnummer',
+                'house_placeholder' => 'Hausnummer auswählen oder eingeben',
+                'select_house' => 'Hausnummer auswählen',
+
+                'select_city_first' => 'Bitte wählen Sie zuerst eine Stadt aus',
+                'select_street_first' => 'Bitte wählen Sie zuerst eine Straße aus',
+                'complete_all_fields' => 'Bitte füllen Sie alle Adressfelder aus, um fortzufahren',
+
+                'loading' => 'Wird geladen...',
+                'checking' => 'Wird geprüft...',
+                'checking_availability' => 'Verfügbarkeit für Ihre Adresse wird geprüft...',
+                'processing' => 'Wird verarbeitet...',
+
+                'continue' => 'Zur Bestellung',
+                'back' => 'Zurück',
+                'processing' => 'Wird verarbeitet...',
+                'select_all_fields' => 'Bitte füllen Sie alle Felder aus, um fortzufahren',
+                'select_all_options' => 'Bitte wählen Sie alle Optionen aus, um fortzufahren',
+
+                // Plan selection with layers
+                'no_layers_available' => 'Derzeit sind keine Produktebenen verfügbar. Bitte kontaktieren Sie den Support.',
+                'no_products_in_layer' => 'In dieser Ebene sind keine Produkte verfügbar.',
+                'previous_layer' => 'Vorherige Ebene',
+                'next_layer' => 'Nächste Ebene',
+                'complete_selection' => 'Auswahl abschließen',
+                'selection_summary' => 'Ihre Auswahl-Zusammenfassung',
+                'nothing_option' => 'Nichts / Diese Ebene überspringen',
+
+                // Constraint notifications
+                'constraint_error' => 'Einschränkungsfehler',
+                'constraint_warning' => 'Einschränkungswarnung',
+                'auto_added' => 'Automatisch hinzugefügt',
+                'info' => 'Information',
+                'auto_added_products' => 'Automatisch hinzugefügte Produkte',
+                'available_addons' => 'Verfügbare Zusätze',
+                'required' => 'Erforderlich',
+                'optional' => 'Optional',
+                'max_qty' => 'Max. Menge: :qty',
+                'addons' => 'Zusätze',
+                'complete_all_layers_message' => 'Bitte vervollständigen Sie alle erforderlichen Ebenen, bevor Sie fortfahren.',
+                'pricing_summary' => 'Preisübersicht',
+                'billing_cycle' => ':cycle Abrechnung',
+                'subtotal' => 'Zwischensumme',
+                'total_items' => 'Gesamte Artikel',
+                'grand_total' => 'Gesamtsumme',
+                'all_cycles' => 'Über alle Abrechnungszyklen',
+                'layer' => 'Ebene',
+                'of' => 'von',
+                'progress' => 'Fortschritt',
+                'for' => 'für',
+                'selected' => 'Ausgewählt',
+                'previous_layer' => 'Vorherige Ebene',
+                'next_layer' => 'Nächste Ebene',
+                'final_review' => 'Finale Überprüfung',
+                'no_layers_available' => 'Keine Produkt-Ebenen verfügbar',
+                'contact_support' => 'Bitte kontaktieren Sie den Support für Hilfe.',
+                'at_least_one_required' => '(mindestens eine erforderlich)',
+            ],
+
+            'customer_type' => [
+                'title' => 'Kundeninformationen',
+                'description' => 'Bitte teilen Sie uns Ihren Kundentyp mit, um Ihnen die besten Serviceoptionen anbieten zu können.',
+
+                'customer_type_label' => 'Welcher Kundentyp sind Sie?',
+                'customer_status_label' => 'Sind Sie ein neuer oder bestehender Kunde?',
+
+                'residential' => 'Privatkunde',
+                'residential_description' => 'Für den privaten Gebrauch zu Hause',
+                'business' => 'Geschäftskunde',
+                'business_description' => 'Für geschäftliche oder gewerbliche Nutzung',
+
+                'new_customer' => 'Neuer Kunde',
+                'new_customer_description' => 'Ich bin ein neuer Kunde',
+                'switching_customer' => 'Anbieter wechseln',
+                'switching_customer_description' => 'Ich wechsle von einem anderen Anbieter',
+
+                'success' => 'Kundentyp erfolgreich ausgewählt. Weiterleitung zum Bestellformular...',
+                'error' => 'Entschuldigung, ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
+            ],
+
+            'help' => [
+                'title' => 'So funktioniert es',
+                'description' => 'Unser Verfügbarkeitsprüfer bestimmt, ob unsere Internetdienste an Ihrer Adresse verfügbar sind und zeigt Ihnen die besten Optionen.',
+                'available' => 'Service verfügbar',
+                'available_desc' => 'Großartig! Wir können Internetdienst an Ihrer Adresse anbieten.',
+                'checking' => 'Verfügbarkeit prüfen',
+                'checking_desc' => 'Wir prüfen, ob unsere Dienste an Ihrem Standort verfügbar sind.',
+            ],
+        ],
+    ],
+
+    // WebOrderPortal Component Translations
+    'web_order_portal' => [
+        'title' => 'Kundeninformationen',
+        'contact_info' => 'Kontaktinformationen',
+        'address_info' => 'Adressinformationen',
+
+        // Form Fields
+        'salutation' => 'Anrede',
+        'salutation_placeholder' => 'Anrede auswählen',
+        'firstname' => 'Vorname',
+        'firstname_placeholder' => 'Geben Sie Ihren Vornamen ein',
+        'lastname' => 'Nachname',
+        'lastname_placeholder' => 'Geben Sie Ihren Nachnamen ein',
+        'company' => 'Unternehmen',
+        'company_placeholder' => 'Geben Sie Ihren Firmennamen ein (optional)',
+        'email' => 'E-Mail-Adresse',
+        'email_placeholder' => 'Geben Sie Ihre E-Mail-Adresse ein',
+        'phone' => 'Telefonnummer',
+        'phone_placeholder' => 'Geben Sie Ihre Telefonnummer ein',
+        'street' => 'Straße',
+        'street_placeholder' => 'Geben Sie Ihren Straßennamen ein',
+        'house_number' => 'Hausnummer',
+        'house_number_placeholder' => 'Geben Sie die Hausnummer ein',
+        'zip' => 'PLZ',
+        'zip_placeholder' => 'Geben Sie die Postleitzahl ein',
+        'city' => 'Stadt',
+        'city_placeholder' => 'Geben Sie Ihre Stadt ein',
+
+        // Billing Address
+        'billing_same_as_service' => 'Rechnungsadresse ist identisch mit der Service-Adresse',
+        'billing_address' => 'Rechnungsadresse',
+
+        // Buttons
+        'save_button' => 'Informationen speichern',
+        'saving' => 'Wird gespeichert...',
+
+        // Success Messages
+        'success' => [
+            'saved' => 'Ihre Informationen wurden erfolgreich gespeichert!',
+        ],
+
+        // Validation Messages
+        'validation' => [
+            'firstname_required' => 'Vorname ist erforderlich.',
+            'lastname_required' => 'Nachname ist erforderlich.',
+            'email_required' => 'E-Mail-Adresse ist erforderlich.',
+            'email_invalid' => 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+            'phone_required' => 'Telefonnummer ist erforderlich.',
+            'street_required' => 'Straße ist erforderlich.',
+            'house_number_required' => 'Hausnummer ist erforderlich.',
+            'zip_required' => 'Postleitzahl ist erforderlich.',
+            'city_required' => 'Stadt ist erforderlich.',
+            'billing_street_required' => 'Rechnungsstraße ist erforderlich.',
+            'billing_house_number_required' => 'Rechnungshausnummer ist erforderlich.',
+            'billing_zip_required' => 'Rechnungspostleitzahl ist erforderlich.',
+            'billing_city_required' => 'Rechnungsstadt ist erforderlich.',
+        ],
+    ],
+
+    // Payment Translations
+    'payment' => [
+        'method_selection' => [
+            'title' => 'Zahlungsmethode',
+            'method_selected' => 'Ausgewählt',
+        ],
+        'selected_method' => 'Ausgewählte Zahlungsmethode',
+        'proceed_to_details' => 'Zu Zahlungsdetails',
+        'back' => 'Zurück',
+
+        'sepa' => [
+            'title' => 'SEPA-Lastschrift',
+            'label' => 'SEPA-Lastschrift',
+            'description' => 'Sicher per Banküberweisung bezahlen',
+            'info' => 'Ihre Zahlung wird per SEPA-Lastschrift abgewickelt. Sie ermächtigen uns, Zahlungen von Ihrem Bankkonto einzuziehen.',
+            'iban' => 'IBAN',
+            'iban_placeholder' => 'DE89 3704 0044 0532 0130 00',
+            'bic' => 'BIC',
+            'bic_placeholder' => 'COBADEFFXXX',
+            'auto_filled' => 'Automatisch ausgefüllt',
+            'holder' => 'Kontoinhaber',
+            'holder_placeholder' => 'Name des Kontoinhabers eingeben',
+            'institute' => 'Bankinstitut',
+            'institute_placeholder' => 'Bankname eingeben (optional)',
+            'mandate_reference' => 'Mandatsreferenz',
+            'mandate_reference_placeholder' => 'Mandatsreferenz eingeben',
+            'mandate_reference_help' => 'Diese Referenz wird für alle zukünftigen Zahlungen verwendet.',
+            'mandate_warning' => 'Durch die Angabe Ihrer Bankdaten ermächtigen Sie uns, Zahlungen von Ihrem Konto per SEPA-Lastschrift einzuziehen.',
+            'save' => 'SEPA-Details speichern',
+            'saved_successfully' => 'SEPA-Zahlungsdetails erfolgreich gespeichert!',
+        ],
+
+        'card' => [
+            'title' => 'Kreditkartenzahlung',
+            'label' => 'Kreditkarte',
+            'description' => 'Sicher mit Ihrer Kreditkarte bezahlen',
+            'security_info' => 'Ihre Kartendaten werden sicher verarbeitet und niemals auf unseren Servern gespeichert.',
+            'number' => 'Kartennummer',
+            'number_placeholder' => '1234 5678 9012 3456',
+            'cvv' => 'CVV',
+            'cvv_placeholder' => '123',
+            'holder_name' => 'Karteninhaber',
+            'holder_name_placeholder' => 'Name wie auf der Karte angezeigt',
+            'expiry_month' => 'Ablaufmonat',
+            'expiry_year' => 'Ablaufjahr',
+            'month_placeholder' => 'MM',
+            'year_placeholder' => 'JJ',
+            'security_warning' => 'Ihre Kartendaten werden verschlüsselt und sicher verarbeitet. Wir speichern Ihre Kartendetails nicht.',
+            'save' => 'Kartendetails speichern',
+            'processing' => 'Wird verarbeitet...',
+            'saved_successfully' => 'Kreditkartenzahlungsdetails erfolgreich gespeichert!',
+            'processing_error' => 'Zahlungsverarbeitung fehlgeschlagen',
+        ],
+
+        'giropay' => [
+            'label' => 'Giropay',
+            'description' => 'Sicher mit Ihrem Online-Banking bezahlen',
+        ],
+
+        'paypal' => [
+            'label' => 'PayPal',
+            'description' => 'Sicher mit PayPal bezahlen',
+        ],
+
+        'apple_pay' => [
+            'label' => 'Apple Pay',
+            'description' => 'Mit Apple Pay bezahlen',
+        ],
+
+        'status' => [
+            'pending' => 'Ausstehend',
+            'processing' => 'Wird verarbeitet',
+            'completed' => 'Abgeschlossen',
+            'failed' => 'Fehlgeschlagen',
+            'cancelled' => 'Storniert',
+        ],
+    ],
+
+    // Billing Cycle Translations
+    'billing_cycle' => [
+        'once' => 'Einmalig',
+        'monthly' => 'Monatlich',
+        'quarterly' => 'Vierteljährlich',
+        'annually' => 'Jährlich',
+        'yearly' => 'Jährlich',
+        // Handle common variations
+        'one-time' => 'Einmalig',
+        'one_time' => 'Einmalig',
+        'month' => 'Monatlich',
+        'quarter' => 'Vierteljährlich',
+        'annual' => 'Jährlich',
+        'year' => 'Jährlich',
+    ],
+
+    // Web Order Conversion Translations
+    'web_order' => [
+        'convert_to_contract' => 'In Vertrag umwandeln',
+        'convert_to_opportunity' => 'In Chance umwandeln',
+        'converted_contract' => 'In Vertrag umgewandelt',
+        'converted_opportunity' => 'In Chance umgewandelt',
+        'already_converted_to_contract' => 'Diese Web-Bestellung wurde bereits in einen Vertrag umgewandelt.',
+        'already_converted_to_opportunity' => 'Diese Web-Bestellung wurde bereits in eine Chance umgewandelt.',
+        'contract_info' => 'Vertragsinformationen',
+        'opportunity_info' => 'Chanceninformationen',
+        'web_order_info' => 'Web-Bestellungsinformationen',
+        'view_contract' => 'Vertrag anzeigen',
+        'view_opportunity' => 'Chance anzeigen',
+        'convert_to_contract_description' => 'Wandeln Sie diese Web-Bestellung in einen Vertrag um, um dem Kunden Dienste anzubieten.',
+        'convert_to_opportunity_description' => 'Wandeln Sie diese Web-Bestellung in eine CRM-Chance um für das Nachfassen des Vertriebsteams.',
+        'convert_confirm' => 'Umwandlung bestätigen',
+        'convert_confirm_text' => 'Ich bestätige, dass ich diese Web-Bestellung in einen Vertrag umwandeln möchte.',
+        'convert_confirmation_dialog' => 'Sind Sie sicher, dass Sie diese Web-Bestellung in einen Vertrag umwandeln möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
+    ],
+
+    // Order Confirmation Translations
+    'order' => [
+        'confirmation' => [
+            'title' => 'Bestellbestätigung',
+            'success_title' => 'Bestellung erfolgreich aufgegeben!',
+            'success_message' => 'Vielen Dank für Ihre Bestellung! Wir haben Ihre Bestellung erhalten und werden sie in Kürze bearbeiten.',
+            'order_number' => 'Bestellnummer',
+            'customer_info' => 'Kundeninformationen',
+            'address_info' => 'Adressinformationen',
+            'order_items' => 'Bestellpositionen',
+            'order_summary' => 'Bestellübersicht',
+            'items' => 'Positionen',
+            'grand_total' => 'Gesamtsumme',
+            'split_billing_cycles' => 'Aufgeteilt auf :count Abrechnungszyklen',
+            'billing' => 'Abrechnung',
+            'payment_info' => 'Zahlungsinformationen',
+            'name' => 'Name',
+            'email' => 'E-Mail',
+            'phone' => 'Telefon',
+            'address' => 'Adresse',
+            'product' => 'Produkt',
+            'type' => 'Typ',
+            'price' => 'Preis',
+            'total' => 'Gesamt',
+            'payment_method' => 'Zahlungsmethode',
+            'payment_status' => 'Zahlungsstatus',
+            'next_steps_title' => 'Was passiert als nächstes?',
+            'next_steps_message' => 'Wir werden Ihre Bestellung prüfen und uns innerhalb von 1-2 Werktagen mit Ihnen in Verbindung setzen, um die Installation zu planen und weitere Details zu besprechen.',
+            'back_to_home' => 'Zurück zur Startseite',
         ],
     ],
 ];
