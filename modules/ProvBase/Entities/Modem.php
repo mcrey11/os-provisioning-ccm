@@ -761,6 +761,8 @@ class Modem extends \BaseModel
         // this should never happen, but has been seen in the wild
         $hostname = $this->hostname;
         if (! $hostname) {
+            Log::error("CM $this->id has no hostname");
+
             $hostname = 'cm-'.$this->id;
         }
 

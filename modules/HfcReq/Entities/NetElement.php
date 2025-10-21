@@ -1307,7 +1307,7 @@ class NetElement extends \BaseModel
                     continue;
                 }
             } catch (\Exception $e) {
-                Log::error("Could not get SNR for cluster $this->name ($idx)");
+                Log::error("Could not get SNR for cluster $this->name ($this->id) - index $idx");
                 continue;
             }
 
