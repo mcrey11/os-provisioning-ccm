@@ -1927,6 +1927,12 @@ return [
         // Form Fields
         'salutation' => 'Anrede',
         'salutation_placeholder' => 'Anrede auswählen',
+        'salutation_options' => [
+            'Herr' => 'Herr',
+            'Frau' => 'Frau',
+            'Dr.' => 'Dr.',
+            'Prof.' => 'Prof.',
+        ],
         'firstname' => 'Vorname',
         'firstname_placeholder' => 'Geben Sie Ihren Vornamen ein',
         'lastname' => 'Nachname',

@@ -1930,6 +1930,13 @@ return [
         // Form Fields
         'salutation' => 'Salutation',
         'salutation_placeholder' => 'Select salutation',
+        'salutation_options' => [
+            'Mr.' => 'Mr.',
+            'Mrs.' => 'Mrs.',
+            'Ms.' => 'Ms.',
+            'Dr.' => 'Dr.',
+            'Prof.' => 'Prof.',
+        ],
         'firstname' => 'First Name',
         'firstname_placeholder' => 'Enter your first name',
         'lastname' => 'Last Name',
