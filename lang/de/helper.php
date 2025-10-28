@@ -80,6 +80,12 @@ return [
         'sort' => 'Anzeigereihenfolge für dieses Addon (niedrigere Zahlen erscheinen zuerst)',
     ],
 
+    // Order Portal Config
+    'order_portal_config' => [
+        'primary_color' => 'Hex-Farbcode für die primäre Theme-Farbe (z.B. #007bff). Wird für Schaltflächen, Links und wichtige UI-Elemente im Web-Bestellportal verwendet.',
+        'secondary_color' => 'Hex-Farbcode für die sekundäre Theme-Farbe (z.B. #6c757d). Wird für sekundäre UI-Elemente und Hintergründe verwendet.',
+    ],
+
     // Web Order
     'web_order' => [
         'order_number_help' => 'Kurze, benutzerfreundliche Bestellnummer, die aus dem Hash für Anzeigezwecke generiert wird.',

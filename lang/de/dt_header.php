@@ -136,6 +136,10 @@ return [
         'notes' => 'Notizen',
     ],
     'order_number' => 'Bestellnummer',
+    'order_portal_config' => [
+        'primary_color' => 'Primärfarbe',
+        'secondary_color' => 'Sekundärfarbe',
+    ],
     'web_order' => [
         'contact_point_id' => 'Kontaktpunkt',
         'service_address_id' => 'Service-Adresse',

@@ -135,6 +135,10 @@ return [
         'notes' => 'Notes',
     ],
     'order_number' => 'Order Number',
+    'order_portal_config' => [
+        'primary_color' => 'Primary Color',
+        'secondary_color' => 'Secondary Color',
+    ],
     'web_order' => [
         'contact_point_id' => 'Contact Point',
         'service_address_id' => 'Service Address',

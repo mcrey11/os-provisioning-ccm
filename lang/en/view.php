@@ -632,6 +632,7 @@ return [
     'analysis' => 'Analysis',
     'Assign' => 'Assign :model',
     'BillingBase' => 'Billing',
+    'OrderPortal' => 'Order Portal',
     'boolInTable' => [
         'false' => 'false',
         'true' => 'true',

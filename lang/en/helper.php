@@ -80,6 +80,12 @@ return [
         'sort' => 'Display order for this addon (lower numbers appear first)',
     ],
 
+    // Order Portal Config
+    'order_portal_config' => [
+        'primary_color' => 'Hex color code for primary theme color (e.g., #007bff). Used for buttons, links, and key UI elements in the web order portal.',
+        'secondary_color' => 'Hex color code for secondary theme color (e.g., #6c757d). Used for secondary UI elements and backgrounds.',
+    ],
+
     // Web Order
     'web_order' => [
         'order_number_help' => 'Short, user-friendly order number generated from the hash for display purposes.',
