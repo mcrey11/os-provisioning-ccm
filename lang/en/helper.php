@@ -77,6 +77,7 @@ return [
         'base_product_id_or_layer' => 'Either select a specific product OR specify a product layer',
         'product_layer_id_explanation' => 'Product layer this addon applies to (addons show after layer completion)',
         'max_qty' => 'Maximum quantity of this addon that can be selected',
+        'sort' => 'Display order for this addon (lower numbers appear first)',
     ],
 
     // Web Order

@@ -77,6 +77,7 @@ return [
         'base_product_id_or_layer' => 'Entweder ein bestimmtes Produkt auswählen ODER eine Produkt-Ebene angeben',
         'product_layer_id_explanation' => 'Produkt-Ebene, für die dieses Addon gilt (Addons werden nach Ebenenabschluss angezeigt)',
         'max_qty' => 'Maximale Menge dieses Add-ons, die ausgewählt werden kann',
+        'sort' => 'Anzeigereihenfolge für dieses Addon (niedrigere Zahlen erscheinen zuerst)',
     ],
 
     // Web Order

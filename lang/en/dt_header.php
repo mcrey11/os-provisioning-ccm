@@ -1188,6 +1188,7 @@ return [
         'addon_product_id' => 'Addon Product',
         'required' => 'Required',
         'max_qty' => 'Maximum Quantity',
+        'sort' => 'Sort Order',
     ],
     'product_layer' => [
         'headline' => 'Product Layers',

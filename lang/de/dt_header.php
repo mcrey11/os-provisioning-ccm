@@ -1152,10 +1152,11 @@ return [
     'product_addon' => [
         'headline' => 'Produkt-Add-Ons',
         'base_product_id' => 'Basisprodukt',
-        'base_type' => 'Basistyp',
+        'product_layer_id' => 'Produkt-Ebene',
         'addon_product_id' => 'Add-on-Produkt',
         'required' => 'Erforderlich',
         'max_qty' => 'Maximale Menge',
+        'sort' => 'Sortierreihenfolge',
     ],
     'product_layer' => [
         'headline' => 'Produkt-Ebenen',
