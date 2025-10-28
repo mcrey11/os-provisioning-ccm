@@ -31,11 +31,11 @@ class Phonenumber extends \BaseModel
     public function rules()
     {
         $rules = [
-            'country_code' => ['required', 'numeric'],
-            'prefix_number' => ['required', 'numeric'],
-            'number' => ['required', 'numeric'],
+            'country_code' => ['required', 'regex:/^(?:\+|00)[1-9]\d{0,2}$/'],
+            'prefix_number' => ['required', 'regex:/^\d+$/'],   // Validation rule 'integer' does not accept leading zeroes
+            'number' => ['required', 'regex:/^\d+$/'],
             'mta_id' => ['required', 'exists:mta,id,deleted_at,NULL', 'min:1'],
-            'port' => ['required', 'numeric', 'min:0'],
+            'port' => ['required', 'integer', 'min:0'],
             // inject id to rules (so it is passed to prepare_rules)
             'id' => $this->id ?: 0,
             /* 'active' => ['required', 'boolean'], */
