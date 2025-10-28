@@ -84,6 +84,7 @@ return [
     'order_portal_config' => [
         'primary_color' => 'Hex color code for primary theme color (e.g., #007bff). Used for buttons, links, and key UI elements in the web order portal.',
         'secondary_color' => 'Hex color code for secondary theme color (e.g., #6c757d). Used for secondary UI elements and backgrounds.',
+        'show_header' => 'Display the header/navigation bar in the customer web order portal. Uncheck to hide the header for embedded/iframe scenarios.',
     ],
 
     // Web Order

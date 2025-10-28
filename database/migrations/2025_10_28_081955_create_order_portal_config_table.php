@@ -38,8 +38,11 @@ return new class extends BaseMigration
             $this->upTableGeneric($table);
 
             // Color configuration for WebOrder portal
-            $table->string('primary_color', 7)->default('#007bff');
-            $table->string('secondary_color', 7)->default('#6c757d');
+            $table->string('primary_color', 7)->default('#28a745');
+            $table->string('secondary_color', 7)->default('#595959');
+
+            // Layout configuration
+            $table->boolean('show_header')->default(true);
         });
     }
 

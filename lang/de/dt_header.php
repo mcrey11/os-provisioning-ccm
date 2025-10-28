@@ -139,6 +139,7 @@ return [
     'order_portal_config' => [
         'primary_color' => 'Primärfarbe',
         'secondary_color' => 'Sekundärfarbe',
+        'show_header' => 'Kopfzeile anzeigen',
     ],
     'web_order' => [
         'contact_point_id' => 'Kontaktpunkt',
