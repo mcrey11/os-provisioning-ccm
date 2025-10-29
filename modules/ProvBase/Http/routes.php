@@ -137,6 +137,12 @@ BaseRoute::group([], function () {
             'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@api_setLanMode',
             'middleware' => ['api', 'can:update,Modules\ProvBase\Entities\Modem'],
         ]);
+
+        Route::get('Modem/{id}/docsisFactoryReset', [
+            'as' => 'Modem.api_docsisFactoryReset',
+            'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@api_docsisFactoryReset',
+            'middleware' => ['api', 'can:update,Modules\ProvBase\Entities\Modem'],
+        ]);
     });
 
     BaseRoute::get('modem/{id}/analysis', [

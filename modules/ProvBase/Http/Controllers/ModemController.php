@@ -1144,6 +1144,54 @@ class ModemController extends \BaseController
         return response()->v0ApiReply([], true, $id);
     }
 
+    public function api_docsisFactoryReset($ver, $id)
+    {
+        if ($ver !== '0') {
+            return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
+        }
+
+        $errors = [];
+        $modem = static::get_model_obj()->findOrFail($id);
+
+        foreach (['model'] as $parameter) {
+            if (! request($parameter)) {
+                $errors[] = "parameter $parameter missing";
+            }
+        }
+
+        if (! in_array(request('model'), ['TG862', 'TG3442S', 'TG3442SP'])) {
+            $errors[] = 'unsupported model';
+        }
+
+        $onlineStatus = $modem->onlineStatus();
+        if (! $onlineStatus['online']) {
+            $errors[] = 'modem is offline';
+        }
+
+        if ($errors) {
+            return response()->v0ApiReply(['messages' => ['errors' => $errors]]);
+        }
+
+        $config = ProvBase::first();
+        $fqdn = $modem->hostname.'.'.$config->domain_name;
+
+        try {
+            switch (request('model')) {
+                case 'TG862':
+                    snmpset($fqdn, $config->rw_community, '.1.3.6.1.4.1.4115.1.20.1.1.5.5.0', 'i', 3);
+                    break;
+                case 'TG3442S':
+                case 'TG3442SP':
+                    snmpset($fqdn, $config->rw_community, '.1.3.6.1.4.1.17270.50.2.1.1.1002.0', 'i', 1);
+                    break;
+            }
+        } catch (\Exception $e) {
+            return response()->v0ApiReply(['messages' => ['errors' => [$e->getMessage()]]]);
+        }
+
+        return response()->v0ApiReply([], true, $id);
+    }
+
     /**
      * Set nullable fields.
      *
