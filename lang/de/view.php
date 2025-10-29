@@ -495,7 +495,7 @@ return [
             'billing' => 'Abrechnung',
             'invoices' => 'Meine Rechnungen',
             'paymentMethod' => 'Zahlmethode',
-            'modem_address' => 'Modem-Adress-Umzug',
+            'modem_address' => 'Modem-Umzug',
             'subscriptions' => 'Abonnements',
             'manage' => 'Verwalten',
             'orders' => 'Bestellungen',

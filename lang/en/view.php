@@ -485,7 +485,7 @@ return [
             'billing' => 'Billing',
             'invoices' => 'My Invoices',
             'paymentMethod' => 'Payment Method',
-            'modem_address' => 'Modem Address Change',
+            'modem_address' => 'Modem Move',
             'subscriptions' => 'Subscriptions',
             'manage' => 'Manage',
             'orders' => 'Orders',
