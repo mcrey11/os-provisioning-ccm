@@ -1003,4 +1003,5 @@ return [
     'routeNotFoundError' => 'ERROR: Cannot load page ":url" (route ":route" does not exist)',
     'productChangeNotAllowedExternalStatus' => 'Changing the product is not allowed ("External status" is not empty).',
     'Please_select_pipeline_first' => 'Please select pipeline first',
+    'log_out' => 'Log out',
 ];
