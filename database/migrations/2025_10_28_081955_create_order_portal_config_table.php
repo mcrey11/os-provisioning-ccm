@@ -44,6 +44,9 @@ return new class extends BaseMigration
             // Layout configuration
             $table->boolean('show_header')->default(true);
         });
+
+        // Seed initial config record (required for Global Config page)
+        DB::insert("INSERT INTO {$this->tableName} (created_at,updated_at,primary_color,secondary_color,show_header) VALUES (now(),now(),'#28a745','#595959',true)");
     }
 
     /**
