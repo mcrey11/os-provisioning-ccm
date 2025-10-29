@@ -2129,4 +2129,33 @@ return [
             'back_to_home' => 'Zurück zur Startseite',
         ],
     ],
+
+    // Invoice Address (CCC Module)
+    'invoice_address' => [
+        'company' => 'Firma',
+        'department' => 'Abteilung',
+        'firstname' => 'Vorname',
+        'lastname' => 'Nachname',
+        'street' => 'Straße',
+        'house_number' => 'Hausnummer',
+        'zip' => 'PLZ',
+        'city' => 'Stadt',
+        'district' => 'Bezirk',
+        'country_code' => 'Ländercode',
+        'phone' => 'Telefon',
+        'fax' => 'Fax',
+        'email' => 'E-Mail',
+    ],
+
+    // Modem Address (CCC Module)
+    'modem_address' => [
+        'mac' => 'MAC-Adresse',
+        'company' => 'Firma',
+        'department' => 'Abteilung',
+        'firstname' => 'Vorname',
+        'lastname' => 'Nachname',
+        'street' => 'Straße',
+        'house_number' => 'Hausnummer',
+        'city' => 'Stadt',
+    ],
 ];

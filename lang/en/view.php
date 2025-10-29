@@ -2126,4 +2126,33 @@ return [
     ],
 
     // Web Order conversion moved under crm.web_order
+
+    // Invoice Address (CCC Module)
+    'invoice_address' => [
+        'company' => 'Company',
+        'department' => 'Department',
+        'firstname' => 'First Name',
+        'lastname' => 'Last Name',
+        'street' => 'Street',
+        'house_number' => 'House Number',
+        'zip' => 'ZIP Code',
+        'city' => 'City',
+        'district' => 'District',
+        'country_code' => 'Country Code',
+        'phone' => 'Phone',
+        'fax' => 'Fax',
+        'email' => 'Email',
+    ],
+
+    // Modem Address (CCC Module)
+    'modem_address' => [
+        'mac' => 'MAC Address',
+        'company' => 'Company',
+        'department' => 'Department',
+        'firstname' => 'First Name',
+        'lastname' => 'Last Name',
+        'street' => 'Street',
+        'house_number' => 'House Number',
+        'city' => 'City',
+    ],
 ];
