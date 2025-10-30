@@ -2063,6 +2063,9 @@ return [
             'info' => 'You will receive an invoice via postal mail that you can pay by bank transfer.',
         ],
 
+        'edit_payment_method' => 'Edit Payment Method',
+        'complete_order' => 'Complete Order',
+
         'status' => [
             'pending' => 'Pending',
             'processing' => 'Processing',
