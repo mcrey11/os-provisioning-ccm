@@ -85,6 +85,20 @@ return [
         'primary_color' => 'Hex-Farbcode für die primäre Theme-Farbe (z.B. #007bff). Wird für Schaltflächen, Links und wichtige UI-Elemente im Web-Bestellportal verwendet.',
         'secondary_color' => 'Hex-Farbcode für die sekundäre Theme-Farbe (z.B. #6c757d). Wird für sekundäre UI-Elemente und Hintergründe verwendet.',
         'show_header' => 'Zeigt die Kopfzeile/Navigationsleiste im Kunden-Bestellportal an. Deaktivieren Sie diese Option, um die Kopfzeile für eingebettete/iframe-Szenarien auszublenden.',
+        'enable_business_customers' => 'Wenn aktiviert, können Kunden bei der Bestellung zwischen Privat- und Geschäftskunde wählen. Wenn deaktiviert, wird diese Option ausgeblendet.',
+        'payment_method_sepa' => 'Aktivieren Sie SEPA-Lastschrift als verfügbare Zahlungsmethode für Kunden.',
+        'payment_method_rechnung' => 'Aktivieren Sie Rechnung (Überweisung) als verfügbare Zahlungsmethode für Kunden.',
+        'payment_method_acs' => 'Aktivieren Sie ACS (Automated Clearing Service) als verfügbare Zahlungsmethode für Kunden.',
+        'payment_method_credit_card' => 'Aktivieren Sie Kreditkartenzahlung als verfügbare Zahlungsmethode für Kunden.',
+        'postal_invoice_product_id' => 'Wählen Sie das Produkt aus, das für Papierrechnungen verwendet werden soll. Dies sollte ein Produkt vom Typ "Postal" sein. Wird in WebOrder und CCC für die Rechnungszustellung verwendet.',
+    ],
+    'ccc_config' => [
+        'block_internet_downselling' => 'Verhindert, dass Kunden im CCC-Portal einen langsameren Internet-Tarif als ihren aktuellen wählen können. Standard: aktiviert.',
+        'payment_method_sepa' => 'Aktivieren Sie SEPA-Lastschrift als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',
+        'payment_method_rechnung' => 'Aktivieren Sie Rechnung (Überweisung) als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',
+        'payment_method_acs' => 'Aktivieren Sie ACS (Automated Clearing Service) als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',
+        'payment_method_credit_card' => 'Aktivieren Sie Kreditkartenzahlung als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',
+        'postal_invoice_product_id' => 'Wählen Sie das Produkt aus, das für Papierrechnungen verwendet werden soll. Dies sollte ein Produkt vom Typ "Postal" sein.',
     ],
 
     // Web Order

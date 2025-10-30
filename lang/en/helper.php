@@ -85,6 +85,20 @@ return [
         'primary_color' => 'Hex color code for primary theme color (e.g., #007bff). Used for buttons, links, and key UI elements in the web order portal.',
         'secondary_color' => 'Hex color code for secondary theme color (e.g., #6c757d). Used for secondary UI elements and backgrounds.',
         'show_header' => 'Display the header/navigation bar in the customer web order portal. Uncheck to hide the header for embedded/iframe scenarios.',
+        'enable_business_customers' => 'When enabled, customers can choose between residential and business customer types during the order process. When disabled, this option is hidden.',
+        'payment_method_sepa' => 'Enable SEPA direct debit as an available payment method for customers.',
+        'payment_method_rechnung' => 'Enable invoice (bank transfer) as an available payment method for customers.',
+        'payment_method_acs' => 'Enable ACS (Automated Clearing Service) as an available payment method for customers.',
+        'payment_method_credit_card' => 'Enable credit card payment as an available payment method for customers.',
+        'postal_invoice_product_id' => 'Select the product to use for postal invoices. This should be a product of type "Postal". Used in both WebOrder and CCC for invoice delivery.',
+    ],
+    'ccc_config' => [
+        'block_internet_downselling' => 'Prevents customers in the CCC portal from selecting a slower internet plan than their current plan. Default: enabled.',
+        'payment_method_sepa' => 'Enable SEPA direct debit as an available payment method for customers in the CCC portal.',
+        'payment_method_rechnung' => 'Enable invoice (bank transfer) as an available payment method for customers in the CCC portal.',
+        'payment_method_acs' => 'Enable ACS (Automated Clearing Service) as an available payment method for customers in the CCC portal.',
+        'payment_method_credit_card' => 'Enable credit card payment as an available payment method for customers in the CCC portal.',
+        'postal_invoice_product_id' => 'Select the product to use for postal invoices. This should be a product of type "Postal".',
     ],
 
     // Web Order
