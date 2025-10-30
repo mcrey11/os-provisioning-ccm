@@ -1993,6 +1993,7 @@ return [
         'selected_method' => 'Ausgewählte Zahlungsmethode',
         'proceed_to_details' => 'Zu Zahlungsdetails',
         'back' => 'Zurück',
+        'edit_payment_method' => 'Zahlungsmethode bearbeiten',
 
         'sepa' => [
             'title' => 'SEPA-Lastschrift',
@@ -2051,6 +2052,20 @@ return [
         'apple_pay' => [
             'label' => 'Apple Pay',
             'description' => 'Mit Apple Pay bezahlen',
+        ],
+
+        'acs' => [
+            'label' => 'ACS',
+            'description' => 'Sicher per Automated Clearing Service bezahlen',
+            'title' => 'ACS-Zahlung',
+            'info' => 'Ihre Zahlung wird per ACS (Automated Clearing Service) abgewickelt.',
+        ],
+
+        'rechnung' => [
+            'label' => 'Rechnung',
+            'description' => 'Rechnung erhalten und per Überweisung bezahlen',
+            'title' => 'Rechnungszahlung',
+            'info' => 'Sie erhalten eine Rechnung per Post, die Sie per Banküberweisung bezahlen können.',
         ],
 
         'status' => [

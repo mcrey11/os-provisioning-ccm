@@ -1998,6 +1998,7 @@ return [
         'selected_method' => 'Selected Payment Method',
         'proceed_to_details' => 'Proceed to Payment Details',
         'back' => 'Back',
+        'edit_payment_method' => 'Edit Payment Method',
 
         'sepa' => [
             'title' => 'SEPA Direct Debit',
@@ -2046,6 +2047,20 @@ return [
         'giropay' => [
             'label' => 'Giropay',
             'description' => 'Pay securely with your online banking',
+        ],
+
+        'acs' => [
+            'label' => 'ACS',
+            'description' => 'Pay securely via Automated Clearing Service',
+            'title' => 'ACS Payment',
+            'info' => 'Your payment will be processed via ACS (Automated Clearing Service).',
+        ],
+
+        'rechnung' => [
+            'label' => 'Invoice',
+            'description' => 'Receive invoice and pay by bank transfer',
+            'title' => 'Invoice Payment',
+            'info' => 'You will receive an invoice via postal mail that you can pay by bank transfer.',
         ],
 
         'status' => [

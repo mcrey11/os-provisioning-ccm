@@ -91,8 +91,12 @@ return [
         'payment_method_acs' => 'Aktivieren Sie ACS (Automated Clearing Service) als verfügbare Zahlungsmethode für Kunden.',
         'payment_method_credit_card' => 'Aktivieren Sie Kreditkartenzahlung als verfügbare Zahlungsmethode für Kunden.',
         'postal_invoice_product_id' => 'Wählen Sie das Produkt aus, das für Papierrechnungen verwendet werden soll. Dies sollte ein Produkt vom Typ "Postal" sein. Wird in WebOrder und CCC für die Rechnungszustellung verwendet.',
+        'cache_notice_title' => 'WICHTIG: Daten werden gecacht',
+        'cache_notice' => 'Konfigurationsdaten werden für die Performance gecacht. Nach Änderungen bitte den Cache mit folgendem Befehl leeren:',
     ],
     'ccc_config' => [
+        'cache_notice_title' => 'WICHTIG: Daten werden gecacht',
+        'cache_notice' => 'Konfigurationsdaten werden für die Performance gecacht. Nach Änderungen bitte den Cache mit folgendem Befehl leeren:',
         'block_internet_downselling' => 'Verhindert, dass Kunden im CCC-Portal einen langsameren Internet-Tarif als ihren aktuellen wählen können. Standard: aktiviert.',
         'payment_method_sepa' => 'Aktivieren Sie SEPA-Lastschrift als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',
         'payment_method_rechnung' => 'Aktivieren Sie Rechnung (Überweisung) als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',

@@ -91,8 +91,12 @@ return [
         'payment_method_acs' => 'Enable ACS (Automated Clearing Service) as an available payment method for customers.',
         'payment_method_credit_card' => 'Enable credit card payment as an available payment method for customers.',
         'postal_invoice_product_id' => 'Select the product to use for postal invoices. This should be a product of type "Postal". Used in both WebOrder and CCC for invoice delivery.',
+        'cache_notice_title' => 'IMPORTANT: Data is cached',
+        'cache_notice' => 'Configuration data is cached for performance. After making changes, please clear the cache using the following command:',
     ],
     'ccc_config' => [
+        'cache_notice_title' => 'IMPORTANT: Data is cached',
+        'cache_notice' => 'Configuration data is cached for performance. After making changes, please clear the cache using the following command:',
         'block_internet_downselling' => 'Prevents customers in the CCC portal from selecting a slower internet plan than their current plan. Default: enabled.',
         'payment_method_sepa' => 'Enable SEPA direct debit as an available payment method for customers in the CCC portal.',
         'payment_method_rechnung' => 'Enable invoice (bank transfer) as an available payment method for customers in the CCC portal.',
