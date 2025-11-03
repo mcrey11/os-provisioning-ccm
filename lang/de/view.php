@@ -1986,6 +1986,10 @@ return [
 
     // Payment Translations
     'payment' => [
+        'title' => 'Zahlungsmethode',
+        'description' => 'Wählen Sie Ihre bevorzugte Zahlungsmethode für wiederkehrende Gebühren',
+        'current_method' => 'Aktuelle Zahlungsmethode',
+        'no_methods_available' => 'Derzeit sind keine Zahlungsmethoden verfügbar.',
         'method_selection' => [
             'title' => 'Zahlungsmethode',
             'method_selected' => 'Ausgewählt',
@@ -2055,17 +2059,35 @@ return [
         ],
 
         'acs' => [
-            'label' => 'ACS',
-            'description' => 'Sicher per Automated Clearing Service bezahlen',
-            'title' => 'ACS-Zahlung',
-            'info' => 'Ihre Zahlung wird per ACS (Automated Clearing Service) abgewickelt.',
+            'label' => 'ACH',
+            'description' => 'Sicher per Automated Clearing House bezahlen',
+            'title' => 'ACH-Zahlung',
+            'info' => 'Ihre Zahlung wird per ACH (Automated Clearing House) abgewickelt.',
         ],
+
+        'update_existing' => 'Bestehende Zahlungsmethode aktualisieren',
+        'add_new' => 'Neue Zahlungsmethode hinzufügen',
+        'update_existing_info' => 'Sie haben bereits eine Zahlungsmethode. Geben Sie unten Ihre neuen Zahlungsdetails ein, um sie zu aktualisieren.',
+        'add_new_info' => 'Neue Zahlungsdetails eingeben, um Ihre aktuelle Zahlungsmethode zu ersetzen',
+        'viewing_existing_info' => 'Ihre bestehende Zahlungsmethode wird angezeigt. Klicken Sie auf "Bearbeiten", um sie zu aktualisieren.',
+        'editing_payment_info' => 'Geben Sie unten Ihre neuen Zahlungsdetails ein, um Ihre Zahlungsmethode zu aktualisieren.',
+        'edit_payment' => 'Bearbeiten',
 
         'rechnung' => [
             'label' => 'Rechnung',
             'description' => 'Rechnung erhalten und per Überweisung bezahlen',
             'title' => 'Rechnungszahlung',
             'info' => 'Sie erhalten eine Rechnung per Post, die Sie per Banküberweisung bezahlen können.',
+            'postal_invoice_product' => 'Postversandrechnungsprodukt',
+            'agreement_text' => 'Ich stimme den Bedingungen des Postversandrechnungsprodukts ":product" zu und verstehe, dass zusätzliche Gebühren anfallen können.',
+            'agreement_required' => 'Sie müssen den Bedingungen des Postversandrechnungsprodukts zustimmen.',
+            'save' => 'Rechnungszahlung speichern',
+            'saved_successfully' => 'Rechnungszahlungsmethode erfolgreich gespeichert!',
+        ],
+
+        'credit_card' => [
+            'title' => 'Kreditkartenzahlung',
+            'info' => 'Ihre Zahlung wird sicher über unser Zahlungsgateway verarbeitet.',
         ],
 
         'status' => [

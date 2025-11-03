@@ -1990,6 +1990,10 @@ return [
 
     // Payment Translations
     'payment' => [
+        'title' => 'Payment Method',
+        'description' => 'Select your preferred payment method for recurring charges',
+        'current_method' => 'Current Payment Method',
+        'no_methods_available' => 'No payment methods are currently available.',
         'method_selection' => [
             'title' => 'Payment Method',
             'method_selected' => 'Selected',
@@ -2050,17 +2054,35 @@ return [
         ],
 
         'acs' => [
-            'label' => 'ACS',
-            'description' => 'Pay securely via Automated Clearing Service',
-            'title' => 'ACS Payment',
-            'info' => 'Your payment will be processed via ACS (Automated Clearing Service).',
+            'label' => 'ACH',
+            'description' => 'Pay securely via Automated Clearing House',
+            'title' => 'ACH Payment',
+            'info' => 'Your payment will be processed via ACH (Automated Clearing House).',
         ],
+
+        'update_existing' => 'Update existing payment method',
+        'add_new' => 'Add new payment method',
+        'update_existing_info' => 'You have an existing payment method. Enter your new payment details below to update it.',
+        'add_new_info' => 'Enter new payment details to replace your current payment method',
+        'viewing_existing_info' => 'Viewing your existing payment method. Click "Edit" to update it.',
+        'editing_payment_info' => 'Enter your new payment details below to update your payment method.',
+        'edit_payment' => 'Edit',
 
         'rechnung' => [
             'label' => 'Invoice',
             'description' => 'Receive invoice and pay by bank transfer',
             'title' => 'Invoice Payment',
             'info' => 'You will receive an invoice via postal mail that you can pay by bank transfer.',
+            'postal_invoice_product' => 'Postal Invoice Product',
+            'agreement_text' => 'I agree to the terms of the postal invoice product ":product" and understand that additional charges may apply.',
+            'agreement_required' => 'You must agree to the postal invoice product terms.',
+            'save' => 'Save Invoice Payment',
+            'saved_successfully' => 'Invoice payment method saved successfully!',
+        ],
+
+        'credit_card' => [
+            'title' => 'Credit Card Payment',
+            'info' => 'Your payment will be processed securely via our payment gateway.',
         ],
 
         'edit_payment_method' => 'Edit Payment Method',
