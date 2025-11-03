@@ -1831,6 +1831,7 @@ return [
                 'previous_layer' => 'Vorherige Ebene',
                 'next_layer' => 'Nächste Ebene',
                 'complete_selection' => 'Auswahl abschließen',
+                'proceed_to_checkout' => 'Zur Kasse',
                 'selection_summary' => 'Ihre Auswahl-Zusammenfassung',
                 'nothing_option' => 'Nichts / Diese Ebene überspringen',
 
@@ -2194,5 +2195,22 @@ return [
         'street' => 'Straße',
         'house_number' => 'Hausnummer',
         'city' => 'Stadt',
+    ],
+
+    // Shop / Landing Page (CCC Module)
+    'shop' => [
+        'welcome_title' => 'Willkommen zu Produkt-Upgrades',
+        'welcome_message' => 'Entdecken Sie verfügbare Produkt-Upgrades und Sonderangebote, um Ihren Service zu verbessern.',
+        'coming_soon' => 'Die Shop-Funktion wird bald verfügbar sein. Hier können Sie Produkt-Upgrades durchsuchen und kaufen.',
+        'current_plan' => 'Aktueller Tarif',
+        'current_price' => 'Aktueller Preis',
+        'upgrade_available' => 'Upgrade verfügbar',
+        'upgrade_now' => 'Jetzt upgraden',
+        'highest_plan' => 'Sie haben bereits den höchsten verfügbaren Tarif.',
+        'starting_from' => 'Ab',
+        'choose_best_tarif' => 'Wählen Sie unseren besten :layer Tarif',
+        'choose_plan' => 'Tarif wählen',
+        'no_products_available' => 'Keine Produkte in dieser Kategorie verfügbar.',
+        'no_categories_available' => 'Derzeit sind keine Produktkategorien verfügbar.',
     ],
 ];

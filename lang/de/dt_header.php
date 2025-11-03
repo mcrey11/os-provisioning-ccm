@@ -1190,4 +1190,7 @@ return [
             'optional' => 'Optional',
         ],
     ],
+    'shop' => [
+        'index' => 'Produkt-Upgrades & Shop',
+    ],
 ];

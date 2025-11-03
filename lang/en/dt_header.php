@@ -1227,4 +1227,7 @@ return [
             'business' => 'Business',
         ],
     ],
+    'shop' => [
+        'index' => 'Product Upgrades & Shop',
+    ],
 ];
