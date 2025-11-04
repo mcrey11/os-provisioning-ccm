@@ -891,6 +891,8 @@ return [
             'voip' => 'VOIP',
         ],
         'resellingPartner' => 'Reselling partner',
+        'description_html_heading' => 'Web Order Description',
+        'description_html' => 'Description (HTML)',
         'custom_field__api_success_tickettype_id' => 'Ticket type on API success',
         'custom_field__api_error_tickettype_id' => 'Ticket type on API errors',
         'custom_field__waipu_product_name' => 'waipu.tv product name',

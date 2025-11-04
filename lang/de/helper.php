@@ -151,6 +151,7 @@ return [
         'proportional'          => 'Setzen Sie diesen Haken, wenn Posten, die innerhalb des aktuellen Abrechnungszyklus beginnen, anteilig berechnet werden sollen. Somit würde bei einem monatlich abzurechnenden Produkt mit Beginn in der Mitte des Monats im aktuellen Abrechnungszyklus nur die Hälfte des vollen Preises abgerechnet werden.',
         'Type'                  => 'Alle Felder außer dem Abrechnungszyklus müssen vor einer Änderung des Produkts gelöscht werden! Andernfalls können die Produkte in den meisten Fällen nicht gespeichert werden.',
         'deprecated'            => 'Setzen Sie diesen Haken, wenn das Produkt veraltet ist. Dadurch kann es nicht mehr beim Erstellen/Ändern von Posten ausgewählt werden.',
+        'description_html'      => 'Geben Sie HTML- oder RTF-formatierten Inhalt für die Produktbeschreibung ein. Sie können Links, Bilder und formatierte Texte einfügen. Dieser Inhalt wird bei der Anzeige des Produkts dargestellt.',
     ],
     'Product_Number_of_Cycles'      => 'Achtung! Für alle Produkte, die in einem wiederkehrenden Zyklus bezahlt werden steht der Preis für jede einzelne Zahlung. Für Produkte, die einmalig bezahlt werden wird der Preis durch die Anzahl der Zyklen geteilt.',
 
