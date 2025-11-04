@@ -1176,6 +1176,9 @@ return [
         'weborder_item_actions' => 'Aktionen',
         'view_weborder_item' => 'Web-Bestellposten-Details anzeigen',
         'view_details' => 'Details anzeigen',
+        'delete_weborder_item' => 'Web-Bestellposten löschen',
+        'delete_weborder_item_confirm' => 'Sind Sie sicher, dass Sie diesen Web-Bestellposten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
+        'delete' => 'Löschen',
     ],
     'configfile' => [
         'custom_field__ont_profile_id' => 'ONT Profil-ID',

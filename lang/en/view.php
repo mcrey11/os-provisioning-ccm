@@ -1167,6 +1167,9 @@ return [
         'weborder_item_actions' => 'Actions',
         'view_weborder_item' => 'View Web Order Item Details',
         'view_details' => 'View Details',
+        'delete_weborder_item' => 'Delete Web Order Item',
+        'delete_weborder_item_confirm' => 'Are you sure you want to delete this web order item? This action cannot be undone.',
+        'delete' => 'Delete',
     ],
     'configfile' => [
         'custom_field__ont_profile_id' => 'ONT profile ID',

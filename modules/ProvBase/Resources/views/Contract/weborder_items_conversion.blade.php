@@ -32,9 +32,13 @@
                         <tr>
                             <td>
                                 @if($webOrderItem->product)
-                                    {{ $webOrderItem->product->name }}
+                                    <a href="{{ route('WebOrderItem.edit', $webOrderItem->id) }}" title="{{ trans('view.contract.view_weborder_item') }}">
+                                        {{ $webOrderItem->product->name }}
+                                    </a>
                                 @else
-                                    {{ $webOrderItem->name }}
+                                    <a href="{{ route('WebOrderItem.edit', $webOrderItem->id) }}" title="{{ trans('view.contract.view_weborder_item') }}">
+                                        {{ $webOrderItem->name }}
+                                    </a>
                                 @endif
                             </td>
                             <td>
@@ -44,9 +48,13 @@
                             </td>
                             <td>{{ $webOrderItem->qty ?? 1 }}</td>
                             <td>
-                                <a href="{{ route('WebOrderItem.edit', $webOrderItem->id) }}" class="btn btn-sm btn-default" title="{{ trans('view.contract.view_weborder_item') }}">
-                                    <i class="fa fa-eye"></i> {{ trans('view.contract.view_details') }}
-                                </a>
+                                <form method="POST" action="{{ route('WebOrderItem.destroy', $webOrderItem->id) }}" style="display: inline-block;" onsubmit="return confirm('{{ trans('view.contract.delete_weborder_item_confirm') }}');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" title="{{ trans('view.contract.delete_weborder_item') }}">
+                                        <i class="fa fa-trash"></i> {{ trans('view.contract.delete') }}
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
