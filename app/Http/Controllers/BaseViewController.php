@@ -129,8 +129,8 @@ class BaseViewController extends Controller
      */
     public static function getAllLanguages()
     {
-        return collect(glob(app()->langPath().'/*'))
-            ->mapWithKeys(function ($path) {
+        return collect(glob(app()->langPath().'/*'))->
+            mapWithKeys(function ($path) {
                 $langShortcut = basename($path);
 
                 return [$langShortcut => $langShortcut];
@@ -160,9 +160,9 @@ class BaseViewController extends Controller
      */
     public static function generateLanguageArray($languageArray)
     {
-        return collect($languageArray)
-            ->mapWithKeys(function ($langShortcut) {
-                return [$langShortcut => config('language.'.$langShortcut)];
+        return collect($languageArray)->
+            mapWithKeys(function ($langShortcut) {
+                return [$langShortcut  => config('language.'.$langShortcut)];
             });
     }
 
@@ -443,8 +443,8 @@ class BaseViewController extends Controller
             }
 
             // Open Form Group
-            if (! in_array($field['form_type'], ['collapse'])) {
-                $currentFormfield[] = Form::openGroup($field['name'], $field['description'], $additional_classes, $color);
+            if (! in_array($field['form_type'], ['collapse', 'html'])) {
+                $currentFormfield[] = Form::openGroup($field['name'], $field['description'] ?? '', $additional_classes, $color);
             }
 
             // Output the Form Elements
@@ -507,9 +507,9 @@ class BaseViewController extends Controller
                     $options['onchange'] = "$('#{$field['name']}')[0].defaultValue = event.target.value;$('#{$field['name']}')[0].value = event.target.value;";
                     $options['autocomplete'] = 'off';
 
-                    $field['field_value'] = ! empty($field['field_value']) && strtotime($field['field_value'])
-                        ? date('H:i', strtotime($field['field_value']))
-                        : null;
+                    $field['field_value'] = ! empty($field['field_value']) && strtotime($field['field_value']) ?
+                        date('H:i', strtotime($field['field_value'])) :
+                        null;
 
                     $currentFormfield[] = Form::time($field['name'], $field['field_value'], $options, false);
                     break;
@@ -535,7 +535,7 @@ class BaseViewController extends Controller
             }
 
             // Close Form Group
-            if (! in_array($field['form_type'], ['collapse'])) {
+            if (! in_array($field['form_type'], ['collapse', 'html'])) {
                 $currentFormfield[] = Form::closeGroup();
             }
 
@@ -998,8 +998,8 @@ class BaseViewController extends Controller
     public static function getQualityColor($dir, $mod, $entity, $val, $toString)
     {
         $ret = 3;
-        $colors = [
-            -1 => 'danger',
+        $colors = [-
+            1 => 'danger',
             0 => 'success',
             1 => 'warning',
             2 => 'bg-orange-lighter',
