@@ -152,6 +152,8 @@ return [
         'Type'                  => 'All fields besides Billing Cycle have to be cleared before a type change! Otherwise products can not be saved in most cases',
         'deprecated'            => 'Activate this checkbox if this product shall not be shown in the product select list when creating/editing items.',
         'description_html'      => 'Enter HTML or RTF formatted content for product description. You can include links, images, and formatted text. This content will be displayed when viewing the product.',
+        'logo'                  => 'Select a logo image for this product. The logo will be displayed in the OrderPortal plan selection page instead of the default icon.',
+        'logo_upload'           => 'Upload a new logo image file. Supported formats: JPG, PNG, GIF. The uploaded file will be available for selection.',
     ],
     'Product_Number_of_Cycles'      => 'Take Care!: for all repeatedly payed products the price stands for every charge, for Once payed products the Price is divided by the number of cycles',
 

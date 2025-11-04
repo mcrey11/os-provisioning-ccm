@@ -152,6 +152,8 @@ return [
         'Type'                  => 'Alle Felder außer dem Abrechnungszyklus müssen vor einer Änderung des Produkts gelöscht werden! Andernfalls können die Produkte in den meisten Fällen nicht gespeichert werden.',
         'deprecated'            => 'Setzen Sie diesen Haken, wenn das Produkt veraltet ist. Dadurch kann es nicht mehr beim Erstellen/Ändern von Posten ausgewählt werden.',
         'description_html'      => 'Geben Sie HTML- oder RTF-formatierten Inhalt für die Produktbeschreibung ein. Sie können Links, Bilder und formatierte Texte einfügen. Dieser Inhalt wird bei der Anzeige des Produkts dargestellt.',
+        'logo'                  => 'Wählen Sie ein Logo-Bild für dieses Produkt aus. Das Logo wird auf der Bestellseite des OrderPortals anstelle des Standard-Icons angezeigt.',
+        'logo_upload'           => 'Laden Sie eine neue Logo-Bilddatei hoch. Unterstützte Formate: JPG, PNG, GIF. Die hochgeladene Datei steht dann zur Auswahl zur Verfügung.',
     ],
     'Product_Number_of_Cycles'      => 'Achtung! Für alle Produkte, die in einem wiederkehrenden Zyklus bezahlt werden steht der Preis für jede einzelne Zahlung. Für Produkte, die einmalig bezahlt werden wird der Preis durch die Anzahl der Zyklen geteilt.',
 
