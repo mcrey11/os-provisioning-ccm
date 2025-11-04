@@ -1153,6 +1153,12 @@ return [
             'customer recovery denied' => 'customer recovery denied',
         ],
         'noModemTickets' => 'Currently none of the modems that belong to this contract have a ticket associated!',
+        'weborder_items_conversion' => 'Product Upgrade Request',
+        'weborder_items_info' => 'The customer requested product upgrades from the web portal.',
+        'convert_weborder_items' => 'Convert to Items',
+        'convert_info' => 'Conversion Details',
+        'convert_info_details' => 'Existing items of the same type (Internet, Voip, TV) will be cancelled with valid_to set to yesterday. New items will start from today.',
+        'no_weborder_items' => 'No web order items found for this contract.',
     ],
     'configfile' => [
         'custom_field__ont_profile_id' => 'ONT profile ID',

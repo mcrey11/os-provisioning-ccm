@@ -628,4 +628,172 @@ class ContractController extends \BaseController
 
         return $defaultTabs;
     }
+
+    /**
+     * Convert WebOrderItems to Items for a contract
+     * Handles cancellation of existing items by setting valid_to
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function convertWebOrderItems($id)
+    {
+        $contract = Contract::findOrFail($id);
+
+        // Get all confirmed web order items for this contract
+        $webOrderItems = \Modules\OrderPortal\Entities\WebOrderItem::where('contract_id', $contract->id)->
+            where('confirmed', true)->
+            with('product')->
+            get();
+
+        if ($webOrderItems->isEmpty()) {
+            $contract->addAboveMessage(trans('messages.no_weborder_items_to_convert'), 'error', 'form');
+
+            return redirect()->back();
+        }
+
+        \DB::beginTransaction();
+
+        try {
+            $yesterday = date('Y-m-d', strtotime('-1 day'));
+            $today = date('Y-m-d');
+
+            // Use withoutEvents to prevent observers from triggering daily_conversion during item creation
+            $controller = $this;
+            \Modules\BillingBase\Entities\Item::withoutEvents(function () use ($contract, $webOrderItems, $today, $yesterday, $controller) {
+                foreach ($webOrderItems as $webOrderItem) {
+                    $product = $webOrderItem->product;
+
+                    if (! $product) {
+                        continue;
+                    }
+
+                    // Get the qualified model class (Item or WaipuTVItem)
+                    $itemClass = $controller->getQualifiedModelClassForProduct($product);
+                    $item = new $itemClass;
+
+                    // Set basic item fields
+                    $item->contract_id = $contract->id;
+                    $item->product_id = $webOrderItem->product_id;
+                    $item->count = $webOrderItem->qty ?: 1;
+                    $item->valid_from = $today;
+                    $item->valid_from_fixed = true;
+                    $item->valid_to = null;
+                    $item->valid_to_fixed = false;
+                    $item->costcenter_id = $contract->costcenter_id;
+                    $item->accounting_text = $webOrderItem->name;
+                    // Set qualified_model_class manually since withoutEvents prevents the creating hook
+                    $item->qualified_model_class = $itemClass;
+
+                    // Handle fixed cycles if needed
+                    $controller->handleFixedCyclesForItem($item, $product);
+
+                    // For Internet, Voip, and TV types: cancel existing active items
+                    if (in_array($product->type, ['Internet', 'Voip', 'TV'])) {
+                        $existingTariff = $contract->get_valid_tariff($product->type);
+
+                        if ($existingTariff) {
+                            $existingTariff->valid_to = $yesterday;
+                            $existingTariff->valid_to_fixed = true;
+                            $existingTariff->observer_enabled = false; // Prevent observer recursion
+                            $existingTariff->save();
+                        }
+                    }
+
+                    $item->save();
+                }
+            });
+
+            // Run daily_conversion once at the end for all changes
+            // Wrap in try-catch to handle missing DHCP config file and geocoding errors gracefully
+            try {
+                $contract->daily_conversion();
+            } catch (\Exception $dailyConversionException) {
+                // Check if this is a non-critical error (DHCP file, geocoding, config files, etc.)
+                $errorMessage = $dailyConversionException->getMessage();
+                $isNonCriticalError = (
+                    strpos($errorMessage, 'ignore-cpe.conf') !== false ||
+                    strpos($errorMessage, 'Geocoding API') !== false ||
+                    strpos($errorMessage, 'geo coordinates') !== false ||
+                    strpos($errorMessage, '/tftpboot/cm/') !== false ||
+                    strpos($errorMessage, 'file_put_contents') !== false
+                );
+
+                if ($isNonCriticalError) {
+                    // Log the error but don't fail the conversion
+                    // These are system configuration issues, not data issues
+                    \Log::warning('Daily conversion encountered non-critical error during web order items conversion: '.$errorMessage, [
+                        'contract_id' => $contract->id,
+                    ]);
+                } else {
+                    // For other errors, re-throw to be caught by outer catch
+                    throw $dailyConversionException;
+                }
+            }
+
+            // Delete the converted web order items after successful conversion
+            foreach ($webOrderItems as $webOrderItem) {
+                $webOrderItem->delete();
+            }
+
+            \DB::commit();
+
+            $contract->addAboveMessage(trans('messages.weborder_items_converted'), 'success', 'form');
+
+            return redirect()->back();
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            $contract->addAboveMessage(trans('messages.weborder_items_conversion_failed', ['error' => $e->getMessage()]), 'error', 'form');
+
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Get qualified model class for product (similar to ItemObserver logic)
+     *
+     * @param  \Modules\BillingBase\Entities\Product  $product
+     * @return string
+     */
+    protected function getQualifiedModelClassForProduct($product)
+    {
+        if (Module::collections()->has('WaipuTV')) {
+            $partner = $product->reselling_partner;
+
+            if ($partner == 'waipu.tv') {
+                return 'Modules\WaipuTV\Entities\WaipuTVItem';
+            }
+        }
+
+        return 'Modules\BillingBase\Entities\Item';
+    }
+
+    /**
+     * Handle fixed cycles for item (similar to ItemObserver logic)
+     *
+     * @param  \Modules\BillingBase\Entities\Item  $item
+     * @param  \Modules\BillingBase\Entities\Product  $product
+     * @return void
+     */
+    protected function handleFixedCyclesForItem($item, $product)
+    {
+        if (! $product->cycle_count) {
+            return;
+        }
+
+        $cnt = $product->cycle_count;
+        if ($product->billing_cycle == 'Quarterly') {
+            $cnt *= 3;
+        }
+        if ($product->billing_cycle == 'Yearly') {
+            $cnt *= 12;
+        }
+
+        if (! $item->valid_from) {
+            $item->valid_from = date('Y-m-d');
+        }
+
+        $item->valid_to = date('Y-m-d', strtotime('last day of this month', strtotime("+$cnt month", strtotime($item->valid_from))));
+    }
 }

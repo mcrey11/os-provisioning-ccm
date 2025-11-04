@@ -1096,9 +1096,15 @@ return [
         'web_order_id' => 'Web-Bestellung',
         'type' => 'Typ',
         'product_id' => 'Produkt-ID',
+        'product' => [
+            'name' => 'Produktname',
+        ],
         'name' => 'Bezeichnung',
         'qty' => 'Menge',
         'sort' => 'Sortierung',
+    ],
+    'web_order_items_conversion' => [
+        'headline' => 'Produkt-Upgrade-Anfrage',
     ],
     'product_region_rule' => [
         'headline' => 'Produkt-Regionen-Regeln',

@@ -1162,6 +1162,12 @@ return [
             'customer recovery denied' => 'Rückwerbung unerwünscht',
         ],
         'noModemTickets' => 'Aktuell besitzen die Modems dieses Vertrags keine Tickets!',
+        'weborder_items_conversion' => 'Produkt-Upgrade-Anfrage',
+        'weborder_items_info' => 'Der Kunde hat Produkt-Upgrades über das Web-Portal angefordert.',
+        'convert_weborder_items' => 'In Posten umwandeln',
+        'convert_info' => 'Konvertierungsdetails',
+        'convert_info_details' => 'Bestehende Posten des gleichen Typs (Internet, Voip, TV) werden mit valid_to auf gestern gesetzt. Neue Posten beginnen heute.',
+        'no_weborder_items' => 'Keine Web-Bestellposten für diesen Vertrag gefunden.',
     ],
     'configfile' => [
         'custom_field__ont_profile_id' => 'ONT Profil-ID',

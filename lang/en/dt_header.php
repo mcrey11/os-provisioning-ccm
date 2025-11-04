@@ -182,9 +182,15 @@ return [
         'web_order_id' => 'Web Order',
         'type' => 'Type',
         'product_id' => 'Product ID',
+        'product' => [
+            'name' => 'Product Name',
+        ],
         'name' => 'Name',
         'qty' => 'Quantity',
         'sort' => 'Sort',
+    ],
+    'web_order_items_conversion' => [
+        'headline' => 'Product Upgrade Request',
     ],
     'product_region_rule' => [
         'type' => 'Type',

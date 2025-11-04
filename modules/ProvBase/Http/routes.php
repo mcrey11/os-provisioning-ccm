@@ -26,6 +26,12 @@ BaseRoute::group([], function () {
     BaseRoute::resource('Configfile', 'Modules\ProvBase\Http\Controllers\ConfigfileController');
     BaseRoute::resource('Qos', 'Modules\ProvBase\Http\Controllers\QosController');
     BaseRoute::resource('Contract', 'Modules\ProvBase\Http\Controllers\ContractController');
+
+    BaseRoute::post('Contract/{id}/convert-weborder-items', [
+        'as' => 'Contract.convertWebOrderItems',
+        'uses' => 'Modules\ProvBase\Http\Controllers\ContractController@convertWebOrderItems',
+        'middleware' => ['can:update,Modules\ProvBase\Entities\Contract'],
+    ]);
     BaseRoute::resource('Domain', 'Modules\ProvBase\Http\Controllers\DomainController');
     BaseRoute::resource('ProvBase', 'Modules\ProvBase\Http\Controllers\ProvBaseController');
     BaseRoute::resource('ModemOption', 'Modules\ProvBase\Http\Controllers\ModemOptionController');

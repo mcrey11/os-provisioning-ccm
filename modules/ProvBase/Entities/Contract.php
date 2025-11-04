@@ -430,6 +430,19 @@ class Contract extends \BaseModel
                 collect([new \Modules\BillingBase\Entities\Item]) :
                 $this->items;
 
+            // Add WebOrderItems conversion view within Item panel if there are any CONFIRMED items for this contract
+            if (Module::collections()->has('OrderPortal') && isset($this->web_order_items_count) && $this->web_order_items_count > 0) {
+                // Only show confirmed items in the conversion view
+                $confirmedItems = $this->webOrderItems()->where('confirmed', true)->get();
+                if ($confirmedItems->count() > 0) {
+                    $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['view']['view'] = 'provbase::Contract.weborder_items_conversion';
+                    $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['view']['vars']['contract'] = $this;
+                    $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['view']['vars']['webOrderItems'] = $confirmedItems;
+                    $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['options']['hide_create_button'] = true;
+                    $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['options']['hide_delete_button'] = true;
+                }
+            }
+
             $ret[$i18nContract]['SepaMandate']['class'] = 'SepaMandate';
             $ret[$i18nContract]['SepaMandate']['relation'] = $this->sepamandates;
 
@@ -602,6 +615,11 @@ class Contract extends \BaseModel
             $this->items_count = $this->items->count();
         }
 
+        if (Module::collections()->has('OrderPortal')) {
+            $this->setRelation('webOrderItems', $this->webOrderItems()->limit($threshold)->get());
+            $this->web_order_items_count = $this->webOrderItems->count();
+        }
+
         if (Module::collections()->has('OverdueDebts')) {
             $this->setRelation('debts', $this->debts()->limit($threshold)->get());
             $this->debtCount = $this->debts->count();
@@ -759,6 +777,11 @@ class Contract extends \BaseModel
     public function items_sorted_by_valid_from_desc()
     {
         return $this->hasMany(\Modules\BillingBase\Entities\Item::class)->orderBy('valid_from', 'desc');
+    }
+
+    public function webOrderItems()
+    {
+        return $this->hasMany(\Modules\OrderPortal\Entities\WebOrderItem::class, 'contract_id');
     }
 
     public function sepamandates()
