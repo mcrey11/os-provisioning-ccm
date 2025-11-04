@@ -146,6 +146,7 @@ return [
         'payment_method_acs' => 'ACH',
         'payment_method_credit_card' => 'Credit Card',
         'postal_invoice_product_id' => 'Product for Postal Invoice',
+        'transfer_phone_product_id' => 'Product for Transfer Telephone Number',
     ],
     'ccc_config' => [
         'block_internet_downselling' => 'Block Internet Downselling',
@@ -155,6 +156,7 @@ return [
         'payment_method_acs' => 'ACH',
         'payment_method_credit_card' => 'Credit Card',
         'postal_invoice_product_id' => 'Product for Postal Invoice',
+        'transfer_phone_product_id' => 'Product for Transfer Telephone Number',
     ],
     'web_order' => [
         'contact_point_id' => 'Contact Point',
@@ -170,6 +172,7 @@ return [
         'payment_status' => 'Payment Status',
         'payment_reference' => 'Payment Reference',
         'payment_data' => 'Payment Data',
+        'porting_data' => 'Porting Data',
         'hash' => 'Hash',
         'order_number' => 'Order Number',
         'availability_snapshot' => 'Availability Snapshot',
@@ -182,6 +185,7 @@ return [
     'web_order_item' => [
         'headline' => 'Web Order Item',
         'web_order_id' => 'Web Order',
+        'contract_id' => 'Contract',
         'type' => 'Type',
         'product_id' => 'Product ID',
         'product' => [
@@ -190,6 +194,8 @@ return [
         'name' => 'Name',
         'qty' => 'Quantity',
         'sort' => 'Sort',
+        'confirmed' => 'Confirmed',
+        'custom_data' => 'Custom Data',
     ],
     'web_order_items_conversion' => [
         'headline' => 'Product Upgrade Request',
@@ -312,6 +318,7 @@ return [
     'item.valid_to_fixed' => 'Valid to fixed',
     'item.accounting_text' => 'Purpose',
     'item.external_status' => 'External status',
+    'item.custom_data' => 'Custom Data',
     'fee' => 'Fee',
     'product' => [
         'maturity_min' => 'Minimum maturity',

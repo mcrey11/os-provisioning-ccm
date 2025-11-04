@@ -24,6 +24,7 @@
                         <th>{{ trans('dt_header.web_order_item.product.name') }}</th>
                         <th>{{ trans('dt_header.web_order_item.type') }}</th>
                         <th>{{ trans('dt_header.web_order_item.qty') }}</th>
+                        <th>{{ trans('view.contract.weborder_item_actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,11 @@
                                 </span>
                             </td>
                             <td>{{ $webOrderItem->qty ?? 1 }}</td>
+                            <td>
+                                <a href="{{ route('WebOrderItem.edit', $webOrderItem->id) }}" class="btn btn-sm btn-default" title="{{ trans('view.contract.view_weborder_item') }}">
+                                    <i class="fa fa-eye"></i> {{ trans('view.contract.view_details') }}
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

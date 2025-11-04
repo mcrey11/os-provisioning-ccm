@@ -147,6 +147,7 @@ return [
         'payment_method_acs' => 'ACH',
         'payment_method_credit_card' => 'Kreditkarte',
         'postal_invoice_product_id' => 'Produkt für Papierrechnungen',
+        'transfer_phone_product_id' => 'Produkt für Telefonnummernportierung',
     ],
     'ccc_config' => [
         'block_internet_downselling' => 'Internet-Downselling blockieren',
@@ -156,6 +157,7 @@ return [
         'payment_method_acs' => 'ACH',
         'payment_method_credit_card' => 'Kreditkarte',
         'postal_invoice_product_id' => 'Produkt für Papierrechnungen',
+        'transfer_phone_product_id' => 'Produkt für Telefonnummernportierung',
     ],
     'web_order' => [
         'contact_point_id' => 'Kontaktpunkt',
@@ -171,6 +173,7 @@ return [
         'payment_status' => 'Zahlungsstatus',
         'payment_reference' => 'Zahlungsreferenz',
         'payment_data' => 'Zahlungsdaten',
+        'porting_data' => 'Portierungsdaten',
         'hash' => 'Hash',
         'order_number' => 'Bestellnummer',
         'availability_snapshot' => 'Verfügbarkeits-Snapshot',
@@ -257,6 +260,7 @@ return [
     'item.valid_to_fixed' => 'Festes Enddatum',
     'item.accounting_text' => 'Verwendungszweck',
     'item.external_status' => 'Externer Status',
+    'item.custom_data' => 'Benutzerdefinierte Daten',
     'fee' => 'Gebühr',
     'product' => [
         'maturity_min' => 'Mindestlaufzeit',
@@ -1096,6 +1100,7 @@ return [
     'web_order_item' => [
         'headline' => 'Web-Bestellposition',
         'web_order_id' => 'Web-Bestellung',
+        'contract_id' => 'Vertrag',
         'type' => 'Typ',
         'product_id' => 'Produkt-ID',
         'product' => [
@@ -1104,6 +1109,8 @@ return [
         'name' => 'Bezeichnung',
         'qty' => 'Menge',
         'sort' => 'Sortierung',
+        'confirmed' => 'Bestätigt',
+        'custom_data' => 'Benutzerdefinierte Daten',
     ],
     'web_order_items_conversion' => [
         'headline' => 'Produkt-Upgrade-Anfrage',

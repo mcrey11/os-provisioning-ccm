@@ -1159,6 +1159,9 @@ return [
         'convert_info' => 'Conversion Details',
         'convert_info_details' => 'Existing items of the same type (Internet, Voip, TV) will be cancelled with valid_to set to yesterday. New items will start from today.',
         'no_weborder_items' => 'No web order items found for this contract.',
+        'weborder_item_actions' => 'Actions',
+        'view_weborder_item' => 'View Web Order Item Details',
+        'view_details' => 'View Details',
     ],
     'configfile' => [
         'custom_field__ont_profile_id' => 'ONT profile ID',
@@ -2170,6 +2173,26 @@ return [
             'next_steps_message' => 'We will review your order and contact you within 1-2 business days to schedule installation and provide further details.',
             'back_to_home' => 'Back to Home',
         ],
+    ],
+
+    // Phone Porting Translations
+    'porting' => [
+        'title' => 'Phone Number Porting Information',
+        'description' => 'Please provide the following information for telephone number porting.',
+        'vorname' => 'First Name',
+        'nachname' => 'Last Name',
+        'email' => 'Email',
+        'telefonnummer' => 'Phone Number',
+        'plz' => 'Postal Code',
+        'ort' => 'City',
+        'strasse_nr' => 'Street & Number',
+        'telefonnummer_portierung' => 'Phone Number for Porting',
+        'telefonnummer_portierung_placeholder' => 'Enter the phone number you want to port',
+        'telefonnummer_portierung_help' => 'Enter the phone number you want to transfer from your current provider.',
+        'save' => 'Save Porting Information',
+        'saved' => 'Saved',
+        'edit' => 'Edit',
+        'complete_first' => 'Please complete the phone porting information before proceeding.',
     ],
 
     // Web Order conversion moved under crm.web_order

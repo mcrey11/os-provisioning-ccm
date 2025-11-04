@@ -91,6 +91,7 @@ return [
         'payment_method_acs' => 'Aktivieren Sie ACS (Automated Clearing Service) als verfügbare Zahlungsmethode für Kunden.',
         'payment_method_credit_card' => 'Aktivieren Sie Kreditkartenzahlung als verfügbare Zahlungsmethode für Kunden.',
         'postal_invoice_product_id' => 'Wählen Sie das Produkt aus, das für Papierrechnungen verwendet werden soll. Dies sollte ein Produkt vom Typ "Postal" sein. Wird in WebOrder und CCC für die Rechnungszustellung verwendet.',
+        'transfer_phone_product_id' => 'Wählen Sie das Produkt aus, das für Telefonnummernportierung verwendet werden soll. Wenn dieses Produkt während WebOrder oder CCC-Upgrade ausgewählt wird, werden Kunden aufgefordert, Portierungsinformationen anzugeben.',
         'cache_notice_title' => 'WICHTIG: Daten werden gecacht',
         'cache_notice' => 'Konfigurationsdaten werden für die Performance gecacht. Nach Änderungen bitte den Cache mit folgendem Befehl leeren:',
     ],
@@ -103,6 +104,7 @@ return [
         'payment_method_acs' => 'Aktivieren Sie ACS (Automated Clearing Service) als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',
         'payment_method_credit_card' => 'Aktivieren Sie Kreditkartenzahlung als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',
         'postal_invoice_product_id' => 'Wählen Sie das Produkt aus, das für Papierrechnungen verwendet werden soll. Dies sollte ein Produkt vom Typ "Postal" sein.',
+        'transfer_phone_product_id' => 'Wählen Sie das Produkt aus, das für Telefonnummernportierung verwendet werden soll. Wenn dieses Produkt während CCC-Upgrade ausgewählt wird, werden Kunden aufgefordert, Portierungsinformationen anzugeben.',
     ],
 
     // Web Order

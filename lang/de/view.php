@@ -1168,6 +1168,9 @@ return [
         'convert_info' => 'Konvertierungsdetails',
         'convert_info_details' => 'Bestehende Posten des gleichen Typs (Internet, Voip, TV) werden mit valid_to auf gestern gesetzt. Neue Posten beginnen heute.',
         'no_weborder_items' => 'Keine Web-Bestellposten für diesen Vertrag gefunden.',
+        'weborder_item_actions' => 'Aktionen',
+        'view_weborder_item' => 'Web-Bestellposten-Details anzeigen',
+        'view_details' => 'Details anzeigen',
     ],
     'configfile' => [
         'custom_field__ont_profile_id' => 'ONT Profil-ID',
@@ -2172,6 +2175,26 @@ return [
             'next_steps_message' => 'Wir werden Ihre Bestellung prüfen und uns innerhalb von 1-2 Werktagen mit Ihnen in Verbindung setzen, um die Installation zu planen und weitere Details zu besprechen.',
             'back_to_home' => 'Zurück zur Startseite',
         ],
+    ],
+
+    // Phone Porting Translations
+    'porting' => [
+        'title' => 'Telefonnummernportierung',
+        'description' => 'Bitte geben Sie die folgenden Informationen für die Telefonnummernportierung an.',
+        'vorname' => 'Vorname',
+        'nachname' => 'Nachname',
+        'email' => 'E-Mail',
+        'telefonnummer' => 'Telefonnummer',
+        'plz' => 'PLZ',
+        'ort' => 'Ort',
+        'strasse_nr' => 'Strasse & Nr.',
+        'telefonnummer_portierung' => 'Telefonnummer für Portierung',
+        'telefonnummer_portierung_placeholder' => 'Geben Sie die Telefonnummer ein, die Sie portieren möchten',
+        'telefonnummer_portierung_help' => 'Geben Sie die Telefonnummer ein, die Sie von Ihrem aktuellen Anbieter übertragen möchten.',
+        'save' => 'Portierungsinformationen speichern',
+        'saved' => 'Gespeichert',
+        'edit' => 'Bearbeiten',
+        'complete_first' => 'Bitte vervollständigen Sie die Telefonnummernportierungsinformationen, bevor Sie fortfahren.',
     ],
 
     // Invoice Address (CCC Module)
