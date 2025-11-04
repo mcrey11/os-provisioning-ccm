@@ -157,9 +157,9 @@ class PaymentMethodSelection extends Component
             if ($this->cccConfig->payment_method_rechnung) {
                 $priceInfo = '';
                 if ($this->postalInvoiceProduct && $this->postalInvoiceProduct->price) {
-                    $formattedPrice = number_format($this->postalInvoiceProduct->price, 2, ',', '.');
+                    $formattedPriceWithCurrency = \Modules\BillingBase\Providers\BillingConf::formatPriceWithCurrency($this->postalInvoiceProduct->price);
                     $billingCycle = $this->getBillingCycleLabel($this->postalInvoiceProduct->billing_cycle ?? 'monthly');
-                    $priceInfo = " (€{$formattedPrice} / {$billingCycle})";
+                    $priceInfo = " ({$formattedPriceWithCurrency} / {$billingCycle})";
                 }
 
                 $methods['rechnung'] = [
@@ -208,14 +208,13 @@ class PaymentMethodSelection extends Component
             return null;
         }
 
-        $currency = \Modules\BillingBase\Providers\BillingConf::currency();
-        $formattedPrice = number_format($product->price, 2, ',', '.');
+        $formattedPriceWithCurrency = \Modules\BillingBase\Providers\BillingConf::formatPriceWithCurrency($product->price);
         $billingCycle = $this->getBillingCycleLabel($product->billing_cycle ?? 'monthly');
 
         return [
-            'formatted' => "{$currency}{$formattedPrice}",
+            'formatted' => $formattedPriceWithCurrency,
             'cycle' => $billingCycle,
-            'full' => "{$currency}{$formattedPrice} / {$billingCycle}",
+            'full' => "{$formattedPriceWithCurrency} / {$billingCycle}",
         ];
     }
 
