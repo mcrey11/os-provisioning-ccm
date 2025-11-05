@@ -146,6 +146,7 @@ class ModemController extends \BaseController
                 $contractSelectHidden = 'C';
             }
         }
+        $configfileDevice = $model->exists ? $model->configfile->device : null;
         $a = [
             ['form_type' => 'text', 'name' => 'name', 'description' => 'Name'],
             [
@@ -156,7 +157,7 @@ class ModemController extends \BaseController
                 'help' => trans('helper.configfile_count').' '.trans('helper.modem.configfileSelect'),
                 'options' => [
                     'class' => 'select2-ajax',
-                    'ajax-route' => route($this->select2AjaxRoute, ['relation' => 'configfiles']),
+                    'ajax-route' => route($this->select2AjaxRoute, ['relation' => 'configfiles', 'device' => $configfileDevice]),
                 ],
                 'select' => $cfIds['keyById'],
             ],

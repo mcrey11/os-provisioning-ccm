@@ -24,14 +24,16 @@ trait HasConfigfile
      */
     public function select2Configfiles(?string $search): \Illuminate\Database\Eloquent\Builder
     {
-        return Configfile::select('id', 'name as text')
+        $device = request('device') ? [request('device')] : static::TYPES;
+
+        return Configfile::selectRaw('id, CONCAT(device, \': \', name) as text')
             ->when($this->table == 'modem', function ($query) {
                 return $query->withCount(['modem as count']);
             })
             ->when($this->table == 'mta', function ($query) {
                 return $query->withCount(['mtas as count']);
             })
-            ->whereIn('device', $this->exists ? [$this->configfile->device] : static::TYPES)
+            ->whereIn('device', $device)
             ->where('public', 'yes')
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'ilike', "%{$search}%");
