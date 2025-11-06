@@ -771,6 +771,10 @@ return [
     'deletedTicketUsers'        => 'Deleted from ticket :id',
     'deletedTicketUsersMessage' => 'You have been removed from a ticket.',
     'ticketUpdatedMessage'      => 'this ticket has been updated.',
+    'ticket_created'             => 'Ticket created successfully',
+    'ticket_updated'             => 'Ticket updated successfully',
+    'comment_created'            => 'Comment created successfully',
+    'contract_not_found'         => 'Contract not found for CCC user',
     'isLegacyTicket'            => 'This is a legacy Ticket, that has no relationship.',
     'notConnectedTicket'        => 'This Ticket has no relationship.',
     'noTicketsAtAll'            => 'Enjoy your day! Currently there are no Tickets assigned to you!',
@@ -1019,4 +1023,5 @@ return [
     'productChangeNotAllowedExternalStatus' => 'Changing the product is not allowed ("External status" is not empty).',
     'Please_select_pipeline_first' => 'Please select pipeline first',
     'log_out' => 'Log out',
+    'validation_failed' => 'Please correct the following errors',
 ];

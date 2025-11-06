@@ -754,8 +754,10 @@ return [
     'status' => 'Status',
     'tax.rate' => 'Prozentsatz/Betrag',
     'ticket' => [
+        'index' => 'Tickets',
         'assigned_users' => 'Bearbeiter',
         'created_at' => 'Erstellt am',
+        'description' => 'Beschreibung',
         'duedate' => 'Fälligkeitsdatum',
         'id' => 'ID',
         'name' => 'Titel',

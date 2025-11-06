@@ -773,6 +773,10 @@ return [
     'deletedTicketUsers'        => 'Gelöscht von Ticket :id',
     'deletedTicketUsersMessage' => 'Du wurdest aus einem Ticket entfernt.',
     'ticketUpdatedMessage'      => 'das Ticket wurde geändert.',
+    'ticket_created'             => 'Ticket erfolgreich erstellt',
+    'ticket_updated'             => 'Ticket erfolgreich aktualisiert',
+    'comment_created'            => 'Kommentar erfolgreich erstellt',
+    'contract_not_found'         => 'Vertrag für CCC-Benutzer nicht gefunden',
     'isLegacyTicket'            => 'Dies ist ein veraltetes Ticket. Es ist mit keiner anderen Entität verknüpft.',
     'notConnectedTicket'        => 'Dieses Ticket besitzt keine Verknüpfung.',
     'noTicketsAtAll'            => 'Genieße den Tag! Dir sind aktuell keine Tickets zugewiesen!',
@@ -1021,4 +1025,5 @@ return [
     'productChangeNotAllowedExternalStatus' => 'Ändern des Produktes ist nicht erlaubt („Externer Status" ist nicht leer).',
     'Please_select_pipeline_first' => 'Bitte wählen Sie zuerst eine Pipeline aus',
     'log_out' => 'Abmelden',
+    'validation_failed' => 'Bitte korrigieren Sie die folgenden Fehler',
 ];

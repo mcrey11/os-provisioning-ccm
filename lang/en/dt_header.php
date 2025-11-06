@@ -813,8 +813,10 @@ return [
     'ticket' => [
         'assigned_users' => 'Assigned Users',
         'created_at' => 'Created at',
+        'description' => 'Description',
         'duedate' => 'Due Date',
         'id' => 'ID',
+        'index' => 'Tickets',
         'name' => 'Title',
         'priority' => 'Priority',
         'state' => 'State',

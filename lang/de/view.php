@@ -146,6 +146,7 @@ return [
 
     'Menu_CDRs' => 'EVNs',
     'Menu_Tickets' => 'Tickets',
+    'Menu_ticket' => 'Tickets',
     'Menu_Comment' => 'Kommentare',
 
     'Menu_SpriSupplierApi' => 'S/PRI',
@@ -504,6 +505,7 @@ return [
             'changeRequest' => 'Änderungsantrag',
             'documents' => 'Dokumente',
             'speedtest' => 'Speedtest',
+            'ticket' => 'Tickets',
         ],
     ],
 
@@ -673,6 +675,7 @@ return [
     'commandCenter' => 'Kommandozentrale',
     'company' => 'Firma',
     'CoreMon' => 'Headend Monitoring',
+    'Comment' => 'Kommentar',
     'createButtonTitle' => [
         'Apartment' => 'Wohnung anlegen',
         'Configfile' => 'Konfigurationsdatei erstellen',
@@ -1072,7 +1075,15 @@ return [
         'toTicketReceiver' => 'Zur Ticketzentrale',
         'legacyTicket' => 'Dieses Ticket besitzt keine Verknüpfung. Es sind daher keine weiteren Details verfügbar.',
         'noComments' => 'Keine Kommentare verfügbar',
+        'commentPlaceholder' => 'Schreiben Sie hier Ihren Kommentar...',
+        'me' => 'Ich',
         'noTicketsDescription' => 'Es sind derzeit keine Tickets mit diesem Element verknüpft.',
+        'noTickets' => 'Keine Tickets verfügbar',
+        'create' => 'Ticket erstellen',
+        'edit' => 'Ticket bearbeiten',
+        'selectTicketToViewComments' => 'Bitte wählen Sie ein Ticket aus, um Kommentare anzuzeigen',
+        'selectOrCreate' => 'Ticket auswählen oder erstellen',
+        'selectOrCreateDescription' => 'Bitte wählen Sie ein vorhandenes Ticket aus der Liste aus oder klicken Sie auf "Ticket erstellen", um ein neues zu erstellen.',
         'late' => 'verspätet',
         'showContract' => 'Zum Vertrag',
         'modemAnalysis' => 'Modem Analyse',
@@ -1299,6 +1310,7 @@ return [
     'externalStatus' => 'Externer Status',
     // CRM
     'crm' => [
+        'support_contact' => 'Support-Kontakt',
         'contact' => [
             'type' => 'Kontakttyp',
             'salutation' => 'Anrede',
@@ -1543,7 +1555,7 @@ return [
             'create_first_pipeline' => 'Erste Pipeline erstellen',
             'invalid_move' => 'Ungültiger Zug: Opportunity oder Phase nicht gefunden.',
             'opportunity_moved' => 'Opportunity erfolgreich verschoben.',
-            'unknown_contact' => 'Unbekannter Kontakt',
+            'support_contact' => 'Support-Kontakt',
             'probability' => 'Wahrscheinlichkeit',
             // Filter-bezogene Übersetzungen
             'filters' => 'Filter',

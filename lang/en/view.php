@@ -138,6 +138,7 @@ return [
 
     'Menu_CDRs' => 'CDRs',
     'Menu_Tickets' => 'Tickets',
+    'Menu_ticket' => 'Tickets',
     'Menu_Comment' => 'Comments',
 
     'Menu_SpriSupplierApi' => 'S/PRI',
@@ -494,6 +495,7 @@ return [
             'changeRequest' => 'Change Request',
             'documents' => 'Documents',
             'speedtest' => 'Speedtest',
+            'ticket' => 'Tickets',
         ],
     ],
 
@@ -663,6 +665,7 @@ return [
     'commandCenter' => 'Command Center',
     'company' => 'Company',
     'CoreMon' => 'Headend Monitoring',
+    'Comment' => 'Comment',
     'createButtonTitle' => [
         'Apartment' => 'Create Apartment',
         'Comment' => 'Create Comment',
@@ -1063,7 +1066,15 @@ return [
         'toTicketReceiver' => 'Show TicketReceiver',
         'legacyTicket' => 'This Ticket has no relation, hence no details can be displayed!',
         'noComments' => 'No comments available',
+        'commentPlaceholder' => 'Write your comment here...',
+        'me' => 'Me',
         'noTicketsDescription' => 'There are currently no tickets associated with this item.',
+        'noTickets' => 'No tickets available',
+        'create' => 'Create Ticket',
+        'edit' => 'Edit Ticket',
+        'selectTicketToViewComments' => 'Select a ticket to view comments',
+        'selectOrCreate' => 'Select or Create a Ticket',
+        'selectOrCreateDescription' => 'Please select an existing ticket from the list or click "Create Ticket" to create a new one.',
         'late' => 'late',
         'showContract' => 'Show Contract',
         'modemAnalysis' => 'Modem Analysis',
@@ -1290,6 +1301,7 @@ return [
     'externalStatus' => 'External status',
     // CRM
     'crm' => [
+        'support_contact' => 'Support Contact',
         'contact' => [
             'type' => 'Contact Type',
             'salutation' => 'Salutation',
@@ -1534,7 +1546,7 @@ return [
             'create_first_pipeline' => 'Create First Pipeline',
             'invalid_move' => 'Invalid move: opportunity or stage not found.',
             'opportunity_moved' => 'Opportunity moved successfully.',
-            'unknown_contact' => 'Unknown Contact',
+            'support_contact' => 'Support Contact',
             'probability' => 'Probability',
             // Filter related translations
             'filters' => 'Filters',
