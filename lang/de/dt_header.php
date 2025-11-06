@@ -158,6 +158,7 @@ return [
         'payment_method_credit_card' => 'Kreditkarte',
         'postal_invoice_product_id' => 'Produkt für Papierrechnungen',
         'transfer_phone_product_id' => 'Produkt für Telefonnummernportierung',
+        'customer_ticket_type_parent' => 'Kunden-Ticket-Typ-Übergeordnet (CCC)',
     ],
     'web_order' => [
         'contact_point_id' => 'Kontaktpunkt',

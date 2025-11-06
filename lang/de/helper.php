@@ -105,6 +105,7 @@ return [
         'payment_method_credit_card' => 'Aktivieren Sie Kreditkartenzahlung als verfügbare Zahlungsmethode für Kunden im CCC-Portal.',
         'postal_invoice_product_id' => 'Wählen Sie das Produkt aus, das für Papierrechnungen verwendet werden soll. Dies sollte ein Produkt vom Typ "Postal" sein.',
         'transfer_phone_product_id' => 'Wählen Sie das Produkt aus, das für Telefonnummernportierung verwendet werden soll. Wenn dieses Produkt während CCC-Upgrade ausgewählt wird, werden Kunden aufgefordert, Portierungsinformationen anzugeben.',
+        'customer_ticket_type_parent' => 'Wählen Sie den übergeordneten Ticket-Typ aus, der als Wurzel für Kunden-Änderungsanfragen im CCC-Portal verwendet wird. Kunden können aus Ticket-Typen auswählen, die Kinder dieses übergeordneten Typs sind.',
     ],
 
     // Web Order

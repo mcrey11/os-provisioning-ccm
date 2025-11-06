@@ -157,6 +157,7 @@ return [
         'payment_method_credit_card' => 'Credit Card',
         'postal_invoice_product_id' => 'Product for Postal Invoice',
         'transfer_phone_product_id' => 'Product for Transfer Telephone Number',
+        'customer_ticket_type_parent' => 'Customer Ticket Type Parent (CCC)',
     ],
     'web_order' => [
         'contact_point_id' => 'Contact Point',

@@ -105,6 +105,7 @@ return [
         'payment_method_credit_card' => 'Enable credit card payment as an available payment method for customers in the CCC portal.',
         'postal_invoice_product_id' => 'Select the product to use for postal invoices. This should be a product of type "Postal".',
         'transfer_phone_product_id' => 'Select the product to use for telephone number porting. When this product is selected during CCC upgrade, customers will be asked to provide porting information.',
+        'customer_ticket_type_parent' => 'Select the parent ticket type that will be used as the root for customer change requests in the CCC portal. Customers will be able to select from ticket types that are children of this parent.',
     ],
 
     // Web Order
