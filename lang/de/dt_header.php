@@ -668,6 +668,7 @@ return [
     ],
     'assigned_users' => 'Bearbeiter',
     'tickettypes.name' => 'Typ',
+    'tickettypes_name' => 'Typ',
     'ticketTypeState.name' => 'Zustand',
     'ticket_type_state.name' => 'Name',
     'ticket_type_transition' => [
