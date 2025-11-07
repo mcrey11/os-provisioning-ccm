@@ -56,12 +56,8 @@ $formats = [
 ];
 
 $colRename = [
-    'ModemOption' => 'modem_option',
-    'TicketType' => 'ticket_type',
-    'GlobalConfig' => 'global_config',
     'User' => 'users',
     'Role' => 'roles',
-    'FirmwareUpgrade' => 'firmware_upgrade',
 ];
 
 $ignore = [
@@ -168,6 +164,16 @@ foreach ($apiRoutes as $route) {
     $ret['components']['schemas'][$entity]['type'] = 'object';
     foreach ($fields as $column => $values) {
         $table = array_key_exists($entity, $colRename) ? $colRename[$entity] : strtolower($entity);
+        if (in_array("$table.$column", $ignore)) {
+            continue;
+        }
+
+        // convert CamelCase to underscore_case and try again
+        try {
+            $columnType = Schema::getColumnType($table, $column);
+        } catch(InvalidArgumentException $e) {
+            $table = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $entity));
+        }
         if (in_array("$table.$column", $ignore)) {
             continue;
         }
