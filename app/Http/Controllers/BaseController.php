@@ -1544,7 +1544,9 @@ class BaseController extends Controller
      *	$I 		: used to increment over specficied colours (defined in variable)
      */
     public static $INDEX = 0;
+
     public static $I = 0;
+
     public static $colours = ['', 'text-danger', 'text-success', 'text-warning', 'text-info'];
 
     /**
@@ -1720,7 +1722,19 @@ class BaseController extends Controller
             }
 
             if ($join['group_by'] ?? null) {
-                $query->groupBy($join['group_by']);
+                if (is_array($join['group_by'])) {
+                    // Handle array of group by expressions (may contain raw SQL)
+                    foreach ($join['group_by'] as $groupByItem) {
+                        // Check if it's a raw expression (contains -> or other SQL operators)
+                        if (str_contains($groupByItem, '->') || str_contains($groupByItem, '(')) {
+                            $query->groupByRaw($groupByItem);
+                        } else {
+                            $query->groupBy($groupByItem);
+                        }
+                    }
+                } else {
+                    $query->groupBy($join['group_by']);
+                }
             }
         }
 
@@ -1744,6 +1758,15 @@ class BaseController extends Controller
 
         $this->cacheTableEntryCount($DT, $model);
 
+        // Custom order columns (for dynamic fields that need raw SQL expressions)
+        if (isset($dtConfig['orderColumns'])) {
+            foreach ($dtConfig['orderColumns'] as $column => $orderExpression) {
+                $DT->orderColumn($column, function ($query, $order) use ($orderExpression) {
+                    $query->orderByRaw("{$orderExpression} {$order}");
+                });
+            }
+        }
+
         // Filters
         foreach ($filterColumnData as $column => $customQuery) {
             // backward compatibility – accept strings as input, too
@@ -1758,6 +1781,11 @@ class BaseController extends Controller
             }
 
             $DT->filterColumn($column, function ($query, $keyword) use ($customQuery) {
+                // Skip if keyword is empty
+                if (empty($keyword)) {
+                    return;
+                }
+
                 if (isset($customQuery['lowercase']) && $customQuery['lowercase']) {
                     $keyword = strtolower($keyword);
                 }
@@ -1766,7 +1794,9 @@ class BaseController extends Controller
                     $keyword = "%{$keyword}%";
                 }
 
-                $query->with($customQuery['eagers'])->whereRaw($customQuery['query'], [$keyword]);
+                // Use whereRaw to apply the custom query
+                // This works with GROUP BY as WHERE is applied before GROUP BY
+                $query->with($customQuery['eagers'] ?? [])->whereRaw($customQuery['query'], [$keyword]);
             });
         }
 

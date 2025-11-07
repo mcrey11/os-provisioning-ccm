@@ -139,8 +139,16 @@
 
                         <th class="content" style="text-align:center; vertical-align:middle;">
                             @if ((! $model->countryDependingTranslationFields) || (! in_array($field, $model->countryDependingTranslationFields)))
-                                {{-- default header translation --}}
-                                {{ trans('dt_header.'.$field).' ' }}
+                                {{-- Check for custom header label first, then fall back to translation --}}
+                                @if (isset($indexTableInfo['header_labels'][$field]))
+                                    {{ $indexTableInfo['header_labels'][$field].' ' }}
+                                @else
+                                    {{-- default header translation --}}
+                                    @php
+                                        $translated = trans('dt_header.'.$field);
+                                    @endphp
+                                    {{ ($translated !== 'dt_header.'.$field ? $translated : $field).' ' }}
+                                @endif
                             @else
                                 {{-- there may be country specicfic translations --}}
                                 @php
