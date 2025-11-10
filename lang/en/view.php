@@ -1822,6 +1822,7 @@ return [
                 'estimated_speed' => 'Estimated Speed',
                 'success' => 'Great! Service is available at your location. Redirecting to order form...',
                 'error' => 'Sorry, we encountered an error checking availability. Please try again.',
+                'completed_successfully' => 'Availability check completed successfully.',
 
                 'status' => [
                     'available' => 'Available',

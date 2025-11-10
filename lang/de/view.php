@@ -1819,6 +1819,7 @@ return [
                 'estimated_speed' => 'Geschätzte Geschwindigkeit',
                 'success' => 'Großartig! Der Service ist an Ihrem Standort verfügbar. Weiterleitung zum Bestellformular...',
                 'error' => 'Entschuldigung, beim Prüfen der Verfügbarkeit ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
+                'completed_successfully' => 'Verfügbarkeitsprüfung erfolgreich abgeschlossen.',
 
                 'status' => [
                     'available' => 'Verfügbar',
