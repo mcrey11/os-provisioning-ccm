@@ -31,5 +31,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/api/v0/CoreMon/prometheus/webhook',
         'telegraf/kafka/webhook',
+        // Payment webhook callbacks - secured by cryptographic signature validation
+        'setPaymentMethodResponse',
+        'admin/orderportal-payment-response',
     ];
 }
