@@ -92,6 +92,7 @@ return [
         'payment_method_credit_card' => 'Aktivieren Sie Kreditkartenzahlung als verfügbare Zahlungsmethode für Kunden.',
         'postal_invoice_product_id' => 'Wählen Sie das Produkt aus, das für Papierrechnungen verwendet werden soll. Dies sollte ein Produkt vom Typ "Postal" sein. Wird in WebOrder und CCC für die Rechnungszustellung verwendet.',
         'transfer_phone_product_id' => 'Wählen Sie das Produkt aus, das für Telefonnummernportierung verwendet werden soll. Wenn dieses Produkt während WebOrder oder CCC-Upgrade ausgewählt wird, werden Kunden aufgefordert, Portierungsinformationen anzugeben.',
+        'weborder_legal_urls' => 'Eine Zeile pro Checkbox. Format: "Name: URL". Jede Zeile wird als Checkbox angezeigt, die Kunden vor dem Abschluss ihrer Bestellung akzeptieren müssen. Beispiel: Allgemeine Geschäftsbedingungen: https://example.com/terms/',
         'cache_notice_title' => 'WICHTIG: Daten werden gecacht',
         'cache_notice' => 'Konfigurationsdaten werden für die Performance gecacht. Nach Änderungen bitte den Cache mit folgendem Befehl leeren:',
     ],

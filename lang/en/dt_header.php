@@ -147,6 +147,7 @@ return [
         'payment_method_credit_card' => 'Credit Card',
         'postal_invoice_product_id' => 'Product for Postal Invoice',
         'transfer_phone_product_id' => 'Product for Transfer Telephone Number',
+        'weborder_legal_urls' => 'Legal URLs (comma-separated)',
     ],
     'ccc_config' => [
         'block_internet_downselling' => 'Block Internet Downselling',

@@ -2118,6 +2118,10 @@ return [
 
         'edit_payment_method' => 'Edit Payment Method',
         'complete_order' => 'Complete Order',
+        'accept' => 'I accept',
+        'legal_acceptance_required' => 'Please accept all legal documents to continue',
+        'legal_acceptance_label' => 'I have read and accept the',
+        'legal_acceptance_label_suffix' => '',
 
         'status' => [
             'pending' => 'Pending',

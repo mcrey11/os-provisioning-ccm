@@ -148,6 +148,7 @@ return [
         'payment_method_credit_card' => 'Kreditkarte',
         'postal_invoice_product_id' => 'Produkt für Papierrechnungen',
         'transfer_phone_product_id' => 'Produkt für Telefonnummernportierung',
+        'weborder_legal_urls' => 'Rechtliche URLs (kommagetrennt)',
     ],
     'ccc_config' => [
         'block_internet_downselling' => 'Internet-Downselling blockieren',

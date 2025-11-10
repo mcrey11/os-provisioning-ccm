@@ -92,6 +92,7 @@ return [
         'payment_method_credit_card' => 'Enable credit card payment as an available payment method for customers.',
         'postal_invoice_product_id' => 'Select the product to use for postal invoices. This should be a product of type "Postal". Used in both WebOrder and CCC for invoice delivery.',
         'transfer_phone_product_id' => 'Select the product to use for telephone number porting. When this product is selected during weborder or CCC upgrade, customers will be asked to provide porting information.',
+        'weborder_legal_urls' => 'One line per checkbox. Format: "Name: URL". Each line will be displayed as a checkbox that customers must accept before completing their order. Example: Terms & Conditions: https://example.com/terms/',
         'cache_notice_title' => 'IMPORTANT: Data is cached',
         'cache_notice' => 'Configuration data is cached for performance. After making changes, please clear the cache using the following command:',
     ],

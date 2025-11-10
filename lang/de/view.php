@@ -2121,6 +2121,13 @@ return [
             'info' => 'Ihre Zahlung wird sicher über unser Zahlungsgateway verarbeitet.',
         ],
 
+        'edit_payment_method' => 'Zahlungsmethode bearbeiten',
+        'complete_order' => 'Bestellung abschließen',
+        'accept' => 'Ich akzeptiere',
+        'legal_acceptance_required' => 'Bitte akzeptieren Sie alle rechtlichen Dokumente, um fortzufahren',
+        'legal_acceptance_label' => 'Ich habe die',
+        'legal_acceptance_label_suffix' => 'gelesen und akzeptiert',
+
         'status' => [
             'pending' => 'Ausstehend',
             'processing' => 'Wird verarbeitet',
