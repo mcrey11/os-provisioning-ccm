@@ -2138,10 +2138,10 @@ return [
         // Handle common variations
         'one-time' => 'One-time',
         'one_time' => 'One-time',
-        'month' => 'Monthly',
-        'quarter' => 'Quarterly',
+        'month' => 'month',
+        'quarter' => 'quarter',
         'annual' => 'Annually',
-        'year' => 'Yearly',
+        'year' => 'year',
     ],
 
     // Web Order Conversion Translations

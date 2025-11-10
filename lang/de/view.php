@@ -2140,10 +2140,10 @@ return [
         // Handle common variations
         'one-time' => 'Einmalig',
         'one_time' => 'Einmalig',
-        'month' => 'Monatlich',
-        'quarter' => 'Vierteljährlich',
+        'month' => 'Monat',
+        'quarter' => 'Quartal',
         'annual' => 'Jährlich',
-        'year' => 'Jährlich',
+        'year' => 'Jahr',
     ],
 
     // Web Order Conversion Translations
