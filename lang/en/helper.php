@@ -100,6 +100,7 @@ return [
         'cache_notice_title' => 'IMPORTANT: Data is cached',
         'cache_notice' => 'Configuration data is cached for performance. After making changes, please clear the cache using the following command:',
         'block_internet_downselling' => 'Prevents customers in the CCC portal from selecting a slower internet plan than their current plan. Default: enabled.',
+        'allow_modem_address_switching' => 'Allows customers in the CCC portal to change their modem address. When disabled, the modem address menu item will be hidden. Default: disabled.',
         'payment_method_sepa' => 'Enable SEPA direct debit as an available payment method for customers in the CCC portal.',
         'payment_method_rechnung' => 'Enable invoice (bank transfer) as an available payment method for customers in the CCC portal.',
         'payment_method_acs' => 'Enable ACS (Automated Clearing Service) as an available payment method for customers in the CCC portal.',

@@ -152,6 +152,7 @@ return [
     ],
     'ccc_config' => [
         'block_internet_downselling' => 'Internet-Downselling blockieren',
+        'allow_modem_address_switching' => 'Modem-Adresswechsel erlauben',
         'payment_methods_heading' => 'Zahlungsmethoden',
         'payment_method_sepa' => 'SEPA',
         'payment_method_rechnung' => 'Rechnung',
