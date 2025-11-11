@@ -151,9 +151,12 @@ class DynamicFormFields implements Htmlable
         return $this;
     }
 
+    protected ?bool $buildingRules = false;
+
     public function fields(): array
     {
         if (is_null($this->fields)) {
+            $this->buildingRules = false;
             $this->build();
         }
 
@@ -163,7 +166,9 @@ class DynamicFormFields implements Htmlable
     public function rules(): array
     {
         if (is_null($this->rules)) {
+            $this->buildingRules = true;
             $this->build();
+            $this->buildingRules = false;
         }
 
         return $this->rules ?? [];
@@ -185,21 +190,33 @@ class DynamicFormFields implements Htmlable
     protected function build(): static
     {
         // Prefer request('custom_data') for pre-filling, fallback to fieldable/model data
-        $requestCustomData = request()->input($this->name, []);
+        // Only read from request when building fields for display, NOT when building rules
+        // This prevents interfering with form submission and other form fields
+        $requestCustomData = [];
+        if (! $this->buildingRules && request()->isMethod('GET')) {
+            $requestInput = request()->input($this->name);
+            if ($requestInput !== null && is_array($requestInput)) {
+                $requestCustomData = $requestInput;
+            }
+        }
         $data = is_array($this->fieldable) ? $this->fieldable : data_get($this->fieldable, $this->name, []);
-        $this->fields = collect(value($this->schema))
-            ->mapInto(Fluent::class)
-            ->reject(fn ($item) => empty($item->key)) // remove any item having no key
-            ->map(function (Fluent $item) use ($data, $requestCustomData) {
-                $rules = collect([$item->required ? 'required' : 'nullable'])
-                    ->when($item->type == 'checkbox')->push('boolean')
-                    ->merge($item->rules ?? []);
+        // Ensure $data is always an array
+        if (! is_array($data)) {
+            $data = [];
+        }
+        $this->fields = collect(value($this->schema))->
+            mapInto(Fluent::class)->
+            reject(fn ($item) => empty($item->key))-> // remove any item having no key
+            map(function (Fluent $item) use ($data, $requestCustomData) {
+                $rules = collect([$item->required ? 'required' : 'nullable'])->
+                    when($item->type == 'checkbox')->push('boolean')->
+                    merge($item->rules ?? []);
 
                 $name = str("$this->name.$item->key");
                 // Prefer request value, fallback to model/array value
-                $value = array_key_exists($item->key, $requestCustomData)
-                    ? $requestCustomData[$item->key]
-                    : data_get($data, $item->key);
+                $value = array_key_exists($item->key, $requestCustomData) ?
+                    $requestCustomData[$item->key] :
+                    data_get($data, $item->key);
 
                 // Handle database type by converting to select with database values
                 $formType = $item->type;
@@ -217,10 +234,10 @@ class DynamicFormFields implements Htmlable
                 ];
 
                 if ($item->type == 'select') {
-                    $selectOptions = str($item->select_options)
-                        ->explode(',')
-                        ->unshift('') // Add empty option
-                        ->mapWithKeys(fn ($o) => [trim($o) => trim($o)]);
+                    $selectOptions = str($item->select_options)->
+                        explode(',')->
+                        unshift('')-> // Add empty option
+                        mapWithKeys(fn ($o) => [trim($o) => trim($o)]);
 
                     $values = [
                         'value' => $selectOptions,
@@ -279,8 +296,8 @@ class DynamicFormFields implements Htmlable
 
             // Build the SQL query using CONCAT for display fields
             $concatExpression = implode(', ', $concatParts);
-            $query = DB::table($tableName)
-                ->selectRaw("$keyValue as id, CONCAT($concatExpression) as display");
+            $query = DB::table($tableName)->
+                selectRaw("$keyValue as id, CONCAT($concatExpression) as display");
 
             // Apply SQL filter if provided
             $sqlFilter = $item->sql_filter ?? '';
