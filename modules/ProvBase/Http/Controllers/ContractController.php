@@ -325,6 +325,29 @@ class ContractController extends \BaseController
             $model = new Contract;
         }
 
+        // Handle POST data when creating Contract from Customer (via relation.blade.php)
+        // Most POST data is automatically handled by BaseViewController::prepare_form_fields via $_POST
+        // We only need to handle salutation mapping (English → German) and customer_id for select2
+        if (! $model->exists && Module::collections()->has('Crm')) {
+            // Map salutation_for_contract and academic_degree_for_contract from POST to salutation and academic_degree
+            // This handles the mapping from Customer (English) to Contract (German) salutations
+            if (request()->has('salutation_for_contract')) {
+                request()->merge(['salutation' => request('salutation_for_contract')]);
+            }
+            if (request()->has('academic_degree_for_contract')) {
+                request()->merge(['academic_degree' => request('academic_degree_for_contract')]);
+            }
+
+            // Set customer_id on model for select2 pre-selection (from POST or GET)
+            $customerId = request('customer_id') ?: request('_id');
+            if ($customerId) {
+                $model->customer_id = $customerId;
+                if ($customer = \Modules\Crm\Entities\Customer::find($customerId)) {
+                    $model->setRelation('customer', $customer);
+                }
+            }
+        }
+
         if (Module::collections()->has('SmartOnt')) {
             if (config('smartont.flavor.active') == 'GESA') {
                 return $this->viewFormFieldsGesaOto($model);
@@ -347,35 +370,65 @@ class ContractController extends \BaseController
         }
 
         // label has to be the same like column in sql table
-        $a = [
-            // basic data
-            ['form_type' => 'text', 'name' => 'number', 'description' => $model->get_column_description('number'), 'help' => trans('helper.contract.number')],
-            [
-                'form_type' => 'collapse', 'name' => 'collapse', 'description' => trans('view.collapseNumbers'), 'space' => 1, 'form_fields' => [
-                    ['form_type' => 'text', 'name' => 'number2', 'description' => $model->get_column_description('number2')],
-                    ['form_type' => 'text', 'name' => 'number3', 'description' => $model->get_column_description('number3'), 'help' => 'If left empty contract number will be used as customer number, too.'],
-                    ['form_type' => 'text', 'name' => 'number4', 'description' => $model->get_column_description('number4')],
-                ],
-            ],
-            ['form_type' => 'text', 'name' => 'debtor', 'description' => 'Debtor'],
-            // 'create' makes this field a hidden input field in Modem create form - so the company, etc. will be already set from contract when the user wants to create a new modem
-            ['form_type' => 'text', 'name' => 'company', 'description' => 'Company', 'create' => ['Modem']],
-            ['form_type' => 'text', 'name' => 'department', 'description' => 'Department', 'create' => ['Modem']],
-            ['form_type' => 'select', 'name' => 'salutation', 'description' => 'Salutation', 'value' => $model->getSalutationOptions(), 'create' => ['Modem'], 'help' => trans('helper.contract.salutation')],
-            ['form_type' => 'select', 'name' => 'academic_degree', 'description' => 'Academic Degree', 'value' => $model->getAcademicDegreeOptions()],
-            ['form_type' => 'text', 'name' => 'firstname', 'description' => 'Firstname', 'create' => ['Modem']],
-            ['form_type' => 'text', 'name' => 'lastname', 'description' => 'Lastname', 'create' => ['Modem'], 'space' => '1'],
+        $a = [];
 
-            array_merge(['form_type' => 'text', 'name' => 'street', 'description' => 'Street', 'create' => ['Modem'], 'autocomplete' => []], $selectPropertyMgmt),
-            array_merge(['form_type' => 'text', 'name' => 'house_number', 'description' => 'House Number', 'create' => ['Modem']], $selectPropertyMgmt),
-            array_merge(['form_type' => 'text', 'name' => 'zip', 'description' => 'Postcode', 'create' => ['Modem'], 'autocomplete' => []], $selectPropertyMgmt),
-            array_merge(['form_type' => 'text', 'name' => 'city', 'description' => 'City', 'create' => ['Modem'], 'autocomplete' => []], $selectPropertyMgmt),
-            array_merge(['form_type' => 'text', 'name' => 'district', 'description' => 'District', 'create' => ['Modem'], 'autocomplete' => []], $selectPropertyMgmt),
-            array_merge(['form_type' => 'text', 'name' => 'country_code', 'description' => 'Country code', 'create' => ['Modem'], 'autocomplete' => []], $selectPropertyMgmt),
+        // Add customer select field at the top if CRM module is enabled
+        if (Module::collections()->has('Crm')) {
+            $initialValue = $this->setupSelect2Field($model, 'Customer', 'customer_id');
+            $customerOptions = ['' => trans('view.No Customer')];
+            foreach ($initialValue as $key => $value) {
+                if ($key !== null && $key !== '') {
+                    $customerOptions[$key] = $value;
+                }
+            }
+
+            $a[] = [
+                'form_type' => 'select',
+                'name' => 'customer_id',
+                'description' => trans('view.Menu_Customer'),
+                'value' => $customerOptions,
+                'options' => [
+                    'class' => 'select2-ajax',
+                    'data-allow-clear' => 'true',
+                    'ajax-route' => route('Customer.select2', ['relation' => 'customers']),
+                ],
+                'space' => 1,
+            ];
+        }
+
+        // basic data
+        $a[] = ['form_type' => 'text', 'name' => 'number', 'description' => $model->get_column_description('number'), 'help' => trans('helper.contract.number')];
+        $a[] = [
+            'form_type' => 'collapse', 'name' => 'collapse', 'description' => trans('view.collapseNumbers'), 'space' => 1, 'form_fields' => [
+                ['form_type' => 'text', 'name' => 'number2', 'description' => $model->get_column_description('number2')],
+                ['form_type' => 'text', 'name' => 'number3', 'description' => $model->get_column_description('number3'), 'help' => 'If left empty contract number will be used as customer number, too.'],
+                ['form_type' => 'text', 'name' => 'number4', 'description' => $model->get_column_description('number4')],
+            ],
         ];
+        $a[] = ['form_type' => 'text', 'name' => 'debtor', 'description' => 'Debtor'];
+        // 'create' makes this field a hidden input field in Modem create form - so the company, etc. will be already set from contract when the user wants to create a new modem
+        $a[] = ['form_type' => 'text', 'name' => 'company', 'description' => 'Company', 'create' => ['Modem'], 'init_value' => $model->company ?? null];
+        $a[] = ['form_type' => 'text', 'name' => 'department', 'description' => 'Department', 'create' => ['Modem'], 'init_value' => $model->department ?? null];
+        $a[] = ['form_type' => 'select', 'name' => 'salutation', 'description' => 'Salutation', 'value' => $model->getSalutationOptions(), 'create' => ['Modem'], 'help' => trans('helper.contract.salutation'), 'init_value' => $model->salutation ?? null];
+        $a[] = ['form_type' => 'select', 'name' => 'academic_degree', 'description' => 'Academic Degree', 'value' => $model->getAcademicDegreeOptions(), 'init_value' => $model->academic_degree ?? null];
+        $a[] = ['form_type' => 'text', 'name' => 'firstname', 'description' => 'Firstname', 'create' => ['Modem'], 'init_value' => $model->firstname ?? null];
+        $a[] = ['form_type' => 'text', 'name' => 'lastname', 'description' => 'Lastname', 'create' => ['Modem'], 'space' => '1', 'init_value' => $model->lastname ?? null];
+
+        $a[] = array_merge(['form_type' => 'text', 'name' => 'street', 'description' => 'Street', 'create' => ['Modem'], 'autocomplete' => [], 'init_value' => $model->street ?? null], $selectPropertyMgmt);
+        $a[] = array_merge(['form_type' => 'text', 'name' => 'house_number', 'description' => 'House Number', 'create' => ['Modem'], 'init_value' => $model->house_number ?? null], $selectPropertyMgmt);
+        $a[] = array_merge(['form_type' => 'text', 'name' => 'zip', 'description' => 'Postcode', 'create' => ['Modem'], 'autocomplete' => [], 'init_value' => $model->zip ?? null], $selectPropertyMgmt);
+        $a[] = array_merge(['form_type' => 'text', 'name' => 'city', 'description' => 'City', 'create' => ['Modem'], 'autocomplete' => [], 'init_value' => $model->city ?? null], $selectPropertyMgmt);
+        $a[] = array_merge(['form_type' => 'text', 'name' => 'district', 'description' => 'District', 'create' => ['Modem'], 'autocomplete' => [], 'init_value' => $model->district ?? null], $selectPropertyMgmt);
+        $a[] = array_merge(['form_type' => 'text', 'name' => 'country_code', 'description' => 'Country code', 'create' => ['Modem'], 'autocomplete' => [], 'init_value' => $model->country_code ?? null], $selectPropertyMgmt);
 
         if (! Module::collections()->has('Ccc')) {
-            unset($a[0]['help']);
+            // Find the number field and unset its help
+            foreach ($a as $key => $field) {
+                if (isset($field['name']) && $field['name'] === 'number') {
+                    unset($a[$key]['help']);
+                    break;
+                }
+            }
         }
 
         if (Module::collections()->has('PropertyManagement')) {
@@ -388,9 +441,9 @@ class ContractController extends \BaseController
             $a[] = ['form_type' => 'text', 'name' => 'apartment_nr', 'description' => 'Apartment number'];
         }
 
-        $a[] = ['form_type' => 'text', 'name' => 'additional', 'description' => 'Additional info', 'create' => ['Contract'], 'autocomplete' => [], 'space' => 1];
+        $a[] = ['form_type' => 'text', 'name' => 'additional', 'description' => 'Additional info', 'create' => ['Contract'], 'autocomplete' => [], 'space' => 1, 'init_value' => $model->additional ?? null];
 
-        $b1[] = ['form_type' => 'text', 'name' => 'phone', 'description' => 'Phone'];
+        $b1[] = ['form_type' => 'text', 'name' => 'phone', 'description' => 'Phone', 'init_value' => $model->phone ?? null];
 
         if (Module::collections()->has('ProvVoip')) {
             $b1[] = ['form_type' => 'text', 'name' => 'related_phonenrs', 'description' => trans('provvoip::view.contractRelatedPns'), 'options' => ['readonly']];
@@ -402,7 +455,7 @@ class ContractController extends \BaseController
 
         $b2 = [
             ['form_type' => 'text', 'name' => 'fax', 'description' => 'Fax'],
-            ['form_type' => 'text', 'name' => 'email', 'description' => 'E-Mail Address'],
+            ['form_type' => 'text', 'name' => 'email', 'description' => 'E-Mail Address', 'init_value' => $model->email ?? null],
         ];
 
         if (Module::collections()->has('Ccc') && Module::collections()->has('BillingBase') && $model->cccUser) {
@@ -411,7 +464,7 @@ class ContractController extends \BaseController
         }
 
         $b3 = [
-            ['form_type' => 'date', 'name' => 'birthday', 'description' => 'Birthday', 'create' => ['Modem'], 'space' => '1'],
+            ['form_type' => 'date', 'name' => 'birthday', 'description' => 'Birthday', 'create' => ['Modem'], 'space' => '1', 'init_value' => $model->birthday ?? null],
             ['form_type' => 'date', 'name' => 'contract_start', 'description' => 'Contract Start'],
             ['form_type' => 'date', 'name' => 'contract_end', 'description' => 'Valid to'],
         ];
@@ -497,7 +550,13 @@ class ContractController extends \BaseController
 
         $d[] = ['form_type' => 'checkbox', 'name' => 'lawsuit', 'description' => 'Ongoing lawsuit'];
 
-        return array_merge($a, $b1, $b2, $b3, $c, $d);
+        $all_fields = array_merge($a, $b1, $b2, $b3, $c, $d);
+
+        // POST data from Customer (via relation.blade.php hidden fields) is automatically handled
+        // by BaseViewController::prepare_form_fields which reads from $_POST
+        // No need for init_values - POST hidden fields work the same way as Contract -> Modem
+
+        return $all_fields;
     }
 
     /**

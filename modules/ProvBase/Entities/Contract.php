@@ -860,6 +860,15 @@ class Contract extends \BaseModel
         return $this->belongsTo(\Modules\OrderPortal\Entities\WebOrder::class, 'created_from_web_order_id');
     }
 
+    public function customer()
+    {
+        if (! Module::collections()->has('Crm')) {
+            return null;
+        }
+
+        return $this->belongsTo(\Modules\Crm\Entities\Customer::class, 'customer_id');
+    }
+
     public function customerInteractions()
     {
         return $this->morphMany(\Modules\CustomerInteraction\Entities\CiCustomerInteraction::class, 'subject');
