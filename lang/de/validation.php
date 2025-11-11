@@ -68,6 +68,7 @@ return [
         'string'  => ':attribute muss mindestens :value Zeichen lang sein.',
         'array'   => ':attribute muss mindestens :value Elemente haben.',
     ],
+    'iban' => 'Die IBAN muss gültig sein.',
     'image'                => ':attribute muss ein Bild sein.',
     'in'                   => 'Der gewählte Wert für :attribute ist ungültig.',
     'in_array'             => 'Das :attribute Feld existiert in :other nicht.',
