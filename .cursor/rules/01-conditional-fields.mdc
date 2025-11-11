@@ -1,0 +1,20 @@
+# Conditional Field Display Pattern
+
+## Laravel Framework Built-in Conditional Fields
+
+Use the `'select'` property in `view_form_fields()` for conditional field display:
+
+- **String**: `'select' => 'class1 class2'` - assigns field to CSS classes
+- **Array**: `'select' => ['option_value' => 'class_to_show']` - maps select option values to classes
+
+**Example**: When `scope_type` = 'city', show `scope_ref_city` field:
+```php
+// Trigger field (array pattern)
+['form_type' => 'select', 'name' => 'scope_type', 'select' => ['city' => 'city', 'street' => 'street']]
+
+// Conditional fields (string pattern)  
+['form_type' => 'select', 'name' => 'scope_ref_city', 'select' => 'city']
+['form_type' => 'select', 'name' => 'scope_ref_street', 'select' => 'street']
+```
+
+The framework automatically generates JavaScript in `form-js-select.blade.php` to hide all classes and show the matching one based on the trigger field's value.

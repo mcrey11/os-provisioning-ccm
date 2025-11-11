@@ -1,0 +1,10 @@
+---
+alwaysApply: true
+---
+
+{
+  "checks": [
+    { "name": "Prepare recent log", "run": "php artisan logs:tail --lines=150 --file=laravel --redact > storage/logs/cursor.log" },
+    { "name": "Run tests", "run": "php artisan test" }
+  ]
+}
