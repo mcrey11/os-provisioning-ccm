@@ -83,6 +83,10 @@ class Configfile extends \BaseModel
             return;
         }
 
+        if ('zyxelont' == $device) {
+            dd('not yet implemented');
+        }
+
         self::$customFieldDefinitions = [];
     }
 

@@ -85,6 +85,10 @@ class Qos extends \BaseModel
             return;
         }
 
+        if ('zyxelont' == $type) {
+            dd('not yet implemented');
+        }
+
         self::$customFieldDefinitions = [];
     }
 

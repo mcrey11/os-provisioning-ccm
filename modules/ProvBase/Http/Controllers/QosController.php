@@ -57,7 +57,7 @@ class QosController extends \BaseController
             'hidden' => $hidden,
         ];
 
-        if (! in_array($requestType, ['smartont', 'calixont'])) {
+        if (! in_array($requestType, ['smartont', 'calixont', 'zyxelont'])) {
             $ret[] = [
                 'form_type' => 'text',
                 'name' => 'ds_rate_max',
@@ -144,6 +144,10 @@ class QosController extends \BaseController
             $ret['calixont'] = 'ONT (Calix OLT)';
         }
 
+        if (Module::collections()->has('Zyxel')) {
+            $ret['zyxelont'] = 'ONT (Zyxel OLT)';
+        }
+
         if (Module::collections()->has('SmartOnt')) {
             $ret['smartont'] = 'Smart ONT';
         }
@@ -179,7 +183,7 @@ class QosController extends \BaseController
 
         $data['vlan_id'] = $data['vlan_id'] ?? 0;
 
-        if (in_array($data['type'], ['smartont', 'calixont'])) {
+        if (in_array($data['type'], ['smartont', 'calixont', 'zyxelont'])) {
             $data['ds_rate_max'] = $data['ds_rate_max'] ?? 0;
             $data['us_rate_max'] = $data['us_rate_max'] ?? 0;
         }

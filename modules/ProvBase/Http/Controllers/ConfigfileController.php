@@ -143,6 +143,10 @@ class ConfigfileController extends \BaseController
             $values['calixont'] = 'ONT (Calix OLT)';
         }
 
+        if (Module::collections()->has('Zyxel')) {
+            $values['zyxelont'] = 'ONT (Zyxel OLT)';
+        }
+
         return $values;
     }
 

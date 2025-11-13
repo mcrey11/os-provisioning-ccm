@@ -56,6 +56,9 @@ if (! function_exists('Modules\ProvBase\Entities\getAvailableModemClasses')) {
                 $ret['calixont'] = 'Modules\Calix\Entities\CalixOnt';
             }
         }
+        if (Module::collections()->has('Zyxel')) {
+            $ret['zyxelont'] = 'Modules\Zyxel\Entities\ZyxelOnt';
+        }
 
         return $ret;
     }
