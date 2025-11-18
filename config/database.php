@@ -366,6 +366,19 @@ return [
             'search_path' => 'monitoring',
             'sslmode' => 'prefer',
         ],
+
+        'mssql-navdb' => [
+            'driver' => 'sqlsrv',
+            // 'url' => env('DATABASE_URL'),
+            'host' => env('MSSQL_DB_HOST', 'localhost'),
+            'port' => env('MSSQL_DB_PORT', '1433'),
+            'database' => 'NAVDB',
+            'username' => 'sa',
+            'password' => 'Abcd1234',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
     ],
 
     /*

@@ -45,6 +45,7 @@ class ProvBaseServiceProvider extends ServiceProvider
         \Modules\ProvBase\Console\ImportCsvCommand::class,
         'Modules\ProvBase\Console\ImportNetUserCommand',
         \Modules\ProvBase\Console\ImportNmsCommand::class,
+        \Modules\ProvBase\Console\ImportPinetCommand::class,
         \Modules\ProvBase\Console\ImportQuicklineCommand::class,
         \Modules\ProvBase\Console\ImportThuegaCommand::class,
         'Modules\ProvBase\Console\ImportTvCustomersCommand',
