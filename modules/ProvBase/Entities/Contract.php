@@ -1938,7 +1938,7 @@ class Contract extends \BaseModel
             return;
         }
 
-        if (! $realty) {
+        if (! $realty && $this->realty_id) {
             $realty = $this->realty;
         }
 
