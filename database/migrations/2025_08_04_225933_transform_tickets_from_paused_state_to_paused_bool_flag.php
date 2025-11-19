@@ -18,6 +18,7 @@
  */
 
 use Database\Migrations\BaseMigration;
+use Illuminate\Support\Facades\DB;
 
 return new class extends BaseMigration
 {
@@ -36,19 +37,29 @@ return new class extends BaseMigration
             return;
         }
 
-        // Use hardcoded state IDs to avoid autoloader issues during RPM installation
+        // Use hardcoded state IDs and raw DB queries to avoid autoloader issues during RPM installation
         // TicketTypeState::STATES['New'] = 1, STATES['Paused'] = 3
         $newStateID = 1;
         $pausedStateID = 3;
+        $now = now();
 
-        // Directly update in DB as we aren't concerned with TicketObserver here
-        \Modules\Ticketsystem\Entities\Ticket::where('ticket_type_state_id', $pausedStateID)->update(['paused' => true, 'ticket_type_state_id' => $newStateID]);
+        // Directly update in DB using raw queries to avoid Eloquent model autoloading
+        DB::table('ticket')
+            ->where('ticket_type_state_id', $pausedStateID)
+            ->update(['paused' => true, 'ticket_type_state_id' => $newStateID]);
 
         // Move Paused state to trash directly bypassing undeletable
-        \Modules\Ticketsystem\Entities\TicketTypeState::whereId($pausedStateID)->update(['deleted_at' => now()]);
+        DB::table('ticket_type_state')
+            ->where('id', $pausedStateID)
+            ->update(['deleted_at' => $now]);
 
         // Delete transitions involving Paused state
-        \Modules\Ticketsystem\Entities\TicketTypeTransition::where(fn ($q) => $q->where('from_state_id', $pausedStateID)->orWhere('to_state_id', $pausedStateID))->update(['deleted_at' => now()]);
+        DB::table('ticket_type_transition')
+            ->where(function ($q) use ($pausedStateID) {
+                $q->where('from_state_id', $pausedStateID)
+                  ->orWhere('to_state_id', $pausedStateID);
+            })
+            ->update(['deleted_at' => $now]);
     }
 
     /**
@@ -62,13 +73,26 @@ return new class extends BaseMigration
             return;
         }
 
-        // Use hardcoded state ID to avoid autoloader issues during RPM installation
+        // Use hardcoded state ID and raw DB queries to avoid autoloader issues during RPM installation
         // TicketTypeState::STATES['Paused'] = 3
         $pausedStateID = 3;
 
-        \Modules\Ticketsystem\Entities\TicketTypeState::withTrashed()->whereId($pausedStateID)->update(['deleted_at' => null]);
+        // Restore Paused state from trash
+        DB::table('ticket_type_state')
+            ->where('id', $pausedStateID)
+            ->update(['deleted_at' => null]);
 
-        \Modules\Ticketsystem\Entities\TicketTypeTransition::withTrashed()->where(fn ($q) => $q->where('from_state_id', $pausedStateID)->orWhere('to_state_id', $pausedStateID))->update(['deleted_at' => null]);
-        \Modules\Ticketsystem\Entities\Ticket::wherePaused(true)->update(['ticket_type_state_id' => $pausedStateID]);
+        // Restore transitions involving Paused state
+        DB::table('ticket_type_transition')
+            ->where(function ($q) use ($pausedStateID) {
+                $q->where('from_state_id', $pausedStateID)
+                  ->orWhere('to_state_id', $pausedStateID);
+            })
+            ->update(['deleted_at' => null]);
+
+        // Restore tickets to Paused state
+        DB::table('ticket')
+            ->where('paused', true)
+            ->update(['ticket_type_state_id' => $pausedStateID]);
     }
 };
