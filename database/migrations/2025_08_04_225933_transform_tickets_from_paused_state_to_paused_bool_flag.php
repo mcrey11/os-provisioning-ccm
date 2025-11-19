@@ -36,8 +36,10 @@ return new class extends BaseMigration
             return;
         }
 
-        $newStateID = \Modules\Ticketsystem\Entities\TicketTypeState::STATES['New'];
-        $pausedStateID = \Modules\Ticketsystem\Entities\TicketTypeState::STATES['Paused'];
+        // Use hardcoded state IDs to avoid autoloader issues during RPM installation
+        // TicketTypeState::STATES['New'] = 1, STATES['Paused'] = 3
+        $newStateID = 1;
+        $pausedStateID = 3;
 
         // Directly update in DB as we aren't concerned with TicketObserver here
         \Modules\Ticketsystem\Entities\Ticket::where('ticket_type_state_id', $pausedStateID)->update(['paused' => true, 'ticket_type_state_id' => $newStateID]);
@@ -60,7 +62,9 @@ return new class extends BaseMigration
             return;
         }
 
-        $pausedStateID = \Modules\Ticketsystem\Entities\TicketTypeState::STATES['Paused'];
+        // Use hardcoded state ID to avoid autoloader issues during RPM installation
+        // TicketTypeState::STATES['Paused'] = 3
+        $pausedStateID = 3;
 
         \Modules\Ticketsystem\Entities\TicketTypeState::withTrashed()->whereId($pausedStateID)->update(['deleted_at' => null]);
 
