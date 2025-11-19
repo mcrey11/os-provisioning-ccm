@@ -72,7 +72,7 @@ if (mix.inProduction()) {
       },
       safelist: {
         standard: ['tooltip-inner'],
-        greedy: [/select2.*/, /pace.*/, /datatable.*/, /dataTable.*/, /dt.*/, /col-.*/, /snotify.*/, /ui-.*/, /bs-tooltip.*/]
+        greedy: [/select2.*/, /pace.*/, /datatable.*/, /dataTable.*/, /dt.*/, /col-.*/, /snotify.*/, /ui-.*/, /bs-tooltip.*/, /fa.*/]
       },
     })
   ])
@@ -104,6 +104,7 @@ mix.copy('node_modules/jszip/dist/jszip.min.js', 'public/js/jszip.min.js')
   .copy([
     'node_modules/leaflet-draw/dist/images',
   ], 'public/css/leaflet/images')
+  .copy('node_modules/fontawesome-4.7/fonts', 'public/fonts')
 
 /* Enable gzip and brotli compression for bundled files*/
 require('laravel-mix-compress')
