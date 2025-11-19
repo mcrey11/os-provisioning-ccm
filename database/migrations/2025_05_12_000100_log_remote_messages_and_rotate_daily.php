@@ -58,7 +58,8 @@ return new class extends BaseMigration
             copy(base_path('Install/files/messages.log'), '/etc/logrotate.d/messages');
         }
 
-        system('systemctl restart logrotate.service');
+        // Logrotate configuration changes are automatically picked up on next run
+        // No need to restart logrotate.service as it's not a restartable service
     }
 
     /**
@@ -79,7 +80,8 @@ return new class extends BaseMigration
             unlink('/etc/logrotate.d/messages');
         }
 
-        system('systemctl restart logrotate.service');
+        // Logrotate configuration changes are automatically picked up on next run
+        // No need to restart logrotate.service as it's not a restartable service
         system('systemctl restart rsyslogd');
     }
 };
