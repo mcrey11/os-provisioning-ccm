@@ -30,7 +30,9 @@ class Contract extends \BaseModel
     use \App\AddressFunctionsTrait;
     use \App\extensions\geocoding\GeoReferencable;
     use \App\Traits\HasTickets;
-    use \Modules\SpriSupplierApi\Traits\HasSpriSupplier;
+    // Use local stub trait - ensures file exists during RPM installation
+    // Delegates to SpriSupplierApi functionality when module is available
+    use \Modules\ProvBase\Traits\HasSpriSupplier;
 
     // The associated SQL table for this Model
     public $table = 'contract';
