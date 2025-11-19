@@ -51,13 +51,39 @@ Relation Blade is used inside a Panel Element to display relational class object
     @can('create', Session::get('models.'.$class))
         {{-- Create Button: (With hidden add fields if required) --}}
         @if (! isset($options['hide_create_button']))
+            @php
+                // Use add_url if provided, otherwise generate route with $key
+                $createUrl = isset($options['add_url']) ? $options['add_url'] : route($class.'.create', [$key => $view_var->id]);
+                
+                // Extract parameters from URL if add_url is provided
+                // Laravel route() with extra params adds them as query string parameters
+                if (isset($options['add_url'])) {
+                    $urlParts = parse_url($options['add_url']);
+                    $urlParams = [];
+                    
+                    // Extract query parameters (e.g., ?web_order_id=123)
+                    if (isset($urlParts['query'])) {
+                        parse_str($urlParts['query'], $urlParams);
+                    }
+                    
+                    // If no query params found, fall back to using $key
+                    // This handles edge cases where params might be in the path
+                    if (empty($urlParams)) {
+                        $urlParams = [$key => $view_var->id];
+                    }
+                } else {
+                    $urlParams = [$key => $view_var->id];
+                }
+            @endphp
 
             {{ html()
-                ->form('POST', route($class.'.create', [$key => $view_var->id]))
+                ->form('POST', $createUrl)
                 ->attributes(['name' => "create-{$class}-Form"])
                 ->open()
             }}
-            {{ Form::hidden($key, $view_var->id) }}
+            @foreach($urlParams as $paramKey => $paramValue)
+                {{ Form::hidden($paramKey, $paramValue) }}
+            @endforeach
 
             {{-- Add hidden input fields if create tag is set in $form_fields - This sets global POST Variable --}}
             @foreach($form_fields as $field)
@@ -67,7 +93,7 @@ Relation Blade is used inside a Panel Element to display relational class object
             @endforeach
 
             <div class="col align-self-start">
-                <a href="{{ isset($options['add_url']) ? $options['add_url'] : route($class.'.create', [$key => $view_var->id]) }}">
+                <a href="{{ $createUrl }}">
                     <button style="simple" type="submit" class="btn btn-outline-primary float-right m-b-10"
                         title="{{ isset($options['create_button_text']) ? trans($options['create_button_text']) : trans('view.createButtonTitle.'.$class) }}">
                         <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
