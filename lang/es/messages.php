@@ -693,4 +693,15 @@ desde el punto en que un módem estaba en línea. Si todos los diagramas no se m
     'span_spectrum'             => 'Frequency span of the spectrum in MHz',
     'contribute_modem_picture'  => 'Default device - Please contribute an image of your device to our GitHub page. Click the image to get redirected.',
     'no_modem_picture'          => 'There is currently no image available.',
+
+    // Web Order Messages
+    'web_order' => [
+        'converted_to_opportunity' => 'Pedido web convertido exitosamente a oportunidad #:id',
+        'conversion_failed' => 'Error al convertir pedido web a oportunidad: :error',
+        'converted_to_contract' => 'Pedido web convertido exitosamente a contrato #:id',
+        'conversion_to_contract_failed' => 'Error al convertir pedido web a contrato: :error',
+    ],
+    'weborder_items_converted' => 'Artículos de pedido web convertidos exitosamente a artículos de contrato.',
+    'weborder_items_conversion_failed' => 'Error al convertir artículos de pedido web: :error',
+    'no_weborder_items' => 'No se encontraron artículos de pedido web para este contrato.',
 ];

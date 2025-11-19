@@ -425,4 +425,365 @@ return [
     'Time' => 'Hora',
     'Type' => 'Tipo',
     'warning' => 'advertencia',
+
+    // OrderPortal Menu
+    'Menu_OrderPortal' => 'Portal de Pedidos',
+
+    // OrderPortal Translations
+    'OrderPortal' => 'Portal de Pedidos',
+
+    // Customer Web Order Form Translations
+    'customer' => [
+        'weborder' => [
+            'form' => [
+                'complete_selection' => 'Por favor complete su selección antes de continuar.',
+            ],
+            'title' => 'Pedido Web',
+        ],
+    ],
+
+    // OrderPortal Dashboard Translations
+    'orderportal' => [
+        'dashboard' => [
+            'title' => 'Panel del Portal de Pedidos',
+            'subtitle' => 'Resumen de pedidos web y su estado actual',
+            'total_orders' => 'Total de Pedidos',
+            'incomplete' => 'Incompletos',
+            'converted' => 'Convertidos',
+            'pending' => 'Pendientes',
+            'rejected' => 'Rechazados',
+            'funnel_title' => 'Embudo de Pedidos',
+            'funnel_subtitle' => 'Pedidos web agrupados por su estado actual',
+            'orders' => 'pedidos',
+            'view_all' => 'Ver Todos',
+            'view_order' => 'Ver Pedido',
+            'more_orders' => 'más',
+            'show_incomplete' => 'Mostrar Solicitudes Incompletas',
+            'no_orders' => 'No se Encontraron Pedidos',
+            'no_orders_description' => 'Actualmente no hay pedidos web en el sistema.',
+        ],
+    ],
+
+    // WebOrderPortal Component Translations
+    'web_order_portal' => [
+        'title' => 'Información del Cliente',
+        'contact_info' => 'Información de Contacto',
+        'address_info' => 'Información de Dirección',
+
+        // Form Fields
+        'salutation' => 'Saludo',
+        'salutation_placeholder' => 'Seleccionar saludo',
+        'salutation_options' => [
+            'Mr.' => 'Sr.',
+            'Mrs.' => 'Sra.',
+            'Ms.' => 'Srta.',
+            'Dr.' => 'Dr.',
+            'Prof.' => 'Prof.',
+        ],
+        'firstname' => 'Nombre',
+        'firstname_placeholder' => 'Ingrese su nombre',
+        'lastname' => 'Apellido',
+        'lastname_placeholder' => 'Ingrese su apellido',
+        'company' => 'Empresa',
+        'company_placeholder' => 'Ingrese el nombre de su empresa (opcional)',
+        'email' => 'Dirección de Correo Electrónico',
+        'email_placeholder' => 'Ingrese su dirección de correo electrónico',
+        'phone' => 'Número de Teléfono',
+        'phone_placeholder' => 'Ingrese su número de teléfono',
+        'street' => 'Calle',
+        'street_placeholder' => 'Ingrese el nombre de su calle',
+        'house_number' => 'Número de Casa',
+        'house_number_placeholder' => 'Ingrese el número de casa',
+        'zip' => 'Código Postal',
+        'zip_placeholder' => 'Ingrese el código postal',
+        'city' => 'Ciudad',
+        'city_placeholder' => 'Ingrese su ciudad',
+
+        // Billing Address
+        'billing_same_as_service' => 'La dirección de facturación es la misma que la dirección de servicio',
+        'billing_address' => 'Dirección de Facturación',
+
+        // Buttons
+        'save_button' => 'Guardar Información',
+        'saving' => 'Guardando...',
+
+        // Success Messages
+        'success' => [
+            'saved' => '¡Su información se ha guardado correctamente!',
+        ],
+
+        // Validation Messages
+        'validation' => [
+            'firstname_required' => 'El nombre es obligatorio.',
+            'lastname_required' => 'El apellido es obligatorio.',
+            'email_required' => 'La dirección de correo electrónico es obligatoria.',
+            'email_invalid' => 'Por favor ingrese una dirección de correo electrónico válida.',
+            'phone_required' => 'El número de teléfono es obligatorio.',
+            'street_required' => 'La calle es obligatoria.',
+            'house_number_required' => 'El número de casa es obligatorio.',
+            'zip_required' => 'El código postal es obligatorio.',
+            'city_required' => 'La ciudad es obligatoria.',
+            'billing_street_required' => 'La calle de facturación es obligatoria.',
+            'billing_house_number_required' => 'El número de casa de facturación es obligatorio.',
+            'billing_zip_required' => 'El código postal de facturación es obligatorio.',
+            'billing_city_required' => 'La ciudad de facturación es obligatoria.',
+        ],
+    ],
+
+    // Payment Translations
+    'payment' => [
+        'title' => 'Método de Pago',
+        'description' => 'Seleccione su método de pago preferido para cargos recurrentes',
+        'current_method' => 'Método de Pago Actual',
+        'no_methods_available' => 'No hay métodos de pago disponibles actualmente.',
+        'method_selection' => [
+            'title' => 'Método de Pago',
+            'method_selected' => 'Seleccionado',
+        ],
+        'method_selected' => 'Seleccionado',
+        'selected_method' => 'Método de Pago Seleccionado',
+        'proceed_to_details' => 'Continuar con los Detalles de Pago',
+        'back' => 'Atrás',
+        'edit_payment_method' => 'Editar Método de Pago',
+
+        'sepa' => [
+            'title' => 'Domiciliación SEPA',
+            'label' => 'Domiciliación SEPA',
+            'description' => 'Pague de forma segura mediante transferencia bancaria',
+            'info' => 'Su pago se procesará mediante domiciliación SEPA. Nos autoriza a cobrar pagos de su cuenta bancaria.',
+            'iban' => 'IBAN',
+            'iban_placeholder' => 'ES89 3704 0044 0532 0130 00',
+            'bic' => 'BIC',
+            'bic_placeholder' => 'COBADEFFXXX',
+            'auto_filled' => 'Completado automáticamente',
+            'holder' => 'Titular de la Cuenta',
+            'holder_placeholder' => 'Ingrese el nombre del titular de la cuenta',
+            'institute' => 'Banco',
+            'institute_placeholder' => 'Ingrese el nombre del banco (opcional)',
+            'mandate_reference' => 'Referencia del Mandato',
+            'mandate_reference_placeholder' => 'Ingrese la referencia del mandato',
+            'mandate_reference_help' => 'Esta referencia se utilizará para todos los pagos futuros.',
+            'mandate_warning' => 'Al proporcionar sus datos bancarios, nos autoriza a cobrar pagos de su cuenta mediante domiciliación SEPA.',
+            'save' => 'Guardar Datos SEPA',
+            'saved_successfully' => '¡Los datos de pago SEPA se han guardado correctamente!',
+        ],
+
+        'card' => [
+            'title' => 'Pago con Tarjeta de Crédito',
+            'label' => 'Tarjeta de Crédito',
+            'description' => 'Pague de forma segura con su tarjeta de crédito',
+            'security_info' => 'La información de su tarjeta se procesa de forma segura y nunca se almacena en nuestros servidores.',
+            'number' => 'Número de Tarjeta',
+            'number_placeholder' => '1234 5678 9012 3456',
+            'cvv' => 'CVV',
+            'cvv_placeholder' => '123',
+            'holder_name' => 'Nombre del Titular',
+            'holder_name_placeholder' => 'Ingrese el nombre tal como aparece en la tarjeta',
+            'expiry_month' => 'Mes de Vencimiento',
+            'expiry_year' => 'Año de Vencimiento',
+            'month_placeholder' => 'MM',
+            'year_placeholder' => 'AA',
+            'security_warning' => 'La información de su tarjeta está encriptada y se procesa de forma segura. No almacenamos los detalles de su tarjeta.',
+            'save' => 'Guardar Datos de Tarjeta',
+            'processing' => 'Procesando...',
+            'saved_successfully' => '¡Los datos de pago con tarjeta se han guardado correctamente!',
+            'processing_error' => 'Error al procesar el pago',
+        ],
+
+        'giropay' => [
+            'label' => 'Giropay',
+            'description' => 'Pague de forma segura con su banca en línea',
+        ],
+
+        'acs' => [
+            'label' => 'ACH',
+            'description' => 'Pague de forma segura mediante Cámara de Compensación Automatizada',
+            'title' => 'Pago ACH',
+            'info' => 'Su pago se procesará mediante ACH (Cámara de Compensación Automatizada).',
+        ],
+
+        'update_existing' => 'Actualizar método de pago existente',
+        'add_new' => 'Agregar nuevo método de pago',
+        'update_existing_info' => 'Tiene un método de pago existente. Ingrese sus nuevos datos de pago a continuación para actualizarlo.',
+        'add_new_info' => 'Ingrese nuevos datos de pago para reemplazar su método de pago actual',
+        'viewing_existing_info' => 'Viendo su método de pago existente. Haga clic en "Editar" para actualizarlo.',
+        'editing_payment_info' => 'Ingrese sus nuevos datos de pago a continuación para actualizar su método de pago.',
+        'edit_payment' => 'Editar',
+
+        'rechnung' => [
+            'label' => 'Factura',
+            'description' => 'Reciba factura y pague mediante transferencia bancaria',
+            'title' => 'Pago por Factura',
+            'info' => 'Recibirá una factura por correo postal que puede pagar mediante transferencia bancaria.',
+            'postal_invoice_product' => 'Producto de Factura Postal',
+            'agreement_text' => 'Acepto los términos del producto de factura postal ":product" y entiendo que pueden aplicarse cargos adicionales.',
+            'agreement_required' => 'Debe aceptar los términos del producto de factura postal.',
+            'save' => 'Guardar Pago por Factura',
+            'saved_successfully' => '¡El método de pago por factura se ha guardado correctamente!',
+        ],
+
+        'credit_card' => [
+            'title' => 'Pago con Tarjeta de Crédito',
+            'info' => 'Su pago se procesará de forma segura mediante nuestra pasarela de pago.',
+        ],
+
+        'complete_order' => 'Completar Pedido',
+        'accept' => 'Acepto',
+        'legal_acceptance_required' => 'Por favor acepte todos los documentos legales para continuar',
+        'legal_acceptance_label' => 'He leído y acepto el',
+        'legal_acceptance_label_suffix' => '',
+
+        'status' => [
+            'pending' => 'Pendiente',
+            'processing' => 'Procesando',
+            'completed' => 'Completado',
+            'failed' => 'Fallido',
+            'cancelled' => 'Cancelado',
+        ],
+    ],
+
+    // Billing Cycle Translations
+    'billing_cycle' => [
+        'once' => 'Una vez',
+        'monthly' => 'Mensual',
+        'quarterly' => 'Trimestral',
+        'annually' => 'Anual',
+        'yearly' => 'Anual',
+        // Handle common variations
+        'one-time' => 'Una vez',
+        'one_time' => 'Una vez',
+        'month' => 'mes',
+        'quarter' => 'trimestre',
+        'annual' => 'Anual',
+        'year' => 'año',
+    ],
+
+    // Web Order Conversion Translations
+    'web_order' => [
+        'convert_to_contract' => 'Convertir a Contrato',
+        'convert_to_opportunity' => 'Convertir a Oportunidad',
+        'converted_contract' => 'Convertido a Contrato',
+        'converted_opportunity' => 'Convertido a Oportunidad',
+        'already_converted_to_contract' => 'Este pedido web ya ha sido convertido a un contrato.',
+        'already_converted_to_opportunity' => 'Este pedido web ya ha sido convertido a una oportunidad.',
+        'contract_info' => 'Información del Contrato',
+        'opportunity_info' => 'Información de la Oportunidad',
+        'web_order_info' => 'Información del Pedido Web',
+        'view_contract' => 'Ver Contrato',
+        'view_opportunity' => 'Ver Oportunidad',
+        'convert_to_contract_description' => 'Convierta este pedido web a un contrato para comenzar a proporcionar servicios al cliente.',
+        'convert_to_opportunity_description' => 'Convierta este pedido web a una oportunidad CRM para seguimiento del equipo de ventas.',
+        'convert_confirm' => 'Confirmar Conversión',
+        'convert_confirm_text' => 'Confirmo que deseo convertir este pedido web a un contrato.',
+        'convert_confirmation_dialog' => '¿Está seguro de que desea convertir este pedido web a un contrato? Esta acción no se puede deshacer.',
+    ],
+
+    // Order Confirmation Translations
+    'order' => [
+        'confirmation' => [
+            'title' => 'Confirmación de Pedido',
+            'success_title' => '¡Pedido Realizado con Éxito!',
+            'success_message' => '¡Gracias por su pedido! Hemos recibido su pedido y lo procesaremos en breve.',
+            'order_number' => 'Número de Pedido',
+            'customer_info' => 'Información del Cliente',
+            'address_info' => 'Información de Dirección',
+            'order_items' => 'Artículos del Pedido',
+            'order_summary' => 'Resumen del Pedido',
+            'items' => 'Artículos',
+            'grand_total' => 'Total General',
+            'split_billing_cycles' => 'Dividido en :count ciclos de facturación',
+            'billing' => 'facturación',
+            'payment_info' => 'Información de Pago',
+            'name' => 'Nombre',
+            'email' => 'Correo Electrónico',
+            'phone' => 'Teléfono',
+            'address' => 'Dirección',
+            'product' => 'Producto',
+            'type' => 'Tipo',
+            'price' => 'Precio',
+            'total' => 'Total',
+            'payment_method' => 'Método de Pago',
+            'payment_status' => 'Estado del Pago',
+            'next_steps_title' => '¿Qué sucede después?',
+            'next_steps_message' => 'Revisaremos su pedido y nos pondremos en contacto con usted en 1-2 días hábiles para programar la instalación y proporcionar más detalles.',
+            'back_to_home' => 'Volver al Inicio',
+        ],
+    ],
+
+    // Phone Porting Translations
+    'porting' => [
+        'title' => 'Información de Portabilidad de Número Telefónico',
+        'description' => 'Por favor proporcione la siguiente información para la portabilidad del número telefónico.',
+        'vorname' => 'Nombre',
+        'nachname' => 'Apellido',
+        'email' => 'Correo Electrónico',
+        'telefonnummer' => 'Número de Teléfono',
+        'plz' => 'Código Postal',
+        'ort' => 'Ciudad',
+        'strasse_nr' => 'Calle y Número',
+        'telefonnummer_portierung' => 'Número de Teléfono para Portabilidad',
+        'telefonnummer_portierung_placeholder' => 'Ingrese el número de teléfono que desea portar',
+        'telefonnummer_portierung_help' => 'Ingrese el número de teléfono que desea transferir de su proveedor actual.',
+        'save' => 'Guardar Información de Portabilidad',
+        'saved' => 'Guardado',
+        'edit' => 'Editar',
+        'complete_first' => 'Por favor complete la información de portabilidad telefónica antes de continuar.',
+    ],
+
+    // Plan Selection Translations
+    'plan_selection' => [
+        'title' => 'Selección de Plan',
+        'description' => 'Seleccione el plan que mejor se adapte a sus necesidades',
+        'available_addons' => 'Complementos Disponibles',
+        'required' => 'Requerido',
+        'optional' => 'Opcional',
+        'max_qty' => 'Cantidad Máx: :qty',
+        'addons' => 'Complementos',
+        'complete_all_layers_message' => 'Por favor complete todas las capas requeridas antes de continuar.',
+        'pricing_summary' => 'Resumen de Precios',
+        'billing_cycle' => 'Facturación :cycle',
+        'subtotal' => 'Subtotal',
+        'total_items' => 'Total de Artículos',
+        'grand_total' => 'Total General',
+        'all_cycles' => 'En todos los ciclos de facturación',
+        'layer' => 'Capa',
+        'of' => 'de',
+        'progress' => 'Progreso',
+        'for' => 'para',
+        'selected' => 'Seleccionado',
+        'previous_layer' => 'Capa Anterior',
+        'next_layer' => 'Siguiente Capa',
+        'final_review' => 'Revisión Final',
+        'no_layers_available' => 'No Hay Capas de Producto Disponibles',
+        'contact_support' => 'Por favor contacte al soporte para obtener asistencia.',
+        'at_least_one_required' => '(se requiere al menos uno)',
+    ],
+
+    // Customer Type Selection Translations
+    'customer_type' => [
+        'title' => 'Información del Cliente',
+        'description' => 'Por favor indíquenos su tipo de cliente para proporcionarle las mejores opciones de servicio.',
+        'customer_type_label' => '¿Qué tipo de cliente es usted?',
+        'customer_status_label' => '¿Es un cliente nuevo o existente?',
+        'residential' => 'Residencial',
+        'residential_description' => 'Para uso personal en el hogar',
+        'business' => 'Empresarial',
+        'business_description' => 'Para uso empresarial o comercial',
+        'new_customer' => 'Cliente Nuevo',
+        'new_customer_description' => 'Soy un cliente nuevo',
+        'switching_customer' => 'Cambiando de Proveedor',
+        'switching_customer_description' => 'Estoy cambiando de otro proveedor',
+        'success' => 'Tipo de cliente seleccionado correctamente. Redirigiendo al formulario de pedido...',
+        'error' => 'Lo sentimos, encontramos un error. Por favor intente nuevamente.',
+    ],
+
+    // Availability Help Translations
+    'help' => [
+        'title' => 'Cómo Funciona',
+        'description' => 'Nuestro verificador de disponibilidad determinará si nuestros servicios de internet están disponibles en su dirección y le mostrará las mejores opciones.',
+        'available' => 'Servicio Disponible',
+        'available_desc' => '¡Excelente! Podemos proporcionar servicio de internet en su dirección.',
+        'checking' => 'Verificando Disponibilidad',
+        'checking_desc' => 'Estamos verificando si nuestros servicios están disponibles en su ubicación.',
+    ],
 ];

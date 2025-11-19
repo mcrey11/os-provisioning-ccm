@@ -50,6 +50,7 @@ return [
         'bundle'                => 'En tarifas agrupadas el tiempo mínimo de funcionamiento del contrato es determinado únicamente por la tarifa de Internet. De otra forma la última tarifa inicial valida (VoIP o Internet) dictamina esta fecha.',
         'maturity_min'          => 'Período mínimo de tarifa/tiempo de ejecución/término. Ejem. 14D (14 días), 3M (3 meses), 1Y (1 Año)',
         'maturity'              => 'Tariff period/runtime/term extension after the minimum runtime. <br> Will be automatically added when tariff was not canceled before period of notice. Default 1 month. If no maturity is given the end of term of the item is always set to the last day of the month. <br><br> E.g. 14D (14 days), 3M (three months), 1Y (one year)',
+        'logo'                  => 'Seleccione una imagen de logo para este producto. El logo se mostrará en la página de selección de planes del Portal de Pedidos en lugar del icono predeterminado.',
         'Name'                  => 'Para créditos es posible asignar un Tipo añadiendo el nombre del tipo al Nombre del Crédito. Ejem.: "Dispositivo de crédito"',
         'pod'                   => 'Por ejemplo 14D (14 días), 3M (tres meses), 1Y (un año)',
         'proportional'          => 'Activa esta casilla cuando los elementos que empiecen durante la ejecución actual de la liquidación se cargarán proporcionalmente. Por ejemplo, si un artículo de pago mensual comienza a mediados del mes, el cliente se cobrará sólo la mitad del precio completo en esta operación de liquidación.',
@@ -183,4 +184,13 @@ return [
     'noReplyName' => 'El nombre que debe mostrarse como remitente, al crear/editar tickets. Por ejemplo: NMS Prime',
     'ticket_settings' => 'Siguiente: Establecer nombre y dirección no responder en la página de configuración global.',
     'carrier_out'      => 'Código de operador del futuro socio contractual. Si se deja en blanco el número de teléfono se eliminará.',
+
+    // Web Order
+    'web_order' => [
+        'order_number_help' => 'Número de pedido corto y fácil de usar generado a partir del hash para fines de visualización.',
+        'availability_snapshot_help' => 'Datos JSON que contienen los resultados de verificación de disponibilidad y opciones de servicio para la dirección del cliente.',
+        'utm_json_help' => 'Datos JSON que contienen parámetros UTM e información de seguimiento de la fuente del pedido web.',
+        'consent_json_help' => 'Datos JSON que contienen información de consentimiento del cliente y datos de cumplimiento GDPR.',
+        'payment_data_help' => 'Datos JSON que contienen información de pago encriptada (IBAN, detalles de tarjeta de crédito, etc.) para fines de verificación.',
+    ],
 ];
