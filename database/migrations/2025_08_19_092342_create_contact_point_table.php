@@ -58,10 +58,6 @@ return new class extends BaseMigration
             // Indexes
             $table->index('apartment_id');
             $table->index('address_id');
-
-            // Foreign key constraints
-            $table->foreign('apartment_id')->references('id')->on('apartment')->onDelete('restrict');
-            $table->foreign('address_id')->references('id')->on('address')->onDelete('restrict');
         });
     }
 

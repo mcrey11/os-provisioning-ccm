@@ -36,9 +36,6 @@ return new class extends BaseMigration
             $table->string('subject_type_id');
             $table->boolean('active')->default(true);
 
-            // Foreign key constraint
-            $table->foreign('ci_category_id')->references('id')->on('ci_category')->onDelete('restrict');
-
             // Unique constraint
             $table->unique(['ci_category_id', 'subject_type_id']);
 

@@ -43,7 +43,6 @@ return new class extends BaseMigration
 
             // Add product_layer_id field (nullable since it's conditional)
             $table->bigInteger('product_layer_id')->nullable()->index()->after('type');
-            $table->foreign('product_layer_id')->references('id')->on('product_layer')->onDelete('restrict');
 
             // Add index for type field
             $table->index('type');
@@ -58,7 +57,6 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropForeign(['product_layer_id']);
             $table->dropIndex(['product_layer_id']);
             $table->dropIndex(['type']);
             $table->dropColumn(['type', 'product_layer_id']);

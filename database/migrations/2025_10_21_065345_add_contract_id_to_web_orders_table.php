@@ -37,7 +37,6 @@ return new class extends BaseMigration
         Schema::table($this->tableName, function (Blueprint $table) {
             $table->unsignedBigInteger('contract_id')->nullable()->after('crm_opportunity_id');
             $table->index('contract_id');
-            $table->foreign('contract_id')->references('id')->on('contract')->onDelete('restrict');
         });
     }
 
@@ -49,7 +48,6 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropForeign(['contract_id']);
             $table->dropIndex(['contract_id']);
             $table->dropColumn('contract_id');
         });

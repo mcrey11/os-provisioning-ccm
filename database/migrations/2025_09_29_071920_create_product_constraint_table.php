@@ -39,19 +39,16 @@ return new class extends BaseMigration
 
             // The driver product
             $table->bigInteger('product_id')->index();
-            $table->foreign('product_id')->references('id')->on('product')->onDelete('restrict');
 
             // Constraint definition
             $table->string('relation'); // requires|excludes
             $table->string('requirement_kind'); // product|type
             $table->bigInteger('required_product_id')->nullable()->index();
-            $table->foreign('required_product_id')->references('id')->on('product')->onDelete('restrict');
             $table->string('required_type')->nullable(); // when requirement_kind='type' (uses products.type)
 
             // Enforcement options
             $table->string('enforcement'); // hard|auto_add|warn
             $table->bigInteger('auto_add_product_id')->nullable()->index();
-            $table->foreign('auto_add_product_id')->references('id')->on('product')->onDelete('restrict');
             $table->smallInteger('min_qty')->default(1); // relevant for requirement_kind='type'
 
             // Indexes for common queries

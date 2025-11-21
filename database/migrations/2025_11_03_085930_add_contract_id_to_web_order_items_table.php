@@ -36,7 +36,6 @@ return new class extends BaseMigration
     {
         Schema::table($this->tableName, function (Blueprint $table) {
             $table->bigInteger('contract_id')->nullable()->index('idx_web_order_items_contract_id');
-            $table->foreign('contract_id')->references('id')->on('contract')->onDelete('cascade');
         });
     }
 
@@ -48,7 +47,6 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropForeign(['contract_id']);
             $table->dropColumn('contract_id');
         });
     }

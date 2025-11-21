@@ -44,13 +44,6 @@ return new class extends BaseMigration
             $table->boolean('payment_method_credit_card')->default(false);
             $table->unsignedInteger('postal_invoice_product_id')->nullable();
 
-            // Add foreign key for postal invoice product (if BillingBase is installed)
-            if (Schema::hasTable('product')) {
-                $table->foreign('postal_invoice_product_id')->
-                    references('id')->
-                    on('product')->
-                    onDelete('set null');
-            }
         });
 
         // Defaults are already set in column definitions (SEPA and Rechnung enabled)
@@ -62,11 +55,6 @@ return new class extends BaseMigration
     public function down(): void
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            // Drop foreign key first if it exists
-            if (Schema::hasTable('product')) {
-                $table->dropForeign(['postal_invoice_product_id']);
-            }
-
             $table->dropColumn([
                 'block_internet_downselling',
                 'payment_method_sepa',

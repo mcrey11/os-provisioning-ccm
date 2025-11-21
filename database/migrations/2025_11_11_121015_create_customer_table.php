@@ -40,12 +40,6 @@ return new class extends BaseMigration
             // Foreign key fields
             $table->unsignedBigInteger('contact_point_id')->nullable();
 
-            // Add foreign key constraint
-            $table->foreign('contact_point_id')->
-                references('id')->
-                on('contact_point')->
-                onDelete('restrict');
-
             // Add index for foreign key
             $table->index('contact_point_id');
         });

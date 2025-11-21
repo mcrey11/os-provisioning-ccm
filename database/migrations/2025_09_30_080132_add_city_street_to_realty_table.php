@@ -40,9 +40,6 @@ return new class extends BaseMigration
 
             $table->index('city_id');
             $table->index('street_id');
-
-            $table->foreign('city_id')->references('id')->on('city')->onDelete('restrict');
-            $table->foreign('street_id')->references('id')->on('street')->onDelete('restrict');
         });
     }
 
@@ -54,8 +51,6 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropForeign(['city_id']);
-            $table->dropForeign(['street_id']);
             $table->dropIndex(['city_id']);
             $table->dropIndex(['street_id']);
             $table->dropColumn(['city_id', 'street_id']);

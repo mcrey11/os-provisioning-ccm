@@ -39,14 +39,12 @@ return new class extends BaseMigration
 
             // Base product reference (nullable for type-based addons)
             $table->bigInteger('base_product_id')->nullable()->index();
-            $table->foreign('base_product_id')->references('id')->on('product')->onDelete('restrict');
 
             // Alternative to base_product_id
             $table->string('base_type')->nullable(); // product type for type-based addons
 
             // Add-on product (always required)
             $table->bigInteger('addon_product_id')->index();
-            $table->foreign('addon_product_id')->references('id')->on('product')->onDelete('restrict');
 
             // Addon options
             $table->boolean('required')->default(false);

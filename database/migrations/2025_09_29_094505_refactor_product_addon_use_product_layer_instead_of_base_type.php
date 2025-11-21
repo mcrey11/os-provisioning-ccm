@@ -21,7 +21,6 @@ return new class extends BaseMigration
         Schema::table($this->tableName, function (Blueprint $table) {
             // Add new product_layer_id column
             $table->bigInteger('product_layer_id')->nullable()->index()->after('base_product_id');
-            $table->foreign('product_layer_id')->references('id')->on('product_layer')->onDelete('restrict');
         });
 
         // Migrate existing base_type data to product_layer_id where possible
@@ -104,9 +103,8 @@ return new class extends BaseMigration
             $table->dropIndex(['base_product_id', 'product_layer_id']);
         });
 
-        // Drop foreign key and column
+        // Drop column
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropForeign(['product_layer_id']);
             $table->dropColumn('product_layer_id');
         });
     }

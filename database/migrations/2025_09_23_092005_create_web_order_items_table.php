@@ -46,9 +46,6 @@ return new class extends BaseMigration
             $table->string('name', 191)->nullable(false);
             $table->integer('qty')->default(1);
             $table->integer('sort')->default(0)->nullable();
-
-            // FK constraints
-            $table->foreign('web_order_id')->references('id')->on('web_orders')->onDelete('cascade');
         });
 
         // Check constraint for type

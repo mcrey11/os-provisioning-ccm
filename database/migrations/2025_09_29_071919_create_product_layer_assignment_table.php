@@ -39,10 +39,8 @@ return new class extends BaseMigration
 
             // Foreign keys
             $table->bigInteger('product_id')->index();
-            $table->foreign('product_id')->references('id')->on('product')->onDelete('restrict');
 
             $table->bigInteger('product_layer_id')->index();
-            $table->foreign('product_layer_id')->references('id')->on('product_layer')->onDelete('restrict');
 
             $table->integer('sort')->default(0);
 

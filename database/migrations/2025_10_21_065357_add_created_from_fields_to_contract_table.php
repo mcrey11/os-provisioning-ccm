@@ -38,8 +38,6 @@ return new class extends BaseMigration
             $table->unsignedBigInteger('created_from_web_order_id')->nullable()->after('created_from_opportunity_id');
 
             $table->index('created_from_web_order_id');
-
-            $table->foreign('created_from_web_order_id')->references('id')->on('web_orders')->onDelete('restrict');
         });
     }
 
@@ -51,7 +49,6 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropForeign(['created_from_web_order_id']);
             $table->dropIndex(['created_from_web_order_id']);
             $table->dropColumn('created_from_web_order_id');
         });

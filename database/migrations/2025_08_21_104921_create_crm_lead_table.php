@@ -50,27 +50,6 @@ return new class extends BaseMigration
             $table->string('disqual_reason', 191)->nullable();
             $table->text('notes')->nullable();
 
-            // Add foreign key constraints
-            $table->foreign('contact_point_id')->
-                references('id')->
-                on('contact_point')->
-                onDelete('restrict');
-
-            $table->foreign('realty_id')->
-                references('id')->
-                on('realty')->
-                onDelete('restrict');
-
-            $table->foreign('apartment_id')->
-                references('id')->
-                on('apartment')->
-                onDelete('restrict');
-
-            $table->foreign('owner_id')->
-                references('id')->
-                on('users')->
-                onDelete('restrict');
-
             // Add indexes for all foreign keys
             $table->index('contact_point_id');
             $table->index('realty_id');

@@ -39,7 +39,6 @@ return new class extends BaseMigration
 
             // Product reference
             $table->bigInteger('product_id')->index();
-            $table->foreign('product_id')->references('id')->on('product')->onDelete('restrict');
 
             // Rule definition
             $table->string('rule'); // allow or deny

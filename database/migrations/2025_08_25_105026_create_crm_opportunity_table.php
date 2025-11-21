@@ -68,14 +68,6 @@ return new class extends BaseMigration
             $table->index('apartment_id');
             $table->index('pipeline_id');
             $table->index('stage_id');
-
-            // Foreign key constraints
-            $table->foreign('contact_point_id')->references('id')->on('contact_point')->onDelete('restrict');
-            $table->foreign('created_from_lead_id')->references('id')->on('crm_lead')->onDelete('restrict');
-            $table->foreign('realty_id')->references('id')->on('realty')->onDelete('restrict');
-            $table->foreign('apartment_id')->references('id')->on('apartment')->onDelete('restrict');
-            $table->foreign('pipeline_id')->references('id')->on('crm_pipeline')->onDelete('restrict');
-            $table->foreign('stage_id')->references('id')->on('crm_pipeline_stage')->onDelete('restrict');
         });
     }
 

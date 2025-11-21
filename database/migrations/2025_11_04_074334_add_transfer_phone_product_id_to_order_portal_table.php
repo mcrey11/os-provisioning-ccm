@@ -36,14 +36,6 @@ return new class extends BaseMigration
     {
         Schema::table($this->tableName, function (Blueprint $table) {
             $table->unsignedInteger('transfer_phone_product_id')->nullable()->after('postal_invoice_product_id');
-
-            // Add foreign key for transfer phone product (if BillingBase is installed)
-            if (Schema::hasTable('product')) {
-                $table->foreign('transfer_phone_product_id')->
-                    references('id')->
-                    on('product')->
-                    onDelete('set null');
-            }
         });
     }
 
@@ -55,11 +47,6 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            // Drop foreign key first if it exists
-            if (Schema::hasTable('product')) {
-                $table->dropForeign(['transfer_phone_product_id']);
-            }
-
             $table->dropColumn('transfer_phone_product_id');
         });
     }

@@ -37,7 +37,6 @@ class CreateCrmPipelineStageTable extends BaseMigration
 
             // Foreign key to crm_pipeline
             $table->bigInteger('pipeline_id')->unsigned();
-            $table->foreign('pipeline_id')->references('id')->on('crm_pipeline')->onDelete('restrict');
 
             // Stage identifier unique per pipeline
             $table->string('key', 32);

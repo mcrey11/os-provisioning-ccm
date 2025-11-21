@@ -81,16 +81,6 @@ return new class extends BaseMigration
             $table->index('users_closed_by_id');
             $table->index('opened_at');
             $table->index('closed_at');
-
-            // Foreign key constraints
-            $table->foreign('contract_id')->references('id')->on('contract')->onDelete('restrict');
-            $table->foreign('contact_point_id')->references('id')->on('contact_point')->onDelete('restrict');
-            $table->foreign('ci_channel_id')->references('id')->on('ci_channel')->onDelete('restrict');
-            $table->foreign('ci_direction_id')->references('id')->on('ci_direction')->onDelete('restrict');
-            $table->foreign('ci_category_id')->references('id')->on('ci_category')->onDelete('restrict');
-            $table->foreign('ci_status_id')->references('id')->on('ci_status')->onDelete('restrict');
-            $table->foreign('users_created_by_id')->references('id')->on('users')->onDelete('restrict');
-            $table->foreign('users_closed_by_id')->references('id')->on('users')->onDelete('restrict');
         });
     }
 

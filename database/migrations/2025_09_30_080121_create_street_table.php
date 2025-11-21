@@ -43,8 +43,6 @@ return new class extends BaseMigration
 
             $table->unique(['city_id', 'name_norm']);
             $table->index('city_id');
-
-            $table->foreign('city_id')->references('id')->on('city')->onDelete('restrict');
         });
     }
 

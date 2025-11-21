@@ -38,13 +38,6 @@ return new class extends BaseMigration
             $table->bigInteger('ccc_customer_ticket_type_parent_id')->nullable()->after('transfer_phone_product_id');
         });
 
-        Schema::table($this->tableName, function (Blueprint $table) {
-            $table->foreign('ccc_customer_ticket_type_parent_id', 'global_config_ccc_ticket_type_parent_fk')->
-                references('id')->
-                on('ticket_type')->
-                onDelete('restrict');
-        });
-
         $this->addIndex('ccc_customer_ticket_type_parent_id');
     }
 
@@ -56,7 +49,6 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropForeign('global_config_ccc_ticket_type_parent_fk');
             $table->dropColumn('ccc_customer_ticket_type_parent_id');
         });
     }

@@ -67,13 +67,6 @@ return new class extends BaseMigration
             $table->index(['is_switcher', 'state'], 'idx_web_orders_switcher');
 
             // Note: GIN indexes for JSON fields will be added using raw SQL below
-
-            // Foreign key constraints
-            $table->foreign('contact_point_id')->references('id')->on('contact_point')->onDelete('restrict');
-            $table->foreign('service_address_id')->references('id')->on('address')->onDelete('restrict');
-            $table->foreign('billing_address_id')->references('id')->on('address')->onDelete('restrict');
-            $table->foreign('crm_opportunity_id')->references('id')->on('crm_opportunity')->onDelete('restrict');
-            $table->foreign('apartment_id')->references('id')->on('apartment')->onDelete('restrict');
         });
 
         // Add check constraints using raw SQL

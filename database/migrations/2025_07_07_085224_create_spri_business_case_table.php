@@ -39,8 +39,6 @@ return new class extends BaseMigration
 
             $table->string('case');
             $table->unsignedBigInteger('ticket_type_id');
-
-            $table->foreign('ticket_type_id')->references('id')->on('ticket_type')->onDelete('cascade');
         });
     }
 
