@@ -37,10 +37,24 @@ return new class extends BaseMigration
             return;
         }
 
-        // Use hardcoded state IDs and raw DB queries to avoid autoloader issues during RPM installation
-        // TicketTypeState::STATES['New'] = 1, STATES['Paused'] = 3
-        $newStateID = 1;
-        $pausedStateID = 3;
+        // Look up state IDs by name to avoid hardcoded IDs that may differ per customer
+        // Use raw DB queries to avoid autoloader issues during RPM installation
+        $newState = DB::table('ticket_type_state')
+            ->where('name', 'New')
+            ->whereNull('deleted_at')
+            ->first();
+        $pausedState = DB::table('ticket_type_state')
+            ->where('name', 'Paused')
+            ->whereNull('deleted_at')
+            ->first();
+
+        if (! $newState || ! $pausedState) {
+            // If states don't exist, skip migration
+            return;
+        }
+
+        $newStateID = $newState->id;
+        $pausedStateID = $pausedState->id;
         $now = now();
 
         // Directly update in DB using raw queries to avoid Eloquent model autoloading
@@ -73,9 +87,18 @@ return new class extends BaseMigration
             return;
         }
 
-        // Use hardcoded state ID and raw DB queries to avoid autoloader issues during RPM installation
-        // TicketTypeState::STATES['Paused'] = 3
-        $pausedStateID = 3;
+        // Look up Paused state ID by name to avoid hardcoded IDs that may differ per customer
+        // Use raw DB queries to avoid autoloader issues during RPM installation
+        $pausedState = DB::table('ticket_type_state')
+            ->where('name', 'Paused')
+            ->first();
+
+        if (! $pausedState) {
+            // If Paused state doesn't exist, skip rollback
+            return;
+        }
+
+        $pausedStateID = $pausedState->id;
 
         // Restore Paused state from trash
         DB::table('ticket_type_state')
