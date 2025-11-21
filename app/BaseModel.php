@@ -605,6 +605,11 @@ class BaseModel extends Eloquent
                     foreach ($parts as $part) {
                         $class_child_name = $this->guessModelName($part);
 
+                        // check if we got a valid model name
+                        if (! $class_child_name) {
+                            continue;
+                        }
+
                         // one of the models in pivot tables is the current model – skip
                         if ($class_child_name == get_class($this)) {
                             continue;
