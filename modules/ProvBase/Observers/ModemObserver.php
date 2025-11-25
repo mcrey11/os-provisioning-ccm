@@ -33,10 +33,66 @@ use Modules\ProvBase\Entities\Modem;
  */
 class ModemObserver
 {
+    /**
+     * Check if the qualified model class is set at the modem passes some tests:
+     *   - On existing modems the qualified model class must not be changed.
+     *   - On new modems the qualified model class must be the same as the configfile induced qualified model class.
+     *
+     * @param  Modem  $modem
+     * @param  array  $changed  The changed fields of the modem (leave empty on creating())
+     * @return void
+     */
+    protected function validateQualifiedModelClass(Modem $modem, array $changed = [])
+    {
+        // Modem class is not allowed to be changed on existing modems.
+        if ($modem->exists && (! $modem->wasRecentlyCreated) && array_key_exists('qualified_model_class', $changed)) {
+            $msg = trans('provbase::messages.modemQualifiedModelClassCannotBeChangedOnExistingModem');
+            $modem->addAboveMessage($msg, 'error', 'form');
+            Log::error($msg);
+
+            return false;
+        }
+
+        // Configfile defines the qualified model class – if not set, we can't validate anything
+        // Should never be reached – as of now configfile is required by validation rules
+        if (! $modem->configfile) {
+            return true;
+        }
+
+        $availableModemClasses = config('provbase.availableModemClasses');
+        $configfileInducedQualifiedModelClass = $availableModemClasses[$modem->configfile->device] ?? null;
+
+        // If qualified model class is not set, set it to the configfile induced qualified model class.
+        // This can be needed for new modems.
+        if (! $modem->qualified_model_class) {
+            $modem->qualified_model_class = $configfileInducedQualifiedModelClass;
+        }
+
+        // That is how it should be :-)
+        if ($configfileInducedQualifiedModelClass == $modem->qualified_model_class) {
+            return true;
+        }
+
+        // Ending up here means something unexpected has happened.
+        // Return false to cancel creating/updating the modem.
+        $msg = trans('provbase::messages.modemQualifiedModelClassMismatch', [
+            'modem' => $modem->qualified_model_class,
+            'configfile' => $configfileInducedQualifiedModelClass,
+        ]);
+        $modem->addAboveMessage($msg, 'error', 'form');
+        Log::error($msg);
+
+        return false;
+    }
+
     public function creating(Modem $modem)
     {
         if (! $modem->qos_id) {
             $modem->qos_id = $modem->contract->qos_id;
+        }
+
+        if (! $this->validateQualifiedModelClass($modem)) {
+            return false;
         }
     }
 
@@ -98,6 +154,10 @@ class ModemObserver
 
         // get changed values
         $diff = $modem->getDirty();
+
+        if (! $this->validateQualifiedModelClass($modem, $diff)) {
+            return false;
+        }
 
         // special handling for SmartONT devices
         if (Module::collections()->has('SmartOnt')) {

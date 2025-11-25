@@ -44,7 +44,16 @@ class Modem extends \BaseModel
     use \App\Traits\HasTickets;
     use PolymorphicModelTrait;
 
-    public const TYPES = ['cm', 'tr069', 'ont'];
+    /**
+     * All configfile types relevant for modems in general.
+     * Note: Even calixont needs to be here; filtering is later done in the ModemController::view_form_fields() (when calling the ajax route)
+     */
+    public const TYPES = [
+        'calixont',
+        'cm',
+        'ont',
+        'tr069',
+    ];
     public const CWMP_EVENTS = [
         'BOOTSTRAP',
         'BOOT',
@@ -70,9 +79,13 @@ class Modem extends \BaseModel
     protected $domainName = '';
 
     /**
-     * QoS types to exclude from dropdown
+     * QoS types to include in dropdown
+     * Note: This is different to TYPES and e.g. overwritten in CalixOnt class
      */
-    public static $excludeQosTypes = ['calixont'];
+    public const QOS_TYPES = [
+        'default',
+        'smartont',
+    ];
 
     /** @var RadAcct object storage to save 1 DB query */
     protected $currentRadacct;
@@ -111,6 +124,7 @@ class Modem extends \BaseModel
             'installation_address_change_date' => ['nullable', 'date_format:Y-m-d'],
             'lat' => ['nullable', 'numeric'],
             'lng' => ['nullable', 'numeric'],
+            'qualified_model_class' => ['required'],
         ];
 
         if (! Module::collections()->has('BillingBase')) {
@@ -193,10 +207,6 @@ class Modem extends \BaseModel
 
         if ($this->contract && $this->contract->isCanceled()) {
             $rules['internet_access'] = ['false'];
-        }
-
-        if (Module::collections()->has('Calix')) {
-            $rules['qualified_model_class'] = ['required'];
         }
 
         return $rules;
@@ -440,15 +450,13 @@ class Modem extends \BaseModel
     }
 
     /**
-     * return all Configfile Objects for CMs
+     * Return all QoS records for the modem
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function qualities()
     {
-        return DB::table('qos')->whereNull('deleted_at')
-            ->when(isset(static::$excludeQosTypes), function ($query) {
-                return $query->whereNotIn('type', static::$excludeQosTypes);
-            })
-            ->get();
+        return Qos::whereIn('type', self::QOS_TYPES)->get();
     }
 
     /**
@@ -535,9 +543,7 @@ class Modem extends \BaseModel
     {
         return Qos::select('id', 'name as text')
             ->withCount('modem as count')
-            ->when(isset(static::$excludeQosTypes), function ($query) {
-                return $query->whereNotIn('type', static::$excludeQosTypes);
-            })
+            ->whereIn('type', static::QOS_TYPES)
             ->when($search, function ($query, $search) {
                 foreach (['name'] as $field) {
                     $query = $query->orWhere($field, 'ilike', "%{$search}%");
@@ -3248,22 +3254,6 @@ class Modem extends \BaseModel
 
         return self::whereIn('fiber_name', $distinctFiberNames->pluck('fiber_name'))
              ->get();
-    }
-
-    /**
-     * Get the modem class options (with leading null value).
-     *
-     * @return array
-     */
-    public function getModemClassOptions(): array
-    {
-        $ret = [null => ''];
-        foreach (config('provbase.availableModemClasses') as $modemClass) {
-            $ret[$modemClass] = trans('provbase::view.modemClass.'.$modemClass);
-        }
-        asort($ret);
-
-        return $ret;
     }
 
     /**

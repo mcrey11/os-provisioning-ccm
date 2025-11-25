@@ -22,5 +22,5 @@
     @if (Module::collections()->has('PropertyManagement'))
         @include('provbase::Contract.hideAddress')
     @endif
-    @include('Generic.js.qualified-model-class-change-js')
+    @include('provbase::Modem.configfile-change-js')
 @stop

@@ -24,6 +24,7 @@ use App\Http\Controllers\BaseViewController;
 use App\Sla;
 use App\V1\Repository;
 use Bouncer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Modules\ProvBase\Entities\Configfile;
 use Modules\ProvBase\Entities\Contract;
@@ -61,6 +62,54 @@ class ModemController extends \BaseController
      */
     private $configfile;
 
+    /**
+     * Get redirect URL if configfile requires a different model class
+     *
+     * @param  string  $method  Route method ('edit' or 'create')
+     * @param  int|null  $id  Model ID for edit route, null for create
+     * @return string|null Redirect URL if redirect is needed, null otherwise
+     */
+    protected function getCreateRedirectUrl(): ?string
+    {
+        $data = Request::all();
+        $configfileId = $data['configfile_id'] ?? null;
+        if (! $configfileId) {
+            return null;
+        }
+
+        $currentQualifiedModelClass = Request::get('qualified_model_class', null);
+        $targetQualifiedModelClass = $this->getQualifiedModelClassFromConfigfile($configfileId);
+
+        // Only redirect if target model class is different from current
+        if ($targetQualifiedModelClass == $currentQualifiedModelClass) {
+            return null;
+        }
+
+        if (! $targetQualifiedModelClass) {
+            return null;
+        }
+
+        // Extract target model name and route
+        $c = explode('\\', $targetQualifiedModelClass);
+        $targetModelName = array_pop($c);
+        $targetRouteName = $targetModelName.'.create';
+
+        // Build redirect URL with query parameters
+        $url = route($targetRouteName);
+        $queryParams = [];
+        foreach ($data as $key => $value) {
+            $queryParams[$key] = $value;
+        }
+        $queryParams['qualified_model_class'] = $targetQualifiedModelClass;
+        unset($queryParams['qos_id']);
+
+        if ($queryParams) {
+            $url .= '?'.http_build_query($queryParams);
+        }
+
+        return $url;
+    }
+
     public function edit($id)
     {
         $provbase = ProvBase::first();
@@ -78,6 +127,81 @@ class ModemController extends \BaseController
         }
 
         return parent::edit($id);
+    }
+
+    /**
+     * Get the qualified model class from a configfile id or configfile object
+     *
+     * @param  string|int|Configfile|null  $configfile  The configfile ID (as int or string) or a configfile object
+     * @return string|null
+     */
+    protected function getQualifiedModelClassFromConfigfile(string|int|Configfile|null $configfile): ?string
+    {
+        if (! $configfile) {
+            return null;
+        }
+
+        if (is_string($configfile)) {
+            $configfile = intval($configfile);
+        }
+
+        $device = null;
+        if (is_int($configfile)) {
+            $device = DB::table('configfile')->where('id', $configfile)->value('device');
+        } elseif ($configfile instanceof Configfile) {
+            $device = $configfile->device;
+        } else {
+            return null;
+        }
+
+        $availableModemClasses = config('provbase.availableModemClasses');
+
+        return $availableModemClasses[$device] ?? null;
+    }
+
+    /**
+     * Show the form for creating a new model item
+     * Handles redirect if configfile requires a different model class
+     *
+     * @return View|RedirectResponse
+     */
+    public function create()
+    {
+        $redirectUrl = $this->getCreateRedirectUrl();
+
+        return $redirectUrl ? redirect($redirectUrl) : parent::create();
+    }
+
+    protected function addQualifiedModelClassToRequest()
+    {
+        // If the configfile changes then there may be a change in the qualified model class
+        if (! Request::get('qualified_model_class')) {
+            $qualified_model_class = $this->getQualifiedModelClassFromConfigfile(Request::get('configfile_id'));
+            if ($qualified_model_class) {
+                Request::merge(['qualified_model_class' => $qualified_model_class]);
+            }
+        }
+    }
+
+    public function api_create($ver)
+    {
+        $this->addQualifiedModelClassToRequest();
+
+        return parent::api_create($ver);
+    }
+
+    public function api_store($ver)
+    {
+        $this->addQualifiedModelClassToRequest();
+
+        return parent::api_store($ver);
+    }
+
+    public function api_update($ver, $id)
+    {
+        $this->addQualifiedModelClassToRequest();
+
+        return parent::api_update($ver, $id);
     }
 
     /**
@@ -163,7 +287,7 @@ class ModemController extends \BaseController
             ],
             ['form_type' => 'text', 'name' => 'hostname', 'description' => 'Hostname', 'options' => ['readonly'], 'hidden' => 'C', 'space' => 1],
             // TODO: show this dropdown only if necessary (e.g. not if creating a modem from contract context)
-            $this->getModemClassSelectField($model),
+            ['form_type' => 'text', 'name' => 'qualified_model_class', 'description' => 'Modem class', 'hidden' => 1],
             $this->getParentIdSelectField($model),
             ['form_type' => 'text', 'name' => 'mac', 'description' => 'MAC Address', 'options' => ['placeholder' => 'AA:BB:CC:DD:EE:FF'], 'autocomplete' => ['modem'], 'help' => trans('helper.mac_formats')],
             ['form_type' => 'text', 'name' => 'serial_num', 'description' => 'Serial Number / CWMP-ID'],
@@ -233,16 +357,38 @@ class ModemController extends \BaseController
                 request()->mergeIfMissing(['qos_id'=> Contract::find(request('contract_id'))?->qos_id]);
             }
 
-            $b = [[
-                'form_type' => 'select', 'name' => 'qos_id', 'description' => 'QoS', 'value' => $this->setupSelect2Field($model, 'Qos'), 'help' => trans('helper.modem.qosCount'),
-                'options' => ['class' => 'select2-ajax', 'ajax-route' => route($this->select2AjaxRoute, ['relation' => 'qos'])],
-            ]];
+            $b = [
+                [
+                    'form_type' => 'select',
+                    'name' => 'qos_id',
+                    'description' => 'QoS',
+                    'value' => $this->setupSelect2Field($model, 'Qos'),
+                    'help' => trans('helper.modem.qosCount'),
+                    'options' => [
+                        'class' => 'select2-ajax',
+                        'ajax-route' => route($this->select2AjaxRoute, ['relation' => 'qos']),
+                    ],
+                ],
+            ];
             $c[] = ['form_type' => 'checkbox', 'name' => 'address_to_invoice', 'description' => trans('billingbase::view.modemAddressToInvoice'), 'space' => '1', 'help' => trans('billingbase::messages.modemAddressToInvoice')];
         } elseif (Module::collections()->has('SmartOnt') && $model->configfile && $model->configfile->is_multiservice_ont) {
             // do not use qos in this case
             $b = [];
         } else {
-            $b = [['form_type' => 'select', 'name' => 'qos_id', 'description' => 'QoS', 'value' => $model->html_list($model->qualities(), 'name'), 'space' => '1']];
+            $b = [
+                [
+                    'form_type' => 'select',
+                    'name' => 'qos_id',
+                    'description' => 'QoS',
+                    'value' => $this->setupSelect2Field($model, 'Qos'),
+                    'help' => trans('helper.modem.qosCount'),
+                    'options' => [
+                        'class' => 'select2-ajax',
+                        'ajax-route' => route($this->select2AjaxRoute, ['relation' => 'qos']),
+                    ],
+                    'space' => 1,
+                ],
+            ];
             $c[12] = array_merge($c[12], ['space' => 1]);
         }
 
@@ -360,28 +506,6 @@ class ModemController extends \BaseController
         return array_merge($a, $b, $c, $d, $smartont);
     }
 
-    /**
-     * Get the modem class select field (with leading null value).
-     *
-     * @param  Modules\ProvBase\Entities\Modem  $model
-     * @return array
-     */
-    protected function getModemClassSelectField(Modem $model): array
-    {
-        $ret = [
-            'form_type' => 'select',
-            'name' => 'qualified_model_class',
-            'description' => 'Modem class',
-            'value' => $model->getModemClassOptions(),
-        ];
-        if (count($ret['value']) < 3) {  // 3 because of the null value
-            // hide the field if there is only one option
-            $ret['hidden'] = 1;
-        }
-
-        return $ret;
-    }
-
     protected function getParentIdSelectField(Modem $model): array
     {
         $default = [
@@ -411,7 +535,7 @@ class ModemController extends \BaseController
         return [
             'form_type' => 'select',
             'name' => 'parent_id',
-            'description' => 'Parent Calix ONT',
+            'description' => 'Parent device',
             'value' => $this->setupSelect2Field($model, 'parentModem'),
             'options' => [
                 'class' => 'select2-ajax',
@@ -1065,10 +1189,6 @@ class ModemController extends \BaseController
         }
 
         $data['mac'] = unifyMac($data['mac'] ?? null);
-
-        if (! Module::collections()->has('Calix')) {
-            $data['qualified_model_class'] = 'Modules\ProvBase\Entities\Modem';
-        }
 
         return $data;
     }

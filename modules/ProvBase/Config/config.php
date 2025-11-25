@@ -45,13 +45,15 @@ if (! function_exists('Modules\ProvBase\Entities\getAvailableModemClasses')) {
     function getAvailableModemClasses()
     {
         $ret = [
-            'Modules\ProvBase\Entities\Modem',
+            'cm' => 'Modules\ProvBase\Entities\Modem',
+            'ont' => 'Modules\ProvBase\Entities\Modem',
+            'tr069' => 'Modules\ProvBase\Entities\Modem',
         ];
         if (Module::collections()->has('Calix')) {
             if (1001 == config('app.nmsprimeCustomerId')) {
-                $ret[] = 'Modules\Calix\Entities\Customer1001CalixOnt';
+                $ret['calixont'] = 'Modules\Calix\Entities\Customer1001CalixOnt';
             } else {
-                $ret[] = 'Modules\Calix\Entities\CalixOnt';
+                $ret['calixont'] = 'Modules\Calix\Entities\CalixOnt';
             }
         }
 

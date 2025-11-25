@@ -1,9 +1,9 @@
-{{-- Reload when qualified_model_class field changes --}}
-{{-- Cannot be done by hide/show because the custom fields may change --}}
+{{-- Reload when configfile_id field changes --}}
+{{-- Cannot be done by hide/show because maybe another class needs to be loaded --}}
 <script language="javascript">
 
-    $('#qualified_model_class').change(function() {
-        let selectfield = document.getElementById("qualified_model_class");
+    $('#configfile_id').change(function() {
+        let selectfield = document.getElementById("configfile_id");
         let selectedValue = selectfield.options[selectfield.selectedIndex].value;
 
         // Skip if no value is selected
@@ -11,25 +11,12 @@
             return;
         }
 
-        // Split by backslash and get the last part
-        let parts = selectedValue.split('\\');
-        let extractedString = parts[parts.length - 1];
-
         // Get current URL
         let currentUrl = new URL(location);
-        let pathParts = currentUrl.pathname.split('/');
 
-        // Find the index of 'admin' in the path
-        let adminIndex = pathParts.indexOf('admin');
-        if (adminIndex !== -1 && adminIndex + 1 < pathParts.length) {
-            // Replace the part after 'admin' with the extracted string
-            pathParts[adminIndex + 1] = extractedString;
-            currentUrl.pathname = pathParts.join('/');
-        }
-
-        // Update the qualified_model_class parameter
+        // Update the configfile_id parameter
         let urlParams = new URLSearchParams(currentUrl.search);
-        urlParams.set('qualified_model_class', selectedValue);
+        urlParams.set('configfile_id', selectedValue);
 
         // Preserve all form field data
         preserveFormData(urlParams);
@@ -48,7 +35,7 @@
      */
     function preserveFormData(urlParams) {
         // Fields to ignore when preserving form data
-        const ignoredFields = ['configfile_id', 'qos_id'];
+        const ignoredFields = ['qos_id'];
 
         // Get all form elements on the page
         const forms = document.querySelectorAll('form');

@@ -36,7 +36,10 @@ trait HasConfigfile
             ->whereIn('device', $device)
             ->where('public', 'yes')
             ->when($search, function ($query, $search) {
-                return $query->where('name', 'ilike', "%{$search}%");
+                return $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('name', 'ilike', "%{$search}%")
+                             ->orWhere('device', 'ilike', "%{$search}%");
+                });
             });
     }
 
