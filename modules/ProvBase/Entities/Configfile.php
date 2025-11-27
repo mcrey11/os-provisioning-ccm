@@ -606,6 +606,11 @@ class Configfile extends \BaseModel
      */
     public function addCVC(&$config)
     {
+        // don't auto-generate MfgCVCData / ManufacturerCVCChain if it is user-specified in the configfile (uncommented)
+        if (\Str::contains(preg_replace('!/\*.*?\*/!s', '', $this->text), ['MfgCVCData', 'ManufacturerCVCChain'])) {
+            return;
+        }
+
         $cvcCount = exec("openssl pkcs7 -print_certs -inform DER -in /tftpboot/fw/{$this->firmware} | grep 'BEGIN CERTIFICATE' | wc -l");
 
         if ($cvcCount == 1) {
