@@ -1098,7 +1098,7 @@ class ModemController extends \BaseController
             }
         }
 
-        if (! in_array(request('model'), ['TG862', 'TG3442S', 'TG3442SP', '4050', '4690', '5530', '5590'])) {
+        if (! in_array(request('model'), ['TG862', 'TG3442S', 'TG3442SP', '4050', '4690', '5530', '5590', '6670'])) {
             $errors[] = 'unsupported model';
         }
 
@@ -1149,13 +1149,16 @@ class ModemController extends \BaseController
                 case '4690':
                 case '5530':
                 case '5590':
+                case '6670':
                     $data = [
                         'name' => 'setParameterValues',
                         'parameterValues' => [
                             ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.SSID', request('ssid'), 'xsd:string'],
                             ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.PreSharedKey.1.PreSharedKey', request('psk'), 'xsd:string'],
+                            ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.BeaconType', 'WPAand11i', 'xsd:string'],
                             ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.2.SSID', request('ssid'), 'xsd:string'],
                             ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.2.PreSharedKey.1.PreSharedKey', request('psk'), 'xsd:string'],
+                            ['InternetGatewayDevice.LANDevice.1.WLANConfiguration.2.BeaconType', 'WPAand11i', 'xsd:string'],
                         ],
                     ];
 
