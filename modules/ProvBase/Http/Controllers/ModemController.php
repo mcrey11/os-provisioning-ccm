@@ -1012,6 +1012,77 @@ class ModemController extends \BaseController
         return response()->v0ApiReply([], true, $id);
     }
 
+    public function api_getWifi($ver, $id)
+    {
+        if ($ver !== '0') {
+            return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
+        }
+
+        $errors = [];
+        $modem = static::get_model_obj()->findOrFail($id);
+
+        foreach (['model'] as $parameter) {
+            if (! request($parameter)) {
+                $errors[] = "parameter $parameter missing";
+            }
+        }
+
+        if (! in_array(request('model'), ['TG862', 'TG3442S', 'TG3442SP'])) {
+            $errors[] = 'unsupported model';
+        }
+
+        $onlineStatus = $modem->onlineStatus();
+        if (! $onlineStatus['online']) {
+            $errors[] = 'modem is offline';
+        }
+
+        if ($errors) {
+            return response()->v0ApiReply(['messages' => ['errors' => $errors]]);
+        }
+
+        $config = ProvBase::first();
+        $fqdn = $modem->hostname.'.'.$config->domain_name;
+
+        snmp_set_quick_print(true);
+
+        $ssid24 = $ssid50 = '';
+        $enabled24 = $enabled50 = false;
+        try {
+            switch (request('model')) {
+                case 'TG862':
+                    // get SSID name for 2.4GHz
+                    $ssid24 = $ssid50 = snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.2.10001');
+                    $enabled24 = $enabled50 = true;
+                    break;
+                case 'TG3442S':
+                case 'TG3442SP':
+                    // get SSID name for 2.4GHz
+                    $ssid24 = snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.2.10001');
+                    $enabled24 = true;
+
+                    // get SSID name for 5.0GHz
+                    $ssid50 = snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.2.10101');
+                    $enabled50 = true;
+                    break;
+            }
+        } catch (\Exception $e) {
+            return response()->v0ApiReply(['messages' => ['errors' => [$e->getMessage()]]]);
+        }
+
+        $object = [
+            'enabled' => [
+                '24' => $enabled24,
+                '50' => $enabled50,
+            ],
+            'ssid' => [
+                '24' => trim($ssid24, '"'),
+                '50' => trim($ssid50, '"'),
+            ],
+        ];
+
+        return response()->v0ApiReply($object, true, $id);
+    }
+
     public function api_setWifi($ver, $id)
     {
         if ($ver !== '0') {
