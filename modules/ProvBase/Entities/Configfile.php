@@ -84,7 +84,7 @@ class Configfile extends \BaseModel
         }
 
         if ('zyxelont' == $device) {
-            dd('not yet implemented');
+            // TODO: implement custom field definitions for Zyxel ONTs
         }
 
         self::$customFieldDefinitions = [];

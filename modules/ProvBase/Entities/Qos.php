@@ -86,7 +86,7 @@ class Qos extends \BaseModel
         }
 
         if ('zyxelont' == $type) {
-            dd('not yet implemented');
+            // TODO: implement custom field definitions for Zyxel ONTs
         }
 
         self::$customFieldDefinitions = [];

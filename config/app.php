@@ -264,4 +264,5 @@ return [
     'nmsprimeCustomerId' => intval(env('NMSPRIME_CUSTOMER_ID', 0)),
     'nmsprimeRole' => strtolower(env('NMSPRIME_ROLE', 'default')),
     'osmNominatimApiMail' => env('OSM_NOMINATIM_EMAIL'),
+    'use_mock_data' => env('USE_MOCK_DATA', false),
 ];

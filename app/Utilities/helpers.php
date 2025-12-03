@@ -901,3 +901,31 @@ if (! function_exists('serverSentEventResponse')) {
         ]);
     }
 }
+
+if (! function_exists('phpWarningToException')) {
+    /**
+     * Helper function to create a real (catchable) Exception from a PHP E_WARNING
+     *
+     * e.g. snmp2_real_walk does not throw an exception in case of an error
+     * instead it returns false and shows an E_WARNING
+     *
+     * Use as follows:
+     * ----------------------------------------------------------------------
+     * // Set the generic error handler to target E_WARNINGs
+     * set_error_handler('genericWarningToException', E_WARNING);
+     *
+     * try {
+     *     someMethodShowingWarning();
+     * } catch (\App\Exceptions\PhpWarning $ex) {
+     *     echo $ex->getMessage();
+     * } finally {
+     *     // Always restore the default error handler when finished!
+     *     restore_error_handler();
+     * }
+     * ----------------------------------------------------------------------
+     */
+    function phpWarningToException($errno, $errstr, $errfile, $errline): bool
+    {
+        throw new \App\Exceptions\PhpWarning($errstr, $errno, $errno, $errfile, $errline);
+    }
+}

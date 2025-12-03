@@ -17,25 +17,15 @@
  * limitations under the License.
  */
 
-return [
-    'Arris'     => ['C1000', 'C3', 'C4', 'E6000'],
-    'Casa'      => ['C1G', 'C2200', 'C3200', 'C100G'],
-    'Cisco'     => ['ubr7225', 'ubr7246', 'ubr10k', 'ASR1000'],
-    'Huawei'    => [
-        'MA5800-X2',
-        'MA5800-X7',
-        'MA5800-X15',
-        'MA5800-X17',
-    ],
-    'MikroTik'  => ['CCR1036', 'CCR2004'],
-    'Motorola'  => ['BSR2000', 'BSR64000'],
-    'NSN'       => ['hiX5608'],
-    'Ubiquiti'  => ['EdgeRouter'],
-    'ZTE'       => ['C320'],
-    'ZyXEL'     => [
-        'IES4204',
-        'IES5206M',
-        'OLT1404A',
-        'OLT1408A',
-    ],
-];
+namespace App\Exceptions;
+
+/**
+ * Exception used when E_WARNING needs to be caught.
+ *
+ * Thrown by phpWarningToException() in app/Utilities/helpers.php
+ *
+ * @author Patrick Reichel
+ */
+class PhpWarning extends \ErrorException
+{
+}

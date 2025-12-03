@@ -53,6 +53,7 @@ class Modem extends \BaseModel
         'cm',
         'ont',
         'tr069',
+        'zyxelont',
     ];
     public const CWMP_EVENTS = [
         'BOOTSTRAP',
