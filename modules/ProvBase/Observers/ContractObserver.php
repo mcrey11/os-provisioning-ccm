@@ -51,14 +51,14 @@ class ContractObserver
         }
     }
 
-    public function created($contract)
+    public function created(Contract $contract)
     {
         $contract->pushToModems(); 	// should not run, because a new added contract can not have modems..
 
         $contract->updateAddressFromProperty();
     }
 
-    public function updating($contract)
+    public function updating(Contract $contract)
     {
         $contract->setGeocodes();
 
@@ -97,13 +97,7 @@ class ContractObserver
             $contract->daily_conversion();
 
             if (Module::collections()->has('BillingBase') && $contract->contract_end && array_key_exists('contract_end', $changed_fields)) {
-                // Alert if end is lower than tariffs end of term
-                $ret = $contract->getCancelationDates();
-
-                if ($ret['end_of_term'] && $contract->contract_end < $ret['end_of_term']) {
-                    Session::put('alert.danger', trans('messages.contract.early_cancel', ['date' => $ret['end_of_term']]));
-                }
-
+                $this->alertOnMaturityViolation($contract);
                 // $this->alertOnRefund($contract);
             }
         }
@@ -127,7 +121,7 @@ class ContractObserver
         }
     }
 
-    public function deleting($contract)
+    public function deleting(Contract $contract)
     {
         if (Module::collections()->has('BillingBase') && Module::collections()->has('Ccc') && $contract->cccUser) {
             $contract->cccUser->delete();
@@ -135,10 +129,23 @@ class ContractObserver
     }
 
     /**
+     * Show alert after changing contracts end date when minimum runtime of any of its items is not fully reached
+     */
+    private function alertOnMaturityViolation($contract)
+    {
+        $ret = $contract->getCancelationDates();
+
+        // Alert if end is lower than tariffs end of term
+        if ($ret['end_of_term'] && $contract->contract_end < $ret['end_of_term']) {
+            Session::put('alert.danger', trans('messages.contract.early_cancel', ['date' => $ret['end_of_term']]));
+        }
+    }
+
+    /**
      * Show alert when contract is canceled and there are yearly payed items that were charged
      * already (by probably full amount) - customer should get a credit then
      */
-    private function alertOnRefund($contract)
+    private function alertOnRefund(Contract $contract)
     {
         $query = $contract->items()->join('product as p', 'item.product_id', '=', 'p.id')
                 ->where('p.billing_cycle', 'Yearly');
