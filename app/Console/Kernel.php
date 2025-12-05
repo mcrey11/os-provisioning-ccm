@@ -284,7 +284,9 @@ class Kernel extends ConsoleKernel
                 $schedule->call(function () {
                     $sr = \Modules\BillingBase\Entities\SettlementRun::where('verified', true)->orderBy('id', 'desc')->first();
 
-                    Queue::pushOn('low', new \Modules\PaymentGws\Jobs\SendTransactionsJob($sr));
+                    if ($sr) {
+                        Queue::pushOn('low', new \Modules\PaymentGws\Jobs\SendTransactionsJob($sr));
+                    }
                 })->dailyAt('05:12');
             }
         }
