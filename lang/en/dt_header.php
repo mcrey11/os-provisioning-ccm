@@ -66,6 +66,7 @@ return [
         'contact' => 'Contact',
         'contract_end' => 'Contract End',
         'contract_start' => 'Contract Start',
+        'debtor' => 'Debtornr',
         'district' => 'District',
         'firstname' => 'Firstname',
         'house_number' => 'Housenr',

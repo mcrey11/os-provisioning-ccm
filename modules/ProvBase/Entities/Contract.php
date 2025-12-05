@@ -207,6 +207,8 @@ class Contract extends \BaseModel
 
         // default header set
         $ret[] = $this->table.'.number';
+        $ret[] = $this->table.'.number3';
+        $ret[] = $this->table.'.debtor';
         $ret[] = 'firstname';
         $ret[] = 'lastname';
         $ret[] = 'company';
