@@ -10,6 +10,7 @@ return [
     'ccc' => [
         'bgImg' => 'Hintergrundbild der Loginseite',
     ],
+    'customerPortal' => 'Kundenportal',
     //SEARCH
     'Search_EnterKeyword'       => 'Suchbegriff eingeben',
     'Search_MatchesFor'         => 'Ergebnis für|Ergebnisse für',

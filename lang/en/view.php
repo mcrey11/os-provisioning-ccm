@@ -10,6 +10,7 @@ return [
     'ccc' => [
         'bgImg' => 'Login page background image',
     ],
+    'customerPortal' => 'customer portal',
     //SEARCH
     'Search_EnterKeyword'       => 'Enter Keyword',
     'Search_MatchesFor'         => 'Match for|Matches for',
