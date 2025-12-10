@@ -2384,7 +2384,7 @@ class Modem extends \BaseModel
                 $check->value = 'Accept';
             } else {
                 $check->attribute = 'Cleartext-Password';
-                $check->value = $this->ppp_password;
+                $check->value = $this->ppp_password ?? '';
             }
             $check->save();
 
@@ -2401,7 +2401,7 @@ class Modem extends \BaseModel
         // update existing RadCheck, if password was changed
         if (array_key_exists('ppp_password', $this->getDirty()) && ! $useRadiusRelayInfo) {
             $check = $this->radcheckPassword;
-            $check->value = $this->ppp_password;
+            $check->value = $this->ppp_password ?? '';
             $check->save();
             $this->make_configfile();
             $this->factoryReset();
