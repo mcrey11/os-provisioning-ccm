@@ -157,7 +157,7 @@ class NetElementController extends BaseController
     public function prepare_rules($rules, $data)
     {
         if ($data['netelementtype_id'] == 9) {
-            $id = $data['id'] ?? null;
+            $id = $data['id'] ?? 0; // If no ID is given (e.g. create) we put the non-existing ID 0 here instead
             $rules['address1'] = 'required|unique:netelement,address1,'.$id.',id,deleted_at,NULL,netelementtype_id,9|regex:/^([0-9A-F]{2}){4}(~\d)?$/';
         }
 
