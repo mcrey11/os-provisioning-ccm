@@ -20,11 +20,10 @@
 namespace Modules\ProvBase\Console;
 
 // use App\ImportTrait;
-use \App\AddressFunctionsTrait;
+use App\AddressFunctionsTrait;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
-use Illuminate\Support\Arr;
 use Modules\BillingBase\Entities\BookingAccount;
 use Modules\BillingBase\Entities\CostCenter;
 use Modules\BillingBase\Entities\Item;
@@ -36,12 +35,10 @@ use Modules\PropertyManagement\Entities\Realty;
 // use Modules\ProvBase\Entities\Address;
 use Modules\ProvBase\Entities\Configfile;
 use Modules\ProvBase\Entities\Contract;
-use Modules\ProvBase\Entities\Endpoint;
 use Modules\ProvBase\Entities\Modem;
 use Modules\ProvVoip\Entities\Mta;
 use Modules\ProvVoip\Entities\Phonenumber;
 use stdClass;
-use Validator;
 
 class ImportPinetCommand extends Command
 {
@@ -262,8 +259,7 @@ class ImportPinetCommand extends Command
                 'Description',
             )
             ->get()
-            ->keyBy('Code')
-            ;
+            ->keyBy('Code');
 
         // dd('Possible Services', $structure, $this->possibleServices);
     }
@@ -274,10 +270,9 @@ class ImportPinetCommand extends Command
         $col = '';
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
 
-        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)
+        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table);
             // ->where('No_', '>', 1386)
             // ->limit(10);
-            ;
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
@@ -309,10 +304,9 @@ class ImportPinetCommand extends Command
         $col = '';
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
 
-        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)
+        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table);
             // ->where('No_', '>', 1386)
             // ->limit(10)
-        ;
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
@@ -353,11 +347,10 @@ class ImportPinetCommand extends Command
         $fullCustomerStructure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$Customer')->first();
         $col = '';
 
-        $query = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$Customer')
+        $query = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$Customer');
         // ->where('Tax Liable', '!=', '0')
         // ->where('No_', '=', 1391)
         // ->limit(10)
-        ;
 
         if ($col) {
             $this->customers = $query->select($col)->groupBy($col)->pluck($col);
@@ -446,61 +439,60 @@ class ImportPinetCommand extends Command
         // ->where('Contract No_', '304002')
         // ->where('Connection Type', '1')
         // ->whereIn('No_', ['A13793']) // A26892 = stillgelegt
-        ->whereIn('No_', ['A15834','A10315','A10771','A26351','A17581','A17601','A27409'])
+        ->whereIn('No_', ['A15834', 'A10315', 'A10771', 'A26351', 'A17581', 'A17601', 'A27409']);
         // ->whereIn('Contract No_', ["306235","306856","305574","306445","305127"]) // A26892 = stillgelegt
 
 // ->limit(100)
-            ;
-            // Kabel_DS30 => A15834
-            // DSL-TAL-Anschluss => A10315
-            // Kabel/SAT_onlyTV => A10771
-            // FTTB_GPON => A26351
-            // FTTH_P2P => A17581
-            // L2/L3BSA => A17601
-            // Virtuell/BH => A27409
+        // Kabel_DS30 => A15834
+        // DSL-TAL-Anschluss => A10315
+        // Kabel/SAT_onlyTV => A10771
+        // FTTB_GPON => A26351
+        // FTTH_P2P => A17581
+        // L2/L3BSA => A17601
+        // Virtuell/BH => A27409
 
-            if ($col) {
-                // $contracts = $query->select($col)->groupBy($col)->pluck($col);
-                $contracts = $query->selectRaw("COUNT(*), [Contract No_]")->having(DB::raw('COUNT(*)'), '>', 2)->groupBy($col)->pluck($col);
-            } else {
-                $contracts = $query->select(
-                    'No_', // = "Adapter No_" in item / Billing Line
-                    'Contract No_',
-                    'Activation Date', // Vertragsstart
-                    'Participant Name',
-                    'Participant Address',
-                    'Participant Address 2',
-                    'Patricipant City',
-                    'Payer Name',
-                    'Payer Address 2',
-                    'Search Name',
-                    'Internet Part_ Name',
-                    'Participant No_', // = 'No_' in Customer
-                    'Internet Participant No_',
-                    'Owner No_',
-                    'Payer No_', // Has sth to do with SEPA-Mandate?
-                    'Object No_', // Relation to Real estate
-                    'Internet Start Date',
-                    'Internet End Date',
-                    'Cancellation Date',
-                    'Bell',
-                    'Head Station Code',
-                    'Street No_',
-                    'House No_',
-                    'Street Description',
-                    'Shortcut Dimension 1 Code',
-                    'Part_ Phone No_', // Take it from customer or from here?
-                    'Birthdate',
-                    'Adapter State',
-                    'Adapter Mode',
-                    'Connection Type',
-                    'Client',
-                    'Top No_', // = Wohnungsnr
-                    'Amplifier',
-                    'No_ Series',
-                )
-                ->get();
-            }
+        if ($col) {
+            // $contracts = $query->select($col)->groupBy($col)->pluck($col);
+            $contracts = $query->selectRaw('COUNT(*), [Contract No_]')->having(DB::raw('COUNT(*)'), '>', 2)->groupBy($col)->pluck($col);
+        } else {
+            $contracts = $query->select(
+                'No_', // = "Adapter No_" in item / Billing Line
+                'Contract No_',
+                'Activation Date', // Vertragsstart
+                'Participant Name',
+                'Participant Address',
+                'Participant Address 2',
+                'Patricipant City',
+                'Payer Name',
+                'Payer Address 2',
+                'Search Name',
+                'Internet Part_ Name',
+                'Participant No_', // = 'No_' in Customer
+                'Internet Participant No_',
+                'Owner No_',
+                'Payer No_', // Has sth to do with SEPA-Mandate?
+                'Object No_', // Relation to Real estate
+                'Internet Start Date',
+                'Internet End Date',
+                'Cancellation Date',
+                'Bell',
+                'Head Station Code',
+                'Street No_',
+                'House No_',
+                'Street Description',
+                'Shortcut Dimension 1 Code',
+                'Part_ Phone No_', // Take it from customer or from here?
+                'Birthdate',
+                'Adapter State',
+                'Adapter Mode',
+                'Connection Type',
+                'Client',
+                'Top No_', // = Wohnungsnr
+                'Amplifier',
+                'No_ Series',
+            )
+            ->get();
+        }
 
         d('contracts', $fullContractStructure, $contracts);
 
@@ -610,8 +602,8 @@ class ImportPinetCommand extends Command
 
     private function mapSalutation($salutation)
     {
-// TODO: 26 different ones: "AN DEN","WEG","HERR/FRAU","VEREIN","DR.","HERR","SCHULE","SUPER","DIPL. STOM","GRUNDST","FA.","FÜR DIE","RA","AN",
-// "AN DAS","KÖNIGSBRÜC","","AN DIE","WOHNGEMEIN","PROF. DR.","HÄDICKE","BETREUUNG","DRK","FAM.","FRAU","DR.MED."
+        // TODO: 26 different ones: "AN DEN","WEG","HERR/FRAU","VEREIN","DR.","HERR","SCHULE","SUPER","DIPL. STOM","GRUNDST","FA.","FÜR DIE","RA","AN",
+        // "AN DAS","KÖNIGSBRÜC","","AN DIE","WOHNGEMEIN","PROF. DR.","HÄDICKE","BETREUUNG","DRK","FAM.","FRAU","DR.MED."
 
         return $salutation;
     }
@@ -680,7 +672,6 @@ class ImportPinetCommand extends Command
         return implode(',', $phonenrs);
     }
 
-
     private function importBookingAccounts()
     {
         echo __FUNCTION__."...\n";
@@ -744,42 +735,41 @@ class ImportPinetCommand extends Command
         $col = '';
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('No_', 'not like', 'ALT%')->first();
 
-        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('No_', 'not like', 'ALT%')
+        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('No_', 'not like', 'ALT%');
             // ->whereIn('No_', ['T13700', '30007', '10220'])
             // ->limit(10)
-            ;
 
-            if ($col) {
-                $objects = $objects->select($col)->groupBy($col)->pluck($col);
-            } else {
-                $objects = $objects->select(
-                    'No_',
-                    'Description',
-                    'Base Unit of Measure', // "EINM", "JAHR", "M", "MTL", "OBJEKT", "PSCH", "QUARTAL", "STK", "WE"
-                    // 'Inventory Posting Group', // LAGER|LEISTUNG
-                    'Unit Price',
-                    'Price Includes VAT',
-                    'Gen_ Prod_ Posting Group', // 41 different ones => Type Produktbuchungsgruppe
-                    // "0% SIGNAL","0% STROM","BBSA","BC","BEREIT","BEREITORG","BKZ","BMS","BMSORG","BNET","BNETORG","BSA","BSASONST","BSERVICE",
-                    // "BSV","BTEL", "BTELORG","BTV","DIENSTL","DUO","INFRAORG","INTER$13B","IPTV","KABELTV","MIETEBMS","MIETENET","MIETETEL","MIETETV",
-                    // "NET","NETSONST","PROVI", "REGIO","SATTV","SERVICE","TEL","TELEFONART","TELSONST","TRIO","WARE19","WAREORG","ZUSATZL",
+        if ($col) {
+            $objects = $objects->select($col)->groupBy($col)->pluck($col);
+        } else {
+            $objects = $objects->select(
+                'No_',
+                'Description',
+                'Base Unit of Measure', // "EINM", "JAHR", "M", "MTL", "OBJEKT", "PSCH", "QUARTAL", "STK", "WE"
+                // 'Inventory Posting Group', // LAGER|LEISTUNG
+                'Unit Price',
+                'Price Includes VAT',
+                'Gen_ Prod_ Posting Group', // 41 different ones => Type Produktbuchungsgruppe
+                // "0% SIGNAL","0% STROM","BBSA","BC","BEREIT","BEREITORG","BKZ","BMS","BMSORG","BNET","BNETORG","BSA","BSASONST","BSERVICE",
+                // "BSV","BTEL", "BTELORG","BTV","DIENSTL","DUO","INFRAORG","INTER$13B","IPTV","KABELTV","MIETEBMS","MIETENET","MIETETEL","MIETETV",
+                // "NET","NETSONST","PROVI", "REGIO","SATTV","SERVICE","TEL","TELEFONART","TELSONST","TRIO","WARE19","WAREORG","ZUSATZL",
 
-                    'Item Category Code', // 60 different ones
-                    // '0% SIGNAL', '0% STROM', 'AKTIONIPTV', 'AKTIONNET', 'BBSA', 'BBSABEREIT', 'BC', 'BEREIT_SYM', 'BEREITNET', 'BEREITORG',
-                    // 'BEREITTEL', 'BEREITTV', 'BKZ', 'BMS', 'BMSEINR', 'BMSORG', 'BNET', 'BNET_SYM', 'BNET-ASYM', 'BNETORG', 'BSA', 'BSASONST',
-                    // 'BSERVICE', 'BSV', 'BSV_DF', 'BSVBREIT', 'BTEL', 'BTELBEREIT', 'BTELORG', 'CATV', 'CATVZI', 'DIENSTL', 'DUO', 'HW_MIETETV',
-                    // 'HWNET_BK', 'HWNET_PK', 'HWTEL_BK', 'HWTEL_PK', 'HWTV_PK', 'HWWLANPK', 'INFRAORG', 'IPTV', 'KABELTV', 'MIET_NET_B',
-                    // 'MIET_NET_P', 'MIET_TEL_B', 'MIETEBMS', 'MIETENET', 'NET', 'NETSONST', 'PRÄMIE', 'REGIO', 'SATTV', 'SERVICE', 'TEL',
-                    // 'TELSONST', 'TRIO', 'WARE19', 'WAREORG', 'ZUSATZL',
-                    'Blocked',
-                    'VAT Prod_ Posting Group', // MWST ja/nein
-                    'Period',
-                    'Days of Period',
-                    // 'From Date', // Always '1753-01-01 00:00:00.000'
-                    // 'Until Date', // Always '1753-01-01 00:00:00.000'
-                    // 'Tax Group Code', // Always ''
-                    )
-                    ->get();
+                'Item Category Code', // 60 different ones
+                // '0% SIGNAL', '0% STROM', 'AKTIONIPTV', 'AKTIONNET', 'BBSA', 'BBSABEREIT', 'BC', 'BEREIT_SYM', 'BEREITNET', 'BEREITORG',
+                // 'BEREITTEL', 'BEREITTV', 'BKZ', 'BMS', 'BMSEINR', 'BMSORG', 'BNET', 'BNET_SYM', 'BNET-ASYM', 'BNETORG', 'BSA', 'BSASONST',
+                // 'BSERVICE', 'BSV', 'BSV_DF', 'BSVBREIT', 'BTEL', 'BTELBEREIT', 'BTELORG', 'CATV', 'CATVZI', 'DIENSTL', 'DUO', 'HW_MIETETV',
+                // 'HWNET_BK', 'HWNET_PK', 'HWTEL_BK', 'HWTEL_PK', 'HWTV_PK', 'HWWLANPK', 'INFRAORG', 'IPTV', 'KABELTV', 'MIET_NET_B',
+                // 'MIET_NET_P', 'MIET_TEL_B', 'MIETEBMS', 'MIETENET', 'NET', 'NETSONST', 'PRÄMIE', 'REGIO', 'SATTV', 'SERVICE', 'TEL',
+                // 'TELSONST', 'TRIO', 'WARE19', 'WAREORG', 'ZUSATZL',
+                'Blocked',
+                'VAT Prod_ Posting Group', // MWST ja/nein
+                'Period',
+                'Days of Period',
+                // 'From Date', // Always '1753-01-01 00:00:00.000'
+                // 'Until Date', // Always '1753-01-01 00:00:00.000'
+                // 'Tax Group Code', // Always ''
+            )
+                ->get();
         }
 
         // d('Products', $structure, $objects);
@@ -791,7 +781,6 @@ class ImportPinetCommand extends Command
             }
 
             $cycle = $this->cycleMappings[$product->{'Base Unit of Measure'}];
-
 
             $bookingAccount = $this->getBookingAccountByProdGroup($product->{'Gen_ Prod_ Posting Group'});
 
@@ -890,7 +879,7 @@ class ImportPinetCommand extends Command
                 'Street No_',
                 'House No_',
                 'Contract Name', // Posten Start + ggf. Laufzeiten; wenn leer, dann 1.1.2000
-                )
+            )
             // ->limit(100)
             // ->groupBy('Base Unit of Measure')
             // ->where('Gen_ Prod_ Posting Group', 'WARE19')
@@ -1071,9 +1060,9 @@ class ImportPinetCommand extends Command
         echo __FUNCTION__."...\n";
 
         $table = 'Customer Bank Account';
-        $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where("IBAN", '!=', '')->first();
+        $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('IBAN', '!=', '')->first();
 
-        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where("IBAN", '!=', '')
+        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('IBAN', '!=', '')
             // ->where('Customer No_', '=', '4971')
             ->where('Clearing', 1)
             // ->limit(10)
@@ -1103,7 +1092,7 @@ class ImportPinetCommand extends Command
             $contracts = Contract::where('number3', $sm->{'Customer No_'})->get();
 
             if ($contracts->isEmpty()) {
-                $this->warnings['missingContractForSepa-'.$sm->{'IBAN'}] = "Contract is missing for SepaMandate ".$sm->{'IBAN'}.' with Customer No '.$sm->{'Customer No_'};
+                $this->warnings['missingContractForSepa-'.$sm->{'IBAN'}] = 'Contract is missing for SepaMandate '.$sm->{'IBAN'}.' with Customer No '.$sm->{'Customer No_'};
 
                 continue;
             }
@@ -1122,7 +1111,7 @@ class ImportPinetCommand extends Command
                     // 'state' => $sm->{''},
                     // 'costcenter_id' => $sm->{''},
                 ]);
-                }
+            }
         }
 
         $bar->finish();
@@ -1134,9 +1123,9 @@ class ImportPinetCommand extends Command
         echo __FUNCTION__."...\n";
 
         $table = 'PiNet VoIP Customer Phone No_';
-        $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where("Phone No_", '!=', '')->where("Password", '!=', '')->first();
+        $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('Phone No_', '!=', '')->where('Password', '!=', '')->first();
 
-        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where("Phone No_", '!=', '')->where("Password", '!=', '')
+        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('Phone No_', '!=', '')->where('Password', '!=', '')
             // ->where('Adapter No_', '=', 'A10003')
             // ->limit(10)
             ->select(
@@ -1259,10 +1248,9 @@ class ImportPinetCommand extends Command
         $col = '';
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
 
-        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)
+        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table);
             // ->where('No_', '>', 1386)
             // ->limit(10)
-            ;
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);

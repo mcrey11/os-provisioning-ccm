@@ -25,12 +25,9 @@ use Modules\BillingBase\Entities\CostCenter;
 use Modules\BillingBase\Entities\Item;
 use Modules\BillingBase\Entities\Product;
 use Modules\BillingBase\Entities\SepaMandate;
-use Modules\ProvBase\Entities\Address;
 use Modules\ProvBase\Entities\Configfile;
 use Modules\ProvBase\Entities\Contract;
 use Modules\ProvBase\Entities\Modem;
-use Modules\ProvVoip\Entities\Mta;
-use Validator;
 
 class ImportThuegaCommand extends Command
 {
@@ -85,7 +82,6 @@ class ImportThuegaCommand extends Command
     /** @var array Existing CostCenters keyed by number */
     protected $costcenters;
 
-
     public function handle()
     {
         $this->validateInput();
@@ -119,11 +115,11 @@ class ImportThuegaCommand extends Command
 
     private function importContracts()
     {
-// $this->contracts = Contract::get()->keyBy('number');
-// foreach ($this->contracts as $c) {
+        // $this->contracts = Contract::get()->keyBy('number');
+        // foreach ($this->contracts as $c) {
 //     $this->customerNumbers[$c->number2][] = $c->number;
-// }
-// return;
+        // }
+        // return;
 
         $list = file($this->argument('contracts'));
         unset($list[0]);
@@ -206,14 +202,14 @@ class ImportThuegaCommand extends Command
             'valid_from_fixed' => 1,
             'valid_to' => in_array(trim($line[17]), ['31.12.2099', '12/31/2099', '2099-12-31']) ? null : date('Y-m-d', intval(strtotime(trim($line[17])))),
             'valid_to_fixed' => 1,
-// TODO: Set for Bereitstellungsgebühr
+            // TODO: Set for Bereitstellungsgebühr
             // 'payed_until_before_sr' => $nextPayment->subDay(),
         ]);
     }
 
     private function importCustomerData()
     {
-// return;
+        // return;
         $list = file($this->argument('customers'));
         unset($list[0]);
 

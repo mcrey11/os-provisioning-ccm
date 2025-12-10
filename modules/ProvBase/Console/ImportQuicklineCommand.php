@@ -34,9 +34,6 @@ use Modules\ProvVoip\Entities\Mta;
 use Modules\ProvVoip\Entities\Phonenumber;
 use Validator;
 
-/**
- *
- */
 class ImportQuicklineCommand extends Command
 {
     /**
@@ -147,7 +144,7 @@ class ImportQuicklineCommand extends Command
                 $deprecated = true;
             }
 
-            if ($type == 'Voip' && ! in_array(intval($id), [300, 301, 320, 321, 322, 323, 400,401,402,403 ])) {
+            if ($type == 'Voip' && ! in_array(intval($id), [300, 301, 320, 321, 322, 323, 400, 401, 402, 403])) {
                 $type = 'Other';
             }
 
