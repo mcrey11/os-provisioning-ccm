@@ -271,8 +271,8 @@ class ImportPinetCommand extends Command
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
 
         $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table);
-            // ->where('No_', '>', 1386)
-            // ->limit(10);
+        // ->where('No_', '>', 1386)
+        // ->limit(10);
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
@@ -305,8 +305,8 @@ class ImportPinetCommand extends Command
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
 
         $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table);
-            // ->where('No_', '>', 1386)
-            // ->limit(10)
+        // ->where('No_', '>', 1386)
+        // ->limit(10)
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
@@ -442,7 +442,7 @@ class ImportPinetCommand extends Command
         ->whereIn('No_', ['A15834', 'A10315', 'A10771', 'A26351', 'A17581', 'A17601', 'A27409']);
         // ->whereIn('Contract No_', ["306235","306856","305574","306445","305127"]) // A26892 = stillgelegt
 
-// ->limit(100)
+        // ->limit(100)
         // Kabel_DS30 => A15834
         // DSL-TAL-Anschluss => A10315
         // Kabel/SAT_onlyTV => A10771
@@ -736,8 +736,8 @@ class ImportPinetCommand extends Command
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('No_', 'not like', 'ALT%')->first();
 
         $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->where('No_', 'not like', 'ALT%');
-            // ->whereIn('No_', ['T13700', '30007', '10220'])
-            // ->limit(10)
+        // ->whereIn('No_', ['T13700', '30007', '10220'])
+        // ->limit(10)
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
@@ -1249,8 +1249,8 @@ class ImportPinetCommand extends Command
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
 
         $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table);
-            // ->where('No_', '>', 1386)
-            // ->limit(10)
+        // ->where('No_', '>', 1386)
+        // ->limit(10)
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
