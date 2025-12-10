@@ -329,11 +329,11 @@ class ImportThuegaCommand extends Command
     private function checkDifferentNameAndAddress()
     {
         if ($this->contract->firstname != $this->line[5] || $this->contract->lastname != $this->line[4]) {
-            $this->warning['diffName-'.$this->contract->id] = 'Contract name differs in customer and contract file for customer number '.$this->line[2];
+            $this->warnings['diffName-'.$this->contract->id] = 'Contract name differs in customer and contract file for customer number '.$this->line[2];
         }
 
         if ($this->contract->street != $this->line[7] || $this->contract->zip != $this->line[11] || $this->contract->house_number != $this->line[8].$this->line[9]) {
-            $this->warning['diffAddr-'.$this->contract->id] = 'Contract address differs in customer and contract file for customer number '.$this->line[2];
+            $this->warnings['diffAddr-'.$this->contract->id] = 'Contract address differs in customer and contract file for customer number '.$this->line[2];
         }
     }
 
@@ -398,7 +398,7 @@ class ImportThuegaCommand extends Command
 
             $this->line = $line = str_getcsv($line, ';');
             $number = $line[3];
-            $mac = str_pad('0', '12', $line[29], STR_PAD_LEFT);
+            $mac = str_pad($line[29], '12', '0', STR_PAD_LEFT);
             $contract = $this->contracts[$number] ?? $defaultContract;
             $configfileName = $line[31];
 
