@@ -101,7 +101,7 @@ class GuiLog extends \BaseModel
         \Log::notice('GuiLog: Execute cleanup() - Delete Log entries older than '.$months.' months - (hard delete older than '.(($months + 12) / 12).' years)');
 
         $softDeleteDate = now()->subMonths($months);
-        $hardDeleteDate = $softDeleteDate->subMonths(12);
+        $hardDeleteDate = (clone $softDeleteDate)->subMonths(12);
 
         self::where('created_at', '<', $softDeleteDate)->delete();
         self::where('created_at', '<', $hardDeleteDate)->forceDelete();
