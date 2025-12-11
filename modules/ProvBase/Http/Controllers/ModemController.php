@@ -1052,17 +1052,17 @@ class ModemController extends \BaseController
                 case 'TG862':
                     // get SSID name for 2.4GHz
                     $ssid24 = $ssid50 = snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.2.10001');
-                    $enabled24 = $enabled50 = true;
+                    $enabled24 = $enabled50 = (snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.3.10001') == '1');
                     break;
                 case 'TG3442S':
                 case 'TG3442SP':
                     // get SSID name for 2.4GHz
                     $ssid24 = snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.2.10001');
-                    $enabled24 = true;
+                    $enabled24 = (snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.3.10001') == '1');
 
                     // get SSID name for 5.0GHz
                     $ssid50 = snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.2.10101');
-                    $enabled50 = true;
+                    $enabled50 = (snmpget($fqdn, $config->rw_community, '1.3.6.1.4.1.4115.1.20.1.1.3.22.1.3.10101') == '1');
                     break;
             }
         } catch (\Exception $e) {
