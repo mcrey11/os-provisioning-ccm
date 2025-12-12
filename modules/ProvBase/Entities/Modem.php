@@ -1266,6 +1266,18 @@ class Modem extends \BaseModel
             $conf .= "\tMaxCPE $max_cpe;\n";
         }
 
+        // if MaxCPE occurs multiple times, choose the first one
+        // i.e. the one lowest in the configfile branch
+        if (substr_count($text, 'MaxCPE') > 1) {
+            foreach (explode(PHP_EOL, $text) as $line) {
+                if (str_contains($line, 'MaxCPE')) {
+                    $conf .= "\t".trim($line)."\n";
+                    break;
+                }
+            }
+            $text = preg_replace('/\s*MaxCPE\s*\d+\s*;/', '', $text);
+        }
+
         if (Module::collections()->has('ProvVoip') && $internet_access && ! Str::contains($text, 'CpeMacAddress skip')) {
             foreach ($this->mtas as $mta) {
                 $conf .= "\tCpeMacAddress $mta->mac;\n";
