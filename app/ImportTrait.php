@@ -22,13 +22,30 @@ trait ImportTrait
      */
     public static function contractExists($number, $firstname, $lastname, $street, $city, $houseNr)
     {
-        $contract = Contract::with('cccUser')->where('number', $number)->first();
+        $contract = $number ? Contract::with('cccUser')->where('number', $number)->first() : null;
 
         if ($contract) {
             // Check if name and address differs - could be a different customer
             // Attention: strtolower doesn't work for ÄÖÜ, but i dont know if a street begins with such a char
-            if ($contract->firstname != $firstname || $contract->lastname != $lastname || strtolower($contract->street) != strtolower($street)) {
-                self::addTodo("Vertragsnummer $number existiert bereits, aber Name, Straße oder Stadt weichen ab - Bitte korrigieren Sie die Daten!");
+            $existingStreet = str_replace(['strasse', 'straße', 'str.'], 'str', strtolower($contract->street));
+            $newStreet = str_replace(['strasse', 'straße', 'str.'], 'str', strtolower($street));
+
+            $diff = [];
+            if ($contract->firstname != $firstname) {
+                $diff['Vorname'] = $contract->firstname.' | '.$firstname;
+            };
+            if ($contract->lastname != $lastname) {
+                $diff['Nachname'] = $contract->lastname.' | '.$lastname;
+            }
+            if (strtolower($contract->city) != strtolower($city)) {
+                $diff['Stadt'] = $contract->city.' | '.$city;
+            }
+            if ($existingStreet != $newStreet) {
+                $diff['Straße'] = $existingStreet.' | '.$newStreet;
+            }
+
+            if ($diff) {
+                self::addTodo("Vertragsnummer $number existiert bereits, aber ".implode(', ', array_keys($diff)).' '.(count($diff) > 1 ? 'weichen' : 'weicht').' ab - Bitte korrigieren Sie die Daten!');
 
                 return $contract;
             }
@@ -95,5 +112,20 @@ trait ImportTrait
 
             return true;
         }
+    }
+
+    /**
+     * From https://stackoverflow.com/questions/4400110/how-to-increase-of-mac-address-by-a-defined-value
+     */
+    public function mac2mtaMac($mac)
+    {
+        $mac = preg_replace('/[^0-9A-Fa-f]/', '', $mac);
+        $macVendorID = substr($mac, 0, 6);
+        $macDec = hexdec(substr($mac, 6));
+        $macDec += 1;
+        $macHex = dechex($macDec);
+        $mtaMac = $macVendorID.(strlen($macHex) < 6 ? str_repeat('0', 6 - strlen($macHex)) : '').$macHex;
+
+        return $mtaMac;
     }
 }
