@@ -1,4 +1,4 @@
-<div class="panel panel-inverse card-2 flex flex-column ml-3">
+<div>
     <div class="panel-heading flex flex-row justify-content-between">
         <h3>{{ __('view.payment.title') }}</h3>
     </div>
