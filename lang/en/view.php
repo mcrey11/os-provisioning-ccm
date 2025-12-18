@@ -487,6 +487,13 @@ return [
 
     'menu' => [
         'ccc' => [
+            'my_surflocal' => 'MY SURFLOCAL',
+            'meine_produkte' => 'MY PRODUCTS',
+            'meine_rechnungen' => 'MY INVOICES',
+            'mein_konto' => 'MY ACCOUNT',
+            'speedtest' => 'SPEEDTEST',
+            'anleitungen' => 'INSTRUCTIONS',
+            'kontakt' => 'CONTACT',
             'account' => 'Account',
             'profile' => 'Profile',
             'invoice_address' => 'Invoice Address',
@@ -501,9 +508,53 @@ return [
             'support' => 'Support',
             'changeRequest' => 'Change Request',
             'documents' => 'Documents',
-            'speedtest' => 'Speedtest',
             'ticket' => 'Tickets',
         ],
+    ],
+
+    'home' => [
+        'welcome' => 'Welcome',
+        'card_meine_produkte' => 'View your current products and adjust them.',
+        'card_meine_rechnungen' => 'View and download your invoices.',
+        'card_mein_konto' => 'Manage your account settings and invoice address.',
+        'card_speedtest' => 'Test your internet connection speed.',
+        'card_anleitungen' => 'Find helpful guides and instructions.',
+        'card_kontakt' => 'Contact us for support and questions.',
+        'button_meine_produkte' => 'TO PRODUCTS',
+        'button_meine_rechnungen' => 'TO INVOICES',
+        'button_mein_konto' => 'TO ACCOUNT',
+        'button_speedtest' => 'TO SPEEDTEST',
+        'button_anleitungen' => 'TO INSTRUCTIONS',
+        'button_kontakt' => 'TO CONTACT',
+    ],
+
+    'anleitungen' => [
+        'title' => 'Instructions',
+        'description' => 'Find helpful guides and instructions for using our services.',
+        'coming_soon' => 'Instructions will be available here soon.',
+    ],
+
+    'mein_konto' => [
+        'description' => 'Manage your account settings and preferences.',
+        'invoice_address' => 'Change Invoice Address',
+        'invoice_address_desc' => 'Update your billing and invoice address information.',
+        'modem_address' => 'Change Modem Address',
+        'modem_address_desc' => 'Update the address where your modem is located.',
+        'password_change' => 'Change Password',
+        'password_change_desc' => 'Update your account password and security settings.',
+        'payment_method' => 'Payment Method',
+        'payment_method_desc' => 'Change your payment method and billing preferences.',
+        'newsletter' => 'Newsletter Subscription',
+        'newsletter_desc' => 'Subscribe or unsubscribe from our newsletter.',
+    ],
+
+    'newsletter' => [
+        'title' => 'Newsletter Subscription',
+        'description' => 'Manage your newsletter subscription preferences.',
+        'subscribe' => 'Subscribe to Newsletter',
+        'subscribe_desc' => 'Receive our newsletter with updates, offers, and important information.',
+        'save' => 'Save',
+        'cancel' => 'Cancel',
     ],
 
     // NetElement

@@ -504,6 +504,13 @@ return [
 
     'menu' => [
         'ccc' => [
+            'my_surflocal' => 'MY SURFLOCAL',
+            'meine_produkte' => 'MEINE PRODUKTE',
+            'meine_rechnungen' => 'MEINE RECHNUNGEN',
+            'mein_konto' => 'MEIN KONTO',
+            'speedtest' => 'SPEEDTEST',
+            'anleitungen' => 'ANLEITUNGEN',
+            'kontakt' => 'KONTAKT',
             'account' => 'Konto',
             'profile' => 'Profil',
             'invoice_address' => 'Rechnungsadresse',
@@ -518,9 +525,53 @@ return [
             'support' => 'Support',
             'changeRequest' => 'Änderungsantrag',
             'documents' => 'Dokumente',
-            'speedtest' => 'Speedtest',
             'ticket' => 'Tickets',
         ],
+    ],
+
+    'home' => [
+        'welcome' => 'Willkommen',
+        'card_meine_produkte' => 'Sehen Sie sich Ihre aktuellen Produkte an und passen diese an.',
+        'card_meine_rechnungen' => 'Sehen Sie sich Ihre Rechnungen an und laden Sie diese herunter.',
+        'card_mein_konto' => 'Verwalten Sie Ihre Kontoeinstellungen und Rechnungsadresse.',
+        'card_speedtest' => 'Testen Sie die Geschwindigkeit Ihrer Internetverbindung.',
+        'card_anleitungen' => 'Finden Sie hilfreiche Anleitungen und Anweisungen.',
+        'card_kontakt' => 'Kontaktieren Sie uns für Support und Fragen.',
+        'button_meine_produkte' => 'ZU DEN PRODUKTEN',
+        'button_meine_rechnungen' => 'ZU DEN RECHNUNGEN',
+        'button_mein_konto' => 'ZUM KONTO',
+        'button_speedtest' => 'ZUM SPEEDTEST',
+        'button_anleitungen' => 'ZU DEN ANLEITUNGEN',
+        'button_kontakt' => 'ZUM KONTAKT',
+    ],
+
+    'anleitungen' => [
+        'title' => 'Anleitungen',
+        'description' => 'Finden Sie hilfreiche Anleitungen und Anweisungen zur Nutzung unserer Dienste.',
+        'coming_soon' => 'Anleitungen werden hier bald verfügbar sein.',
+    ],
+
+    'mein_konto' => [
+        'description' => 'Verwalten Sie Ihre Kontoeinstellungen und Präferenzen.',
+        'invoice_address' => 'Rechnungsadresse ändern',
+        'invoice_address_desc' => 'Aktualisieren Sie Ihre Rechnungs- und Abrechnungsadresse.',
+        'modem_address' => 'Modem-Adresse ändern',
+        'modem_address_desc' => 'Aktualisieren Sie die Adresse, an der sich Ihr Modem befindet.',
+        'password_change' => 'Passwort ändern',
+        'password_change_desc' => 'Aktualisieren Sie Ihr Kontopasswort und Ihre Sicherheitseinstellungen.',
+        'payment_method' => 'Zahlmethode',
+        'payment_method_desc' => 'Ändern Sie Ihre Zahlmethode und Abrechnungseinstellungen.',
+        'newsletter' => 'Newsletter-Anmeldung',
+        'newsletter_desc' => 'Abonnieren oder kündigen Sie unseren Newsletter.',
+    ],
+
+    'newsletter' => [
+        'title' => 'Newsletter-Anmeldung',
+        'description' => 'Verwalten Sie Ihre Newsletter-Abonnement-Einstellungen.',
+        'subscribe' => 'Newsletter abonnieren',
+        'subscribe_desc' => 'Erhalten Sie unseren Newsletter mit Updates, Angeboten und wichtigen Informationen.',
+        'save' => 'Speichern',
+        'cancel' => 'Abbrechen',
     ],
 
     // NetElement
