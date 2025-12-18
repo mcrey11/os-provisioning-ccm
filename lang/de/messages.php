@@ -323,6 +323,7 @@ return [
     'invoice_address_updated' => 'Rechnungsadresse erfolgreich aktualisiert',
     'edit_modem_address' => 'Modem-Adress-Umzug beantragen für Modem ',
     'modem_address_updated' => 'Modem-Adresse erfolgreich aktualisiert',
+    'newsletter_updated' => 'Newsletter-Abonnement erfolgreich aktualisiert',
     'invoice_delivery_method' => 'Rechnungsversand-Methode',
     'paper_invoice' => 'Papierrechnung',
     'electronic_invoice' => 'Elektronische Rechnung',

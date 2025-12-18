@@ -321,6 +321,7 @@ return [
     'invoice_address_updated' => 'Invoice address updated successfully',
     'edit_modem_address' => 'Request Modem Address Change for Modem ',
     'modem_address_updated' => 'Modem address updated successfully',
+    'newsletter_updated' => 'Newsletter subscription updated successfully',
     'invoice_delivery_method' => 'Invoice Delivery Method',
     'paper_invoice' => 'Paper Invoice',
     'electronic_invoice' => 'Electronic Invoice',
