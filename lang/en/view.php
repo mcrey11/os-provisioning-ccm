@@ -2329,7 +2329,7 @@ return [
 
     // Shop / Landing Page (CCC Module)
     'shop' => [
-        'welcome_title' => 'Welcome to Product Upgrades',
+        'welcome_title' => 'My Products',
         'welcome_message' => 'Explore available product upgrades and special offers to enhance your service.',
         'coming_soon' => 'The shop feature is coming soon. You will be able to browse and purchase product upgrades here.',
         'current_plan' => 'Current Plan',

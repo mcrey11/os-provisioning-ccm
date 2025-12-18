@@ -2332,7 +2332,7 @@ return [
 
     // Shop / Landing Page (CCC Module)
     'shop' => [
-        'welcome_title' => 'Willkommen zu Produkt-Upgrades',
+        'welcome_title' => 'Meine Produkte',
         'welcome_message' => 'Entdecken Sie verfügbare Produkt-Upgrades und Sonderangebote, um Ihren Service zu verbessern.',
         'coming_soon' => 'Die Shop-Funktion wird bald verfügbar sein. Hier können Sie Produkt-Upgrades durchsuchen und kaufen.',
         'current_plan' => 'Aktueller Tarif',

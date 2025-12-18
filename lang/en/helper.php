@@ -84,6 +84,7 @@ return [
     'order_portal_config' => [
         'primary_color' => 'Hex color code for primary theme color (e.g., #007bff). Used for buttons, links, and key UI elements in the web order portal.',
         'secondary_color' => 'Hex color code for secondary theme color (e.g., #6c757d). Used for secondary UI elements and backgrounds.',
+        'inverted_product_color_boxes' => 'When enabled, product boxes in the order process (CCC and WebOrder) will use inverted colors: secondary color for selected products and primary color for secondary elements.',
         'show_header' => 'Display the header/navigation bar in the customer web order portal. Uncheck to hide the header for embedded/iframe scenarios.',
         'enable_business_customers' => 'When enabled, customers can choose between residential and business customer types during the order process. When disabled, this option is hidden.',
         'payment_method_sepa' => 'Enable SEPA direct debit as an available payment method for customers.',

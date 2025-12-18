@@ -84,6 +84,7 @@ return [
     'order_portal_config' => [
         'primary_color' => 'Hex-Farbcode für die primäre Theme-Farbe (z.B. #007bff). Wird für Schaltflächen, Links und wichtige UI-Elemente im Web-Bestellportal verwendet.',
         'secondary_color' => 'Hex-Farbcode für die sekundäre Theme-Farbe (z.B. #6c757d). Wird für sekundäre UI-Elemente und Hintergründe verwendet.',
+        'inverted_product_color_boxes' => 'Wenn aktiviert, verwenden Produktboxen im Bestellprozess (CCC und WebOrder) invertierte Farben: Sekundärfarbe für ausgewählte Produkte und Primärfarbe für sekundäre Elemente.',
         'show_header' => 'Zeigt die Kopfzeile/Navigationsleiste im Kunden-Bestellportal an. Deaktivieren Sie diese Option, um die Kopfzeile für eingebettete/iframe-Szenarien auszublenden.',
         'enable_business_customers' => 'Wenn aktiviert, können Kunden bei der Bestellung zwischen Privat- und Geschäftskunde wählen. Wenn deaktiviert, wird diese Option ausgeblendet.',
         'payment_method_sepa' => 'Aktivieren Sie SEPA-Lastschrift als verfügbare Zahlungsmethode für Kunden.',

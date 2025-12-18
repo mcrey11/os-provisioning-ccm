@@ -138,6 +138,7 @@ return [
     'order_portal_config' => [
         'primary_color' => 'Primary Color',
         'secondary_color' => 'Secondary Color',
+        'inverted_product_color_boxes' => 'Inverted Product Color Boxes',
         'show_header' => 'Show Header',
         'enable_business_customers' => 'Enable Business Customers',
         'payment_methods_heading' => 'Payment Methods',

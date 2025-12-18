@@ -139,6 +139,7 @@ return [
     'order_portal_config' => [
         'primary_color' => 'Primärfarbe',
         'secondary_color' => 'Sekundärfarbe',
+        'inverted_product_color_boxes' => 'Invertierte Produktfarbboxen',
         'show_header' => 'Kopfzeile anzeigen',
         'enable_business_customers' => 'Geschäftskunden aktivieren',
         'payment_methods_heading' => 'Zahlungsmethoden',
