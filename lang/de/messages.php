@@ -96,7 +96,7 @@ return [
     'accCmd_error_noCC'     => 'Den Verträgen :numbers wurde keine Kostenstelle zugewiesen. Für die Kunden wird keine Rechnung erstellt.',
     'accCmd_invoice_creation_deactivated' => 'Bei folgenden Verträgen wurde die Rechnungserstellung deaktiviert: :contractnrs',
     'Create'                    => 'Erstelle',
-    'accCmd_processing'     => 'Der Abrechnungslauf wird erstellt. Bitte warten Sie bis der Prozess abgeschlossen ist.',
+    'accCmd_processing'     => 'Der Rechnungslauf wird erstellt. Bitte warten Sie bis der Prozess abgeschlossen ist.',
     'Date of installation address change'   => 'Datum der Änderung der Installationsadresse',
     'Date of value'             => 'Buchungstag',
     'debt' => [
@@ -385,7 +385,7 @@ return [
     'Mandate Reference'         => 'Mandatsreferenz',
     'e.g.: String - {number}'   => 'z.Bsp.: Sring - {Nummer}',
     'Item Termination only end of month'=> 'Posten nur am Ende des Monats kündigen?',
-    'Language for settlement run' => 'Sprache für Abrechnungslauf',
+    'Language for settlement run' => 'Sprache für Rechnungslauf',
     'Uncertain start/end dates for tariffs' => 'Ungewisse Tarif-Start-/Enddaten',
     'modem_monitoring_error'=> 'Möglicherweise war das Modem bis jetzt nicht online. Beachten Sie, dass Diagramme erst ab
         dem Zeitpunkt verfügbar sind, von dem an das Modem online ist. Wurden alle Diagramme unsauber angezeigt, könnte es
@@ -797,7 +797,7 @@ return [
     'open' => 'offen',
     'openticketsWeight'         => 'Wichtung der Technikerarbeitslast',
     'No Description provided!'  => 'Keine Beschreibung hinterlegt',
-    'deleteSettlementRun'       => 'Abrechnungslauf :time wird gelöscht...',
+    'deleteSettlementRun'       => 'Rechnungslauf :time wird gelöscht...',
     'created'                   => 'Erstellt!',
     'Urban district'            => 'Ortsnamenzusatz',
     'Zipcode'                   => 'Postleitzahl',

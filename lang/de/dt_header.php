@@ -928,7 +928,7 @@ return [
         'accounting_text' => 'Buchungstext',
         'payed_month' => 'Bezahlter Monat',
         'smartcardids' => 'Smartcard-IDs',
-        'settlementrun_id' => 'Abrechnungslauf',
+        'settlementrun_id' => 'Rechnungslauf',
         'payed_until_before_sr' => 'Bezahlt bis vor SR',
         'payed_until_after_sr' => 'Bezahlt bis nach SR',
         'custom_data' => 'Benutzerdefinierte Daten',
