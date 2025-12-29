@@ -19,7 +19,7 @@
 
 namespace Modules\ProvBase\Console;
 
-// use App\ImportTrait;
+use App\ImportTrait;
 use Illuminate\Console\Command;
 use Modules\BillingBase\Entities\CostCenter;
 use Modules\BillingBase\Entities\Item;
@@ -31,6 +31,8 @@ use Modules\ProvBase\Entities\Modem;
 
 class ImportThuegaCommand extends Command
 {
+    use ImportTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -113,14 +115,55 @@ class ImportThuegaCommand extends Command
         $this->products = Product::get()->keyBy('name');
     }
 
+    /**
+     * Extra function to set proper modem address after original import
+     */
+    private function setModemAddress()
+    {
+        $list = file($this->argument('devices'));
+        unset($list[0]);
+
+        if (strtolower(str_getcsv($list[1], ';')[0]) == 'mandant') {
+            unset($list[1]);
+        }
+
+        echo "Import modems ...\n";
+        $bar = $this->output->createProgressBar(count($list));
+        $bar->start();
+        $now = now();
+
+        foreach ($list as $line) {
+            $bar->advance();
+
+            $this->line = $line = str_getcsv($line, ';');
+            $mac = unifyMac(str_pad($line[29], 12, '0', STR_PAD_LEFT));
+
+            $cm = Modem::where('mac', $mac)->first();
+
+            if (! $cm) {
+                $this->warnings[] = "Modem with mac $mac not found. Can't update address.";
+
+                continue;
+            }
+
+            Modem::where('mac', $mac)->update([
+                'updated_at' => $now,
+                'salutation' => $line[20] == 'Herr u Frau' ? 'Herr' : $line[20],
+                'firstname' => $line[14],
+                'lastname' => $line[13],
+                'street' => $line[15],
+                'house_number' => $line[16].$line[17],
+                'zip' => $line[18],
+                'city' => $line[19],
+            ]);
+        }
+
+        $bar->finish();
+        echo "\n";
+    }
+
     private function importContracts()
     {
-        // $this->contracts = Contract::get()->keyBy('number');
-        // foreach ($this->contracts as $c) {
-//     $this->customerNumbers[$c->number2][] = $c->number;
-        // }
-        // return;
-
         $list = file($this->argument('contracts'));
         unset($list[0]);
 
@@ -388,13 +431,16 @@ class ImportThuegaCommand extends Command
         $bar->start();
 
         $defaultContract = Contract::where('number', 1)->first();
+        if (! $this->contracts) {
+            $this->contracts = Contract::get()->keyBy('number');
+        }
 
         foreach ($list as $line) {
             $bar->advance();
 
             $this->line = $line = str_getcsv($line, ';');
             $number = $line[3];
-            $mac = str_pad($line[29], '12', '0', STR_PAD_LEFT);
+            $mac = str_pad($line[29], 12, '0', STR_PAD_LEFT);
             $contract = $this->contracts[$number] ?? $defaultContract;
             $configfileName = $line[31];
 
@@ -409,14 +455,14 @@ class ImportThuegaCommand extends Command
                 'mac' => unifyMac($mac),
                 'configfile_id' => $configfile->id,
                 'serial_num' => $line[30],
-                'salutation' => $line[5] == 'Herr u Frau' ? 'Herr' : $line[5],
+                'salutation' => $line[20] == 'Herr u Frau' ? 'Herr' : $line[20],
                 'company' => $line[5] == 'Firma' ? $line[6] : null,
-                'firstname' => $line[5] == 'Firma' ? null : $line[7],
-                'lastname' => $line[5] == 'Firma' ? null : $line[6],
-                'street' => $line[8],
-                'house_number' => $line[9].$line[10],
-                'zip' => $line[11],
-                'city' => $line[12],
+                'firstname' => $line[14],
+                'lastname' => $line[13],
+                'street' => $line[15],
+                'house_number' => $line[16].$line[17],
+                'zip' => $line[18],
+                'city' => $line[19],
             ];
 
             Modem::createQuietly($data);
