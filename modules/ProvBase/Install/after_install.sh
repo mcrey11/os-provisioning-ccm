@@ -102,9 +102,6 @@ sed -e '/^accounting {/a\\tsqlippool' \
 
 /etc/raddb/certs/bootstrap
 
-# fix missing backslash in upstream package (see freeradius-server #eef3669)
-sed -i 's/},$/}, \\/' /etc/raddb/mods-config/sql/main/postgresql/queries.conf
-
 sed -i "s/RADIUS_DB_PASSWORD=$/RADIUS_DB_PASSWORD=$radius_psw/" "$env/provbase.env"
 php /var/www/nmsprime/artisan config:cache
 php /var/www/nmsprime/artisan nms:raddb-repopulate
