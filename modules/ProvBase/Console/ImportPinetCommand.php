@@ -19,7 +19,7 @@
 
 namespace Modules\ProvBase\Console;
 
-// use App\ImportTrait;
+use App\ImportTrait;
 use App\AddressFunctionsTrait;
 use Carbon\Carbon;
 use DB;
@@ -42,7 +42,7 @@ use stdClass;
 
 class ImportPinetCommand extends Command
 {
-    use AddressFunctionsTrait;
+    use AddressFunctionsTrait, ImportTrait;
 
     /**
      * The name and signature of the console command.
@@ -50,6 +50,8 @@ class ImportPinetCommand extends Command
      * @var string
      */
     protected $signature = 'import:pinet
+        {product-mapping-file : PHP file with Pinet product posting groups to nmsprime product type mappings.}
+        {salutation-mapping-file : PHP file with Pinet salutations to nmsprime salutation mappings.}
         {--T|test : Don\'t geocode contract and modem addresses as this takes huge time and costs money.}
     ';
 
@@ -63,6 +65,7 @@ class ImportPinetCommand extends Command
     protected $defaultMtaCf = null;
     protected $genericProducts = [];
     protected $missingCounts = [];
+    protected $missingDates = 0;
     protected $newConfigfiles = [];
     protected $newCostCenterIds = [];
     protected $newProducts = [];
@@ -70,8 +73,10 @@ class ImportPinetCommand extends Command
     protected $nodes = [];
     protected $possibleServices = [];
     protected $prodGroups = [];
+    protected $prodTypes = [];
+    protected $salutations = [];
     protected $streets = [];
-    protected $warnings = ['missingDates' => 0];
+    protected $warnings = [];
 
     protected $connectionTypes = [
         0 => 'Virtuell/BH',
@@ -100,29 +105,28 @@ class ImportPinetCommand extends Command
 
     public function handle()
     {
-        $this->warn('Fix TODOS before production import!');
         // $this->check();
         // $this->generateSchema();
 
         $this->loadNecessaryData();
 
-        // $this->importCostCenters();
-        // $this->createConfigfiles();
+        $this->importCostCenters();
+        $this->createConfigfiles();
 
-        // $this->importNodes();
-        // $this->importRealEstates();
+        $this->importNodes();
+        $this->importRealEstates();
 
         $this->importApartmentsAndContracts();
-        // $this->importModems();
-        // $this->setCustomerData();
-        // $this->printWarnings();
+        $this->importModems();
+        $this->setCustomerData();
+        $this->printWarnings();
 
-        // $this->importSepaMandates();
-        // $this->setContractDescription();
-        // $this->importPhonenumbers();
-        // $this->printWarnings();
+        $this->importSepaMandates();
+        $this->setContractDescription();
+        $this->importPhonenumbers();
+        $this->printWarnings();
 
-        // $this->importBookingAccounts();
+        $this->importBookingAccounts();
         $this->importProducts();
         $this->importItems();
         $this->printWarnings();
@@ -145,6 +149,8 @@ class ImportPinetCommand extends Command
         $this->loadCustomers();
         $this->loadPossibleServices();
         $this->loadProductPostingGroups();
+        $this->prodTypes = include($this->argument('product-mapping-file'));
+        $this->salutations = include($this->argument('salutation-mapping-file'));
     }
 
     private function generateSchema()
@@ -299,14 +305,15 @@ class ImportPinetCommand extends Command
 
     private function check()
     {
-        $table = 'Value Entry';
+        $table = 'General Posting Setup';
         // $table = 'Gen_ Product Posting Group';
         $col = '';
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
 
-        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table);
-        // ->where('No_', '>', 1386)
-        // ->limit(10)
+        $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)
+            ->where('Sales Account', '!=', '')
+            ->whereNotNull('Sales Account');
+            // ->limit(10);
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
@@ -381,13 +388,15 @@ class ImportPinetCommand extends Command
 
     private function loadProductPostingGroups()
     {
-        $table = 'Gen_ Product Posting Group';
+        $table = 'General Posting Setup';
+        // $table = 'Gen_ Product Posting Group';
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
 
         $this->prodGroups = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)
             ->select()
             ->get()
-            ->keyBy('Code');
+            // ->keyBy('Code');
+            ->keyBy('Gen_ Prod_ Posting Group');
 
         // d($table, $structure, $this->prodGroups);
     }
@@ -434,15 +443,15 @@ class ImportPinetCommand extends Command
         $col = '';
         // $col = 'Contract No_';
         $fullContractStructure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$Billing Header')->first();
-        $query = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$Billing Header')
+        $query = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$Billing Header');
         // ->where('Participant No_', '1004')
         // ->where('Contract No_', '304002')
         // ->where('Connection Type', '1')
         // ->whereIn('No_', ['A13793']) // A26892 = stillgelegt
-        ->whereIn('No_', ['A15834', 'A10315', 'A10771', 'A26351', 'A17581', 'A17601', 'A27409']);
+        // ->whereIn('No_', ['A15834', 'A10315', 'A10771', 'A26351', 'A17581', 'A17601', 'A27409']);
         // ->whereIn('Contract No_', ["306235","306856","305574","306445","305127"]) // A26892 = stillgelegt
-
         // ->limit(100)
+
         // Kabel_DS30 => A15834
         // DSL-TAL-Anschluss => A10315
         // Kabel/SAT_onlyTV => A10771
@@ -494,7 +503,7 @@ class ImportPinetCommand extends Command
             ->get();
         }
 
-        d('contracts', $fullContractStructure, $contracts);
+        // d('contracts', $fullContractStructure, $contracts);
 
         // In case previous function was commented out during this run due to tests, but did run before - load previously imported real estates
         if (! $this->newRealEstates) {
@@ -524,7 +533,7 @@ class ImportPinetCommand extends Command
 
             $dates = $this->contractDates[$c->{'Contract No_'}] ?? null;
             if (! $dates) {
-                $this->warnings['missingDates'] += 1;
+                $this->missingDates += 1;
             }
 
             $ccId = $this->newCostCenterIds[$c->{'Shortcut Dimension 1 Code'}] ?? null;
@@ -602,11 +611,28 @@ class ImportPinetCommand extends Command
 
     private function mapSalutation($salutation)
     {
-        // TODO: 26 different ones: "AN DEN","WEG","HERR/FRAU","VEREIN","DR.","HERR","SCHULE","SUPER","DIPL. STOM","GRUNDST","FA.","FÜR DIE","RA","AN",
+        // 26 different ones: "AN DEN","WEG","HERR/FRAU","VEREIN","DR.","HERR","SCHULE","SUPER","DIPL. STOM","GRUNDST","FA.","FÜR DIE","RA","AN",
         // "AN DAS","KÖNIGSBRÜC","","AN DIE","WOHNGEMEIN","PROF. DR.","HÄDICKE","BETREUUNG","DRK","FAM.","FRAU","DR.MED."
+        if (! isset($this->salutations[$salutation])) {
+            $this->warnings['missingSalutation-'.$salutation] = 'Salutation mapping for '.$salutation.' is missing';
 
-        return $salutation;
+            return;
+        }
+
+        return $this->salutations[$salutation];
     }
+
+    private function mapProductType($prodPostGroup)
+    {
+        if (! isset($this->prodTypes[$prodPostGroup])) {
+            $this->warnings['missingProdPostGroup-'.$prodPostGroup] = 'Product type mapping for '.$prodPostGroup.' is missing. Cant set product type.';
+
+            return;
+        }
+
+        return $this->prodTypes[$prodPostGroup];
+    }
+
 
     private function setCustomerData()
     {
@@ -684,7 +710,7 @@ class ImportPinetCommand extends Command
             // ->where('Name', '=', 'Kabel TV')
             // ->where('Gen_ Prod_ Posting Group', '=', 'Kabel TV')
             // ->join('Kirst & Schulze BK GmbH$G_L Entry as accrec', 'Kirst & Schulze BK GmbH$'.$table.'.No_', 'accrec.G_L Account No_')
-            ->limit(100)
+            // ->limit(100)
             ->select(
                 'No_',
                 'Name',
@@ -694,7 +720,7 @@ class ImportPinetCommand extends Command
             )
             ->get();
 
-        d('BookingAccounts', $structure, $objects);
+        // d('BookingAccounts', $structure, $objects);
 
         $table = 'G_L Entry';
         $structure = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)->first();
@@ -717,7 +743,7 @@ class ImportPinetCommand extends Command
                 continue;
             }
 
-            $this->bookingAccounts[$ba->Name] = BookingAccount::create([
+            $this->bookingAccounts[$ba->{'No_'}] = BookingAccount::create([
                 'name' => $ba->Name,
                 'number' => $ba->{'No_'},
             ]);
@@ -774,24 +800,24 @@ class ImportPinetCommand extends Command
 
         // d('Products', $structure, $objects);
 
+        $bar = $this->output->createProgressBar($objects->count());
+        $bar->start();
+
         foreach ($objects as $product) {
+            $bar->advance();
             $price = round($product->{'Unit Price'}, 4);
             if ($product->{'Price Includes VAT'} && $product->{'VAT Prod_ Posting Group'} == 'MWST19') {
                 $price = round(floatval($price) / 1.19, 4);
             }
 
             $cycle = $this->cycleMappings[$product->{'Base Unit of Measure'}];
-
             $bookingAccount = $this->getBookingAccountByProdGroup($product->{'Gen_ Prod_ Posting Group'});
-
-            // if (! $bookingAccount)
 
             $newProd = Product::create([
                 'name' => $product->{'Description'},
                 'billing_cycle' => $cycle,
-                // TODO
-                // 'type' => $product->{'Gen_ Prod_ Posting Group'},
-                'booking_account_id' => $bookingAccount?->id, // Artikel -> Produktbuchungsgruppe -> Gen_ Prod_ Posting Group -> Erlöskonto = G_L Account
+                'type' => $this->mapProductType($product->{'Gen_ Prod_ Posting Group'}),
+                'booking_account_id' => $bookingAccount?->id, // Artikel -> Produktbuchungsgruppe = Gen_ Prod_ Posting Group -> General Posting Setup -> Erlöskonto = G_L Account
                 // 'costcenter_id' => $product->{''},
                 'price' => $price,
                 'tax' => $product->{'VAT Prod_ Posting Group'} == 'MWST19' ? true : false, // MWST19|KEINEMWST
@@ -803,26 +829,15 @@ class ImportPinetCommand extends Command
             $this->newProducts[$product->{'No_'}] = $newProd;
         }
 
-        // foreach (['ohne Steuer', 'mit Steuer'] as $key => $name) {
-        //     $this->genericProducts[$key] = Product::create([
-        //         'name' => "Generisches Produkt $name",
-        //         'type' => 'Other',
-        //         'billing_cycle' => 'Monthly',
-        //         // TODO?
-        //         // 'booking_account_id' => , // Artikel -> Produktbuchungsgruppe -> Erlöskonto
-        //         'tax' => $key ? true : false,
-        //         'proportional' => true,
-        //         'deprecated' => false,
-        //         // 'price' => $price,
-        //     ]);
-        // }
+        $bar->finish();
+        echo "\n";
     }
 
-    // TODO: Get correct booking account
+    // Get correct booking account
     private function getBookingAccountByProdGroup($groupName)
     {
         if (! $this->bookingAccounts) {
-            $this->bookingAccounts = BookingAccount::get()->keyBy('name');
+            $this->bookingAccounts = BookingAccount::get()->keyBy('number');
         }
 
         if (! isset($this->prodGroups[$groupName])) {
@@ -833,13 +848,13 @@ class ImportPinetCommand extends Command
 
         $prodGroup = $this->prodGroups[$groupName];
 
-        if (! isset($this->bookingAccounts[$prodGroup->Description])) {
-            $this->warnings['missingBookingAcc-'.$prodGroup->Description] = 'Booking Account '.$prodGroup->Description.' is missing. Can\'t set or compare booking account for product or item.';
+        if (! isset($this->bookingAccounts[$prodGroup->{'Sales Account'}])) {
+            $this->warnings['missingBookingAcc-'.$prodGroup->{'Sales Account'}] = 'Booking Account '.$prodGroup->{'Sales Account'}.' is missing. Can\'t set or compare booking account for product or item.';
 
             return;
         }
 
-        return $this->bookingAccounts[$prodGroup->Description];
+        return $this->bookingAccounts[$prodGroup->{'Sales Account'}];
     }
 
     private function importItems()
@@ -922,7 +937,7 @@ class ImportPinetCommand extends Command
 
             $bookingAccount = $this->getBookingAccountByProdGroup($item->{'Gen_ Prod_ Posting Group'});
             if ($newProduct->booking_account_id != $bookingAccount?->id) {
-                $this->warnings['itemBookingAccMissmatch-'.$item->{'Adapter No_'}.$item->{'Line No_'}] = 'Item '.$item->{'Description'}.' of contract/Anschluss '.$item->{'Adapter No_'}.' has different booking account (Group: '.$item->{'Gen_ Prod_ Posting Group'}.') than its product.';
+                $this->warnings['itemBookingAccMissmatch-'.$item->{'Adapter No_'}.$item->{'Line No_'}] = 'Item '.$item->{'Description'}.' of contract/Anschluss '.$item->{'Adapter No_'}.' has different booking account (Group: '.$item->{'Gen_ Prod_ Posting Group'}.') than its product ('.$newProduct->bookingAccount?->name.')';
             }
 
             $price = round(floatval($item->{'Unit Price'}), 4);
@@ -1188,21 +1203,6 @@ class ImportPinetCommand extends Command
         // d('Phonenumbers', $structure, $objects);
     }
 
-    /**
-     * From https://stackoverflow.com/questions/4400110/how-to-increase-of-mac-address-by-a-defined-value
-     */
-    private function mac2mtaMac($mac)
-    {
-        $mac = preg_replace('/[^0-9A-Fa-f]/', '', $mac);
-        $macVendorID = substr($mac, 0, 6);
-        $macDec = hexdec(substr($mac, 6));
-        $macDec += 1;
-        $macHex = dechex($macDec);
-        $mtaMac = $macVendorID.(strlen($macHex) < 6 ? str_repeat('0', 6 - strlen($macHex)) : '').$macHex;
-
-        return $mtaMac;
-    }
-
     private function importCostCenters()
     {
         echo __FUNCTION__."...\n";
@@ -1428,6 +1428,10 @@ class ImportPinetCommand extends Command
     {
         foreach ($this->warnings as $warning) {
             $this->line($warning);
+        }
+
+        if ($this->missingDates) {
+            $this->line($this->missingDates.' missing dates for contracts');
         }
 
         $this->warnings = [];
