@@ -28,6 +28,8 @@ use Modules\BillingBase\Entities\SepaMandate;
 use Modules\ProvBase\Entities\Configfile;
 use Modules\ProvBase\Entities\Contract;
 use Modules\ProvBase\Entities\Modem;
+use Modules\ProvVoip\Entities\Mta;
+use Modules\ProvVoip\Entities\Phonenumber;
 
 class ImportThuegaCommand extends Command
 {
@@ -113,6 +115,95 @@ class ImportThuegaCommand extends Command
     {
         $this->costcenters = CostCenter::get()->keyBy('number');
         $this->products = Product::get()->keyBy('name');
+    }
+
+    /**
+     * Extra function to add SIP data after original import
+     */
+    private function importSipDataOnly()
+    {
+        $list = file($this->argument('contracts'));
+        unset($list[0]);
+
+        if (strtolower(str_getcsv($list[1], ';')[0]) == 'mandant') {
+            unset($list[1]);
+        }
+
+        echo "Add SIP data ...\n";
+        $bar = $this->output->createProgressBar(count($list));
+        $bar->start();
+
+        foreach ($list as $line) {
+            $bar->advance();
+            $this->line = $line = str_getcsv($line, ';');
+
+            if (! $line[29]) {
+                continue;
+            }
+
+            $pn = Phonenumber::where('number', $line[29])->first();
+
+            if ($pn) {
+                continue;
+            }
+
+            $number = trim($line[3]);
+
+            $c = Contract::where('number', $number)->with('modems')->first();
+
+            if (! $c) {
+                $this->warnings['missingContract'.$line[3]] = 'Cant add phonenumber '.$line[29].' as contract '.$line[3].' is missing';
+
+                continue;
+                // dd($line[3], $number, $line[29]);
+            }
+
+            $cm = $c->modems->first();
+
+            if (! $cm) {
+                $data = [
+                    'contract_id' => $c->id,
+                    'mac' => 'ff:ff:ff:ff:ff:fe',
+                    'configfile_id' => 1,
+                    'salutation' => $c->salutation,
+                    'company' => $c->company,
+                    'firstname' => $c->firstname,
+                    'lastname' => $c->lastname,
+                    'street' => $c->street,
+                    'house_number' => $c->house_number,
+                    'zip' => $c->zip,
+                    'city' => $c->city,
+                ];
+
+                $cm = Modem::createQuietly($data);
+            }
+
+            $mta = $cm->mtas()->with('phonenumbers')->first();
+
+            if (! $mta) {
+                $mta = Mta::createQuietly([
+                    'modem_id' => $cm->id,
+                    'mac' => unifyMac($this->mac2mtaMac($cm->mac)),
+                    'configfile_id' => 2,
+                    'type' => 'sip',
+                ]);
+            }
+
+            Phonenumber::createQuietly([
+                'active' => false,
+                'country_code' => '49',
+                'prefix_number' => $line[29],
+                'mta_id' => $mta->id,
+                'number' => $line[29],
+                'password' => $line[31],
+                'port' => $mta->phonenumbers->count() + 1,
+                // 'sipdomain' => null,
+                'username' => $line[30],
+            ]);
+        }
+
+        $bar->finish();
+        echo "\n";
     }
 
     /**
