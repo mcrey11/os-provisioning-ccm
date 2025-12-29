@@ -125,6 +125,7 @@ return [
 
     //HEADER
     'Header_Apartment' => 'Wohnungen',
+    'Header_BookingAccount' => 'Kontenplan',
     'Header_Booking Account' => 'Kontenplan',
     'Header_CorrespondenceRecipient' => 'Korrespondenzempfänger',
     //General

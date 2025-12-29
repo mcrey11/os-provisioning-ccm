@@ -125,6 +125,7 @@ return [
 
     //HEADER
     'Header_Apartment' => 'Apartments',
+    'Header_BookingAccount' => 'Booking accounts',
     'Header_Booking Account' => 'Booking accounts',
     'Header_CorrespondenceRecipient' => 'Correspondence recipient',
     //General
