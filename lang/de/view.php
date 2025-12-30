@@ -3,7 +3,15 @@
 return [
     'address' => 'Adresse',
     'all' => 'Alle',
-    'bookingAccount' => 'Buchungskonto',
+    'bookingAccount' => [
+        'revenue' => [
+            'startDate' => 'Startdatum',
+            'endDate' => 'Enddatum',
+            'totalRevenue' => 'Gesamterlös',
+            'selectDates' => 'Bitte Start- und Enddatum auswählen',
+            'calculating' => 'Berechne...',
+        ],
+    ],
     'buttons' => [
         'revertDebtUpload' => 'OP Upload rückgängig machen',
     ],
@@ -347,6 +355,7 @@ return [
     'Header_DebtResult' => 'Summe offener Posten',
     'Header_Node' => 'Übergabepunkte',
     'Header_Realty' => 'Liegenschaften',
+    'Header_Revenue' => 'Erlös',
     'Header_SubNetElement' => 'Untergeordnete Netzelemente',
     'Header_tap' => 'Steuerbarer Abzweiger-Port',
     'Header_Tax' => 'Steuer|Steuern',

@@ -3,7 +3,15 @@
 return [
     'address' => 'Adress',
     'all' => 'All',
-    'bookingAccount' => 'Booking account',
+    'bookingAccount' => [
+        'revenue' => [
+            'startDate' => 'Start Date',
+            'endDate' => 'End Date',
+            'totalRevenue' => 'Total Revenue',
+            'selectDates' => 'Please select start and end dates',
+            'calculating' => 'Calculating...',
+        ],
+    ],
     'buttons' => [
         'revertDebtUpload' => 'Revert Debt Upload',
     ],
@@ -330,6 +338,7 @@ return [
     'Header_DebtResult' => 'Outstanding payments total',
     'Header_Node' => 'Nodes',
     'Header_Realty' => 'Realties',
+    'Header_Revenue' => 'Revenue',
     'Header_SubNetElement' => 'Subordinated Netelements',
     'Header_tap' => 'Controllable tap port',
     'Header_Tax' => 'Tax|Taxes',
