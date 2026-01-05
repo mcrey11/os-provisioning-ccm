@@ -359,14 +359,13 @@ class Phonenumber extends \BaseModel
     /**
      * Phonenumbers can be related to EnviaOrders – if this module is active.
      *
-     * @param  $withTrashed  boolean; if true return also soft deleted orders; default is false
-     * @param  $whereStatement  raw SQL query; default is returning of all orders
-     *                         Attention: Syntax of given string has to meet SQL syntax!
-     * @return EnviaOrders if module ProvVoipEnvia is enabled, else “null”
+     * @param  bool  $withTrashed  if true return also soft deleted orders; default is false
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
+     *                                                                    EnviaOrders if module ProvVoipEnvia is enabled, else null
      *
      * @author Patrick Reichel
      */
-    public function enviaorders($withTrashed = false, $whereStatement = '1')
+    public function enviaorders(bool $withTrashed = false)
     {
         if (! \Module::collections()->has('ProvVoipEnvia')) {
             return optional();
@@ -378,7 +377,6 @@ class Phonenumber extends \BaseModel
             'phonenumber_id',
             'enviaorder_id'
         )
-            ->whereRaw($whereStatement)
             ->withTimestamps();
 
         if ($withTrashed) {

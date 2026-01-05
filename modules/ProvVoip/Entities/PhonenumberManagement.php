@@ -149,8 +149,7 @@ class PhonenumberManagement extends \BaseModel
             throw new \LogicException(__METHOD__.' only callable if module ProvVoipEnvia as active');
         }
 
-        /* return $this->phonenumber->hasMany(\Modules\ProvVoipEnvia\Entities\EnviaOrder::class)->withTrashed()->where('ordertype', 'NOT LIKE', 'order/create_attachment'); */
-        return $this->phonenumber->enviaorders(true, "ordertype NOT LIKE 'order/create_attachment'");
+        return $this->phonenumber->enviaorders(true)->where('ordertype', 'not like', 'order/create_attachment');
     }
 
     /**
