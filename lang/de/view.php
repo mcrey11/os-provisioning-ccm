@@ -4,6 +4,7 @@ return [
     'address' => 'Adresse',
     'all' => 'Alle',
     'bookingAccount' => [
+        '' => 'Buchungskonto',
         'revenue' => [
             'startDate' => 'Startdatum',
             'endDate' => 'Enddatum',
