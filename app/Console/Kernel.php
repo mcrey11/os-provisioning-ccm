@@ -275,6 +275,24 @@ class Kernel extends ConsoleKernel
         }
 
         if ($modules->has('BillingBase')) {
+            if (config('autoSrCreationDaytime')) {
+                preg_match('/(\d{1,2}) (\d{2}):(\d{2})/', config('autoSrCreationDaytime'), $matches);
+
+                if ($matches && count($matches) == 4) {
+                    $cron = intval($matches[3]).' '.intval($matches[2]).' '.intval($matches[1]).' * *';
+
+                    $schedule->call(function () {
+                        $sr = \Modules\BillingBase\Entities\SettlementRun::create([
+                            'accounting_month' => date('Y-m', strtotime('first day of last month')),
+                            'invoice_date' => date('Y-m-d', strtotime('last day of last month')),
+                            'rcd' => (new SettlementRun)->getDefaultRcdForNewSr(),
+                        ]);
+
+                        Queue::pushOn('low', new \Modules\BillingBase\Entities\SettlementRunJob($sr));
+                    })->cron($cron);
+                }
+            }
+
             $schedule->call('\Modules\BillingBase\Helpers\BillingAnalysis@saveIncomeToJson')->dailyAt('00:07');
             $schedule->call('\Modules\BillingBase\Helpers\BillingAnalysis@saveContractsToJson')->hourly();
 
