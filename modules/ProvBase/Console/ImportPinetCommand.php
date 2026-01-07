@@ -603,7 +603,7 @@ class ImportPinetCommand extends Command
         return Apartment::firstOrCreate([
             'realty_id' => $realty->id,
             'connection_type' => $this->connectionTypes[$c->{'Adapter Mode'}] ?? null,
-            // 'code' => $line[3],
+            'code' => $c->{'No_'}, // Anschlussnr
             // 'floor' => ,
             'number' => $c->{'Top No_'},
         ]);
