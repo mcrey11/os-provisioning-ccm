@@ -359,31 +359,24 @@ class Phonenumber extends \BaseModel
     /**
      * Phonenumbers can be related to EnviaOrders – if this module is active.
      *
-     * @param  bool  $withTrashed  if true return also soft deleted orders; default is false
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
      *                                                                    EnviaOrders if module ProvVoipEnvia is enabled, else null
      *
      * @author Patrick Reichel
      */
-    public function enviaorders(bool $withTrashed = false)
+    public function enviaorders()
     {
         if (! \Module::collections()->has('ProvVoipEnvia')) {
             return optional();
         }
 
-        $orders = $this->belongsToMany(
+        return $this->belongsToMany(
             \Modules\ProvVoipEnvia\Entities\EnviaOrder::class,
             'enviaorder_phonenumber',
             'phonenumber_id',
             'enviaorder_id'
         )
             ->withTimestamps();
-
-        if ($withTrashed) {
-            return $orders->withTrashed();
-        }
-
-        return $orders;
     }
 
     /**

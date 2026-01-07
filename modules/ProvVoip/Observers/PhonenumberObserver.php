@@ -193,7 +193,7 @@ class PhonenumberObserver
 
         // first: get all the orders related to the number or the old modem
         // and overwrite the modem_id with the new modem's id
-        $phonenumber_related_orders = $phonenumber->enviaorders(true)->get();
+        $phonenumber_related_orders = $phonenumber->enviaorders()->withTrashed()->get();
         $contract_related_orders = \Modules\ProvVoipEnvia\Entities\EnviaOrder::withTrashed()->where('modem_id', $old_modem->id)->get();
 
         // build a collection of all orders that need to be changed
