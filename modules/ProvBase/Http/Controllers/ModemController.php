@@ -1109,6 +1109,10 @@ class ModemController extends \BaseController
             }
         }
 
+        if (in_array(request('model'), ['4050', '4690', '5530', '5590', '6670']) && ! $modem->getGenieId()) {
+            $errors[] = 'cannot create GenieACS task, since device has not been seen yet';
+        }
+
         if ($errors) {
             return response()->v0ApiReply(['messages' => ['errors' => $errors]]);
         }
