@@ -1260,16 +1260,18 @@ class Modem extends \BaseModel
 
         $text = $this->configfile->text_make($this, 'modem');
 
-        // don't use auto generated MaxCPE if it is explicitly set in the configfile
         // see https://stackoverflow.com/a/643136 for stripping multiline comments
-        if (! Str::contains(preg_replace('!/\*.*?\*/!s', '', $text), 'MaxCPE')) {
+        $textNoComments = preg_replace('!/\*.*?\*/!s', '', $text);
+
+        // don't use auto generated MaxCPE if it is explicitly set in the configfile
+        if (! Str::contains($textNoComments, 'MaxCPE')) {
             $conf .= "\tMaxCPE $max_cpe;\n";
         }
 
         // if MaxCPE occurs multiple times, choose the first one
         // i.e. the one lowest in the configfile branch
-        if (substr_count($text, 'MaxCPE') > 1) {
-            foreach (explode(PHP_EOL, $text) as $line) {
+        if (substr_count($textNoComments, 'MaxCPE') > 1) {
+            foreach (explode(PHP_EOL, $textNoComments) as $line) {
                 if (str_contains($line, 'MaxCPE')) {
                     $conf .= "\t".trim($line)."\n";
                     break;
