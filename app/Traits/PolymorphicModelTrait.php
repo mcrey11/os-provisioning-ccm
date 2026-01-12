@@ -90,6 +90,11 @@ trait PolymorphicModelTrait
         if (isset($model->qualified_model_class) &&
             $model->qualified_model_class &&
             class_exists($model->qualified_model_class)) {
+            // If the qualified model class is the same as the model class, return the model
+            if ($model->qualified_model_class === get_class($model)) {
+                return $model;
+            }
+
             // Create a new instance of the derived class
             $instance = new $model->qualified_model_class();
 
@@ -106,6 +111,9 @@ trait PolymorphicModelTrait
             foreach ($model->getRelations() as $relation => $value) {
                 $instance->setRelation($relation, $value);
             }
+
+            // That needs to be set explicitely
+            $instance->exists = $model->exists;
 
             return $instance;
         }

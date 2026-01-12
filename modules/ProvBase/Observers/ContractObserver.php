@@ -67,19 +67,23 @@ class ContractObserver
             $contract->sepa_bic = strtoupper($contract->sepa_bic);
         }
 
-        if (\Module::collections()->has('Calix')) {
+        if (Module::collections()->has('Calix')) {
             $calixOnt = null;
-            foreach ($contract->modems as $modem) {
-                if (str_ends_with($modem->qualified_model_class ?? '', 'CalixOnt')) {
+            foreach ($contract->getPolymorphicModems() as $modem) {
+                if (str_ends_with($modem->qualified_model_class ?? '', 'CalixOnt')) {   // can be either CalixOnt or Customer1001CalixOnt
                     $calixOnt = $modem;
                     break;
                 }
             }
             if ($calixOnt) {
                 $smxApi = new \Modules\Calix\Helpers\SMxApi($calixOnt);
+                $smxApi->lock();
                 if (! $smxApi->subscriberUpdate()) {
+                    $smxApi->unlock();
+
                     return false;
                 }
+                $smxApi->unlock();
             }
         }
     }
@@ -141,8 +145,8 @@ class ContractObserver
     {
         if (\Module::collections()->has('Calix')) {
             $calixOnt = null;
-            foreach ($contract->modems as $modem) {
-                if (str_ends_with($modem->qualified_model_class ?? '', 'CalixOnt')) {
+            foreach ($contract->getPolymorphicModems() as $modem) {
+                if (str_ends_with($modem->qualified_model_class ?? '', 'CalixOnt')) {   // can be either CalixOnt or Customer1001CalixOnt
                     $calixOnt = $modem;
                     break;
                 }

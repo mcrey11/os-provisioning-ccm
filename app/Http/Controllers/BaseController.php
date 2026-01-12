@@ -997,6 +997,9 @@ class BaseController extends Controller
         $obj = $obj::create($data);
 
         if (! $obj->exists) {
+            $msg = trans('messages.objectCreationFailed', ['class' => get_class($obj)]);
+            $obj->addAboveMessage($msg, 'error', 'form');
+
             return Redirect::back()->withInput();
         }
 
@@ -1990,6 +1993,9 @@ class BaseController extends Controller
             foreach ($model->getRelations() as $relation => $value) {
                 $instance->setRelation($relation, $value);
             }
+
+            // That needs to be set explicitely
+            $instance->exists = $model->exists;
 
             return $instance;
         }

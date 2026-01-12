@@ -457,7 +457,7 @@ class Modem extends \BaseModel
      */
     public function qualities()
     {
-        return Qos::whereIn('type', self::QOS_TYPES)->get();
+        return Qos::whereIn('type', static::QOS_TYPES)->get();
     }
 
     /**

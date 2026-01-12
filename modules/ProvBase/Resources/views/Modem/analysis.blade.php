@@ -17,10 +17,9 @@
  */
 ?>
 @extends ('provbase::layouts.split')
-
 @if(in_array('dashboard', $viewPanels))
     @section('content_dash')
-        @if ($parent)
+        @if (isset($parent) && $parent)
             <div>
                 <h4 class="inline-block h4">Parent device:&nbsp;</h4>
                 <div class="inline-block alert alert-{{ $parent['bsclass'] }} fade show">
