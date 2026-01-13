@@ -1176,6 +1176,23 @@ class BaseController extends Controller
         return Redirect::route($route_model.'.edit', $id);
     }
 
+    public function getSpecificModelObject($id)
+    {
+        $obj = static::get_model_obj()->findOrFail($id);
+
+        // If the model has a defined class, but the request does not, we still need to get the correct object
+        if ((! Request::get('qualified_model_class')) && $obj->qualified_model_class) {
+            // Inject the correct class into the request
+            Request::merge(['qualified_model_class' => $obj->qualified_model_class]);
+            if ($obj->qualified_model_class != get_class($obj)) {
+                // Get the object again
+                $obj = static::get_model_obj()->findOrFail($id);
+            }
+        }
+
+        return $obj;
+    }
+
     /**
      * API equivalent of update()
      *
@@ -1186,18 +1203,7 @@ class BaseController extends Controller
     public function api_update($ver, $id)
     {
         if ($ver === '0') {
-            $obj = static::get_model_obj()->findOrFail($id);
-
-            // If the model has a defined class, but the request does not, we still need to get the correct object
-            if ((! Request::get('qualified_model_class')) && $obj->qualified_model_class) {
-                // Inject the correct class into the request
-                Request::merge(['qualified_model_class' => $obj->qualified_model_class]);
-                if ($obj->qualified_model_class != get_class($obj)) {
-                    // Get the object again
-                    $obj = static::get_model_obj()->findOrFail($id);
-                }
-            }
-
+            $obj = $this->getSpecificModelObject($id);
             $controller = static::get_controller_obj();
 
             // Prepare and Validate Input
