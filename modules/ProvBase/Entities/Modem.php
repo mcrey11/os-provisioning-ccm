@@ -3215,7 +3215,7 @@ class Modem extends \BaseModel
     }
 
     /**
-     * Need special handling of GESA SmartOnt
+     * Need special handling for certain cases
      *
      * @author Patrick Reichel
      */
@@ -3230,7 +3230,7 @@ class Modem extends \BaseModel
             return false;
         }
 
-        if ($this->hasChildModems()) {
+        if ($this->hasChildren()) {
             $this->addAboveMessage(trans('provbase::messages.modemCannotBeDeletedBecauseItIsParentDevice', ['class' => class_basename(self::class), 'id' => $this->id]), 'error');
             Log::error(class_basename(self::class).' '.$this->id.' cannot be deleted because it has child modems');
 
@@ -3241,9 +3241,14 @@ class Modem extends \BaseModel
         return parent::delete();
     }
 
-    protected function hasChildModems()
+    public function children()
     {
-        return boolval(Modem::where('parent_id', $this->id)->count());
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    public function hasChildren()
+    {
+        return $this->children()->count() > 0;
     }
 
     public static function resolveModemsWithFiberNames()
