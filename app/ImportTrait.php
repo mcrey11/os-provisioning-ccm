@@ -33,7 +33,7 @@ trait ImportTrait
             $diff = [];
             if ($contract->firstname != $firstname) {
                 $diff['Vorname'] = $contract->firstname.' | '.$firstname;
-            };
+            }
             if ($contract->lastname != $lastname) {
                 $diff['Nachname'] = $contract->lastname.' | '.$lastname;
             }

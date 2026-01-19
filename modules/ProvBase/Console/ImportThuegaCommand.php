@@ -662,7 +662,6 @@ class ImportThuegaCommand extends Command
         return $cc;
     }
 
-
     private function addNewBookingAccount()
     {
         $baNumber = trim($this->line[4]);

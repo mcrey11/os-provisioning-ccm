@@ -43,7 +43,6 @@ return new class extends BaseMigration
             $table->boolean('payment_method_acs')->default(false)->after('payment_method_rechnung');
             $table->boolean('payment_method_credit_card')->default(false)->after('payment_method_acs');
             $table->unsignedInteger('postal_invoice_product_id')->nullable()->after('payment_method_credit_card');
-
         });
 
         // Defaults are already set in column definitions (SEPA and Rechnung enabled)

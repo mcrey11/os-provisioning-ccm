@@ -19,8 +19,8 @@
 
 namespace Modules\ProvBase\Console;
 
-use App\ImportTrait;
 use App\AddressFunctionsTrait;
+use App\ImportTrait;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -149,8 +149,8 @@ class ImportPinetCommand extends Command
         $this->loadCustomers();
         $this->loadPossibleServices();
         $this->loadProductPostingGroups();
-        $this->prodTypes = include($this->argument('product-mapping-file'));
-        $this->salutations = include($this->argument('salutation-mapping-file'));
+        $this->prodTypes = include $this->argument('product-mapping-file');
+        $this->salutations = include $this->argument('salutation-mapping-file');
     }
 
     private function generateSchema()
@@ -313,7 +313,7 @@ class ImportPinetCommand extends Command
         $objects = DB::connection('mssql-navdb')->table('Kirst & Schulze BK GmbH$'.$table)
             ->where('Sales Account', '!=', '')
             ->whereNotNull('Sales Account');
-            // ->limit(10);
+        // ->limit(10);
 
         if ($col) {
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
@@ -632,7 +632,6 @@ class ImportPinetCommand extends Command
 
         return $this->prodTypes[$prodPostGroup];
     }
-
 
     private function setCustomerData()
     {

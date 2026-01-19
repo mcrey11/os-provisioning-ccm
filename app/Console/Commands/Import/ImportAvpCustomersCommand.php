@@ -21,7 +21,6 @@ namespace App\Console\Commands\Import;
 
 use App\ImportTrait;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Modules\BillingBase\Entities\Item;
 use Modules\BillingBase\Entities\Product;
 use Modules\PropertyManagement\Entities\Apartment;
@@ -82,14 +81,14 @@ class ImportAvpCustomersCommand extends Command
     private function importAvpCustomerList()
     {
         if (! $this->option('priceMappings')) {
-            $this->error("Path to price mapping file must be specified with -P option for AVP import! Stop.");
+            $this->error('Path to price mapping file must be specified with -P option for AVP import! Stop.');
 
             exit;
         }
 
         $this->availableProducts = Product::where('type', 'TV')->get()->keyBy('id');
         ob_start();
-        $this->products = include($this->option('priceMappings'));
+        $this->products = include $this->option('priceMappings');
         ob_end_clean();
 
         $source = str_getcsv($this->file[0], ';')[1];
@@ -371,7 +370,7 @@ class ImportAvpCustomersCommand extends Command
                 ->join('product', 'item.product_id', 'product.id')
                 ->select('item.*')
                 ->where('product.type', 'TV')
-                ->where(function($query) use ($today) {
+                ->where(function ($query) use ($today) {
                     $query->where('valid_to', '>=', $today)
                         ->orWhereNull('valid_to');
                 })

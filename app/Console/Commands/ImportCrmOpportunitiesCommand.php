@@ -217,7 +217,6 @@ class ImportCrmOpportunitiesCommand extends Command
             }
 
             $this->displayStats();
-
         } catch (\Exception $e) {
             DB::rollBack();
             $this->error('Import failed: '.$e->getMessage());
@@ -325,7 +324,6 @@ class ImportCrmOpportunitiesCommand extends Command
                 if ($processedCount % 10 === 0) {
                     $this->info("Processed {$processedCount} rows...");
                 }
-
             } catch (\Exception $e) {
                 $this->stats['errors']++;
                 $this->error("Error processing row {$rowNumber}: ".$e->getMessage());

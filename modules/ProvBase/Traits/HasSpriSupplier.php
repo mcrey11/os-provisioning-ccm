@@ -6,11 +6,11 @@ use Module;
 
 /**
  * Stub trait for HasSpriSupplier functionality.
- * 
+ *
  * This ensures the trait file exists during RPM installation when SpriSupplierApi
  * may not be installed yet. The methods delegate to SpriSupplierApi functionality
  * when available, otherwise fall back gracefully.
- * 
+ *
  * This allows ProvBase to work whether SpriSupplierApi is installed or not.
  */
 trait HasSpriSupplier
@@ -67,4 +67,3 @@ trait HasSpriSupplier
         return $this->tickets();
     }
 }
-

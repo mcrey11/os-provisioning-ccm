@@ -37,14 +37,14 @@ return new class extends BaseMigration
     {
         // Create or update CCCAPI role
         $role = Role::firstOrNew(['name' => 'CCCAPI']);
-        
+
         // Only set ID if role doesn't exist yet (to avoid conflicts)
         if (! $role->exists) {
             // Find next available role ID
             $maxId = Role::max('id') ?? 0;
             $role->id = $maxId + 1;
         }
-        
+
         $role->title = 'CCC API';
         $role->description = 'API access role for CCC and WebOrderPortal';
         $role->rank = 10; // Low rank for API-only access
