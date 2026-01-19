@@ -122,7 +122,7 @@ class ConcatenatePdfs extends Process
         return $this->outputFile;
     }
 
-    public function addOutput(string $line)
+    public function addOutput(string $line): void
     {
         if ($this->shouldTrackProgress) {
             $this->runProgressCallbackIfApplicable($line);
