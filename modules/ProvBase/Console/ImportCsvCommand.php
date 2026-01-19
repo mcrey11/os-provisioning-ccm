@@ -24,6 +24,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Modules\BillingBase\Entities\Item;
 use Modules\BillingBase\Entities\Product;
+use Modules\PropertyManagement\Entities\Apartment;
+use Modules\PropertyManagement\Entities\Node;
+use Modules\PropertyManagement\Entities\Realty;
 use Modules\ProvBase\Entities\Address;
 use Modules\ProvBase\Entities\Configfile;
 use Modules\ProvBase\Entities\Contract;
@@ -96,10 +99,35 @@ class ImportCsvCommand extends Command
         }
 
         $bar->finish();
+        echo "\n";
 
         Item::where('id', '!=', 0)->update(['valid_to' => null]);
 
         $this->printWarnings();
+    }
+
+    private function addRealEstate()
+    {
+        return $this->realEstate = Realty::firstOrCreate([
+            // 'node_id' => $nodeId ?: 0,
+            // 'number' => $line[4],
+            'street' => $this->currentLine[2],
+            'house_nr' => $this->currentLine[1],
+            'zip' => str_pad($this->currentLine[6], 5, '0', STR_PAD_LEFT),
+            'city' => $this->currentLine[4],
+            'country_code' => $this->currentLine[5],
+            // 'description' => 'Gestatter-Nr '.$this->currentLine[8],
+        ]);
+    }
+
+    private function addApartment()
+    {
+        return Apartment::firstOrCreate([
+            'realty_id' => $this->realEstate->id,
+            // 'code' => $this->currentLine[3],
+            // 'floor' => $this->currentLine[6] ?: null,
+            'number' => $this->currentLine[3],
+        ]);
     }
 
     private function addAddress()
