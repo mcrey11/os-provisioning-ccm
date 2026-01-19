@@ -556,7 +556,7 @@ class Contract extends \BaseModel
         if (Module::collections()->has('ConsentMgmt') && \Bouncer::can('view', \Modules\ConsentMgmt\Entities\ContractConsent::class)) {
             $i18nConsentMgmt = trans('consentmgmt::view.consents');
             $ret[$i18nConsentMgmt]['Consents']['html'] = \Livewire\Livewire::mount(
-                'consentmgmt::consentPanel',
+                'consentmgmt::contract.consent-panel',
                 ['contract' => $this->withoutRelations()]
             );
             $ret[$i18nConsentMgmt]['ConsentHistory']['view'] = [
