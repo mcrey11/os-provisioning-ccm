@@ -284,23 +284,27 @@ class ImportAvpCustomersCommand extends Command
                 'contract_id' => $this->line[11] ? $this->collectionContractId : null,
             ]);
 
+            $floor = explode(';', $this->line[7]);
+            $floor = count($floor) > 1 ? $floor[1] : $floor[0];
+            preg_match('/\d/', $floor, $matches);
+            $floor = $matches ? $matches[0] : 0;
+
             // Add Apartment
-            $this->apartment = Apartment::firstOrCreate([
+            $this->apartment = Apartment::create([
+                'number' => $this->line[0].'-'.$this->line[1],
                 'realty_id' => $this->realEstate->id,
-                'code' => $this->line[2],
+                'code' => $this->line[7],
+                'floor' => $floor,
             ]);
 
-            if ($this->line[1]) {
-                $this->apartment->number = $this->line[1];
-                $this->apartment->save();
-            }
+            $number = $this->line[13];
 
             // Match Contract to Apartment
-            if (Contract::where('number', $this->line[13])->count() >= 1) {
-                continue;
+            if (Contract::where('number', $number)->count() > 1) {
+                self::addTodo("Mehrere Verträge mit Vertragsnummer $number");
             }
 
-            $c = self::contractExists($this->line[13], $this->line[5], $this->line[4], $this->realEstate->street, $this->realEstate->city, $this->realEstate->house_nr);
+            $c = self::contractExists($number, $this->line[5], $this->line[4], $this->realEstate->street, $this->realEstate->city, $this->realEstate->house_nr);
 
             if ($c) {
                 if (! $c->apartment_id) {
@@ -313,6 +317,7 @@ class ImportAvpCustomersCommand extends Command
 
             // Add new contract
             Contract::firstOrCreate([
+                'number' => $number ?: null,
                 'firstname' => $this->line[5],
                 'lastname' => $this->line[4],
                 'apartment_id' => $this->apartment->id,
