@@ -127,7 +127,7 @@ return [
     'Menu_envia TEL contracts' => 'envia TEL contracts',
     'Menu_NetElement' => 'Net Elements',
     'Menu_NetElementType' => 'Net Element Types',
-    'Menu_Realty' => 'Realties',
+    'Menu_Realty' => 'Real estates',
     'Menu_Taxes' => 'Taxes',
     'Menu_TicketType' => 'TicketTypes',
     'Menu_TicketTypeStates' => 'Ticket Type States',
@@ -157,15 +157,16 @@ return [
     'Menu_SpriBusinessCase' => 'S/PRI Business Cases',
 
     // HEADER
-    'Header_Apartment' => 'Apartments',
+    'Header_Apartment' => 'Apartment|Apartments',
     'Header_ConvertToOpportunity' => 'Convert to opportunity',
-    'Header_CorrespondenceRecipient' => 'Correspondence recipient',
+    'Header_Booking Account' => 'Booking account|Booking accounts',
+    'Header_CorrespondenceRecipient' => 'Correspondence recipient|Correspondence recipients',
     // General
     'Header_GlobalSearch' => 'Global Search',
     'Header_Overview' => 'Overview',
     'Header_Assigned' => 'Assigned',
     'Header_Create' => 'Create',
-    'Header_Net' => 'Network',
+    'Header_Net' => 'Network|Networks',
     // Module specific
     'Header_MibFile' => 'MIB-File|MIB-Files',
     'Header_OID' => 'OID|OIDs',
@@ -223,7 +224,7 @@ return [
     'Header_NumberRange' => 'Numberrange|Numberranges',
     'Header_Numberranges' => 'Numberranges',
     'Header_Files' => 'Files',
-    'Header_SepaAccount' => 'SEPA-Accounts',
+    'Header_SepaAccount' => 'SEPA-Account|SEPA-Accounts',
     // SNMP Module
     // Device
     'Header_Device' => 'Device|Devices',
@@ -325,7 +326,7 @@ return [
     'Header_EnviaOrderDocument' => 'envia-TEL order document|envia-TEL order documents',
     'Header_ProvVoipEnvia' => 'envia-TEL management|envia-TEL management',
 
-    'Header_Contact' => 'Contacts',
+    'Header_Contact' => 'Contact|Contacts',
     'Header_CrmContact' => 'CRM Contact|CRM Contacts',
     'Header_CrmLead' => 'CRM Lead|CRM Leads',
     'Header_Customer' => 'Customer|Customers',
@@ -333,12 +334,12 @@ return [
     'Header_CrmPipelineStage' => 'CRM Pipeline Stage|CRM Pipeline Stages',
     'Header_CrmStageTransition' => 'CRM Stage Transition|CRM Stage Transitions',
     'Header_ContactPoint' => 'Contact Point|Contact Points',
-    'Header_Documents' => 'Documents',
+    'Header_Documents' => 'Document|Documents',
     'Header_Debt' => 'Debt History',
-    'Header_DebtImport' => 'Debt Import',
+    'Header_DebtImport' => 'Debt Import|Debt Imports',
     'Header_DebtResult' => 'Outstanding payments total',
-    'Header_Node' => 'Nodes',
-    'Header_Realty' => 'Realties',
+    'Header_Node' => 'Node|Nodes',
+    'Header_Realty' => 'Real estate|Real estates',
     'Header_Revenue' => 'Revenue',
     'Header_SubNetElement' => 'Subordinated Netelements',
     'Header_tap' => 'Controllable tap port',

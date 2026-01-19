@@ -859,7 +859,7 @@ class BaseViewController extends Controller
 
         // Base Link to Index Table in front of all relations
         if (in_array($route_name, BaseController::get_config_modules())) {  // parse: Global Config requires own link
-            $breadcrumb_path_base = "<div class='flex'><div class='flex flex-col py-1 px-2.5 text-slate-100 rounded bg-slate-800 hover:bg-slate-900'>".static::linkRouteHtml('Config.index', static::__get_view_icon($view_var).self::translate_view('Global Configurations', 'Header'), [], 'text-white hover:text:white no-underline').'</div></div>';
+            $breadcrumb_path_base = "<div class='flex'><div class='flex flex-col py-1 px-2.5 text-slate-100 rounded bg-slate-800 hover:bg-slate-900'>".static::linkRouteHtml('Config.index', static::__get_view_icon($view_var).self::translate_view('Global Configurations', 'Header', 2), [], 'text-white hover:text:white no-underline').'</div></div>';
         } else {
             $breadcrumb_path_base = Route::has($route_name.'.index') ? "<div class='flex items-center'><div class='flex flex-col py-1 !px-3 text-slate-100 rounded bg-slate-800 hover:bg-slate-900'>".static::linkRouteHtml($route_name.'.index', static::__get_view_icon($view_var).Str::limit($view_header, 40), [], 'text-white hover:text:white no-underline').'</div></div>' : '';
         }

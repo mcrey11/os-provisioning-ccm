@@ -165,15 +165,16 @@ return [
     'Menu_SpriBusinessCase' => 'S/PRI Geschäftsfälle',
 
     // HEADER
-    'Header_Apartment' => 'Wohnungen',
+    'Header_Apartment' => 'Wohnung|Wohnungen',
     'Header_ConvertToOpportunity' => 'Zu Chance konvertieren',
+    'Header_Booking Account' => 'Sachkonto|Kontenplan',
     'Header_CorrespondenceRecipient' => 'Korrespondenzempfänger',
     // General
     'Header_GlobalSearch' => 'Systemweite Suche',
     'Header_Overview' => 'Übersicht',
     'Header_Assigned' => 'Zugewiesene',
     'Header_Create' => 'Erstellen',
-    'Header_Net' => 'Netze',
+    'Header_Net' => 'Netz|Netze',
     // Module specific
     'Header_MibFile' => 'MIB-Datei|MIB-Dateien',
     'Header_OID' => 'OID|OIDs',
@@ -231,7 +232,7 @@ return [
     'Header_NumberRange' => 'Nummernkreis|Nummernkreise',
     'Header_Numberranges' => 'Nummernkreise',
     'Header_Files' => 'Dateien',
-    'Header_SepaAccount' => 'SEPA-Konten',
+    'Header_SepaAccount' => 'SEPA-Konto|SEPA-Konten',
     // SNMP Module
     // Device
     'Header_Device' => 'Gerät|Geräte',
@@ -332,7 +333,8 @@ return [
     'Header_EnviaOrder' => 'envia-TEL-Auftrag|envia-TEL-Aufträge',
     'Header_EnviaOrderDocument' => 'envia-TEL-Auftragsdokument|envia-TEL-Auftragsdokumente',
     'Header_ProvVoipEnvia' => 'envia-TEL Vertragsmanagement|envia-TEL Vertragsmanagement',
-    'Header_Contact' => 'Ansprechpartner / Hausverwaltungen',
+
+    'Header_Contact' => 'Ansprechpartner / Hausverwaltung|Ansprechpartner / Hausverwaltungen',
     'Header_CrmContact' => 'CRM-Kontakt|CRM-Kontakte',
     'Header_CrmLead' => 'CRM-Lead|CRM-Leads',
     'Header_Customer' => 'Kunde|Kunden',
@@ -350,12 +352,12 @@ return [
     'Header_CrmPipelineStage' => 'CRM-Pipeline-Stufe|CRM-Pipeline-Stufen',
     'Header_CrmStageTransition' => 'CRM-Stufenübergang|CRM-Stufenübergänge',
     'Header_ContactPoint' => 'Kontaktpunkt|Kontaktpunkte',
-    'Header_Documents' => 'Dokumente',
+    'Header_Documents' => 'Dokument|Dokumente',
     'Header_Debt' => 'Offene Posten',
-    'Header_DebtImport' => 'OP-Import',
+    'Header_DebtImport' => 'OP-Import|OP-Importe',
     'Header_DebtResult' => 'Summe offener Posten',
-    'Header_Node' => 'Übergabepunkte',
-    'Header_Realty' => 'Liegenschaften',
+    'Header_Node' => 'Übergabepunkt|Übergabepunkte',
+    'Header_Realty' => 'Liegenschaft|Liegenschaften',
     'Header_Revenue' => 'Erlös',
     'Header_SubNetElement' => 'Untergeordnete Netzelemente',
     'Header_tap' => 'Steuerbarer Abzweiger-Port',
