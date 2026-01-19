@@ -21,6 +21,7 @@ namespace Modules\ProvBase\Console;
 
 use App\ImportTrait;
 use Illuminate\Console\Command;
+use Modules\BillingBase\Entities\BookingAccount;
 use Modules\BillingBase\Entities\CostCenter;
 use Modules\BillingBase\Entities\Item;
 use Modules\BillingBase\Entities\Product;
@@ -42,9 +43,10 @@ class ImportThuegaCommand extends Command
      */
     protected $signature = 'import:thuega
         {--T|test : Don\'t geocode contract and modem addresses as this takes huge time and costs money.}
-        {contracts : Structured CSV file (-path) with contract/tariff and article data.}
-        {customers : Structured CSV file (-path) with customer/contract data.}
-        {devices : Structured CSV file (-path) with devices/modem data.}
+        {--P|products= : Import only products from a CSV file.}
+        {contracts? : Structured CSV file (-path) with contract/tariff and article data.}
+        {customers? : Structured CSV file (-path) with customer/contract data.}
+        {devices? : Structured CSV file (-path) with devices/modem data.}
     ';
 
     protected $fileColCounts = [
@@ -86,10 +88,23 @@ class ImportThuegaCommand extends Command
     /** @var array Existing CostCenters keyed by number */
     protected $costcenters;
 
+    /** @var array Existing Products keyed by name */
+    protected $products;
+
+    /** @var array SEPA mandates keyed by IBAN */
+    protected $sepamandates;
+
     public function handle()
     {
         $this->validateInput();
         $this->loadNecessaryData();
+
+        if ($this->option('products')) {
+            $this->importProducts();
+            // $this->importAddtlItems();
+
+            return;
+        }
 
         $this->importContracts();
         $this->importCustomerData();
@@ -104,6 +119,10 @@ class ImportThuegaCommand extends Command
     private function validateInput()
     {
         foreach ($this->fileColCounts as $argument => $colCount) {
+            if (! $this->argument($argument)) {
+                continue;
+            }
+
             if (count(str_getcsv(fgets(fopen($this->argument($argument), 'r')), ';')) != $colCount) {
                 dd(str_getcsv(fgets(fopen($this->argument($argument), 'r')), ';'), $colCount, $this->argument($argument));
                 exit('File '.$this->argument($argument).' has unexpected column count. Stop here. Please check if structure fits!');
@@ -576,10 +595,122 @@ class ImportThuegaCommand extends Command
         ]);
     }
 
+    private function importProducts()
+    {
+        $list = file($this->option('products'));
+
+        // Skip first line (title "Tarifübersicht aktive Tarife Thüga")
+        unset($list[0]);
+
+        echo "Import products...\n";
+        $bar = $this->output->createProgressBar(count($list));
+        $bar->start();
+
+        foreach ($list as $line) {
+            $bar->advance();
+            $this->line = $line = str_getcsv($line, ';');
+
+            if (! trim($line[0] ?? '') || strtolower(trim($line[0])) == 'tarifname') {
+                continue;
+            }
+
+            $prodName = trim($line[0]);
+            $existingProduct = Product::where('name', $prodName)->first();
+
+            if (! $existingProduct) {
+                $this->warnings['existingProd-'.$prodName] = "Product '$prodName' not found. Skipping.";
+
+                continue;
+            }
+
+            // Get or create cost center
+            $cc = $this->costcenters[trim($line[3])] ?? null;
+            if (! $cc) {
+                $cc = $this->addNewCostCenter();
+            }
+
+            // Get or create booking account
+            $ba = $this->bookingAccounts[trim($line[4])] ?? null;
+            if (! $ba) {
+                $ba = $this->addNewBookingAccount();
+            }
+
+            $data = [
+                'costcenter_id' => $cc->id,
+                'booking_account_id' => $ba->id,
+            ];
+
+            Product::where('name', $prodName)->update($data);
+        }
+
+        $bar->finish();
+        echo "\n";
+        $this->printWarnings();
+    }
+
+    private function addNewCostcenter()
+    {
+        $ccNumber = trim($this->line[3]);
+
+        $cc = CostCenter::create([
+            'number' => $ccNumber,
+            'sepaaccount_id' => intval($ccNumber) < 100000 ? 2 : 3,
+        ]);
+
+        $this->costcenters[$ccNumber] = $cc;
+
+        return $cc;
+    }
+
+
+    private function addNewBookingAccount()
+    {
+        $baNumber = trim($this->line[4]);
+
+        $ba = BookingAccount::create([
+            'number' => $baNumber,
+        ]);
+
+        $this->bookingAccounts[$baNumber] = $ba;
+
+        return $ba;
+    }
+
     private function printWarnings()
     {
         foreach ($this->warnings as $warning) {
             $this->line($warning);
         }
+    }
+
+    private function importAddtlItems()
+    {
+        $list = file($this->option('products'));
+        unset($list[0]);
+
+        echo "Import items...\n";
+        $bar = $this->output->createProgressBar(count($list));
+        $bar->start();
+
+        foreach ($list as $line) {
+            $bar->advance();
+            $this->line = $line = str_getcsv($line, ';');
+
+            $c = Contract::where('number', $line[3])->first();
+
+            Item::create([
+                'contract_id' => $c->id,
+                'product_id' => 266,
+                'valid_from' => date('Y-m-d', intval(strtotime(trim($line[16])))),
+                'valid_from_fixed' => 1,
+                'valid_to' => in_array(trim($line[17]), ['31.12.2099', '12/31/2099', '2099-12-31']) ? null : date('Y-m-d', intval(strtotime(trim($line[17])))),
+                'valid_to_fixed' => 1,
+                'payed_until_before_sr' => '2025-11-30',
+            ]);
+        }
+
+        $bar->finish();
+        echo "\n";
+        $this->printWarnings();
     }
 }
