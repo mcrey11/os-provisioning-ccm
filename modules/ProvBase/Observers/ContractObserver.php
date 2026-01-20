@@ -139,10 +139,6 @@ class ContractObserver
 
     public function deleting(Contract $contract)
     {
-        if (Module::collections()->has('BillingBase') && Module::collections()->has('Ccc') && $contract->cccUser) {
-            $contract->cccUser->delete();
-        }
-
         if (\Module::collections()->has('Calix')) {
             $calixOnt = null;
             foreach ($contract->modems as $modem) {
@@ -157,6 +153,10 @@ class ContractObserver
                     return false;
                 }
             }
+        }
+
+        if (Module::collections()->has('BillingBase') && Module::collections()->has('Ccc') && $contract->cccUser) {
+            $contract->cccUser->delete();
         }
     }
 
