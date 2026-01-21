@@ -38,13 +38,20 @@ class Configfile extends \BaseModel
     // Add your validation rules here
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required_without:import|unique:configfile,name,'.($this->id ?: 0).',id,deleted_at,NULL',
             'text' => 'docsis',
             // docsDevSwFilename is SnmpAdminString (SIZE (0..64))
             // including foldername 'dialplan/' there are 55 characters left
             'firmware' => 'string|min:1|max:55|nullable',
         ];
+
+        $customRules = [];
+        if (isset($this->customFieldDefinitions)) {
+            $customRules = static::getCustomRules();
+        }
+
+        return array_merge($rules, $customRules);
     }
 
     /**

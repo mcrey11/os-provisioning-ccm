@@ -34,7 +34,7 @@ class Qos extends \BaseModel
     {
         $id = $this->id ?: 0;
 
-        return [
+        $rules = [
             'name' => "required|unique:qos,name,$id,id,deleted_at,NULL",
             'ds_rate_max' => 'required_if:type,default|numeric|min:0',
             'us_rate_max' => 'required_if:type,default|numeric|min:0',
@@ -42,6 +42,13 @@ class Qos extends \BaseModel
             'ont_line_profile_id' => 'nullable|integer',
             'service_profile_id' => 'nullable|integer',
         ];
+
+        $customRules = [];
+        if (isset($this->customFieldDefinitions)) {
+            $customRules = static::getCustomRules();
+        }
+
+        return array_merge($rules, $customRules);
     }
 
     /**
