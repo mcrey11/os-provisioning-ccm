@@ -28,7 +28,9 @@ class ModemOptionObserver
 
     public function updated($option)
     {
-        $this->updateConfig($option);
+        if ($option->wasChanged()) {
+            $this->updateConfig($option);
+        }
     }
 
     public function deleted($option)
