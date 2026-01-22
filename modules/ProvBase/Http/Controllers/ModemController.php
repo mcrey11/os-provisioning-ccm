@@ -1270,6 +1270,18 @@ class ModemController extends \BaseController
         return response()->v0ApiReply([], true, $id);
     }
 
+    public function api_createSyncPreset($ver, $id)
+    {
+        if ($ver !== '0') {
+            return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
+        }
+
+        $modem = static::get_model_obj()->findOrFail($id);
+        $modem->createSyncPreset();
+
+        return response()->v0ApiReply([], true, $id);
+    }
+
     /**
      * Set nullable fields.
      *
