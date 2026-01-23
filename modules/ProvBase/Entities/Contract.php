@@ -509,6 +509,10 @@ class Contract extends \BaseModel
             $ret['Tickets']['Modem Tickets']['options']['empty_message'] = trans('view.contract.noModemTickets');
         }
 
+        if (Module::collections()->has('Mfr')) {
+            $this->addMfrServiceRequestPanel($ret);
+        }
+
         if (Module::collections()->has('ProvVoipEnvia') &&
             (! Module::collections()->has('PropertyManagement') || (! $this->group_contract))) {
             $ret['envia TEL']['icon'] = 'volume-control-phone';
@@ -2400,5 +2404,25 @@ class Contract extends \BaseModel
 
         // Default to residential
         return 'residential';
+    }
+
+    /**
+     * Add MFR Service Request panel to an edit view
+     */
+    public function addMfrServiceRequestPanel(&$ret, $tabName = 'Contract')
+    {
+        if (! Module::collections()->has('Mfr')) {
+            return;
+        }
+
+        $url = route('mfr.contract.serviceRequest', $this->id);
+        $buttonText = trans('mfr::view.createServiceRequest');
+
+        $ret[$tabName]['MFR']['html'] = '<div class="card card-body">
+            <form method="POST" action="'.e($url).'">
+                '.csrf_field().'
+                <button type="submit" class="btn btn-primary">'.$buttonText.'</button>
+            </form>
+        </div>';
     }
 }

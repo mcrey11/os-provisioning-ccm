@@ -707,6 +707,10 @@ class Modem extends \BaseModel
 
         $this->addViewHasManyTickets($ret, $tabName);
 
+        if (Module::collections()->has('Mfr')) {
+            $this->addMfrServiceRequestPanel($ret, $tabName);
+        }
+
         return $ret;
     }
 
@@ -3313,5 +3317,29 @@ class Modem extends \BaseModel
     public function refreshObject(): void
     {
         // Placeholder
+    }
+
+    /*
+     * Add MFR Service Request panel to an edit view
+     */
+    public function addMfrServiceRequestPanel(&$ret, $tabName = 'Modem')
+    {
+        if (! Module::collections()->has('Mfr')) {
+            return;
+        }
+
+        if (! $this->contract_id) {
+            return;
+        }
+
+        $url = route('mfr.modem.serviceRequest', $this->id);
+        $buttonText = trans('mfr::view.createServiceRequest');
+
+        $ret[$tabName]['MFR']['html'] = '<div class="card card-body">
+            <form method="POST" action="'.e($url).'">
+                '.csrf_field().'
+                <button type="submit" class="btn btn-primary">'.$buttonText.'</button>
+            </form>
+        </div>';
     }
 }
