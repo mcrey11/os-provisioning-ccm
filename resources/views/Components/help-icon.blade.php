@@ -1,4 +1,4 @@
-<div class="col-2 col-md-1 flex justify-end items-center order-2 md:order-3">
+<div class="col-2 col-md-1 flex justify-end items-center order-2 md:order-3" data-help-popover>
     <div class='contents' x-data="{ show: false }">
         <button class='size-6 btn-icon inline-flex items-center justify-center rounded-full btn-light transition-all text-{{ $bsClass }}'
                 x-bind:class="{ 'outline outline-offset-2': show }"

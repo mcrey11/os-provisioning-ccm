@@ -119,7 +119,7 @@
                     </ul>
                 </div>
                 @endif
-                <div class="flex-wrap flex flex-1 dark:bg-slate-900 mt-3.5 dark:mt-0">
+                <div class="flex-wrap flex flex-1 dark:bg-slate-900 mt-3.5 dark:mt-0 at_print">
                     @yield('contentLeftLeft')
                     <div class="card card-inverse mb-0 col-lg-{{(!isset($relations) || empty($relations)) ? '12' : $edit_left_md_size}}" style="{{ (isset($withHistory) || in_array(\Request::route()->getName(), $fullscreenRoutes)) ? 'display:flex;flex: 1;' : '' }}">
                         @yield('content_left')

@@ -1,0 +1,176 @@
+@media print {
+    * {
+        box-sizing: border-box;
+    }
+
+    ::-webkit-scrollbar,
+    ::-webkit-scrollbar-thumb,
+    ::-webkit-scrollbar-track {
+        background: transparent !important;
+    }
+
+    [aria-hidden="true"],
+    hr {
+        display: none !important;
+    }
+
+    textarea {
+        field-sizing: content !important;
+        height: auto !important;
+        min-height: initial !important;
+    }
+
+    #EditForm {
+        width: 100% !important;
+        border: transparent solid 1px !important;
+        @apply grid grid-cols-2;
+
+        & .col-md-12:has(.col-md-7>textarea, .col-md-7>input[type=checkbox]) {
+            @apply col-span-2;
+        }
+
+        & .col-md-12:has([data-dynamic-fields]) {
+            @apply !contents;
+
+            >* {
+                @apply !contents;
+            }
+        }
+
+        & * {
+            border-color: transparent !important;
+        }
+
+        & [data-help-popover] {
+            display: none !important;
+        }
+    }
+
+    popover,
+    textarea:empty,
+    .btn,
+    .panel-heading-btn .select2-selection__arrow,
+    .clearfix {
+        display: none !important;
+    }
+
+    .form-group {
+        display: flex !important;
+    }
+
+    #page-container,
+    #content,
+    .card,
+    .card-block,
+    .tab-content {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .form-control,
+    .select2-selection {
+        border: none !important;
+    }
+
+    .col,
+    .col-1,
+    .col-10,
+    .col-11,
+    .col-12,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-auto,
+    .col-lg,
+    .col-lg-1,
+    .col-lg-10,
+    .col-lg-11,
+    .col-lg-12,
+    .col-lg-2,
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-5,
+    .col-lg-6,
+    .col-lg-7,
+    .col-lg-8,
+    .col-lg-9,
+    .col-lg-auto,
+    .col-md,
+    .col-md-1,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9,
+    .col-md-auto,
+    .col-sm,
+    .col-sm-1,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-sm-auto,
+    .col-xl,
+    .col-xl-1,
+    .col-xl-10,
+    .col-xl-11,
+    .col-xl-12,
+    .col-xl-2,
+    .col-xl-3,
+    .col-xl-4,
+    .col-xl-5,
+    .col-xl-6,
+    .col-xl-7,
+    .col-xl-8,
+    .col-xl-9,
+    .col-xl-auto {
+        margin: 0;
+        padding: 0;
+    }
+
+    .at_print {
+        flex-direction: column;
+
+        &>*:nth-child {
+            width: 100% !important;
+        }
+
+        & .tab-content .active.tab-pane {
+            @apply !space-y-0;
+
+            & .panel:first-child {
+                @apply pt-3 mt-3 border-t-2 border-t-gray-200;
+            }
+
+            & .panel:not(:last-child) {
+                @apply pb-3 border-b-2 border-b-gray-200;
+            }
+
+            & .panel-title {
+                @apply font-bold text-black text-lg;
+            }
+        }
+
+        & [data-sort-id="Edit-Transitions"] {
+            @apply !h-0 !overflow-hidden !m-0 !p-0 !border-t-0;
+        }
+    }
+}
