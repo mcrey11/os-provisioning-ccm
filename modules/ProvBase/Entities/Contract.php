@@ -20,6 +20,7 @@
 namespace Modules\ProvBase\Entities;
 
 use App\Observers\BaseObserver;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Module;
 use Request;
@@ -883,15 +884,26 @@ class Contract extends \BaseModel
     /**
      * Filter contracts that are active within a specified time period (from - to)
      *
-     * @param string date - e.g. '2023-08-10'
-     * @param string date
+     * @param Carbon|string date - e.g. '2023-08-10'
+     * @param Carbon|string date
      */
-    public function scopeActive($query, $from, $to)
+    public function scopeActive($query, $from = null, $to = null)
     {
-        $query->where('contract_start', '<=', $to)->
-            where(function ($query) use ($from) {
-                $query->whereNull('contract_end')->
-                    orWhere('contract_end', '>=', $from);
+        $from = $from ?: now();
+        $to = $to ?: now();
+
+        if ($from instanceof Carbon) {
+            $from = $from->toDateString();
+        }
+
+        if ($to instanceof Carbon) {
+            $to = $to->toDateString();
+        }
+
+        $query->where('contract_start', '<=', $to)
+            ->where(function ($query) use ($from) {
+                $query->whereNull('contract_end')
+                    ->orWhere('contract_end', '>=', $from);
             });
     }
 
