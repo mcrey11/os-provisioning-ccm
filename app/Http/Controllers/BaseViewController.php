@@ -443,7 +443,7 @@ class BaseViewController extends Controller
             }
 
             // Open Form Group
-            if (! in_array($field['form_type'], ['collapse', 'html'])) {
+            if (! in_array($field['form_type'], ['collapse'])) {
                 $currentFormfield[] = Form::openGroup($field['name'], $field['description'] ?? '', $additional_classes, $color);
             }
 
@@ -535,7 +535,7 @@ class BaseViewController extends Controller
             }
 
             // Close Form Group
-            if (! in_array($field['form_type'], ['collapse', 'html'])) {
+            if (! in_array($field['form_type'], ['collapse'])) {
                 $currentFormfield[] = Form::closeGroup();
             }
 
