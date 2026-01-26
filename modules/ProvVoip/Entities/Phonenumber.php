@@ -77,6 +77,7 @@ class Phonenumber extends \BaseModel
                 'modem_city',
                 'sipdomain',
                 'reassignable',
+                'username',
             ],
             'header' => 'Port '.$this->port.': '.$this->prefix_number.'/'.$this->number,
             'bsclass' => $this->get_bsclass(),
