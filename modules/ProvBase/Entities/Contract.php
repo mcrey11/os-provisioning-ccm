@@ -652,13 +652,13 @@ class Contract extends \BaseModel
         }
 
         if ($this->modems->isNotEmpty()) {
-            return \Modules\PropertyManagement\Entities\Apartment::join('modem', 'apartment.id', 'modem.apartment_id')->
-                join('contract', 'contract.id', 'modem.contract_id')->
-                where('contract.id', $this->id)->
-                whereNull('modem.deleted_at')->
-                whereNull('apartment.deleted_at')->
-                select('apartment.*')->
-                first();
+            return \Modules\PropertyManagement\Entities\Apartment::join('modem', 'apartment.id', 'modem.apartment_id')
+                ->join('contract', 'contract.id', 'modem.contract_id')
+                    ->where('contract.id', $this->id)
+                    ->whereNull('modem.deleted_at')
+                    ->whereNull('apartment.deleted_at')
+                    ->select('apartment.*')
+                    ->first();
         }
     }
 
@@ -928,15 +928,15 @@ class Contract extends \BaseModel
     public function realty()
     {
         // TODO - Laravel5.8/L5.8: use hasManyThrough or intermediate Tables (see https://laravel.com/docs/5.8/eloquent-relationships#has-one-through and https://laravel.com/docs/5.8/eloquent-relationships#defining-custom-intermediate-table-models)
-        return self::join('modem', 'modem.contract_id', 'contract.id')->
-            join('apartment', 'apartment.id', 'modem.apartment_id')->
-            join('realty', 'apartment.realty_id', 'realty.id')->
-            where('contract.id', $this->id)->
-            whereNull('modem.deleted_at')->
-            whereNull('apartment.deleted_at')->
-            whereNull('realty.deleted_at')->
-            select('realty.*')->
-            first();
+        return self::join('modem', 'modem.contract_id', 'contract.id')
+            ->join('apartment', 'apartment.id', 'modem.apartment_id')
+            ->join('realty', 'apartment.realty_id', 'realty.id')
+            ->where('contract.id', $this->id)
+            ->whereNull('modem.deleted_at')
+            ->whereNull('apartment.deleted_at')
+            ->whereNull('realty.deleted_at')
+            ->select('realty.*')
+            ->first();
     }
 
     public function getGroundForDismissal()
@@ -1054,7 +1054,7 @@ class Contract extends \BaseModel
             return;
         }
 
-        return \Carbon\Carbon::createFromFormat('Y-m-d', $date);
+        return Carbon::createFromFormat('Y-m-d', $date);
     }
 
     /*
@@ -1121,14 +1121,14 @@ class Contract extends \BaseModel
             // Get items by only 1 db query & set them as contract relations to work with them in next functions
             // with that there are no more refresh database queries necessary (items do not have to be reloaded again)
             $productTypesForDailyConversion = \Modules\BillingBase\Entities\Product::productTypesForDailyConversion();
-            $items = $this->items()->
-                leftJoin('product', 'product.id', '=', 'item.product_id')->
-                whereIn('product.type', $productTypesForDailyConversion)->
-                where(whereLaterOrEqual('item.valid_to', date('Y-m-d', strtotime("-$item_max_ended_before days"))))->
+            $items = $this->items()
+                ->leftJoin('product', 'product.id', '=', 'item.product_id')
+                ->whereIn('product.type', $productTypesForDailyConversion)
+                ->where(whereLaterOrEqual('item.valid_to', date('Y-m-d', strtotime("-$item_max_ended_before days"))))
+                ->select('item.*')
+                ->with('product')
                 // ->orderBy('valid_from', 'desc')
-                select('item.*')->
-                with('product')->
-                get();
+                ->get();
 
             $this->setRelations(['items' => $items]);
 
@@ -1280,8 +1280,8 @@ class Contract extends \BaseModel
             return;
         }
 
-        $tomorrow = \Carbon\Carbon::tomorrow();
-        $today = \Carbon\Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+        $today = Carbon::today();
 
         foreach ($this->items as $key => $item) {
             if (! $item->product) {
@@ -1492,11 +1492,11 @@ class Contract extends \BaseModel
             // Select only item.* and p.type: p.* would include p.qualified_model_class and overwrite
             // item.qualified_model_class in the result, causing BaseModel::newFromBuilder() to
             // instantiate Product (or WaipuTVProduct) instead of Item.
-            $tariffs = $this->items()->
-                join('product as p', 'item.product_id', '=', 'p.id')->
-                select('item.*', 'p.*', 'item.id as id')->
-                where('type', '=', $type)->where('valid_from', '<=', date('Y-m-d'))->
-                where(whereLaterOrEqual('valid_to', date('Y-m-d')));
+            $tariffs = $this->items()
+                ->join('product as p', 'item.product_id', '=', 'p.id')
+                ->select('item.*', 'p.*', 'item.id as id')
+                ->where('type', '=', $type)->where('valid_from', '<=', date('Y-m-d'))
+                ->where(whereLaterOrEqual('valid_to', date('Y-m-d')));
 
             if (strtolower($type) == 'voip') {
                 $tariffs->with('product.salestariff');
@@ -1869,14 +1869,13 @@ class Contract extends \BaseModel
         // get last internet & voip tariff (take last added if multiple valid tariffs)
         // TODO?: get current inet tariff and all tariffs that start after - check if current tariffs pon is reached than take next if exist?
         // TODO: get rid of DB query to improve performance when items are already loaded (during Settlementrun)
-        $tariffs = $this->items()->
-            join('product as p', 'item.product_id', '=', 'p.id')->
-            select('item.*', 'p.type', 'p.bundled_with_voip', 'p.name')->
-            whereIn('type', ['Internet', 'Voip', 'TV'])->
-            where(whereLaterOrEqual('item.valid_to', $date))->
-            orderBy('item.valid_from', 'desc')->
-            with('product')->
-            get();
+        $tariffs = $this->items()->join('product as p', 'item.product_id', '=', 'p.id')
+            ->select('item.*', 'p.type', 'p.bundled_with_voip', 'p.name')
+            ->whereIn('type', ['Internet', 'Voip', 'TV'])
+            ->where(whereLaterOrEqual('item.valid_to', $date))
+            ->orderBy('item.valid_from', 'desc')
+            ->with('product')
+            ->get();
 
         $inet = $tariffs->where('type', '=', 'Internet')->first();
         $tariff = $inet;
@@ -2293,13 +2292,12 @@ class Contract extends \BaseModel
      */
     public function composeSmartOntOltDescription($contract)
     {
-        $description = str("{$contract->zip} {$contract->city}, {$contract->street}")->
-            // padLeft is important to get correct housenumber order
-            append(str($contract->house_number)->padLeft(5, ' '));
+        $description = str("{$contract->zip} {$contract->city}, {$contract->street}")
+            ->append(str($contract->house_number)
+            ->padLeft(5, ' ')); // padLeft is important to get correct housenumber order
 
         if ($contract->type == 'OTO_FTTH_FR') {
-            return $description->
-                append(", OTO-ID: {$contract->oto_id} – {$contract->oto_status} – $contract->alex_status");
+            return $description->append(", OTO-ID: {$contract->oto_id} – {$contract->oto_status} – $contract->alex_status");
         }
 
         if ($contract->type == 'OTO_OWN') {
@@ -2325,9 +2323,9 @@ class Contract extends \BaseModel
         }
 
         // Fetch all business cases with their ticket types in one query
-        $businessCasesData = \Modules\SpriSupplierApi\Entities\SpriBusinessCase::with('ticketType')->
-            whereIn('case', $businessCases)->
-            get();
+        $businessCasesData = \Modules\SpriSupplierApi\Entities\SpriBusinessCase::with('ticketType')
+            ->whereIn('case', $businessCases)
+            ->get();
 
         if ($businessCasesData->isEmpty()) {
             return;
@@ -2373,9 +2371,9 @@ class Contract extends \BaseModel
     private function getSpriButtonText($businessCase)
     {
         // Fetch the business case data with the associated ticket type
-        $businessCaseData = \Modules\SpriSupplierApi\Entities\SpriBusinessCase::with('ticketType')->
-            where('case', $businessCase)->
-            first();
+        $businessCaseData = \Modules\SpriSupplierApi\Entities\SpriBusinessCase::with('ticketType')
+            ->where('case', $businessCase)
+            ->first();
 
         if (! $businessCaseData || ! $businessCaseData->ticketType) {
             return 'S/PRI Auftrag anlegen ['.$businessCase.']';
