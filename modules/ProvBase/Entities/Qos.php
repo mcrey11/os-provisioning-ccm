@@ -27,6 +27,7 @@ class Qos extends \BaseModel
     public $table = 'qos';
 
     public static $customFieldsPrefix = 'custom_field__';
+
     public static $customFieldDefinitions = [];
 
     // Add your validation rules here
@@ -54,7 +55,6 @@ class Qos extends \BaseModel
     /**
      * Constructor
      *
-     * @param  array  $attributes
      *
      * @author Patrick Reichel
      */
@@ -73,7 +73,7 @@ class Qos extends \BaseModel
      */
     public static function setCustomFieldDefinitions($type)
     {
-        if ('calixont' == $type || 'customer1001calixont' == $type) {
+        if ($type == 'calixont' || $type == 'customer1001calixont') {
             self::$customFieldDefinitions = [
                 'ont_port_id' => [
                     'formMethod' => 'customFormTextDefault',
@@ -92,8 +92,15 @@ class Qos extends \BaseModel
             return;
         }
 
-        if ('zyxelont' == $type) {
-            // TODO: implement custom field definitions for Zyxel ONTs
+        if ($type == 'zyxelont') {
+            self::$customFieldDefinitions = [
+                'olt_template' => [
+                    'formMethod' => 'customFormTextDefault',
+                    'rule' => 'required',
+                ],
+            ];
+
+            return;
         }
 
         self::$customFieldDefinitions = [];
@@ -147,7 +154,7 @@ class Qos extends \BaseModel
 
         return ['table' => $this->table,
             'index_header' => [$this->table.'.name', $this->table.'.ds_rate_max', $this->table.'.us_rate_max'],
-            'header' =>  $this->name,
+            'header' => $this->name,
             'bsclass' => $bsclass,
             'edit' => ['ds_rate_max' => 'unit_ds_rate_max', 'us_rate_max' => 'unit_us_rate_max'],
         ];
