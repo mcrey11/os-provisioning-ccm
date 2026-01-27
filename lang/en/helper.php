@@ -224,6 +224,7 @@ return [
         'number' => 'Attention - Customer login password is changed automatically on changing this field!',
         'salutation' => 'To change the options please change the content of the file(s) '.storage_path('app/config/provbase/formoptions/salutations_').'{person,institution}.txt!',
         'valueDate' => 'Day of month for specific date of value. Overrides the requested collection date from global config for this contract in the SEPA XML.',
+        'salesTaxOrg' => 'Checking this box results in an invoice where no taxes are considered / calculated.',
     ],
     'rate_coefficient'              => 'MaxRateSustained will be multiplied by this value to grant the user more (> 1.0) throughput than subscribed.',
     'additional_modem_reset'        => 'Check if an additional button should be displayed, which resets the modem via SNMP without querying the NetGw.',
