@@ -1157,6 +1157,7 @@ return [
         ],
     ],
     'qos' => [
+        'custom_field__olt_template' => 'OLT template',
         'custom_field__ont_port_id' => 'ONT port ID',
         'custom_field__service_type' => 'Service type',
         'custom_field__service_name' => 'Service name',
