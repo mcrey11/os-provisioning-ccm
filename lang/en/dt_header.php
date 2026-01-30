@@ -1251,4 +1251,8 @@ return [
     'shop' => [
         'index' => 'Product Upgrades & Shop',
     ],
+    'conn_info_template_fn' => 'Template Customer Letter',
+    'logo' => 'Logo',
+    'web' => 'Web-Address',
+
 ];

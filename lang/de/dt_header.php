@@ -1214,4 +1214,7 @@ return [
     'shop' => [
         'index' => 'Produkt-Upgrades & Shop',
     ],
+    'conn_info_template_fn' => 'Template Kundenanschreiben',
+    'logo' => 'Logo',
+    'web' => 'Web-Adresse',
 ];
