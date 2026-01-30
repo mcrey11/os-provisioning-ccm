@@ -1014,6 +1014,7 @@ return [
         '' => 'Rechnungslauf',
         'functions' => [
             'concatInvoices' => 'Erstelle Rechnungen.pdf und ZIP-Datei',
+            'notifyCustomers' => 'Sende Infomail an Kunden',
             'postInvoices' => 'Erstelle PDF mit postalischen Rechnungen',
             'revenueList' => 'Erstelle Umsatzliste (pro Kostenstelle)',
             'sendTransactions' => 'Sende Transaktionen zu Zahlungsabwickler',

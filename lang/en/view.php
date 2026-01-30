@@ -997,6 +997,7 @@ return [
         '' => 'Settlement run',
         'functions' => [
             'concatInvoices' => 'Concatenate invoices and create ZIP file',
+            'notifyCustomers' => 'Send info mail to customers',
             'postInvoices' => 'Create Postal Invoices PDF',
             'revenueList' => 'Create revenue list (per cost center)',
             'sendTransactions' => 'Send transactions to payment gateway provider',
