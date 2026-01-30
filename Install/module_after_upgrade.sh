@@ -27,7 +27,7 @@ fi
 if [ $lastModule -eq 1 ]; then
     php artisan optimize:clear
     php artisan module:publish --all
-    php artisan migrate
+    php artisan migrate --force
     php artisan module:migrate --all
     php artisan bouncer:clean
     php artisan nms:auth

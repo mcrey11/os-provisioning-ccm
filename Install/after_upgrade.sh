@@ -10,4 +10,4 @@ systemd-tmpfiles --create
 php artisan clear-compiled
 php artisan optimize:clear
 php artisan optimize
-php artisan migrate
+php artisan migrate --force

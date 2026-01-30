@@ -112,7 +112,7 @@ php artisan key:generate
 rm -f "$dir/.env"
 echo "# Use $env/*.env files for configuration" > "$dir/.env"
 
-php artisan migrate
+php artisan migrate --force
 # create default user roles to be later assigned to users
 php artisan auth:roles
 
