@@ -12,10 +12,17 @@ class Browser
 {
     protected static function options(): array
     {
+        $chromeDataPath = storage_path('app/data/chrome-crashpad');
+
         return [
             'keepAlive' => true,
             'debugLogger' => null,
             'noSandbox' => false,
+            'userCrashDumpsDir' => $chromeDataPath,
+            'envVariables' => [
+                'HOME' => $chromeDataPath,
+                'TMPDIR' => sys_get_temp_dir(),
+            ],
         ];
     }
 
@@ -32,6 +39,7 @@ class Browser
         do {
             if (! $lock->get()) {
                 sleep(1);
+
                 continue;
             }
 
