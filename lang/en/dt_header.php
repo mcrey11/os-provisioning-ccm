@@ -371,9 +371,10 @@ return [
         'sepaaccount_id' => 'Last for account',
         'verified' => 'Verified?',
     ],
-    // MPR
+    'maturity' => 'Maturity',
     'mpr.name' => 'Name',
     'mpr.id' => 'ID',
+    'period_of_notice' => 'Period of notice',
     // NetElement
     'netelement' => [
         'id' => 'ID',

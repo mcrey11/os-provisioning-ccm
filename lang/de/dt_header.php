@@ -313,9 +313,10 @@ return [
         'sepaaccount_id' => 'Zuletzt für Konto',
     ],
     'verified' => 'Überprüft?',
-    // MPR
+    'maturity' => 'Laufzeit',
     'mpr.name' => 'Name',
     'mpr.id' => 'ID',
+    'period_of_notice' => 'Kündigungsfrist',
     // NetElement
     'netelement' => [
         'id' => 'ID',
