@@ -7,12 +7,14 @@ use HeadlessChromium\Browser\ProcessAwareBrowser;
 use HeadlessChromium\BrowserFactory;
 use HeadlessChromium\Exception\BrowserConnectionFailed;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 
 class Browser
 {
     protected static function options(): array
     {
         $chromeDataPath = storage_path('app/data/chrome-crashpad');
+        File::ensureDirectoryExists($chromeDataPath);
 
         return [
             'keepAlive' => true,
