@@ -69,6 +69,11 @@ class QosObserver
 
             return;
         }
+
+        // Zyxel: OLT template cannot be changed when QoS is in use (stored in custom_data)
+        if (Module::collections()->has('Zyxel') && $qos->type === 'zyxelont' && $qos->isInUse()) {
+            $qos->restoreUnchangeableFields(['custom_data'], trans('messages.qosIsInUse'));
+        }
     }
 
     public function updated($qos)
