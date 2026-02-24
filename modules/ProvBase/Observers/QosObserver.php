@@ -74,6 +74,11 @@ class QosObserver
         if (Module::collections()->has('Zyxel') && $qos->type === 'zyxelont' && $qos->isInUse()) {
             $qos->restoreUnchangeableFields(['custom_data'], trans('messages.qosIsInUse'));
         }
+
+        // Calix: custom_data cannot be changed when QoS is in use
+        if (Module::collections()->has('Calix') && in_array($qos->type, ['calixont', 'customer1001calixont'], true) && $qos->isInUse()) {
+            $qos->restoreUnchangeableFields(['custom_data'], trans('messages.qosIsInUse'));
+        }
     }
 
     public function updated($qos)
