@@ -1075,8 +1075,10 @@ class BaseController extends Controller
 
             $obj = $obj::create($data);
 
-            // Add N:M Relations
-            self::_set_many_to_many_relations($obj, $data);
+            if ($obj->exists) {
+                // Add N:M Relations
+                self::_set_many_to_many_relations($obj, $data);
+            }
 
             return response()->v0ApiReply([], $obj->exists, $obj->id);
         } elseif ($ver === '1') {
