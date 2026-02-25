@@ -1409,7 +1409,7 @@ class BaseController extends Controller
 
             foreach (Request::get('ids') as $id => $val) {
                 $obj = $obj->findOrFail($id);
-                if ($obj->qualified_model_class && $obj->qualified_model_class != get_class($obj)) {
+                if ($obj->qualified_model_class && $obj->qualified_model_class != get_class($obj) && class_exists($obj->qualified_model_class)) {
                     $obj = $obj->qualified_model_class::findOrFail($id);
                 }
                 $to_delete++;
@@ -1431,7 +1431,7 @@ class BaseController extends Controller
         } else {
             $to_delete++;
             $obj = static::get_model_obj()->findOrFail($id);
-            if ($obj->qualified_model_class && $obj->qualified_model_class != get_class($obj)) {
+            if ($obj->qualified_model_class && $obj->qualified_model_class != get_class($obj) && class_exists($obj->qualified_model_class)) {
                 $obj = $obj->qualified_model_class::findOrFail($id);
             }
             if ($obj->delete()) {
