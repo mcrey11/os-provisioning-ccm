@@ -63,6 +63,18 @@ class ModemController extends \BaseController
     private $configfile;
 
     /**
+     * Allow request-based qualified_model_class only for modem classes defined in provbase config.
+     *
+     * @return array<string>|null
+     */
+    public static function allowedQualifiedModelClasses(): ?array
+    {
+        $classes = config('provbase.availableModemClasses');
+
+        return is_array($classes) ? array_values($classes) : null;
+    }
+
+    /**
      * Get redirect URL if configfile requires a different model class
      *
      * @param  string  $method  Route method ('edit' or 'create')

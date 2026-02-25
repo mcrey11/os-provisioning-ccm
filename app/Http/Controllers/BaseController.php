@@ -165,13 +165,26 @@ class BaseController extends Controller
         ];
     }
 
+    /**
+     * Model classes that may be instantiated from request input (qualified_model_class).
+     * Return null or empty array to disable request-based resolution; only route-based resolution is used.
+     * Override in subclasses that need to accept qualified_model_class from the request (e.g. ModemController).
+     *
+     * @return array<string>|null
+     */
+    public static function allowedQualifiedModelClasses(): ?array
+    {
+        return null;
+    }
+
     public static function get_model_obj()
     {
-        // If the request contains a qualified_model_class, use it to get the correct model object
-        // This is used for API calls to ensure that the correct model object is used
         $qualifiedModelClass = Request::get('qualified_model_class');
-        if ($qualifiedModelClass && class_exists($qualifiedModelClass)) {
-            return new $qualifiedModelClass;
+        if ($qualifiedModelClass) {
+            $allowed = static::allowedQualifiedModelClasses();
+            if (is_array($allowed) && $allowed !== [] && in_array($qualifiedModelClass, $allowed, true) && class_exists($qualifiedModelClass)) {
+                return new $qualifiedModelClass;
+            }
         }
 
         $classname = NamespaceController::get_model_name();
@@ -192,13 +205,14 @@ class BaseController extends Controller
 
     public static function get_controller_obj()
     {
-        // If the request contains a qualified_model_class, use it to get the correct controller object
-        // This is used for API calls to ensure that the correct controller object is used
         $qualifiedModelClass = Request::get('qualified_model_class');
         if ($qualifiedModelClass) {
-            $qualifiedControllerClass = str_replace('\\Entities\\', '\\Http\\Controllers\\', $qualifiedModelClass).'Controller';
-            if (class_exists($qualifiedControllerClass)) {
-                return new $qualifiedControllerClass;
+            $allowed = static::allowedQualifiedModelClasses();
+            if (is_array($allowed) && $allowed !== [] && in_array($qualifiedModelClass, $allowed, true)) {
+                $qualifiedControllerClass = str_replace('\\Entities\\', '\\Http\\Controllers\\', $qualifiedModelClass).'Controller';
+                if (class_exists($qualifiedControllerClass)) {
+                    return new $qualifiedControllerClass;
+                }
             }
         }
 
