@@ -34,7 +34,7 @@ trait ModelWithCustomFields
         $fieldsRaw = self::$customFieldDefinitions ?? [];
 
         foreach ($fieldsRaw as $field => $config) {
-            if ($config['rule']) {
+            if (! empty($config['rule'] ?? null)) {
                 $rules[self::$customFieldsPrefix.$field] = $config['rule'];
             }
         }

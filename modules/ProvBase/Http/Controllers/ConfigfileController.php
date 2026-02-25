@@ -167,6 +167,16 @@ class ConfigfileController extends \BaseController
     }
 
     /**
+     * Set custom field definitions from request before validation so custom rules are applied.
+     */
+    public function prepare_input($data)
+    {
+        Configfile::setCustomFieldDefinitions($data['device'] ?? null);
+
+        return parent::prepare_input($data);
+    }
+
+    /**
      * Take care of the custom fields after validating them
      *
      * @author Patrick Reichel

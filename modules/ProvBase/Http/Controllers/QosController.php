@@ -179,6 +179,8 @@ class QosController extends \BaseController
      */
     public function prepare_input($data)
     {
+        Qos::setCustomFieldDefinitions($data['type'] ?? null);
+
         $data = parent::prepare_input($data);
 
         $data['vlan_id'] = $data['vlan_id'] ?? 0;

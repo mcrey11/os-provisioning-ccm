@@ -44,10 +44,7 @@ class Qos extends \BaseModel
             'service_profile_id' => 'nullable|integer',
         ];
 
-        $customRules = [];
-        if (isset($this->customFieldDefinitions)) {
-            $customRules = static::getCustomRules();
-        }
+        $customRules = static::getCustomRules();
 
         return array_merge($rules, $customRules);
     }

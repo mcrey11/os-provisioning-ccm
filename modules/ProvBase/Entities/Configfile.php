@@ -46,10 +46,7 @@ class Configfile extends \BaseModel
             'firmware' => 'string|min:1|max:55|nullable',
         ];
 
-        $customRules = [];
-        if (isset($this->customFieldDefinitions)) {
-            $customRules = static::getCustomRules();
-        }
+        $customRules = static::getCustomRules();
 
         return array_merge($rules, $customRules);
     }
