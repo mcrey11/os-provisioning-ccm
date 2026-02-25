@@ -47,31 +47,46 @@ use Yajra\DataTables\DataTables;
 class BaseController extends Controller
 {
     use V1Trait;
+
     /*
      * Default VIEW styling options
      * NOTE: All these values could be used in the inheritances classes
      */
     protected $edit_view_save_button = true;
+
     protected $save_button_name = 'Save';
+
     // key in messages language file
     protected $save_button_title_key = null;
 
     protected $edit_view_second_button = false;
+
     protected $second_button_name = 'Missing action name';
+
     protected $second_button_title_key = null;
+
     protected $second_button_icon = null;
+
     protected $second_button_class = 'primary';
 
     protected $edit_view_third_button = false;
+
     protected $third_button_name = 'Missing action name';
+
     protected $third_button_title_key = null;
+
     protected $third_button_icon = null;
+
     protected $third_button_class = 'primary';
 
     protected $edit_view_fourth_button = false;
+
     protected $fourth_button_name = 'Missing action name';
+
     protected $fourth_button_title_key = null;
+
     protected $fourth_button_icon = null;
+
     protected $fourth_button_class = 'primary';
 
     protected $printButton = false;
@@ -80,10 +95,13 @@ class BaseController extends Controller
 
     // if set to true a create button on index view is available
     protected $index_create_allowed = true;
+
     protected $index_delete_allowed = true;
 
     protected $edit_left_md_size = 8;
+
     protected $index_left_md_size = 12;
+
     protected $edit_right_md_size = null;
 
     protected $defaultMdSizes = [
@@ -459,8 +477,6 @@ class BaseController extends Controller
 
     /**
      * Accessor for File Upload Paths
-     *
-     * @return array
      */
     protected function getFileUploadPaths(): array
     {
@@ -740,7 +756,7 @@ class BaseController extends Controller
         $devices = [];
 
         foreach ($tables as $table) {
-            if (! $model = (new BaseModel())->guessModelName($table->table_name)) {
+            if (! $model = (new BaseModel)->guessModelName($table->table_name)) {
                 continue;
             }
 
@@ -1311,6 +1327,7 @@ class BaseController extends Controller
             if (isset($field['classes']) &&
                 (Bouncer::cannot('update', $field['classes'][0]) || Bouncer::cannot('update', $field['classes'][1]))) {
                 Session::push('error', "You are not allowed to edit {$field['classes'][0]} or {$field['classes'][1]}");
+
                 continue;
             }
 
@@ -1354,11 +1371,11 @@ class BaseController extends Controller
             $user = Auth::user();
             \App\GuiLog::log_changes([
                 'user_id' => $user ? $user->id : 0,
-                'username' 	=> $user ? $user->first_name.' '.$user->last_name : 'cronjob',
-                'method' 	=> 'updated N:M',
-                'model' 	=> Str::singular(Str::studly($obj->table)),
-                'model_id'  => $obj->id,
-                'text'		=> $changed_attributes->implode("\n"),
+                'username' => $user ? $user->first_name.' '.$user->last_name : 'cronjob',
+                'method' => 'updated N:M',
+                'model' => Str::singular(Str::studly($obj->table)),
+                'model_id' => $obj->id,
+                'text' => $changed_attributes->implode("\n"),
             ]);
         }
 
@@ -1919,7 +1936,7 @@ class BaseController extends Controller
 
         foreach ($editColumnData as $column => $functionname) {
             $param = null;
-            if (is_string($functionname) && ('boolToLanguageString' == $functionname)) {
+            if (is_string($functionname) && ($functionname == 'boolToLanguageString')) {
                 if (strpos($column, '.') !== false) {
                     $column = substr($column, strrpos($column, '.') + 1);
                 }
@@ -1992,7 +2009,7 @@ class BaseController extends Controller
             class_exists($model->qualified_model_class) &&
             $model->qualified_model_class !== get_class($model)) {
             // Create a new instance of the derived class
-            $instance = new $model->qualified_model_class();
+            $instance = new $model->qualified_model_class;
 
             // Set the table name to ensure it uses the correct table
             $instance->setTable($model->getTable());
@@ -2078,7 +2095,6 @@ class BaseController extends Controller
      *
      * example implementation can be found in Modem(Controller)
      *
-     * @param  string  $relation
      * @return \Illuminate\Pagination\Paginator
      */
     public function select2Ajax(string $relation)
@@ -2108,7 +2124,6 @@ class BaseController extends Controller
      * @param  string  $class  unqualified name of the Class
      * @param  string|null  $field  Name of the input field
      * @param  string|null  $fn  Name of the relation(function)
-     * @return array
      */
     protected function setupSelect2Field($model, string $class, ?string $field = null, ?string $fn = null): array
     {
@@ -2163,13 +2178,6 @@ class BaseController extends Controller
 
     /**
      * Set the Select 2 Key/Value via Request (GET) Parameter
-     *
-     * @param  array  $models
-     * @param  BaseModel  $model
-     * @param  string  $class
-     * @param  string  $field
-     * @param  string  $placeholder
-     * @return array
      */
     protected function select2ViaRequestParam(array $models, BaseModel $model, string $class, string $field, string $placeholder): array
     {

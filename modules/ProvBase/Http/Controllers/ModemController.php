@@ -40,12 +40,16 @@ use View;
 class ModemController extends \BaseController
 {
     protected $index_create_allowed = false;
+
     protected $save_button_name = 'Save / Restart';
+
     protected $save_button_title_key = 'modem_save_button_title';
 
     // save button title ? for a help message
     protected $edit_view_second_button = true;
+
     protected $second_button_name = 'Restart via NetGw';
+
     protected $second_button_title_key = 'modem_force_restart_button_title';
 
     /**
@@ -145,7 +149,6 @@ class ModemController extends \BaseController
      * Get the qualified model class from a configfile id or configfile object
      *
      * @param  string|int|Configfile|null  $configfile  The configfile ID (as int or string) or a configfile object
-     * @return string|null
      */
     protected function getQualifiedModelClassFromConfigfile(string|int|Configfile|null $configfile): ?string
     {
@@ -276,7 +279,7 @@ class ModemController extends \BaseController
         // label has to be the same like column in sql table
         $contractSelectHidden = 'E';
         if (Module::collections()->has('SmartOnt')) {
-            if ('LFO' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'LFO') {
                 $contractSelectHidden = 1;
             } else {
                 $contractSelectHidden = 'C';
@@ -333,7 +336,7 @@ class ModemController extends \BaseController
         }
 
         if (false && Sla::first()->valid()) {
-            $a[] = ['form_type'=> 'text', 'name' => 'formatted_support_state', 'description' => 'Support State', 'field_value' => ucfirst(str_replace('-', ' ', $model->support_state)), 'help'=>trans('helper.modemSupportState.'.$model->support_state), 'help_icon'=> $model->getFaSmileClass()['fa-class'], 'options' =>['readonly'], 'color'=>$model->getFaSmileClass()['bs-class']];
+            $a[] = ['form_type' => 'text', 'name' => 'formatted_support_state', 'description' => 'Support State', 'field_value' => ucfirst(str_replace('-', ' ', $model->support_state)), 'help' => trans('helper.modemSupportState.'.$model->support_state), 'help_icon' => $model->getFaSmileClass()['fa-class'], 'options' => ['readonly'], 'color' => $model->getFaSmileClass()['bs-class']];
         }
 
         $c = [
@@ -366,7 +369,7 @@ class ModemController extends \BaseController
 
         if (Module::collections()->has('BillingBase')) {
             if (! $model->exists) {
-                request()->mergeIfMissing(['qos_id'=> Contract::find(request('contract_id'))?->qos_id]);
+                request()->mergeIfMissing(['qos_id' => Contract::find(request('contract_id'))?->qos_id]);
             }
 
             $b = [
@@ -406,7 +409,7 @@ class ModemController extends \BaseController
 
         if (Module::collections()->has('Altiplano') &&
             ! Modules\Altiplano\Entities\Altiplano::first()->global_ont &&
-            (new \Modules\Altiplano\Helpers\AltiplanoApi())->token
+            (new \Modules\Altiplano\Helpers\AltiplanoApi)->token
         ) {
             $availableFiberNames = \Modules\Altiplano\Services\AltiplanoService::resolveAvailableFiberNames();
             $b[] = ['form_type' => 'select', 'name' => 'fiber_name', 'description' => 'Fiber Name', 'value' => $availableFiberNames, 'space' => '1'];
@@ -429,7 +432,7 @@ class ModemController extends \BaseController
                 'description' => 'ONT state',
                 'options' => ['readonly'],
             ];
-            if ('LFO' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'LFO') {
                 $smartont[] = [
                     'form_type' => 'select',
                     'value' => [
@@ -487,7 +490,7 @@ class ModemController extends \BaseController
                 'options' => ['readonly'],
                 'space' => '1',
             ];
-            if ('LFO' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'LFO') {
                 $smartont[] = [
                     'form_type' => 'text',
                     'name' => 'or_id',
@@ -538,7 +541,7 @@ class ModemController extends \BaseController
             return $default;
         }
 
-        if (1001 == config('app.nmsprimeCustomerId')) {
+        if (config('app.nmsprimeCustomerId') == 1001) {
             $routeName = 'Customer1001CalixOnt.select2';
         } else {
             $routeName = 'CalixOnt.select2';
@@ -567,7 +570,6 @@ class ModemController extends \BaseController
      * @param  string  $class  unqualified name of the Class
      * @param  string|null  $field  Name of the input field
      * @param  string|null  $fn  Name of the relation(function)
-     * @return array
      */
     protected function setupSelect2Field($model, string $class, ?string $field = null, ?string $fn = null): array
     {
@@ -575,7 +577,7 @@ class ModemController extends \BaseController
         if (
             Module::collections()->has('SmartOnt') &&
             (! $model->exists) &&
-            ('Configfile' == $class) &&
+            ($class == 'Configfile') &&
             in_array(Request::get('type'), ['OTO_FTTH_FR', 'OTO_OWN', 'OTO_STORAGE'])
         ) {
             $cf = Configfile::where('device', '=', 'ont')->select('id', 'name')->first();
@@ -583,7 +585,7 @@ class ModemController extends \BaseController
             return [$cf->id => $cf->name];
         }
 
-        if ('parentModem' == $class) {
+        if ($class == 'parentModem') {
             $parentModem = Modem::find($model->parent_id);
             if (! $parentModem || $model->parent_id == 0) {
                 return [0 => '–'];
@@ -636,7 +638,7 @@ class ModemController extends \BaseController
      */
     public static function _get_envia_management_jobs($modem)
     {
-        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia();
+        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia;
 
         if (Bouncer::can('view', 'Modules\ProvVoipEnvia\Entities\ProvVoipEnvia')) {
             return $provvoipenvia->get_jobs_for_view($modem, 'modem');
@@ -1347,7 +1349,7 @@ class ModemController extends \BaseController
                 $data['ont_state'] = 'initial';
             }
 
-            if ('LFO' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'LFO') {
                 // add time to given date
                 if (\DateTime::createFromFormat('Y-m-d', $data['ont_state_switchdate'])) {
                     // no time given – set to midnight
@@ -1646,11 +1648,11 @@ class ModemController extends \BaseController
             return \Redirect::back()->withErrors($validator);
         }
 
-        if ('importOntFromCsv' == $method) {
+        if ($method == 'importOntFromCsv') {
             return $this->importOntFromCsv();
         }
 
-        if ('updateOntNextStateFromCsv' == $method) {
+        if ($method == 'updateOntNextStateFromCsv') {
             return $this->updateOntNextStateFromCsv();
         }
 
@@ -1666,7 +1668,7 @@ class ModemController extends \BaseController
      */
     public function updateOntNextStateFromCsv()
     {
-        if ('LFO' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'LFO') {
             return $this->updateLfoOntNextStateFromCsv();
         }
 
@@ -1690,7 +1692,7 @@ class ModemController extends \BaseController
         $header = array_shift($csv);
         $header = array_map('mb_strtolower', $header);
 
-        if (1 == count($header)) {
+        if (count($header) == 1) {
             \Session::push('tmp_error_above_index_list', 'Only one column found: “'.$header[0].'”. Hint: Use “;” as delimiter.');
 
             return redirect($this->redirectUrl);
@@ -1746,12 +1748,14 @@ class ModemController extends \BaseController
             $serial_num = $entry[$map['serial_num']];
             if (! $serial_num) {
                 \Session::push('tmp_error_above_index_list', 'Serial number missing in line '.($lineNumber + 1).' – ignoring line');
+
                 continue;
             }
 
             $next_ont_state = $entry[$map['next_ont_state']];
             if (! $next_ont_state) {
                 \Session::push('tmp_error_above_index_list', 'Next ONT state missing in line '.($lineNumber + 1).' – ignoring line');
+
                 continue;
             }
 
@@ -1761,18 +1765,21 @@ class ModemController extends \BaseController
             ];
             if (! in_array($next_ont_state, $allowedStates)) {
                 \Session::push('tmp_error_above_index_list', 'Next state '.$next_ont_state.' in line '.($lineNumber + 1).' invalide – ignoring line');
+
                 continue;
             }
 
             $ont_state_switchdate = $entry[$map['ont_state_switchdate']];
             if (! $ont_state_switchdate) {
                 \Session::push('tmp_error_above_index_list', 'ONT state switchdate missing in line '.($lineNumber + 1).' – ignoring line');
+
                 continue;
             }
             $validSwitchdatePattern = '/(20[0-9]{2}-[01][0-9]-[0-3][0-9])( [012][0-9]:[0-5][0-9]:[0-5][0-9])?/';
             preg_match_all($validSwitchdatePattern, $ont_state_switchdate, $matches, PREG_PATTERN_ORDER);
             if (! $matches[0]) {
                 \Session::push('tmp_error_above_index_list', 'ONT state switchdate malformed in line '.($lineNumber + 1).' – ignoring line');
+
                 continue;
             }
 
@@ -1780,6 +1787,7 @@ class ModemController extends \BaseController
 
             if (is_null($modem)) {
                 \Session::push('tmp_error_above_index_list', 'No ONT with serial number '.$serial_num.' – ignoring');
+
                 continue;
             }
 
@@ -1806,7 +1814,7 @@ class ModemController extends \BaseController
      */
     public function importOntFromCsv()
     {
-        if ('GESA' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'GESA') {
             return $this->importGesaOntFromCsv();
         }
 
@@ -1859,14 +1867,14 @@ class ModemController extends \BaseController
         foreach ($fieldMap as $field => $mappings) {
             foreach ($mappings as $mapping) {
                 $pos = array_search($mapping, $header);
-                if (false !== $pos) {
+                if ($pos !== false) {
                     $headerPos[$field] = $pos;
                     break;
                 }
             }
         }
 
-        if (sizeof($fieldMap) > sizeof($headerPos)) {
+        if (count($fieldMap) > count($headerPos)) {
             $missing = array_diff(array_keys($fieldMap), array_keys($headerPos));
             \Session::push('tmp_error_above_form', 'Malformed/missing fields in CSV file: '.implode(', ', $missing));
 
