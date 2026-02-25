@@ -2000,40 +2000,7 @@ class BaseController extends Controller
      */
     private function ensurePolymorphicModel($model)
     {
-        // Check if the model uses the PolymorphicModelTrait
-        if (method_exists($model, 'instantiatePolymorphicModel')) {
-            return $model::instantiatePolymorphicModel($model);
-        }
-
-        // Check if the model has a qualified_model_class field and it's different from the current class
-        if (isset($model->qualified_model_class) &&
-            $model->qualified_model_class &&
-            class_exists($model->qualified_model_class) &&
-            $model->qualified_model_class !== get_class($model)) {
-            // Create a new instance of the derived class
-            $instance = new $model->qualified_model_class;
-
-            // Set the table name to ensure it uses the correct table
-            $instance->setTable($model->getTable());
-
-            // Set the attributes
-            $instance->setRawAttributes($model->getAttributes(), true);
-
-            // Set the original attributes
-            $instance->syncOriginal();
-
-            // Set the loaded relationships
-            foreach ($model->getRelations() as $relation => $value) {
-                $instance->setRelation($relation, $value);
-            }
-
-            // That needs to be set explicitely
-            $instance->exists = $model->exists;
-
-            return $instance;
-        }
-
-        return $model;
+        return $model::instantiatePolymorphicModel($model);
     }
 
     /**

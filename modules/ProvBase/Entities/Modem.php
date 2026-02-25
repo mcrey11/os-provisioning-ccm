@@ -21,7 +21,6 @@ namespace Modules\ProvBase\Entities;
 
 use App\extensions\php\ArrayHelper;
 use App\Sla;
-use App\Traits\PolymorphicModelTrait;
 use Cache;
 use Carbon\Carbon;
 use DB;
@@ -38,11 +37,11 @@ use Str;
 
 class Modem extends \BaseModel
 {
-    use HasConfigfile;
-    use \App\AddressFunctionsTrait; // get functions for some address select options
+    // get functions for some address select options
+    use \App\AddressFunctionsTrait;
     use \App\extensions\geocoding\GeoReferencable;
     use \App\Traits\HasTickets;
-    use PolymorphicModelTrait;
+    use HasConfigfile;
 
     /**
      * All configfile types relevant for modems in general.
