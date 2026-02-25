@@ -54,6 +54,7 @@ class Modem extends \BaseModel
         'tr069',
         'zyxelont',
     ];
+
     public const CWMP_EVENTS = [
         'BOOTSTRAP',
         'BOOT',
@@ -70,12 +71,19 @@ class Modem extends \BaseModel
         'AUTONOMOUS DU STATE CHANGE COMPLETE',
         'WAKEUP',
     ];
+
     public const CONFIGFILE_PREFIX = 'cm';
+
     public const CONFIGFILE_DIRECTORY = '/tftpboot/cm/';
+
     public const CONF_FILE_PATH = '/etc/dhcp-nmsprime/modems-host.conf';
+
     protected const CONF_FILE_PATH_PUB = '/etc/dhcp-nmsprime/modems-clients-public.conf';
+
     protected const IGNORE_CPE_FILE_PATH = '/etc/dhcp-nmsprime/ignore-cpe.conf';
+
     protected const BLOCKED_CPE_FILE_PATH = '/etc/dhcp-nmsprime/blocked.conf';
+
     protected $domainName = '';
 
     /**
@@ -94,6 +102,7 @@ class Modem extends \BaseModel
     public $table = 'modem';
 
     public $guarded = ['formatted_support_state'];
+
     protected $appends = ['formatted_support_state'];
 
     /**
@@ -140,7 +149,7 @@ class Modem extends \BaseModel
             $rules['mac'][] = 'not_regex:/^00:00:00:00:00:00$/i';
             $rules['mac'][] = 'not_regex:/^ff:ff:ff:ff:ff:ff$/i';
 
-            if ('LFO' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'LFO') {
                 // required fields for LFO
                 $rules['ont_state_switchdate'] = ['required', 'regex:/^[0-9]{4}-[0-9]{2}-[0-9]{2} [012][0-9]:[0-5][0-9]:[0-5][0-9]$/'];
                 $required = [
@@ -169,7 +178,7 @@ class Modem extends \BaseModel
         }
 
         if (isset($configfile)) {
-            if ('tr069' == $configfile->device) {
+            if ($configfile->device == 'tr069') {
                 if ($configfile->is_multiservice_ont) {
                     array_unshift($rules['mac'], 'required');
                     array_unshift($rules['ppp_username'], 'nullable');
@@ -191,7 +200,7 @@ class Modem extends \BaseModel
 
                 return $rules;
             }
-            if ('ont' == $configfile->device) {
+            if ($configfile->device == 'ont') {
                 $rules['mac'][] = 'nullable';
                 $rules['ppp_username'][] = 'nullable';
                 $rules['qos_id'] = ['required', 'exists:qos,id,deleted_at,NULL'];
@@ -274,11 +283,11 @@ class Modem extends \BaseModel
     {
         $ret = [];
         $ret[] = $this->table.'.id';
-        if ('GESA' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'GESA') {
             $ret[] = $this->table.'.hostname';
         }
         $ret[] = $this->table.'.mac';
-        if ('GESA' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'GESA') {
             $ret[] = $this->table.'.ipv4';
         }
         $ret[] = $this->table.'.serial_num';
@@ -295,11 +304,11 @@ class Modem extends \BaseModel
         $ret[] = $this->table.'.ont_id';
         $ret[] = $this->table.'.service_port_id';
         $ret[] = $this->table.'.ont_state';
-        if ('LFO' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'LFO') {
             $ret[] = $this->table.'.next_ont_state';
             $ret[] = $this->table.'.ont_state_switchdate';
         }
-        if ('GESA' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'GESA') {
             $ret[] = 'contract.type';
         }
         $ret[] = 'geocode_source';
@@ -355,7 +364,7 @@ class Modem extends \BaseModel
 
     public function getSmartOntBsclass()
     {
-        if ('active' != $this->ont_state) {
+        if ($this->ont_state != 'active') {
             return 'info';
         }
         if (is_null($this->us_pwr)) {
@@ -436,7 +445,7 @@ class Modem extends \BaseModel
                 break;
         }
 
-        return ['fa-class'=> $faClass, 'bs-class'=> $bsClass];
+        return ['fa-class' => $faClass, 'bs-class' => $bsClass];
     }
 
     public function get_contract_valid()
@@ -516,9 +525,6 @@ class Modem extends \BaseModel
 
     /**
      * Format Contracts for edit view select field and allow for searching.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Contracts(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -535,9 +541,6 @@ class Modem extends \BaseModel
 
     /**
      * Format Qos for edit view select field and allow for searching.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Qos(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -766,7 +769,7 @@ class Modem extends \BaseModel
     private function getCmDhcpEntryHostLine()
     {
         if (Module::collections()->has('SmartOnt')) {
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 return 'host '.$this->id.' { hardware ethernet '.$this->mac.';';
             }
         }
@@ -812,12 +815,12 @@ class Modem extends \BaseModel
                 $provha = $conf ?: \Modules\ProvHA\Entities\ProvHA::first();
                 $master = $provha->master;
                 $slave = explode(',', $provha->slaves)[0] ?: null;
-                if ('master' == config('provha.hostinfo.ownState')) {
+                if (config('provha.hostinfo.ownState') == 'master') {
                     $ret .= " option ccc.dhcp-server-1 $master;";
                     if ($slave) {
                         $ret .= " option ccc.SecondaryDHCPServer $slave;";
                     }
-                } elseif ('slave' == config('provha.hostinfo.ownState')) {
+                } elseif (config('provha.hostinfo.ownState') == 'slave') {
                     $ret .= " option ccc.dhcp-server-1 $slave;";
                     $ret .= " option ccc.SecondaryDHCPServer $master;";
                 }
@@ -1222,7 +1225,7 @@ class Modem extends \BaseModel
         // Note: NA becomes only zero when internet is disabled on contract (no valid tariff) or modem (manually) and contract has no telephony
         $cpe_cnt = ProvBase::first()->max_cpe;
 
-        $cpe_cnt = (-1 == $cpe_cnt) ? 254 : $cpe_cnt;   // check if unlimited (value is “-1”) and set to DOCSIS max if so
+        $cpe_cnt = ($cpe_cnt == -1) ? 254 : $cpe_cnt;   // check if unlimited (value is “-1”) and set to DOCSIS max if so
         $max_cpe = $cpe_cnt ?: 2; 		// default 2
 
         $internet_access = 1;
@@ -2220,9 +2223,9 @@ class Modem extends \BaseModel
             ->whereNull('apartment.deleted_at')
             ->where(function ($query) {
                 $query
-                ->whereNull('modem.id')
-                ->orWhere('modem.contract_id', $this->contract_id)
-                ->orWhereNotNull('contract.contract_end');
+                    ->whereNull('modem.id')
+                    ->orWhere('modem.contract_id', $this->contract_id)
+                    ->orWhereNotNull('contract.contract_end');
             })
             ->select('realty.street', 'realty.house_nr', 'realty.city', 'apartment.id as apartmentId', 'apartment.number as anum', 'floor',
                 'modem.id as modemId', 'contract.id as cId'
@@ -2245,17 +2248,17 @@ class Modem extends \BaseModel
             ->mergeBindings($contractSubQuery->getQuery())
             ->where(function ($query) {
                 $query
-                ->whereNull('apartments.modemId')
-                ->orWhere(function ($query) {
-                    $query
-                    ->whereNotNull('apartments.cId')
-                    ->where('apartments.cId', $this->contract_id);
-                })
-                ->orWhere(function ($query) {
-                    $query
-                    ->whereNull('newContract.id')
-                    ->orWhere('newContract.id', $this->contract_id);
-                });
+                    ->whereNull('apartments.modemId')
+                    ->orWhere(function ($query) {
+                        $query
+                            ->whereNotNull('apartments.cId')
+                            ->where('apartments.cId', $this->contract_id);
+                    })
+                    ->orWhere(function ($query) {
+                        $query
+                            ->whereNull('newContract.id')
+                            ->orWhere('newContract.id', $this->contract_id);
+                    });
             })
             ->orderBy('apartments.street')->orderBy('apartments.house_nr')->orderBy('apartments.anum')
             ->get();
@@ -3116,7 +3119,7 @@ class Modem extends \BaseModel
         return [
             trans('messages.Personal Contact') => [
                 'text' => "{$this->company} {$this->department} {$this->salutation} {$this->academic_degree} {$this->firstname} {$this->lastname}",
-                'action' =>[
+                'action' => [
                     'link' => 'tel:'.preg_replace(["/\s+/", "/\//"], '', $this->contract()->first('phone')->phone),
                     'icon' => 'fa-phone',
                 ],
@@ -3163,7 +3166,7 @@ class Modem extends \BaseModel
 
         $contractsOwn = collect();
         $contractsFtthFr = collect();
-        if ('OTO_STORAGE' == $this->contract->type) {
+        if ($this->contract->type == 'OTO_STORAGE') {
             $contractsOwn = Contract::where('type', '=', 'OTO_OWN')->get();
             $contractsFtthFr = Contract::where('type', '=', 'OTO_FTTH_FR')
                 ->whereIn('oto_status', ['Assigned', 'Built', 'Ordered'])
@@ -3177,14 +3180,14 @@ class Modem extends \BaseModel
         }
 
         return collect([$this->contract])
-                ->concat($contractsStorage)
-                ->concat($contractsOwn)
-                ->concat($contractsFtthFr)
-                ->keyBy('id') //unfortunately mapWithKeys does not exist as higherOrderProxy
-                ->map(function ($contract) {
-                    return $contract->composeSmartOntOltDescription($contract);
-                })
-                ->sort();
+            ->concat($contractsStorage)
+            ->concat($contractsOwn)
+            ->concat($contractsFtthFr)
+            ->keyBy('id') // unfortunately mapWithKeys does not exist as higherOrderProxy
+            ->map(function ($contract) {
+                return $contract->composeSmartOntOltDescription($contract);
+            })
+            ->sort();
     }
 
     /**
@@ -3206,7 +3209,7 @@ class Modem extends \BaseModel
         }
 
         // check if deprovisioning was successful
-        if ('OTO_STORAGE' == $this->contract->type) {
+        if ($this->contract->type == 'OTO_STORAGE') {
             if (
                 (! is_null($this->ont_id)) ||
                 (! is_null($this->netgw_id)) ||
@@ -3236,7 +3239,7 @@ class Modem extends \BaseModel
     {
         if (
             \Module::collections()->has('SmartOnt') &&
-            ('GESA' == config('smartont.flavor.active') &&
+            (config('smartont.flavor.active') == 'GESA' &&
             (! $this->deleteGESAOnt())
             )
         ) {
@@ -3272,7 +3275,7 @@ class Modem extends \BaseModel
             ->get();
 
         return self::whereIn('fiber_name', $distinctFiberNames->pluck('fiber_name'))
-             ->get();
+            ->get();
     }
 
     /**

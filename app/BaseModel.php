@@ -547,8 +547,8 @@ class BaseModel extends Eloquent
             'debt_import_id',
             'documenttemplate_id',
             'firmware_upgrade_id',
-            //'mibfile_id',
-            //'oid_id',
+            // 'mibfile_id',
+            // 'oid_id',
             'node_id',
             'product_id',
             'qos_id',
@@ -857,7 +857,7 @@ class BaseModel extends Eloquent
     {
         // in ProvHA environments: Only master is allowed to change the database
         if (Module::collections()->has('ProvHA')) {
-            if ('slave' == config('provha.hostinfo.ownState')) {
+            if (config('provha.hostinfo.ownState') == 'slave') {
                 $msg = trans('provha::messages.db_change_forbidden_not_master', ['state' => config('provha.hostinfo.ownState')]);
                 $this->addAboveMessage($msg, 'error');
                 \Log::error('Slave tried to write do database in '.get_class($this).'::'.debug_backtrace()[1]['function'].'()');
@@ -1177,7 +1177,6 @@ class BaseModel extends Eloquent
      *
      * @author Wali Razzaq
      *
-     * @param  Validator  $validator
      * @return void
      */
     public function withValidator(Validator $validator)

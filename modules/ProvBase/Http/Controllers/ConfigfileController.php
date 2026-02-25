@@ -34,8 +34,11 @@ class ConfigfileController extends \BaseController
     protected $index_tree_view = true;
 
     protected $edit_view_second_button = true;
+
     protected $second_button_name = 'Export';
+
     protected $second_button_title_key = 'exportConfigfiles';
+
     protected const GACSCACHE = 'data/provbase/gacs/';
 
     /**
@@ -227,12 +230,12 @@ class ConfigfileController extends \BaseController
 
         $parametersArray = [];
         $storagefile = self::GACSCACHE.$model->id.'.json';
-        //take from storage
+        // take from storage
         if (Storage::exists($storagefile)) {
             $parametersArray = json_decode(Storage::get($storagefile), true);
         }
 
-        //if storage is empty, regenerate storage
+        // if storage is empty, regenerate storage
         if (empty($parametersArray)) {
             $this->refreshGenieAcs($model->id, false);
             $parametersArray = json_decode(Storage::get($storagefile), true);
@@ -457,7 +460,6 @@ class ConfigfileController extends \BaseController
      * @author Roy Schneider
      *
      * @param  string  $content  JSON String from uploaded File
-     * @return string
      */
     public function replaceIds(string $content): string
     {
@@ -509,7 +511,6 @@ class ConfigfileController extends \BaseController
      * @param  array  $importedIdStrings[string]  Strings with the ids that should be replaced
      * @param  int  $start  possible duplicate id
      * @param  int  $tempImportId  high id number that guarantees no conflict
-     * @return void
      */
     protected function replaceDuplicateId(string &$content, array &$importedIds, array &$importedIdStrings, int $start, int $tempImportId): void
     {
@@ -532,7 +533,6 @@ class ConfigfileController extends \BaseController
      * @param  array  $content  Current Configfile
      * @param  bool  $hasName  Take Name of Input field for first Configfile?
      * @param  \Illuminate\Support\Collection  $originalConfigfiles  Data of all Configfiles
-     * @return void
      */
     public function recreateTree(array $content, bool $hasName, \Illuminate\Support\Collection $originalConfigfiles): void
     {
@@ -574,8 +574,6 @@ class ConfigfileController extends \BaseController
      * @author Roy Schneider
      *
      * @param  array  $configfile  Config file data
-     * @param  bool  $requestHasNameInput
-     * @return bool
      */
     public function checkAndSetContent(array $configfile, bool $requestHasNameInput): bool
     {

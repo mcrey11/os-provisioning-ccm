@@ -33,6 +33,7 @@ class Configfile extends \BaseModel
     public $guarded = ['firmware_upload', 'import'];
 
     public static $customFieldsPrefix = 'custom_field__';
+
     public static $customFieldDefinitions = [];
 
     // Add your validation rules here
@@ -54,7 +55,6 @@ class Configfile extends \BaseModel
     /**
      * Constructor
      *
-     * @param  array  $attributes
      *
      * @author Patrick Reichel
      */
@@ -73,7 +73,7 @@ class Configfile extends \BaseModel
      */
     public static function setCustomFieldDefinitions($device)
     {
-        if ('calixont' == $device) {
+        if ($device == 'calixont') {
             self::$customFieldDefinitions = [
                 'ont_profile_id' => [
                     'rule' => 'required',
@@ -87,7 +87,7 @@ class Configfile extends \BaseModel
             return;
         }
 
-        if ('zyxelont' == $device) {
+        if ($device == 'zyxelont') {
             // TODO: implement custom field definitions for Zyxel ONTs
         }
 
@@ -239,11 +239,8 @@ class Configfile extends \BaseModel
     /**
      * Format Configfile parents for select 2 field and allow for seeaching.
      *
-     * @param  string|null  $search
      *
      * @request param model - the id of the model to edit or null if in create context
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Parent(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -279,7 +276,7 @@ class Configfile extends \BaseModel
 
         // for cfs of type modem, mta or generic
         // get global config - provisioning settings
-        $db_schemata ['provbase'][0] = Schema::getColumnListing('provbase');
+        $db_schemata['provbase'][0] = Schema::getColumnListing('provbase');
         $provbase = ProvBase::get();
 
         // array to extend the configfile; e.g. for firmware
@@ -321,8 +318,8 @@ class Configfile extends \BaseModel
                 /*
                  * generate Table array with SQL columns
                  */
-                $db_schemata ['modem'][0] = Schema::getColumnListing('modem');
-                $db_schemata ['qos'][0] = Schema::getColumnListing('qos');
+                $db_schemata['modem'][0] = Schema::getColumnListing('modem');
+                $db_schemata['qos'][0] = Schema::getColumnListing('qos');
 
                 // if there is a specific firmware: add entries for upgrade
                 if ($this->firmware && ! $sw_up) {

@@ -86,7 +86,7 @@ class QosController extends \BaseController
                 'name' => 'vlan_id',
                 'description' => 'VLAN ID',
             ];
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 $ret[] = [
                     'form_type' => 'text',
                     'name' => 'ont_line_profile_id',
@@ -98,7 +98,7 @@ class QosController extends \BaseController
                 'name' => 'gem_port',
                 'description' => 'GEM port',
             ];
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 $ret[] = [
                     'form_type' => 'text',
                     'name' => 'traffic_table_in',
