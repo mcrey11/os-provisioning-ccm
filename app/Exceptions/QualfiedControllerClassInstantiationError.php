@@ -17,12 +17,13 @@
  * limitations under the License.
  */
 
-namespace Modules\ProvBase\Entities;
+namespace App\Exceptions;
 
-class Ont extends Modem
+/**
+ * Exception to indicate failed instantiation of a qualified controller
+ *
+ * @author Patrick Reichel
+ */
+class QualfiedControllerClassInstantiationError extends \Exception
 {
-    public function modemType()
-    {
-        return $this;
-    }
 }

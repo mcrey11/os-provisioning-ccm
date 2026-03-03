@@ -19,6 +19,7 @@
 
 namespace App;
 
+use App\Exceptions\QualfiedModelClassInstantiationError;
 use App\Http\Controllers\BaseViewController;
 use App\Observers\BaseObserver;
 use DB;
@@ -1063,104 +1064,44 @@ class BaseModel extends Eloquent
     }
 
     /**
-     * Find a single model with polymorphic instantiation.
-     * This ensures that the correct derived class is instantiated
-     * instead of the base class.
+     * Create a new model instance from a database row (hydration).
+     * When the row has qualified_model_class set to a valid subclass, that class
+     * is instantiated instead of the current model, so find/get/relations
+     * automatically return the correct polymorphic type.
      *
-     * @param  int  $id  The model ID
-     * @param  array  $withRelations  Additional relationships to load
-     * @param  string|null  $baseClass  The base class to use for initial query
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @override
+     *
+     * @param  array  $attributes  Raw attributes from the database
+     * @param  string|null  $connection  Connection name
+     * @return static|\Illuminate\Database\Eloquent\Model
      */
-    public static function findPolymorphicModel($id, $withRelations = [], $baseClass = null)
+    public function newFromBuilder($attributes = [], $connection = null)
     {
-        $baseClass = $baseClass ?: static::class;
+        $attributes = (array) $attributes;
+        $qualifiedClass = $attributes['qualified_model_class'] ?? null;
 
-        $model = $baseClass::with($withRelations)->find($id);
-
-        if (! $model) {
-            return null;
+        // Default: Use Eloquent method
+        if ((! is_string($qualifiedClass)) || ($qualifiedClass === static::class)) {
+            return parent::newFromBuilder($attributes, $connection);
         }
 
-        return static::instantiatePolymorphicModel($model);
-    }
-
-    /**
-     * Find a single model with polymorphic instantiation or fail.
-     * This ensures that the correct derived class is instantiated
-     * instead of the base class.
-     *
-     * @param  int  $id  The model ID
-     * @param  array  $withRelations  Additional relationships to load
-     * @param  string|null  $baseClass  The base class to use for initial query
-     * @return \Illuminate\Database\Eloquent\Model
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public static function findPolymorphicModelOrFail($id, $withRelations = [], $baseClass = null)
-    {
-        $model = static::findPolymorphicModel($id, $withRelations, $baseClass);
-
-        if (! $model) {
-            $baseClass = $baseClass ?: static::class;
-            throw (new \Illuminate\Database\Eloquent\ModelNotFoundException)->setModel($baseClass, $id);
+        // May happen e.g. if a module gets disabled; prevent undefined changes to the stored data
+        if (! class_exists($qualifiedClass)) {
+            throw new QualfiedModelClassInstantiationError('Could not instantiate '.$qualifiedClass.': Class does not exist.');
         }
 
-        return $model;
-    }
+        // Create and return a model of the given qualified_model_class, mirroring the code in Eloquent
+        // Attention: On Laravel updates – check if logic in Eloquent::newFromBuilder() has changed!
+        $instance = new $qualifiedClass;
+        $instance->setTable($this->getTable());
+        $instance->setConnection($connection ?: $this->getConnectionName());
+        $instance->mergeCasts($this->getCasts());
+        $instance->setRawAttributes((array) $attributes, true);
+        $instance->exists = true;
+        $instance->syncOriginal();
+        $instance->fireModelEvent('retrieved', false);
 
-    /**
-     * Get multiple models with polymorphic instantiation.
-     * This ensures that the correct derived classes are instantiated
-     * instead of the base class.
-     *
-     * @param  array  $withRelations  Additional relationships to load
-     * @param  string|null  $baseClass  The base class to use for initial query
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public static function getPolymorphicModels($withRelations = [], $baseClass = null)
-    {
-        $baseClass = $baseClass ?: static::class;
-
-        $models = $baseClass::with($withRelations)->get();
-
-        return $models->map(function ($model) {
-            return static::instantiatePolymorphicModel($model);
-        });
-    }
-
-    /**
-     * Instantiate a polymorphic model from a base model instance.
-     * This is the core logic for creating the correct derived class instance.
-     *
-     * @param  \Illuminate\Database\Eloquent\Model  $model  The base model instance
-     * @return \Illuminate\Database\Eloquent\Model The polymorphic model instance
-     */
-    public static function instantiatePolymorphicModel($model)
-    {
-        if (isset($model->qualified_model_class) &&
-            $model->qualified_model_class &&
-            class_exists($model->qualified_model_class)) {
-            if ($model->qualified_model_class === get_class($model)) {
-                return $model;
-            }
-
-            $instance = new $model->qualified_model_class;
-
-            $instance->setTable($model->getTable());
-            $instance->setRawAttributes($model->getAttributes(), true);
-            $instance->syncOriginal();
-
-            foreach ($model->getRelations() as $relation => $value) {
-                $instance->setRelation($relation, $value);
-            }
-
-            $instance->exists = $model->exists;
-
-            return $instance;
-        }
-
-        return $model;
+        return $instance;
     }
 
     /**

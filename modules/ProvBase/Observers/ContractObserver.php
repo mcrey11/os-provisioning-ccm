@@ -69,7 +69,7 @@ class ContractObserver
 
         if (Module::collections()->has('Calix')) {
             $calixOnt = null;
-            foreach ($contract->getPolymorphicModems() as $modem) {
+            foreach ($contract->modems()->with('contract')->get() as $modem) {
                 if (str_ends_with($modem->qualified_model_class ?? '', 'CalixOnt')) {   // can be either CalixOnt or Customer1001CalixOnt
                     $calixOnt = $modem;
                     break;
@@ -145,7 +145,7 @@ class ContractObserver
     {
         if (\Module::collections()->has('Calix')) {
             $calixOnt = null;
-            foreach ($contract->getPolymorphicModems() as $modem) {
+            foreach ($contract->modems()->with('contract')->get() as $modem) {
                 if (str_ends_with($modem->qualified_model_class ?? '', 'CalixOnt')) {   // can be either CalixOnt or Customer1001CalixOnt
                     $calixOnt = $modem;
                     break;
@@ -184,7 +184,7 @@ class ContractObserver
     private function alertOnRefund(Contract $contract)
     {
         $query = $contract->items()->join('product as p', 'item.product_id', '=', 'p.id')
-                ->where('p.billing_cycle', 'Yearly');
+            ->where('p.billing_cycle', 'Yearly');
 
         if (date('Y', strtotime($contract->contract_end)) == date('Y')) {
             $query = $query->where('payed_month', '!=', 0);

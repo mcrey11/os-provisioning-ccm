@@ -19,6 +19,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\QualfiedControllerClassInstantiationError;
+use App\Exceptions\QualfiedModelClassInstantiationError;
 use App\GlobalConfig;
 use App\V1\Repository;
 use App\V1\Service;
@@ -185,24 +187,31 @@ class BaseController extends Controller
 
     /**
      * Model classes that may be instantiated from request input (qualified_model_class).
-     * Return null or empty array to disable request-based resolution; only route-based resolution is used.
+     * Return empty array to disable request-based resolution; only route-based resolution is used.
      * Override in subclasses that need to accept qualified_model_class from the request (e.g. ModemController).
      *
-     * @return array<string>|null
+     * @return array<string>
      */
-    public static function allowedQualifiedModelClasses(): ?array
+    public static function allowedQualifiedModelClasses(): array
     {
-        return null;
+        return [];
     }
 
     public static function get_model_obj()
     {
         $qualifiedModelClass = Request::get('qualified_model_class');
         if ($qualifiedModelClass) {
-            $allowed = static::allowedQualifiedModelClasses();
-            if (is_array($allowed) && $allowed !== [] && in_array($qualifiedModelClass, $allowed, true) && class_exists($qualifiedModelClass)) {
-                return new $qualifiedModelClass;
+            $allowed = array_unique(static::allowedQualifiedModelClasses());
+
+            if (! in_array($qualifiedModelClass, $allowed, true)) {
+                throw new QualfiedModelClassInstantiationError('Could not instantiate '.$qualifiedModelClass.': qualified_model_class needs to be in ['.implode(', ', $allowed).']');
             }
+
+            if (! class_exists($qualifiedModelClass)) {
+                throw new QualfiedModelClassInstantiationError('Could not instantiate '.$qualifiedModelClass.': Class does not exist.');
+            }
+
+            return new $qualifiedModelClass;
         }
 
         $classname = NamespaceController::get_model_name();
@@ -221,17 +230,22 @@ class BaseController extends Controller
         return $obj;
     }
 
-    public static function get_controller_obj()
+    public static function get_controller_obj($obj = null)
     {
-        $qualifiedModelClass = Request::get('qualified_model_class');
+        $qualifiedModelClass = $obj->qualified_model_class ?? Request::get('qualified_model_class') ?? null;
         if ($qualifiedModelClass) {
-            $allowed = static::allowedQualifiedModelClasses();
-            if (is_array($allowed) && $allowed !== [] && in_array($qualifiedModelClass, $allowed, true)) {
-                $qualifiedControllerClass = str_replace('\\Entities\\', '\\Http\\Controllers\\', $qualifiedModelClass).'Controller';
-                if (class_exists($qualifiedControllerClass)) {
-                    return new $qualifiedControllerClass;
-                }
+            $allowed = array_unique(static::allowedQualifiedModelClasses());
+            $qualifiedControllerClass = str_replace('\\Entities\\', '\\Http\\Controllers\\', $qualifiedModelClass).'Controller';
+
+            if (! in_array($qualifiedModelClass, $allowed, true)) {
+                throw new QualfiedControllerClassInstantiationError('Could not instantiate '.$qualifiedControllerClass.' for '.$qualifiedModelClass.': qualified_model_class needs to be in ['.implode(', ', $allowed).']');
             }
+
+            if (! class_exists($qualifiedControllerClass)) {
+                throw new QualfiedControllerClassInstantiationError('Could not instantiate '.$qualifiedControllerClass.': Class does not exist.');
+            }
+
+            return new $qualifiedControllerClass;
         }
 
         $classname = NamespaceController::get_controller_name();
@@ -930,6 +944,8 @@ class BaseController extends Controller
      */
     public function api_create($ver)
     {
+        $this->addQualifiedModelClassToRequest();
+
         if ($ver !== '0') {
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
@@ -1056,6 +1072,8 @@ class BaseController extends Controller
      */
     public function api_store($ver)
     {
+        $this->addQualifiedModelClassToRequest();
+
         if ($ver === '0') {
             $obj = static::get_model_obj();
             $controller = static::get_controller_obj();
@@ -1211,21 +1229,9 @@ class BaseController extends Controller
         return Redirect::route($route_model.'.edit', $id);
     }
 
-    public function getSpecificModelObject($id)
+    protected function addQualifiedModelClassToRequest()
     {
-        $obj = static::get_model_obj()->findOrFail($id);
-
-        // If the model has a defined class, but the request does not, we still need to get the correct object
-        if ((! Request::get('qualified_model_class')) && $obj->qualified_model_class) {
-            // Inject the correct class into the request
-            Request::merge(['qualified_model_class' => $obj->qualified_model_class]);
-            if ($obj->qualified_model_class != get_class($obj)) {
-                // Get the object again
-                $obj = static::get_model_obj()->findOrFail($id);
-            }
-        }
-
-        return $obj;
+        // Override in your controller
     }
 
     /**
@@ -1238,8 +1244,8 @@ class BaseController extends Controller
     public function api_update($ver, $id)
     {
         if ($ver === '0') {
-            $obj = $this->getSpecificModelObject($id);
-            $controller = static::get_controller_obj();
+            $obj = static::get_model_obj()->findOrFail($id);
+            $controller = static::get_controller_obj($obj);
 
             // Prepare and Validate Input
             $data = $this->_api_prepopulate_fields($obj, $controller);
@@ -1409,9 +1415,6 @@ class BaseController extends Controller
 
             foreach (Request::get('ids') as $id => $val) {
                 $obj = $obj->findOrFail($id);
-                if ($obj->qualified_model_class && $obj->qualified_model_class != get_class($obj) && class_exists($obj->qualified_model_class)) {
-                    $obj = $obj->qualified_model_class::findOrFail($id);
-                }
                 $to_delete++;
 
                 /* detach all pivot entries if many-to-many relations exist
@@ -1431,9 +1434,6 @@ class BaseController extends Controller
         } else {
             $to_delete++;
             $obj = static::get_model_obj()->findOrFail($id);
-            if ($obj->qualified_model_class && $obj->qualified_model_class != get_class($obj) && class_exists($obj->qualified_model_class)) {
-                $obj = $obj->qualified_model_class::findOrFail($id);
-            }
             if ($obj->delete()) {
                 $deleted++;
             }
@@ -1898,32 +1898,26 @@ class BaseController extends Controller
         }
 
         $DT->editColumn('checkbox', function ($model) {
-            // Ensure we have the correct polymorphic model instance
-            $polymorphicModel = $this->ensurePolymorphicModel($model);
-
-            if (method_exists($polymorphicModel, 'set_index_delete')) {
-                $polymorphicModel->set_index_delete();
+            if (method_exists($model, 'set_index_delete')) {
+                $model->set_index_delete();
             }
 
-            return "<input style='simple' align='center' class='' name='ids[".$polymorphicModel->id."]' type='checkbox' value='1' ".
-                ($polymorphicModel->index_delete_disabled ? 'disabled' : '').'>';
+            return "<input style='simple' align='center' class='' name='ids[".$model->id."]' type='checkbox' value='1' ".
+                ($model->index_delete_disabled ? 'disabled' : '').'>';
         })->editColumn($firstColumn, function ($model) use ($firstColumn) {
-            // Ensure we have the correct polymorphic model instance
-            $polymorphicModel = $this->ensurePolymorphicModel($model);
-
-            $content = $polymorphicModel[$firstColumn];
+            $content = $model[$firstColumn];
             // Get cell content when data is eager loaded on first column
             if (strpos($firstColumn, '.') !== false) {
                 $chain = explode('.', $firstColumn);
 
-                $content = $polymorphicModel;
+                $content = $model;
                 foreach ($chain as $value) {
                     $content = $content->{$value};
                 }
             }
 
-            return '<a href="'.route(NamespaceController::get_route_name().'.edit', $polymorphicModel->id).'"><strong>'.
-                $polymorphicModel->view_icon().$content.'</strong></a>';
+            return '<a href="'.route(NamespaceController::get_route_name().'.edit', $model->id).'"><strong>'.
+                $model->view_icon().$content.'</strong></a>';
         });
 
         if (in_array('created_at', $headerFields) || in_array("{$model->table}.created_at", $headerFields)) {
@@ -1947,27 +1941,21 @@ class BaseController extends Controller
 
             if ($column == $firstColumn) {
                 $DT->editColumn($column, function ($model) use ($functionname) {
-                    // Ensure we have the correct polymorphic model instance
-                    $polymorphicModel = $this->ensurePolymorphicModel($model);
-
                     $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
 
-                    return '<a href="'.route(NamespaceController::get_route_name().'.edit', $polymorphicModel->id).
-                        '"><strong>'.$polymorphicModel->view_icon().$functionname($polymorphicModel).'</strong></a>';
+                    return '<a href="'.route(NamespaceController::get_route_name().'.edit', $model->id).
+                        '"><strong>'.$model->view_icon().$functionname($model).'</strong></a>';
                 });
             } else {
                 $DT->editColumn($column, function ($model) use ($functionname, $param) {
-                    // Ensure we have the correct polymorphic model instance
-                    $polymorphicModel = $this->ensurePolymorphicModel($model);
-
                     if (is_null($param)) {
                         $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
 
-                        return $functionname($polymorphicModel);
+                        return $functionname($model);
                     } else {
                         $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname($param);
 
-                        return $functionname($polymorphicModel, $param);
+                        return $functionname($model, $param);
                     }
                 });
             }
@@ -1975,32 +1963,16 @@ class BaseController extends Controller
 
         // Colors
         $DT->setRowClass(function ($model) {
-            // Ensure we have the correct polymorphic model instance
-            $polymorphicModel = $this->ensurePolymorphicModel($model);
-
-            if (method_exists($polymorphicModel, 'get_bsclass')) {
-                return $polymorphicModel->get_bsclass();
+            if (method_exists($model, 'get_bsclass')) {
+                return $model->get_bsclass();
             }
 
-            return $polymorphicModel->view_index_label()['bsclass'] ?? 'info';
+            return $model->view_index_label()['bsclass'] ?? 'info';
         });
 
         array_unshift($rawColumns, 'checkbox', $firstColumn); // add everywhere used raw columns
 
         return $DT->rawColumns($rawColumns)->make();
-    }
-
-    /**
-     * Ensure that the model instance is the correct polymorphic class.
-     * This is needed for models that use the qualified_model_class field
-     * to determine their actual class (e.g., Modem -> CalixOnt).
-     *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function ensurePolymorphicModel($model)
-    {
-        return $model::instantiatePolymorphicModel($model);
     }
 
     /**

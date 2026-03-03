@@ -37,6 +37,7 @@ class Contract extends \BaseModel
 
     // temporary Variables filled during accounting command execution (Billing)
     public $expires = false;			// flag if contract expires this month - used in accounting command
+
     public $charge = [];				// total charge for each different Sepa Account with net and tax values
 
     // temporary variable used during daily conversion
@@ -120,10 +121,10 @@ class Contract extends \BaseModel
         $rules['number4'] = 'nullable';
         $rules['salutation'] = 'nullable';
 
-        if ('GESA' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'GESA') {
             return $this->rulesSmartOntGesa($rules);
         }
-        if ('LFO' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'LFO') {
             return $this->rulesSmartOntLfo($rules);
         }
     }
@@ -182,7 +183,7 @@ class Contract extends \BaseModel
 
         // special header set for SmartOnt installations
         if (Module::collections()->has('SmartOnt')) {
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 $ret[] = $this->table.'.sep_id';
                 $ret[] = $this->table.'.oto_id';
                 $ret[] = $this->table.'.oto_status';
@@ -195,7 +196,7 @@ class Contract extends \BaseModel
 
             $ret[] = 'zip';
             $ret[] = 'city';
-            if ('GESA' != config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') != 'GESA') {
                 $ret[] = 'district';
             }
             $ret[] = 'street';
@@ -251,7 +252,7 @@ class Contract extends \BaseModel
         $ret = [
             'table' => $this->table,
             'index_header' => $this->getIndexHeader(),
-            'header' =>  $this->label(),
+            'header' => $this->label(),
             'edit' => ['ground_for_dismissal' => 'getGroundForDismissal'],
             'sortsearch' => ['ground_for_dismissal' => ['order' => 'false', 'search' => 'false']],
             'bsclass' => $bsclass,
@@ -397,8 +398,8 @@ class Contract extends \BaseModel
 
         if (
             Module::collections()->has('SmartOnt') &&
-            ('GESA' == config('smartont.flavor.active')) &&
-            ('OTO_STORAGE' == $this->type)
+            (config('smartont.flavor.active') == 'GESA') &&
+            ($this->type == 'OTO_STORAGE')
         ) {
             $ret[$i18nContract]['Import ONT CSV']['class'] = 'bar';
             $ret[$i18nContract]['Import ONT CSV']['view']['view'] = 'provbase::Modem.uploadCsv';
@@ -416,9 +417,9 @@ class Contract extends \BaseModel
         $ret[$i18nContract]['Modem']['class'] = 'Modem';
         $ret[$i18nContract]['Modem']['count'] = $this->modems_count;
 
-        $ret[$i18nContract]['Modem']['relation'] = collect([new Modem()]);
+        $ret[$i18nContract]['Modem']['relation'] = collect([new Modem]);
         if ($this->modems_count <= $relationThreshold) {
-            $this->setRelation('modems', $this->getPolymorphicModems());
+            $this->setRelation('modems', $this->modems()->with('contract')->get());
             $ret[$i18nContract]['Modem']['relation'] = $this->modems;
         }
 
@@ -426,7 +427,7 @@ class Contract extends \BaseModel
             $ret[$i18nContract]['Item']['class'] = 'Item';
             $ret[$i18nContract]['Item']['count'] = $this->items_count;
             $ret[$i18nContract]['Item']['relation'] = $this->items_count >= $relationThreshold ?
-                collect([new \Modules\BillingBase\Entities\Item()]) :
+                collect([new \Modules\BillingBase\Entities\Item]) :
                 $this->items;
 
             $ret[$i18nContract]['SepaMandate']['class'] = 'SepaMandate';
@@ -466,7 +467,7 @@ class Contract extends \BaseModel
                 $ret['Billing']['Debt']['class'] = 'Debt';
                 $ret['Billing']['Debt']['count'] = $this->debtCount;
                 $ret['Billing']['Debt']['relation'] = $this->debtCount >= $relationThreshold ?
-                    collect([new \Modules\OverdueDebts\Entities\Debt()]) : $this->debts;
+                    collect([new \Modules\OverdueDebts\Entities\Debt]) : $this->debts;
             }
 
             $ret['Billing']['Invoice']['class'] = 'Invoice';
@@ -474,7 +475,7 @@ class Contract extends \BaseModel
             $ret['Billing']['Invoice']['options']['hide_delete_button'] = 1;
             $ret['Billing']['Invoice']['options']['hide_create_button'] = 1;
             $ret['Billing']['Invoice']['relation'] = $this->invoices_count >= $relationThreshold ?
-                collect([new \Modules\BillingBase\Entities\Invoice()]) :
+                collect([new \Modules\BillingBase\Entities\Invoice]) :
                 $this->invoices;
         }
 
@@ -658,20 +659,6 @@ class Contract extends \BaseModel
     public function modems()
     {
         return $this->hasMany(Modem::class);
-    }
-
-    /**
-     * Get modems with polymorphic model instantiation.
-     * This ensures that the correct derived class (like CalixOnt) is instantiated
-     * instead of the base Modem class.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getPolymorphicModems()
-    {
-        return $this->modems()->with('contract')->get()->map(function ($modem) {
-            return \Modules\ProvBase\Entities\Modem::instantiatePolymorphicModel($modem);
-        });
     }
 
     public function dfsubscriptions()
@@ -1071,7 +1058,7 @@ class Contract extends \BaseModel
             $this->update_product_related_data();
 
             if (\Module::collections()->has('WaipuTV')) {
-                $controller = new \Modules\WaipuTV\Http\Controllers\WaipuTVItemController();
+                $controller = new \Modules\WaipuTV\Http\Controllers\WaipuTVItemController;
                 $controller->dailyConversionTVItems($this);
             }
 
@@ -2171,7 +2158,7 @@ class Contract extends \BaseModel
             return [];
         }
 
-        if ('GESA' == config('smartont.flavor.active')) {
+        if (config('smartont.flavor.active') == 'GESA') {
             return [
                 '' => '',
                 'OTO_FTTH_FR' => 'OTO_FTTH_FR',

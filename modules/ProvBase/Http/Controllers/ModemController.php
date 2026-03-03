@@ -69,13 +69,13 @@ class ModemController extends \BaseController
     /**
      * Allow request-based qualified_model_class only for modem classes defined in provbase config.
      *
-     * @return array<string>|null
+     * @return array<string>
      */
-    public static function allowedQualifiedModelClasses(): ?array
+    public static function allowedQualifiedModelClasses(): array
     {
         $classes = config('provbase.availableModemClasses');
 
-        return is_array($classes) ? array_values($classes) : null;
+        return is_array($classes) ? array_values($classes) : [];
     }
 
     /**
@@ -196,27 +196,6 @@ class ModemController extends \BaseController
                 Request::merge(['qualified_model_class' => $qualified_model_class]);
             }
         }
-    }
-
-    public function api_create($ver)
-    {
-        $this->addQualifiedModelClassToRequest();
-
-        return parent::api_create($ver);
-    }
-
-    public function api_store($ver)
-    {
-        $this->addQualifiedModelClassToRequest();
-
-        return parent::api_store($ver);
-    }
-
-    public function api_update($ver, $id)
-    {
-        $this->addQualifiedModelClassToRequest();
-
-        return parent::api_update($ver, $id);
     }
 
     /**
@@ -691,7 +670,7 @@ class ModemController extends \BaseController
      */
     public function fulltextSearch()
     {
-        $obj = static::get_model_obj();
+        $obj = new Modem;
 
         if (! Module::collections()->has('HfcCustomer')) {
             return parent::fulltextSearch();
@@ -855,7 +834,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
 
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         $data = [];
         if (Module::collections()->has('ProvMon') && Request::get('verbose') == 'true') {
@@ -881,7 +860,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
 
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
         $modem->restart();
 
         return response()->v0ApiReply([], true, $id);
@@ -893,7 +872,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
 
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
         $modem->restart(false, false, true);
 
         return response()->v0ApiReply([], true, $id);
@@ -905,7 +884,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
         $resourceOptions = $this->parseResourceOptions();
-        $service = new ModemService(new Repository(static::get_model_obj()));
+        $service = new ModemService(new Repository(new Modem));
         $data = $service->getPosModems($resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
 
@@ -918,7 +897,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
         $resourceOptions = $this->parseResourceOptions();
-        $service = new ModemService(new Repository(static::get_model_obj()));
+        $service = new ModemService(new Repository(new Modem));
         $data = $service->getModemsOfSameLocation($id, $resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
 
@@ -938,7 +917,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
 
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         $cwmpModel = $modem->dataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'dhcp_enable'], ['value' => 'false']);
@@ -963,7 +942,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
 
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         $cwmpModel = $modem->dataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'dhcp_enable'], ['value' => 'true']);
@@ -988,7 +967,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
 
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         $cwmpModel = $modem->dataModel();
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns_enable'], ['value' => 'true']);
@@ -1014,7 +993,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
 
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         $cwmpModel = $modem->getCwmpDataModel($modem->getGenieId());
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns_enable'], ['value' => 'false']);
@@ -1033,7 +1012,7 @@ class ModemController extends \BaseController
         }
 
         $errors = [];
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         foreach (['model'] as $parameter) {
             if (! request($parameter)) {
@@ -1104,7 +1083,7 @@ class ModemController extends \BaseController
         }
 
         $errors = [];
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         foreach (['ssid', 'psk', 'model'] as $parameter) {
             if (! request($parameter)) {
@@ -1197,7 +1176,7 @@ class ModemController extends \BaseController
         }
 
         $errors = [];
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         foreach (['model'] as $parameter) {
             if (! request($parameter)) {
@@ -1243,7 +1222,7 @@ class ModemController extends \BaseController
         }
 
         $errors = [];
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
 
         foreach (['model'] as $parameter) {
             if (! request($parameter)) {
@@ -1290,7 +1269,7 @@ class ModemController extends \BaseController
             return response()->v0ApiReply(['messages' => ['errors' => ["Version $ver not supported"]]]);
         }
 
-        $modem = static::get_model_obj()->findOrFail($id);
+        $modem = Modem::findOrFail($id);
         $modem->createSyncPreset();
 
         return response()->v0ApiReply([], true, $id);
@@ -1628,7 +1607,7 @@ class ModemController extends \BaseController
      */
     public function import()
     {
-        $obj = static::get_model_obj();
+        $obj = new Modem;
         $this->redirectUrl = Request::get('redirect_url');
         $method = Request::get('method');
 

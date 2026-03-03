@@ -3288,4 +3288,9 @@ class Modem extends \BaseModel
     {
         $this->attributes['parent_id'] = ($value == 0) ? null : $value;
     }
+
+    public function refreshObject(): void
+    {
+        // Placeholder
+    }
 }
