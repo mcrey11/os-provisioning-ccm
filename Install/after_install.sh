@@ -1,6 +1,7 @@
 #
 # variables
 #
+psqlver=$(cat "/etc/nmsprime/sql-schemas/postgres_version" 2>/dev/null | tr -d '\n')
 dir='/var/www/nmsprime'
 env='/etc/nmsprime/env'
 pw=$(pwgen 12 1) # SQL password for user nmsprime
@@ -40,23 +41,20 @@ firewall-cmd --add-port=8080/tcp --zone=public --permanent
 firewall-cmd --reload
 
 
-#
-# Postgresql
-#
-/usr/pgsql-16/bin/postgresql-16-setup initdb
+/usr/pgsql-$psqlver/bin/postgresql-$psqlver-setup initdb
 tz=$(timedatectl show --property=Timezone --value)
-sed -e "s|^log_timezone\s*=.*|log_timezone = '$tz'|" -e "s|^timezone\s*=.*|timezone = '$tz'|" -i /var/lib/pgsql/16/data/postgresql.conf
+sed -e "s|^log_timezone\s*=.*|log_timezone = '$tz'|" -e "s|^timezone\s*=.*|timezone = '$tz'|" -i /var/lib/pgsql/$psqlver/data/postgresql.conf
 
-systemctl enable postgresql-16.service
-systemctl start postgresql-16.service
+systemctl enable postgresql-$psqlver.service
+systemctl start postgresql-$psqlver.service
 
-sudo -u postgres /usr/pgsql-16/bin/psql -c "CREATE DATABASE nmsprime;"
-sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime -c "
+sudo -u postgres /usr/pgsql-$psqlver/bin/psql -c "CREATE DATABASE nmsprime;"
+sudo -u postgres /usr/pgsql-$psqlver/bin/psql -d nmsprime -c "
     CREATE USER nmsprime PASSWORD '$pw';
     ALTER DATABASE nmsprime OWNER TO nmsprime;
     ALTER ROLE postgres set search_path to 'nmsprime';
 "
-sudo -u postgres /usr/pgsql-16/bin/psql -d nmsprime < /etc/nmsprime/sql-schemas/nmsprime.pgsql
+sudo -u postgres /usr/pgsql-$psqlver/bin/psql -d nmsprime < /etc/nmsprime/sql-schemas/nmsprime.pgsql
 
 #
 # mariadb
