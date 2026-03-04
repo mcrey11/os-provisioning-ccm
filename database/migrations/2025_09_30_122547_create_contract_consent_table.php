@@ -34,6 +34,10 @@ return new class extends BaseMigration
      */
     public function up(): void
     {
+        if (Schema::hasTable('contract_consent')) {
+            return;
+        }
+
         Schema::create('contract_consent', function (Blueprint $table) {
             $this->upTableGeneric($table);
 

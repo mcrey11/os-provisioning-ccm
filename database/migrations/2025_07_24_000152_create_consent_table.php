@@ -40,13 +40,7 @@ return new class extends BaseMigration
             $table->string('name')->nullable();
         });
 
-        Schema::create('contract_consent', function (Blueprint $table) {
-            $this->upTableGeneric($table);
-
-            $table->bigInteger('consent_id')->nullable();
-            $table->bigInteger('contract_id')->nullable();
-            $table->boolean('allowed')->default(false);
-        });
+        // contract_consent is created by 2025_09_30_122547_create_contract_consent_table
     }
 
     /**
@@ -57,6 +51,6 @@ return new class extends BaseMigration
     public function down()
     {
         Schema::dropIfExists($this->tableName);
-        Schema::dropIfExists('contract_consent');
+        // contract_consent dropped by 2025_09_30_122547_create_contract_consent_table
     }
 };
