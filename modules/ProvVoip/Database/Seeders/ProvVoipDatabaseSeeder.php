@@ -33,10 +33,21 @@ class ProvVoipDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call('Modules\ProvVoip\Database\Seeders\ProvVoipConfigTableSeeder');
-        $this->call('Modules\ProvVoip\Database\Seeders\MtaTableSeeder');
-        $this->call('Modules\ProvVoip\Database\Seeders\PhoneTariffTableSeeder');
-        $this->call('Modules\ProvVoip\Database\Seeders\PhonenumberTableSeeder');
-        $this->call('Modules\ProvVoip\Database\Seeders\PhonenumberManagementTableSeeder');
+        $seeders = [
+            'Modules\ProvVoip\Database\Seeders\ProvVoipConfigTableSeeder',
+            'Modules\ProvVoip\Database\Seeders\MtaTableSeeder',
+            'Modules\ProvVoip\Database\Seeders\PhoneTariffTableSeeder',
+            'Modules\ProvVoip\Database\Seeders\PhonenumberTableSeeder',
+            'Modules\ProvVoip\Database\Seeders\PhonenumberManagementTableSeeder',
+        ];
+
+        foreach ($seeders as $class) {
+            $start = config('app.seed_profile', false) ? hrtime(true) : 0;
+            $this->call($class);
+            if (config('app.seed_profile', false)) {
+                $elapsed = (hrtime(true) - $start) / 1e9;
+                fwrite(STDERR, sprintf("    %s: %.2fs\n", class_basename($class), $elapsed));
+            }
+        }
     }
 }

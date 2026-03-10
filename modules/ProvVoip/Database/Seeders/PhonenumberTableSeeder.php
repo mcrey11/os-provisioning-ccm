@@ -46,13 +46,13 @@ class PhonenumberTableSeeder extends \BaseSeeder
 
         // in seeding mode: choose random mta to create phonenumber at
         if ($topic == 'seed') {
-            $mta = Mta::all()->random(1);
+            $mta = Mta::all()->random();
             $mta_id = $mta->id;
         } else {
             if (! is_null($mta)) {
                 $mta_id = $mta->id;
             } else {
-                $mta = Mta::all()->random(1)->get();
+                $mta = Mta::all()->random();
                 $mta_id = $mta->id;
             }
         }
@@ -74,6 +74,7 @@ class PhonenumberTableSeeder extends \BaseSeeder
         }
 
         $ret = [
+            'country_code' => '0049',
             'prefix_number' => '0'.rand(2, 9).rand(0, 9999),
             'number' => rand(100, 999999),
             'mta_id' => $mta_id,

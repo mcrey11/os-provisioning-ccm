@@ -162,14 +162,12 @@ class BaseViewController extends Controller
     {
         return collect($languageArray)
             ->mapWithKeys(function ($langShortcut) {
-                return [$langShortcut  => config('language.'.$langShortcut)];
+                return [$langShortcut => config('language.'.$langShortcut)];
             });
     }
 
     /**
      * Detect the user language from Session or browser
-     *
-     * @return string
      */
     public static function get_user_lang(): string
     {
@@ -188,7 +186,7 @@ class BaseViewController extends Controller
 
         Session::put('language', $userLang = checkLocale($user->language));
 
-        return  $userLang;
+        return $userLang;
     }
 
     /**
@@ -241,6 +239,7 @@ class BaseViewController extends Controller
                     $field['form_fields'] = self::prepare_form_fields($field['form_fields'], $model);
                     array_push($ret, $field);
                 }
+
                 continue;
             }
 
@@ -655,7 +654,6 @@ class BaseViewController extends Controller
      *
      * NOTE: this function takes care of installed modules and Permissions!
      *
-     * @return array
      *
      * @author: Christian Schramm
      */
@@ -743,7 +741,7 @@ class BaseViewController extends Controller
             $class = get_class($class_or_obj);
         }
 
-        if (class_exists($class_or_obj)) {
+        if (is_string($class_or_obj) && class_exists($class_or_obj)) {
             $class = $class_or_obj;
         }
 
@@ -778,7 +776,7 @@ class BaseViewController extends Controller
         // only for create context: parse headline from HTML POST context array
         if (! is_null($html) && isset(array_keys($html)[0])) {
             $key = array_keys($html)[0];
-            $fullyQualifiedClassName = (new BaseModel())->guessModelName(ucwords(explode('_id', $key)[0]));
+            $fullyQualifiedClassName = (new BaseModel)->guessModelName(ucwords(explode('_id', $key)[0]));
 
             if (class_exists($fullyQualifiedClassName)) {
                 $view_var = $fullyQualifiedClassName::find(intval($html[$key]));

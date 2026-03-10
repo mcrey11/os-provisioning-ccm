@@ -35,25 +35,18 @@ class NmsFaker extends Faker
      * Constructor.
      * Declared private to disable creation of GuiLogWriter objects using the “new” keyword
      */
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Private clone method to prevent cloning of the instance of the
      * *Singleton* instance.
      */
-    private function __clone()
-    {
-    }
+    private function __clone() {}
 
     /**
-     * Private unserialize method to prevent unserializing of the *Singleton*
-     * instance.
+     * Public wakeup (required for PHP 8.4+). Does nothing to prevent unserializing.
      */
-    private function __wakeup()
-    {
-    }
+    public function __wakeup(): void {}
 
     /**
      * Getter for the Faker “object“

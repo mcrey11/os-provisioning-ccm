@@ -20,7 +20,9 @@
 namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase as BaseTest;
+use Illuminate\Support\Facades\DB;
 
 abstract class TestCase extends BaseTest
 {
@@ -33,14 +35,19 @@ abstract class TestCase extends BaseTest
 
     /**
      * Creates the application.
-     *
-     * @return \Illuminate\Foundation\Application
      */
-    public function createApplication()
+    public function createApplication(): Application
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
         $app->make(Kernel::class)->bootstrap();
+
+        // Force testing environment and test DBs (this app instance is the one used during tests).
+        $app->instance('env', 'testing');
+        config(['database.connections.pgsql.database' => 'test_nmsprime']);
+        config(['database.connections.pgsql-ccc.database' => 'test_nmsprime_ccc']);
+        DB::purge('pgsql');
+        DB::purge('pgsql-ccc');
 
         return $app;
     }

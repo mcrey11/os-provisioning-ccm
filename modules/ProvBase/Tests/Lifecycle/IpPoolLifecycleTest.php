@@ -17,16 +17,28 @@
  * limitations under the License.
  */
 
-namespace Modules\ProvBase\Tests;
+namespace Modules\ProvBase\Tests\Lifecycle;
 
-class EndpointLifecycleTest extends \BaseLifecycleTest
+use Tests\BaseLifecycleTest;
+
+class IpPoolLifecycleTest extends BaseLifecycleTest
 {
-    // modem can only be created from Modem.edit
-    protected $create_from_model_context = '\Modules\ProvBase\Entities\Modem';
+    // modem can only be created from NetGw.edit
+    protected $create_from_model_context = '\Modules\ProvBase\Entities\NetGw';
+
+    // empty POST only sends context params (netgw_id), not form init values – validation fails
+    protected $creating_empty_should_fail = true;
 
     // fields to be used in update test
     protected $update_fields = [
-        'mac',
+        'dns2_ip',
+        'dns3_ip',
         'description',
+    ];
+
+    // keep net and IPs from existing record so validation (ip_in_range) passes
+    protected $update_preserve_from_existing = [
+        'net', 'ip_pool_start', 'ip_pool_end', 'router_ip', 'broadcast_ip',
+        'dns1_ip', 'dns2_ip', 'dns3_ip',
     ];
 }

@@ -47,7 +47,7 @@ class ModemTableSeeder extends \BaseSeeder
 
         // in seeding mode: choose random contract to create modem at
         if ($topic == 'seed') {
-            $contract = Contract::all()->random(1);
+            $contract = Contract::all()->random();
             $contract_id = $contract->id;
         } else {
             if (! is_null($contract)) {
@@ -56,6 +56,9 @@ class ModemTableSeeder extends \BaseSeeder
                 $contract_id = null;
             }
         }
+
+        $salutations = ['Herr', 'Frau', 'Firma', 'Behörde'];
+        $institutionSalutations = ['Firma', 'Behörde'];
 
         // randomly decide if contact data shall be derived from contract
         if (rand(0, 10) <= 8) {
@@ -68,6 +71,9 @@ class ModemTableSeeder extends \BaseSeeder
             $x = $contract->x;
             $y = $contract->y;
             $country_id = $contract->country_id;
+            $company = $contract->company ?? '';
+            $department = $contract->department ?? '';
+            $salutation = $contract->salutation ?? $salutations[array_rand($salutations)];
         } else {
             $firstname = $faker->firstName;
             $lastname = $faker->lastName;
@@ -78,15 +84,21 @@ class ModemTableSeeder extends \BaseSeeder
             $x = 13 + $faker->longitude() / 10;
             $y = 50 + $faker->latitude() / 10;
             $country_id = 0;
+            $salutation = $salutations[array_rand($salutations)];
+            $company = in_array($salutation, $institutionSalutations) ? $faker->company : (rand(0, 10) > 7 ? $faker->company : '');
+            $department = rand(0, 10) > 7 ? 'Abteilung '.$faker->randomNumber(2) : '';
         }
 
         $netelement_id = 0;
         if (\Module::collections()->has('HfcReq')) {
             // Note: requires HfcReq to be seeded before this runs
             if (\Modules\HfcReq\Entities\NetElement::all()->count() > 2) {
-                $netelement_id = \Modules\HfcReq\Entities\NetElement::where('id', '>', '2')->get()->random(1)->id;
+                $netelement_id = \Modules\HfcReq\Entities\NetElement::where('id', '>', '2')->get()->random()->id;
             }
         }
+
+        $configfile = Configfile::where('device', '=', 'cm')->where('public', '=', 'yes')->get()->random();
+        $qualifiedModelClass = config('provbase.availableModemClasses')['cm'] ?? Modem::class;
 
         $ret = [
             'mac' => $faker->macAddress(),
@@ -96,13 +108,17 @@ class ModemTableSeeder extends \BaseSeeder
             'serial_num' => $faker->sentence(),
             'inventar_num' => $faker->sentence(),
             'contract_id' => $contract_id,
-            'configfile_id' => Configfile::where('device', '=', 'cm')->get()->random(1)->id,
+            'configfile_id' => $configfile->id,
+            'qualified_model_class' => $qualifiedModelClass,
             'qos_id' => Qos::all()->random()->id,
             'netelement_id' => $netelement_id,
             'us_snr' => (rand(0, 10) > 1 ? rand(100, 400) : 0),
             'ds_pwr' => (rand(0, 10) > 1 ? rand(-200, 200) : 0),
             'ds_snr' => (rand(0, 10) > 1 ? rand(100, 500) : 0),
             'us_pwr' => (rand(0, 10) > 1 ? rand(300, 620) : 0),
+            'company' => $company,
+            'department' => $department,
+            'salutation' => $salutation,
             'firstname' => $firstname,
             'lastname' => $lastname,
             'zip' => $zip,
@@ -110,8 +126,8 @@ class ModemTableSeeder extends \BaseSeeder
             'house_number' => $house_number,
             'country_id' => $country_id,
             'street' => $street,
-            'x' => $x,
-            'y' => $y,
+            'lng' => $x,
+            'lat' => $y,
         ];
 
         return $ret;

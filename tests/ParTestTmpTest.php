@@ -25,7 +25,7 @@ class ParTestTmpTest extends Illuminate\Foundation\Testing\TestCase
 {
     /* use WithoutMiddleware; */
 
-    public function createApplication()
+    public function createApplication(): \Illuminate\Foundation\Application
     {
         $app = require __DIR__.'/../bootstrap/app.php';
         /* global $app; */
@@ -45,7 +45,7 @@ class ParTestTmpTest extends Illuminate\Foundation\Testing\TestCase
         return $app;
     }
 
-    public function testBoo()
+    public function test_boo()
     {
         $this->withoutMiddleware();
 

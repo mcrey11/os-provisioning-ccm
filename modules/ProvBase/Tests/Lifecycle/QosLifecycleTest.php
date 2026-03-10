@@ -17,26 +17,21 @@
  * limitations under the License.
  */
 
-namespace Modules\ProvBase\Tests;
+namespace Modules\ProvBase\Tests\Lifecycle;
 
-use Modules\ProvBase\Http\Controllers\IpPoolController;
+use Tests\BaseLifecycleTest;
 
-class IpPoolLifecycleTest extends \BaseLifecycleTest
+/**
+ * Run the lifecycle test for Qos.
+ */
+class QosLifecycleTest extends BaseLifecycleTest
 {
-    // modem can only be created from NetGw.edit
-    protected $create_from_model_context = '\Modules\ProvBase\Entities\NetGw';
-
-    // create form is filled with initial data from IpPoolController
-    protected $creating_empty_should_fail = false;
-
-    // do not create using fake data – TODO: this needs rewriting of the seeder to match
-    // the models validation rules
-    protected $tests_to_be_excluded = ['testCreateWithFakeData', 'testCreateTwiceUsingTheSameData'];
+    // name is unique; second create with same data fails validation
+    protected $creating_twice_should_fail = true;
 
     // fields to be used in update test
     protected $update_fields = [
-        'dns2_ip',
-        'dns3_ip',
-        'description',
+        'ds_rate_max',
+        'us_rate_max',
     ];
 }

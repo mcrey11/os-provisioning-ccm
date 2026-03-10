@@ -17,13 +17,32 @@
  * limitations under the License.
  */
 
-namespace Modules\ProvBase\Tests;
+namespace Modules\ProvBase\Tests\Lifecycle;
 
-class NetGwLifecycleTest extends \BaseLifecycleTest
+use Tests\BaseLifecycleTest;
+
+/**
+ * Lifecycle test for Contract.
+ *
+ * Known full-suite issues:
+ * - test_index_view_visible: 500 on GET index when NetElement loads (kalnoy/nestedset NodeTrait vs Laravel 11
+ *   Model::whenBooted). Expect fix after framework/nestedset alignment (e.g. L13). Intentional failure until then.
+ * - test_empty_create: may be reported risky (global error/exception handlers) when create flow touches the same stack;
+ *   documented; not skipped.
+ */
+class ContractLifecycleTest extends BaseLifecycleTest
 {
     // fields to be used in update test
     protected $update_fields = [
-        'ip',
         'company',
+        'department',
+        'salutation',
+        'academic_degree',
+        'firstname',
+        'lastname',
+        'street',
+        'house_number',
+        'zip',
+        'city',
     ];
 }

@@ -236,7 +236,9 @@ class Endpoint extends \BaseModel
         }
 
         // chown for future writes in case this function was called from CLI via php artisan nms:dhcp that changes owner to 'root'
-        system('/bin/chown -R apache /etc/dhcp-nmsprime/');
+        if (! app()->runningUnitTests()) {
+            system('/bin/chown -R apache /etc/dhcp-nmsprime/');
+        }
 
         return $ret > 0;
     }
@@ -280,6 +282,10 @@ class Endpoint extends \BaseModel
     public function nsupdate($del = false)
     {
         $provbase = ProvBase::first();
+
+        if (app()->runningUnitTests()) {
+            return;
+        }
 
         if ($this->version == '4') {
             $cmd = $this->getNsupdate4Cmd($del);

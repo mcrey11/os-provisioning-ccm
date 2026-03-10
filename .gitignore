@@ -84,3 +84,4 @@ npm-debug.log
 *.sql
 
 venv
+phpunit/out/*.htm

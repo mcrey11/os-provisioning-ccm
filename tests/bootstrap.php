@@ -27,9 +27,19 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 $app = require __DIR__.'/../bootstrap/app.php';
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+// Force testing environment so app()->runningUnitTests() is true (e.g. geocoding skips external APIs).
+$app->instance('env', 'testing');
+
+// Force test DBs (phpunit.xml values); /etc/nmsprime/env/ may have overwritten PHPUnit's env before config was loaded.
+config(['database.connections.pgsql.database' => 'test_nmsprime']);
+config(['database.connections.pgsql-ccc.database' => 'test_nmsprime_ccc']);
+DB::purge('pgsql');
+DB::purge('pgsql-ccc');
 
 if (config('database.default') !== 'pgsql') {
     return;

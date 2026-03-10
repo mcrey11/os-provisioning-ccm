@@ -21,6 +21,7 @@
 
 namespace Database\Seeders;
 
+use App\GlobalConfig;
 use Faker\Factory as Faker;
 
 class GlobalConfigTableSeeder extends \BaseSeeder

@@ -47,6 +47,10 @@ trait AdaptsDhcpConf
      */
     public static function validateDhcp4Config()
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         exec('/usr/sbin/dhcpd -t -cf /etc/dhcp-nmsprime/dhcpd.conf &>/dev/null', $out, $ret);
 
         if ($ret) {
@@ -62,6 +66,10 @@ trait AdaptsDhcpConf
      */
     public static function validateDhcp6Config()
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         exec('/usr/sbin/kea-dhcp6 -t /etc/kea/dhcp6-nmsprime.conf &>/dev/null', $out, $ret);
 
         if ($ret) {

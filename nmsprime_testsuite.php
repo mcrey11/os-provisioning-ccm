@@ -1,4 +1,8 @@
+#!/usr/bin/env php
 <?php
+
+declare(strict_types=1);
+
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
  * and others – powered by CableLabs. All rights reserved.
@@ -15,328 +19,266 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-?>
-#!/opt/rh/rh-php71/root/usr/bin/php
-
-<?php
 
 /**
- * Class to run all unit tests.
- *
- * Within there are circuits defined – e.g. to enable/disable modules.
- *
- * Tests should be run with a freshly migrated and seeded database to prevent
- * side effects.
- *
- * @author Patrick Reichel
+ * Dump values and terminate script execution.
  */
-class UnitTestStarter
+function dd(mixed ...$data): never
 {
-    protected $basepath = '/var/www/nmsprime';
-    protected $phpunit = 'source scl_source enable rh-php71; vendor/bin/phpunit';
+    foreach ($data as $d) {
+        echo "\n\n";
+        echo '--------------------------------------------------------------------------------';
+        echo "\n";
+        var_dump($d);
+        echo "\n";
+        echo '----------------------------------------';
+    }
+    echo "\n\n";
+    exit(1);
+}
 
-    protected $modules_disabled_for_all_circuits = [
-        'Mail',
-        'ProvMon',
-        'VoipMon',
+class TestRunner
+{
+    /** Absolute project base path. */
+    protected string $basepath = '';
+
+    /** PHP executable command. */
+    protected string $php = '';
+
+    /** Artisan command prefix. */
+    protected string $artisan = '';
+
+    /** PHPUnit command used for lifecycle suite. */
+    protected string $phpunit = '';
+
+    /** @var array<int, string> Module names enabled before runner starts. */
+    protected array $initiallyEnabledModules = [];
+
+    /** Original phpunit.xml content to restore in destructor. */
+    protected string $originalPhpunitXml = '';
+
+    /** PHPUnit XML template content for per-circuit test runs. */
+    protected string $phpunitXmlTemplate = '';
+
+    /** @var array<int, string> Missing lifecycle test file paths. */
+    protected array $missingTestFiles = [];
+
+    /** @var array<string, array<int, string>> Circuit name => enabled module names. */
+    protected array $testCircuits = [
+        'Basic' => [
+            'HfcReq',
+            'ProvBase',
+        ],
+        'Billing' => [
+            'BillingBase',
+            'HfcReq',
+            'ProvBase',
+        ],
+        'Voip' => [
+            'HfcReq',
+            'ProvBase',
+            'ProvVoip',
+        ],
+        'Voip and Billing' => [
+            'BillingBase',
+            'HfcReq',
+            'ProvBase',
+            'ProvVoip',
+        ],
     ];
 
-    // the test circuits
-    // each circuits holds an array with modules to disable
-    protected $circuits = [
-        'all_modules_enabled' => [],
-        'no_envia' => ['ProvVoipEnvia'],
-        'no_voip' => ['ProvVoip', 'ProvVoipEnvia', 'VoipMon'],
+    /** @var array<int, string> Additional test files always included per circuit. */
+    protected array $additionalTests = [
+        './tests/RoutesAuthTest.php',
     ];
 
     /**
-     * Constructor (also triggers execution of all testing circuits).
-     *
-     * @author Patrick Reichel
+     * Initialize runner commands and default paths.
      */
     public function __construct()
     {
+        $this->basepath = '/var/www/nmsprime';
+        $this->php = '/usr/bin/env php';
+        $this->artisan = $this->php.' artisan';
+        $this->phpunit = $this->artisan.' test --stop-on-failure --colors=always --testsuite=Lifecycle';
+    }
+
+    /**
+     * Prepare runtime state before circuit execution.
+     */
+    public function prepare(): void
+    {
         chdir($this->basepath);
+        array_map('unlink', glob('./phpunit/out/*.htm'));
+        putenv('TERM=xterm-256color');
 
-        $this->initial_module_information = $this->_get_module_information();
-        $this->modules_available = [];
-        foreach ($this->initial_module_information as $module => $_) {
-            array_push($this->modules_available, $module);
-        }
+        $this->originalPhpunitXml = (string) file_get_contents('phpunit.xml');
+        $this->phpunitXmlTemplate = (string) file_get_contents('phpunit/phpunit_lifecycle.tpl.xml');
 
-        $this->_read_config_template();
-
-        $this->_run_tests();
-
-        $this->_restore_initial_module_state();
-
-        $this->_print_lifecycle_test_coverage();
-
-        echo "\n\n";
-        echo 'Finished! Check *.htm files in '.$this->basepath."/phpunit for data collected during the tests.\n\n";
+        $this->initiallyEnabledModules = $this->getEnabledModules();
     }
 
     /**
-     * Reads the template for phpunit*.xml files.
+     * Read currently enabled modules from `artisan module:list`.
      *
-     * @author Patrick Reichel
+     * @return array<int, string>
      */
-    protected function _read_config_template()
+    protected function getEnabledModules(): array
     {
-        $this->config_template = file_get_contents('phpunit/phpunit_config.xml.tpl');
-    }
+        $enabledModules = [];
+        $output = (string) shell_exec($this->artisan.' --no-ansi module:list');
+        $output = explode("\n", $output);
 
-    /**
-     * Creates phpunit*.xml file from template and substitutions.
-     *
-     * @author Patrick Reichel
-     */
-    protected function _write_config_file($configfile, $substitutions)
-    {
-        $config = $this->config_template;
-        foreach ($substitutions	as $placeholder => $value) {
-            $config = str_replace($placeholder, $value, $config);
-        }
-        file_put_contents($configfile, $config);
-        echo `sudo chmod 644 $configfile`;
-    }
-
-    /**
-     * Wrapper to run all testing circuits.
-     *
-     * @author Patrick Reichel
-     */
-    protected function _run_tests()
-    {
-        $basepath = $this->basepath;
-
-        // make directory writable for apache (who runs the tests)
-        echo `sudo chgrp apache $basepath/phpunit`;
-        echo `sudo chmod 775 $basepath/phpunit`;
-
-        // delete old data (to prevent confusion)
-        echo `sudo rm -f $basepath/phpunit/*.htm`;
-        echo `sudo rm -f $basepath/phpunit/*.xml`;
-
-        foreach ($this->circuits as $circuit => $modules_disable) {
-            $success = $this->_run_circuit($circuit, $modules_disable);
-
-            // stop execution on first failing circuit
-            if (! $success) {
-                echo "\n\nFailing test in circuit $circuit. Will now exit…";
-                break;
-            }
-        }
-        echo `sudo chmod -R o+rX $basepath/phpunit`;
-    }
-
-    /**
-     * Runs a testing circuit.
-     *
-     * @author Patrick Reichel
-     */
-    protected function _run_circuit($circuit, $modules_disable)
-    {
-        echo "\n\nRunning circuit $circuit";
-        echo "\n";
-
-        $configfile = $this->basepath.'/phpunit/phpunit_'.$circuit.'.xml';
-        $logfile = $this->basepath.'/phpunit/phpunit_'.$circuit.'_log.htm';
-        $outfile = $this->basepath.'/phpunit/phpunit_'.$circuit.'_output.htm';
-
-        // add all modules disabled for all circuits
-        foreach ($this->modules_disabled_for_all_circuits as $m) {
-            array_push($modules_disable, $m);
-        }
-
-        $modules_enable = [];
-        foreach ($this->modules_available as $m) {
-            if (! in_array($m, $modules_disable)) {
-                array_push($modules_enable, $m);
-            }
-        }
-
-        $this->_current_module_information = $this->_get_module_information();
-        $this->_enable_modules($modules_enable);
-        $this->_disable_modules($modules_disable);
-
-        $modules_to_test = [];
-        foreach ($this->_current_module_information as $module => $data) {
-            if (! in_array($module, $modules_disable)) {
-                array_push($modules_to_test, $data[0]);
-            }
-        }
-
-        $substitutions = [
-            '{{phpunit_html_log_file}}' => $logfile,
-        ];
-        $test_dirs = [];
-
-        // add module level test dirs (for all enabled modules)
-        foreach ($modules_to_test as $m) {
-            array_push($test_dirs, "<testsuite name=\"$m\"><directory>".$m.'/Tests</directory></testsuite>');
-        }
-
-        // add additional tests
-        array_push($test_dirs, '<testsuite name="Route auth tests"><file>'.$this->basepath.'/tests/RoutesAuthTest.php</file></testsuite>');
-
-        $substitutions['{{testsuite_directories}}'] = implode("\n", $test_dirs);
-
-        $this->_write_config_file($configfile, $substitutions);
-
-        /* exec("sudo -u apache phpunit --configuration $configfile | tee $outfile", $output, $return_var); */
-        /* passthru("sudo -u apache ".$this->phpunit." --configuration $configfile | tee $outfile", $exit_code); */
-        file_put_contents($outfile, "<pre>\n\n");
-        passthru($this->phpunit." --configuration $configfile | tee -a $outfile", $exit_code);
-
-        // check for errors in outfile (unfortunately phpunit exits with “0” even on failures and errors)
-        // this is used to skip testing of other circuits if current on failed
-        $problems = system("tail -n 1 $outfile | egrep -c '(Failure|Error)'");
-        if ($problems != '0') {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Get all modules from artisan.
-     * This sets the class variable $this->modules_available with module name as key and
-     * path as value.
-     *
-     * @author Patrick Reichel
-     */
-    protected function _get_module_information()
-    {
-        $artisan_return = `php artisan module:list`;
-        $artisan_return = explode("\n", $artisan_return);
-
-        $modules = [];
-        while ($artisan_return) {
-            $line = array_pop($artisan_return);
-            if (strpos($line, 'modules') === false) {
+        while ($output) {
+            $line = trim(array_pop($output));
+            if (! str_starts_with($line, '[')) {
                 continue;
             }
-            $_ = explode('|', $line);
+            $_ = explode(' ', $line);
+
+            $status = trim($_[0]);
+            if ($status != '[Enabled]') {
+                continue;
+            }
+
             $module = trim($_[1]);
-            $modules[$module] = [trim($_[4]), trim($_[2])];
+            $enabledModules[] = $module;
         }
 
-        return $modules;
+        asort($enabledModules);
+
+        return $enabledModules;
     }
 
     /**
-     * Gets all disabled modules.
-     *
-     * @author Patrick Reichel
+     * Execute all configured lifecycle test circuits.
      */
-    protected function _get_disabled_modules($modules)
+    public function runLifecycleTests(): void
     {
-        $disabled = [];
-        foreach ($modules as $module => $data) {
-            if ($data[1] == 'Disabled') {
-                array_push($disabled, $module);
+        foreach ($this->testCircuits as $circuit => $enabledModules) {
+            echo "\n\n================================================================================";
+            echo "\nTesting circuit “".$circuit.'”';
+            echo "\n";
+            $this->addMissingTestFiles($enabledModules);
+            $this->enableDisableModules($enabledModules);
+            $this->writePhpunitXml($circuit, $enabledModules);
+            echo "\n";
+            passthru($this->phpunit, $returnCode);
+            if (is_file('phpunit/phpunit_log.htm')) {
+                rename('phpunit/phpunit_log.htm', 'phpunit/phpunit_'.str_replace(' ', '', $circuit).'_log.htm');
             }
-        }
+            if ($returnCode) {
+                echo "\n\nError – stop running tests";
 
-        return $disabled;
-    }
-
-    /**
-     * Enables all modules in array.
-     *
-     * @author Patrick Reichel
-     */
-    protected function _enable_modules($modules)
-    {
-        foreach ($modules as $module) {
-            if ($this->_current_module_information[$module][1] != 'Enabled') {
-                echo `php artisan module:enable $module`;
+                return;
             }
         }
     }
 
     /**
-     * Disables all modules in array.
+     * Collect missing lifecycle test files for enabled modules.
      *
-     * @author Patrick Reichel
+     * @param  array<int, string>  $enabledModules
      */
-    protected function _disable_modules($modules)
+    protected function addMissingTestFiles(array $enabledModules): void
     {
-        foreach ($modules as $module) {
-            if ($this->_current_module_information[$module][1] != 'Disabled') {
-                echo `php artisan module:disable $module`;
+        foreach ($enabledModules as $module) {
+            $modelPattern = "./modules/$module/Entities/*.php";
+            $testPattern = "./modules/$module/Tests/Lifecycle/{{MODEL}}LifecycleTest.php";
+            foreach (glob($modelPattern) as $modelPath) {
+                if (str_ends_with($modelPath, "/$module.php")) {
+                    // No lifecycle tests for e.g. modules/ProvBase/Entities/ProvBase.php
+                    continue;
+                }
+                $model = str_replace('.php', '', basename($modelPath));
+                $test = str_replace('{{MODEL}}', $model, $testPattern);
+                if (! is_file($test)) {
+                    $this->missingTestFiles[] = $test;
+                }
             }
         }
     }
 
     /**
-     * Restores modules enable/disable state to initial setting (before running tests).
+     * Render and write a temporary phpunit.xml for one circuit.
      *
-     * @author Patrick Reichel
+     * @param  array<int, string>  $enabledModules
      */
-    protected function _restore_initial_module_state()
+    protected function writePhpunitXml(string $circuit, array $enabledModules): void
     {
-        echo "\n\nRestoring original module states\n";
-        $this->_current_module_information = $this->_get_module_information();
-        foreach ($this->initial_module_information as $module => $data) {
-            if ($data[1] == 'Enabled') {
-                $this->_enable_modules([$module]);
-            } elseif ($data[1] == 'Disabled') {
-                $this->_disable_modules([$module]);
-            } else {
-                echo "Unknown state $data[1] for module $module.\n";
+        $xml = $this->phpunitXmlTemplate;
+        $circuit = str_replace(' ', '', $circuit);
+
+        $testPaths = [];
+        foreach ($enabledModules as $module) {
+            $dir = './modules/'.$module.'/Tests/Lifecycle';
+            if (is_dir($dir)) {
+                $testPaths[] = '<directory suffix="Test.php">./modules/'.$module.'/Tests/Lifecycle</directory>';
             }
         }
+        foreach ($this->additionalTests as $test) {
+            $testPaths[] = '<file>'.$test.'</file>';
+        }
+
+        $paths = implode("\n            ", $testPaths);
+        $xml = str_replace('{{testsuite_directories}}', $paths, $xml);
+        $xml = str_replace('{{phpunit_html_log_file}}', 'phpunit/out/lifecycle_'.$circuit.'_log.htm', $xml);
+        file_put_contents('phpunit.xml', $xml);
+    }
+
+    /**
+     * Restore module state and phpunit.xml after test execution.
+     */
+    public function __destruct()
+    {
+        echo "\n\n================================================================================";
+        echo "\nRestoring initial module enable/disable status";
         echo "\n";
+        $this->enableDisableModules($this->initiallyEnabledModules);
+        echo "\nRestoring original phpunit.xml file";
+        echo "\n";
+        file_put_contents('phpunit.xml', $this->originalPhpunitXml);
+        if ($this->missingTestFiles) {
+            echo "\n\nMissing test files:";
+            foreach (array_unique($this->missingTestFiles) as $file) {
+                echo "\n    $file";
+            }
+        }
+        echo "\n\nFinished";
+        echo "\n\n";
     }
 
     /**
-     * Calculates and prints lifecycle test coverage.
+     * Disable all modules and enable only the requested set.
      *
-     * @author Patrick Reichel
+     * @param  array<int, string>  $modulesToEnable
      */
-    protected function _print_lifecycle_test_coverage()
+    protected function enableDisableModules(array $modulesToEnable): void
     {
-        $out = "\n\nLifecycle test coverage:\n";
-        $coverage = [];
-        $missing = [];
-        foreach ($this->modules_available as $module) {
-            $coverage[$module] = [];
-            $models_raw = glob("modules/$module/Entities/*.php");
-            $lifecycle_tests_raw = glob("modules/$module/Tests/*LifecycleTest.php");
-
-            $models = [];
-            $lifecycle_tests = [];
-            foreach ($models_raw as $raw) {
-                $_ = explode('/', $raw);
-                $_ = array_pop($_);
-                array_push($models, str_replace('.php', '', $_));
-            }
-            foreach ($lifecycle_tests_raw as $raw) {
-                $_ = explode('/', $raw);
-                $_ = array_pop($_);
-                $_ = str_replace('LifecycleTest', '', $_);
-                $_ = str_replace('.php', '', $_);
-                array_push($lifecycle_tests, $_);
-            }
-
-            $coverage[$module] = $models ? count($lifecycle_tests) / count($models) : 0;
-            $missing[$module] = array_diff($models, $lifecycle_tests);
+        echo "\nDisabling all modules";
+        exec($this->artisan.' --no-ansi module:disable --all', $output, $returnCode);
+        if ($returnCode) {
+            echo "\nERROR ($returnCode):";
+            var_dump($output);
         }
 
-        // used for output alignment of percentages
-        $maxlen = max(array_map('strlen', array_keys($coverage))) + 4;
-
-        ksort($coverage);
-        foreach ($coverage as $module => $percentage) {
-            $missing_str = $missing[$module] ? '   (untested: '.implode(', ', $missing[$module]).')' : '';
-            $out .= sprintf('%s: %'.($maxlen - strlen($module))."s%s%s\n", $module, round($percentage * 100), '%', $missing_str);
+        $modules = implode(' ', $modulesToEnable);
+        echo "\nEnabling module(s) $modules";
+        exec($this->artisan.' --no-ansi module:enable '.$modules, $output, $returnCode);
+        if ($returnCode) {
+            echo "\nERROR ($returnCode):";
+            var_dump($output);
         }
 
-        echo $out;
-        file_put_contents('phpunit/lifecycle_test_coverage.txt', $out);
+        echo "\nRunning artisan optimize command";
+        exec($this->artisan.' --no-ansi optimize', $output, $returnCode);
+        if ($returnCode) {
+            echo "\nERROR ($returnCode):";
+            var_dump($output);
+        }
     }
 }
 
-$uts = new UnitTestStarter();
+$tr = new TestRunner;
+$tr->prepare();
+$tr->runLifecycleTests();

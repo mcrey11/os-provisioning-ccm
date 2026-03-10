@@ -17,16 +17,17 @@
  * limitations under the License.
  */
 
-namespace Modules\ProvVoip\Tests;
+namespace Modules\ProvBase\Tests\Lifecycle;
 
-class MtaLifecycleTest extends \BaseLifecycleTest
+use Tests\BaseLifecycleTest;
+
+class DomainLifecycleTest extends BaseLifecycleTest
 {
-    // modem can only be created from Modem.edit
-    protected $create_from_model_context = '\Modules\ProvBase\Entities\Modem';
+    // ATM validators allow creating a domain twice using the same data
+    protected $creating_twice_should_fail = false;
 
     // fields to be used in update test
     protected $update_fields = [
-        'mac',
-        'configfile',
+        'alias',
     ];
 }

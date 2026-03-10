@@ -65,8 +65,8 @@ trait GeoReferencable
             return $this->updateGeoPosition($geodata, $save);
         }
 
-        // don't ask API in testing mode (=faked data)
-        if (config('app.env') == 'testing') {
+        // don't ask external APIs when running tests (faked data; avoids network and rate limits)
+        if (app()->runningUnitTests()) {
             Log::debug('Testing mode – will not ask Geo-APIs with faked data');
 
             return $this->noGeoPositionFound($save);
@@ -112,7 +112,6 @@ trait GeoReferencable
     /**
      * Call the given GeoCode API and query the position of the given address.
      *
-     * @param  string  $api
      * @return void|array
      */
     protected function tryGeocode(string $api): ?array
@@ -131,7 +130,6 @@ trait GeoReferencable
     /**
      * Generator method to not use dynamic method names as this is easier found via grep and find.
      *
-     * @param  string  $api
      * @return void|array
      */
     public function geocodeVia(string $api): ?array
@@ -152,9 +150,6 @@ trait GeoReferencable
     /**
      * Handle the case when no geocosing service provider was able to determine
      * a position for the given address.
-     *
-     * @param  bool  $save
-     * @return void
      */
     protected function noGeoPositionFound(bool $save): void
     {
@@ -163,7 +158,7 @@ trait GeoReferencable
         }
 
         $message = trans('view.geocoding.failed', ['reason' => $reason ?? $this->geocode_state]);
-        Log::warning("geocoding failed: {$this->geocode_state}"); //logs should stay in English
+        Log::warning("geocoding failed: {$this->geocode_state}"); // logs should stay in English
 
         // if running from console: preserve existing geodata (could have been be imported or manually set in older times)
         if (\App::runningInConsole()) {
@@ -185,7 +180,6 @@ trait GeoReferencable
     /**
      * Update the position data of the given model.
      *
-     * @param  array  $geodata
      * @return void
      */
     protected function updateGeoPosition(array $geodata, bool $save): array
@@ -225,6 +219,10 @@ trait GeoReferencable
      */
     protected function geocodeOsm(): ?array
     {
+        if (app()->runningUnitTests()) {
+            return null;
+        }
+
         Log::debug(__METHOD__.' started for '.$this->hostname);
 
         $geodata = null;
@@ -282,7 +280,7 @@ trait GeoReferencable
             $className = (new \ReflectionClass($this))->getShortName();
             Log::info("Trying to geocode {$className} {$this->id} against $url");
 
-            $geojson = file_get_contents($url, false, stream_context_create(['http'=> ['timeout' => 3]]));
+            $geojson = file_get_contents($url, false, stream_context_create(['http' => ['timeout' => 3]]));
             $geodata_raw = json_decode($geojson, true);
 
             $matches = ['building', 'house', 'amenity', 'shop', 'tourism'];
@@ -331,11 +329,13 @@ trait GeoReferencable
 
     /**
      * Get geodata from HERE GeoCoding API
-     *
-     * @return array|null
      */
     protected function geocodeHere(): ?array
     {
+        if (app()->runningUnitTests()) {
+            return null;
+        }
+
         Log::debug(__METHOD__.' started for '.$this->hostname);
 
         if (! config('app.hereApiKey', false)) {
@@ -355,7 +355,7 @@ trait GeoReferencable
         $url = "https://geocode.search.hereapi.com/v1/geocode?apikey=$key&limit=1&q={$address}";
 
         Log::info("Trying to geocode {$className} {$this->id} against $url");
-        $resp_json = file_get_contents($url, false, stream_context_create(['http'=> ['timeout' => 3]]));
+        $resp_json = file_get_contents($url, false, stream_context_create(['http' => ['timeout' => 3]]));
         $resp = json_decode($resp_json, true);
 
         if (isset($resp['status']) || ! count($resp['items'])) {
@@ -393,6 +393,10 @@ trait GeoReferencable
      */
     protected function geocodeGoogle(): ?array
     {
+        if (app()->runningUnitTests()) {
+            return null;
+        }
+
         Log::debug(__METHOD__.' started for '.$this->hostname);
 
         if (! $key = config('app.googleApiKey')) {
@@ -413,7 +417,7 @@ trait GeoReferencable
         Log::info("Trying to geocode {$className} {$this->id} against {$url}");
 
         // get the json response
-        $resp_json = file_get_contents($url, false, stream_context_create(['http'=> ['timeout' => 3]]));
+        $resp_json = file_get_contents($url, false, stream_context_create(['http' => ['timeout' => 3]]));
         $resp = json_decode($resp_json, true);
         $status = Arr::get($resp, 'status', 'n/a');
 
@@ -471,8 +475,8 @@ trait GeoReferencable
     {
         $changes = $this->getDirty();
 
-        // if testing: do not try to geocode or position model (faked data; slows down the process)
-        if (\App::runningUnitTests()) {
+        // if testing: do not try to geocode or position model (faked data; avoids external API calls)
+        if (app()->runningUnitTests()) {
             return;
         }
 

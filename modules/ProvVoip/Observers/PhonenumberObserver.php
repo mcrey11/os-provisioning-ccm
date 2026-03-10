@@ -384,6 +384,10 @@ class PhonenumberObserver
      */
     private function renewConfig($phonenumber)
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         if ($phonenumber->mta->modem->isTR069()) {
             $phonenumber->mta->modem->make_configfile();
             $phonenumber->mta->modem->factoryReset();

@@ -1130,6 +1130,10 @@ class Modem extends \BaseModel
             return;
         }
 
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         Log::debug(__METHOD__.' started for '.$this->hostname);
 
         $fh = fopen(self::BLOCKED_CPE_FILE_PATH, 'c+');
@@ -1164,6 +1168,10 @@ class Modem extends \BaseModel
         $mac = $macChanged ? $this->getRawOriginal('mac') : $this->mac;
 
         if (! $mac) {
+            return;
+        }
+
+        if (app()->runningUnitTests()) {
             return;
         }
 
@@ -1622,6 +1630,10 @@ class Modem extends \BaseModel
     private function successfulRadiusModemDisconnect($silent = false): bool
     {
         if (! $this->isPPP()) {
+            return false;
+        }
+
+        if (app()->runningUnitTests()) {
             return false;
         }
 

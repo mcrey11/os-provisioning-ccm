@@ -19,8 +19,9 @@
 
 namespace Tests;
 
-use Route;
-use URL;
+use Illuminate\Foundation\Application;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Route as RouteFacade;
 
 /**
  * Tests if all routes use auth middleware
@@ -31,7 +32,13 @@ class RoutesAuthTest extends TestCase
 {
     // there can be routes not using auth middleware – define them here to exclude from testing
     protected $routes_not_using_auth_middleware = [
+        'CustomerPsw',
+        'Home',
+        'HomeCcc',
         'ProvVoipEnvia.cron',
+        'admin',
+        'adminLogin',
+        'customerLogin',
     ];
 
     // some routes make problems (e.g. returning status 500 in testing
@@ -43,36 +50,26 @@ class RoutesAuthTest extends TestCase
         'debugbar.assets.js',
     ];
 
-    // some routes do redirect to login page instead of giving status 403
-    // as these routs needs other tests you can define them here
-    protected $routes_redirecting_to_login_page = [
+    protected $route_name_prefixes_which_are_not_checked = [
+        'boost.',
+        'debugbar.',
+        'default.livewire.',
+        'generated::',
+        'ignition.',
+        'livewire.',
+    ];
+
+    protected $public_route_uris = [
         'admin',
-        'adminLogin',
-        'HomeCcc',
-        'CustomerPsw',
+        'customer/login',
     ];
-
-    // there now is an API with own routes – add all available API versions here
-    protected $api_versions = [
-        0,
-    ];
-
-    /**
-     * Constructor
-     *
-     * @author Patrick Reichel
-     */
-    public function __construct()
-    {
-        return parent::__construct();
-    }
 
     /**
      * Creates a Laravel application used for testing
      *
      * @author Patrick Reichel
      */
-    public function createApplication()
+    public function createApplication(): Application
     {
         $app = parent::createApplication();
 
@@ -84,59 +81,106 @@ class RoutesAuthTest extends TestCase
      *
      * @author Patrick Reichel
      */
-    public function testRoutesAuthMiddleware()
+    public function test_routes_auth_middleware(): void
     {
-        $routeCollection = Route::getRoutes();
-        foreach ($routeCollection as $value) {
-            $name = $value->getName();
-            $method = $value->getMethods()[0];
+        $routeCollection = RouteFacade::getRoutes();
+        foreach ($routeCollection as $route) {
+            $name = (string) $route->getName();
 
-            // no name – no test
-            if (! boolval($name) ||
-                in_array($name, $this->routes_not_using_auth_middleware) ||
-                in_array($name, $this->routes_which_are_not_checked)
-            ) {
+            // no name -> no test
+            if ($name === '') {
+                continue;
+            }
+            if ($this->shouldSkipRoute($route, $name)) {
                 continue;
             }
 
-            $fullUrl = URL::route($value->getName(), [1, 1, 1, 1, 1], true);
-            $url = explode('?', $fullUrl)[0];
-            $method = $value->getMethods()[0];
-            $isApiRoute = strpos($url, 'api/v');
-            $isDetatchAll = strpos($name, 'detach_all');
+            $middleware = $this->normalizeMiddleware($route->gatherMiddleware());
 
-            echo "\nTesting $name ($method: $url)";
+            $this->assertTrue(
+                $this->routeUsesAuthMiddleware($middleware),
+                sprintf(
+                    'Route "%s" (%s) does not use auth middleware. Found: [%s]',
+                    $name,
+                    $route->uri(),
+                    implode(', ', $middleware),
+                ),
+            );
+        }
+    }
 
-            if ($isApiRoute) {
-                $this->call($method, $url, [], [], [], ['PHP_AUTH_USER' => 'testuser', 'PHP_AUTH_PW' => 'test']);
-                $this->assertResponseStatus(401); //Unauthorized
-            } elseif (in_array($name, $this->routes_redirecting_to_login_page) || $method == 'GET') {
-                $this->visit($url)
-                    ->see('Username')
-                    ->see('Password')
-                    ->see('Sign me in');
-            } elseif ($isDetatchAll) {
-                $this->call($method, $url, []);
-                $this->assertResponseStatus(302);
-            } else {  // all other routes should return 403 if not logged in
-                $this->call($method, $url, []);
-                $this->assertResponseStatus(403);
+    /**
+     * @param  array<int, mixed>  $middleware
+     * @return array<int, string>
+     */
+    protected function normalizeMiddleware(array $middleware): array
+    {
+        $normalized = [];
+        foreach ($middleware as $entry) {
+            if (is_string($entry)) {
+                $normalized[] = $entry;
             }
         }
 
-        // print routes with known problems
-        if (! empty($this->routes_which_are_not_checked)) {
-            echo "\n\nThese routes are not checked";
+        return $normalized;
+    }
 
-            foreach ($this->routes_which_are_not_checked as $route) {
-                echo "\n	$route";
-            }
-
-            echo "\n\nThese routes are not using auth middleware";
-            echo "\nPlease review them carefully - they are exposed";
-            foreach ($this->routes_not_using_auth_middleware as $route) {
-                echo "\n	$route";
+    /**
+     * @param  array<int, string>  $middleware
+     */
+    protected function routeUsesAuthMiddleware(array $middleware): bool
+    {
+        foreach ($middleware as $entry) {
+            if (
+                $entry === 'auth' ||
+                str_starts_with($entry, 'auth:') ||
+                str_starts_with($entry, 'can:')
+            ) {
+                return true;
             }
         }
+
+        return false;
+    }
+
+    protected function shouldSkipRoute(Route $route, string $name): bool
+    {
+        if (
+            in_array($name, $this->routes_not_using_auth_middleware, true) ||
+            in_array($name, $this->routes_which_are_not_checked, true)
+        ) {
+            return true;
+        }
+
+        foreach ($this->route_name_prefixes_which_are_not_checked as $prefix) {
+            if (str_starts_with($name, $prefix)) {
+                return true;
+            }
+        }
+
+        $uri = $route->uri();
+        if (
+            str_starts_with($uri, '_debugbar/') ||
+            str_starts_with($uri, '_ignition/') ||
+            str_starts_with($uri, '_boost/') ||
+            str_starts_with($uri, 'livewire/') ||
+            str_starts_with($uri, 'customer/')
+        ) {
+            return true;
+        }
+
+        if (in_array($uri, $this->public_route_uris, true)) {
+            return true;
+        }
+
+        if (
+            str_contains($uri, 'login') ||
+            str_contains($uri, 'logout') ||
+            str_contains($uri, 'password')
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

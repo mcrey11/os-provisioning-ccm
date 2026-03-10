@@ -17,15 +17,18 @@
  * limitations under the License.
  */
 
-namespace Modules\ProvVoip\Tests;
+namespace Modules\ProvBase\Tests\Lifecycle;
 
-class PhoneTariffLifecycleTest extends \BaseLifecycleTest
+use Tests\BaseLifecycleTest;
+
+class EndpointLifecycleTest extends BaseLifecycleTest
 {
+    // modem can only be created from Modem.edit
+    protected $create_from_model_context = '\Modules\ProvBase\Entities\Modem';
+
     // fields to be used in update test
     protected $update_fields = [
-        'external_identifier',
-        'name',
-        'usable',
+        'mac',
         'description',
     ];
 }

@@ -43,9 +43,9 @@ class IpPoolTableSeeder extends \BaseSeeder
     {
         $faker = &\NmsFaker::getInstance();
 
-        // in seeding mode: choose random NetGw to create modem at
+        // in seeding mode: choose random NetGw to create ippool at
         if ($topic == 'seed') {
-            $netgw = NetGw::all()->random(1);
+            $netgw = NetGw::all()->random();
             $netgw_id = $netgw->id;
         } else {
             if (! is_null($netgw)) {
@@ -57,19 +57,19 @@ class IpPoolTableSeeder extends \BaseSeeder
 
         $m = $faker->numberBetween(0, 255);
         $n = $faker->numberBetween(0, 255);
+        $base = '10.'.$m.'.'.$n;
 
         $ret = [
-            'netgw_id' => NetGw::all()->random(1)->id,
-            'type' => rand(0, 3),
-            'net' => '10.'.$m.'.'.$n.'.0',
-            'netmask' => '255.255.255.0',
-            'ip_pool_start' => '10.'.$m.'.'.$n.'.2',
-            'ip_pool_end' => '10.'.$m.'.'.$n.'.253',
-            'router_ip' => '10.'.$m.'.'.$n.'.1',		// = netgw ip
-            'broadcast_ip' => '10.'.$m.'.'.$n.'.255',
-            'dns1_ip' => '10.'.$m.'.'.$n.'.1',
-            'dns2_ip' => $faker->localIpv4(),
-            'dns3_ip' => $faker->localIpv4(),
+            'netgw_id' => $netgw_id,
+            'type' => (string) rand(0, 3),
+            'net' => $base.'.0/24',
+            'ip_pool_start' => $base.'.2',
+            'ip_pool_end' => $base.'.253',
+            'router_ip' => $base.'.1',       // first real IP (gateway)
+            'broadcast_ip' => $base.'.255',
+            'dns1_ip' => $base.'.1',         // first real IP
+            'dns2_ip' => $base.'.2',         // second real IP
+            'dns3_ip' => $base.'.3',         // third real IP (within range)
             'description' => $faker->sentence(),
         ];
 

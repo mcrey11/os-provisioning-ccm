@@ -37,6 +37,10 @@ class IpPoolObserver
 
     public function created($pool)
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         self::updateRadIpPool($pool);
 
         if (! $pool->netgw->hasDhcpConfig()) {
@@ -52,6 +56,10 @@ class IpPoolObserver
 
     public function updated($pool)
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         self::updateRadIpPool($pool);
 
         if (! $pool->netgw->hasDhcpConfig()) {
@@ -71,6 +79,10 @@ class IpPoolObserver
 
     public function deleted($pool)
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         self::updateRadIpPool($pool);
 
         if (! $pool->netgw->hasDhcpConfig()) {

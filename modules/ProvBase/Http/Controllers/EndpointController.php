@@ -30,6 +30,10 @@ class EndpointController extends \BaseController
      */
     public function view_form_fields($model = null)
     {
+        if (! $model) {
+            $model = static::get_model_obj();
+        }
+
         if (! $model->exists) {
             $model->hostname = $model->getNewHostname();
         }

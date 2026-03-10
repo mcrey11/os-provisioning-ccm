@@ -29,11 +29,13 @@ class ConfigfileTableSeeder extends \BaseSeeder
     {
         $faker = Faker::create();
 
+        $devices = ['cm', 'mta'];
         foreach (range(1, self::$max_seed_l2) as $index) {
             Configfile::create([
                 'name' => $faker->colorName(),
                 'parent_id' => 0,
-                'device' => (rand(0, 100) > 30 ? 1 : 2),
+                'device' => $devices[array_rand($devices)],
+                'public' => 'yes',
                 'text' => 'SnmpMibObject sysLocation.0 String "Test Lab" ;',
             ]);
         }
@@ -50,7 +52,6 @@ class ConfigfileTableSeeder extends \BaseSeeder
             'name' => 'cm-base',
             'parent_id' => 0,
             'device' => 'cm',
-            'type' => 'generic',
             'public' => 'yes',
             'text' => <<<'EOT'
 ModemCapabilities
@@ -149,7 +150,6 @@ EOT
             'name' => 'Fritz!Box 6360',
             'parent_id' => 0,
             'device' => 'mta',
-            'type' => 'generic',
             'public' => 'yes',
             'text' => <<<'EOT'
 MtaConfigDelimiter 1;

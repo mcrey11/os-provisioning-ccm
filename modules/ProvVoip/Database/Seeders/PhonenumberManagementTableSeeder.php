@@ -21,6 +21,7 @@ namespace Modules\ProvVoip\Database\Seeders;
 
 // Composer: "fzaninotto/faker": "v1.3.0"
 use Faker\Factory as Faker;
+use Modules\ProvVoip\Entities\Phonenumber;
 use Modules\ProvVoip\Entities\PhonenumberManagement;
 
 // don't forget to add Seeder in DatabaseSeeder.php
@@ -30,15 +31,16 @@ class PhonenumberManagementTableSeeder extends \BaseSeeder
     {
         $faker = Faker::create();
 
-        foreach (range(1, self::$max_seed) as $index) {
+        $phonenumbers = Phonenumber::all()->take(self::$max_seed);
+        foreach ($phonenumbers as $phonenumber) {
             PhonenumberManagement::create([
-                'phonenumber_id' => 300000 + $index,
+                'phonenumber_id' => $phonenumber->id,
                 'activation_date' => $faker->dateTimeBetween('-2 years', '+1 year'),
-                'porting_in' => rand(0, 1),
-                'carrier_in' => '',
+                'porting_in' => (bool) rand(0, 1),
+                'carrier_in' => null,
                 'deactivation_date' => $faker->dateTimeBetween('now', '+1 year'),
-                'porting_out' => 0,
-                'carrier_out' => '',
+                'porting_out' => false,
+                'carrier_out' => null,
                 'subscriber_company' => (rand(0, 10) > 7 ? $faker->company : ''),
                 'subscriber_department' => '',
                 'subscriber_salutation' => rand(1, 4),

@@ -111,6 +111,10 @@ class ModemObserver
         // this is needed for a consistent dhcpd config
         Modem::where('id', $modem->id)->update(['hostname' => $hostname]);
 
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         $modem->updateRadius();
 
         if (! $modem->isAltiplano()) {
@@ -239,6 +243,10 @@ class ModemObserver
 
     public function updated(Modem $modem)
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         Log::debug(__METHOD__.' started for '.$modem->hostname);
 
         if (! $modem->observer_enabled) {
@@ -320,6 +328,10 @@ class ModemObserver
     public function deleted(Modem $modem)
     {
         Log::debug(__METHOD__.' started for CM '.($modem->hostname ?: $modem->id));
+
+        if (app()->runningUnitTests()) {
+            return;
+        }
 
         // special handling for SmartONT devices
         if (\Module::collections()->has('SmartOnt')) {

@@ -35,9 +35,11 @@ class TestSetupDatabasesCommand extends Command
                             {--rebuild : Drop test databases first, then create and load from scratch}
                             {--skip-create : Skip creating the databases}
                             {--skip-load : Skip loading schema dumps}
-                            {--skip-migrate : Skip running migrations}';
+                            {--skip-migrate : Skip running migrations}
+                            {--skip-seed : Skip seeding test database (Contract, NetGw, Modem, Mta, etc. for lifecycle tests)}
+                            {--profile : Show per-seeder timing (e.g. to find slow seeders)}';
 
-    protected $description = 'Create test_nmsprime and test_nmsprime_ccc, load schema dumps, and run migrations (for local/CI testing)';
+    protected $description = 'Create test_nmsprime and test_nmsprime_ccc, load schema dumps, run migrations, and seed (for local/CI testing)';
 
     private const TEST_DB_MAIN = 'test_nmsprime';
 
@@ -79,9 +81,112 @@ class TestSetupDatabasesCommand extends Command
             }
         }
 
+        if (! $this->option('skip-seed')) {
+            if ($this->runSeeders() !== 0) {
+                return 1;
+            }
+        }
+
         $this->info('Test databases are ready.');
 
         return 0;
+    }
+
+    /**
+     * Seed the test database so lifecycle tests have parent records (Contract, NetGw, Modem, Mta, etc.).
+     * Requires test DB config to be set (e.g. after runMigrations()).
+     */
+    private function runSeeders(): int
+    {
+        $this->info('Seeding test database…');
+
+        if (config('database.default') !== 'pgsql') {
+            return 0;
+        }
+
+        Config::set('database.connections.pgsql.database', self::TEST_DB_MAIN);
+        Config::set('database.connections.pgsql-ccc.database', self::TEST_DB_CCC);
+        DB::purge('pgsql');
+        DB::purge('pgsql-ccc');
+
+        $previousEnv = $this->laravel->bound('env') ? $this->laravel->make('env') : null;
+        $this->laravel->instance('env', 'testing');
+        try {
+            return $this->runSeedersOnce();
+        } finally {
+            if ($previousEnv !== null) {
+                $this->laravel->instance('env', $previousEnv);
+            } else {
+                $this->laravel->forgetInstance('env');
+            }
+        }
+    }
+
+    /**
+     * Run seeders (called from runSeeders() with env=testing so observers skip external commands).
+     */
+    private function runSeedersOnce(): int
+    {
+        $profile = $this->option('profile');
+        Config::set('app.seed_profile', $profile);
+
+        $this->truncateSeededTables();
+
+        if (! class_exists('BaseSeeder', false)) {
+            class_alias(\Database\Seeders\BaseSeeder::class, 'BaseSeeder');
+        }
+        if (! class_exists('NmsFaker', false)) {
+            class_alias(\Database\Seeders\NmsFaker::class, 'NmsFaker');
+        }
+
+        $seeders = [
+            'Database\Seeders\GlobalConfigTableSeeder',
+            'Modules\ProvBase\Database\Seeders\ProvBaseDatabaseSeeder',
+            'Modules\ProvVoip\Database\Seeders\ProvVoipDatabaseSeeder',
+        ];
+
+        foreach ($seeders as $class) {
+            try {
+                $start = $profile ? hrtime(true) : 0;
+                Artisan::call('db:seed', ['--class' => $class, '--force' => true]);
+                $elapsed = $profile ? (hrtime(true) - $start) / 1e9 : 0;
+                $this->line($profile
+                    ? sprintf('  Seeded: %s (%.2fs)', class_basename($class), $elapsed)
+                    : '  Seeded: '.class_basename($class));
+            } catch (\Throwable $e) {
+                $this->error('  Seeding failed ('.$class.'): '.$e->getMessage());
+
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * Truncate tables that seeders fill so each seed run starts clean.
+     * Uses RESTART IDENTITY so auto-increment resets; CASCADE so dependent rows are removed.
+     */
+    private function truncateSeededTables(): void
+    {
+        $schema = config('database.connections.pgsql.search_path', 'nmsprime');
+        $tables = [
+            'phonenumbermanagement',
+            'phonenumber',
+            'phonetariff',
+            'mta',
+            'domain',
+            'endpoint',
+            'modem',
+            'contract',
+            'qos',
+            'configfile',
+            'ippool',
+            'netgw',
+            'global_config',
+        ];
+        $qualified = array_map(fn ($t) => $schema.'.'.$t, $tables);
+        DB::statement('TRUNCATE TABLE '.implode(', ', $qualified).' RESTART IDENTITY CASCADE');
     }
 
     /**

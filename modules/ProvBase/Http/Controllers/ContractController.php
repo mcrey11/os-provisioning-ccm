@@ -326,10 +326,10 @@ class ContractController extends \BaseController
         }
 
         if (Module::collections()->has('SmartOnt')) {
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 return $this->viewFormFieldsGesaOto($model);
             }
-            if ('LFO' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'LFO') {
                 return $this->viewFormFieldsLfoOto($model);
             }
 
@@ -510,7 +510,7 @@ class ContractController extends \BaseController
      */
     public static function _get_envia_management_jobs($contract)
     {
-        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia();
+        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia;
 
         // check if user has the right to perform actions against envia TEL API
         if (Bouncer::cannot('view', \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia::class)) {
@@ -525,7 +525,7 @@ class ContractController extends \BaseController
      */
     public function prepare_input($data)
     {
-        if (! $data['country_code']) {
+        if (empty($data['country_code'] ?? null)) {
             $config = cache('GlobalConfig', function () {
                 return GlobalConfig::first();
             });

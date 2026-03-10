@@ -42,10 +42,13 @@ class QosTableSeeder extends \BaseSeeder
         $faker = &\NmsFaker::getInstance();
 
         $count = Qos::withTrashed()->count();
+
         $ret = [
             'name' => 'QOS-'.$count,
+            'type' => 'default',
             'ds_rate_max' => rand(1, 100),
             'us_rate_max' => rand(1, 10),
+            'vlan_id' => 0,
         ];
 
         return $ret;

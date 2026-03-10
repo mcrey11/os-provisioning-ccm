@@ -17,15 +17,22 @@
  * limitations under the License.
  */
 
-namespace Modules\ProvBase\Tests;
+namespace Modules\ProvBase\Tests\Lifecycle;
 
-class ModemLifecycleTest extends \Tests\BaseLifecycleTest
+use Tests\BaseLifecycleTest;
+
+/**
+ * Known full-suite issue (lifecycle update + guilog): mutated description may not persist on HTTP update
+ * (DB unchanged). Fix Modem edit pipeline or test mutation; intentional assertion failure until then.
+ */
+class ModemLifecycleTest extends BaseLifecycleTest
 {
     // modem can only be created from Contract.edit
     protected $create_from_model_context = '\Modules\ProvBase\Entities\Contract';
 
-    // fields to be used in update test
+    // fields to be used in update test (include description for a full address/contact payload; seeder now provides company, department, salutation)
     protected $update_fields = [
+        'description',
         'mac',
         'company',
         'department',

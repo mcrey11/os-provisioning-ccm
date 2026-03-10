@@ -43,13 +43,13 @@ class NetGwObserver
             return;
         }
 
-        if (\Module::collections()->has('ProvMon')) {
-            \Artisan::call('nms:cacti', ['--netgw-id' => $netgw->id]);
+        if (! app()->runningUnitTests()) {
+            if (\Module::collections()->has('ProvMon')) {
+                \Artisan::call('nms:cacti', ['--netgw-id' => $netgw->id]);
+            }
+            $netgw->makeDhcpConf();
+            File::put(self::NETGW_TFTP_PATH."/$netgw->id.cfg", $netgw->get_raw_netgw_config());
         }
-
-        $netgw->makeDhcpConf();
-
-        File::put(self::NETGW_TFTP_PATH."/$netgw->id.cfg", $netgw->get_raw_netgw_config());
     }
 
     public function updated($netgw)
@@ -60,15 +60,16 @@ class NetGwObserver
             return;
         }
 
-        $netgw->makeDhcpConf();
-
-        File::put(self::NETGW_TFTP_PATH."/$netgw->id.cfg", $netgw->get_raw_netgw_config());
+        if (! app()->runningUnitTests()) {
+            $netgw->makeDhcpConf();
+            File::put(self::NETGW_TFTP_PATH."/$netgw->id.cfg", $netgw->get_raw_netgw_config());
+        }
 
         // looks like laravel job for getting OLT online/offline information had
         // cached the (wrong) passwort for an OLT and even after updating the model did not use
         // the correct one
         // to prevent this: restart the queue
-        if ('olt' == $netgw->type) {
+        if ($netgw->type == 'olt') {
             \Artisan::call('queue:restart');
         }
     }
@@ -81,13 +82,13 @@ class NetGwObserver
             return;
         }
 
-        // v6 function automatically takes care of deletions
-        $netgw->makeDhcp6Conf();
-
-        File::delete(NetGw::NETGW_INCLUDE_PATH."/$netgw->id.conf");
-        File::delete(self::NETGW_TFTP_PATH."/$netgw->id.cfg");
-
-        NetGw::make_includes();
+        if (! app()->runningUnitTests()) {
+            // v6 function automatically takes care of deletions
+            $netgw->makeDhcp6Conf();
+            File::delete(NetGw::NETGW_INCLUDE_PATH."/$netgw->id.conf");
+            File::delete(self::NETGW_TFTP_PATH."/$netgw->id.cfg");
+            NetGw::make_includes();
+        }
     }
 
     /**
@@ -96,12 +97,14 @@ class NetGwObserver
      *
      * @author Ole Ernst
      */
-    public static function updateNas($netgw)
+    public static function updateNas($netgw): void
     {
         // netgw is deleted or its type was changed to != bras
         if ($netgw->deleted_at || $netgw->type != 'bras') {
             $netgw->nas()->delete();
-            exec('sudo systemctl restart radiusd.service');
+            if (! app()->runningUnitTests()) {
+                exec('sudo systemctl restart radiusd.service');
+            }
 
             return;
         }
@@ -114,6 +117,8 @@ class NetGwObserver
             Nas::insert(array_merge($update, ['shortname' => $netgw->id]));
         }
 
-        exec('sudo systemctl restart radiusd.service');
+        if (! app()->runningUnitTests()) {
+            exec('sudo systemctl restart radiusd.service');
+        }
     }
 }

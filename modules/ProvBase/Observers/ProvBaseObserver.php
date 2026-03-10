@@ -47,7 +47,7 @@ class ProvBaseObserver
 
         // recreate default network, if provisioning server ip address has been changed
         if (array_key_exists('provisioning_server', $changes)) {
-            Queue::pushOn('high', new \Modules\ProvBase\Jobs\DhcpJob());
+            Queue::pushOn('high', new \Modules\ProvBase\Jobs\DhcpJob);
         }
 
         if (multi_array_key_exists(['dhcp_def_lease_time', 'dhcp_max_lease_time', 'domain_name', 'max_cpe', 'provisioning_server'], $changes)) {
@@ -71,7 +71,9 @@ class ProvBaseObserver
                 $query = 'allocate_find = "SELECT framedipaddress FROM ${ippool_table} WHERE pool_name = \'%{control:${pool_name}}\' AND ( expiry_time < \'now\'::timestamp(0) OR ( nasipaddress = \'%{NAS-IP-Address}\' AND pool_key = \'${pool_key}\' ) ) ORDER BY (username <> \'%{SQL-User-Name}\'), (callingstationid <> \'%{Calling-Station-Id}\'), expiry_time LIMIT 1 FOR UPDATE"';
             }
             file_put_contents($queryPath, $query."\n");
-            exec('sudo systemctl restart radiusd.service');
+            if (! app()->runningUnitTests()) {
+                exec('sudo systemctl restart radiusd.service');
+            }
         }
 
         // re-evaluate all qos rate_max_help fields if one or both coefficients were changed
@@ -89,7 +91,7 @@ class ProvBaseObserver
             Queue::pushOn('medium', new \Modules\ProvBase\Jobs\ConfigfileJob('cm'));
         }
 
-        if (array_key_exists('domain_name', $changes)) {
+        if (array_key_exists('domain_name', $changes) && ! app()->runningUnitTests()) {
             // adjust named config and restart it
             $sed = storage_path('app/tmp/update-domain.sed');
             file_put_contents($sed, "s/zone \"{$model->getRawOriginal('domain_name')}\" IN/zone \"$model->domain_name\" IN/g");

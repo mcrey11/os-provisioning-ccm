@@ -85,7 +85,7 @@ class NetElementTableSeeder extends \BaseSeeder
                 'name' => $faker->domainWord(),
                 'ip' => $faker->localIpv4(),
                 'netelementtype_id' => rand(1, 10) > 3 ? 1 : (rand(1, 10) > 3 ? 2 : rand(3, 6)),
-                'parent_id' => $index == 1 ? 0 : NetElement::where('id', '>', '1')->get()->random(1)->id,
+                'parent_id' => $index == 1 ? 0 : NetElement::where('id', '>', '1')->get()->random()->id,
                 'descr' => $faker->sentence(),
                 'pos' => $x.','.$y,
                 'link' => $faker->url(),

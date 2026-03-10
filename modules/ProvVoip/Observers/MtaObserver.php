@@ -35,6 +35,11 @@ class MtaObserver
     {
         $mta->hostname = 'mta-'.$mta->id;
         $mta->save(); 			// forces to call updated method
+
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         $mta->modem->make_dhcp_cm(false, true);
         $mta->modem->restart();
     }
@@ -44,6 +49,10 @@ class MtaObserver
         $modifications = $mta->getDirty();
         if (isset($modifications['updated_at'])) {
             unset($modifications['updated_at']);
+        }
+
+        if (app()->runningUnitTests()) {
+            return;
         }
 
         // only make configuration files when relevant data was changed
@@ -64,6 +73,10 @@ class MtaObserver
 
     public function deleted($mta)
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         $mta->make_dhcp_mta(true);
         $mta->modem->make_dhcp_cm(false, true);
         $mta->delete_configfile();

@@ -46,20 +46,22 @@ class NetGwTableSeeder extends \BaseSeeder
 
         $series = \Illuminate\Support\Arr::flatten($conf);
 
-        $type = NetGw::TYPES;
+        $types = NetGw::TYPES;
+        $chosenType = $types[array_rand($types)];
 
         $ret = [
             'hostname' => $faker->unique->name,
-            'type' => $type[array_rand($type)],
-            'ip' => $faker->localIpv4(),	// using local IPs prevent NMS from snmpget against outside IPs
+            'type' => $chosenType,
+            'ip' => $faker->localIpv4(),
             'community_rw' => 'private',
             'community_ro' => 'public',
             'company' => $company[array_rand($company)],
             'series' => $series[array_rand($series)],
-            // 'network'
-            // 'state'
-            // 'monitoring'
         ];
+
+        if ($chosenType === 'bras') {
+            $ret['nas_secret'] = $faker->regexify('[A-Za-z0-9]{16}');
+        }
 
         return $ret;
     }

@@ -33,14 +33,25 @@ class ProvBaseDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call('Modules\ProvBase\Database\Seeders\NetGwTableSeeder');
-        $this->call('Modules\ProvBase\Database\Seeders\IpPoolTableSeeder');
-        $this->call('Modules\ProvBase\Database\Seeders\ConfigfileTableSeeder');
-        $this->call('Modules\ProvBase\Database\Seeders\QosTableSeeder');
-        $this->call('Modules\ProvBase\Database\Seeders\ContractTableSeeder');
-        $this->call('Modules\ProvBase\Database\Seeders\ModemTableSeeder');
-        $this->call('Modules\ProvBase\Database\Seeders\EndpointTableSeeder');
-        $this->call('Modules\ProvBase\Database\Seeders\ProvBaseConfigTableSeeder');
-        $this->call('Modules\ProvBase\Database\Seeders\DomainTableSeeder');
+        $seeders = [
+            'Modules\ProvBase\Database\Seeders\NetGwTableSeeder',
+            'Modules\ProvBase\Database\Seeders\IpPoolTableSeeder',
+            'Modules\ProvBase\Database\Seeders\ConfigfileTableSeeder',
+            'Modules\ProvBase\Database\Seeders\QosTableSeeder',
+            'Modules\ProvBase\Database\Seeders\ContractTableSeeder',
+            'Modules\ProvBase\Database\Seeders\ModemTableSeeder',
+            'Modules\ProvBase\Database\Seeders\EndpointTableSeeder',
+            'Modules\ProvBase\Database\Seeders\ProvBaseConfigTableSeeder',
+            'Modules\ProvBase\Database\Seeders\DomainTableSeeder',
+        ];
+
+        foreach ($seeders as $class) {
+            $start = config('app.seed_profile', false) ? hrtime(true) : 0;
+            $this->call($class);
+            if (config('app.seed_profile', false)) {
+                $elapsed = (hrtime(true) - $start) / 1e9;
+                fwrite(STDERR, sprintf("    %s: %.2fs\n", class_basename($class), $elapsed));
+            }
+        }
     }
 }

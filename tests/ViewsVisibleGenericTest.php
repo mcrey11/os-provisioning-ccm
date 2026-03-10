@@ -19,6 +19,7 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Route;
 
@@ -40,9 +41,13 @@ class ViewsVisibleGenericTest extends TestCase
 
     // some instance variables to be filled later
     protected $user = null;
+
     protected $routes_to_ignore = null;
+
     protected $routes_to_test = null;
+
     protected $models = null;
+
     protected $global_config = null;
 
     /**
@@ -50,7 +55,7 @@ class ViewsVisibleGenericTest extends TestCase
      *
      * @author Patrick Reichel
      */
-    public function createApplication()
+    public function createApplication(): Application
     {
         $app = parent::createApplication();
 
@@ -128,6 +133,7 @@ class ViewsVisibleGenericTest extends TestCase
                 $msg = 'Route '.$route->getName().' is not tested within '.__CLASS__;
                 echo "\nINFO: $msg";
                 \Log::info($msg);
+
                 continue;
             }
 
@@ -145,6 +151,7 @@ class ViewsVisibleGenericTest extends TestCase
                     $msg = 'Route '.$route->getName().' is not tested within '.__CLASS__;
                     echo "\nINFO: $msg";
                     \Log::info($msg);
+
                     continue;
                 }
             }
@@ -227,7 +234,7 @@ class ViewsVisibleGenericTest extends TestCase
      *
      * @return void
      */
-    public function testGenericMvc()
+    public function test_generic_mvc()
     {
         /* dd("TODO: Implement single index/edit tester instead of this method as next step!"); */
 

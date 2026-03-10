@@ -43,7 +43,7 @@ class EndpointTableSeeder extends \BaseSeeder
         $faker = &\NmsFaker::getInstance();
 
         if ($topic == 'seed') {
-            $modem = Modem::all()->random(1);
+            $modem = Modem::all()->random();
             $modem_id = $modem->id;
         } else {
             if (! is_null($modem)) {
@@ -53,13 +53,9 @@ class EndpointTableSeeder extends \BaseSeeder
             }
         }
 
-        if (rand(0, 1) == 1) {
-            $fixed_ip = 1;
-            $ip = $faker->localIpv4();
-        } else {
-            $fixed_ip = 0;
-            $ip = null;
-        }
+        // Use fixed_ip=1 with valid IP so validation passes for all modem types (tr069/ont require this)
+        $fixed_ip = 1;
+        $ip = $faker->localIpv4();
 
         $ret = [
             'mac' => $faker->macAddress(),

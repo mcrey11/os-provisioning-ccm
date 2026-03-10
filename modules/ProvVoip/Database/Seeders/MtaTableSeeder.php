@@ -46,7 +46,7 @@ class MtaTableSeeder extends \BaseSeeder
 
         // in seeding mode: choose random modem to create mta at
         if ($topic == 'seed') {
-            $modem = Modem::all()->random(1);
+            $modem = Modem::all()->random();
             $modem_id = $modem->id;
         } else {
             if (! is_null($modem)) {
@@ -61,7 +61,7 @@ class MtaTableSeeder extends \BaseSeeder
             /* 'type' => (rand(0, 1) == 1 ? 1 : 2), */
             'type' => 'sip',	// only seed sip mta (packetcable is not implemented and therefore may raise problems in testing)
             'modem_id' => $modem_id,
-            'configfile_id' => Configfile::where('device', '=', 'mta')->get()->random(1)->id,
+            'configfile_id' => Configfile::where('device', '=', 'mta')->where('public', '=', 'yes')->get()->random()->id,
         ];
 
         return $ret;
