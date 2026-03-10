@@ -1404,11 +1404,14 @@ class Contract extends \BaseModel
         if ($this->relationLoaded('items')) {
             $tariffs = $this->items->where('valid_from', '<=', date('Y-m-d'));
         } else {
+            // Select only item.* and p.type: p.* would include p.qualified_model_class and overwrite
+            // item.qualified_model_class in the result, causing BaseModel::newFromBuilder() to
+            // instantiate Product (or WaipuTVProduct) instead of Item.
             $tariffs = $this->items()
                 ->join('product as p', 'item.product_id', '=', 'p.id')
-                ->select('item.*', 'p.*', 'item.id as id')
-                ->where('type', '=', $type)->where('valid_from', '<=', date('Y-m-d'))
-                ->where(whereLaterOrEqual('valid_to', date('Y-m-d')));
+                ->select('item.*', 'p.type as product_type')
+                ->where('p.type', '=', $type)->where('item.valid_from', '<=', date('Y-m-d'))
+                ->where(whereLaterOrEqual('item.valid_to', date('Y-m-d')));
 
             if (strtolower($type) == 'voip') {
                 $tariffs->with('product.salestariff');
