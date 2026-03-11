@@ -96,7 +96,7 @@ class IpPool extends \BaseModel
             'table' => $this->table,
             'index_header' => [$this->table.'.id', 'netgw.hostname', $this->table.'.type', 'version', $this->table.'.net',
                 $this->table.'.router_ip', $this->table.'.description', 'active'],
-            'header' =>  $this->type.': '.$this->net,
+            'header' => $this->type.': '.$this->net,
             'bsclass' => $this->get_bsclass(),
             'translateBooleanColumns' => ['active'],
             'eager_loading' => ['netgw'],
@@ -126,7 +126,8 @@ class IpPool extends \BaseModel
      */
     public static function getIpVersion($ip)
     {
-        if (strpos($ip, '/')) {
+        $ip = $ip ?? '';
+        if (strpos($ip, '/') !== false) {
             $ip = strstr($ip, '/', true);
         }
 
@@ -308,6 +309,7 @@ class IpPool extends \BaseModel
 
             if ($i == $ep) {
                 $i++;
+
                 continue;
             }
 

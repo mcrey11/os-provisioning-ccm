@@ -213,7 +213,7 @@ class ModemController extends \BaseController
             }
         }
 
-        $pos = explode(',', Request::get('pos'));
+        $pos = explode(',', Request::get('pos') ?? '');
         if (count($pos) == 2) {
             [$model['lat'], $model['lng']] = $pos;
 
@@ -249,7 +249,9 @@ class ModemController extends \BaseController
         $cfIds = $this->dynamicDisplayFormFields();
 
         if (Module::collections()->has('HfcCustomer') && $model->exists) {
-            $rect = [round($model->lng, 4) - 0.0001, round($model->lng, 4) + 0.0001, round($model->lat, 4) - 0.0001, round($model->lat, 4) + 0.0001];
+            $lng = (float) ($model->lng ?? 0);
+            $lat = (float) ($model->lat ?? 0);
+            $rect = [round($lng, 4) - 0.0001, round($lng, 4) + 0.0001, round($lat, 4) - 0.0001, round($lat, 4) + 0.0001];
             $geopos = html()->a(route('CustomerModem.showModems', ['modemId' => $model->id]), trans('messages.geopos_x_y')).'    ('.html()->a(route('CustomerRect.show', $rect), trans('messages.proximity')).')';
         } else {
             $geopos = trans('messages.geopos_x_y');
@@ -1292,9 +1294,9 @@ class ModemController extends \BaseController
         ];
         $data = $this->_nullify_fields($data, $nullable_fields);
 
-        $data['house_number'] = str_replace(' ', '', strtolower($data['house_number']));
+        $data['house_number'] = str_replace(' ', '', strtolower((string) ($data['house_number'] ?? '')));
 
-        if (! $data['country_code']) {
+        if (empty($data['country_code'] ?? null)) {
             $config = cache('GlobalConfig', function () {
                 return GlobalConfig::first();
             });

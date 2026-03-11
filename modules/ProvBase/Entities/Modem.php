@@ -475,7 +475,7 @@ class Modem extends \BaseModel
      */
     public function getFormattedSupportStateAttribute()
     {
-        return ucfirst(str_replace('-', ' ', $this->support_state));
+        return ucfirst(str_replace('-', ' ', (string) ($this->support_state ?? '')));
     }
 
     /**

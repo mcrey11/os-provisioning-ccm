@@ -92,7 +92,7 @@ class Endpoint extends \BaseModel
 
         return ['table' => $this->table,
             'index_header' => [$this->table.'.hostname', $this->table.'.mac', $this->table.'.ip', $this->table.'.prefix', 'description'],
-            'header' =>  $this->label(),
+            'header' => $this->label(),
             'bsclass' => $bsclass, ];
     }
 

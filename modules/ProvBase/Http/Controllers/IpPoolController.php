@@ -153,7 +153,7 @@ class IpPoolController extends \BaseController
 
         $fields = ['net', 'ip_pool_start', 'ip_pool_end', 'router_ip', 'broadcast_ip', 'dns1_ip', 'dns2_ip', 'dns3_ip'];
         foreach ($fields as $key) {
-            $data[$key] = str_replace(' ', '', $data[$key]);
+            $data[$key] = str_replace(' ', '', (string) ($data[$key] ?? ''));
         }
 
         if ($data['type'] != 'STB') {

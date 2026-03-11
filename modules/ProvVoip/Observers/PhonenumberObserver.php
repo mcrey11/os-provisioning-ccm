@@ -230,7 +230,7 @@ class PhonenumberObserver
         if (! $old_modem->has_phonenumbers_attached()) {
             $old_modem->remove_envia_related_data();
         } else {
-            $attributes = ['target'=>'_blank'];
+            $attributes = ['target' => '_blank'];
 
             // prepare the link (for view) for old modem (this may be useful as we get the breadcrumb for the new modem on our return to phonenumber.edit)
             $parameters = [
@@ -319,7 +319,7 @@ class PhonenumberObserver
             return;
         }
 
-        $sipdomain = $phonenumber->sipdomain ?: ProvVoip::first()->mta_domain;
+        $sipdomain = (string) ($phonenumber->sipdomain ?: ProvVoip::first()->mta_domain ?? '');
         $registrar = 'sip.hlkomm.net';
 
         if (strpos($sipdomain, $registrar) === false) {
@@ -335,14 +335,14 @@ class PhonenumberObserver
             ->where('number', '=', $phonenumber->number)
             ->where(function ($query) use ($registrar) {
                 $query
-                ->where('sipdomain', 'like', "%$registrar%")
-                ->orWhereNull('sipdomain')
-                ->orWhere('sipdomain', '=', '');
+                    ->where('sipdomain', 'like', "%$registrar%")
+                    ->orWhereNull('sipdomain')
+                    ->orWhere('sipdomain', '=', '');
             })
             ->where(function ($query) use ($cdr_first_day_of_month) {
                 $query
-                ->whereNull('deleted_at')
-                ->orWhere('deleted_at', '>=', $cdr_first_day_of_month);
+                    ->whereNull('deleted_at')
+                    ->orWhere('deleted_at', '>=', $cdr_first_day_of_month);
             })
             ->count();
 
@@ -365,7 +365,7 @@ class PhonenumberObserver
             return;
         }
 
-        $sipdomain = $phonenumber->sipdomain ?: ProvVoip::first()->mta_domain;
+        $sipdomain = (string) ($phonenumber->sipdomain ?: ProvVoip::first()->mta_domain ?? '');
         $registrar = 'sip.hlkomm.net';
 
         if (strpos($sipdomain, $registrar) === false) {
