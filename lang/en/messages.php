@@ -35,7 +35,13 @@ return [
         ],
     ],
     'Birthday'                  => 'Birthday',
+    'bookingAccount' => 'Booking account',
     'Business'                  => 'Business',
+    'dear' => 'Dear',
+    'sirOrMadam' => ' Sir or Madam',
+    'mr' => ' Mr',
+    'mrs' => ' Mrs',
+
     // Web Order Messages
     'web_order' => [
         'converted_to_opportunity' => 'Web order successfully converted to opportunity #:id',
