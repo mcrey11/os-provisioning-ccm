@@ -31,6 +31,7 @@ class Contract extends \BaseModel
     use \App\AddressFunctionsTrait;
     use \App\extensions\geocoding\GeoReferencable;
     use \App\Traits\HasTickets;
+
     // Use local stub trait - ensures file exists during RPM installation
     // Delegates to SpriSupplierApi functionality when module is available
     use \Modules\ProvBase\Traits\HasSpriSupplier;

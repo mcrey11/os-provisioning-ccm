@@ -29,8 +29,8 @@ use Modules\ProvBase\Entities\Contract;
 
 class ImportTvCustomersCommand extends Command
 {
-    use ImportTrait;
     use \App\AddressFunctionsTrait;
+    use ImportTrait;
 
     /**
      * The name and signature of the console command.
