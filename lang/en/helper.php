@@ -2,7 +2,7 @@
 
 return [
     'ccc' => [
-        'imgUpload' => 'Upload for logo and backgound image. Please set the according image after the upload!',
+        'imgUpload' => 'Upload for logo, backgound image and home banner. Please set the according image after the upload!',
     ],
     'dateFormat' => 'Y-m-d',
     'dateTimeFormat' => 'Y-m-d H:i:s',

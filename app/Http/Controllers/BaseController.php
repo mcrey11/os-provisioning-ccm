@@ -2342,7 +2342,7 @@ class BaseController extends Controller
 
         $files = array_map(function ($file) {
             return $file->getRelativePathName();
-        }, File::allFiles(storage_path('app/').$directory));
+        }, File::allFiles(storage_path($directory)));
 
         $select = [];
         if ($withEmptyOption) {

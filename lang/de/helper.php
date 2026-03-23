@@ -2,7 +2,7 @@
 
 return [
     'ccc' => [
-        'imgUpload' => 'Upload für Logo und Hintergrundbild. Bitte setzen Sie nach dem Upload das entsprechende Bild!',
+        'imgUpload' => 'Upload für Logo, Hintergrundbild und Home Banner. Bitte setzen Sie nach dem Upload das entsprechende Bild!',
     ],
     'dateFormat' => 'd.m.Y',
     'dateTimeFormat' => 'd.m.Y H:i:s',

@@ -30,13 +30,10 @@ class GlobalConfigController extends BaseController
 
     public const BG_IMAGES_PATH_REL = 'public/base/bg-images/';
 
-    protected function getFileUploadPaths(): array
-    {
-        return [
-            'login_img' => self::BG_IMAGES_PATH_REL,
-            'logo_admin' => 'app/public/base/',
-        ];
-    }
+    protected $file_upload_paths = [
+        'login_img' => self::BG_IMAGES_PATH_REL,
+        'logo_admin' => 'app/public/base/',
+    ];
 
     /**
      * defines the formular fields for the edit and create view
@@ -60,7 +57,7 @@ class GlobalConfigController extends BaseController
 
             ['form_type' => 'select', 'name' => 'login_img', 'description' => trans('view.loginImg'), 'value' => $this->getFilesForSelect(self::BG_IMAGES_PATH_REL)],
             ['form_type' => 'file', 'name' => 'login_img_upload', 'description' => trans('view.loginImgUpload')],
-            ['form_type' => 'select', 'name' => 'logo_admin', 'description' => 'Logo', 'value' => $this->getFilesForSelect('public/base/')],
+            ['form_type' => 'select', 'name' => 'logo_admin', 'description' => 'Logo', 'value' => $this->getFilesForSelect($this->file_upload_paths['logo_admin'])],
             ['form_type' => 'file', 'name' => 'logo_admin_upload', 'description' => 'Logo Upload'],
         ];
 
