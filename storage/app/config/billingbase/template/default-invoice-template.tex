@@ -165,9 +165,9 @@
 			{
 				\ifthenelse{\equal{{canceled\_to}}{}}
 				{
-					\ifthenelse{\equal{{isInMinDuration}}{false}} {
-						Kündigungsfrist: 1 Monat\\
-					} { %else
+					% \ifthenelse{\equal{{isInMinDuration}}{false}} {
+					% 	Kündigungsfrist: 1 Monat\\
+					% } { %else
 						\begin{tabular} {@{}ll}
 							% Vertragsbeginn: {start\_of\_term}\\
 							Tariflaufzeit: & {maturity}\\
@@ -175,7 +175,7 @@
 							Kündigungsfrist: & {period\_of\_notice}\\
 							Spätester Kündigungszeitpunkt: & {last\_cancel\_date}\\
 						\end{tabular}
-					}
+					% }
 				} { %else
 					Der Vertrag wurde gekündigt zum: {canceled\_to}.
 				}
