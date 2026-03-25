@@ -52,7 +52,7 @@ trait GeoReferencable
             ->where('zip', $this->zip)
             ->where('city', $this->city)
             ->where('street', $this->street)
-            ->where('house_number', $this->house_number)
+            ->where('house_number', $this->house_number ?? $this->house_nr)
             ->first();
 
         if ($address) {
@@ -99,7 +99,7 @@ trait GeoReferencable
             'zip' => $this->zip,
             'city' => $this->city,
             'street' => $this->street,
-            'house_number' => $this->house_number,
+            'house_number' => $this->house_number ?? $this->house_nr,
             'district' => $this->district,
             'lat' => $geodata['latitude'],
             'lng' => $geodata['longitude'],
