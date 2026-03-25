@@ -2053,10 +2053,6 @@ class Contract extends \BaseModel
             return;
         }
 
-        if (! $realty && $this->realty_id) {
-            $realty = $this->realty;
-        }
-
         if (! $realty) {
             if (! $this->apartment_id) {
                 return;
