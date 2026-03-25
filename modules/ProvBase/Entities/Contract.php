@@ -2068,6 +2068,11 @@ class Contract extends \BaseModel
             'city' => $realty->city,
             'district' => $realty->district,
         ]);
+
+        if (! $ids) {
+            self::refresh();
+            self::geocode();
+        }
     }
 
     public function groupContractFilterQuery()

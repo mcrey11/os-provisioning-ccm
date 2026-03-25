@@ -2198,6 +2198,11 @@ class Modem extends \BaseModel
             'city' => $realty->city,
             'district' => $realty->district,
         ]);
+
+        if (! $ids) {
+            self::refresh();
+            self::geocode();
+        }
     }
 
     /**
