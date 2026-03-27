@@ -44,6 +44,7 @@ class ImportTvCustomersCommand extends Command
         {--productId=* : Array of ID\'s of TV products corresponding to charge.}
         {--ccSepa= : CostCenter ID for all the sepa mandates.}
         {--ag=0 : Antenna community ID for all the imported contracts.}
+        {--T|test : Dont geocode contracts and speedup import for testing.}
     ';
 
     /**
@@ -230,9 +231,13 @@ class ImportTvCustomersCommand extends Command
         ['street' => $street, 'houseNr' => $houseNr] = self::getStreetAndHouseNumber();
         ['city' => $city, 'district' => $district] = self::getCityAndDistrict();
 
+        if (self::$line[14]) {
+            $district = self::$line[14];
+        }
+
         $contract = self::contractExists($number, $firstName, $lastName, $street, $city, $houseNr);
 
-        // if existing contract was found update the contact and return it
+        // if existing contract was found update the contract and return it
         if ($contract) {
             self::$newCustomer = false;
             if ($contact) {
@@ -275,6 +280,11 @@ class ImportTvCustomersCommand extends Command
 
         if (self::validationFailed(Contract::class, $contract, ['Number' => $number])) {
             return;
+        }
+
+        if ($this->option('test')) {
+            $contract['lat'] = 50;
+            $contract['lng'] = 50;
         }
 
         Log::info("Add Contract {$number}: {$firstName}, {$lastName}");
@@ -355,7 +365,7 @@ class ImportTvCustomersCommand extends Command
             return;
         }
 
-        $amount = str_replace('EUR', '', $tariff);
+        $amount = str_replace(['EUR', '€', ' '], '', $tariff);
         $amount = str_replace(',', '.', $tariff);
         $amount = number_format((float) trim($amount), 2);
 
@@ -447,7 +457,7 @@ class ImportTvCustomersCommand extends Command
 
     private function addSepaMandate()
     {
-        $valid = trim(self::$line[self::S_VALID]) == 'einzug';
+        $valid = strtolower(trim(self::$line[self::S_VALID])) == 'einzug';
         $contract = self::$contract;
 
         if (! $valid) {
