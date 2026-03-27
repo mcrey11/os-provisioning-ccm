@@ -127,6 +127,15 @@
 
 		\vspace{1mm}
 
+		\ifthenelse{\equal{{modem\_address}}{}}
+		{} {
+			\begin{flushleft}
+				Folgende Rechnung bezieht sich auf den Anschlussstandort:\\
+				\vspace{1.5mm}
+				{modem\_salutation} {modem\_address}
+			\end{flushleft}
+		}
+
 		% item table with tabular* to define table width
 		\hspace{0.1cm}
 		\begin{flushleft}
