@@ -131,6 +131,7 @@ return [
         'validTo'                  => 'It\'s possible to specify the number of months here - e.g. \'12M\' for 12 months. For monthly paid products it will just add the number of months - so start date 2018-05-04 will be valid to 2019-05-04. Single paid items with splitted payment will be charged 12 times - end date will be 2019-04-31 then.',
         'validToFixed'             => 'Checked by default! Uncheck if the end date is uncertain. If unchecked the tariff will not end and will be charged until you activate the checkbox. Further when the end date is reached it will be incremented every day by one day. Info: The date is not updated by external orders (e.g. from telephony provider).',
         'creditAmount'             => 'Overwrites the price of the corresponding product. For Credits: Net Amount to be credited to Customer. Take Care: a negative amount becomes a debit! (on credits)',
+        'accountingText'           => 'If set, this text is used as the invoice and settlement line label instead of the product name. Leave empty to use the product name.',
     ],
 
     'crmOpportunityItem' => [

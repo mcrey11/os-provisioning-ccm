@@ -131,6 +131,7 @@ return [
         'validTo'                  => 'Es ist möglich hier die Anzahl der gültigen Monate anzugeben - z.B. \'12M\' für zwölf Monate. Bei monatlich abgerechneten Produkten werden diese 12 Monate zum Startdatum addiert. Bei Start am 2018-05-04 wird das Enddatum der 2019-05-04 sein. Einmalig zu zahlende Produkte, deren Zahlung geteilt wird, werden dann 12 mal abgerechnet - das Enddatum wäre im Beispiel dann 2019-04-31.',
         'validToFixed'             => 'Dieses Feld ist standardmäßig gesetzt! Deaktivieren Sie diese Checkbox, wenn das Enddatum noch ungewiss ist. Der Tarif bleibt damit aktiv und wird weiterhin abgerechnet bis Sie die Checkbox aktivieren. Bei Erreichen des Enddatums wird dieses außerdem jeden Tag erneut auf den darauffolgenden Tag gesetzt. Info: Feste Termine werden nicht durch externe Aufträge (z.B. vom Telefonie-Provider) aktualisiert.',
         'creditAmount'             => 'Überschreibt den Preis des Produktes. Bei Gutschriften: Nettobetrag, der dem Kunde gutgeschrieben werden soll. Achtung: Bei Gutschriften wird ein negativer Betrag dem Kunde abgezogen!',
+        'accountingText'           => 'Dieser Text wird als Bezeichnung auf der Rechnung anstelle des Produktnamens gesetzt.',
     ],
 
     'crmOpportunityItem' => [

@@ -262,7 +262,6 @@ return [
     'item.valid_from_fixed' => 'Ab Startdatum aktiv',
     'item.valid_to' => 'Gültig bis',
     'item.valid_to_fixed' => 'Festes Enddatum',
-    'item.accounting_text' => 'Verwendungszweck',
     'item.external_status' => 'Externer Status',
     'item.custom_data' => 'Benutzerdefinierte Daten',
     'fee' => 'Gebühr',

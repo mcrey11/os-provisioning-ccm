@@ -320,7 +320,6 @@ return [
     'item.valid_from_fixed' => 'Valid from fixed',
     'item.valid_to' => 'Valid to',
     'item.valid_to_fixed' => 'Valid to fixed',
-    'item.accounting_text' => 'Purpose',
     'item.external_status' => 'External status',
     'item.custom_data' => 'Custom Data',
     'fee' => 'Fee',
