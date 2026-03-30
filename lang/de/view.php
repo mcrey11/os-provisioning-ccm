@@ -987,7 +987,7 @@ return [
             'voip' => 'VOIP',
         ],
         'resellingPartner' => 'Vertriebspartner',
-        'description_html_heading' => 'Web-Bestellung Beschreibung',
+        'description_html_heading' => 'Web-Bestell-Strecke',
         'description_html' => 'Beschreibung (HTML)',
         'logo_heading' => 'Produkt Logo',
         'logo' => 'Logo',

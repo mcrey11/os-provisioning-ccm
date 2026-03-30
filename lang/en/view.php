@@ -970,7 +970,7 @@ return [
             'voip' => 'VOIP',
         ],
         'resellingPartner' => 'Reselling partner',
-        'description_html_heading' => 'Web Order Description',
+        'description_html_heading' => 'Subscription page',
         'description_html' => 'Description (HTML)',
         'logo_heading' => 'Product Logo',
         'logo' => 'Logo',
