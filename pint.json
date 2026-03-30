@@ -1,7 +1,7 @@
 {
   "preset": "laravel",
   "rules": {
-    "operator_linebreak": { "position": "end" },
+    "operator_linebreak": false,
     "phpdoc_summary": false,
     "binary_operator_spaces": false
   },
