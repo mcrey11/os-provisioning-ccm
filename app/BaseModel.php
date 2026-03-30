@@ -180,9 +180,7 @@ class BaseModel extends Eloquent
      *
      * NOTE: this function will return null in all create contexts, because at this time no relation exists!
      */
-    public function view_belongs_to()
-    {
-    }
+    public function view_belongs_to() {}
 
     /**
      * Use PHP Reflection API to receive the default of a given Property.
@@ -1125,7 +1123,5 @@ class BaseModel extends Eloquent
      *
      * @return void
      */
-    public function withValidator(Validator $validator)
-    {
-    }
+    public function withValidator(Validator $validator) {}
 }

@@ -655,11 +655,11 @@ class Contract extends \BaseModel
         if ($this->modems->isNotEmpty()) {
             return \Modules\PropertyManagement\Entities\Apartment::join('modem', 'apartment.id', 'modem.apartment_id')
                 ->join('contract', 'contract.id', 'modem.contract_id')
-                    ->where('contract.id', $this->id)
-                    ->whereNull('modem.deleted_at')
-                    ->whereNull('apartment.deleted_at')
-                    ->select('apartment.*')
-                    ->first();
+                ->where('contract.id', $this->id)
+                ->whereNull('modem.deleted_at')
+                ->whereNull('apartment.deleted_at')
+                ->select('apartment.*')
+                ->first();
         }
     }
 

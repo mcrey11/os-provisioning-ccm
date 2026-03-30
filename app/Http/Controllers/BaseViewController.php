@@ -129,12 +129,11 @@ class BaseViewController extends Controller
      */
     public static function getAllLanguages()
     {
-        return collect(glob(app()->langPath().'/*'))->
-            mapWithKeys(function ($path) {
-                $langShortcut = basename($path);
+        return collect(glob(app()->langPath().'/*'))->mapWithKeys(function ($path) {
+            $langShortcut = basename($path);
 
-                return [$langShortcut => $langShortcut];
-            });
+            return [$langShortcut => $langShortcut];
+        });
     }
 
     /**
@@ -160,10 +159,9 @@ class BaseViewController extends Controller
      */
     public static function generateLanguageArray($languageArray)
     {
-        return collect($languageArray)->
-            mapWithKeys(function ($langShortcut) {
-                return [$langShortcut  => config('language.'.$langShortcut)];
-            });
+        return collect($languageArray)->mapWithKeys(function ($langShortcut) {
+            return [$langShortcut  => config('language.'.$langShortcut)];
+        });
     }
 
     /**
