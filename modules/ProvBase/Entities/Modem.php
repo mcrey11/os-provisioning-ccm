@@ -412,8 +412,12 @@ class Modem extends \BaseModel
         } else {
             $label = $this->mac ?: $this->ppp_username;
             $label .= $this->name ? ' - '.$this->name : '';
-            $label .= $this->firstname ? ' - '.$this->firstname.' '.$this->lastname : '';
+            $label .= $this->firstname || $this->lastname ? ' - '.$this->firstname.' '.$this->lastname : '';
             $label .= $this->ppp_username ? ' - '.$this->ppp_username : '';
+
+            if (! $label) {
+                return $this->serial_num ?: $this->hostname;
+            }
         }
 
         return $label;
