@@ -486,6 +486,7 @@ class ContractController extends \BaseController
             }
 
             $c[] = ['form_type' => 'checkbox', 'name' => 'sales_tax_org', 'description' => trans('billingbase::view.contract.salesTaxOrg'), 'help' => trans('helper.contract.salesTaxOrg')];
+            $c[] = ['form_type' => 'checkbox', 'name' => 'shorten_cdr', 'description' => trans('billingbase::view.contract.shortenCdr'), 'help' => trans('helper.contract.shortenCdr')];
             $c[] = ['form_type' => 'checkbox', 'name' => 'block_funds_payout', 'description' => trans('billingbase::view.contract.blockFundsPayout')];
             $c[] = ['form_type' => 'select', 'name' => 'value_date', 'description' => 'Date of value', 'value' => $days, 'help' => trans('helper.contract.valueDate')];
             // NOTE: qos is required as hidden field to automatically create modem with correct contract qos class

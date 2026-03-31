@@ -226,6 +226,7 @@ return [
         'salutation' => 'Zum Ändern der Optionen bitte die Datei(en) '.storage_path('app/config/provbase/formoptions/salutations_').'{person,institution}.txt ändern!',
         'valueDate' => 'Tag im Monat des separaten Buchungsdatums. Überschreibt das Fälligkeitsdatum aus den globalen Konfigurationen für diesen Vertrag in der SEPA XML. Die Bank bucht den Betrag dann an diesem Tag ab.',
         'salesTaxOrg' => 'Wenn diese Box aktiviert ist, werden in der Rechnung keine Steuern berücksichtigt / berechnet.',
+        'shortenCdr' => 'Wenn aktiviert, werden die letzten 3 Ziffern der Zielrufnummern auf dem EVN der Rechnung für diesen Vertrag durch "xxx" ersetzt (TKG bis 2021 §99).',
     ],
     'rate_coefficient'              => 'MaxRateSustained wird mit diesem Wert multipliziert, um den Nutzer eine höhere (> 1.0) Übertragungsrate als gebucht zu gewähren.',
     'additional_modem_reset'           => 'Zeigt einen zusätzlichen Modem Reset Button an, um das Modem ohne Hilfe des NetGws direkt per SNMP neu zu starten.',
