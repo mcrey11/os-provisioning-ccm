@@ -434,7 +434,7 @@ class BaseModel extends Eloquent
      * @param  bool  $empty_option  true it first entry shall be empty
      * @return array $ret 			list
      */
-    public function html_list($array, $columns, $empty_option = false, $separator = '--')
+    public function html_list($array, $columns, $empty_option = false, $separator = ' - ')
     {
         $ret = $empty_option ? [null => null] : [];
 
