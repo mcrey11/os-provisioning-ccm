@@ -10,7 +10,8 @@
     "public-ccc",
     "vendor",
     "vendors",
-    "resources/lang"
+    "resources/lang",
+    "storage"
   ],
   "notName": ["*.blade.php"]
 }
