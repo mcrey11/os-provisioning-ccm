@@ -644,10 +644,6 @@ class Contract extends \BaseModel
             return;
         }
 
-        if ($this->realty_id) {
-            return $this->realty;
-        }
-
         if ($this->apartment_id) {
             return $this->apartment;
         }
