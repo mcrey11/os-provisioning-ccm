@@ -39,8 +39,8 @@ return [
     'Business'                  => 'Berufs-/Geschäftsbezeichnung',
     'dear' => 'Sehr geehrte',
     'sirOrMadam' => ' Damen und Herren',
-    'mr' => ' r Herr',
-    'mrs' => 'Frau',
+    'mr' => 'r Herr',
+    'mrs' => ' Frau',
 
     // Web Order Messages
     'web_order' => [
