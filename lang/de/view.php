@@ -137,8 +137,7 @@ return [
 
     //HEADER
     'Header_Apartment' => 'Wohnungen',
-    'Header_BookingAccount' => 'Kontenplan',
-    'Header_Booking Account' => 'Kontenplan',
+    'Header_ConvertToOpportunity' => 'Zu Chance konvertieren',
     'Header_CorrespondenceRecipient' => 'Korrespondenzempfänger',
     //General
     'Header_GlobalSearch'       => 'Systemweite Suche',
@@ -1372,15 +1371,27 @@ return [
             'is_default' => 'Standard-Pipeline',
             'stages' => 'Pipeline-Stufen',
         ],
-        'pipeline_stage' => [
-            'pipeline_id' => 'Pipeline',
+        'pipelineStage' => [
+            'pipelineId' => 'Pipeline',
             'name' => 'Stufen-Name',
-            'order_index' => 'Reihenfolge',
-            'default_probability_pct' => 'Standard-Wahrscheinlichkeit (%)',
+            'orderIndex' => 'Reihenfolge',
+            'defaultProbabilityPct' => 'Standard-Wahrscheinlichkeit (%)',
             'color' => 'Farbe',
-            'is_terminal' => 'Endstufe',
-            'is_won' => 'Gewonnene Stufe',
-            'is_lost' => 'Verlorene Stufe',
+            'noColor' => 'Keine Farbe',
+            'red' => 'Rot',
+            'green' => 'Grün',
+            'blue' => 'Blau',
+            'yellow' => 'Gelb',
+            'magenta' => 'Magenta',
+            'cyan' => 'Cyan',
+            'orange' => 'Orange',
+            'purple' => 'Lila',
+            'darkGreen' => 'Dunkelgrün',
+            'black' => 'Schwarz',
+            'white' => 'Weiß',
+            'isTerminal' => 'Endstufe',
+            'isWon' => 'Gewonnene Stufe',
+            'isLost' => 'Verlorene Stufe',
         ],
         'stage_transition' => [
             'title' => 'Stufenübergänge',
@@ -1480,7 +1491,7 @@ return [
             'hide_advanced' => 'Erweiterte Filter ausblenden',
         ],
     ],
-    
+
     // Contact Point (Global)
     'contact_point' => [
         'type' => 'Kontakttyp',
@@ -1503,7 +1514,7 @@ return [
         'individual' => 'Einzelperson',
         'organization' => 'Organisation',
     ],
-    
+
     // ContactBase (Global - same as contact_point for consistency)
     'contact' => [
         'type' => 'Kontakttyp',
@@ -1527,7 +1538,7 @@ return [
         'individual' => 'Einzelperson',
         'organization' => 'Organisation',
     ],
-    
+
     // Address (Global)
     'address' => [
         'street' => 'Straße',
@@ -1539,7 +1550,7 @@ return [
         'lat' => 'Breitengrad',
         'lng' => 'Längengrad',
     ],
-    
+
     // ContactBase Module Headers
     'Header_Contact' => 'Kontakt',
     'Header_ContactBase' => 'Kontakt Basis',

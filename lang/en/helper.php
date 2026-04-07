@@ -60,7 +60,7 @@ return [
         'validToFixed'             => 'Checked by default! Uncheck if the end date is uncertain. If unchecked the tariff will not end and will be charged until you activate the checkbox. Further when the end date is reached it will be incremented every day by one day. Info: The date is not updated by external orders (e.g. from telephony provider).',
         'creditAmount'             => 'Overwrites the price of the corresponding product. For Credits: Net Amount to be credited to Customer. Take Care: a negative amount becomes a debit! (on credits)',
     ],
-    
+
     'crmOpportunityItem' => [
         'productId' => 'Product the opportunity item is assigned to. Select the appropriate product for this CRM opportunity.',
         'validFrom' => 'Date from when the opportunity item should be valid.',
@@ -266,7 +266,7 @@ return [
     'statsSummary' => [
         'upsell' => 'Also counts active customers that already had a valid tariff in the past (but e.g. had a tariff change within the given time span)',
     ],
-    
+
     /*
      * MODULE: CRM
      */
@@ -303,15 +303,15 @@ return [
             'is_default' => 'Mark this pipeline as the default one for new opportunities',
             'stages' => 'Manage the stages that make up this pipeline workflow',
         ],
-        'pipeline_stage' => [
-            'pipeline_id' => 'Select the pipeline this stage belongs to',
+        'pipelineStage' => [
+            'pipelineId' => 'Select the pipeline this stage belongs to',
             'name' => 'Display name for the stage',
-            'order_index' => 'Position of this stage in the pipeline sequence (0-based)',
-            'default_probability_pct' => 'Default probability percentage for opportunities in this stage (0-100)',
+            'orderIndex' => 'Position of this stage in the pipeline sequence (0-based)',
+            'defaultProbabilityPct' => 'Default probability percentage for opportunities in this stage (0-100)',
             'color' => 'Color code for UI display (e.g., "#FF0000" or "red")',
-            'is_terminal' => 'Mark if this is a final stage that stops the pipeline flow',
-            'is_won' => 'Mark if this stage represents a won opportunity',
-            'is_lost' => 'Mark if this stage represents a lost opportunity',
+            'isTerminal' => 'Mark if this is a final stage that stops the pipeline flow',
+            'isWon' => 'Mark if this stage represents a won opportunity',
+            'isLost' => 'Mark if this stage represents a lost opportunity',
         ],
         'stage_transition' => [
             'pipeline_id' => 'Select the pipeline this transition belongs to',
@@ -341,7 +341,7 @@ return [
             'contact_type_help' => 'Select whether this is an individual person or an organization/company',
         ],
     ],
-    
+
     /*
      * MODULE: Contact Point (Global)
      */
@@ -358,7 +358,7 @@ return [
         'party_id_ext' => 'External identifier from TMF (TeleManagement Forum) or other external systems',
         'notes' => 'Additional information or comments about this contact',
     ],
-    
+
     /*
      * MODULE: ContactBase (Global - same as contact_point for consistency)
      */
@@ -375,7 +375,7 @@ return [
         'party_id_ext' => 'External identifier from TMF (TeleManagement Forum) or other external systems',
         'notes' => 'Additional information or comments about this contact',
     ],
-    
+
     /*
      * MODULE: Address (Global)
      */
@@ -389,7 +389,7 @@ return [
         'lat' => 'Geographic latitude coordinate',
         'lng' => 'Geographic longitude coordinate',
     ],
-    
+
     /*
      * CRM Opportunity Helper Texts
      */

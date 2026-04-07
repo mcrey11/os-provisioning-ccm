@@ -60,7 +60,7 @@ return [
         'validToFixed'             => 'Dieses Feld ist standardmäßig gesetzt! Deaktivieren Sie diese Checkbox, wenn das Enddatum noch ungewiss ist. Der Tarif bleibt damit aktiv und wird weiterhin abgerechnet bis Sie die Checkbox aktivieren. Bei Erreichen des Enddatums wird dieses außerdem jeden Tag erneut auf den darauffolgenden Tag gesetzt. Info: Feste Termine werden nicht durch externe Aufträge (z.B. vom Telefonie-Provider) aktualisiert.',
         'creditAmount'             => 'Überschreibt den Preis des Produktes. Bei Gutschriften: Nettobetrag, der dem Kunde gutgeschrieben werden soll. Achtung: Bei Gutschriften wird ein negativer Betrag dem Kunde abgezogen!',
     ],
-    
+
     'crmOpportunityItem' => [
         'productId' => 'Produkt, dem der Gelegenheits-Artikel zugeordnet ist. Wählen Sie das entsprechende Produkt für diese CRM-Gelegenheit.',
         'validFrom' => 'Datum, ab dem der Gelegenheits-Artikel gültig sein soll.',
@@ -266,7 +266,7 @@ return [
     'statsSummary' => [
         'upsell' => 'Zählt ebenfalls bestehende Kunden, die bereits einen gültigen Tarif hatten (und im Zeitraum z.B. einen Tarifwechsel vorgenommen haben).',
     ],
-    
+
     /*
      * MODULE: CRM
      */
@@ -317,14 +317,15 @@ return [
             'is_default' => 'Markieren Sie diese Pipeline als Standard für neue Chancen',
             'stages' => 'Verwalten Sie die Stufen, die diesen Pipeline-Workflow bilden',
         ],
-        'pipeline_stage' => [
+        'pipelineStage' => [
+            'pipelineId' => 'Wählen Sie die Pipeline aus, zu der diese Stufe gehört',
             'name' => 'Anzeigename für die Stufe',
-            'order_index' => 'Position dieser Stufe in der Pipeline-Sequenz (0-basiert)',
-            'default_probability_pct' => 'Standard-Wahrscheinlichkeitsprozentsatz für Chancen in dieser Stufe (0-100)',
+            'orderIndex' => 'Position dieser Stufe in der Pipeline-Sequenz (0-basiert)',
+            'defaultProbabilityPct' => 'Standard-Wahrscheinlichkeitsprozentsatz für Chancen in dieser Stufe (0-100)',
             'color' => 'Farbcode für die UI-Anzeige (z.B. "#FF0000" oder "rot")',
-            'is_terminal' => 'Markieren Sie, wenn dies eine Endstufe ist, die den Pipeline-Fluss stoppt',
-            'is_won' => 'Markieren Sie, wenn diese Stufe eine gewonnene Chance darstellt',
-            'is_lost' => 'Markieren Sie, wenn diese Stufe eine verlorene Chance darstellt',
+            'isTerminal' => 'Markieren Sie, wenn dies eine Endstufe ist, die den Pipeline-Fluss stoppt',
+            'isWon' => 'Markieren Sie, wenn diese Stufe eine gewonnene Chance darstellt',
+            'isLost' => 'Markieren Sie, wenn diese Stufe eine verlorene Chance darstellt',
         ],
         'stage_transition' => [
             'pipeline_id' => 'Wählen Sie die Pipeline aus, zu der dieser Übergang gehört',
@@ -334,7 +335,7 @@ return [
             'autofail_message' => 'Nachricht, die angezeigt wird, wenn dieser Übergang die Validierung nicht besteht (optional)',
         ],
     ],
-    
+
     /*
      * MODULE: ContactBase (Global - same as contact_point for consistency)
      */
@@ -351,7 +352,7 @@ return [
         'party_id_ext' => 'Externer Bezeichner von TMF (TeleManagement Forum) oder anderen externen Systemen',
         'notes' => 'Zusätzliche Informationen oder Kommentare zu diesem Kontakt',
     ],
-    
+
     /*
      * MODULE: Address (Global)
      */
@@ -365,7 +366,7 @@ return [
         'lat' => 'Geografische Breitenkoordinate',
         'lng' => 'Geografische Längenkoordinate',
     ],
-    
+
     /*
      * CRM Opportunity Helper Texts
      */
