@@ -20,20 +20,22 @@ trait HasTickets
      */
     public function addViewHasManyTickets(&$ret, $tabName = 'Edit')
     {
-        if (Module::collections()->has('Ticketsystem')) {
-            $ret[$tabName]['Ticket']['class'] = 'Ticket';
+        if (! Module::collections()->has('Ticketsystem')) {
+            return;
+        }
 
-            // Check if the entity uses the SpriSupplier trait
-            if (Module::collections()->has('SpriSupplierApi') && method_exists($this, 'noSpri')) {
-                $ret[$tabName]['Ticket']['relation'] = $this->noSpri()->get();
-            } else {
-                $ret[$tabName]['Ticket']['relation'] = $this->tickets;
-            }
+        $ret[$tabName]['Ticket']['class'] = 'Ticket';
+
+        // Check if the entity uses the SpriSupplier trait
+        if (Module::collections()->has('SpriSupplierApi') && method_exists($this, 'noSpri')) {
+            $ret[$tabName]['Ticket']['relation'] = $this->noSpri()->get();
+        } else {
+            $ret[$tabName]['Ticket']['relation'] = $this->tickets;
         }
     }
 
     /**
-     * Add nested Ticket relation with comments to an edit view. This method should 
+     * Add nested Ticket relation with comments to an edit view. This method should
      * be called inside the view_has_many() method and adds a custom nested view
      * that shows tickets with their comments expanded by default.
      *
@@ -43,22 +45,24 @@ trait HasTickets
      */
     public function addViewHasManyTicketsWithComments(&$ret, $tabName = 'Edit')
     {
-        if (Module::collections()->has('Ticketsystem')) {
-            $tickets = null;
-
-            // Check if the entity uses the SpriSupplier trait
-            if (Module::collections()->has('SpriSupplierApi') && method_exists($this, 'noSpri')) {
-                $tickets = $this->noSpri()->with('comments.user')->get();
-            } else {
-                $tickets = $this->tickets()->with('comments.user')->get();
-            }
-
-            $ret[$tabName]['Ticket']['view']['view'] = 'ticketsystem::Ticket.nested_tickets_with_comments';
-            $ret[$tabName]['Ticket']['view']['vars'] = [
-                'tickets' => $tickets,
-                'entity' => $this,
-            ];
+        if (! Module::collections()->has('Ticketsystem')) {
+            return;
         }
+
+        $tickets = null;
+
+        // Check if the entity uses the SpriSupplier trait
+        if (Module::collections()->has('SpriSupplierApi') && method_exists($this, 'noSpri')) {
+            $tickets = $this->noSpri()->with('comments.user')->get();
+        } else {
+            $tickets = $this->tickets()->with('comments.user')->get();
+        }
+
+        $ret[$tabName]['Ticket']['view']['view'] = 'ticketsystem::Ticket.nested_tickets_with_comments';
+        $ret[$tabName]['Ticket']['view']['vars'] = [
+            'tickets' => $tickets,
+            'entity' => $this,
+        ];
     }
 
     public function searchTranslation($key, $object)
