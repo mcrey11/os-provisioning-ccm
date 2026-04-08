@@ -3247,8 +3247,8 @@ class Modem extends \BaseModel
         }
 
         if ($this->hasChildren()) {
-            $this->addAboveMessage(trans('provbase::messages.modemCannotBeDeletedBecauseItIsParentDevice', ['class' => class_basename(self::class), 'id' => $this->id]), 'error');
-            Log::error(class_basename(self::class).' '.$this->id.' cannot be deleted because it has child modems');
+            $this->addAboveMessage(trans('provbase::messages.modemCannotBeDeletedBecauseItIsParentDevice', ['class' => class_basename(get_class($this)), 'id' => $this->id]), 'error');
+            Log::error(class_basename(get_class($this)).' '.$this->id.' cannot be deleted because it has child modems');
 
             return false;
         }
