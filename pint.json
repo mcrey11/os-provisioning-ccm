@@ -1,0 +1,16 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "operator_linebreak": {
+            "only_booleans": true,
+            "position": "end"
+        },
+        "phpdoc_summary": false
+    },
+    "exclude": [
+        "storage",
+        "vendor"
+  ],
+  "notName": ["*.blade.php"]
+}
+
