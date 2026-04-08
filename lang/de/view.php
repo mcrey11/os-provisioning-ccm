@@ -10,8 +10,7 @@ return [
     'ccc' => [
         'bgImg' => 'Hintergrundbild der Loginseite',
     ],
-    'disabled' => 'deaktiviert',
-    'enabled' => 'aktiviert',
+    'confirmation' => 'Bestätigung',
     //SEARCH
     'Search_EnterKeyword'       => 'Suchbegriff eingeben',
     'Search_MatchesFor'         => 'Ergebnis für|Ergebnisse für',
@@ -1306,7 +1305,6 @@ return [
             'convert_to_opportunity' => 'Zu Chance konvertieren',
             'convert_to_opportunity_description' => 'Konvertieren Sie diesen Lead zu einer Chance, um den Verkaufsprozess fortzusetzen. Alle Kontaktinformationen und relevanten Felder werden in die neue Chance kopiert.',
             'lead_info' => 'Lead-Informationen',
-            'convert_confirm' => 'Bestätigung',
             'convert_confirm_text' => 'Ich bestätige, dass ich diesen Lead zu einer Chance konvertieren möchte',
             'convert_confirmation_dialog' => 'Sind Sie sicher, dass Sie diesen Lead zu einer Chance konvertieren möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
             'convert_success' => 'Lead erfolgreich zu Chance #:opportunity_id konvertiert',
@@ -1429,7 +1427,6 @@ return [
             'convert_to_contract_description' => 'Konvertieren Sie diese Chance zu einem aktiven Vertrag. Alle Kontaktinformationen und Angebotsposten werden in den neuen Vertrag kopiert.',
             'import_ticket_title' => 'CRM Excel Import Ticket',
             'opportunity_info' => 'Chance-Informationen',
-            'convert_confirm' => 'Bestätigung',
             'convert_confirm_text' => 'Ich bestätige, dass ich diese Chance zu einem Vertrag konvertieren möchte',
             'convert_confirmation_dialog' => 'Sind Sie sicher, dass Sie diese Chance zu einem Vertrag konvertieren möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
             'convert_success' => 'Chance erfolgreich zu Vertrag #:contract_id konvertiert',

@@ -10,8 +10,7 @@ return [
     'ccc' => [
         'bgImg' => 'Login page background image',
     ],
-    'disabled' => 'disabled',
-    'enabled' => 'enabled',
+    'confirmation' => 'Confirmation',
     //SEARCH
     'Search_EnterKeyword'       => 'Enter Keyword',
     'Search_MatchesFor'         => 'Match for|Matches for',
@@ -1305,7 +1304,6 @@ return [
             'convert_to_opportunity' => 'Convert to Opportunity',
             'convert_to_opportunity_description' => 'Convert this lead to an opportunity to continue the sales process. All contact information and relevant fields will be copied to the new opportunity.',
             'lead_info' => 'Lead Information',
-            'convert_confirm' => 'Confirmation',
             'convert_confirm_text' => 'I confirm that I want to convert this lead to an opportunity',
             'convert_confirmation_dialog' => 'Are you sure you want to convert this lead to an opportunity? This action cannot be undone.',
             'convert_success' => 'Lead successfully converted to opportunity #:opportunity_id',
@@ -1428,7 +1426,6 @@ return [
             'convert_to_contract_description' => 'Convert this opportunity to an active contract. All contact information and opportunity items will be copied to the new contract.',
             'import_ticket_title' => 'CRM Excel Import Ticket',
             'opportunity_info' => 'Opportunity Information',
-            'convert_confirm' => 'Confirmation',
             'convert_confirm_text' => 'I confirm that I want to convert this opportunity to a contract',
             'convert_confirmation_dialog' => 'Are you sure you want to convert this opportunity to a contract? This action cannot be undone.',
             'convert_success' => 'Opportunity successfully converted to contract #:contract_id',
