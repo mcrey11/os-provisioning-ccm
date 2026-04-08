@@ -302,7 +302,7 @@ return [
     'Header_ProvVoipEnvia'      => 'envia-TEL Vertragsmanagement|envia-TEL Vertragsmanagement',
 
     'Header_Contact'            => 'Ansprechpartner / Hausverwaltungen',
-            'Header_CrmContact'         => 'CRM-Kontakt|CRM-Kontakte',
+        'Header_CrmContact'         => 'CRM-Kontakt|CRM-Kontakte',
         'Header_CrmLead'            => 'CRM-Lead|CRM-Leads',
         'Header_CrmOpportunity'     => 'CRM-Chance|CRM-Chancen',
         'Header_CrmSalesFunnel'     => 'Vertriebspipeline',
