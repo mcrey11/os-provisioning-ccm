@@ -10,16 +10,19 @@
         "production": "./scripts/cleanup-js.sh && ENV_FILE=/etc/nmsprime/env/global.env mix --production && test -d modules/DocumentManagement && npm run prod:pdf",
         "prod:pdf": "mix --production --mix-config=modules/DocumentManagement/webpack.mix.js",
         "watch:pdf": "mix watch --mix-config=modules/DocumentManagement/webpack.mix.js",
-        "dev:pdf": "mix --mix-config=modules/DocumentManagement/webpack.mix.js"
+        "dev:pdf": "mix --mix-config=modules/DocumentManagement/webpack.mix.js",
+        "prepare": "husky"
     },
     "devDependencies": {
         "@alpinejs/sort": "^3.14.9",
         "alpinejs": "^3.12.1",
         "autoprefixer": "^10.4.7",
         "dayjs": "^1.11.7",
+        "husky": "^9.1.7",
         "laravel-mix": "^6.0.49",
         "laravel-mix-compress": "^3.0.0",
         "laravel-mix-merge-manifest": "^2.0.0",
+        "lint-staged": "^16.2.7",
         "lodash": "^4.17.19",
         "mix-env-file": "^0.1.1",
         "pagedjs": "^0.4.1",
@@ -75,5 +78,10 @@
         "vue3-snotify": "0.0.6",
         "vue3-touch-events": "^4.1.0",
         "vuedraggable": "^4.1.0"
+    },
+        "lint-staged": {
+        "**/*.php": [
+            "vendor/bin/pint"
+        ]
     }
 }
