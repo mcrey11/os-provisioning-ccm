@@ -2409,20 +2409,15 @@ class Contract extends \BaseModel
     /**
      * Add MFR Service Request panel to an edit view
      */
-    public function addMfrServiceRequestPanel(&$ret, $tabName = 'Contract')
+    public function addMfrServiceRequestPanel(&$ret, $tabName = 'Tickets')
     {
         if (! Module::collections()->has('Mfr')) {
             return;
         }
 
-        $url = route('mfr.contract.serviceRequest', $this->id);
-        $buttonText = trans('mfr::view.createServiceRequest');
-
-        $ret[$tabName]['MFR']['html'] = '<div class="card card-body">
-            <form method="POST" action="'.e($url).'">
-                '.csrf_field().'
-                <button type="submit" class="btn btn-primary">'.$buttonText.'</button>
-            </form>
-        </div>';
+        $ret[$tabName]['MFR']['html'] = \Livewire\Livewire::mount(
+            'mfr::create-service-request',
+            ['contract' => $this->withoutRelations()]
+        );
     }
 }
