@@ -65,7 +65,7 @@ class Contract extends \BaseModel
         $rules = [
             'number' => 'string|iunique:contract,number,'.$id.',id,deleted_at,NULL|max:32',
             'number2' => 'nullable|string|unique:contract,number2,'.$id.',id,deleted_at,NULL',
-            'number3' => 'nullable|string|unique:contract,number3,'.$id.',id,deleted_at,NULL',
+            // 'number3' => 'nullable|string',
             // 'number4' => 'string|unique:contract,number4,'.$id.',id,deleted_at,NULL', 	// old customer number must not be unique!
             'house_number' => 'nullable|string|max:20',
             'salutation' => 'required',
