@@ -58,11 +58,11 @@ return new class extends BaseMigration
         ];
 
         foreach ($typeToLayerMapping as $baseType => $layerId) {
-            DB::table($this->tableName)->
-                whereNotNull('base_type')->
-                where('base_type', $baseType)->
-                whereNull('deleted_at')->
-                update([
+            DB::table($this->tableName)
+                ->whereNotNull('base_type')
+                ->where('base_type', $baseType)
+                ->whereNull('deleted_at')
+                ->update([
                     'product_layer_id' => $layerId,
                     'base_type' => null,
                 ]);
@@ -70,10 +70,10 @@ return new class extends BaseMigration
 
         // Remove any remaining base_type entries that couldn't be mapped
         // You might want to keep these as base_product_id only or handle them differently
-        DB::table($this->tableName)->
-            whereNotNull('base_type')->
-            whereNull('deleted_at')->
-            update(['base_type' => null]);
+        DB::table($this->tableName)
+            ->whereNotNull('base_type')
+            ->whereNull('deleted_at')
+            ->update(['base_type' => null]);
     }
 
     /**

@@ -59,7 +59,6 @@ class NetElementTypeObserver
      *
      * @note: base device means: parent_id = 0, 2 (cluster)
      *
-     * @param  int  $netElementTypeId
      * @return int id of base device netelementtype
      */
     public function getBaseTypeId(int $netElementTypeId): int

@@ -58,31 +58,51 @@ class ImportTvCustomersCommand extends Command
      * Column Number and Description for easy Adaption
      */
     protected const C_NR = 0;
+
     protected const C_NAME = 1;
+
     protected const C_STRASSE = 2;
+
     protected const C_ZIP = 3;
+
     protected const C_CITY = 4;
+
     protected const C_TEL = 5;
+
     protected const C_FAX = 6;
+
     protected const C_MAIL = 7;
+
     protected const C_SALUT = 13;   // Anrede (Bemerkung)
+
     protected const C_DESC2 = 14;   // Zusatz
+
     protected const C_DESC1 = 15;   // Watt
+
     protected const C_DESC3 = 16;   // Sonstiges
+
     protected const C_START = 20;   // Eintritt
+
     protected const C_END = 21;     // Austritt
 
     // Sepa Data
     protected const S_REF = 0;
+
     protected const S_HOLDER = 8;
+
     protected const S_INST = 9;
+
     protected const S_BIC = 10;
+
     protected const S_IBAN = 11;
+
     protected const S_VALID = 12;   // Zahlungsziel (invalid when = "14 Tage")
+
     protected const S_SIGNATURE = 24;
 
     // Item Data
     protected const TARIFF = 17;    // Umlage
+
     protected const CREDIT = 19;    // Verstärkergeld
 
     /*
@@ -105,10 +125,13 @@ class ImportTvCustomersCommand extends Command
 
     // helper variables
     protected static $newCustomer = false;
+
     protected static $contract = null;
+
     protected static $line = [];
 
     protected static $option = [];
+
     protected static $argument = [];
 
     /**
@@ -262,7 +285,7 @@ class ImportTvCustomersCommand extends Command
             'zip' => str_pad(self::$line[self::C_ZIP], 5, '0', STR_PAD_LEFT),
             'city' => $city,
             'district' => $district,
-            //'academic_degree' => self::map_academic_degree(self::$line[self::C_ACAD_DGR]),
+            // 'academic_degree' => self::map_academic_degree(self::$line[self::C_ACAD_DGR]),
             'salutation' => self::map_salutation(self::$line[self::C_SALUT]),
             'phone' => str_replace(['/', '-', ' '], '', self::$line[self::C_TEL]),
             'description' => self::$line[self::C_DESC1]."\n".self::$line[self::C_DESC2]."\n".self::$line[self::C_DESC3],

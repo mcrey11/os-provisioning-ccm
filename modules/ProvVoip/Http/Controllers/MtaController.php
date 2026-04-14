@@ -28,6 +28,7 @@ use View;
 class MtaController extends \BaseController
 {
     protected $index_create_allowed = false;
+
     protected $save_button_name = 'Save / Restart';
 
     /**
@@ -46,10 +47,10 @@ class MtaController extends \BaseController
                 $modem = Modem::find($modem_id);
                 if ($modem) {
                     $mac = $modem->mac;
-//                    Uncomment this block if you want to suggest mac address of next mta (if modem has already a mta)
-//                    if($last_mta = $modem->mtas()->orderBy('updated_at', 'desc')->first()){
-//                        $mac = $last_mta->mac;
-//                    }
+                    //                    Uncomment this block if you want to suggest mac address of next mta (if modem has already a mta)
+                    //                    if($last_mta = $modem->mtas()->orderBy('updated_at', 'desc')->first()){
+                    //                        $mac = $last_mta->mac;
+                    //                    }
                     if ($mac) {
                         $dec_mac = hexdec(preg_replace('/[^[:xdigit:]]/', '', $mac));
                         $dec_mac++;
@@ -127,7 +128,7 @@ class MtaController extends \BaseController
         if ($modem->configfile->device == 'cm') {
             $id = $data['id'] ?? 0;
             $rules['mac'][] = 'required';
-            $rules['mac'][] = 'unique:mta,mac,'.$id.',id,deleted_at,NULL'; //|unique:mta,mac',
+            $rules['mac'][] = 'unique:mta,mac,'.$id.',id,deleted_at,NULL'; // |unique:mta,mac',
         }
 
         return parent::prepare_rules($rules, $data);

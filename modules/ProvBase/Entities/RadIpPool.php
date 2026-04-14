@@ -25,15 +25,15 @@ class RadIpPool extends \BaseModel
 {
     // The associated SQL table for this Model
     public $table = 'radippool';
+
     protected $connection = 'pgsql-radius';
 
     public $timestamps = false;
+
     protected $forceDeleting = true;
 
     // freeradius-postgresql does not use softdeletes
-    public static function bootSoftDeletes()
-    {
-    }
+    public static function bootSoftDeletes() {}
 
     /**
      * Truncate radippool table and refresh all entries - corresponds to IpPool
@@ -66,7 +66,7 @@ class RadIpPool extends \BaseModel
             $job = new RadIpPoolJob($pool, [], [], true);
             $job->handle();
 
-            echo($i++).'/'.$count."\r";
+            echo ($i++).'/'.$count."\r";
         }
 
         foreach ($allocatedIps as $radip) {

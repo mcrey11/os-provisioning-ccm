@@ -50,9 +50,13 @@ class GeocodeCommand extends Command
 
     // helpers filled from CLI args/opts
     protected $modemCount = 0;
+
     protected $contractCount = 0;
+
     protected $chunkSize = 100;
+
     protected bool $rebuild = false;
+
     protected $logs = [
         'error' => [],
         'info' => [],

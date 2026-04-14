@@ -99,17 +99,17 @@ class ContractCommand extends Command
                     */
                     $contractsQuery = Contract::where(function ($query) use ($min_date) {
                         $query
-                        ->where('internet_access', 0)
-                        ->where('contract_start', '<=', date('Y-m-d'))
-                        ->where('contract_start', '>', $min_date);
+                            ->where('internet_access', 0)
+                            ->where('contract_start', '<=', date('Y-m-d'))
+                            ->where('contract_start', '>', $min_date);
                     })
-                    ->orWhere(function ($query) use ($min_date) {
-                        $query
-                        ->where('internet_access', 1)
-                        ->whereNotNull('contract_end')
-                        ->where('contract_end', '<', date('Y-m-d'))
-                        ->where('contract_end', '>=', $min_date);
-                    });
+                        ->orWhere(function ($query) use ($min_date) {
+                            $query
+                                ->where('internet_access', 1)
+                                ->whereNotNull('contract_end')
+                                ->where('contract_end', '<', date('Y-m-d'))
+                                ->where('contract_end', '>=', $min_date);
+                        });
                 } else {
                     /* Contract must be valid and
                         (3) Qos-id needs to be changed
@@ -119,13 +119,13 @@ class ContractCommand extends Command
                         ->where(whereLaterOrEqual('contract_end', date('Y-m-d', strtotime('+1 day'))))
                         ->where(function ($query) {
                             $query
-                            ->whereNotNull('next_qos_id')
-                            ->orWhereNotNull('next_voip_id');
+                                ->whereNotNull('next_qos_id')
+                                ->orWhereNotNull('next_voip_id');
                         })
                         ->where(function ($query) {
                             $query
-                            ->whereColumn('qos_id', '!=', 'next_qos_id')
-                            ->orWhereColumn('voip_id', '!=', 'next_voip_id');
+                                ->whereColumn('qos_id', '!=', 'next_qos_id')
+                                ->orWhereColumn('voip_id', '!=', 'next_voip_id');
                         });
                 }
             }

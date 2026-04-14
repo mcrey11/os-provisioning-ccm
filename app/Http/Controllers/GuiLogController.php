@@ -27,7 +27,9 @@ use Yajra\DataTables\DataTables;
 class GuiLogController extends BaseController
 {
     protected $index_create_allowed = false;
+
     protected $index_delete_allowed = false;
+
     protected $edit_view_save_button = false;
 
     /**
@@ -59,9 +61,9 @@ class GuiLogController extends BaseController
     {
         $models = BaseModel::get_models();
         $isForceDeleteDisabled = ! $model->getDefaultProperty($models[$model->model], 'forceDeleting');
-        $isModelTrashed = $isForceDeleteDisabled ?
-            $models[$model->model]::withTrashed()->find($model->model_id)->trashed() :
-            false;
+        $isModelTrashed = $isForceDeleteDisabled
+            ? $models[$model->model]::withTrashed()->find($model->model_id)->trashed()
+            : false;
 
         $unRestoreables = ['Invoice', 'SettlementRun'];
         $isRestorable = ! in_array($model->model, $unRestoreables);
@@ -147,9 +149,9 @@ class GuiLogController extends BaseController
                 return $lookup[$guilog->method] ?? 'info';
             })
             ->editColumn('created_at', function ($guilog) use ($routeName) {
-                return '<a href="'.route($routeName.'.edit', $guilog->id).
-                        '" title="'.str_replace(', ', '&#013;', str_replace('"', '\'', $guilog->text)).'"><strong>'.
-                        $guilog->view_icon().$guilog->created_at.'</strong></a>';
+                return '<a href="'.route($routeName.'.edit', $guilog->id)
+                        .'" title="'.str_replace(', ', '&#013;', str_replace('"', '\'', $guilog->text)).'"><strong>'
+                        .$guilog->view_icon().$guilog->created_at.'</strong></a>';
             })
             ->rawColumns(['created_at'])
             ->make();

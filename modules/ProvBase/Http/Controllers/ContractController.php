@@ -702,10 +702,10 @@ class ContractController extends \BaseController
         $contract = Contract::findOrFail($id);
 
         // Get all confirmed web order items for this contract
-        $webOrderItems = \Modules\OrderPortal\Entities\WebOrderItem::where('contract_id', $contract->id)->
-            where('confirmed', true)->
-            with('product')->
-            get();
+        $webOrderItems = \Modules\OrderPortal\Entities\WebOrderItem::where('contract_id', $contract->id)
+            ->where('confirmed', true)
+            ->with('product')
+            ->get();
 
         if ($webOrderItems->isEmpty()) {
             $contract->addAboveMessage(trans('messages.no_weborder_items_to_convert'), 'error', 'form');

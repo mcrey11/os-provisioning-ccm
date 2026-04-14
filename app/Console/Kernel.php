@@ -41,7 +41,6 @@ class Kernel extends ConsoleKernel
      * and should never be required. But if a task hangs up, this will
      * avoid starting many parallel tasks. (Torsten Schmidt)
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -54,7 +53,7 @@ class Kernel extends ConsoleKernel
         }
 
         // if master: run main and additional master commands
-        if ('master' == config('provha.hostinfo.ownState')) {
+        if (config('provha.hostinfo.ownState') == 'master') {
             $this->scheduleMain($schedule);
             $this->scheduleMaster($schedule);
 
@@ -62,7 +61,7 @@ class Kernel extends ConsoleKernel
         }
 
         // if slave: run slave commands only
-        if ('slave' == config('provha.hostinfo.ownState')) {
+        if (config('provha.hostinfo.ownState') == 'slave') {
             $this->scheduleSlave($schedule);
 
             return;
@@ -74,7 +73,6 @@ class Kernel extends ConsoleKernel
     /**
      * Run scheduled commands for single and master instances.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function scheduleMain(Schedule $schedule)
@@ -105,7 +103,7 @@ class Kernel extends ConsoleKernel
             $schedule->call('\Modules\CoreMon\Entities\Alarm@cleanup')->weekly();
 
             $schedule->call(function () {
-                Queue::pushOn('medium', new \Modules\CoreMon\Jobs\ImportRpdsJob());
+                Queue::pushOn('medium', new \Modules\CoreMon\Jobs\ImportRpdsJob);
             })->cron('57 1-23/2 * * *');
 
             $schedule->call(function () {
@@ -209,7 +207,7 @@ class Kernel extends ConsoleKernel
 
             // rebuild DHPC config daily (patching is not completely reliable)
             $schedule->call(function () {
-                Queue::pushOn('high', new \Modules\ProvBase\Jobs\DhcpJob());
+                Queue::pushOn('high', new \Modules\ProvBase\Jobs\DhcpJob);
             })->dailyAt('03:07');
 
             // Contract - network access, item dates, internet (qos) & voip tariff changes
@@ -223,7 +221,7 @@ class Kernel extends ConsoleKernel
             })->monthly()->at('00:33');
 
             $schedule->call(function () {
-                Queue::pushOn('low', new \Modules\ProvBase\Jobs\DeleteStaleGenieAcsTasksJob());
+                Queue::pushOn('low', new \Modules\ProvBase\Jobs\DeleteStaleGenieAcsTasksJob);
             })->daily()->at('01:03');
 
             $schedule->call(function () {
@@ -264,7 +262,7 @@ class Kernel extends ConsoleKernel
             $schedule->command('nms:cacti')->daily();
         } else {
             $schedule->call(function () {
-                Queue::pushOn('medium', new \Modules\ProvBase\Jobs\SetCableModemsOnlineStatusJob());
+                Queue::pushOn('medium', new \Modules\ProvBase\Jobs\SetCableModemsOnlineStatusJob);
             })->everyFiveMinutes();
         }
 
@@ -316,7 +314,7 @@ class Kernel extends ConsoleKernel
 
         if ($modules->has('VoipMon')) {
             $schedule->call(function () {
-                Queue::pushOn('low', new \Modules\VoipMon\Jobs\MatchRecordsJob());
+                Queue::pushOn('low', new \Modules\VoipMon\Jobs\MatchRecordsJob);
             })->everyFiveMinutes();
             $schedule->command('voipmon:delete_old_records')->daily();
         }
@@ -335,29 +333,29 @@ class Kernel extends ConsoleKernel
 
                 // get updates for OTO from CSV file
                 $schedule->call(function () {
-                    Queue::pushOn('low', new \Modules\SmartOnt\Jobs\OtoFromCsvUpdaterJob());
+                    Queue::pushOn('low', new \Modules\SmartOnt\Jobs\OtoFromCsvUpdaterJob);
                 })->dailyAt('06:43');
             }
 
-            if ('LFO' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'LFO') {
                 // get updates for OTO from CSV file
                 $schedule->call(function () {
-                    Queue::pushOn('low', new \Modules\SmartOnt\Jobs\OntFromCsvUpdaterJob());
+                    Queue::pushOn('low', new \Modules\SmartOnt\Jobs\OntFromCsvUpdaterJob);
                 })->everyFiveMinutes();
 
                 $schedule->call(function () {
-                    Queue::pushOn('serial', new \Modules\SmartOnt\Jobs\OntStateChangerJob());
+                    Queue::pushOn('serial', new \Modules\SmartOnt\Jobs\OntStateChangerJob);
                 })->everyMinute();
             }
 
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 $schedule->call(function () {
-                    Queue::pushOn('serial', new \Modules\SmartOnt\Jobs\RestartAutofindOntJob());
+                    Queue::pushOn('serial', new \Modules\SmartOnt\Jobs\RestartAutofindOntJob);
                 })->cron('7 */2 * * *');
             }
 
             $schedule->call(function () {
-                Queue::pushOn('low', new \Modules\SmartOnt\Jobs\OntGetOnlineOfflineJob());
+                Queue::pushOn('low', new \Modules\SmartOnt\Jobs\OntGetOnlineOfflineJob);
             })->everyTenMinutes();
         }
 
@@ -373,7 +371,6 @@ class Kernel extends ConsoleKernel
     /**
      * Run scheduled commands on slave instances.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function scheduleSlave(Schedule $schedule)
@@ -384,7 +381,6 @@ class Kernel extends ConsoleKernel
     /**
      * Run scheduled commands on master instances.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function scheduleMaster(Schedule $schedule)

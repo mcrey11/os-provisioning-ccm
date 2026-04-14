@@ -38,7 +38,6 @@ class ModemObserver
      *   - On existing modems the qualified model class must not be changed.
      *   - On new modems the qualified model class must be the same as the configfile induced qualified model class.
      *
-     * @param  Modem  $modem
      * @param  array  $changed  The changed fields of the modem (leave empty on creating())
      * @return void
      */
@@ -173,7 +172,7 @@ class ModemObserver
                         'serial_num',
                     ];
                     $modem->restoreUnchangeableFields($unchangables, trans('messages.ontIsActive'));
-                } elseif ('smartont' == $modem->qos->type) {
+                } elseif ($modem->qos->type == 'smartont') {
                     if ($modem->service_port_id) {
                         $unchangables = [
                             'configfile_id',
@@ -185,7 +184,7 @@ class ModemObserver
                     }
                 }
             }
-            if ($modem->configfile->is_multiservice_ont || ('smartont' == $modem->qos->type)) {
+            if ($modem->configfile->is_multiservice_ont || ($modem->qos->type == 'smartont')) {
                 if (array_key_exists('contract_id', $diff)) {
                     $modem->salutation = $modem->contract->salutation;
                     $modem->company = $modem->contract->company;
@@ -311,7 +310,7 @@ class ModemObserver
 
         // special handling for SmartONT devices
         if (\Module::collections()->has('SmartOnt')) {
-            if ($modem->configfile->is_multiservice_ont || ('smartont' == $modem->qos->type)) {
+            if ($modem->configfile->is_multiservice_ont || ($modem->qos->type == 'smartont')) {
                 if (array_key_exists('contract_id', $diff) && (! is_null($modem->netgw_id))) {
                     Log::debug(__METHOD__.' pushing \Modules\SmartOnt\Jobs\RemoveOntFromOltJob('.$modem->id.') to queue');
                     \Queue::pushOn('serial', new \Modules\SmartOnt\Jobs\RemoveOntFromOltJob($modem->id));
@@ -335,7 +334,7 @@ class ModemObserver
 
         // special handling for SmartONT devices
         if (\Module::collections()->has('SmartOnt')) {
-            if ($modem->configfile->is_multiservice_ont || ('smartont' == $modem->qos->type)) {
+            if ($modem->configfile->is_multiservice_ont || ($modem->qos->type == 'smartont')) {
                 if (! is_null($modem->netgw_id)) {
                     Log::debug(__METHOD__.' pushing \Modules\SmartOnt\Jobs\RemoveOntFromOltJob('.$modem->id.') to queue');
                     \Queue::pushOn('serial', new \Modules\SmartOnt\Jobs\RemoveOntFromOltJob($modem->id));

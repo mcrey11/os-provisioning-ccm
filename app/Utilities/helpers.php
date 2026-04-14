@@ -361,9 +361,9 @@ if (! function_exists('checkLocale')) {
      */
     function checkLocale($locale = null): string
     {
-        return in_array($locale, config('app.supported_locales')) ?
-                $locale :
-                config('app.locale', config('app.fallback_locale', 'en'));
+        return in_array($locale, config('app.supported_locales'))
+                ? $locale
+                : config('app.locale', config('app.fallback_locale', 'en'));
     }
 }
 
@@ -518,7 +518,7 @@ if (! function_exists('distanceLatLong')) {
     function distanceLatLong($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo)
     {
         $rad = M_PI / 180;
-        //Calculate distance from latitude and longitude
+        // Calculate distance from latitude and longitude
         $theta = $longitudeFrom - $longitudeTo;
         $dist = sin($latitudeFrom * $rad)
             * sin($latitudeTo * $rad) + cos($latitudeFrom * $rad)
@@ -650,8 +650,8 @@ if (! function_exists('valueInThresholdString')) {
         $thresholds = explode(';', $thresholds);
         foreach ($thresholds as $threshold) {
             $minmax = explode('..', trim($threshold));
-            $min = ('' == trim($minmax[0])) ? -PHP_FLOAT_MAX : floatval(trim($minmax[0])); // attention: PHP_FLOAT_MIN is greater than zero!
-            $max = ('' == trim($minmax[1])) ? PHP_FLOAT_MAX : floatval(trim($minmax[1]));
+            $min = (trim($minmax[0]) == '') ? -PHP_FLOAT_MAX : floatval(trim($minmax[0])); // attention: PHP_FLOAT_MIN is greater than zero!
+            $max = (trim($minmax[1]) == '') ? PHP_FLOAT_MAX : floatval(trim($minmax[1]));
             if (($value >= $min) && ($value <= $max)) {
                 return true;
             }
@@ -679,8 +679,8 @@ if (! function_exists('valuesFromThresholdString')) {
         $thresholds = explode(';', $thresholds);
         foreach ($thresholds as $threshold) {
             $minmax = explode('..', trim($threshold));
-            $min = ('' == trim($minmax[0])) ? -PHP_FLOAT_MAX : floatval(trim($minmax[0]));
-            $max = ('' == trim($minmax[1])) ? PHP_FLOAT_MAX : floatval(trim($minmax[1]));
+            $min = (trim($minmax[0]) == '') ? -PHP_FLOAT_MAX : floatval(trim($minmax[0]));
+            $max = (trim($minmax[1]) == '') ? PHP_FLOAT_MAX : floatval(trim($minmax[1]));
             $ret[] = [$min, $max];
         }
 

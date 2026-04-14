@@ -92,7 +92,7 @@ class AddModemsToPassiveElementCommand extends Command
     protected function parseUrl()
     {
         $coords = explode('/', $this->argument('url'));
-        $modems = collect((new CustomerTopoController())->show_poly(array_pop($coords), true));
+        $modems = collect((new CustomerTopoController)->show_poly(array_pop($coords), true));
 
         $this->updateModems($modems);
     }

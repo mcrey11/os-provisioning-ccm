@@ -71,7 +71,7 @@ return new class extends BaseMigration
         DB::table('ticket_type_transition')
             ->where(function ($q) use ($pausedStateID) {
                 $q->where('from_state_id', $pausedStateID)
-                  ->orWhere('to_state_id', $pausedStateID);
+                    ->orWhere('to_state_id', $pausedStateID);
             })
             ->update(['deleted_at' => $now]);
     }
@@ -109,7 +109,7 @@ return new class extends BaseMigration
         DB::table('ticket_type_transition')
             ->where(function ($q) use ($pausedStateID) {
                 $q->where('from_state_id', $pausedStateID)
-                  ->orWhere('to_state_id', $pausedStateID);
+                    ->orWhere('to_state_id', $pausedStateID);
             })
             ->update(['deleted_at' => null]);
 

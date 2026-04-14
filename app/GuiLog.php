@@ -133,25 +133,19 @@ class GuiLogWriter
      * Constructor.
      * Declared private to disable creation of GuiLogWriter objects using the “new” keyword
      */
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Private clone method to prevent cloning of the instance of the
      * *Singleton* instance.
      */
-    private function __clone()
-    {
-    }
+    private function __clone() {}
 
     /**
      * Public unserialize method to prevent unserializing of the *Singleton*
      * instance.
      */
-    public function __wakeup()
-    {
-    }
+    public function __wakeup() {}
 
     /**
      * Getter for the GuiLogWriter “object“
@@ -159,7 +153,7 @@ class GuiLogWriter
     public static function getInstance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new static;
         }
 
         return static::$instance;

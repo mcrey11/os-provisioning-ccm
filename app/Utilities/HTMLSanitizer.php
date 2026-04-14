@@ -12,9 +12,7 @@ use Stringable;
  */
 class HTMLSanitizer implements Stringable
 {
-    public function __construct(private string $content, private array $tags, private array $attributes)
-    {
-    }
+    public function __construct(private string $content, private array $tags, private array $attributes) {}
 
     public function tags(...$tags): self
     {
@@ -32,7 +30,7 @@ class HTMLSanitizer implements Stringable
 
     protected function cleanup(): self
     {
-        //Takes care of nested tags as well
+        // Takes care of nested tags as well
         $tagWithContentPattern = function (string $tag) {
             $tag = preg_quote($tag);
 
@@ -43,7 +41,7 @@ class HTMLSanitizer implements Stringable
             $this->content = preg_replace($tagWithContentPattern($tag), '', $this->content);
         }
 
-        //Takes care of double(\x22) and single(\x27) quotes
+        // Takes care of double(\x22) and single(\x27) quotes
         $attributeWithContentPattern = fn (string $attribute) => '/'.preg_quote($attribute).'\s*=\s*([\x22\x27])([\s\S]*?)\1/i';
         foreach ($this->attributes as $attribute) {
             $this->content = preg_replace($attributeWithContentPattern($attribute), '', $this->content);

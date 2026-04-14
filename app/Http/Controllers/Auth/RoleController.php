@@ -27,7 +27,9 @@ use Bouncer;
 class RoleController extends BaseController
 {
     protected $edit_left_md_size = 4;
+
     protected $edit_right_md_size = 8;
+
     protected $many_to_many = [
         [
             'field' => 'users_ids',

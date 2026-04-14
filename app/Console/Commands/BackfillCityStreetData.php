@@ -56,13 +56,13 @@ class BackfillCityStreetData extends Command
         $this->info('Starting city/street data backfill...');
 
         // Get all realties that have city/street text but no city_id/street_id
-        $realties = Realty::whereNotNull('city')->
-            whereNotNull('street')->
-            where(function ($query) {
-                $query->whereNull('city_id')->
-                    orWhereNull('street_id');
-            })->
-            get();
+        $realties = Realty::whereNotNull('city')
+            ->whereNotNull('street')
+            ->where(function ($query) {
+                $query->whereNull('city_id')
+                    ->orWhereNull('street_id');
+            })
+            ->get();
 
         $this->info("Found {$realties->count()} realties to process");
 

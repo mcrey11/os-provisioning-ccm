@@ -27,7 +27,7 @@ use Illuminate\Queue\SerializesModels;
 
 class CacheIndexTableCountJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, SerializesModels, Queueable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Modelnames that dont have index tables

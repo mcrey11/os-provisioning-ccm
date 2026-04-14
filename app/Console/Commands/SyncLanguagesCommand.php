@@ -57,10 +57,10 @@ class SyncLanguagesCommand extends Command
     {
         $dir = base_path('resources/lang/de');
         $languagefiles = collect(glob($dir.'/*.php'))
-                    ->map(function ($path) {
-                        return collect(explode('/', $path))->last();
-                    })
-                    ->reject('validation.php');
+            ->map(function ($path) {
+                return collect(explode('/', $path))->last();
+            })
+            ->reject('validation.php');
 
         foreach ($languagefiles as $languagefile) {
             $originalPath = base_path('resources/lang/en/').$languagefile;

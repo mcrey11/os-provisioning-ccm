@@ -35,7 +35,6 @@ class AuthenticateNmsPrimeApi
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
      */
     public function __construct(Auth $auth)
@@ -48,7 +47,6 @@ class AuthenticateNmsPrimeApi
      * and modified to use basic auth for api v0.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
      * @param  string[]  ...$guards
      * @return mixed
      *

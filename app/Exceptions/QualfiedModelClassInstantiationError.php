@@ -24,6 +24,4 @@ namespace App\Exceptions;
  *
  * @author Patrick Reichel
  */
-class QualfiedModelClassInstantiationError extends \Exception
-{
-}
+class QualfiedModelClassInstantiationError extends \Exception {}

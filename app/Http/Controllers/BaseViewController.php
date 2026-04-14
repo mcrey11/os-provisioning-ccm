@@ -177,9 +177,9 @@ class BaseViewController extends Controller
 
         if (! $user || $user->language == 'browser') {
             // check the Browser for the accepted language
-            return isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?
-                checkLocale(substr(explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE'])[0], 0, 2)) :
-                checkLocale();
+            return isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])
+                ? checkLocale(substr(explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE'])[0], 0, 2))
+                : checkLocale();
         }
 
         Session::put('language', $userLang = checkLocale($user->language));
@@ -505,9 +505,9 @@ class BaseViewController extends Controller
                     $options['onchange'] = "$('#{$field['name']}')[0].defaultValue = event.target.value;$('#{$field['name']}')[0].value = event.target.value;";
                     $options['autocomplete'] = 'off';
 
-                    $field['field_value'] = ! empty($field['field_value']) && strtotime($field['field_value']) ?
-                        date('H:i', strtotime($field['field_value'])) :
-                        null;
+                    $field['field_value'] = ! empty($field['field_value']) && strtotime($field['field_value'])
+                        ? date('H:i', strtotime($field['field_value']))
+                        : null;
 
                     $currentFormfield[] = Form::time($field['name'], $field['field_value'], $options, false);
                     break;

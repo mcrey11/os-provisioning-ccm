@@ -50,7 +50,7 @@ class UserController extends BaseController
 
         $languageDirectories = BaseViewController::getAllLanguages();
         $languages = BaseViewController::generateLanguageArray($languageDirectories)
-                    ->put('browser', 'Browser');
+            ->put('browser', 'Browser');
 
         $view_header_links = BaseViewController::view_main_menus();
         $dashboard_options = [null => null];
@@ -156,9 +156,9 @@ class UserController extends BaseController
         if (\Route::currentRouteName() == 'User.profile') {
             $form_update = 'Profile.update';
             $user = auth()->user();
-            $headline = "<div class='flex items-center'><div class='w-2 h-6 rounded-full bg-".
-                $user->get_bsclass()."'></div><div class='flex px-2.5 text-black dark:text-slate-100'>".
-                $user->view_icon().$user->label().'</div></div>';
+            $headline = "<div class='flex items-center'><div class='w-2 h-6 rounded-full bg-"
+                .$user->get_bsclass()."'></div><div class='flex px-2.5 text-black dark:text-slate-100'>"
+                .$user->view_icon().$user->label().'</div></div>';
 
             return $view->with(compact('form_update', 'headline'));
         }
@@ -197,8 +197,8 @@ class UserController extends BaseController
             'lat' => $request->lat,
         ]);
 
-        \Log::debug("Position of {$user->login_name} (id: {$user->id}) was ".
-            "updated to lng={$request->lng} and lat={$request->lat}",
+        \Log::debug("Position of {$user->login_name} (id: {$user->id}) was "
+            ."updated to lng={$request->lng} and lat={$request->lat}",
             ['success' => $success]);
     }
 }

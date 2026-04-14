@@ -45,16 +45,24 @@ class ImportAvpCustomersCommand extends Command
     protected $description = 'import Customers from CSV and add TV Tarif';
 
     protected $collectionContractId = 1448;
+
     protected $products = [];
 
     // Currently processed objects
     protected $apartment;
+
     protected $city;
+
     protected $contract;
+
     protected $file;
+
     protected $line;
+
     protected $node;
+
     protected $realEstate;
+
     protected $zip;
 
     public function handle()

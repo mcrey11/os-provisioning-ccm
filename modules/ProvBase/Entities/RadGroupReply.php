@@ -25,9 +25,11 @@ class RadGroupReply extends \BaseModel
 {
     // The associated SQL table for this Model
     public $table = 'radgroupreply';
+
     protected $connection = 'pgsql-radius';
 
     public $timestamps = false;
+
     protected $forceDeleting = true;
 
     // this is 0 since nmsprime.qos.id can never be that value
@@ -55,9 +57,7 @@ class RadGroupReply extends \BaseModel
     ];
 
     // freeradius-postgresql does not use softdeletes
-    public static function bootSoftDeletes()
-    {
-    }
+    public static function bootSoftDeletes() {}
 
     /**
      * Truncate radgroupreply table and refresh all entries - corresponds to Qos

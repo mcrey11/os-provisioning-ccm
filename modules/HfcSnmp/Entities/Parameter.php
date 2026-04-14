@@ -24,6 +24,7 @@ class Parameter extends \BaseModel
     public $table = 'parameter';
 
     public $guarded = ['name', 'table'];
+
     protected $with = ['oid'];
 
     public static function boot()
@@ -78,9 +79,9 @@ class Parameter extends \BaseModel
 
     public function label()
     {
-        return ($this->oid ? $this->oid->oid : '').
-            ($this->oid ? ' - '.$this->oid->name : '').
-            ($this->oid && $this->oid->name_gui ? ' - '.$this->oid->name_gui : '');
+        return ($this->oid ? $this->oid->oid : '')
+            .($this->oid ? ' - '.$this->oid->name : '')
+            .($this->oid && $this->oid->name_gui ? ' - '.$this->oid->name_gui : '');
     }
 
     public function view_has_many()

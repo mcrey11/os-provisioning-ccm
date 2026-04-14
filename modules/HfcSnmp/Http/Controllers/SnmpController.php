@@ -33,6 +33,7 @@ use Session;
 class SnmpController extends \BaseController
 {
     private $timeout = 1000000;
+
     private $retry = 1;
 
     /** @var Max data length for broadcasting values */
@@ -43,6 +44,7 @@ class SnmpController extends \BaseController
 
     /** @var object NetElement */
     private $netelement;
+
     private $netelementIp;
 
     /** @var object Used for parent netgw of a cluster */
@@ -53,6 +55,7 @@ class SnmpController extends \BaseController
 
     /** @var int If set we only want to show the 3rd dimension parameters of this parameter and index in the controlling view */
     private $index = 0;
+
     private $paramId = 0;
 
     /** @var string Key to get values from cache - set in init() function */
@@ -221,7 +224,7 @@ class SnmpController extends \BaseController
         $newSnmpValues = new NewSnmpValues([], $netelement, $paramId, $index);
         $channelName = $newSnmpValues->broadcastOn()->name;
 
-        $websocketApi = new \App\extensions\websockets\WebsocketApi();
+        $websocketApi = new \App\extensions\websockets\WebsocketApi;
 
         // Don't run another query loop when someone else already triggered it
         if ($websocketApi->channelHasSubscribers(channel: $channelName, initial: true)) {
@@ -361,6 +364,7 @@ class SnmpController extends \BaseController
 
                 if ($this->netelement->base_type_id == 2 && ! $indices_o) {
                     Log::error('HFC-Cluster is missing table indices for controlling view!', [$this->netelement->id]);
+
                     continue;
                 }
             }
@@ -739,7 +743,7 @@ class SnmpController extends \BaseController
 
         // TODO: get empty collection or already filled with OIDs to increase performance if probable
         // $oids = $this->_get_oid_collection();
-        $oids = new \Illuminate\Database\Eloquent\Collection();
+        $oids = new \Illuminate\Database\Eloquent\Collection;
         $oid_o = null;
 
         // switch device and parent device if type is cluster so that all functions work properly - switch again to store values
@@ -854,7 +858,7 @@ class SnmpController extends \BaseController
         $cnt = $query->where('oid.access', '=', 'read-write')->whereNotIn('oid.unit_divisor', [null, 0])->count();
 
         if ($has_table || $cnt < 10) {
-            return new \Illuminate\Database\Eloquent\Collection();
+            return new \Illuminate\Database\Eloquent\Collection;
         }
 
         $oid_ids = $this->netelement->netelementtype->parameters()->get(['oid_id'])->pluck('oid_id')->all();

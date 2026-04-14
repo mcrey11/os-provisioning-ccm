@@ -31,8 +31,11 @@ class Mta extends \BaseModel
     use HasConfigfile;
 
     public const TYPES = ['mta'];
+
     public const CONFIGFILE_PREFIX = 'mta';
+
     public const CONFIGFILE_DIRECTORY = '/tftpboot/mta/';
+
     public const CONF_FILE_PATH = '/etc/dhcp-nmsprime/mta.conf';
 
     // The associated SQL table for this Model

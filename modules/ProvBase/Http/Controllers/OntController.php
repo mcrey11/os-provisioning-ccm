@@ -7,6 +7,4 @@ namespace Modules\ProvBase\Http\Controllers;
  *
  * Controller for managing ONT resources, extends ModemController.
  */
-class OntController extends ModemController
-{
-}
+class OntController extends ModemController {}

@@ -106,7 +106,6 @@ class LoginController extends Controller
     /**
      * Attempt to log the user into the application.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
     protected function attemptLogin(Request $request)
@@ -135,7 +134,6 @@ class LoginController extends Controller
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  App\User  $user
      * @return mixed
      */
@@ -165,7 +163,7 @@ class LoginController extends Controller
 
         // do not try to update user on ha slave machines
         if (\Module::collections()->has('ProvHA')) {
-            if ('master' != config('provha.hostinfo.ownState')) {
+            if (config('provha.hostinfo.ownState') != 'master') {
                 return;
             }
         }
@@ -253,8 +251,6 @@ class LoginController extends Controller
 
     /**
      * Detect Mobile Device with regular expression from http://detectmobilebrowsers.com/
-     *
-     * @return bool
      */
     protected function isMobileDevice(): bool
     {

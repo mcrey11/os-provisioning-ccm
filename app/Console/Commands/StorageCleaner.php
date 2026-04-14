@@ -193,7 +193,7 @@ class StorageCleaner extends Command
             return;
         }
 
-        $now = new \DateTime();
+        $now = new \DateTime;
         $threshold = $now->sub(new \DateInterval('P'.$data['delete']))->getTimestamp();
 
         $files = File::allFiles($data['path']);
@@ -237,7 +237,7 @@ class StorageCleaner extends Command
 
         // generate the string for compressing (this later on is used by simple < compare)
         if (array_key_exists('compress', $data)) {
-            $now = new \DateTime();
+            $now = new \DateTime;
             $compress = $now->sub(new \DateInterval('P'.$data['compress']))->format('Y-m');
             if ($compress == date('Y-m')) {
                 Log::warning('Compression threshold seems to be set to zero – will not compress');
@@ -250,7 +250,7 @@ class StorageCleaner extends Command
         // generate string for deletion
         // sub works in place so we create a new “now”
         if (array_key_exists('delete', $data)) {
-            $now = new \DateTime();
+            $now = new \DateTime;
             $delete = $now->sub(new \DateInterval('P'.$data['delete']))->format('Y-m');
             if ($delete == date('Y-m')) {
                 Log::warning('Deletion threshold seems to be set to zero – will not delete');

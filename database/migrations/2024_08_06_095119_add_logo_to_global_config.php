@@ -26,6 +26,7 @@ return new class extends BaseMigration
     public $migrationScope = 'database';
 
     protected $admin = 'global_config';
+
     protected $ccc = 'ccc';
 
     /**

@@ -116,7 +116,7 @@ class ConfigfileCommand extends Command
             try {
                 $this->id = intval($this->id);
                 if ($this->id < 1) {
-                    throw new \Exception();
+                    throw new \Exception;
                 }
             } catch (\Throwable $ex) {
                 Log::error(__METHOD__.'(): Parameter $this->id has to be null or a positive integer, '.$this->id.' given');
@@ -138,7 +138,7 @@ class ConfigfileCommand extends Command
             exit(1);
         }
 
-        if ('qos' == $this->filter) {
+        if ($this->filter == 'qos') {
             if (! $this->id) {
                 $msg = 'If “qos” is passed as first argument the optional qos_id needs to be specified, too. Exiting…';
                 Log::error(__METHOD__.'(): '.$msg);
@@ -150,7 +150,7 @@ class ConfigfileCommand extends Command
             return;
         }
 
-        if ('configfile' == $this->filter) {
+        if ($this->filter == 'configfile') {
             if (! $this->id) {
                 $msg = 'If “configfile” is passed as first argument the configfile_id is needed, too. Exiting…';
                 Log::error(__METHOD__.'(): '.$msg);

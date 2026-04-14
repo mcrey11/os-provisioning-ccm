@@ -51,7 +51,7 @@ class Service
         $model = $this->repository->getById($id, $options);
 
         if (is_null($model)) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         return $model;
@@ -60,8 +60,8 @@ class Service
     public function create($data)
     {
         $model = $this->repository->create($data);
-        //TODO: Fire event of the specific event class example: TicketWasCreated on every module modules/Ticketsystem/Events/TicketWasCreated
-//        $dispatcher->dispatch(new ModelWasCreated($model));
+        // TODO: Fire event of the specific event class example: TicketWasCreated on every module modules/Ticketsystem/Events/TicketWasCreated
+        //        $dispatcher->dispatch(new ModelWasCreated($model));
 
         return $model;
     }
@@ -72,8 +72,8 @@ class Service
 
         $this->repository->update($model, $data);
 
-        //TODO: Fire event of the specific event class example: TicketWasDeleted on every module modules/Ticketsystem/Events/TicketWasUpdated
-//        $dispatcher->dispatch(new ModelWasUpdated($model));
+        // TODO: Fire event of the specific event class example: TicketWasDeleted on every module modules/Ticketsystem/Events/TicketWasUpdated
+        //        $dispatcher->dispatch(new ModelWasUpdated($model));
 
         return $model;
     }
@@ -82,7 +82,7 @@ class Service
     {
         $this->repository->delete($id);
 
-        //TODO: Fire event of the specific event class example: TicketWasDeleted on every module modules/Ticketsystem/Events/TicketWasDeleted
-//        $this->dispatcher->dispatch(new ModelWasDeleted($model));
+        // TODO: Fire event of the specific event class example: TicketWasDeleted on every module modules/Ticketsystem/Events/TicketWasDeleted
+        //        $this->dispatcher->dispatch(new ModelWasDeleted($model));
     }
 }

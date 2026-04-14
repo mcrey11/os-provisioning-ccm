@@ -28,16 +28,16 @@ return [
     'ISO_3166_ALPHA-2'              => 'ISO 3166 ALPHA-2 (dos caracteres, p.e. “US”). Usado en formularios de direccion para especificar el pais.',
     'PasswordReset'           => 'Esta propiedad define el intervalo de tiempo en días en los que los usuarios del panel de administración deben cambiar sus contraseñas. Si desea inhabilitar el mensaje de restablecimiento de contraseña, establezca el valor en 0.',
 
-    //CompanyController
+    // CompanyController
     'Company_Management'            => 'Lista de nombres separada por comas',
     'Company_Directorate'           => 'Lista de nombres separada por comas',
     'Company_TransferReason'        => 'Formulario desde todas las clases de Factura de campos de datos primarios - Cifra de Contrato y Cifra de Factura es por defecto',
     'conn_info_template'            => 'Plantilla Tex es usada para Crear Informacion de Conexion en la Pagina de Contrato para un Cliente',
 
-    //CostCenterController
+    // CostCenterController
     'CostCenter_BillingMonth'       => 'Contabilizacion para articulos de pago anual - corresponde al mes por el cual las facturas son creadas. Por Defecto: 6 (Junio) - si no es establecido. Sea cuidadoso de no olvidar algun pago al momento de modificarse!',
 
-    //ItemController
+    // ItemController
     'Item_ProductId'                => 'Todos los campos ademas del Ciclo de Facturacion tienen que ser despejados antes de algun cambio! De otra manera, los articulos no podran ser guardados en la mayoria de los casos',
     'Item_ValidFrom'                => 'Para Pagos de Una Vez los campos pueden ser usados para dividir pagos - Solo YYYY-MM es considerado entonces!',
     'Item_ValidFromFixed'           => 'Marcado por defecto! Desmarque si la tarifa deberia quedar inactiva cuando una fecha de inicio es alcanzada (p.ej. si el cliente esta esperando por transferencia de numero telefonico). La tarifa no sera iniciada y no sera cargada hasta que active la casilla. Luego, la fecha de inicio sera incrementada cada dia un dia despues de alcanzar la fecha de inicio. Nota: La fecha no es actualizada por ordenes externas (p.ej. desde proveedor de telefonia).',
@@ -45,7 +45,7 @@ return [
     'Item_ValidToFixed'             => 'Marcado por defecto! Desmarcar si la fecha de pazo es desconocida. Si es desmarcada, la tarifa no acabara y sera cargada hasta que active la casilla. Luego, cuando la fecha de plazo es alcanzada, sera incrementada cada dia en un dia. Nota: La fecha no es actualizada por ordenes externas (p.ej. desde proveedor de telefonia).',
     'Item_CreditAmount'             => 'Cantidad Neta a ser acreditada al Cliente. Cuidado: una cantidad negativa viene a ser un debito!',
 
-    //ProductController
+    // ProductController
     'product' => [
         'bundle'                => 'En tarifas agrupadas el tiempo mínimo de funcionamiento del contrato es determinado únicamente por la tarifa de Internet. De otra forma la última tarifa inicial valida (VoIP o Internet) dictamina esta fecha.',
         'maturity_min'          => 'Período mínimo de tarifa/tiempo de ejecución/término. Ejem. 14D (14 días), 3M (3 meses), 1Y (1 Año)',
@@ -59,7 +59,7 @@ return [
     ],
     'Product_Number_of_Cycles'      => 'Ten cuidado!: para todos los productos pagados repetidos, el precio aplica para cada deuda, para productos pagados de una, el Precio es dividido por el numero de ciclos',
 
-    //SalesmanController
+    // SalesmanController
     'Salesman_ProductList'          => 'Aniadir todos los tipos de Producto por los cuales se obtiene comision - posible: ',
 
     // SepaMandate
@@ -116,7 +116,7 @@ return [
     'rate_coefficient'              => 'La Maxima Tarifa Sostenida sera multiplicada por este valor para otorgar al usuario mas (> 1.0) rendimiento que el suscrito.',
     'additional_modem_reset'        => 'Check if an additional button should be displayed, which resets the modem via SNMP without querying the NetGw.',
     'openning_new_tab_for_modem' => 'Marque la casilla para abrir la página de edición del módem en la nueva pestaña en vista topografía.',
-    //ModemController
+    // ModemController
     'Modem_InternetAccess'          => 'Acceso a Internet para los CPEs (los MTAs no se consideran y siempre se conectarán cuando todas las demás configuraciones sean correctas). Tenga cuidado: Con el Módulo de facturación esta casilla se sobrescribirá por chequeo diario si cambia la tarifa.',
     'Modem_InstallationAddressChangeDate'   => 'En caso de (físico) reubicación del modem: agregar fecha de inicio para la nueva dirección ahí. Si es solo lectura, hay una orden de cambio de dirección pendiente en envia TEL.',
     'Modem_GeocodeOrigin'           => 'De donde vienen los datos geocode? Si se establece a "n/a", la direccion no podra ser geocoded para cualquier API. Sera establecido a su nombre en cambios manuales de geodata.',
@@ -145,7 +145,7 @@ return [
     /*
   * MODULE: ProvVoip
   */
-    //PhonenumberManagementController
+    // PhonenumberManagementController
     'PhonenumberManagement_activation_date' => 'Se enviará al proveedor como fecha deseada, desencadena el estado activo del número de teléfono.',
     'PhonenumberManagement_deactivation_date' => 'Se enviará al proveedor como fecha deseada, desencadena el estado activo del número de teléfono.',
     'PhonenumberManagement_CarrierIn' => 'En puerto entrante: establecer al Telco anterior.',

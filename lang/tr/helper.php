@@ -28,16 +28,16 @@ return [
     'ISO_3166_ALPHA-2'              => 'ISO 3166 ALPHA-2 (two characters, e.g. “US”). Used in address forms to specify the country.',
     'PasswordReset'           => 'This property defines the timespan in days in which the users of the administration panel should change their passwords. If you want to disable the password reset message, set the value to 0.',
 
-    //CompanyController
+    // CompanyController
     'Company_Management'            => 'Comma separated list of names',
     'Company_Directorate'           => 'Comma separated list of names',
     'Company_TransferReason'        => 'Template from all Invoice class data field keys - Contract Number and Invoice Nr is default',
     'conn_info_template'            => 'Tex Template used to Create Connection Information on the Contract Page for a Customer',
 
-    //CostCenterController
+    // CostCenterController
     'CostCenter_BillingMonth'       => 'Accounting for yearly charged items - corresponds to the month the invoices are created for. Default: 6 (June) - if not set. Please be careful to not miss any payments when changing this!',
 
-    //ItemController
+    // ItemController
     'Item_ProductId'                => 'All fields besides Billing Cycle have to be cleared before a type change! Otherwise items can not be saved in most cases',
     'Item_ValidFrom'                => 'For One Time Payments the fields can be used to split payment - Only YYYY-MM is considered then!',
     'Item_ValidFromFixed'           => 'Checked by default! Uncheck if the tariff shall stay inactive when start date is reached (e.g. if customer is waiting for a phone number porting). The tariff will not start and not be charged until you activate the checkbox. Further the start date will be incremented every day by one day after reaching the start date. Info: The date is not updated by external orders (e.g. from telephony provider).',
@@ -45,7 +45,7 @@ return [
     'Item_ValidToFixed'             => 'Checked by default! Uncheck if the end date is uncertain. If unchecked the tariff will not end and will be charged until you activate the checkbox. Further when the end date is reached it will be incremented every day by one day. Info: The date is not updated by external orders (e.g. from telephony provider).',
     'Item_CreditAmount'             => 'Net Amount to be credited to Customer. Take Care: a negative amount becomes a debit!',
 
-    //ProductController
+    // ProductController
     'product' => [
         'bundle'                => 'On bundled tarifs the minimum runtime of the contract is determined only be the internet tariff. Otherwise the last starting valid tariff (Voip or Internet) dictates this date.',
         'maturity_min'          => 'Tariff minimum period/runtime/term. E.g. 14D (14 days), 3M (three months), 1Y (one year)',
@@ -58,7 +58,7 @@ return [
     ],
     'Product_Number_of_Cycles'      => 'Take Care!: for all repeatedly payed products the price stands for every charge, for Once payed products the Price is divided by the number of cycles',
 
-    //SalesmanController
+    // SalesmanController
     'Salesman_ProductList'          => 'Add all Product types he gets commission for - possible: ',
 
     // SepaMandate
@@ -115,7 +115,7 @@ return [
     'rate_coefficient'              => 'MaxRateSustained will be multiplied by this value to grant the user more (> 1.0) throughput than subscribed.',
     'additional_modem_reset'        => 'Check if an additional button should be displayed, which resets the modem via SNMP without querying the NetGw.',
     'openning_new_tab_for_modem' => 'Check the box to open the modem edit page in new tab in topography view.',
-    //ModemController
+    // ModemController
     'Modem_InternetAccess'          => 'Internet Access for CPEs. (MTAs are not considered and will always go online when all other configurations are correct). Take care: With Billing-Module this checkbox will be overwritten by daily check if tariff changes.',
     'Modem_InstallationAddressChangeDate'   => 'In case of (physical) relocation of the modem: Add startdate for the new address here. If readonly there is a pending address change order at Envia.',
     'Modem_GeocodeOrigin'           => 'Where does geocode data come from? If set to “n/a” address could not be geocoded against any API. Will be set to your name on manually changed geodata.',
@@ -144,7 +144,7 @@ return [
     /*
   * MODULE: ProvVoip
   */
-    //PhonenumberManagementController
+    // PhonenumberManagementController
     'PhonenumberManagement_activation_date' => 'Will be sent to provider as desired date, triggers active state of the phonenumber.',
     'PhonenumberManagement_deactivation_date' => 'Will be sent to provider as desired date, triggers active state of the phonenumber.',
     'PhonenumberManagement_CarrierIn' => 'On incoming porting: set to previous Telco.',

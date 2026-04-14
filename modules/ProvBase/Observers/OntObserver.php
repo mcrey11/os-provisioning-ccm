@@ -7,6 +7,4 @@ namespace Modules\ProvBase\Observers;
  *
  * Observer for ONT model events, extends ModemObserver.
  */
-class OntObserver extends ModemObserver
-{
-}
+class OntObserver extends ModemObserver {}

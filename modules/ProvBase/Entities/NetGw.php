@@ -29,11 +29,16 @@ use Str;
 class NetGw extends \BaseModel
 {
     public const TYPES = ['cmts', 'bras', 'olt', 'dslam'];
+
     // don't put a trailing slash here!
     public const NETGW_INCLUDE_PATH = '/etc/dhcp-nmsprime/cmts_gws';
+
     public const US_SNR_PATH = 'data/provmon/us_snr';
+
     public const US_OFDMA_PATH = 'data/provmon/ofdma';
+
     protected const DHCP6_GATEWAYS_FILE = '/etc/kea/gateways6.conf';
+
     protected const DHCP6_GATEWAYS_DIR = '/etc/kea/gateways6';
 
     // The associated SQL table for this Model
@@ -41,8 +46,11 @@ class NetGw extends \BaseModel
 
     // Attributes
     public $guarded = ['formatted_support_state'];
+
     protected $appends = ['formatted_support_state'];
+
     protected $with = ['ippools', 'netelement:id,cluster,net,ip,parent_id,base_type_id,netelementtype_id,prov_device_id,_lft,_rgt'];
+
     protected $without = ['netelement.netelementtype'];
 
     // Add your validation rules here
@@ -224,8 +232,8 @@ class NetGw extends \BaseModel
         $ret['Edit']['Cluster']['view']['vars'] = ['rf' => $this]; // rf .. RF card blade
         $ret['Edit']['Cluster']['view']['view'] = 'provbase::Rfcardblade.overview';
         // uncomment: to use default blade instead
-        //$ret['Base']['NetElement']['class'] = 'NetElement';
-        //$ret['Base']['NetElement']['relation'] = $this->clusters;
+        // $ret['Base']['NetElement']['class'] = 'NetElement';
+        // $ret['Base']['NetElement']['relation'] = $this->clusters;
 
         if ($this->netelement) {
             $ret['NetGW'] = $ret['Edit'];
@@ -637,7 +645,7 @@ class NetGw extends \BaseModel
     protected function getActivePoolConfigForCm()
     {
         if (\Module::collections()->has('SmartOnt')) {
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 return "\n\t\t\t".'allow all clients;';
             }
         }
@@ -929,7 +937,7 @@ class NetGw extends \BaseModel
         }
 
         if (\Module::collections()->has('SmartOnt')) {
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 if ($this->type == 'olt') {
                     return true;
                 }

@@ -66,7 +66,7 @@ class EndpointObserver
                 // state cannot be changed manually
                 (! $endpoint->isDirty('state')) &&
                 // check if endpoint is provisioned
-                ('active' != $endpoint->state)) {
+                ($endpoint->state != 'active')) {
                 return;
             }
             $unchangables = [

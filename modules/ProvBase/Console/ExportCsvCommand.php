@@ -50,6 +50,7 @@ class ExportCsvCommand extends Command
      * The configfile holding information about what to export
      */
     protected $configDir = 'config/provbase/export';
+
     protected $configFileName = 'csv_export.ini';
 
     /**
@@ -145,7 +146,7 @@ class ExportCsvCommand extends Command
         $this->config = $config_raw['csv_exporter_conf'];
         $this->config['dbtables'] = [];
         foreach ($config_raw as $table => $options) {
-            if ('csv_exporter_conf' == $table) {
+            if ($table == 'csv_exporter_conf') {
                 // this is the general config, not the table specific one
                 continue;
             }
@@ -171,11 +172,12 @@ class ExportCsvCommand extends Command
             // data form original table
             if (! \Str::contains($column, '::')) {
                 $selects[] = $table.'.'.$column.' as '.$column;
+
                 continue;
             }
 
             // malformed column definition
-            if (2 != substr_count($column, '::')) {
+            if (substr_count($column, '::') != 2) {
                 $msg = __METHOD__.'(): Malformed column “'.$column.'”';
                 Log::error($msg);
                 $this->error($msg);

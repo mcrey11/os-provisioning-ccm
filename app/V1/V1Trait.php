@@ -46,7 +46,6 @@ trait V1Trait
      *
      * @param  mixed  $data
      * @param  int  $statusCode
-     * @param  array  $headers
      * @return JsonResponse
      */
     protected function response($data, $statusCode = 200, array $headers = [])
@@ -62,13 +61,12 @@ trait V1Trait
      * Parse data using Data Parser
      *
      * @param  mixed  $data
-     * @param  array  $options
      * @param  string  $key
      * @return array|LengthAwarePaginator
      */
     protected function parseData($data, array $options, $key = null)
     {
-        $dataParser = new DataParser();
+        $dataParser = new DataParser;
         if ($data instanceof LengthAwarePaginator) {
             $paginationData = $data;
             $data = collect($paginationData->getIterator() ?? $data);
@@ -83,9 +81,6 @@ trait V1Trait
 
     /**
      * Page sort
-     *
-     * @param  array  $sort
-     * @return array
      */
     protected function parseSort(array $sort): array
     {
@@ -104,7 +99,6 @@ trait V1Trait
     /**
      * Parse include strings into resource and modes
      *
-     * @param  array  $includes
      * @return array The parsed resources and their respective modes
      */
     protected function parseIncludes(array $includes): array
@@ -128,10 +122,6 @@ trait V1Trait
         return $return;
     }
 
-    /**
-     * @param  array  $filter_groups
-     * @return array
-     */
     protected function parseFilterGroups(array $filter_groups): array
     {
         $return = [];
@@ -161,7 +151,6 @@ trait V1Trait
 
     /**
      * @param  null  $request
-     * @return array
      */
     protected function parseResourceOptions($request = null): array
     {

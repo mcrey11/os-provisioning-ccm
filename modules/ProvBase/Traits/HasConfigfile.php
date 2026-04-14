@@ -8,8 +8,6 @@ trait HasConfigfile
 {
     /**
      * Relation to Configfile table.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function configfile(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -18,9 +16,6 @@ trait HasConfigfile
 
     /**
      * Format Configfiles for select 2 field and allow for seaching.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Configfiles(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -38,7 +33,7 @@ trait HasConfigfile
             ->when($search, function ($query, $search) {
                 return $query->where(function ($subQuery) use ($search) {
                     $subQuery->where('name', 'ilike', "%{$search}%")
-                             ->orWhere('device', 'ilike', "%{$search}%");
+                        ->orWhere('device', 'ilike', "%{$search}%");
                 });
             });
     }

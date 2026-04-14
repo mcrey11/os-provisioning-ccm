@@ -100,7 +100,7 @@ class HelpersTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideTestValueInThresholdStringData
      */
-    public function testValueInThresholdString($value, $thresholds, $expectedResult)
+    public function test_value_in_threshold_string($value, $thresholds, $expectedResult)
     {
         self::assertSame(
             valueInThresholdString($value, $thresholds),
@@ -108,7 +108,7 @@ class HelpersTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testValueInThresholdStringStringGiven()
+    public function test_value_in_threshold_string_string_given()
     {
         $this->expectException('\Exception');
         $this->expectExceptionMessageMatches('/is not numeric$/');
@@ -118,7 +118,7 @@ class HelpersTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideTestValuesFromThresholdStringData
      */
-    public function testValuesFromThresholdString($thresholds, $expectedResult)
+    public function test_values_from_threshold_string($thresholds, $expectedResult)
     {
         self::assertSame(
             valuesFromThresholdString($thresholds),

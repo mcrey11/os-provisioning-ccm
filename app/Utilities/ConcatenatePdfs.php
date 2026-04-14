@@ -11,11 +11,17 @@ use Symfony\Component\Process\Process;
 class ConcatenatePdfs extends Process
 {
     private array $files = [];
+
     private ?string $outputFile = null;
+
     private string $temporaryShellFile;
+
     private bool $shouldTrackProgress = false;
+
     private int $totalPages;
+
     private int $processedPages = 0;
+
     private Closure $progressCallback;
 
     public function __construct(array $files = [], ?string $outputFile = null, ?float $timeout = null)

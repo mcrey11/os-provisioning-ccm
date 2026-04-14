@@ -47,16 +47,12 @@ class Repository
         $this->model = $model;
     }
 
-    /**
-     * @return BaseModel
-     */
     public function getModel(): BaseModel
     {
         return $this->model;
     }
 
     /**
-     * @param  array  $options
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|Builder[]|Collection
      */
     public function get(array $options = [])
@@ -77,7 +73,6 @@ class Repository
      * Get a resource by its primary key
      *
      * @param  mixed  $id
-     * @param  array  $options
      * @return \App\BaseModel|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object
      */
     public function getById($id, array $options = [])
@@ -97,9 +92,6 @@ class Repository
 
     /**
      * Get all resources ordered by recentness
-     *
-     * @param  array  $options
-     * @return Collection
      */
     public function getRecent(array $options = []): Collection
     {
@@ -112,9 +104,6 @@ class Repository
 
     /**
      * Get all resources by a where clause ordered by recentness
-     *
-     * @param  array  $options
-     * @return Collection
      */
     public function getRecentWhere(array $options = []): Collection
     {
@@ -127,9 +116,6 @@ class Repository
 
     /**
      * Get latest resource
-     *
-     * @param  array  $options
-     * @return BaseModel
      */
     public function getLatest(array $options = []): BaseModel
     {
@@ -142,9 +128,6 @@ class Repository
 
     /**
      * Get latest resource by a where clause
-     *
-     * @param  array  $options
-     * @return BaseModel
      */
     public function getLatestWhere(array $options = []): BaseModel
     {
@@ -158,10 +141,7 @@ class Repository
     /**
      * Get resources by a where clause
      *
-     * @param  string  $column
      * @param  mixed  $value
-     * @param  array  $options
-     * @return Collection
      */
     public function getWhere(string $column, $value, array $options = []): Collection
     {
@@ -175,12 +155,8 @@ class Repository
     /**
      * Get resources by multiple where clauses
      *
-     * @param  array  $clauses
-     * @param  array  $options
      *
      * @deprecated
-     *
-     * @return Collection
      */
     public function getWhereArray(array $clauses, array $options = []): Collection
     {
@@ -192,9 +168,6 @@ class Repository
     }
 
     /**
-     * @param  $column
-     * @param  array  $values
-     * @param  array  $options
      * @return Builder[]|Collection
      */
     public function getWhereIn($column, array $values, array $options = [])
@@ -206,10 +179,6 @@ class Repository
         return $query->get();
     }
 
-    /**
-     * @param  array  $data
-     * @return BaseModel
-     */
     public function create(array $data): BaseModel
     {
         $model = $this->getModel();
@@ -219,11 +188,6 @@ class Repository
         return $model;
     }
 
-    /**
-     * @param  BaseModel  $model
-     * @param  array  $data
-     * @return BaseModel
-     */
     public function update(BaseModel $model, array $data): BaseModel
     {
         $model->fill($data);
@@ -249,7 +213,6 @@ class Repository
     /**
      * Delete resources by a where clause
      *
-     * @param  string  $column
      * @param  mixed  $value
      * @return void
      */
@@ -264,7 +227,6 @@ class Repository
     /**
      * Delete resources by multiple where clauses
      *
-     * @param  array  $clauses
      * @return void
      */
     public function deleteWhereArray(array $clauses)
@@ -275,10 +237,6 @@ class Repository
         $query->delete();
     }
 
-    /**
-     * @param  array  $options
-     * @return Builder
-     */
     public function createBaseBuilder(array $options = []): Builder
     {
         $query = $this->createQueryBuilder();
@@ -294,8 +252,6 @@ class Repository
 
     /**
      * Creates a new query builder
-     *
-     * @return Builder
      */
     protected function createQueryBuilder(): Builder
     {
@@ -304,9 +260,6 @@ class Repository
 
     /**
      * Get primary key name of the underlying model
-     *
-     * @param  Builder  $query
-     * @return string
      */
     protected function getPrimaryKey(Builder $query): string
     {
@@ -316,8 +269,6 @@ class Repository
     /**
      * Order query by the specified sorting property
      *
-     * @param  Builder  $query
-     * @param  array  $options
      * @return void
      */
     protected function defaultSort(Builder $query, array $options = [])

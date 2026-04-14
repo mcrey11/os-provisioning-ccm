@@ -26,6 +26,4 @@ namespace App\Exceptions;
  *
  * @author Patrick Reichel
  */
-class PhpWarning extends \ErrorException
-{
-}
+class PhpWarning extends \ErrorException {}

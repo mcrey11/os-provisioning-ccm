@@ -25,21 +25,21 @@ return new class extends BaseMigration
 
         // Add new constraint including progress states
         \DB::statement(
-            "ALTER TABLE {$this->tableName} ADD CONSTRAINT web_orders_state_check CHECK (state IN (".
-            "'draft',".
-            "'availability_checked',".
-            "'customer_type_selected',".
-            "'product_selected',".
-            "'order_details',".
-            "'confirmation',".
+            "ALTER TABLE {$this->tableName} ADD CONSTRAINT web_orders_state_check CHECK (state IN ("
+            ."'draft',"
+            ."'availability_checked',"
+            ."'customer_type_selected',"
+            ."'product_selected',"
+            ."'order_details',"
+            ."'confirmation',"
             // existing business states
-            "'submitted',".
-            "'pending_checks',".
-            "'manual_review',".
-            "'rejected',".
-            "'ready_for_sales',".
-            "'converted'".
-            '))'
+            ."'submitted',"
+            ."'pending_checks',"
+            ."'manual_review',"
+            ."'rejected',"
+            ."'ready_for_sales',"
+            ."'converted'"
+            .'))'
         );
     }
 
@@ -52,9 +52,9 @@ return new class extends BaseMigration
         }
 
         \DB::statement(
-            "ALTER TABLE {$this->tableName} ADD CONSTRAINT web_orders_state_check CHECK (state IN (".
-            "'draft','submitted','pending_checks','manual_review','rejected','ready_for_sales','converted'".
-            '))'
+            "ALTER TABLE {$this->tableName} ADD CONSTRAINT web_orders_state_check CHECK (state IN ("
+            ."'draft','submitted','pending_checks','manual_review','rejected','ready_for_sales','converted'"
+            .'))'
         );
     }
 };

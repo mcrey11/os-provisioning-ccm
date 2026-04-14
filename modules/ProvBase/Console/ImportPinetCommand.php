@@ -58,24 +58,43 @@ class ImportPinetCommand extends Command
     protected $description = 'Import data from Pinet/Navision mssql database';
 
     protected $baseConfigFile;
+
     protected $bookingAccounts;
+
     protected $cities = [];
+
     protected $contractDates = [];
+
     protected $customers = [];
+
     protected $defaultMtaCf = null;
+
     protected $genericProducts = [];
+
     protected $missingCounts = [];
+
     protected $missingDates = 0;
+
     protected $newConfigfiles = [];
+
     protected $newCostCenterIds = [];
+
     protected $newProducts = [];
+
     protected $newRealEstates = [];
+
     protected $nodes = [];
+
     protected $possibleServices = [];
+
     protected $prodGroups = [];
+
     protected $prodTypes = [];
+
     protected $salutations = [];
+
     protected $streets = [];
+
     protected $warnings = [];
 
     protected $connectionTypes = [
@@ -380,7 +399,7 @@ class ImportPinetCommand extends Command
                 // 'Tax Liable', // Always '0'
                 // 'Budgeted Amount', // Always '.00000000000000000000'
             )->get()
-            ->keyBy('No_');
+                ->keyBy('No_');
         }
 
         // d('Customers', $fullCustomerStructure, $this->customers);
@@ -500,7 +519,7 @@ class ImportPinetCommand extends Command
                 'Amplifier',
                 'No_ Series',
             )
-            ->get();
+                ->get();
         }
 
         // d('contracts', $fullContractStructure, $contracts);
@@ -546,8 +565,8 @@ class ImportPinetCommand extends Command
                 }
 
                 $this->missingCounts['costcenters'][$c->{'Shortcut Dimension 1 Code'}] += 1;
-                $this->warnings['missingCc-'.$c->{'Shortcut Dimension 1 Code'}] = 'Costcenter '.$c->{'Shortcut Dimension 1 Code'}.' does not exist. Skip adding '.
-                    $this->missingCounts['costcenters'][$c->{'Shortcut Dimension 1 Code'}].' contracts';
+                $this->warnings['missingCc-'.$c->{'Shortcut Dimension 1 Code'}] = 'Costcenter '.$c->{'Shortcut Dimension 1 Code'}.' does not exist. Skip adding '
+                    .$this->missingCounts['costcenters'][$c->{'Shortcut Dimension 1 Code'}].' contracts';
                 // dd('date', $c, $fullContractStructure);
             }
 
@@ -928,8 +947,8 @@ class ImportPinetCommand extends Command
                 }
 
                 $this->missingCounts['Products'][$item->{'No_'}] += 1;
-                $this->warnings['missingProduct-'.$item->{'No_'}] = 'Product '.$item->{'No_'}.' does not exist. Skip adding '.
-                    $this->missingCounts['Products'][$item->{'No_'}].' items';
+                $this->warnings['missingProduct-'.$item->{'No_'}] = 'Product '.$item->{'No_'}.' does not exist. Skip adding '
+                    .$this->missingCounts['Products'][$item->{'No_'}].' items';
 
                 continue;
             }
@@ -1157,8 +1176,8 @@ class ImportPinetCommand extends Command
             $contracts = Contract::where('number2', $pn->{'Adapter No_'})->with('modems')->get();
 
             if ($contracts->count() > 1) {
-                $this->warnings['multipleContractsForPn-'.$pn->{'Adapter No_'}] = 'Phonenumber '.$pn->{'Phone No_'}.
-                    ' has multiple contracts with Adapter No_ '.$pn->{'Adapter No_'};
+                $this->warnings['multipleContractsForPn-'.$pn->{'Adapter No_'}] = 'Phonenumber '.$pn->{'Phone No_'}
+                    .' has multiple contracts with Adapter No_ '.$pn->{'Adapter No_'};
 
                 continue;
             } else {
@@ -1255,15 +1274,15 @@ class ImportPinetCommand extends Command
             $objects = $objects->select($col)->groupBy($col)->pluck($col);
         } else {
             $objects = $objects
-            ->select(
-                // 'No_',
-                'Head Station Code',
-                'Community Code',
-                // 'Street No_',
-                // 'House No_',
-            )
-            ->groupBy('Head Station Code', 'Community Code')
-            ->get();
+                ->select(
+                    // 'No_',
+                    'Head Station Code',
+                    'Community Code',
+                    // 'Street No_',
+                    // 'House No_',
+                )
+                ->groupBy('Head Station Code', 'Community Code')
+                ->get();
         }
 
         // d('Nodes', $structure, $objects);

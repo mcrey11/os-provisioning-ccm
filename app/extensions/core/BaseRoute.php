@@ -41,9 +41,6 @@ class BaseRoute
      * @author Torsten Schmidt
      * @author Christian Schramm
      *
-     * @param  string  $name
-     * @param  string  $controller
-     * @param  array  $options
      * @return void
      */
     public static function resource(string $name, string $controller, array $options = [])
@@ -232,8 +229,6 @@ class BaseRoute
      *
      * @author Torsten Schmidt
      *
-     * @param  array  $attributes
-     * @param  \Closure  $callback
      * @return void
      */
     public static function group(array $attributes, \Closure $callback)

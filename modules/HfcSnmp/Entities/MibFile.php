@@ -84,7 +84,7 @@ class MibFile extends \BaseModel
         return $ret;
     }
 
-    //Overwrite from BaseModel to add version
+    // Overwrite from BaseModel to add version
     // public function html_list($array, $column, $empty_option = false)
     // {
     // 	$ret[0] = null;
@@ -252,7 +252,7 @@ class MibFile extends \BaseModel
     {
         $this->delete();
 
-        //return \Redirect::back()->with('message', $message)->with('message_color', 'red');
+        // return \Redirect::back()->with('message', $message)->with('message_color', 'red');
         // throw new \Exception($message);
         return \View::make('errors.generic')->with('message', $message)->with('error', $error);
     }

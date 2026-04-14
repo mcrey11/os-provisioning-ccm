@@ -502,11 +502,11 @@ class ImportCrmOpportunitiesCommand extends Command
 
         // Try to match by address
         if (! empty($data['street']) && ! empty($data['house_number']) && ! empty($data['zip']) && ! empty($data['city'])) {
-            $realty = Realty::where('street', 'ILIKE', '%'.$data['street'].'%')->
-                where('house_nr', $data['house_number'])->
-                where('zip', $data['zip'])->
-                where('city', 'ILIKE', '%'.$data['city'].'%')->
-                first();
+            $realty = Realty::where('street', 'ILIKE', '%'.$data['street'].'%')
+                ->where('house_nr', $data['house_number'])
+                ->where('zip', $data['zip'])
+                ->where('city', 'ILIKE', '%'.$data['city'].'%')
+                ->first();
 
             if ($realty) {
                 return $realty;

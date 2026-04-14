@@ -27,7 +27,9 @@ use Request;
 class NetElementTypeController extends HfcReqController
 {
     protected $index_tree_view = true;
+
     protected $edit_left_md_size = 6;
+
     protected $edit_right_md_size = 6;
 
     /**

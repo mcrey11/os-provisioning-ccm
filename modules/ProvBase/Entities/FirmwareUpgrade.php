@@ -126,9 +126,6 @@ class FirmwareUpgrade extends \BaseModel
 
     /**
      * Format Configfile for edit view select field and allow for searching.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Configfiles(?string $search): \Illuminate\Database\Eloquent\Builder
     {

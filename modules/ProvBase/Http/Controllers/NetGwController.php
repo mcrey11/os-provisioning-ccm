@@ -110,7 +110,7 @@ class NetGwController extends \BaseController
         }
 
         if (\Module::collections()->has('SmartOnt')) {
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 $ret[] = ['form_type' => 'text', 'name' => 'internal_id', 'description' => 'VLAN offset'];
             }
         }
@@ -181,7 +181,7 @@ class NetGwController extends \BaseController
         $dhcpTypes = ['cmts'];
 
         if (\Module::collections()->has('SmartOnt')) {
-            if ('GESA' == config('smartont.flavor.active')) {
+            if (config('smartont.flavor.active') == 'GESA') {
                 $dhcpTypes[] = 'olt';
             }
         }

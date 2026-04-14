@@ -95,13 +95,21 @@ class ImportNmsCommand extends Command
      * @var array
      */
     protected $configfileMap = [];
+
     protected $contractMap = [];
+
     protected $costcenterMap = [0 => 0];
+
     protected $modemMap = [];
+
     protected $productMap = [];
+
     protected $qosMap = [0 => 0];
+
     protected $sepaAccountMap = [];
+
     protected $settlementrunMap = [];
+
     protected $ticketTypeMap = [];
 
     /**
@@ -110,6 +118,7 @@ class ImportNmsCommand extends Command
      * @var array|Collection
      */
     protected $modemMacs = [];
+
     protected $mtaMacs = [];
 
     /**
@@ -125,6 +134,7 @@ class ImportNmsCommand extends Command
      * @var ConsoleOutput
      */
     protected $output;
+
     protected $contractBar;
 
     /**
@@ -208,7 +218,7 @@ class ImportNmsCommand extends Command
     {
         ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %message% %percent:3s%% , %elapsed:6s% , %estimated:-6s% , %memory:6s%');
 
-        $this->output = new ConsoleOutput();
+        $this->output = new ConsoleOutput;
     }
 
     private function getAttributesWithoutId($model)
@@ -584,10 +594,9 @@ class ImportNmsCommand extends Command
         foreach ($tickets as $ticket) {
             $newTicket = new Ticket($this->getAttributesWithoutId($ticket));
             // TODO: Handle NetElements when they shall be imported automatically
-            $newTicket->ticketable_id = $ticket->ticketable_type == Contract::class ?
-                ($this->contractMap[$ticket->ticketable_id] ?? null)
-                :
-                ($this->modemMap[$ticket->ticketable_id] ?? null);
+            $newTicket->ticketable_id = $ticket->ticketable_type == Contract::class
+                ? ($this->contractMap[$ticket->ticketable_id] ?? null)
+                : ($this->modemMap[$ticket->ticketable_id] ?? null);
 
             if (! $newTicket->ticketable_id) {
                 $this->errorsToResolve[] = 'Skip Ticket as we couldn\'t find the new Contract for that ticket '.$ticket->id;
@@ -709,7 +718,7 @@ class ImportNmsCommand extends Command
     {
         // use Symfony ProgressBar otherwise the bars will overwrite each other
         ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %message% %percent:3s%% , %elapsed:6s% , %estimated:-6s% , %memory:6s%');
-        $this->output = new ConsoleOutput();
+        $this->output = new ConsoleOutput;
 
         $this->contractBar = $this->createProgressBar(
             count($newContracts),

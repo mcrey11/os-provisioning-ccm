@@ -44,7 +44,7 @@ class WelcomeController extends Controller
         }
 
         if (auth()->user()) {
-            return redirect((new Auth\LoginController())->redirectTo());
+            return redirect((new Auth\LoginController)->redirectTo());
         }
 
         if ($_SERVER['SERVER_PORT'] == config('app.adminPort')) {

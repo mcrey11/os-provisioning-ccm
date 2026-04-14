@@ -18,12 +18,12 @@ use Silber\Bouncer\CachedClipboard;
 class AdvancedCachedClipboard extends CachedClipboard
 {
     protected $abilities = [];
+
     protected $roles = [];
 
     /**
      * Get the given authority's abilities.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $authority
      * @param  bool  $allowed
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -41,7 +41,6 @@ class AdvancedCachedClipboard extends CachedClipboard
     /**
      * Get the given authority's roles.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $authority
      * @return \Illuminate\Support\Collection
      */
     public function getRoles(Model $authority)
@@ -76,7 +75,6 @@ class AdvancedCachedClipboard extends CachedClipboard
     /**
      * Clear the cache for the given authority.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $authority
      * @return $this
      */
     public function refreshFor(Model $authority)

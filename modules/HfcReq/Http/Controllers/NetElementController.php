@@ -29,8 +29,6 @@ class NetElementController extends BaseController
 {
     /**
      * Accessor for File Upload Paths
-     *
-     * @return array
      */
     protected function getFileUploadPaths(): array
     {
@@ -48,8 +46,8 @@ class NetElementController extends BaseController
 
         // parse which netelementtype we want to edit/create
         // NOTE: this is for auto reload via HTML GET
-        $type = NetElementType::find(request('netelementtype_id'))->base_type_id ??
-            ($netelement->exists ? $netelement->base_type_id : null);
+        $type = NetElementType::find(request('netelementtype_id'))->base_type_id
+            ?? ($netelement->exists ? $netelement->base_type_id : null);
 
         $hidden4TapPort = $hidden4Tap = 0;
         $addressDesc1 = 'Address Line 1';

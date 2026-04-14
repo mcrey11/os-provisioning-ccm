@@ -53,7 +53,7 @@ return new class extends Migration
                 'tax_code',
                 'tenant_id',
                 'tenant_nr',
-                'xml_transfer_reason'
+                'xml_transfer_reason',
             ]);
         });
     }

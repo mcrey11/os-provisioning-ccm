@@ -259,7 +259,7 @@ class Phonenumber extends \BaseModel
 
             // can be created if no one exists, can be deleted if one exists
             if (is_null($relation)) {
-                $ret['Edit']['PhonenumberManagement']['relation'] = new Collection();
+                $ret['Edit']['PhonenumberManagement']['relation'] = new Collection;
                 $ret['Edit']['PhonenumberManagement']['options']['hide_delete_button'] = 1;
             } else {
                 $ret['Edit']['PhonenumberManagement']['relation'] = collect([$relation]);
@@ -285,9 +285,6 @@ class Phonenumber extends \BaseModel
 
     /**
      * Format MTAs for select 2 field and allow for seaching.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Mtas(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -565,7 +562,7 @@ class Phonenumber extends \BaseModel
         }
 
         $minWaitTime = config('provvoip.reassignableWaitTime');
-        $dateTime = new \DateTime();
+        $dateTime = new \DateTime;
         $firstReassignable = $dateTime->sub(new \DateInterval('P'.$minWaitTime))->format('Y-m-d');
 
         // date for a possible reassignement not reached yet

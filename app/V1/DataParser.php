@@ -66,7 +66,6 @@ class DataParser
     /**
      * Parse a collection using given modes
      *
-     * @param  array  $modes
      * @param  mixed  $collection
      * @param  array  $root
      * @param  string  $fullPropertyPath
@@ -90,7 +89,6 @@ class DataParser
     /**
      * Parse a single resource using given modes
      *
-     * @param  array  $modes
      * @param  mixed  $resource
      * @param  array  $root
      * @param  string  $fullPropertyPath
@@ -144,11 +142,6 @@ class DataParser
         return $resource;
     }
 
-    /**
-     * @param  $objectOrArray
-     * @param  $property
-     * @param  $value
-     */
     public static function setProperty(&$objectOrArray, $property, $value)
     {
         if ($objectOrArray instanceof Model) {

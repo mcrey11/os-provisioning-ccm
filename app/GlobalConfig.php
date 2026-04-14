@@ -80,7 +80,7 @@ class GlobalConfig extends BaseModel
         }
 
         if (($type = cache('installType')) !== 'git') {
-            return  $type;
+            return $type;
         }
 
         if (cache('gitStats', optional([]))['commitShort'] === exec('cd '.app_path().' && git rev-parse --short HEAD')) {

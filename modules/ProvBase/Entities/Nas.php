@@ -29,12 +29,11 @@ class Nas extends \BaseModel
     public $table = 'nas';
 
     public $timestamps = false;
+
     protected $forceDeleting = true;
 
     // freeradius-postgresql does not use softdeletes
-    public static function bootSoftDeletes()
-    {
-    }
+    public static function bootSoftDeletes() {}
 
     public function netgw()
     {

@@ -71,6 +71,7 @@ class addDefaultRolesCommand extends Command
             if (Role::find($role['id'])) {
                 echo 'Warning: Role with ID '.$role['id'].' already exists  ('.$role['name'].") - Discarding\n";
                 Log::warning('Discard adding Role \"'.$role['name'].'\" as there already is an entry in DB!');
+
                 continue;
             } else {
                 $roleObj = new Role;
@@ -81,6 +82,7 @@ class addDefaultRolesCommand extends Command
                 if ($validator->fails()) {
                     echo 'ERROR - Validation Rule Error for Role '.$role['name'].":\n ".$validator->errors()."\n";
                     Log::warning('Validation Rule Error: '.$validator->errors());
+
                     continue;
                 }
 
@@ -90,6 +92,7 @@ class addDefaultRolesCommand extends Command
 
             if (! isset($roles_permissions[$role['id']])) {
                 echo "No Permissions set\n";
+
                 continue;
             }
 

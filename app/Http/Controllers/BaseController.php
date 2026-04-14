@@ -1902,8 +1902,8 @@ class BaseController extends Controller
                 $model->set_index_delete();
             }
 
-            return "<input style='simple' align='center' class='' name='ids[".$model->id."]' type='checkbox' value='1' ".
-                ($model->index_delete_disabled ? 'disabled' : '').'>';
+            return "<input style='simple' align='center' class='' name='ids[".$model->id."]' type='checkbox' value='1' "
+                .($model->index_delete_disabled ? 'disabled' : '').'>';
         })->editColumn($firstColumn, function ($model) use ($firstColumn) {
             $content = $model[$firstColumn];
             // Get cell content when data is eager loaded on first column
@@ -1916,8 +1916,8 @@ class BaseController extends Controller
                 }
             }
 
-            return '<a href="'.route(NamespaceController::get_route_name().'.edit', $model->id).'"><strong>'.
-                $model->view_icon().$content.'</strong></a>';
+            return '<a href="'.route(NamespaceController::get_route_name().'.edit', $model->id).'"><strong>'
+                .$model->view_icon().$content.'</strong></a>';
         });
 
         if (in_array('created_at', $headerFields) || in_array("{$model->table}.created_at", $headerFields)) {
@@ -1943,8 +1943,8 @@ class BaseController extends Controller
                 $DT->editColumn($column, function ($model) use ($functionname) {
                     $functionname = is_callable($functionname) ? $functionname : fn ($model) => $model->$functionname();
 
-                    return '<a href="'.route(NamespaceController::get_route_name().'.edit', $model->id).
-                        '"><strong>'.$model->view_icon().$functionname($model).'</strong></a>';
+                    return '<a href="'.route(NamespaceController::get_route_name().'.edit', $model->id)
+                        .'"><strong>'.$model->view_icon().$functionname($model).'</strong></a>';
                 });
             } else {
                 $DT->editColumn($column, function ($model) use ($functionname, $param) {
@@ -2157,8 +2157,8 @@ class BaseController extends Controller
                     $model->set_index_delete();
                 }
 
-                return "<input style='simple' align='center' class='' name='ids[".$model->id."]' type='checkbox' value='1' ".
-                ($model->index_delete_disabled ? 'disabled' : '').'>';
+                return "<input style='simple' align='center' class='' name='ids[".$model->id."]' type='checkbox' value='1' "
+                .($model->index_delete_disabled ? 'disabled' : '').'>';
             }, 0)
             ->addColumn('label', function ($model) use ($relationClass) {
                 $link = '<a href="'.route($relationClass.'.edit', $model->id).'">';

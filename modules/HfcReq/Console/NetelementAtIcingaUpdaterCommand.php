@@ -56,7 +56,7 @@ class NetelementAtIcingaUpdaterCommand extends Command
             exit(0);
         }
 
-        if ('all' == $this->netelementId) {
+        if ($this->netelementId == 'all') {
             // on working on all netelements: Delete whole config first
             $this->deleteAllConfigs();
         }
@@ -75,7 +75,7 @@ class NetelementAtIcingaUpdaterCommand extends Command
         $netelement = $this->argument('netelement');
 
         // process all netelements
-        if ('all' == strtolower($netelement)) {
+        if (strtolower($netelement) == 'all') {
             $this->netelementId = 'all';
 
             return;
@@ -98,7 +98,7 @@ class NetelementAtIcingaUpdaterCommand extends Command
     protected function runQuery()
     {
         $id = null;
-        if ('all' != $this->netelementId) {
+        if ($this->netelementId != 'all') {
             $id = $this->netelementId;
         }
         $query = view('hfcreq::DbQueries.getNetelementDataForIcinga', compact(['id']))->render();

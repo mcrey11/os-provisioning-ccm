@@ -150,6 +150,12 @@ BaseRoute::group([], function () {
             'middleware' => ['api', 'can:update,Modules\ProvBase\Entities\Modem'],
         ]);
 
+        Route::get('Modem/by-contract/{contractId}', [
+            'as' => 'Modem.api_getByContract',
+            'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@api_getByContract',
+            'middleware' => ['api', 'can:view,Modules\ProvBase\Entities\Modem'],
+        ]);
+
         Route::get('Modem/{id}/docsisFactoryReset', [
             'as' => 'Modem.api_docsisFactoryReset',
             'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@api_docsisFactoryReset',

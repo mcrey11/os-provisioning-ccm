@@ -38,6 +38,7 @@ class NetElement extends \BaseModel
     protected $delete_children = false;
 
     public const SNMP_VALUES_STORAGE_REL_DIR = 'data/hfc/snmpvalues/';
+
     public const SCAN_FILE_STORAGE_REL_DIR = 'data/coremon/scan/';
 
     /**
@@ -47,6 +48,7 @@ class NetElement extends \BaseModel
 
     // The associated SQL table for this Model
     public $table = 'netelement';
+
     // Always get netelementtype with it to reduce DB queries as it's very probable that netelementtype is queried
     // Note: It's not possible to eager load connectedModel here
     protected $with = ['netelementtype'];
@@ -240,7 +242,7 @@ class NetElement extends \BaseModel
         return "{$this->netelementtype->name}: {$this->name}";
     }
 
-    //for empty relationships
+    // for empty relationships
     public function get_elementtype_name()
     {
         return $this->netelementtype_id ? $this->netelementtype->name : '';
@@ -263,7 +265,6 @@ class NetElement extends \BaseModel
     /**
      * Set the physical Parameter that should be used for monitoring
      *
-     * @param  string  $attr
      * @return void
      */
     public function setMonitoringPhyParameterAttribute(string $attr)
@@ -827,11 +828,8 @@ class NetElement extends \BaseModel
     /**
      * Format Parent (NetElements) for Select 2 field and allow for searching.
      *
-     * @param  string|null  $search
      *
      * @request param model The id of the model or null if in create context
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Parent(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -856,11 +854,8 @@ class NetElement extends \BaseModel
      * Format Provisioning Device Connection for Select 2 field and allow for
      * searching. Depending on NetElemetType id the relation differs.
      *
-     * @param  string|null  $search
      *
      * @request param netelementtype_id The NetElemetType id in create context
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2ProvDevice(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -874,9 +869,6 @@ class NetElement extends \BaseModel
 
     /**
      * Format Netelements for Select 2 field and allow for searching.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Netelements(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -891,9 +883,6 @@ class NetElement extends \BaseModel
 
     /**
      * Format NetElemetType for Select 2 field and allow for searching.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Netelementtypes(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -965,7 +954,6 @@ class NetElement extends \BaseModel
      * Resolves to the id of the next ancestor of the given type.
      *
      * @param  string  $type  Cluster, Net or NetGw
-     * @return int|null
      */
     private function getNative(string $type = 'Net'): ?int
     {
@@ -1064,7 +1052,6 @@ class NetElement extends \BaseModel
     /**
      * Return the base NetElementType id
      *
-     * @param
      * @return int [1: Net, 2: Cluster, 3: NetGw, 4: Amp, 5: Node, 6: Data]
      */
     public function get_base_netelementtype()
@@ -1076,7 +1063,6 @@ class NetElement extends \BaseModel
      * Return hard coded $this->options array
      * NOTE: this is of course type dependent
      *
-     * @param
      * @return []
      */
     public function get_options_array($type = null)
@@ -1219,7 +1205,6 @@ class NetElement extends \BaseModel
      * be resistant against renaming.
      *
      * @param  string|array  $modifiers  string modifiers - order matters!
-     * @return string
      */
     public function getOriginalTypeName(string|array|null $modifiers = null): string
     {
@@ -1308,6 +1293,7 @@ class NetElement extends \BaseModel
                 }
             } catch (\Exception $e) {
                 Log::error("Could not get SNR for cluster $this->name ($this->id) - index $idx");
+
                 continue;
             }
 
@@ -1315,6 +1301,7 @@ class NetElement extends \BaseModel
                 $rx = snmp2_get($ip, $com, ".1.3.6.1.4.1.4491.2.1.20.1.25.1.2.$idx");
             } catch (\Exception $e) {
                 Log::debug("Could not get RX power for cluster $this->name ($idx)");
+
                 continue;
             }
 

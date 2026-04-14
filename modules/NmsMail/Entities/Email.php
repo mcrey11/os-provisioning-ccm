@@ -57,7 +57,7 @@ class Email extends \BaseModel
 
         return ['table' => $this->table,
             'index_header' => [$this->table.'.localpart', $this->table.'.index',  $this->table.'.greylisting',  $this->table.'.blacklisting',  $this->table.'.forwardto'],
-            //'header' =>  $this->index.': '.$this->localpart.'@'.isset($this->domain) ? $this->domain->name : 'no-domain.com' ,
+            // 'header' =>  $this->index.': '.$this->localpart.'@'.isset($this->domain) ? $this->domain->name : 'no-domain.com' ,
             'bsclass' => $bsclass,
             'order_by' => ['1' => 'asc'],
             'eager_loading' => ['domain'], ];

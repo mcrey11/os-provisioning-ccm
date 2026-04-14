@@ -24,6 +24,4 @@ namespace App\Exceptions;
  *
  * @author Patrick Reichel
  */
-class QualfiedControllerClassInstantiationError extends \Exception
-{
-}
+class QualfiedControllerClassInstantiationError extends \Exception {}

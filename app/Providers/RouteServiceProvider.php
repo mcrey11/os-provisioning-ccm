@@ -49,8 +49,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         // Custom route model binding for WebOrder hash resolution
         Route::bind('weborder', function ($hash) {
-            return \Modules\OrderPortal\Entities\WebOrder::findByHash($hash) ??
-                abort(404, 'WebOrder not found');
+            return \Modules\OrderPortal\Entities\WebOrder::findByHash($hash)
+                ?? abort(404, 'WebOrder not found');
         });
 
         parent::boot();

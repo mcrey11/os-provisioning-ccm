@@ -39,8 +39,6 @@ trait QueryBuilderTrait
     /**
      * Apply resource options to a query builder
      *
-     * @param  Builder  $queryBuilder
-     * @param  array  $options
      * @return Builder
      */
     protected function applyResourceOptions(Builder $queryBuilder, array $options = [])
@@ -94,9 +92,6 @@ trait QueryBuilderTrait
     }
 
     /**
-     * @param  Builder  $queryBuilder
-     * @param  array  $filterGroups
-     * @param  array  $previouslyJoined
      * @return array
      */
     protected function applyFilterGroups(Builder $queryBuilder, array $filterGroups = [], array $previouslyJoined = [])
@@ -121,10 +116,7 @@ trait QueryBuilderTrait
     }
 
     /**
-     * @param  Builder  $queryBuilder
-     * @param  array  $filter
      * @param  bool|false  $or
-     * @param  array  $joins
      */
     protected function applyFilter(Builder $queryBuilder, array $filter, $or, array &$joins)
     {
@@ -238,9 +230,6 @@ trait QueryBuilderTrait
     }
 
     /**
-     * @param  Builder  $queryBuilder
-     * @param  array  $sorting
-     * @param  array  $previouslyJoined
      * @return array
      */
     protected function applySorting(Builder $queryBuilder, array $sorting, array $previouslyJoined = [])
@@ -273,8 +262,6 @@ trait QueryBuilderTrait
     }
 
     /**
-     * @param  $type
-     * @param  $key
      * @return bool|string
      */
     private function hasCustomMethod($type, $key)
@@ -287,10 +274,6 @@ trait QueryBuilderTrait
         return false;
     }
 
-    /**
-     * @param  Builder  $queryBuilder
-     * @param  $key
-     */
     private function joinRelatedModelIfExists(Builder $queryBuilder, $key)
     {
         $model = $queryBuilder->getModel();

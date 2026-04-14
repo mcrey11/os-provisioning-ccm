@@ -217,21 +217,21 @@ class ModemController extends \BaseController
         if (count($pos) == 2) {
             [$model['lat'], $model['lng']] = $pos;
 
-            $model->fill(Modem::where([['lng', $model['lng']], ['lat', $model['lat']]])->
-                select('street', 'house_number', 'zip', 'city', 'district', 'country_code')->
-                first()?->
-                getAttributes() ??
-                []
+            $model->fill(Modem::where([['lng', $model['lng']], ['lat', $model['lat']]])
+                ->select('street', 'house_number', 'zip', 'city', 'district', 'country_code')
+                ->first()
+                ?->getAttributes()
+                ?? []
             );
         }
 
         $installation_address_change_date_options = ['placeholder' => 'YYYY-MM-DD'];
         // check if installation_address_change_date is readonly (address change has been sent to envia TEL API)
         if ($model['installation_address_change_date'] && Module::collections()->has('ProvVoipEnvia')) {
-            $orders = \Modules\ProvVoipEnvia\Entities\EnviaOrder::where('modem_id', $model->id)->
-                where('method', 'contract/relocate')->
-                where('orderdate', '>=', $model['installation_address_change_date'])->
-                get();
+            $orders = \Modules\ProvVoipEnvia\Entities\EnviaOrder::where('modem_id', $model->id)
+                ->where('method', 'contract/relocate')
+                ->where('orderdate', '>=', $model['installation_address_change_date'])
+                ->get();
 
             foreach ($orders as $order) {
                 if (! \Modules\ProvVoipEnvia\Entities\EnviaOrder::orderstate_is_final($order)) {
@@ -1585,19 +1585,19 @@ class ModemController extends \BaseController
     {
         $lease['state'] = 'text-green-600';
         $lease['forecast'] = trans('messages.cpe_fake_lease');
-        $lease['text'][0] = "lease $ep->ip {\n".
-            "starts 3 $ep->updated_at;\n".
-            "binding state active;\n".
-            "next binding state active;\n".
-            "rewind binding state active;\n".
-            "billing subclass \"Client\" $modem->mac;\n".
-            "hardware ethernet $ep->mac;\n".
-            "set ip = \"$ep->ip\";\n".
-            "set hw_mac = \"$ep->mac\";\n".
-            "set cm_mac = \"$modem->mac\";\n".
-            "option agent.remote-id $modem->mac;\n".
-            "option agent.unknown-9 0:0:11:8b:6:1:4:1:2:3:0;\n".
-            "}\n";
+        $lease['text'][0] = "lease $ep->ip {\n"
+            ."starts 3 $ep->updated_at;\n"
+            ."binding state active;\n"
+            ."next binding state active;\n"
+            ."rewind binding state active;\n"
+            ."billing subclass \"Client\" $modem->mac;\n"
+            ."hardware ethernet $ep->mac;\n"
+            ."set ip = \"$ep->ip\";\n"
+            ."set hw_mac = \"$ep->mac\";\n"
+            ."set cm_mac = \"$modem->mac\";\n"
+            ."option agent.remote-id $modem->mac;\n"
+            ."option agent.unknown-9 0:0:11:8b:6:1:4:1:2:3:0;\n"
+            ."}\n";
 
         return $lease;
     }
@@ -1928,9 +1928,9 @@ class ModemController extends \BaseController
     public function api_getByContract($ver, $contractId)
     {
         try {
-            $modems = Modem::where('contract_id', $contractId)->
-                whereNull('deleted_at')->
-                get();
+            $modems = Modem::where('contract_id', $contractId)
+                ->whereNull('deleted_at')
+                ->get();
 
             return response()->json([
                 'success' => true,

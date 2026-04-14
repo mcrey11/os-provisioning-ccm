@@ -265,10 +265,10 @@ class PhonePortingForm extends Component
 
         // Get items and find the transfer phone product item
         if ($adaptor instanceof \Modules\OrderPortal\Adaptors\ContractAdaptor) {
-            $items = \Modules\OrderPortal\Entities\WebOrderItem::where('contract_id', $adaptor->getId())->
-                where('confirmed', false)-> // Only check unconfirmed items (during checkout)
-                with('product')->
-                get();
+            $items = \Modules\OrderPortal\Entities\WebOrderItem::where('contract_id', $adaptor->getId())
+                ->where('confirmed', false) // Only check unconfirmed items (during checkout)
+                ->with('product')
+                ->get();
         } else {
             $items = $adaptor->getItems()->with('product')->get();
         }

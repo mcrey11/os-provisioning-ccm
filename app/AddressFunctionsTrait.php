@@ -73,11 +73,11 @@ trait AddressFunctionsTrait
 
         $result = [];
 
-        if ('person' == $type) {
+        if ($type == 'person') {
             foreach ($persons as $person) {
                 $result[$person] = $person;
             }
-        } elseif ('institution' == $type) {
+        } elseif ($type == 'institution') {
             foreach ($institutions as $institution) {
                 $result[$institution] = $institution;
             }

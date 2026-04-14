@@ -30,7 +30,9 @@ class BaseMigration extends Migration
     use \Illuminate\Console\Concerns\InteractsWithIO;
 
     protected $callerClassname = '';
+
     protected $callerMigrationFile = '';
+
     protected $calledUpTableGeneric = false;
 
     /**
@@ -61,7 +63,7 @@ class BaseMigration extends Migration
 
     public function __construct()
     {
-        $this->output = new ConsoleOutput();
+        $this->output = new ConsoleOutput;
 
         $this->callerClassname = get_class($this);
         $reflector = new \ReflectionClass($this->callerClassname);
@@ -105,15 +107,13 @@ class BaseMigration extends Migration
     /**
      * This is meant as a hint for developing and should never be reached in
      * production.
-     *
-     * @return void
      */
     private function checkMigrationScope(): void
     {
         if ($this->callerMigrationFile >= '2021_' && ! in_array($this->migrationScope, ['database', 'system'])) {
             $this->error(
-                "ERROR in {$this->callerMigrationFile}: {$this->callerClassname}->migrationScope ".
-                'has to be "database" or "system". Exiting…'
+                "ERROR in {$this->callerMigrationFile}: {$this->callerClassname}->migrationScope "
+                .'has to be "database" or "system". Exiting…'
             );
             exit(1);
         }

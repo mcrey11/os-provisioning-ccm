@@ -115,8 +115,8 @@ class ImportNetUserCommand extends Command
                 ->whereRaw($cluster_filter)
                 ->where(function ($query) {
                     $query
-                    ->where('cm_adr.strasse', 'like', '%Flo%m%hle%')
-                    ->orWhere('cm_adr.ort', 'like', '%/OT Flo%');
+                        ->where('cm_adr.strasse', 'like', '%Flo%m%hle%')
+                        ->orWhere('cm_adr.ort', 'like', '%/OT Flo%');
                 });
         };
 
@@ -137,12 +137,12 @@ class ImportNetUserCommand extends Command
          * Get all Contracts that have at least one modem with an adress inside the specified area
          */
         $contracts = $db->table('Nutzer as d')
-                ->selectRaw('c.*, d.Mandantnr')
-                ->join('billing.vkunden as c', 'd.Kundennr', '=', 'c.Kundennr')
-                ->where($area_filter)
-                ->whereIn('d.Kundennr', [9, 331, 2139, 2152, 2181, 2184])
-                ->groupBy('d.Kundennr')->orderBy('d.Kundennr')
-                ->get();
+            ->selectRaw('c.*, d.Mandantnr')
+            ->join('billing.vkunden as c', 'd.Kundennr', '=', 'c.Kundennr')
+            ->where($area_filter)
+            ->whereIn('d.Kundennr', [9, 331, 2139, 2152, 2181, 2184])
+            ->groupBy('d.Kundennr')->orderBy('d.Kundennr')
+            ->get();
 
         // progress bar
         $num = count($contracts);
@@ -158,10 +158,10 @@ class ImportNetUserCommand extends Command
              * MODEM Import
              */
             $modems = $db->table('Nutzer as m')
-                    ->select('m.*', 'c.memo_cfg as cm_conf_default', 'm.memo_cfg as cm_conf_changed', 'c.Pfad as cf_name')
-                    ->leftJoin('konfig as c', 'c.konfig_id', '=', 'm.konfig_id')
-                    ->where('m.Kundennr', '=', $contract->Kundennr)
-                    ->where('m.sec_typ', '=', 0)->get();
+                ->select('m.*', 'c.memo_cfg as cm_conf_default', 'm.memo_cfg as cm_conf_changed', 'c.Pfad as cf_name')
+                ->leftJoin('konfig as c', 'c.konfig_id', '=', 'm.konfig_id')
+                ->where('m.Kundennr', '=', $contract->Kundennr)
+                ->where('m.sec_typ', '=', 0)->get();
 
             foreach ($modems as $modem) {
                 $m = $this->add_modem($c, $modem, $db);
@@ -361,10 +361,10 @@ class ImportNetUserCommand extends Command
         // check if assigned cpe has public ip
         // NOTE: if even 1 of the cpe's has a public IP we assign a public IP for all CPE's here
         $comps = $db_con->table('Nutzer as cpe')
-                    ->select('cpe.*')
-                    ->where('cpe.Kundennr', '=', $old_modem->Kundennr)
-                    ->where('cpe.modem_lfd', '=', $old_modem->Lfd)
-                    ->where('cpe.sec_typ', '=', 1)->get();
+            ->select('cpe.*')
+            ->where('cpe.Kundennr', '=', $old_modem->Kundennr)
+            ->where('cpe.modem_lfd', '=', $old_modem->Lfd)
+            ->where('cpe.sec_typ', '=', 1)->get();
 
         // Deactivate network access when gesperrt or when no cpe's attached
         $modem->internet_access = 1;
@@ -612,6 +612,7 @@ class ImportNetUserCommand extends Command
                     if ($pn->number || $pn->username) {
                         \Log::warning("Ignore phoneumber $pn->number (number), $pn->username (username) as password and sipdomain are empty");
                     }
+
                     continue;
                 }
 
@@ -657,11 +658,11 @@ class ImportNetUserCommand extends Command
     private function add_netelements($db_con, $area_filter)
     {
         $devices = $db_con->table('Nutzer as d')
-                    ->select('d.*', 'c.memo_cfg as cm_conf_default', 'd.memo_cfg as cm_conf_changed', 'c.Pfad as cf_name')
-                    ->join('konfig as c', 'c.konfig_id', '=', 'd.konfig_id')
-                    ->where('d.sec_typ', '=', 0)
-                    ->where($area_filter)
-                    ->get();
+            ->select('d.*', 'c.memo_cfg as cm_conf_default', 'd.memo_cfg as cm_conf_changed', 'c.Pfad as cf_name')
+            ->join('konfig as c', 'c.konfig_id', '=', 'd.konfig_id')
+            ->where('d.sec_typ', '=', 0)
+            ->where($area_filter)
+            ->get();
 
         if (! $devices) {
             return;

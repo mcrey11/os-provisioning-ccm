@@ -18,6 +18,7 @@ abstract class BaseTopographyController extends BaseController
      * @var int maxHeatIntensity is the max for the database query
      */
     protected $minHeatIntensity = 0;
+
     protected $maxHeatIntensity = 5;
 
     /**
@@ -53,16 +54,19 @@ abstract class BaseTopographyController extends BaseController
 
                     if ($shape['type'] == 'LineString') {
                         array_push($lines['features'], ['type' => 'Feature', 'properties' => [], 'geometry' => ['type' => 'LineString', 'coordinates' => $shape['components']]]);
+
                         continue;
                     }
 
                     if ($shape['type'] == 'Point') {
                         array_push($points, $shape['components']);
+
                         continue;
                     }
 
                     if ($shape['type'] == 'Polygon') {
                         Log::info('Ignore Polygon shapes from Infrastructure file in Topography. Currently not supported!', $shape);
+
                         continue;
                     }
 
@@ -78,8 +82,6 @@ abstract class BaseTopographyController extends BaseController
 
     /**
      * Get position data for all Tickets with a valid position.
-     *
-     * @return Collection
      */
     protected function getTicketMapData(): Collection
     {
@@ -111,7 +113,6 @@ abstract class BaseTopographyController extends BaseController
     /**
      * Set view bounds for initial map view
      *
-     * @param  Collection  $elements
      * @return void
      */
     public function mapFitBounds(Collection $elements): array

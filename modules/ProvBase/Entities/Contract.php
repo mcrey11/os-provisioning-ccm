@@ -430,9 +430,9 @@ class Contract extends \BaseModel
         if (Module::collections()->has('BillingBase')) {
             $ret[$i18nContract]['Item']['class'] = 'Item';
             $ret[$i18nContract]['Item']['count'] = $this->items_count;
-            $ret[$i18nContract]['Item']['relation'] = $this->items_count >= $relationThreshold ?
-                collect([new \Modules\BillingBase\Entities\Item]) :
-                $this->items;
+            $ret[$i18nContract]['Item']['relation'] = $this->items_count >= $relationThreshold
+                ? collect([new \Modules\BillingBase\Entities\Item])
+                : $this->items;
 
             // Add WebOrderItems conversion view within Item panel if there are any CONFIRMED items for this contract
             if (Module::collections()->has('OrderPortal') && isset($this->web_order_items_count) && $this->web_order_items_count > 0) {
@@ -483,17 +483,17 @@ class Contract extends \BaseModel
 
                 $ret['Billing']['Debt']['class'] = 'Debt';
                 $ret['Billing']['Debt']['count'] = $this->debtCount;
-                $ret['Billing']['Debt']['relation'] = $this->debtCount >= $relationThreshold ?
-                    collect([new \Modules\OverdueDebts\Entities\Debt]) : $this->debts;
+                $ret['Billing']['Debt']['relation'] = $this->debtCount >= $relationThreshold
+                    ? collect([new \Modules\OverdueDebts\Entities\Debt]) : $this->debts;
             }
 
             $ret['Billing']['Invoice']['class'] = 'Invoice';
             $ret['Billing']['Invoice']['count'] = $this->invoices_count;
             $ret['Billing']['Invoice']['options']['hide_delete_button'] = 1;
             $ret['Billing']['Invoice']['options']['hide_create_button'] = 1;
-            $ret['Billing']['Invoice']['relation'] = $this->invoices_count >= $relationThreshold ?
-                collect([new \Modules\BillingBase\Entities\Invoice]) :
-                $this->invoices;
+            $ret['Billing']['Invoice']['relation'] = $this->invoices_count >= $relationThreshold
+                ? collect([new \Modules\BillingBase\Entities\Invoice])
+                : $this->invoices;
         }
 
         if (Module::collections()->has('SpriSupplierApi')) {
@@ -1996,9 +1996,9 @@ class Contract extends \BaseModel
         $highestIndicator = $debts->sortByDesc('indicator')->first();
         $highestIndicator = $highestIndicator ? $highestIndicator->indicator : 0;
 
-        $block =
+        $block
             // Amount threshold is exceeded
-            ($conf->import_inet_block_amount && ($totalAmount >= $conf->import_inet_block_amount)) ||
+            = ($conf->import_inet_block_amount && ($totalAmount >= $conf->import_inet_block_amount)) ||
             // More than max num of positive debts
             ($conf->import_inet_block_debts && ($posDebtCount >= $conf->import_inet_block_debts)) ||
             // Highest dunning indicator too high
@@ -2296,7 +2296,7 @@ class Contract extends \BaseModel
     {
         $description = str("{$contract->zip} {$contract->city}, {$contract->street}")
             ->append(str($contract->house_number)
-            ->padLeft(5, ' ')); // padLeft is important to get correct housenumber order
+                ->padLeft(5, ' ')); // padLeft is important to get correct housenumber order
 
         if ($contract->type == 'OTO_FTTH_FR') {
             return $description->append(", OTO-ID: {$contract->oto_id} – {$contract->oto_status} – $contract->alex_status");

@@ -28,14 +28,18 @@ use Modules\ProvBase\Entities\RadIpPool;
 
 class RadIpPoolJob implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels, Queueable;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     protected const SLICE_SIZE = 1000;
 
     protected $pool;
+
     protected $dirty;
+
     protected $original;
+
     protected $fixedEndpointIps;
+
     protected $wasRecentlyCreated;
 
     /**

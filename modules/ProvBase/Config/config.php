@@ -50,7 +50,7 @@ if (! function_exists('Modules\ProvBase\Entities\getAvailableModemClasses')) {
             'tr069' => 'Modules\ProvBase\Entities\Modem',
         ];
         if (Module::collections()->has('Calix')) {
-            if (1001 == config('app.nmsprimeCustomerId')) {
+            if (config('app.nmsprimeCustomerId') == 1001) {
                 $ret['calixont'] = 'Modules\Calix\Entities\Customer1001CalixOnt';
             } else {
                 $ret['calixont'] = 'Modules\Calix\Entities\CalixOnt';

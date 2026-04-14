@@ -72,10 +72,12 @@ class ImportThuegaCommand extends Command
 
     /** @vars currently processed objects */
     protected $line;
+
     protected $contract;
 
     /** @var int ID of existing base config file */
     protected $baseConfigfileId;
+
     /** @var array created configfiles keyed by name */
     protected $configfiles;
 

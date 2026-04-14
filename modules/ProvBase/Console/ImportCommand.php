@@ -74,6 +74,7 @@ class ImportCommand extends Command
      * @var int
      */
     protected static $credit = false;
+
     protected static $credit_id = 0;
 
     /**
@@ -205,24 +206,24 @@ class ImportCommand extends Command
          * with: Get customer data & Tarifname from old systems DB
          */
         $contracts = $km3->table('tbl_vertrag as v')
-                ->selectRaw('distinct on (v.vertragsnummer) v.vertragsnummer, v.*, k.*, kadr.*, t.name as tariffname,
+            ->selectRaw('distinct on (v.vertragsnummer) v.vertragsnummer, v.*, k.*, kadr.*, t.name as tariffname,
 					v.id as id, v.beschreibung as contr_descr, m.cluster_id,
 					a.vorname as v_vorname, a.nachname as v_nachname, a.strasse as v_strasse, a.plz as v_plz,
 					a.ort as v_ort, a.firma as v_firma, a.tel as v_tel, a.anrede as v_anrede, a.email as v_email')
-                ->join('tbl_modem as m', 'm.vertrag', '=', 'v.id')
-                ->join('tbl_kunde as k', 'v.kunde', '=', 'k.id')
-                ->join('tbl_adressen as a', 'v.ansprechpartner', '=', 'a.id')
-                ->join('tbl_adressen as kadr', 'k.rechnungsanschrift', '=', 'kadr.id')
-                ->join('tbl_adressen as cm_adr', 'm.adresse', '=', 'cm_adr.id')
-                ->leftJoin('tbl_tarif as t', 'v.tarif', '=', 't.id')
-                ->leftJoin('tbl_posten as p', 't.posten_volumen_extern', '=', 'p.id')
-                ->where('v.deleted', '=', false)
-                ->where('m.deleted', '=', false)
-                ->whereRaw('(v.abgeklemmt is null or v.abgeklemmt >= CURRENT_DATE)') 		// dont import out-of-date contracts
-                ->where($area_filter)
-                ->orderBy('v.vertragsnummer')
+            ->join('tbl_modem as m', 'm.vertrag', '=', 'v.id')
+            ->join('tbl_kunde as k', 'v.kunde', '=', 'k.id')
+            ->join('tbl_adressen as a', 'v.ansprechpartner', '=', 'a.id')
+            ->join('tbl_adressen as kadr', 'k.rechnungsanschrift', '=', 'kadr.id')
+            ->join('tbl_adressen as cm_adr', 'm.adresse', '=', 'cm_adr.id')
+            ->leftJoin('tbl_tarif as t', 'v.tarif', '=', 't.id')
+            ->leftJoin('tbl_posten as p', 't.posten_volumen_extern', '=', 'p.id')
+            ->where('v.deleted', '=', false)
+            ->where('m.deleted', '=', false)
+            ->whereRaw('(v.abgeklemmt is null or v.abgeklemmt >= CURRENT_DATE)') 		// dont import out-of-date contracts
+            ->where($area_filter)
+            ->orderBy('v.vertragsnummer')
                 // ->toSql();
-                ->get();
+            ->get();
 
         // progress bar
         echo "\nADD Contracts\n";
@@ -237,11 +238,11 @@ class ImportCommand extends Command
              * MODEM Import
              */
             $modems = $km3->table(\DB::raw('tbl_modem m, tbl_adressen a, tbl_configfiles c'))
-                    ->selectRaw('m.*, a.*, m.id as id, c.name as cf_name')
-                    ->where('m.vertrag', $contract->id)
-                    ->where('m.adresse', 'a.id')
-                    ->where('m.configfile', 'c.id')
-                    ->where('m.deleted', 'false')->get();
+                ->selectRaw('m.*, a.*, m.id as id, c.name as cf_name')
+                ->where('m.vertrag', $contract->id)
+                ->where('m.adresse', 'a.id')
+                ->where('m.configfile', 'c.id')
+                ->where('m.deleted', 'false')->get();
 
             foreach ($modems as $modem) {
                 $m = $this->add_modem($c, $modem, $km3);
@@ -467,6 +468,7 @@ class ImportCommand extends Command
 
             if (! $tariff) {
                 \Log::debug("\tNo $key Item exists in old System");
+
                 continue;
             }
 
@@ -500,6 +502,7 @@ class ImportCommand extends Command
 
             if ($item_n) {
                 \Log::info("\tItem $key for Contract ".$new_contract->number.' already exists');
+
                 continue;
             }
 
@@ -564,13 +567,13 @@ class ImportCommand extends Command
         }
 
         $mandates_old = $db_con->table('tbl_sepamandate as s')
-                ->join('tbl_lastschriftkonten as l', 's.id', '=', 'l.sepamandat')
-                ->select('s.*', 'l.*', 'l.id as id')
-                ->where('s.kunde', '=', $old_contract->kunde)
-                ->where('s.deleted', '=', 'false')
-                ->where('l.deleted', '=', 'false')
-                ->orderBy('l.id')
-                ->get();
+            ->join('tbl_lastschriftkonten as l', 's.id', '=', 'l.sepamandat')
+            ->select('s.*', 'l.*', 'l.id as id')
+            ->where('s.kunde', '=', $old_contract->kunde)
+            ->where('s.deleted', '=', 'false')
+            ->where('l.deleted', '=', 'false')
+            ->orderBy('l.id')
+            ->get();
 
         if (! $mandates_old) {
             \Log::info("\tCustomer $new_contract->id has no SepaMandate in old DB");
@@ -602,16 +605,16 @@ class ImportCommand extends Command
     {
         // Additional Items
         $items = $db_con->table('tbl_zusatzposten as z')
-                ->join('tbl_posten as p', 'z.posten', '=', 'p.id')
-                ->select(['p.id', 'p.artikel', 'z.von', 'z.bis', 'z.menge', 'z.buchungstext', 'z.preis', 'z.abrechnen', 'z.abgerechnet'])
-                ->where('z.vertrag', '=', $old_contract->id)
-                ->where('z.closed', '=', 'false')
-                ->where(function ($query) {
-                    $query
+            ->join('tbl_posten as p', 'z.posten', '=', 'p.id')
+            ->select(['p.id', 'p.artikel', 'z.von', 'z.bis', 'z.menge', 'z.buchungstext', 'z.preis', 'z.abrechnen', 'z.abgerechnet'])
+            ->where('z.vertrag', '=', $old_contract->id)
+            ->where('z.closed', '=', 'false')
+            ->where(function ($query) {
+                $query
                     ->where('z.bis', '>', date('Y-m-d'))
                     ->orWhere('z.bis', '=', null);
-                })
-                ->get();
+            })
+            ->get();
 
         $items_new = $new_contract->items;
 
@@ -620,6 +623,7 @@ class ImportCommand extends Command
 
             if (! $prod_id) {
                 \Log::notice("\tCan not map Artikel \"$item->artikel\" - ID $item->id does not exist in internal mapping table");
+
                 continue;
             }
 
@@ -893,14 +897,14 @@ class ImportCommand extends Command
     private function add_netelements($db_con, $area_filter)
     {
         $devices = $db_con->table('tbl_modem as m')
-                    ->selectRaw('m.*, cm_adr.*, m.id as id, c.name as cf_name')
-                    ->join('tbl_adressen as cm_adr', 'm.adresse', '=', 'cm_adr.id')
-                    ->join('tbl_configfiles as c', 'm.configfile', '=', 'c.id')
-                    ->where('m.deleted', '=', 'false')
-                    ->where('m.device', '=', 9)
+            ->selectRaw('m.*, cm_adr.*, m.id as id, c.name as cf_name')
+            ->join('tbl_adressen as cm_adr', 'm.adresse', '=', 'cm_adr.id')
+            ->join('tbl_configfiles as c', 'm.configfile', '=', 'c.id')
+            ->where('m.deleted', '=', 'false')
+            ->where('m.device', '=', 9)
                     // ->where('m.mac_adresse', '=', '00:d0:55:07:1d:86')
-                    ->where($area_filter)
-                    ->get();
+            ->where($area_filter)
+            ->get();
 
         if (! $devices) {
             return;
@@ -979,13 +983,13 @@ class ImportCommand extends Command
             }
 
             $mandate_old = $db_con->table('tbl_sepamandate as s')
-                    ->join('tbl_lastschriftkonten as l', 's.id', '=', 'l.sepamandat')
-                    ->select('s.*', 'l.*', 'l.id as id')
-                    ->where('l.iban', '=', $m->iban)
-                    ->where('s.deleted', '=', 'false')
-                    ->where('l.deleted', '=', 'false')
-                    ->orderBy('l.id')
-                    ->get();
+                ->join('tbl_lastschriftkonten as l', 's.id', '=', 'l.sepamandat')
+                ->select('s.*', 'l.*', 'l.id as id')
+                ->where('l.iban', '=', $m->iban)
+                ->where('s.deleted', '=', 'false')
+                ->where('l.deleted', '=', 'false')
+                ->orderBy('l.id')
+                ->get();
 
             if (! $mandate_old) {
                 // echo "\tERROR: No corresponding SepaMandate in old sys [$m->id]";

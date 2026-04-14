@@ -219,7 +219,7 @@ foreach ($apiRoutes as $route) {
         // convert CamelCase to underscore_case and try again
         try {
             $columnType = Schema::getColumnType($table, $column);
-        } catch(InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $table = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $entity));
         }
         if (in_array("$table.$column", $ignore)) {
@@ -228,7 +228,7 @@ foreach ($apiRoutes as $route) {
 
         try {
             $columnType = Schema::getColumnType($table, $column);
-        } catch(Doctrine\DBAL\Exception $e) {
+        } catch (Doctrine\DBAL\Exception $e) {
             echo "can't retrieve column type for $entity, $column: ".$e->getMessage()."\n";
             $columnType = null;
         }

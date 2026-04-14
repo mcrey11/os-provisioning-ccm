@@ -54,8 +54,6 @@ class AuthCommand extends Command
 
     /**
      * Holds the Custom Abilities, which should be reset
-     *
-     * @return Collection
      */
     protected static function customAbilities(): Collection
     {
@@ -139,8 +137,6 @@ class AuthCommand extends Command
 
     /**
      * Reset the Admin Role.
-     *
-     * @return void
      */
     protected function resetAdminRole(): void
     {
@@ -156,8 +152,6 @@ class AuthCommand extends Command
 
     /**
      * Give each User ownage over his own User Model for Usermanagement.
-     *
-     * @return void
      */
     protected function resetUserPermissions(): void
     {
@@ -171,8 +165,6 @@ class AuthCommand extends Command
 
     /**
      * Create all Custom abilities, if they are deleted or modified by accident
-     *
-     * @return void
      */
     protected function resetCustomAbilities(): void
     {

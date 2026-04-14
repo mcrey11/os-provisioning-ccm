@@ -44,8 +44,8 @@ use Validator;
  */
 class ImportCsvCommand extends Command
 {
-    use ImportTrait;
     use \App\AddressFunctionsTrait;
+    use ImportTrait;
 
     /** @var array Keys of data that shall not be validated */
     private $validationExceptions = ['mac', 'number'];

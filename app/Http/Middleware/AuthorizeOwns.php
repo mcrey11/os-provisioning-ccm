@@ -43,8 +43,6 @@ class AuthorizeOwns
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
      * @return void
      */
     public function __construct(Auth $auth, Gate $gate)
@@ -57,7 +55,6 @@ class AuthorizeOwns
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
      * @param  string  $ability
      * @param  array|null  $models
      * @return mixed

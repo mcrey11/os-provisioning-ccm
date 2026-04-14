@@ -134,6 +134,7 @@ class AbilityController extends Controller
         foreach ($requestData->capabilities as $id => $netElementType) {
             if ($netElementType['isCapable']) {
                 Bouncer::allow($role->name)->to(self::CAPABILITY_ACTION, $netElementTypes[$id]);
+
                 continue;
             }
 
@@ -153,7 +154,6 @@ class AbilityController extends Controller
      * handled to increase the Performance.
      *
      * @param  mixed  $requestData
-     * @param  string  $roleName
      * @param  Illuminate\Database\Eloquent\Collection  $abilities
      * @return void
      *
@@ -206,9 +206,9 @@ class AbilityController extends Controller
 
             foreach ($permissions as $permission) {
                 $crudPermissions->forget($permission);
-                $actions = $allowAll == 'true' && $allowAll != 'undefined' ?
-                            collect(['disallow', 'forbid']) :
-                            collect(['unforbid', 'allow']);
+                $actions = $allowAll == 'true' && $allowAll != 'undefined'
+                            ? collect(['disallow', 'forbid'])
+                            : collect(['unforbid', 'allow']);
 
                 $actions->each(function ($action) use ($permission, $role, $models, $model) {
                     if ($permission == '*') {
@@ -223,6 +223,7 @@ class AbilityController extends Controller
                 if ($permission == '*') {
                     Bouncer::disallow($role->name)->toManage($models[$model]);
                     Bouncer::unforbid($role->name)->toManage($models[$model]);
+
                     continue;
                 }
 
@@ -292,9 +293,9 @@ class AbilityController extends Controller
         $allowedAbilities = $role->getAbilities();
         $isAllowAllEnabled = $allowedAbilities->where('title', 'All abilities')->first();
 
-        $abilities = $isAllowAllEnabled ?
-                    self::mapModelAbilities($role->getForbiddenAbilities()) :
-                    self::mapModelAbilities($allowedAbilities);
+        $abilities = $isAllowAllEnabled
+                    ? self::mapModelAbilities($role->getForbiddenAbilities())
+                    : self::mapModelAbilities($allowedAbilities);
 
         $allAbilities = Ability::whereIn('id', $abilities->keys())->orderBy('id', 'asc')->get();
 
@@ -371,7 +372,6 @@ class AbilityController extends Controller
      * This Method performs a custom sort for Models to Modules. To keep the
      * Ability-Interface clear and concise for the Users.
      *
-     * @param  string  $name
      * @param  Illuminate\Support\Collection  $models
      * @param  Illuminate\Database\Eloquent\Collection  $allAbilities
      * @return Illuminate\Support\Collection
@@ -391,15 +391,14 @@ class AbilityController extends Controller
 
             return Str::contains($class, '\\'.$name.'\\');
         })
-        ->mapWithKeys(function ($class, $name) use ($models, $allAbilities) {
-            return self::getModelActions($name, $models, $allAbilities);
-        });
+            ->mapWithKeys(function ($class, $name) use ($models, $allAbilities) {
+                return self::getModelActions($name, $models, $allAbilities);
+            });
     }
 
     /**
      * This method returns the assigned Actions for a given Model.
      *
-     * @param  string  $name
      * @param  Illuminate\Support\Collection  $models
      * @param  Illuminate\Database\Eloquent\Collection  $allAbilities
      * @return array
@@ -410,8 +409,8 @@ class AbilityController extends Controller
     {
         return [
             $name => $allAbilities
-                    ->where('entity_type', $name == 'Role' ? 'roles' : $models->pull($name)) // Bouncer specific
-                    ->pluck('name'),
+                ->where('entity_type', $name == 'Role' ? 'roles' : $models->pull($name)) // Bouncer specific
+                ->pluck('name'),
         ];
     }
 
@@ -425,9 +424,9 @@ class AbilityController extends Controller
      */
     private function getChangedIds($requestData)
     {
-        return intval($requestData->id) ?
-                collect($requestData->id) :
-                collect($requestData->changed)->filter()->keys();
+        return intval($requestData->id)
+                ? collect($requestData->id)
+                : collect($requestData->changed)->filter()->keys();
     }
 
     /**
@@ -458,13 +457,13 @@ class AbilityController extends Controller
         return $abilities->filter(function ($ability) {
             return ! self::isCustom($ability);
         })
-                ->map(function ($ability) {
-                    return ['id' => $ability->id,
-                        'name' => $ability->name,
-                        'entity_type' => $ability->entity_type,
-                    ];
-                })
-                ->keyBy('id');
+            ->map(function ($ability) {
+                return ['id' => $ability->id,
+                    'name' => $ability->name,
+                    'entity_type' => $ability->entity_type,
+                ];
+            })
+            ->keyBy('id');
     }
 
     /**

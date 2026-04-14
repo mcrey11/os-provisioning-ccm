@@ -251,7 +251,7 @@ class ImportQuicklineCommand extends Command
             'city' => $this->currentLine[4],
             // 'company' => $this->currentLine[5] ?: null,
             'contract_start' => '2025-11-01',
-            'costcenter_id' => 1, //$this->argument('contract-cc'),
+            'costcenter_id' => 1, // $this->argument('contract-cc'),
             // 'country_code' => $this->currentLine[22], // State
             'create_invoice' => true,
             // 'description' => $description,

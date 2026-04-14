@@ -12,6 +12,7 @@ use Modules\ProvVoip\Entities\Mta;
 class FirmwareUpgradeService
 {
     protected $modems;
+
     protected $mtas;
 
     public static function getActiveFirmwareUpgrades(): \Illuminate\Support\Collection

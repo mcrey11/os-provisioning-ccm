@@ -330,7 +330,7 @@ class PhonenumberManagementController extends \BaseController
             return;
         }
 
-        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia();
+        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia;
 
         return $provvoipenvia->get_jobs_for_view($phonenumbermanagement, 'phonenumbermanagement');
     }

@@ -30,13 +30,19 @@ class ProvBase extends \BaseModel
 
     // some variables used if module ProvHA is enabled
     public $provha;
+
     public $provhaState;
+
     public $provhaOwnIp;
+
     public $provhaPeerIp;
+
     public $provhaOwnDnsPw;
+
     public $provhaPeerDnsPw;
 
     protected const DEFAULT_NETWORK_FILE_PATH = '/etc/dhcp-nmsprime/default-network.conf';
+
     public const NSUPDATE_LOGFILE = '/var/log/nmsprime/nsupdate.log';
 
     /**
@@ -65,7 +71,7 @@ class ProvBase extends \BaseModel
         } else {
             $this->provha = \DB::table('provha')->first();
             $this->provhaState = config('provha.hostinfo.ownState');
-            if ('master' == $this->provhaState) {
+            if ($this->provhaState == 'master') {
                 $this->provhaOwnIp = $this->provha->master;
                 $this->provhaPeerIp = explode(',', $this->provha->slaves)[0];
                 $this->provhaOwnDnsPw = $this->provha->master_dns_password;
@@ -181,7 +187,7 @@ class ProvBase extends \BaseModel
         $domainName = $this->domain_name;
         $defLeaseTime = $this->dhcp_def_lease_time;
         $maxLeaseTime = $this->dhcp_max_lease_time;
-        $hasLeaseLimit = (-1 == $this->max_cpe) ? false : true;
+        $hasLeaseLimit = ($this->max_cpe == -1) ? false : true;
         $leaseLimit = $this->max_cpe ?: 4;
 
         $stbVendorClassIds = IpPool::where('type', 'STB')

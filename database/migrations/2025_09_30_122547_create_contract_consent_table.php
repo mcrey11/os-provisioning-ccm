@@ -29,8 +29,6 @@ return new class extends BaseMigration
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
@@ -51,8 +49,6 @@ return new class extends BaseMigration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {

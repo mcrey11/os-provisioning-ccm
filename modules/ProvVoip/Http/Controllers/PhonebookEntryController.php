@@ -174,7 +174,7 @@ class PhonebookEntryController extends \BaseController
         foreach ($rules as $form_name => $form_name_rules) {
             $form_name_rules = explode('|', $form_name_rules);
 
-            if ('phonenumbermanagement_id' == $form_name) {
+            if ($form_name == 'phonenumbermanagement_id') {
                 // nothing to replace in this rule; would replace “id” by $phonebookentry->id
                 continue;
             }
@@ -223,7 +223,7 @@ class PhonebookEntryController extends \BaseController
             return;
         }
 
-        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia();
+        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia;
 
         return $provvoipenvia->get_jobs_for_view($phonebookentry, 'phonebookentry');
     }

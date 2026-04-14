@@ -182,7 +182,7 @@ class PhonenumberManagement extends \BaseModel
         $ret['Edit']['EnviaOrder']['options']['delete_button_text'] = trans('provvoipenvia::view.enviaOrder.deleteButton');
 
         $ret['Edit']['EnviaContract']['class'] = 'EnviaContract';
-        $enviacontracts = is_null($this->envia_contract) ? new Collection() : collect([$this->envia_contract]);
+        $enviacontracts = is_null($this->envia_contract) ? new Collection : collect([$this->envia_contract]);
         $ret['Edit']['EnviaContract']['relation'] = $enviacontracts;
         $ret['Edit']['EnviaContract']['options']['hide_create_button'] = 1;
         $ret['Edit']['EnviaContract']['options']['hide_delete_button'] = 1;
@@ -193,7 +193,7 @@ class PhonenumberManagement extends \BaseModel
 
         // can be created if no one exists, can be deleted if one exists
         if (is_null($relation)) {
-            $ret['Edit']['PhonebookEntry']['relation'] = new Collection();
+            $ret['Edit']['PhonebookEntry']['relation'] = new Collection;
             $ret['Edit']['PhonebookEntry']['options']['hide_delete_button'] = 1;
         } else {
             $ret['Edit']['PhonebookEntry']['relation'] = collect([$relation]);

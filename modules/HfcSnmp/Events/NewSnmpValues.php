@@ -34,7 +34,9 @@ class NewSnmpValues implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $data;
+
     private $netelement;
+
     private $channel;
 
     public function __construct($data, $netelement, $paramId, $index)

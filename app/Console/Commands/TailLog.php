@@ -16,9 +16,9 @@ class TailLog extends Command
         $lines = (int) $this->option('lines');
         $fileOpt = $this->option('file');
 
-        $file = $fileOpt === 'laravel' ?
-            storage_path('logs/laravel.log') :
-            $fileOpt;
+        $file = $fileOpt === 'laravel'
+            ? storage_path('logs/laravel.log')
+            : $fileOpt;
 
         if (! is_readable($file)) {
             $this->error("Not readable: {$file}");

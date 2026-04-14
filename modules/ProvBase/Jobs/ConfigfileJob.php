@@ -26,7 +26,7 @@ use Illuminate\Queue\SerializesModels;
 
 class ConfigfileJob implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels, Queueable;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $filter;
 

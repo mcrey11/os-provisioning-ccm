@@ -24,8 +24,11 @@ return new class extends BaseMigration
     public $migrationScope = 'system';
 
     protected $path = 'config/provbase/formoptions/';
+
     protected $salutations_person_file = 'salutations_person.txt';
+
     protected $salutations_institution_file = 'salutations_institution.txt';
+
     protected $academic_degrees_file = 'academic_degrees.txt';
 
     public function up()

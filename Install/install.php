@@ -42,8 +42,8 @@ function getConfig($dir_root, $rpm_dir, $module = 'base', $options = '')
     }
 
     // Parse Config to Arrays
-    $cfg = parse_ini_file($file, true) ['config'];
-    $files = parse_ini_file($file, true) ['files'];
+    $cfg = parse_ini_file($file, true)['config'];
+    $files = parse_ini_file($file, true)['files'];
 
     // Prepare Command Line Stuff ..
     if (isset($cfg['name'])) {

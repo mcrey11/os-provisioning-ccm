@@ -28,6 +28,7 @@ class PhonenumberController extends \BaseController
      * if set to true a create button on index view is available - set to true in BaseController as standard
      */
     protected $index_create_allowed = false;
+
     protected $save_button_name = 'Save / Restart';
 
     /**
@@ -46,8 +47,8 @@ class PhonenumberController extends \BaseController
         $hasProvVoipEnvia = \Module::collections()->has('ProvVoipEnvia');
         $provVoip = \Modules\ProvVoip\Entities\ProvVoip::first();
 
-        $roOption = $model->contract_external_id && $hasProvVoipEnvia ? ['readonly'] :
-        ['placeholder' => 'Leave empty on phonenumbers to be created.'];
+        $roOption = $model->contract_external_id && $hasProvVoipEnvia ? ['readonly']
+        : ['placeholder' => 'Leave empty on phonenumbers to be created.'];
         $ajaxOption = [
             'class' => 'select2-ajax',
             'ajax-route' => route('Phonenumber.select2', ['relation' => 'mtas']),
@@ -65,9 +66,9 @@ class PhonenumberController extends \BaseController
                 'form_type' => 'select',
                 'name' => 'mta_id',
                 'description' => 'MTA',
-                'value' => $hasProvVoipEnvia ?
-                    $model->mtasWhenEnviaEnabled() :
-                    $this->setupSelect2Field($model, 'Mta'),
+                'value' => $hasProvVoipEnvia
+                    ? $model->mtasWhenEnviaEnabled()
+                    : $this->setupSelect2Field($model, 'Mta'),
                 'hidden' => 'C',
                 'help' => $help,
                 'options' => $ajaxOption,
@@ -292,7 +293,7 @@ class PhonenumberController extends \BaseController
             return;
         }
 
-        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia();
+        $provvoipenvia = new \Modules\ProvVoipEnvia\Entities\ProvVoipEnvia;
 
         return $provvoipenvia->get_jobs_for_view($phonenumber, 'phonenumber');
     }

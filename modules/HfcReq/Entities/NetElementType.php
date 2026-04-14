@@ -119,9 +119,9 @@ class NetElementType extends \BaseModel
 
         $ret['Edit']['NetElement']['class'] = 'NetElement';
         $ret['Edit']['NetElement']['count'] = $this->netelements_count;
-        $ret['Edit']['NetElement']['relation'] = $this->netelements_count >= $threshold ?
-            collect([new \Modules\HfcReq\Entities\NetElement()]) :
-            $this->netelements;
+        $ret['Edit']['NetElement']['relation'] = $this->netelements_count >= $threshold
+            ? collect([new \Modules\HfcReq\Entities\NetElement])
+            : $this->netelements;
 
         if (\Module::collections()->has('HfcSnmp') && ! in_array($this->name, self::$undeletables)) {
             // Extra view for easier attachment (e.g. attach all oids from one mibfile)
@@ -176,11 +176,8 @@ class NetElementType extends \BaseModel
     /**
      * Format Parent (NetElementTypes) for Select 2 field and allow searching.
      *
-     * @param  string|null  $search
      *
      * @request param model The id of the model or null if in create context
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Parent(?string $search): \Illuminate\Database\Eloquent\Builder
     {
@@ -195,9 +192,6 @@ class NetElementType extends \BaseModel
 
     /**
      * Format OIDs for Select 2 field and allow for searching.
-     *
-     * @param  string|null  $search
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function select2Oids(?string $search): \Illuminate\Database\Eloquent\Builder
     {
