@@ -585,6 +585,8 @@ return [
 
     'map action' => 'map action',
     'filter by modem type' => 'filter by modem type',
+    'map_toggle_history' => 'History',
+    'map_toggle_outages' => 'Outages',
     'map' => [
         'title' => 'Map',
         'NMS Prime' => '<b>NMS Prime Headquarter</b><br />This is where the magic happens!<br />Íf you like NMS Prime, come visit and drink a coffee/beer/coke with us 😊',
