@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Base class to derive lifecycle tests for a model from
@@ -574,6 +575,7 @@ class BaseLifecycleTest extends TestCase
         }
     }
 
+    #[Depends('test_create_twice_using_the_same_data')]
     public function test_index_view_visible(): void
     {
         if (! $this->_test_shall_be_run(__FUNCTION__)) {
@@ -601,6 +603,7 @@ class BaseLifecycleTest extends TestCase
         $this->assertGreaterThan(0, count($visibleHeaders), 'At least one index table header (e.g. '.($index_header[0] ?? '').') should be visible.');
     }
 
+    #[Depends('test_empty_create')]
     public function test_create_with_fake_data(): void
     {
         if (! $this->_test_shall_be_run(__FUNCTION__)) {
@@ -634,6 +637,7 @@ class BaseLifecycleTest extends TestCase
         }
     }
 
+    #[Depends('test_create_with_fake_data')]
     public function test_create_twice_using_the_same_data(): void
     {
         if (! $this->_test_shall_be_run(__FUNCTION__)) {
@@ -726,6 +730,7 @@ class BaseLifecycleTest extends TestCase
         }
     }
 
+    #[Depends('test_index_view_visible')]
     public function test_update(): void
     {
         if (! $this->_test_shall_be_run(__FUNCTION__)) {
@@ -835,6 +840,7 @@ class BaseLifecycleTest extends TestCase
         }
     }
 
+    #[Depends('test_update')]
     public function test_datatable_data_returned(): void
     {
         if (! $this->_test_shall_be_run(__FUNCTION__)) {
@@ -854,6 +860,7 @@ class BaseLifecycleTest extends TestCase
         }
     }
 
+    #[Depends('test_datatable_data_returned')]
     public function test_delete_from_index_view(): void
     {
         if (! $this->_test_shall_be_run(__FUNCTION__)) {

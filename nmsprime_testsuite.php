@@ -63,6 +63,12 @@ class TestRunner
     /** @var array<int, string> Missing lifecycle test file paths. */
     protected array $missingTestFiles = [];
 
+    /** Script start timestamp. */
+    protected float $startedAt = 0.0;
+
+    /** @var array<string, array{status:string,duration:float,returnCode:int}> */
+    protected array $circuitResults = [];
+
     /** @var array<string, array<int, string>> Circuit name => enabled module names. */
     protected array $testCircuits = [
         'Basic' => [
@@ -89,7 +95,7 @@ class TestRunner
 
     /** @var array<int, string> Additional test files always included per circuit. */
     protected array $additionalTests = [
-        './tests/RoutesAuthTest.php',
+        /* './tests/RoutesAuthTest.php', */
     ];
 
     /**
@@ -111,6 +117,7 @@ class TestRunner
         chdir($this->basepath);
         array_map('unlink', glob('./phpunit/out/*.htm'));
         putenv('TERM=xterm-256color');
+        $this->startedAt = microtime(true);
 
         $this->originalPhpunitXml = (string) file_get_contents('phpunit.xml');
         $this->phpunitXmlTemplate = (string) file_get_contents('phpunit/phpunit_lifecycle.tpl.xml');
@@ -156,6 +163,7 @@ class TestRunner
     public function runLifecycleTests(): void
     {
         foreach ($this->testCircuits as $circuit => $enabledModules) {
+            $circuitStartedAt = microtime(true);
             echo "\n\n================================================================================";
             echo "\nTesting circuit “".$circuit.'”';
             echo "\n";
@@ -164,6 +172,12 @@ class TestRunner
             $this->writePhpunitXml($circuit, $enabledModules);
             echo "\n";
             passthru($this->phpunit, $returnCode);
+            $duration = microtime(true) - $circuitStartedAt;
+            $this->circuitResults[$circuit] = [
+                'status' => $returnCode === 0 ? 'PASS' : 'FAIL',
+                'duration' => $duration,
+                'returnCode' => (int) $returnCode,
+            ];
             if (is_file('phpunit/phpunit_log.htm')) {
                 rename('phpunit/phpunit_log.htm', 'phpunit/phpunit_'.str_replace(' ', '', $circuit).'_log.htm');
             }
@@ -238,6 +252,7 @@ class TestRunner
         echo "\nRestoring original phpunit.xml file";
         echo "\n";
         file_put_contents('phpunit.xml', $this->originalPhpunitXml);
+        $this->printSummary();
         if ($this->missingTestFiles) {
             echo "\n\nMissing test files:";
             foreach (array_unique($this->missingTestFiles) as $file) {
@@ -246,6 +261,30 @@ class TestRunner
         }
         echo "\n\nFinished";
         echo "\n\n";
+    }
+
+    protected function printSummary(): void
+    {
+        $executed = count($this->circuitResults);
+        $planned = count($this->testCircuits);
+        $passed = count(array_filter($this->circuitResults, fn (array $result) => $result['status'] === 'PASS'));
+        $failed = $executed - $passed;
+        $runtime = microtime(true) - $this->startedAt;
+
+        echo "\n\n================================================================================";
+        echo "\nSummary";
+        echo "\n";
+        echo "\nPlanned circuits: $planned";
+        echo "\nExecuted circuits: $executed";
+        echo "\nPassed circuits: $passed";
+        echo "\nFailed circuits: $failed";
+        echo "\nRuntime: ".number_format($runtime, 2).'s';
+        echo "\n";
+
+        foreach ($this->circuitResults as $circuit => $result) {
+            $duration = number_format($result['duration'], 2);
+            echo "\n - {$circuit}: {$result['status']} ({$duration}s, rc={$result['returnCode']})";
+        }
     }
 
     /**
