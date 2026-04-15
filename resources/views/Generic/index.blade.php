@@ -117,6 +117,8 @@
 
     @include('Generic.above_infos')
 
+    @stack('index_above_table')
+
     {{-- database entries inside a form with checkboxes to be able to delete one or more entries --}}
     @if ($delete_allowed)
         {{ html()->form('DELETE', route($route_name.'.destroy', [0]))->id('IndexForm')->open() }}
@@ -273,7 +275,18 @@ $(document).ready(function() {
             serverSide: true, {{-- enable Serverside Handling--}}
             deferRender: true,
             deferLoading: true,
+            @if (! empty($datatableAjaxExtraQueryParams ?? []))
+            ajax: {
+                url: '{{ isset($ajax_route_name) && $route_name != "Config.index" ? route($ajax_route_name) : "" }}',
+                data: function (d) {
+                    @foreach ($datatableAjaxExtraQueryParams as $param => $elementId)
+                    d['{{ $param }}'] = $('#{{ $elementId }}').val() || '';
+                    @endforeach
+                }
+            },
+            @else
             ajax: '{{ isset($ajax_route_name) && $route_name != "Config.index" ? route($ajax_route_name) : "" }}',
+            @endif
             {{-- generic Col Header generation --}}
             @include('datatables.genericColHeader')
         @endif
@@ -290,6 +303,8 @@ $(document).ready(function() {
     @endif
 
     table.draw()
+
+    @stack('index_datatable_after_init')
 
     function setGlobalFilter(col, search)
     {

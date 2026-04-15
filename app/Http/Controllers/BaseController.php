@@ -116,6 +116,14 @@ class BaseController extends Controller
     protected $index_tree_view = false;
 
     /**
+     * Optional map of query parameter names to HTML element IDs; values are appended to DataTables AJAX
+     * requests on the index view (see Generic.index).
+     *
+     * @var array<string, string>
+     */
+    protected array $indexDatatableAjaxExtraQueryParams = [];
+
+    /**
      * Placeholder for Many-to-Many-Relation multiselect fields that should be handled generically (e.g. users of Ticket)
      * If special Abilities are needed to edit the valies, place classname in key like:
      * [ App\User::class => 'users_ids']
@@ -901,8 +909,10 @@ class BaseController extends Controller
 
         Log::debug('Showing only index() elements a user can access is not yet implemented');
 
+        $datatableAjaxExtraQueryParams = $this->indexDatatableAjaxExtraQueryParams;
+
         return View::make($view_path, $this->compact_prep_view(compact('create_allowed', 'delete_allowed',
-            'filter', 'headline', 'hugeTable', 'indexTableInfo', 'methodExists', 'model', 'view_header')));
+            'datatableAjaxExtraQueryParams', 'filter', 'headline', 'hugeTable', 'indexTableInfo', 'methodExists', 'model', 'view_header')));
     }
 
     /**

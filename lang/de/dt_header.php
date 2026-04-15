@@ -6,6 +6,9 @@ return [
     'subject_type_id' => 'Art des Themas',
     'addtl_addr_info' => 'Addresszusatz',
     'amount' => 'Betrag',
+    'booking_account' => [
+        'revenue' => 'Umsatz (netto)',
+    ],
     'buttons' => [
         'clearFilter' => 'Suchfilter leeren',
     ],

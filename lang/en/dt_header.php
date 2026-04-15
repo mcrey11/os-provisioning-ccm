@@ -6,6 +6,9 @@ return [
     'subject_type_id' => 'Subject Type',
     'addtl_addr_info' => 'Additional address info',
     'amount' => 'Amount',
+    'booking_account' => [
+        'revenue' => 'Revenue (net)',
+    ],
     'buttons' => [
         'clearFilter' => 'Clear Search Filter',
     ],
