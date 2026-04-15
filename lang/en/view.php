@@ -1,7 +1,18 @@
 <?php
 
 return [
-    'address' => 'Adress',
+    'address' => [
+        '' => 'Adress',
+        'street' => 'Street',
+        'house_number' => 'House Number',
+        'additional' => 'Additional',
+        'zip' => 'Zip Code',
+        'city' => 'City',
+        'district' => 'District',
+        'source' => 'Source',
+        'lat' => 'Latitude',
+        'lng' => 'Longitude',
+    ],
     'all' => 'All',
     'bookingAccount' => [
         '' => 'Booking account',
