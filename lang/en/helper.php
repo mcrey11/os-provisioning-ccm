@@ -97,7 +97,7 @@ return [
         'cache_notice_title' => 'IMPORTANT: Data is cached',
         'cache_notice' => 'Configuration data is cached for performance. After making changes, please clear the cache using the following command:',
     ],
-    'ccc_config' => [
+    'cccConfig' => [
         'cache_notice_title' => 'IMPORTANT: Data is cached',
         'cache_notice' => 'Configuration data is cached for performance. After making changes, please clear the cache using the following command:',
         'block_internet_downselling' => 'Prevents customers in the CCC portal from selecting a slower internet plan than their current plan. Default: enabled.',
@@ -109,6 +109,8 @@ return [
         'postal_invoice_product_id' => 'Select the product to use for postal invoices. This should be a product of type "Postal".',
         'transfer_phone_product_id' => 'Select the product to use for telephone number porting. When this product is selected during CCC upgrade, customers will be asked to provide porting information.',
         'customer_ticket_type_parent' => 'Select the parent ticket type that will be used as the root for customer change requests in the CCC portal. Customers will be able to select from ticket types that are children of this parent.',
+        'homeButtonName' => 'Label for the home button in the CCC navigation (left menu). Leave empty to remove the menu entry.',
+        'welcomeMessage' => 'Welcome text shown on the CCC home page below the welcome heading.',
     ],
 
     // Web Order
