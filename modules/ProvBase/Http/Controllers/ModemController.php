@@ -1065,14 +1065,14 @@ class ModemController extends \BaseController
         }
 
         $object = [
-            'enabled' => [
-                '24' => $enabled24,
-                '50' => $enabled50,
-            ],
-            'ssid' => [
-                '24' => trim($ssid24, '"'),
-                '50' => trim($ssid50, '"'),
-            ],
+            'models' => [
+                $modem->id => [
+                    'enabled_24' => $enabled24,
+                    'enabled_50' => $enabled50,
+                    'ssid_24' => trim($ssid24, '"'),
+                    'ssid_50' => trim($ssid24, '"'),
+                ]
+            ]
         ];
 
         return response()->v0ApiReply($object, true, $id);
