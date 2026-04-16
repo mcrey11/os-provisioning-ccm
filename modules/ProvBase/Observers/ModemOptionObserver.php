@@ -19,11 +19,22 @@
 
 namespace Modules\ProvBase\Observers;
 
+use Modules\ProvBase\Entities\Modem;
+
 class ModemOptionObserver
 {
     public function created($option)
     {
-        $this->updateConfig($option);
+        $dirty = $option->getDirty();
+
+        if (multi_array_key_exists(['modem_id', 'key', 'value'], $dirty)) {
+            $this->updateConfig($option);
+        }
+
+        /* also restart prior modem in case modem_id changed */
+        if (array_key_exists('modem_id', $dirty)) {
+            Modem::find($option->getOriginal('modem_id'))?->restart();
+        }
     }
 
     public function updated($option)
