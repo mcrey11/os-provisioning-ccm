@@ -435,6 +435,7 @@ return [
         'missingLD' => 'Info: Der letzte Download des Configfiles ist zu lang her, um festzustellen ob das Modem die aktuellen Konfigurationen übernommen hat.',
         'noNetworkAccess' => 'Internetzugriff und Telefonie ist gesperrt. (gemäß Configfile)',
         'onlyVoip' => 'Internetzugriff ist gesperrt. Nur Telefonie ist erlaubt. (gemäß Configfile)',
+        'provmonDisabled' => 'Bitte das Modul ProvMon installieren, um diese Funktion zu nutzen.',
         'refreshFinished' => 'Die Werte wurden erfolgreich aktualisiert.',
         'setWifi' => 'WLAN einrichten',
         'setDns' => 'DNS setzen',

@@ -997,7 +997,7 @@ class ModemController extends \BaseController
 
         $modem = Modem::findOrFail($id);
 
-        $cwmpModel = $modem->getCwmpDataModel($modem->getGenieId());
+        $cwmpModel = $modem->dataModel($modem->getGenieId());
         ModemOption::updateOrCreate(['modem_id' => $modem->id, 'key' => 'custom_dns_enable'], ['value' => 'false']);
 
         if ($cwmpModel) {

@@ -435,6 +435,7 @@ return [
         'missingLD' => 'Info: The last configfile download was too long ago to determine if the modem has incured the actual configurations.',
         'noNetworkAccess' => 'Internet access and telephony is blocked. (according to configfile)',
         'onlyVoip' => 'Internet access is blocked. Only telephony is allowed. (according to configfile)',
+        'provmonDisabled' => 'Please install the ProvMon module to use this functionality.',
         'refreshFinished' => 'The data has been successfully updated.',
         'setWifi' => 'configure WiFi',
         'setDns' => 'set DNS',

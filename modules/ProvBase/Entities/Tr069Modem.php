@@ -97,8 +97,12 @@ class Tr069Modem extends Modem implements ModemType
             return trans('messages.modemAnalysis.actionExecuted');
         }
 
+        if (! \Module::collections()->has('ProvMon')) {
+            return trans('messages.modemAnalysis.provmonDisabled');
+        }
+
         // setWifi, setDns, blockDhcp, unblockDhcp
-        $cwmpModel = (new DataModel($this->modem))->getDataModel();
+        $cwmpModel = (new \Modules\ProvMon\Entities\DataModel($this->modem))->getDataModel();
 
         return $cwmpModel->$taskName();
     }
