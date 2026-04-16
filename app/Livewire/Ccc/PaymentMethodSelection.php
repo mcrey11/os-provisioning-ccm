@@ -143,49 +143,51 @@ class PaymentMethodSelection extends Component
     {
         $methods = [];
 
-        if ($this->cccConfig) {
-            // SEPA
-            if ($this->cccConfig->payment_method_sepa) {
-                $methods['sepa'] = [
-                    'label' => __('view.payment.sepa.label'),
-                    'description' => __('view.payment.sepa.description'),
-                    'icon' => 'fas fa-university',
-                ];
+        if (! $this->cccConfig) {
+            return [];
+        }
+
+        // SEPA
+        if ($this->cccConfig->payment_method_sepa) {
+            $methods['sepa'] = [
+                'label' => __('view.payment.sepa.label'),
+                'description' => __('view.payment.sepa.description'),
+                'icon' => 'fas fa-university',
+            ];
+        }
+
+        // Rechnung (Invoice)
+        if ($this->cccConfig->payment_method_rechnung) {
+            $priceInfo = '';
+            if ($this->postalInvoiceProduct && $this->postalInvoiceProduct->price) {
+                $formattedPriceWithCurrency = \Modules\BillingBase\Providers\BillingConf::formatPriceWithCurrency($this->postalInvoiceProduct->price);
+                $billingCycle = $this->getBillingCycleLabel($this->postalInvoiceProduct->billing_cycle ?? 'monthly');
+                $priceInfo = " ({$formattedPriceWithCurrency} / {$billingCycle})";
             }
 
-            // Rechnung (Invoice)
-            if ($this->cccConfig->payment_method_rechnung) {
-                $priceInfo = '';
-                if ($this->postalInvoiceProduct && $this->postalInvoiceProduct->price) {
-                    $formattedPriceWithCurrency = \Modules\BillingBase\Providers\BillingConf::formatPriceWithCurrency($this->postalInvoiceProduct->price);
-                    $billingCycle = $this->getBillingCycleLabel($this->postalInvoiceProduct->billing_cycle ?? 'monthly');
-                    $priceInfo = " ({$formattedPriceWithCurrency} / {$billingCycle})";
-                }
+            $methods['rechnung'] = [
+                'label' => __('view.payment.rechnung.label'),
+                'description' => __('view.payment.rechnung.description').$priceInfo,
+                'icon' => 'fas fa-file-invoice',
+            ];
+        }
 
-                $methods['rechnung'] = [
-                    'label' => __('view.payment.rechnung.label'),
-                    'description' => __('view.payment.rechnung.description').$priceInfo,
-                    'icon' => 'fas fa-file-invoice',
-                ];
-            }
+        // Credit Card
+        if ($this->cccConfig->payment_method_credit_card && \Module::collections()->has('PaymentGws')) {
+            $methods['credit_card'] = [
+                'label' => __('view.payment.card.label'),
+                'description' => __('view.payment.card.description'),
+                'icon' => 'fas fa-credit-card',
+            ];
+        }
 
-            // Credit Card
-            if ($this->cccConfig->payment_method_credit_card && \Module::collections()->has('PaymentGws')) {
-                $methods['credit_card'] = [
-                    'label' => __('view.payment.card.label'),
-                    'description' => __('view.payment.card.description'),
-                    'icon' => 'fas fa-credit-card',
-                ];
-            }
-
-            // ACH
-            if ($this->cccConfig->payment_method_acs && \Module::collections()->has('PaymentGws')) {
-                $methods['ach'] = [
-                    'label' => __('view.payment.acs.label'),
-                    'description' => __('view.payment.acs.description'),
-                    'icon' => 'fas fa-money-check-alt',
-                ];
-            }
+        // ACH
+        if ($this->cccConfig->payment_method_acs && \Module::collections()->has('PaymentGws')) {
+            $methods['ach'] = [
+                'label' => __('view.payment.acs.label'),
+                'description' => __('view.payment.acs.description'),
+                'icon' => 'fas fa-money-check-alt',
+            ];
         }
 
         return $methods;
@@ -218,80 +220,88 @@ class PaymentMethodSelection extends Component
         ];
     }
 
+    // Determine current payment method from contract
     protected function loadCurrentPaymentMethod()
     {
-        // Determine current payment method from contract
-        if ($this->contract) {
-            $apiClient = new CccApiClient;
-            $contractId = $this->contract['id'];
+        if (! $this->contract) {
+            return;
+        }
 
-            // Check for existing SEPA mandate
-            $sepaMandates = $apiClient->getAll('SepaMandate', ['contract_id' => $contractId]);
-            if (! empty($sepaMandates)) {
-                // Find the valid mandate (not disabled, valid now)
-                foreach ($sepaMandates as $mandate) {
-                    if (empty($mandate['disable']) || ! $mandate['disable']) {
-                        $validTo = $mandate['valid_to'] ?? null;
-                        $validFrom = $mandate['valid_from'] ?? $mandate['created_at'] ?? null;
+        $apiClient = new CccApiClient;
+        $contractId = $this->contract['id'];
 
-                        // Check if mandate is currently valid
-                        $isValid = true;
-                        if ($validFrom && strtotime($validFrom) > time()) {
-                            $isValid = false;
-                        }
-                        if ($validTo && strtotime($validTo) < time()) {
-                            $isValid = false;
-                        }
+        // Check for existing SEPA mandate
+        $sepaMandates = $apiClient->getAll('SepaMandate', ['contract_id' => $contractId]);
+        if (! empty($sepaMandates)) {
+            // Find the valid mandate (not disabled, valid now)
+            foreach ($sepaMandates as $mandate) {
+                if (empty($mandate['disable']) || ! $mandate['disable']) {
+                    $validTo = $mandate['valid_to'] ?? null;
+                    $validFrom = $mandate['valid_from'] ?? $mandate['created_at'] ?? null;
 
-                        if ($isValid) {
-                            $this->currentPaymentMethod = 'sepa';
-                            $this->iban = $mandate['iban'] ?? '';
-                            $this->bic = $mandate['bic'] ?? '';
-                            $this->holder = $mandate['holder'] ?? '';
-                            $this->institute = $mandate['institute'] ?? '';
-                            $this->mandateReference = $mandate['reference'] ?? $this->mandateReference;
-                            break;
-                        }
+                    // Check if mandate is currently valid
+                    $isValid = true;
+                    if ($validFrom && strtotime($validFrom) > time()) {
+                        $isValid = false;
+                    }
+                    if ($validTo && strtotime($validTo) < time()) {
+                        $isValid = false;
+                    }
+
+                    if ($isValid) {
+                        $this->currentPaymentMethod = 'sepa';
+                        $this->iban = $mandate['iban'] ?? '';
+                        $this->bic = $mandate['bic'] ?? '';
+                        $this->holder = $mandate['holder'] ?? '';
+                        $this->institute = $mandate['institute'] ?? '';
+                        $this->mandateReference = $mandate['reference'] ?? $this->mandateReference;
+                        break;
                     }
                 }
             }
+        }
 
-            // Check for Credit Card/ACH payment (stored in contract.number2)
-            if (! $this->currentPaymentMethod) {
-                if (! empty($this->contract['number2'])) {
-                    // Contract has payment token stored - default to credit_card
-                    // Note: We can't distinguish between CC and ACH from number2 alone,
-                    // so we default to credit_card. User can switch if needed.
-                    $this->currentPaymentMethod = 'credit_card';
-                }
+        // Check for Credit Card/ACH payment (stored in contract.number2)
+        if (! $this->currentPaymentMethod) {
+            if (! empty($this->contract['number2'])) {
+                // Contract has payment token stored - default to credit_card
+                // Note: We can't distinguish between CC and ACH from number2 alone,
+                // so we default to credit_card. User can switch if needed.
+                $this->currentPaymentMethod = 'credit_card';
+            }
+        }
+
+        // Check for postal invoice product in contract items
+        if (! $this->currentPaymentMethod) {
+            if (! $this->postalInvoiceProduct) {
+                return;
             }
 
-            // Check for postal invoice product in contract items
-            if (! $this->currentPaymentMethod) {
-                $items = $apiClient->getAll('Item', ['contract_id' => $contractId]);
-                if ($this->postalInvoiceProduct) {
-                    foreach ($items as $item) {
-                        if (isset($item['product_id']) && $item['product_id'] == $this->postalInvoiceProduct->id) {
-                            // Check if item is still valid
-                            $validTo = $item['valid_to'] ?? null;
-                            $validFrom = $item['valid_from'] ?? $item['created_at'] ?? null;
+            $items = $apiClient->getAll('Item', ['contract_id' => $contractId]);
 
-                            $isValid = true;
-                            if ($validFrom && strtotime($validFrom) > time()) {
-                                $isValid = false;
-                            }
-                            if ($validTo && strtotime($validTo) < time()) {
-                                $isValid = false;
-                            }
+            foreach ($items as $item) {
+                if (isset($item['product_id']) && $item['product_id'] == $this->postalInvoiceProduct->id) {
+                    // Check if item is still valid
+                    $validTo = $item['valid_to'] ?? null;
+                    $validFrom = $item['valid_from'] ?? $item['created_at'] ?? null;
 
-                            if ($isValid) {
-                                $this->currentPaymentMethod = 'rechnung';
-                                $this->createInvoice = true;
-                                $this->postalInvoiceAgreed = true;
-                                break;
-                            }
-                        }
+                    $isValid = true;
+                    if ($validFrom && strtotime($validFrom) > time()) {
+                        $isValid = false;
                     }
+                    if ($validTo && strtotime($validTo) < time()) {
+                        $isValid = false;
+                    }
+
+                    if (! $isValid) {
+                        continue;
+                    }
+
+                    $this->currentPaymentMethod = 'rechnung';
+                    $this->createInvoice = true;
+                    $this->postalInvoiceAgreed = true;
+
+                    break;
                 }
             }
         }
