@@ -720,6 +720,7 @@ return [
     'PreConfiguration Time Offset' => 'Zeitverzögerung zwischen Vorkonfig & SNMP-Abfrage',
     'Reload Time - Controlling View' => 'Reload Time - Controlling View',
     'Due Date'                  => 'Fälligkeitsdatum',
+    'Finished at'               => 'Abgeschlossen am',
     'Type'                      => 'Typ',
     'Assigned users'            => 'Zugewiesene Nutzer',
     'active contracts'          => 'Aktive Verträge',

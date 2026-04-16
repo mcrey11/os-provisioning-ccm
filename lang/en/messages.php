@@ -720,6 +720,7 @@ return [
     'PreConfiguration Time Offset' => 'PreConfiguration Time Offset',
     'Reload Time - Controlling View' => 'Reload Time - Controlling View',
     'Due Date'                  => 'Due Date',
+    'Finished at'               => 'Finished at',
     'Type'                      => 'Type',
     'Assigned users'            => 'Assigned users',
     'active contracts'          => 'Active contracts',

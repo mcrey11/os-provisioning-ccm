@@ -838,6 +838,7 @@ return [
         'created_at' => 'Created at',
         'description' => 'Description',
         'duedate' => 'Due Date',
+        'finished_at' => 'Finished at',
         'id' => 'ID',
         'index' => 'Tickets',
         'name' => 'Title',

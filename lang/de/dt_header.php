@@ -783,6 +783,7 @@ return [
         'created_at' => 'Erstellt am',
         'description' => 'Beschreibung',
         'duedate' => 'Fälligkeitsdatum',
+        'finished_at' => 'Abgeschlossen am',
         'id' => 'ID',
         'name' => 'Titel',
         'priority' => 'Priorität',
