@@ -95,8 +95,9 @@ for module in sql sqlippool; do
 done
 
 # hook modules into events + disable detailed logging
-sed -e '/^accounting {/a\\tsqlippool' \
-    -e '/^post-auth {/a\\tsqlippool' \
+# see https://lists.freeradius.org/pipermail/freeradius-users/2022-August/102279.html
+sed -e '/^accounting {/a\\tsqlippool { notfound = 1 }' \
+    -e '/^post-auth {/a\\tsqlippool { notfound = 1 }' \
     -e 's/^\s*detail/#\tdetail/' \
     -i /etc/raddb/sites-available/default
 
