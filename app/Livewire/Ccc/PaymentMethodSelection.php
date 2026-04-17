@@ -111,13 +111,7 @@ class PaymentMethodSelection extends Component
             abort(404, 'Contract not found');
         }
 
-        // Get contract via API
-        $apiClient = new CccApiClient;
-        $this->contract = $apiClient->get('Contract', $cccUser->contract_id);
-
-        if (! $this->contract) {
-            abort(404, 'Contract not found');
-        }
+        $this->contract = $cccUser->contract;
 
         // Get postal invoice product info
         if ($this->cccConfig && $this->cccConfig->postal_invoice_product_id) {
