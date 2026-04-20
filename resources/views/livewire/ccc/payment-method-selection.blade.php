@@ -37,16 +37,16 @@
                              wire:key="payment-method-{{ $method }}">
                             <div class="card-body text-center py-3 d-flex flex-column" style="min-height: 140px;">
                                 <div class="mb-2">
-                                    <i class="{{ $config['icon'] }} fa-2x {{ $selectedMethod === $method ? 'text-primary' : 'text-muted' }}"></i>
+                                    <i class="{{ $config['icon'] }} fa-2x"></i>
                                 </div>
-                                <h6 class="card-title mb-1 {{ $selectedMethod === $method ? 'text-primary' : '' }}">
+                                <h6 class="card-title mb-1">
                                     {{ $config['label'] }}
                                 </h6>
-                                <p class="card-text text-muted small mb-2 flex-grow-1">
+                                <p class="card-text small mb-2 flex-grow-1">
                                     {{ $config['description'] }}
                                 </p>
                                 @if($selectedMethod === $method)
-<div>
+                                    <div>
                                         <i class="fa fa-check-circle" style="color: var(--primary-color, #007bff);"></i>
                                         <small class="ms-1" style="color: var(--primary-color, #007bff);">{{ __('view.payment.method_selected') }}</small>
                                     </div>
@@ -178,10 +178,10 @@
                                 {{ __('view.payment.sepa.mandate_warning') }}
                             </div>
 
-                            <div class="d-flex justify-content-end">
+                            <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save me-2"></i>
-                                    {{ __('view.payment.sepa.save') }}
+                                    {{ __('messages.Save') }}
                                 </button>
                             </div>
                         </form>
@@ -254,8 +254,8 @@
                             </div>
                         @endif
 
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-success" wire:click="saveInvoicePayment">
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary" wire:click="saveInvoicePayment">
                                 <i class="fa fa-save me-2"></i>
                                 {{ __('view.payment.rechnung.save') }}
                             </button>
