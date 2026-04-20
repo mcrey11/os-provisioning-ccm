@@ -105,7 +105,7 @@ class GuiLog extends \BaseModel
 
         self::where('created_at', '<', $softDeleteDate)->delete();
         self::where('created_at', '<', $hardDeleteDate)->forceDelete();
-        self::where('created_at', '<', now()->subYear(1)->where('model', 'User')->where('text', 'like', 'last_login_at%'))->delete();
+        self::where('created_at', '<', now()->subYear(1))->where('model', 'User')->where('text', 'like', 'last_login_at%')->delete();
     }
 
     public static function log_changes($data)
