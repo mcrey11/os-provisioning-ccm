@@ -146,7 +146,7 @@ class PaymentMethodSelection extends Component
             $methods['sepa'] = [
                 'label' => __('view.payment.sepa.label'),
                 'description' => __('view.payment.sepa.description'),
-                'icon' => 'fas fa-university',
+                'icon' => 'fa fa-university',
             ];
         }
 
@@ -162,7 +162,7 @@ class PaymentMethodSelection extends Component
             $methods['rechnung'] = [
                 'label' => __('view.payment.rechnung.label'),
                 'description' => __('view.payment.rechnung.description').$priceInfo,
-                'icon' => 'fas fa-file-invoice',
+                'icon' => 'fa fa-file-invoice',
             ];
         }
 
@@ -171,7 +171,7 @@ class PaymentMethodSelection extends Component
             $methods['credit_card'] = [
                 'label' => __('view.payment.card.label'),
                 'description' => __('view.payment.card.description'),
-                'icon' => 'fas fa-credit-card',
+                'icon' => 'fa fa-credit-card',
             ];
         }
 
@@ -180,7 +180,7 @@ class PaymentMethodSelection extends Component
             $methods['ach'] = [
                 'label' => __('view.payment.acs.label'),
                 'description' => __('view.payment.acs.description'),
-                'icon' => 'fas fa-money-check-alt',
+                'icon' => 'fa fa-money-check-alt',
             ];
         }
 
