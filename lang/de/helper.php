@@ -3,9 +3,9 @@
 return [
     'ccc' => [
         'imgUpload' => 'Upload für Logo, Hintergrundbild und Home Banner. Bitte setzen Sie nach dem Upload das entsprechende Bild!',
-        'password_reset_email_sent' => 'E-Mail wurde gesendet.',
-        'password_reset_invalid' => 'Dieser Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an.',
-        'password_reset_success' => 'Ihr Passwort wurde aktualisiert. Sie können sich jetzt anmelden.',
+        'passwordResetEmailSent' => 'E-Mail wurde gesendet.',
+        'passwordResetInvalid' => 'Dieser Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an.',
+        'passwordResetSuccess' => 'Ihr Passwort wurde aktualisiert. Sie können sich jetzt anmelden.',
     ],
     'dateFormat' => 'd.m.Y',
     'dateTimeFormat' => 'd.m.Y H:i:s',

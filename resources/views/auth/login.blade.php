@@ -94,7 +94,7 @@
                 @isset($forgotPasswordRoute)
                     <div class="form-group m-b-10 text-center">
                         <a href="#ccc-forgot-password-modal" data-toggle="modal" class="text-muted">
-                            {{ __('view.ccc.password_reset.forgot_link') }}
+                            {{ __('view.ccc.passwordReset.forgotLink') }}
                         </a>
                     </div>
                 @endisset
@@ -130,15 +130,15 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">{{ __('view.ccc.password_reset.modal_title') }}</h4>
+                        <h4 class="modal-title">{{ __('view.ccc.passwordReset.modalTitle') }}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     {{ html()->form('POST', $forgotPasswordRoute)->open() }}
                     @csrf
                     <div class="modal-body">
-                        <p class="text-muted">{{ __('view.ccc.password_reset.modal_help') }}</p>
+                        <p class="text-muted">{{ __('view.ccc.passwordReset.modalHelp') }}</p>
                         <div class="form-group">
-                            <label for="ccc-forgot-email">{{ __('view.ccc.password_reset.email_label') }}</label>
+                            <label for="ccc-forgot-email">{{ __('view.ccc.passwordReset.emailLabel') }}</label>
                             {{ html()->email('email')->id('ccc-forgot-email')->class('form-control')->value(old('email'))->required() }}
                         </div>
                         @if ($errors->has('email'))
@@ -146,8 +146,8 @@
                         @endif
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('view.ccc.password_reset.modal_cancel') }}</button>
-                        <button type="submit" class="btn btn-success">{{ __('view.ccc.password_reset.modal_submit') }}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('view.ccc.passwordReset.modalCancel') }}</button>
+                        <button type="submit" class="btn btn-success">{{ __('view.ccc.passwordReset.modalSubmit') }}</button>
                     </div>
                     {{ html()->form()->close() }}
                 </div>

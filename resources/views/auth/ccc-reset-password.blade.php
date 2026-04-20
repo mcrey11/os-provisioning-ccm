@@ -21,7 +21,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{{ __('view.ccc.password_reset.page_title') }}</title>
+    <title>{{ __('view.ccc.passwordReset.pageTitle') }}</title>
     @include ('bootstrap.header')
 </head>
 
@@ -61,7 +61,7 @@
                 <div class="modal-dialog" style="margin: 0; max-width: none;">
                     <div class="modal-content" style="border: none; box-shadow: none; background: transparent;">
                         <div class="modal-header" style="border: none; padding-left: 0; padding-right: 0;">
-                            <h4 class="modal-title">{{ __('view.ccc.password_reset.dialog_title') }}</h4>
+                            <h4 class="modal-title">{{ __('view.ccc.passwordReset.dialogTitle') }}</h4>
                         </div>
                         <div class="modal-body" style="padding-left: 0; padding-right: 0;">
                             {{ html()->form('POST', route('customer.password.reset.submit'))->open() }}
@@ -70,10 +70,10 @@
                             <input type="hidden" name="token" value="{{ $token }}">
 
                             <div class="form-group m-b-20">
-                                {{ html()->password('password')->placeholder(__('view.ccc.password_reset.new_password'))->style('simple')->class('form-control input-lg')->required() }}
+                                {{ html()->password('password')->placeholder(__('view.ccc.passwordReset.newPassword'))->style('simple')->class('form-control input-lg')->required() }}
                             </div>
                             <div class="form-group m-b-20">
-                                {{ html()->password('password_confirmation')->placeholder(__('view.ccc.password_reset.new_password_confirm'))->style('simple')->class('form-control input-lg')->required() }}
+                                {{ html()->password('password_confirmation')->placeholder(__('view.ccc.passwordReset.newPasswordConfirm'))->style('simple')->class('form-control input-lg')->required() }}
                             </div>
 
                             @if ($errors->any())
@@ -85,7 +85,7 @@
                             @endif
 
                             <div class="login-buttons">
-                                <button type="submit" class="btn btn-success btn-block btn-lg">{{ __('view.ccc.password_reset.submit') }}</button>
+                                <button type="submit" class="btn btn-success btn-block btn-lg">{{ __('view.ccc.passwordReset.submit') }}</button>
                             </div>
                             {{ html()->form()->close() }}
                         </div>
