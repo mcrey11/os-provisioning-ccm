@@ -91,6 +91,20 @@
                     </label>
                 </div>
 
+                @isset($forgotPasswordRoute)
+                    <div class="form-group m-b-10 text-center">
+                        <a href="#ccc-forgot-password-modal" data-toggle="modal" class="text-muted">
+                            {{ __('view.ccc.password_reset.forgot_link') }}
+                        </a>
+                    </div>
+                @endisset
+
+                @if (session('status'))
+                    <div class="note note-success m-b-15">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
                 {{-- Error Message --}}
                 <div class="m-t-20">
                     <p align="center"><span id="error" color="yellow">
@@ -110,6 +124,48 @@
         </div>
     </div>
     {{-- end login --}}
+
+    @isset($forgotPasswordRoute)
+        <div class="modal fade" id="ccc-forgot-password-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ __('view.ccc.password_reset.modal_title') }}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    {{ html()->form('POST', $forgotPasswordRoute)->open() }}
+                    @csrf
+                    <div class="modal-body">
+                        <p class="text-muted">{{ __('view.ccc.password_reset.modal_help') }}</p>
+                        <div class="form-group">
+                            <label for="ccc-forgot-email">{{ __('view.ccc.password_reset.email_label') }}</label>
+                            {{ html()->email('email')->id('ccc-forgot-email')->class('form-control')->value(old('email'))->required() }}
+                        </div>
+                        @if ($errors->has('email'))
+                            <div class="text-danger small m-t-5">{{ $errors->first('email') }}</div>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('view.ccc.password_reset.modal_cancel') }}</button>
+                        <button type="submit" class="btn btn-success">{{ __('view.ccc.password_reset.modal_submit') }}</button>
+                    </div>
+                    {{ html()->form()->close() }}
+                </div>
+            </div>
+        </div>
+    @endisset
+
+    @isset($forgotPasswordRoute)
+        @if ($errors->has('email'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    if (window.jQuery && typeof jQuery.fn.modal === 'function') {
+                        jQuery('#ccc-forgot-password-modal').modal('show');
+                    }
+                });
+            </script>
+        @endif
+    @endisset
 
     @include ('bootstrap.footer')
 

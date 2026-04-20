@@ -3,6 +3,9 @@
 return [
     'ccc' => [
         'imgUpload' => 'Upload for logo, backgound image and home banner. Please set the according image after the upload!',
+        'password_reset_email_sent' => 'Email sent.',
+        'password_reset_invalid' => 'This password reset link is invalid or has expired. Please request a new one.',
+        'password_reset_success' => 'Your password was updated. You can sign in now.',
     ],
     'dateFormat' => 'Y-m-d',
     'dateTimeFormat' => 'Y-m-d H:i:s',

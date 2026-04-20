@@ -77,6 +77,7 @@ class Kernel extends HttpKernel
         'can'           => \Illuminate\Auth\Middleware\Authorize::class,
         'owns'          => \App\Http\Middleware\AuthorizeOwns::class,
         'throttle'      => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'signed'        => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'cccRedirect'   => \Modules\Ccc\Http\Middleware\CccRedirectIfAuthenticated::class,
     ];
 }
