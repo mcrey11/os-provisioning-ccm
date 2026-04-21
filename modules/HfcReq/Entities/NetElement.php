@@ -135,6 +135,24 @@ class NetElement extends \BaseModel
 
         $this->addViewHasManyTickets($ret, $tabName);
 
+        if (Module::collections()->has('DocumentManagement')) {
+            data_set($ret, 'Documents.UploadDocument.view', [
+                'view' => 'documentmanagement::Document.upload',
+                'vars' => [
+                    'model_id' => $this->getKey(),
+                    'model_type' => $this::class,
+                ],
+            ]);
+
+            data_set($ret, 'Documents.Documents', [
+                'class' => 'Document',
+                'relation' => $this->documents->sortByDesc('id'),
+                'options' => [
+                    'hide_create_button' => true,
+                ],
+            ]);
+        }
+
         return $ret;
     }
 
@@ -400,6 +418,11 @@ class NetElement extends \BaseModel
     public function modems()
     {
         return $this->hasMany(\Modules\ProvBase\Entities\Modem::class, 'netelement_id');
+    }
+
+    public function documents()
+    {
+        return $this->morphMany('Modules\\DocumentManagement\\Entities\\Document', 'model');
     }
 
     // Relation to MPRs Modem Positioning Rules
@@ -1410,7 +1433,7 @@ class NetElement extends \BaseModel
         $community = $this->{'community_'.$access};
 
         if (! $community) {
-            $community = \Modules\HfcReq\Entities\HfcReq::get([$access.'_community'])->first()->{$access.'_community'};
+            $community = HfcReq::get([$access.'_community'])->first()->{$access.'_community'};
         }
 
         if (! $community) {
