@@ -58,7 +58,7 @@
             @endif
 
             <div class="m-t-20">
-                <div class="modal-dialog" style="margin: 0; max-width: none;">
+                <div class="modal-dialog" style="margin: 0; max-width: 100%;">
                     <div class="modal-content" style="border: none; box-shadow: none; background: transparent;">
                         <div class="modal-header" style="border: none; padding-left: 0; padding-right: 0;">
                             <h4 class="modal-title">{{ __('view.ccc.passwordReset.dialogTitle') }}</h4>
