@@ -1,17 +1,23 @@
 {
-  "preset": "laravel",
-  "rules": {
-    "operator_linebreak": false,
-    "phpdoc_summary": false,
-    "binary_operator_spaces": false
-  },
-  "exclude": [
-    "public",
-    "public-ccc",
-    "vendor",
-    "vendors",
-    "resources/lang",
-    "storage"
+    "preset": "laravel",
+    "rules": {
+        "binary_operator_spaces": false,
+        "fully_qualified_strict_types": {
+            "import_symbols": false
+        },
+        "operator_linebreak": {
+            "only_booleans": true,
+            "position": "end"
+        },
+        "phpdoc_summary": false
+    },
+    "exclude": [
+        "public",
+        "public-ccc",
+        "vendor",
+        "vendors",
+        "resources/lang",
+        "storage"
   ],
   "notName": ["*.blade.php"]
 }
