@@ -2139,7 +2139,7 @@ return [
             'description' => 'Mit Apple Pay bezahlen',
         ],
 
-        'acs' => [
+        'ach' => [
             'label' => 'ACH',
             'description' => 'Sicher per Automated Clearing House bezahlen',
             'title' => 'ACH-Zahlung',
@@ -2166,7 +2166,7 @@ return [
             'saved_successfully' => 'Rechnungszahlungsmethode erfolgreich gespeichert!',
         ],
 
-        'credit_card' => [
+        'cc' => [
             'title' => 'Kreditkartenzahlung',
             'info' => 'Ihre Zahlung wird sicher über unser Zahlungsgateway verarbeitet.',
         ],

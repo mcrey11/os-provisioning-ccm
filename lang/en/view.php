@@ -2151,7 +2151,7 @@ return [
             'description' => 'Pay securely with your online banking',
         ],
 
-        'acs' => [
+        'ach' => [
             'label' => 'ACH',
             'description' => 'Pay securely via Automated Clearing House',
             'title' => 'ACH Payment',
@@ -2178,7 +2178,7 @@ return [
             'saved_successfully' => 'Invoice payment method saved successfully!',
         ],
 
-        'credit_card' => [
+        'cc' => [
             'title' => 'Credit Card Payment',
             'info' => 'Your payment will be processed securely via our payment gateway.',
         ],

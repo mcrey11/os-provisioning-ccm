@@ -599,7 +599,7 @@ return [
             'description' => 'Pague de forma segura con su banca en línea',
         ],
 
-        'acs' => [
+        'ach' => [
             'label' => 'ACH',
             'description' => 'Pague de forma segura mediante Cámara de Compensación Automatizada',
             'title' => 'Pago ACH',
@@ -626,7 +626,7 @@ return [
             'saved_successfully' => '¡El método de pago por factura se ha guardado correctamente!',
         ],
 
-        'credit_card' => [
+        'cc' => [
             'title' => 'Pago con Tarjeta de Crédito',
             'info' => 'Su pago se procesará de forma segura mediante nuestra pasarela de pago.',
         ],
