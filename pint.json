@@ -14,11 +14,10 @@
     "exclude": [
         "public",
         "public-ccc",
-        "vendor",
-        "vendors",
         "resources/lang",
-        "storage"
-  ],
-  "notName": ["*.blade.php"]
+        "storage",
+        "vendor",
+        "vendors"
+    ],
+    "notName": ["*.blade.php"]
 }
-

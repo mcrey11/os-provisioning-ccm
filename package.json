@@ -80,7 +80,7 @@
         "vue3-touch-events": "^4.1.0",
         "vuedraggable": "^4.1.0"
     },
-        "lint-staged": {
+    "lint-staged": {
         "**/*.php": [
             "vendor/bin/pint"
         ]
