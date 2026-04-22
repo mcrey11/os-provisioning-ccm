@@ -53,12 +53,13 @@ code_analysis.txt
 # ignore queue process pid's
 *queue.pid
 
-# ignore debug output from testing
+# ignore temp and output files related to phpunit
+.phpunit.cache/
+phpunit.xml.bak
 phpunit/*.htm
 phpunit/*.txt
-
-# ignore xml files created from template
 phpunit/*.xml
+phpunit/out/*.htm
 
 # modules status file
 modules_statuses.json
@@ -84,3 +85,4 @@ npm-debug.log
 *.sql
 
 logs/logs.log
+venv
