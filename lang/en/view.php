@@ -529,7 +529,7 @@ return [
     'mein_konto' => [
         'description' => 'Manage your account settings and preferences.',
         'invoice_address' => 'Change Invoice Address',
-        'invoice_address_desc' => 'Update your billing and invoice address information.',
+        'invoice_address_desc' => 'Update your invoice address information.',
         'modem_address' => 'Change Modem Address',
         'modem_address_desc' => 'Update the address where your modem is located.',
         'password_change' => 'Change Password',

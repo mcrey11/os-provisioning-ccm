@@ -530,7 +530,7 @@ return [
         'description' => 'Verwalten Sie Ihre Kontoeinstellungen und Präferenzen.',
         'invoice_address' => 'Rechnungsadresse ändern',
         'invoice_address_desc' => 'Aktualisieren Sie Ihre Rechnungsadresse.',
-        'modem_address' => 'Modem-Adresse ändern',
+        'modem_address' => 'Anschlussadresse ändern',
         'modem_address_desc' => 'Aktualisieren Sie die Adresse, an der sich Ihr Modem befindet.',
         'password_change' => 'Passwort ändern',
         'password_change_desc' => 'Aktualisieren Sie Ihr Kontopasswort und Ihre Sicherheitseinstellungen.',
