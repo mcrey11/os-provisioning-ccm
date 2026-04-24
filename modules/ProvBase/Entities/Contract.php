@@ -439,7 +439,7 @@ class Contract extends \BaseModel
                 // Only show confirmed items in the conversion view
                 $confirmedItems = $this->webOrderItems()->where('confirmed', true)->get();
                 if ($confirmedItems->count() > 0) {
-                    $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['view']['view'] = 'provbase::Contract.weborder_items_conversion';
+                    $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['view']['view'] = 'orderportal::Contract.weborder_items_conversion';
                     $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['view']['vars']['contract'] = $this;
                     $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['view']['vars']['webOrderItems'] = $confirmedItems;
                     $ret[$i18nContract][trans('dt_header.web_order_items_conversion.headline')]['options']['hide_create_button'] = true;
