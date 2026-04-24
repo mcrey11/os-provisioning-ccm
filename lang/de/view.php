@@ -2069,8 +2069,8 @@ return [
         'no_methods_available' => 'Derzeit sind keine Zahlungsmethoden verfügbar.',
         'method_selection' => [
             'title' => 'Zahlungsmethode',
-            'method_selected' => 'Ausgewählt',
         ],
+        'method_selected' => 'Ausgewählt',
         'selected_method' => 'Ausgewählte Zahlungsmethode',
         'proceed_to_details' => 'Zu Zahlungsdetails',
         'back' => 'Zurück',

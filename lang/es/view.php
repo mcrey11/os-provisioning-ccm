@@ -538,7 +538,6 @@ return [
         'no_methods_available' => 'No hay métodos de pago disponibles actualmente.',
         'method_selection' => [
             'title' => 'Método de Pago',
-            'method_selected' => 'Seleccionado',
         ],
         'method_selected' => 'Seleccionado',
         'selected_method' => 'Método de Pago Seleccionado',

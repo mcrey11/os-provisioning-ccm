@@ -2090,7 +2090,6 @@ return [
         'no_methods_available' => 'No payment methods are currently available.',
         'method_selection' => [
             'title' => 'Payment Method',
-            'method_selected' => 'Selected',
         ],
         'method_selected' => 'Selected',
         'selected_method' => 'Selected Payment Method',
