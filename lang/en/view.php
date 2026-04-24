@@ -409,6 +409,7 @@ return [
         'Oid' => 'an OID',
         'Parent' => 'a parent Element',
         'Phonenumber' => 'a Phone Number',
+        'Product' => 'a Product',
         'provDevice' => 'a provisioning device',
         'Realty' => 'a realty',
         'Qos' => 'a QOS',
@@ -416,10 +417,12 @@ return [
 
     // Index
     'filter' => [
+        'action_needed' => 'Orders needing actions',
         'all' => 'bad filter',
+        'complete' => 'Complete',
+        'incomplete' => 'Incomplete',
         'newTickets' => 'New tickets',
         'sw_rev' => 'Modems with firmware :data',
-        'action_needed' => 'Orders needing actions',
     ],
 
     // DASHBOARD

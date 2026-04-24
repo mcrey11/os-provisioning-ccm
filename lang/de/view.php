@@ -409,6 +409,7 @@ return [
         'Oid' => 'eine OID',
         'Parent' => 'ein übergeordnetes Element',
         'Phonenumber' => 'eine Telefonnummer',
+        'Product' => 'ein Produkt',
         'provDevice' => 'ein entsprechendes Gerät aus dem Provisionierungsmodul',
         'Realty' => 'eine Liegenschaft',
         'Qos' => 'ein QOS',
@@ -416,10 +417,12 @@ return [
 
     // Index
     'filter' => [
+        'action_needed' => 'Aufträge die eine Bearbeitung erfordern',
         'all' => 'ungültiger Filter',
+        'complete' => 'Vollständig',
+        'incomplete' => 'Unvollständig',
         'newTickets' => 'neue Tickets',
         'sw_rev' => 'Modems mit Firmware :data',
-        'action_needed' => 'Aufträge die eine Bearbeitung erfordern',
     ],
 
     // DASHBOARD

@@ -1160,7 +1160,6 @@ return [
         'name' => 'Name',
         'sequence' => 'Sequenz',
         'selection_policy' => 'Auswahlrichtlinie',
-        'customer_type' => 'Kundentyp',
         'selection_policy.single' => 'Einzelauswahl',
         'selection_policy.multiple' => 'Mehrfachauswahl',
         'selection_policy.at_least_one' => 'Mindestens eine erforderlich',
