@@ -260,6 +260,7 @@ return [
     ],
     'geocode_source' => 'Geocode-Quelle',
     'home_id' => 'Home-ID',
+    'has_valid_sepa_mandate' => 'SEPA-Einzug',
     // Invoices
     'invoice' => [
         'ccc' => [

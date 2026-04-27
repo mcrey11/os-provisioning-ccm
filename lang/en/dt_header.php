@@ -317,6 +317,7 @@ return [
     ],
     'geocode_source' => 'Geocode origin',
     'home_id' => 'Home-ID',
+    'has_valid_sepa_mandate' => 'Has valid SEPA mandate',
     // Invoices
     'invoice' => [
         'ccc' => [

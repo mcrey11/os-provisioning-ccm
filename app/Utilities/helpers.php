@@ -925,3 +925,22 @@ if (! function_exists('phpWarningToException')) {
         throw new \App\Exceptions\PhpWarning($errstr, $errno, $errno, $errfile, $errline);
     }
 }
+
+if (! function_exists('isKeyWordYes')) {
+    function isKeyWordYes($keyword)
+    {
+        $chars = str_split($keyword, 1);
+        $positive = false;
+        $yes = trans('view.yes');
+
+        foreach ($chars as $char) {
+            if (str_contains($yes, $char)) {
+                $positive = true;
+
+                break;
+            }
+        }
+
+        return $positive;
+    }
+}
