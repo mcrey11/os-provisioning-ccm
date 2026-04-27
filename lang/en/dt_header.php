@@ -2,7 +2,18 @@
 
 return [
     // Index DataTable Header
+    'accountingrecord' => [
+        'charge' => 'Amount Net',
+        'from' => 'Period from',
+        'name' => 'Item',
+        'period' => 'Billing cycle',
+        'to' => 'Period to',
+    ],
     'active' => 'Active',
+    'booking_account_id' => 'Booking Account',
+    'invoice_id' => 'Invoice',
+    'settlementrun_id' => 'Settlement Run',
+    'tax' => 'Tax',
     'subject_type_id' => 'Subject Type',
     'addtl_addr_info' => 'Additional address info',
     'amount' => 'Amount',

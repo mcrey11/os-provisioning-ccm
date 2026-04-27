@@ -2,7 +2,19 @@
 
 return [
     // Index DataTable Header
+    'accountingrecord' => [
+        'charge' => 'Betrag Netto',
+        'from' => 'Leistungszeitraum von',
+        'name' => 'Posten',
+        'period' => 'Abrechnungszyklus',
+        // 'sepaaccount_name' => 'Einzugskonto',
+        'to' => 'Leistungszeitraum bis',
+    ],
     'active' => 'Aktiv',
+    'booking_account_id' => 'Buchungskonto',
+    'invoice_id' => 'Rechnung',
+    'settlementrun_id' => 'Rechnungslauf',
+    'tax' => 'Steuer',
     'subject_type_id' => 'Art des Themas',
     'addtl_addr_info' => 'Addresszusatz',
     'amount' => 'Betrag',

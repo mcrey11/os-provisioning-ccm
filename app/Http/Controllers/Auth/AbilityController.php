@@ -271,7 +271,6 @@ class AbilityController extends Controller
     public static function getModelAbilities(Role $role)
     {
         $modelsToExclude = [
-            'AccountingRecord', // has no UI/Route associated
             'Dashboard',        // has its own Authorization checks
             'IcingaHostStatus', // has no UI/Route associated
             'IcingaObject',     // has no UI/Route associated

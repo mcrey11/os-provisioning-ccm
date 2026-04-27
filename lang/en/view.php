@@ -68,6 +68,7 @@ return [
     'Menu_Apartment' => 'Apartments',
     'Menu_BillingBase' => 'Billing',
     'Menu_Booking Accounts' => 'Booking accounts',
+    'Menu_Accounting Records' => 'Accounting records',
     'Menu_Consent' => 'Consents',
     'Menu_ConsentMgmt' => 'Consent management',
     'Menu_Contact' => 'Contacts',
@@ -246,6 +247,8 @@ return [
     'Header_SEPA Mandate' => 'SEPA Mandate',
     'Header_EditModem' => 'Edit Modem',
     'Header_SettlementRun' => 'Settlement Run|Settlement Runs',
+    'Header_Accounting Records' => 'Accounting records',
+    'Header_AccountingRecord' => 'Accounting record|Accounting records',
     'Header_EditSettlementRun' => 'Edit Settlement Run',
     // Endpoint
     'Header_Endpoint' => 'Endpoint|Endpoints',
