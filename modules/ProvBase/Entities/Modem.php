@@ -2768,7 +2768,7 @@ class Modem extends \BaseModel
             $cur = $this->radacct()->latest('acctstarttime')->first();
             if ($cur && ! $cur->acctstoptime) {
                 $this->currentRadacct = $cur;
-                $ip = $hostname = $cur->framedipaddress ?: $cur->framedipv6address;
+                $ip = $hostname = $cur->framedipv6address ?: $cur->framedipaddress;
             }
 
             // workaround for tr069 devices, which block ICMP requests,
