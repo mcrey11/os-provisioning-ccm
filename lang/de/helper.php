@@ -36,7 +36,7 @@ return [
      */
     'SortSearchColumn'              => 'Diese Spalte kann nicht sortiert oder durchsucht werden.',
     'PrintVisibleTable'             => 'Druckt den aktuell sichtbaren Bereich der Tabelle. Um alles zu drucken bitte im Filter \\"Alle\\" auswählen. Das Laden kann einige Sekunden dauern.',
-    'ExportVisibleTable'            => 'Exportiert den aktuell sichtbaren Bereich der Tabelle. Um alles zu exportieren bitte im Filter \\"Alle\\" auswählen. Das Laden kann einige Sekunden dauern.',
+    'ExportVisibleTable'            => 'Exportiert den aktuell sichtbaren Bereich der Tabelle. Um alle passenden Einträge zu exportieren, den Button \\"Alles exportieren nach\\" verwenden.',
     'ChangeVisibilityTable'         => 'Mit dieser Option können Spaten ein-/ausgeblendet werden.',
     'clearFilter'                   => 'Suchfilter für Spaltensuche und das allgemeine Suchfeld leeren.',
 

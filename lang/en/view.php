@@ -81,6 +81,7 @@ return [
     'jQuery_colvisRestore' => 'Restore',
     'jQuery_colvisReset' => 'Reset',
     'jQuery_ExportTo' => 'Export to',
+    'jQuery_ExportAllTo' => 'Export all to',
     'jQuery_copyToClipboard' => 'Copy to Clipboard',
     // MENU
     // Main Menu

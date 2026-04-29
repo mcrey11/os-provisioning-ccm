@@ -231,7 +231,7 @@ $(document).ready(function() {
         {{-- Translate Datatables Base --}}
         @include('datatables.lang')
         {{-- Buttons above Datatable for export, print and change Column Visibility --}}
-        @include('datatables.buttons')
+        @include('datatables.buttons', ['export_all_enabled' => true])
         {{-- Table Footer Search fields to filter Columnwise and SAVE Filter --}}
         @include('datatables.colsearch')
         {{-- Show Pagination only when the results do not fit on one page --}}

@@ -21,7 +21,7 @@ return [
   */
     'SortSearchColumn'              => 'Esta Columna no puede ser examinada u ordenada.',
     'PrintVisibleTable'             => 'Imprime la tabla mostrada. Si la tabla esta filtrada, asegurarse de seleccionar la opcion \\"Todo\\" para mostrar todo. Espere algunos segundos.',
-    'ExportVisibleTable'            => 'Exporta la tabla seleccionada. Si la tabla esta filtrada, asegurarse de seleccionar la opcion \\"Todo\\" para mostrar todo. Espere algunos segundos.',
+    'ExportVisibleTable'            => 'Exporta la tabla mostrada. Para exportar todas las entradas coincidentes, use el botón \\"Export all to\\".',
     'ChangeVisibilityTable'         => 'Seleccione las columnas que deberian ser visibles.',
 
     // GlobalConfig

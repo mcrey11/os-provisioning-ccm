@@ -695,7 +695,7 @@ class BaseController extends Controller
 
         foreach ($apps as $name => $value) {
             $package = exec('rpm -q '.escapeshellarg($value['rpmName']));
-            $apps[$name]['state'] = \Str::contains($package, 'not installed') ? 'inactive' : 'active';
+            $apps[$name]['state'] = Str::contains($package, 'not installed') ? 'inactive' : 'active';
         }
 
         Cache::forever('externalApps', $apps);
@@ -1514,11 +1514,11 @@ class BaseController extends Controller
         $model = NamespaceController::get_model_name();
         $model = $model::find($id);
 
-        if (\Request::has('ids')) {
-            $model->{$function}()->detach(array_keys(\Request::get('ids')));
+        if (Request::has('ids')) {
+            $model->{$function}()->detach(array_keys(Request::get('ids')));
         }
 
-        return \Redirect::back();
+        return Redirect::back();
     }
 
     /**
@@ -1982,7 +1982,138 @@ class BaseController extends Controller
 
         array_unshift($rawColumns, 'checkbox', $firstColumn); // add everywhere used raw columns
 
-        return $DT->rawColumns($rawColumns)->make();
+        $DT->rawColumns($rawColumns);
+
+        if ($this->isExportAllCsvRequest()) {
+            return $this->streamDatatableCsvExportAll($DT, $dtConfig);
+        }
+
+        return $DT->make();
+    }
+
+    private function isExportAllCsvRequest(): bool
+    {
+        return Request::get('export_all') == '1' && Request::get('export_all_format') === 'csv';
+    }
+
+    private function streamDatatableCsvExportAll($DT, array $dtConfig)
+    {
+        // Column list comes from the current DataTables column visibility state on the client.
+        $columns = array_values(array_filter((array) Request::get('export_columns', []), fn ($column) => is_string($column) && $column !== 'checkbox'));
+        $headers = array_values((array) Request::get('export_headers', []));
+
+        if (empty($columns)) {
+            $columns = array_map(function ($field) use ($dtConfig) {
+                if (Str::startsWith($field, $dtConfig['table'].'.')) {
+                    return substr($field, strlen($dtConfig['table']) + 1);
+                }
+
+                return $field;
+            }, $dtConfig['index_header'] ?? []);
+        }
+
+        $headers = $this->resolveDatatableExportHeaders($columns, $headers, $dtConfig);
+        $filename = NamespaceController::get_route_name().'_export_all_'.date('Ymd_His').'.csv';
+
+        // Reuse DataTables filtering/order pipeline but disable pagination for full export.
+        $DT->skipPaging();
+        $filteredQuery = $DT->getFilteredQuery();
+
+        return response()->streamDownload(function () use ($headers, $columns, $filteredQuery, $dtConfig) {
+            @set_time_limit(0);
+            $output = fopen('php://output', 'w');
+            fputcsv($output, $headers, ';');
+
+            // Stream rows lazily to avoid loading large exports into memory.
+            foreach ($filteredQuery->lazy(500) as $model) {
+                $csvRow = [];
+                foreach ($columns as $column) {
+                    $value = $this->resolveDatatableExportColumnValue($model, $column, $dtConfig);
+                    $csvRow[] = $this->normalizeDatatableExportValue($value);
+                }
+                fputcsv($output, $csvRow, ';');
+            }
+
+            fclose($output);
+        }, $filename, ['Content-Type' => 'text/csv; charset=UTF-8']);
+    }
+
+    private function resolveDatatableExportColumnValue($model, string $column, array $dtConfig): mixed
+    {
+        // Keep Datatables' explicit created_at formatting for CSV parity.
+        if ($column === 'created_at' && isset($model->created_at) && $model->created_at instanceof \Carbon\Carbon) {
+            return $model->created_at->toDateTimeString();
+        }
+
+        $editColumnData = $dtConfig['edit'] ?? [];
+        if (array_key_exists($column, $editColumnData)) {
+            // Reuse model edit callbacks from view_index_label() for computed/aggregated columns.
+            $functionname = $editColumnData[$column];
+            $param = null;
+            if (is_string($functionname) && $functionname == 'boolToLanguageString') {
+                $param = strpos($column, '.') !== false ? substr($column, strrpos($column, '.') + 1) : $column;
+            }
+
+            if (is_callable($functionname)) {
+                return is_null($param) ? $functionname($model) : $functionname($model, $param);
+            }
+
+            if (is_string($functionname) && method_exists($model, $functionname)) {
+                return is_null($param) ? $model->$functionname() : $model->$functionname($param);
+            }
+        }
+
+        return data_get($model, $column);
+    }
+
+    private function resolveDatatableExportHeaders(array $columns, array $headers, array $dtConfig): array
+    {
+        $resolvedHeaders = [];
+        $headerLabels = $dtConfig['header_labels'] ?? [];
+
+        foreach ($columns as $index => $column) {
+            $header = trim((string) ($headers[$index] ?? ''));
+            if ($header !== '') {
+                $resolvedHeaders[] = $header;
+
+                continue;
+            }
+
+            if (isset($headerLabels[$column])) {
+                $resolvedHeaders[] = $headerLabels[$column];
+
+                continue;
+            }
+
+            $translated = trans('dt_header.'.$column);
+            if ($translated !== 'dt_header.'.$column) {
+                $resolvedHeaders[] = $translated;
+
+                continue;
+            }
+
+            $translated = trans('dt_header.'.Str::afterLast($column, '.'));
+            $resolvedHeaders[] = $translated !== 'dt_header.'.Str::afterLast($column, '.') ? $translated : $column;
+        }
+
+        return $resolvedHeaders;
+    }
+
+    private function normalizeDatatableExportValue(mixed $value): string
+    {
+        if (is_null($value)) {
+            return '';
+        }
+
+        if (is_bool($value)) {
+            return $value ? '1' : '0';
+        }
+
+        if (is_scalar($value)) {
+            return trim(strip_tags(html_entity_decode((string) $value)));
+        }
+
+        return trim(strip_tags(html_entity_decode(json_encode($value))));
     }
 
     /**
@@ -2019,7 +2150,7 @@ class BaseController extends Controller
         $model = static::get_model_obj();
 
         return $model->select($column)
-            ->where($column, 'ilike', '%'.\Request::get('q').'%')
+            ->where($column, 'ilike', '%'.Request::get('q').'%')
             ->distinct()
             ->pluck($column);
     }
@@ -2220,7 +2351,7 @@ class BaseController extends Controller
         $error = '501';
         $message = trans('messages.missingModule', ['module' => $module]);
 
-        return \View::make('errors.generic', compact('error', 'message'));
+        return View::make('errors.generic', compact('error', 'message'));
     }
 
     /**
@@ -2315,7 +2446,7 @@ class BaseController extends Controller
         try {
             $filehandle = fopen(Request::file($formField)->path(), 'r');
         } catch (\Exception $ex) {
-            \Session::push('tmp_error_above_'.$errorMessagePosition, 'Exception thrown: '.$ex->getMessage());
+            Session::push('tmp_error_above_'.$errorMessagePosition, 'Exception thrown: '.$ex->getMessage());
 
             return null;
         }
@@ -2383,7 +2514,7 @@ class BaseController extends Controller
         $routeName = $modelName.'.'.$method;
 
         try {
-            return \Redirect::route($routeName, [$id]);
+            return Redirect::route($routeName, [$id]);
         } catch (RouteNotFoundException $ex) {
             $url = Request::url();
             $msg = trans('messages.routeNotFoundError', ['url' => $url, 'route' => $routeName]);

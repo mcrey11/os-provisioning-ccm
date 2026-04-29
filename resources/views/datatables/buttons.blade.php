@@ -19,6 +19,7 @@
 @php
     $colvis = $colvis ?? true;
     $export =  $data['export'] ?? ':visible.content';
+    $exportAllEnabled = $export_all_enabled ?? false;
 
     $exportAll = [
         'columns' =>  $export,
@@ -118,6 +119,48 @@ buttons: [
             }
         ]
     },
+    @if($exportAllEnabled)
+    {
+        extend: 'collection',
+        text: "{{ trans('view.jQuery_ExportAllTo') }}",
+        titleAttr: "{!! trans('helper.ExportVisibleTable') !!}",
+        className: 'btn-sm bg-gray-200 text-gray-800 border-gray-300',
+        autoClose: true,
+        buttons: [
+            {
+                text: "<i class='fa fa-file-code-o'></i> .CSV",
+                action: function (e, dt) {
+                    if (! dt.ajax || ! dt.ajax.url()) {
+                        return;
+                    }
+
+                    const params = dt.ajax.params() || {};
+                    const exportColumns = [];
+                    const exportHeaders = [];
+
+                    dt.columns().every(function () {
+                        const column = this;
+                        const header = $(column.header());
+
+                        if (! column.visible() || ! header.hasClass('content')) {
+                            return;
+                        }
+
+                        exportColumns.push(column.dataSrc());
+                        exportHeaders.push(header.text().trim().replace(/\s+/g, ' '));
+                    });
+
+                    params.export_all = '1';
+                    params.export_all_format = 'csv';
+                    params.export_columns = exportColumns;
+                    params.export_headers = exportHeaders;
+
+                    window.location = dt.ajax.url() + '?' + $.param(params);
+                },
+            },
+        ],
+    },
+    @endif
     @if($colvis)
     {
         extend: 'colvis',
