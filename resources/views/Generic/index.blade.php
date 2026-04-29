@@ -241,7 +241,7 @@ $(document).ready(function() {
         dom: 'lBfrtip', {{-- sets order and what to show  --}}
         stateSave: true, {{-- Save Search Filters and visible Columns --}}
         stateDuration: 0, // 60 * 60 * 24, {{-- Time the State is used - set to 24h --}}
-        lengthMenu:  [ [10, 25, 100, 250, 500, -1], [10, 25, 100, 250, 500, "{{ trans('view.jQuery_All') }}" ] ], {{-- Filter to List # Datasets --}}
+        lengthMenu:  [ [10, 25, 100, 250, 500, 1000], [10, 25, 100, 250, 500, 1000] ], {{-- Filter to List # Datasets --}}
         order: order,
         drawCallback: function(settings) {
             if (window.livewire) {
