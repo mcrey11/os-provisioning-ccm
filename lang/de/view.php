@@ -277,6 +277,7 @@ return [
     'Header_TicketType' => 'Tickettyp|Tickettypen',
     'Header_TicketTypeState' => 'Tickettypzustand|Tickettypzustände',
     'Header_TicketTypeTransition' => 'Tickettypzustandsübergang|Tickettypzustandsübergänge',
+    'Header_CopyTransitions' => 'Workflows/Tickettypzustandsübergänge kopieren',
     'Header_SpriBusinessCase' => 'S/PRI Geschäftsfall|S/PRI Geschäftsfälle',
     'Header_TicketReceiver' => 'Ticketzentrale',
     // Documents

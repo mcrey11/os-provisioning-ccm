@@ -277,6 +277,7 @@ return [
     'Header_TicketType' => 'Ticket Types',
     'Header_TicketTypeState' => 'Ticket Type States',
     'Header_TicketTypeTransition' => 'Ticket Type States Transitions',
+    'Header_CopyTransitions' => 'Copy workflows/ticket type state transitions',
     'Header_SpriBusinessCase' => 'S/PRI Business Case|S/PRI Business Cases',
     'Header_TicketReceiver' => 'Ticket Receiver',
     // Documents
