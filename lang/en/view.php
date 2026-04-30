@@ -2335,7 +2335,6 @@ return [
         'upgrade_available' => 'Upgrade Available',
         'upgrade_now' => 'Upgrade Now',
         'highest_plan' => 'You are already on the highest plan available.',
-        'starting_from' => 'Starting from',
         'choose_best_tarif' => 'Choose our best :layer tarif',
         'choose_plan' => 'Choose Plan',
         'no_products_available' => 'No products available in this category.',

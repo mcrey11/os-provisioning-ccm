@@ -2322,7 +2322,6 @@ return [
         'upgrade_available' => 'Upgrade verfügbar',
         'upgrade_now' => 'Jetzt upgraden',
         'highest_plan' => 'Sie haben bereits den höchsten verfügbaren Tarif.',
-        'starting_from' => 'Ab',
         'choose_best_tarif' => 'Wählen Sie unseren besten :layer Tarif',
         'choose_plan' => 'Tarif wählen',
         'no_products_available' => 'Keine Produkte in dieser Kategorie verfügbar.',
