@@ -2,7 +2,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">
-                <i class="fas fa-phone me-2"></i>
+                <i class="fa fa-phone me-2"></i>
                 {{ __('view.porting.title') }}
             </h5>
         </div>
@@ -128,7 +128,7 @@
 
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-2"></i>
+                        <i class="fa fa-save me-2"></i>
                         {{ __('view.porting.save') }}
                     </button>
                 </div>
