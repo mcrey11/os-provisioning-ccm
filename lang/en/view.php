@@ -259,6 +259,8 @@ return [
     'Header_FirmwareUpgrade' => 'Firmware Upgrade|Firmware Upgrades',
     // Modems
     'Header_Modems' => 'Modem'.(Module::collections()->has('SmartOnt') ? '/ONT' : '').'|Modems'.(Module::collections()->has('SmartOnt') ? '/ONTs' : ''), // workaround
+    'Header_Parent modem' => 'Parent device',
+    'Header_Child modems' => 'Child devices',
     'Header_ModemOption' => 'Modem Option|Modem Options',
     'Header_Invoice' => 'Invoice|Invoices',
     'Header_OldInvoices' => 'Old Invoices',

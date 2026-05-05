@@ -376,7 +376,7 @@ class Modem extends \BaseModel
 
     public function get_bsclass()
     {
-        if (\Module::collections()->has('SmartOnt')) {
+        if (Module::collections()->has('SmartOnt')) {
             return $this->getSmartOntBsclass();
         }
 
@@ -672,6 +672,16 @@ class Modem extends \BaseModel
     {
         $ret = [];
         $tabName = trans_choice('view.Header_Modem', 1);
+
+        if ($this->hasParent()) {
+            $ret[$tabName]['Parent modem']['class'] = 'Modem';
+            $ret[$tabName]['Parent modem']['relation'] = collect([$this->parent])->filter();
+        }
+
+        if ($this->hasChildren()) {
+            $ret[$tabName]['Child modems']['class'] = 'Modem';
+            $ret[$tabName]['Child modems']['relation'] = $this->children;
+        }
 
         if (Module::collections()->has('ProvVoip')) {
             $this->setRelation('mtas', $this->mtas()->with('configfile')->get());
@@ -1762,7 +1772,7 @@ class Modem extends \BaseModel
             $time[0] .= $time[1];
             unset($time[1]);
 
-            $time = \Carbon\Carbon::create(...array_slice(array_map('hexdec', $time), 0, 6));
+            $time = Carbon::create(...array_slice(array_map('hexdec', $time), 0, 6));
             $log[$time_key][$k] = $time;
         }
 
@@ -2403,7 +2413,7 @@ class Modem extends \BaseModel
      */
     public function isSmartOnt()
     {
-        if (\Module::collections()->has('SmartOnt')) {
+        if (Module::collections()->has('SmartOnt')) {
             return $this->isTR069() || $this->isOnt();
         }
 
@@ -2607,7 +2617,7 @@ class Modem extends \BaseModel
         $ip = $onlineStatus['ip'];
         $online = $onlineStatus['online'];
 
-        if (\Request::has('offline')) {
+        if (Request::has('offline')) {
             $online = false;
         }
 
@@ -2860,7 +2870,7 @@ class Modem extends \BaseModel
     {
         $leaseTexts = (array) $lease['text'];
         if (preg_match('/ends [0-6] (.*?);/', end($leaseTexts), $endtime)) {
-            $endtime = \Carbon\Carbon::parse($endtime[1].'+0');
+            $endtime = Carbon::parse($endtime[1].'+0');
 
             // lease calculation
             // take care changing the state - it's used under cpe analysis
@@ -2924,7 +2934,7 @@ class Modem extends \BaseModel
         ];
 
         $sessions = $this->radacct()
-            ->where('acctstarttime', '>', \Carbon\Carbon::now()->subDays(10))
+            ->where('acctstarttime', '>', Carbon::now()->subDays(10))
             ->latest('acctstarttime')
             ->limit(50)
             ->get(array_map(function ($a) {
@@ -2963,7 +2973,7 @@ class Modem extends \BaseModel
 
         // WARNING: This DB query potentially takes a very long time and can result in request timeout
         $auths = $this->radpostauth()
-            ->where('authdate', '>', \Carbon\Carbon::now()->subDays(10))
+            ->where('authdate', '>', Carbon::now()->subDays(10))
             ->latest('id')
             ->limit(50)
             ->get(array_map(function ($a) {
@@ -3263,7 +3273,7 @@ class Modem extends \BaseModel
     public function delete()
     {
         if (
-            \Module::collections()->has('SmartOnt') &&
+            Module::collections()->has('SmartOnt') &&
             (config('smartont.flavor.active') == 'GESA' &&
             (! $this->deleteGESAOnt())
             )
@@ -3290,6 +3300,16 @@ class Modem extends \BaseModel
     public function hasChildren()
     {
         return $this->children()->count() > 0;
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    public function hasParent()
+    {
+        return $this->parent()->count() > 0;
     }
 
     public static function resolveModemsWithFiberNames()
