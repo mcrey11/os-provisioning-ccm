@@ -797,6 +797,7 @@ return [
     'From State'                => 'From State',
     'To State'                  => 'To State',
     'Parent'                    => 'Parent',
+    'Ticket Template'           => 'Ticket Template',
     'backToDetails'             => 'Back to Details',
     'hardFilter'                => 'The data is prefiltered by the given condition(s)!',
     'removeFilter'              => 'Remove filter!',

@@ -797,6 +797,7 @@ return [
     'From State'                => 'Von Zustand',
     'To State'                  => 'Nach Zustand',
     'Parent'                    => 'Elternelement',
+    'Ticket Template'           => 'Ticketvorlage',
     'backToDetails'             => 'Zurück zu den Details',
     'hardFilter'                => 'Es wird nur ein Teil der Daten geladen!',
     'removeFilter'              => 'Filter entfernen!',
