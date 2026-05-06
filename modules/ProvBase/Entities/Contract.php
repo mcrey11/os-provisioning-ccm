@@ -1789,7 +1789,7 @@ class Contract extends \BaseModel
      *
      * @param 	string 		Timespan - LAST (!!) 'year'/'month' or 'now
      * @param 	int 	If Set only Mandates related to specific SepaAccount are considered (related via CostCenter)
-     * @return object Valid Sepa Mandate with latest start date
+     * @return object Valid Sepa Mandate with latest start date without cost center or with specified cost center related to sepa account!
      *
      * @author Nino Ryschawy
      */
