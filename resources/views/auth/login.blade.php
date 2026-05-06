@@ -153,9 +153,7 @@
                 </div>
             </div>
         </div>
-    @endisset
 
-    @isset($forgotPasswordRoute)
         @if ($errors->has('email'))
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
