@@ -572,7 +572,28 @@ class ModemController extends \BaseController
                 return [0 => '–'];
             }
 
-            return [$parentModem->id => $parentModem->model.' ('.$parentModem->serial_num.', '.$parentModem->hostname.')'];
+            $parentModemLabel = trim(implode('', [
+                $parentModem->serial_num ?? '',
+                ' ',
+                $parentModem->mac ?? '',
+                ' - ',
+                $parentModem->model ?? '',
+                ' - ',
+                $parentModem->hostname ?? '',
+                ' (',
+                trim(implode(' ', array_filter([
+                    $parentModem->street,
+                    $parentModem->house_number,
+                ]))),
+                ', ',
+                trim(implode(' ', array_filter([
+                    $parentModem->zip,
+                    $parentModem->city,
+                ]))),
+                ')',
+            ]));
+
+            return [$parentModem->id => $parentModemLabel];
         }
 
         // default – use version of BaseController
@@ -1071,8 +1092,8 @@ class ModemController extends \BaseController
                     'enabled_50' => $enabled50,
                     'ssid_24' => trim($ssid24, '"'),
                     'ssid_50' => trim($ssid24, '"'),
-                ]
-            ]
+                ],
+            ],
         ];
 
         return response()->v0ApiReply($object, true, $id);
