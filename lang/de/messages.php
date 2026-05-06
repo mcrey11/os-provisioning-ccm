@@ -62,7 +62,7 @@ return [
     'next_steps' => 'Nächste Schritte',
     'subscription_confirmation_info' => 'Ihre Tarifänderungen wurden bestätigt. Sie werden entsprechend dem Zeitplan verarbeitet und aktiviert.',
     'back_to_subscriptions' => 'Zurück zu Abonnements',
-    'pricing_summary' => 'Preisübersicht',
+    'pricingSummary' => 'Preisübersicht',
     'valid_from_before_contract_start' => 'Gültigkeitsdatum darf nicht vor dem Vertragsbeginn liegen.',
     'canNotBeRestored' => 'kann nicht wiederhergestellt werden',
     'City'                      => 'Stadt',

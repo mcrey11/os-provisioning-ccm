@@ -743,7 +743,7 @@ return [
         'max_qty' => 'Cantidad Máx: :qty',
         'addons' => 'Complementos',
         'complete_all_layers_message' => 'Por favor complete todas las capas requeridas antes de continuar.',
-        'pricing_summary' => 'Resumen de Precios',
+        'pricingSummary' => 'Resumen de Precios',
         'billing_cycle' => 'Facturación :cycle',
         'subtotal' => 'Subtotal',
         'total_items' => 'Total de Artículos',

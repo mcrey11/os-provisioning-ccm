@@ -1950,7 +1950,6 @@ return [
                 'max_qty' => 'Max Qty: :qty',
                 'addons' => 'Addons',
                 'complete_all_layers_message' => 'Please complete all required layers before proceeding.',
-                'pricing_summary' => 'Pricing Summary',
                 'billing_cycle' => ':cycle Billing',
                 'subtotal' => 'Subtotal',
                 'total_items' => 'Total Items',

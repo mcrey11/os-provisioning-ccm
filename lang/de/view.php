@@ -1930,7 +1930,6 @@ return [
                 'max_qty' => 'Max. Menge: :qty',
                 'addons' => 'Zusätze',
                 'complete_all_layers_message' => 'Bitte vervollständigen Sie alle erforderlichen Ebenen, bevor Sie fortfahren.',
-                'pricing_summary' => 'Preisübersicht',
                 'billing_cycle' => ':cycle Abrechnung',
                 'subtotal' => 'Zwischensumme',
                 'total_items' => 'Gesamte Artikel',

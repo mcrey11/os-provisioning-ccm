@@ -62,7 +62,7 @@ return [
     'next_steps' => 'Next Steps',
     'subscription_confirmation_info' => 'Your subscription changes have been confirmed. They will be processed and activated according to the schedule.',
     'back_to_subscriptions' => 'Back to Subscriptions',
-    'pricing_summary' => 'Pricing Summary',
+    'pricingSummary' => 'Pricing Summary',
     'valid_from_before_contract_start' => 'Valid from date cannot be before contract start date.',
     'canNotBeRestored' => 'can not be restored',
     'City'                      => 'City',
