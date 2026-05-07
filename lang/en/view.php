@@ -1081,10 +1081,14 @@ return [
             'trivial' => 'Trivial',
         ],
         'state' => [
-            'New' => 'New',
+            '1' => 'New',
+            '2' => 'In Progress',
+            '3' => 'Paused',
+            '4' => 'Closed',
             'Closed' => 'Closed',
-            'Paused' => 'Paused',
             'In Progress' => 'In Progress',
+            'New' => 'New',
+            'Paused' => 'Paused',
         ],
         'transition' => [
             'title' => 'State Transitions',

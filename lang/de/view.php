@@ -1080,10 +1080,14 @@ return [
             'trivial' => 'Niedrig',
         ],
         'state' => [
-            'New' => 'Neu',
+            '1' => 'Neu',
+            '2' => 'Wird gerade bearbeitet',
+            '3' => 'In Bearbeitung (pausiert)',
+            '4' => 'Geschlossen',
             'Closed' => 'Geschlossen',
-            'Paused' => 'In Bearbeitung (pausiert)',
             'In Progress' => 'Wird gerade bearbeitet',
+            'New' => 'Neu',
+            'Paused' => 'In Bearbeitung (pausiert)',
         ],
         'transition' => [
             'title' => 'Zustandsübergänge',
