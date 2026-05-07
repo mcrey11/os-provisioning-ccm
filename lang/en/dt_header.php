@@ -339,6 +339,7 @@ return [
     'item.custom_data' => 'Custom Data',
     'fee' => 'Fee',
     'product' => [
+        'billing_cycle' => 'Billed',
         'maturity_min' => 'Minimum maturity',
         'name' => 'Product Name',
         'price' => 'Price',

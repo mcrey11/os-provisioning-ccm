@@ -282,6 +282,7 @@ return [
     'item.custom_data' => 'Benutzerdefinierte Daten',
     'fee' => 'Gebühr',
     'product' => [
+        'billing_cycle' => 'Abrechnung',
         'maturity_min' => 'Mindestlaufzeit',
         'name' => 'Produkt',
         'price' => 'Preis',
