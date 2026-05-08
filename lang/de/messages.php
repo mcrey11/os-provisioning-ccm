@@ -53,7 +53,7 @@ return [
     'weborder_items_conversion_failed' => 'Fehler beim Umwandeln der Web-Bestellposten: :error',
     'no_weborder_items' => 'Keine Web-Bestellposten für diesen Vertrag gefunden.',
     'modules_required' => 'Erforderliche Module (OrderPortal, BillingBase) sind nicht verfügbar.',
-    'tariff_changed_successfully' => 'Ihr Tarif wurde erfolgreich geändert. Die Änderungen treten zum angegebenen Datum in Kraft.',
+    'tariff_changed_successfully' => 'Ihr Tarif wurde erfolgreich geändert.',
     'tariff_added_successfully' => 'Ihr neuer Tarif wurde erfolgreich hinzugefügt. Er wird zum angegebenen Datum aktiviert.',
     'confirmation' => 'Bestätigung',
     'subscription_selection_completed' => 'Ihre Tarifauswahl wurde erfolgreich abgeschlossen.',

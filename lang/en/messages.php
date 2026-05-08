@@ -53,7 +53,7 @@ return [
     'weborder_items_conversion_failed' => 'Failed to convert web order items: :error',
     'no_weborder_items' => 'No web order items found for this contract.',
     'modules_required' => 'Required modules (OrderPortal, BillingBase) are not available.',
-    'tariff_changed_successfully' => 'Your tariff has been successfully changed. The changes will take effect on the specified date.',
+    'tariff_changed_successfully' => 'Your tariff has been successfully changed',
     'tariff_added_successfully' => 'Your new tariff has been successfully added. It will be activated on the specified date.',
     'confirmation' => 'Confirmation',
     'subscription_selection_completed' => 'Your subscription selection has been completed successfully.',
