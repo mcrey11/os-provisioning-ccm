@@ -1959,6 +1959,7 @@ return [
                 'required' => 'Required',
                 'optional' => 'Optional',
                 'max_qty' => 'Max Qty: :qty',
+                'quantity' => 'Quantity',
                 'addons' => 'Addons',
                 'complete_all_layers_message' => 'Please complete all required layers before proceeding.',
                 'billing_cycle' => ':cycle Billing',

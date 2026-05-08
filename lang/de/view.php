@@ -1939,6 +1939,7 @@ return [
                 'required' => 'Erforderlich',
                 'optional' => 'Optional',
                 'max_qty' => 'Max. Menge: :qty',
+                'quantity' => 'Anzahl',
                 'addons' => 'Zusätze',
                 'complete_all_layers_message' => 'Bitte vervollständigen Sie alle erforderlichen Ebenen, bevor Sie fortfahren.',
                 'billing_cycle' => ':cycle Abrechnung',
