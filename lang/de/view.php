@@ -492,7 +492,7 @@ return [
             'meine_rechnungen' => 'MEINE RECHNUNGEN',
             'mein_konto' => 'MEIN KONTO',
             'speedtest' => 'SPEEDTEST',
-            'anleitungen' => 'ANLEITUNGEN',
+            'manuals' => 'ANLEITUNGEN',
             'kontakt' => 'KONTAKT',
             'account' => 'Konto',
             'profile' => 'Profil',
@@ -518,20 +518,14 @@ return [
         'card_meine_rechnungen' => 'Sehen Sie sich Ihre Rechnungen an und laden Sie diese herunter.',
         'card_mein_konto' => 'Verwalten Sie Ihre Kontoeinstellungen und Rechnungsadresse.',
         'card_speedtest' => 'Testen Sie die Geschwindigkeit Ihrer Internetverbindung.',
-        'card_anleitungen' => 'Finden Sie hilfreiche Anleitungen und Anweisungen.',
+        'card_manuals' => 'Finden Sie hilfreiche Anleitungen und Anweisungen.',
         'card_kontakt' => 'Kontaktieren Sie uns für Support und Fragen.',
         'button_meine_produkte' => 'ZU DEN PRODUKTEN',
         'button_meine_rechnungen' => 'ZU DEN RECHNUNGEN',
         'button_mein_konto' => 'ZUM KONTO',
         'button_speedtest' => 'ZUM SPEEDTEST',
-        'button_anleitungen' => 'ZU DEN ANLEITUNGEN',
+        'button_manuals' => 'ZU DEN ANLEITUNGEN',
         'button_kontakt' => 'ZUM KONTAKT',
-    ],
-
-    'anleitungen' => [
-        'title' => 'Anleitungen',
-        'description' => 'Finden Sie hilfreiche Anleitungen und Anweisungen zur Nutzung unserer Dienste.',
-        'coming_soon' => 'Anleitungen werden hier bald verfügbar sein.',
     ],
 
     'mein_konto' => [

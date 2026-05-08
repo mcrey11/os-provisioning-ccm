@@ -492,7 +492,7 @@ return [
             'meine_rechnungen' => 'MY INVOICES',
             'mein_konto' => 'MY ACCOUNT',
             'speedtest' => 'SPEEDTEST',
-            'anleitungen' => 'INSTRUCTIONS',
+            'manuals' => 'MANUALS',
             'kontakt' => 'CONTACT',
             'account' => 'Account',
             'profile' => 'Profile',
@@ -518,20 +518,14 @@ return [
         'card_meine_rechnungen' => 'View and download your invoices.',
         'card_mein_konto' => 'Manage your account settings and invoice address.',
         'card_speedtest' => 'Test your internet connection speed.',
-        'card_anleitungen' => 'Find helpful guides and instructions.',
+        'card_manuals' => 'Find helpful guides and instructions.',
         'card_kontakt' => 'Contact us for support and questions.',
         'button_meine_produkte' => 'TO PRODUCTS',
         'button_meine_rechnungen' => 'TO INVOICES',
         'button_mein_konto' => 'TO ACCOUNT',
         'button_speedtest' => 'TO SPEEDTEST',
-        'button_anleitungen' => 'TO INSTRUCTIONS',
+        'button_manuals' => 'TO MANUALS',
         'button_kontakt' => 'TO CONTACT',
-    ],
-
-    'anleitungen' => [
-        'title' => 'Instructions',
-        'description' => 'Find helpful guides and instructions for using our services.',
-        'coming_soon' => 'Instructions will be available here soon.',
     ],
 
     'mein_konto' => [
