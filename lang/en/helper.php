@@ -60,6 +60,8 @@ return [
     // ProductLayer helper translations
     'product_layer' => [
         'sequence' => 'Display order for layers (lower numbers appear first)',
+        'logo' => 'Optional image for the customer shop card. When set, it overrides product logos for this layer.',
+        'logo_upload' => 'Upload a new file; it is stored for this product layer and can be selected as the shop card logo.',
     ],
 
     // ProductLayerAssignment helper translations

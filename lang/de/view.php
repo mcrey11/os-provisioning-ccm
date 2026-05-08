@@ -963,6 +963,10 @@ return [
         'custom_field__waipu_product_name' => 'waipu.tv-Produkt',
         'custom_field__waipu_product_id' => 'waipu.tv-Produkt-ID',
     ],
+    'product_layer' => [
+        'logo' => 'Standard Logo',
+        'logo_upload' => 'Logo hochladen',
+    ],
     'ProvBase' => 'Provisionierung',
     'ProvMon' => 'Monitoring',
     'ProvVoip' => 'VoIP',

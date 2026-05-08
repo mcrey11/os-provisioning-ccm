@@ -60,6 +60,8 @@ return [
     // ProductLayer helper translations
     'product_layer' => [
         'sequence' => 'Anzeigereihenfolge für Ebenen (niedrigere Zahlen erscheinen zuerst)',
+        'logo' => 'Optionales Bild für die Shop-Karte im Kundenportal. Wenn gesetzt, überschreibt es Produkt-Logos für diese Ebene.',
+        'logo_upload' => 'Neue Datei hochladen; sie wird für diese Produkt-Ebene gespeichert und kann als Shop-Logo gewählt werden.',
     ],
 
     // ProductLayerAssignment helper translations
