@@ -14,6 +14,7 @@ return [
         'lng' => 'Längengrad',
     ],
     'all' => 'Alle',
+    'add' => 'Hinzufügen',
     'bookingAccount' => [
         '' => 'Buchungskonto',
         'revenue' => [
@@ -2330,4 +2331,5 @@ return [
         'no_products_available' => 'Keine Produkte in dieser Kategorie verfügbar.',
         'no_categories_available' => 'Derzeit sind keine Produktkategorien verfügbar.',
     ],
+    'topic' => 'Thema',
 ];

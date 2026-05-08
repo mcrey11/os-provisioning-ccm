@@ -1031,4 +1031,6 @@ return [
     'Please_select_pipeline_first' => 'Please select pipeline first',
     'log_out' => 'Log out',
     'validation_failed' => 'Please correct the following errors',
+    'updateFailed' => 'There was an error during the saving process. Please try again or contact support.',
+    'objectCreationFailed' => 'Could not create :class',
 ];

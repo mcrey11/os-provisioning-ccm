@@ -14,6 +14,7 @@ return [
         'lng' => 'Longitude',
     ],
     'all' => 'All',
+    'add' => 'Add',
     'bookingAccount' => [
         '' => 'Booking account',
         'revenue' => [
@@ -2343,4 +2344,5 @@ return [
         'no_products_available' => 'No products available in this category.',
         'no_categories_available' => 'No product categories available at this time.',
     ],
+    'topic' => 'Topic',
 ];

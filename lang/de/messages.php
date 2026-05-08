@@ -1031,4 +1031,6 @@ return [
     'Please_select_pipeline_first' => 'Bitte wählen Sie zuerst eine Pipeline aus',
     'log_out' => 'Abmelden',
     'validation_failed' => 'Bitte korrigieren Sie die folgenden Fehler',
+    'updateFailed' => 'Beim Speichern kam es zu einem Fehler. Bitte versuchen Sie es erneut oder wenden Sie sich an den Support.',
+    'objectCreationFailed' => 'Konnte :class nicht anlegen.',
 ];
