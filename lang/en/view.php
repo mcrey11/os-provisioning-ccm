@@ -2265,7 +2265,6 @@ return [
             'order_summary' => 'Order Summary',
             'items' => 'Items',
             'grand_total' => 'Grand Total',
-            'split_billing_cycles' => 'Split across :count billing cycles',
             'billing' => 'billing',
             'payment_info' => 'Payment Information',
             'name' => 'Name',

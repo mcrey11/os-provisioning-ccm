@@ -2254,7 +2254,6 @@ return [
             'order_summary' => 'Bestellübersicht',
             'items' => 'Positionen',
             'grand_total' => 'Gesamtsumme',
-            'split_billing_cycles' => 'Aufgeteilt auf :count Abrechnungszyklen',
             'billing' => 'Abrechnung',
             'payment_info' => 'Zahlungsinformationen',
             'name' => 'Name',

@@ -695,7 +695,6 @@ return [
             'order_summary' => 'Resumen del Pedido',
             'items' => 'Artículos',
             'grand_total' => 'Total General',
-            'split_billing_cycles' => 'Dividido en :count ciclos de facturación',
             'billing' => 'facturación',
             'payment_info' => 'Información de Pago',
             'name' => 'Nombre',
