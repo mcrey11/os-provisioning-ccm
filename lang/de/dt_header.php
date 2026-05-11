@@ -177,6 +177,8 @@ return [
         'postal_invoice_product_id' => 'Produkt für Papierrechnungen',
         'transfer_phone_product_id' => 'Produkt für Telefonnummernportierung',
         'customer_ticket_type_parent' => 'Kunden-Ticket-Typ-Übergeordnet (CCC)',
+        'invoice_address_change_ticket_type_id' => 'Tickettyp für Rechnungsadressänderung (CCC)',
+        'modem_address_change_ticket_type_id' => 'Tickettyp für Modem-Adressänderung (CCC)',
         'manuals_url' => 'URL Handbücher',
     ],
     'web_order' => [

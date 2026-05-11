@@ -111,6 +111,8 @@ return [
         'postal_invoice_product_id' => 'Select the product to use for postal invoices. This should be a product of type "Postal".',
         'transfer_phone_product_id' => 'Select the product to use for telephone number porting. When this product is selected during CCC upgrade, customers will be asked to provide porting information.',
         'customer_ticket_type_parent' => 'Select the parent ticket type that will be used as the root for customer change requests in the CCC portal. Customers will be able to select from ticket types that are children of this parent.',
+        'invoice_address_change_ticket_type_id' => 'If set, CCC customers cannot change the invoice address directly; submitting the form creates a ticket of this type with the requested data. Leave empty to allow immediate updates.',
+        'modem_address_change_ticket_type_id' => 'If set, CCC customers cannot change the modem address directly; submitting the form creates a ticket of this type with the requested data. Leave empty to allow immediate updates.',
         'homeButtonName' => 'Label for the home button in the CCC navigation (left menu). Leave empty to remove the menu entry.',
         'welcomeMessage' => 'Welcome text shown on the CCC home page below the welcome heading.',
         'manuals_url' => 'Full URL (https://…) of the customer manuals page. If empty, the manuals menu entry and home card are hidden.',

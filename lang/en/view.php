@@ -377,6 +377,8 @@ return [
     'Button_Delete' => 'Delete marked Elements',
     'Button_Restart via NetGw' => 'Restart via gateway',
     'Button_Save' => 'Save',
+    'Button_Apply' => 'Apply',
+    'Button_Request' => 'Request',
     'Button_Save / Restart' => 'Save / Restart',
     'Button_Search' => 'Search',
     'Button_SendToEnviaTEL' => 'Send to envia TEL',

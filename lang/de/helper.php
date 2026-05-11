@@ -111,6 +111,8 @@ return [
         'postal_invoice_product_id' => 'Wählen Sie das Produkt aus, das für Papierrechnungen verwendet werden soll. Dies sollte ein Produkt vom Typ "Postal" sein.',
         'transfer_phone_product_id' => 'Wählen Sie das Produkt aus, das für Telefonnummernportierung verwendet werden soll. Wenn dieses Produkt während CCC-Upgrade ausgewählt wird, werden Kunden aufgefordert, Portierungsinformationen anzugeben.',
         'customer_ticket_type_parent' => 'Wählen Sie den übergeordneten Ticket-Typ aus, der als Wurzel für Kunden-Änderungsanfragen im CCC-Portal verwendet wird. Kunden können aus Ticket-Typen auswählen, die Kinder dieses übergeordneten Typs sind.',
+        'invoice_address_change_ticket_type_id' => 'Wenn gesetzt, können Kunden im CCC die Rechnungsadresse nicht direkt ändern; beim Absenden wird ein Ticket dieses Typs mit den gewünschten Daten erstellt. Leer lassen für sofortige Übernahme.',
+        'modem_address_change_ticket_type_id' => 'Wenn gesetzt, können Kunden im CCC die Modem-Adresse nicht direkt ändern; beim Absenden wird ein Ticket dieses Typs mit den gewünschten Daten erstellt. Leer lassen für sofortige Übernahme.',
         'homeButtonName' => 'Name für den Home Button in der Kundenportal-Navigation (linkes Menü). Leer lassen, um den Menüeintrag zu entfernen.',
         'welcomeMessage' => 'Begrüßungstext auf der CCC-Startseite unter der Willkommensüberschrift.',
         'manuals_url' => 'Vollständige URL (https://…) der Handbuch-Webseite für Kunden. Wenn leer, werden Menüeintrag und Startseiten-Kachel ausgeblendet.',

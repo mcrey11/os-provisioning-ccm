@@ -377,6 +377,8 @@ return [
     'Button_Delete' => 'Markierte Einträge löschen',
     'Button_Restart via NetGw' => 'Neustart via Gateway',
     'Button_Save' => 'Speichern',
+    'Button_Apply' => 'Beantragen',
+    'Button_Request' => 'Beantragen',
     'Button_Save / Restart' => 'Speichern / Neustart',
     'Button_Search' => 'Suchen',
     'Button_SendToEnviaTEL' => 'An envia TEL senden',
