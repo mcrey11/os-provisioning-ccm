@@ -177,6 +177,7 @@ return [
         'postal_invoice_product_id' => 'Produkt für Papierrechnungen',
         'transfer_phone_product_id' => 'Produkt für Telefonnummernportierung',
         'customer_ticket_type_parent' => 'Kunden-Ticket-Typ-Übergeordnet (CCC)',
+        'manuals_url' => 'URL Handbücher',
     ],
     'web_order' => [
         'contact_point_id' => 'Kontaktpunkt',

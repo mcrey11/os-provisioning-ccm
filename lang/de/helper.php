@@ -113,6 +113,7 @@ return [
         'customer_ticket_type_parent' => 'Wählen Sie den übergeordneten Ticket-Typ aus, der als Wurzel für Kunden-Änderungsanfragen im CCC-Portal verwendet wird. Kunden können aus Ticket-Typen auswählen, die Kinder dieses übergeordneten Typs sind.',
         'homeButtonName' => 'Name für den Home Button in der Kundenportal-Navigation (linkes Menü). Leer lassen, um den Menüeintrag zu entfernen.',
         'welcomeMessage' => 'Begrüßungstext auf der CCC-Startseite unter der Willkommensüberschrift.',
+        'manuals_url' => 'Vollständige URL (https://…) der Handbuch-Webseite für Kunden. Wenn leer, werden Menüeintrag und Startseiten-Kachel ausgeblendet.',
     ],
 
     // Web Order

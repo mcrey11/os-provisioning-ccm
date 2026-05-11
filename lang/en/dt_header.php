@@ -175,6 +175,7 @@ return [
         'postal_invoice_product_id' => 'Product for Postal Invoice',
         'transfer_phone_product_id' => 'Product for Transfer Telephone Number',
         'customer_ticket_type_parent' => 'Customer Ticket Type Parent (CCC)',
+        'manuals_url' => 'Manuals URL',
     ],
     'web_order' => [
         'contact_point_id' => 'Contact Point',

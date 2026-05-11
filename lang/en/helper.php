@@ -113,6 +113,7 @@ return [
         'customer_ticket_type_parent' => 'Select the parent ticket type that will be used as the root for customer change requests in the CCC portal. Customers will be able to select from ticket types that are children of this parent.',
         'homeButtonName' => 'Label for the home button in the CCC navigation (left menu). Leave empty to remove the menu entry.',
         'welcomeMessage' => 'Welcome text shown on the CCC home page below the welcome heading.',
+        'manuals_url' => 'Full URL (https://…) of the customer manuals page. If empty, the manuals menu entry and home card are hidden.',
     ],
 
     // Web Order
