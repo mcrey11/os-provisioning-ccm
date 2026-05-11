@@ -490,9 +490,9 @@ return [
     'menu' => [
         'ccc' => [
             'my_surflocal' => 'MY SURFLOCAL',
-            'meine_produkte' => 'MEINE PRODUKTE',
-            'meine_rechnungen' => 'MEINE RECHNUNGEN',
-            'mein_konto' => 'MEIN KONTO',
+            'my_items' => 'MEINE PRODUKTE',
+            'my_invoices' => 'MEINE RECHNUNGEN',
+            'my_account' => 'MEIN KONTO',
             'speedtest' => 'SPEEDTEST',
             'manuals' => 'ANLEITUNGEN',
             'kontakt' => 'KONTAKT',
@@ -516,21 +516,21 @@ return [
 
     'home' => [
         'welcome' => 'Willkommen',
-        'card_meine_produkte' => 'Sehen Sie sich Ihre aktuellen Produkte an und passen diese an.',
-        'card_meine_rechnungen' => 'Sehen Sie sich Ihre Rechnungen an und laden Sie diese herunter.',
-        'card_mein_konto' => 'Verwalten Sie Ihre Kontoeinstellungen und Rechnungsadresse.',
+        'card_my_items' => 'Sehen Sie sich Ihre aktuellen Produkte an und passen diese an.',
+        'card_my_invoices' => 'Sehen Sie sich Ihre Rechnungen an und laden Sie diese herunter.',
+        'card_my_account' => 'Verwalten Sie Ihre Kontoeinstellungen und Rechnungsadresse.',
         'card_speedtest' => 'Testen Sie die Geschwindigkeit Ihrer Internetverbindung.',
         'card_manuals' => 'Finden Sie hilfreiche Anleitungen und Anweisungen.',
         'card_kontakt' => 'Kontaktieren Sie uns für Support und Fragen.',
-        'button_meine_produkte' => 'ZU DEN PRODUKTEN',
-        'button_meine_rechnungen' => 'ZU DEN RECHNUNGEN',
-        'button_mein_konto' => 'ZUM KONTO',
+        'button_my_items' => 'ZU DEN PRODUKTEN',
+        'button_my_invoices' => 'ZU DEN RECHNUNGEN',
+        'button_my_account' => 'ZUM KONTO',
         'button_speedtest' => 'ZUM SPEEDTEST',
         'button_manuals' => 'ZU DEN ANLEITUNGEN',
         'button_kontakt' => 'ZUM KONTAKT',
     ],
 
-    'mein_konto' => [
+    'my_account' => [
         'description' => 'Verwalten Sie Ihre Kontoeinstellungen und Präferenzen.',
         'invoice_address' => 'Rechnungsadresse ändern',
         'invoice_address_desc' => 'Aktualisieren Sie Ihre Rechnungsadresse.',

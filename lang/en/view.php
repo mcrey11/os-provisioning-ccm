@@ -490,9 +490,9 @@ return [
     'menu' => [
         'ccc' => [
             'my_surflocal' => 'MY SURFLOCAL',
-            'meine_produkte' => 'MY PRODUCTS',
-            'meine_rechnungen' => 'MY INVOICES',
-            'mein_konto' => 'MY ACCOUNT',
+            'my_items' => 'MY PRODUCTS',
+            'my_invoices' => 'MY INVOICES',
+            'my_account' => 'MY ACCOUNT',
             'speedtest' => 'SPEEDTEST',
             'manuals' => 'MANUALS',
             'kontakt' => 'CONTACT',
@@ -516,21 +516,21 @@ return [
 
     'home' => [
         'welcome' => 'Welcome',
-        'card_meine_produkte' => 'View your current products and adjust them.',
-        'card_meine_rechnungen' => 'View and download your invoices.',
-        'card_mein_konto' => 'Manage your account settings and invoice address.',
+        'card_my_items' => 'View your current products and adjust them.',
+        'card_my_invoices' => 'View and download your invoices.',
+        'card_my_account' => 'Manage your account settings and invoice address.',
         'card_speedtest' => 'Test your internet connection speed.',
         'card_manuals' => 'Find helpful guides and instructions.',
         'card_kontakt' => 'Contact us for support and questions.',
-        'button_meine_produkte' => 'TO PRODUCTS',
-        'button_meine_rechnungen' => 'TO INVOICES',
-        'button_mein_konto' => 'TO ACCOUNT',
+        'button_my_items' => 'TO PRODUCTS',
+        'button_my_invoices' => 'TO INVOICES',
+        'button_my_account' => 'TO ACCOUNT',
         'button_speedtest' => 'TO SPEEDTEST',
         'button_manuals' => 'TO MANUALS',
         'button_kontakt' => 'TO CONTACT',
     ],
 
-    'mein_konto' => [
+    'my_account' => [
         'description' => 'Manage your account settings and preferences.',
         'invoice_address' => 'Change Invoice Address',
         'invoice_address_desc' => 'Update your invoice address information.',
