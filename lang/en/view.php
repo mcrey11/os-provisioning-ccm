@@ -1072,7 +1072,9 @@ return [
     'taxes' => 'Taxes',
     'ticket' => [
         'comment' => [
-            'send' => 'send Message',
+            'send' => 'Send Comment',
+            'sendInternal' => 'Send internal Comment',
+            'internalBadge' => 'Internal',
             'writeComment' => 'write a comment ...',
         ],
         'priority' => [
@@ -1366,7 +1368,7 @@ return [
     'externalStatus' => 'External status',
     // CRM
     'crm' => [
-        'support_contact' => 'Support Contact',
+        'support_contact' => 'Support',
         'contact' => [
             'type' => 'Contact Type',
             'salutation' => 'Salutation',
