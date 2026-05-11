@@ -2321,6 +2321,7 @@ return [
 
     // Modem Address (CCC Module)
     'modem_address' => [
+        'modem_select' => 'Modem',
         'mac' => 'MAC Address',
         'company' => 'Company',
         'department' => 'Department',
