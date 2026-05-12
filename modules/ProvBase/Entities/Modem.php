@@ -3299,7 +3299,7 @@ class Modem extends \BaseModel
 
     public function hasChildren()
     {
-        return $this->children()->count() > 0;
+        return $this->children()->limit(1)->count() > 0;
     }
 
     public function parent()
@@ -3309,7 +3309,7 @@ class Modem extends \BaseModel
 
     public function hasParent()
     {
-        return $this->parent()->count() > 0;
+        return $this->parent()->limit(1)->count() > 0;
     }
 
     public static function resolveModemsWithFiberNames()
