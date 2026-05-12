@@ -280,15 +280,23 @@ if (! function_exists('pdflatex')) {
 
         /* NOTE: returns
             * 0 on success
+            * 1 on error
+            * 100 on script error
             * 127 if pdflatex is not installed,
             * 134 when pdflatex is called without path /usr/bin/ and path variable is not set when running from cmd line
         */
+        $pdflatexWrapperCommand = implode(' ', [
+            '/bin/bash',
+            '/var/www/nmsprime/app/Console/scripts/pdflatex_wrapper.sh',
+            '"'.$dir.'"',
+            '"'.$filename.'"',
+        ]);
 
-        // take care - when we start process in background we don't get the return value anymore
-        $cmd = "( /usr/bin/pdflatex \"$filename\" -interaction=nonstopmode; rm -f \"$filename.aux\" ) &>/dev/null";
-        $cmd .= $background ? " & echo $! > \"$filename.pid\"" : '';
+        if ($background) {
+            $pdflatexWrapperCommand .= ' &';    // attention: return code in system() command is alway 0 when running in background
+        }
 
-        system($cmd, $ret);
+        system($pdflatexWrapperCommand, $ret);
 
         if ($ret) {
             // log error
