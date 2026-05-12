@@ -30,7 +30,6 @@ use BaseModel;
 use Bouncer;
 use Cache;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Log;
 use Modules\CoreMon\Helpers\AlertmanagerApi;
 use Nwidart\Modules\Facades\Module;
@@ -2472,18 +2471,20 @@ class BaseController extends Controller
     /**
      * Search through given directory and return array for select field.
      *
-     * @param  string  Directory relative to storage/app/
+     * @param  string  Directory relative to storage/ (same convention as file_upload_paths / storage_path())
      * @return array Filenames/Select
      */
     protected function getFilesForSelect(string $directory, bool $withEmptyOption = true): array
     {
-        if (! Storage::exists($directory)) {
-            Storage::makeDirectory($directory);
+        $fullPath = storage_path($directory);
+
+        if (! is_dir($fullPath)) {
+            File::makeDirectory($fullPath, 0755, true, true);
         }
 
         $files = array_map(function ($file) {
             return $file->getRelativePathName();
-        }, File::allFiles(storage_path($directory)));
+        }, File::allFiles($fullPath));
 
         $select = [];
         if ($withEmptyOption) {
