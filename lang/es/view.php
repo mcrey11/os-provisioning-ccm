@@ -504,6 +504,7 @@ return [
         'billing_address' => 'Dirección de Facturación',
 
         // Buttons
+        'backToPlanSelection' => 'Volver a la selección de planes',
         'save_button' => 'Guardar Información',
         'saving' => 'Guardando...',
 

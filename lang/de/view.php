@@ -2048,6 +2048,7 @@ return [
         'billing_address' => 'Rechnungsadresse',
 
         // Buttons
+        'backToPlanSelection' => 'Zurück zur Tarifauswahl',
         'save_button' => 'Informationen speichern',
         'saving' => 'Wird gespeichert...',
 

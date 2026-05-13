@@ -2069,6 +2069,7 @@ return [
         'billing_address' => 'Billing Address',
 
         // Buttons
+        'backToPlanSelection' => 'Back to Plan Selection',
         'save_button' => 'Save Information',
         'saving' => 'Saving...',
 
