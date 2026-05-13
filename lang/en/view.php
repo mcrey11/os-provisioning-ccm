@@ -507,7 +507,7 @@ return [
             'shop' => 'Shop / Offers',
             'support' => 'Support',
             'changeRequest' => 'Change Request',
-            'documents' => 'Documents',
+            'documents' => 'DOCUMENTS',
             'ticket' => 'Tickets',
         ],
     ],

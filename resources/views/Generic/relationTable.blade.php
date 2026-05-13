@@ -16,7 +16,7 @@
                         <div class="flex items-center">
                             {!! $rel_elem->view_icon() !!}
                             <a href="{{ route($class.'.'.$method, $rel_elem->id) }}" class="ml-0" title="{!! $labelData['title'] ?? '' !!}">
-                                {!! is_array($labelData) ? $labelData['header'] : $labelData !!}
+                                {!! method_exists($rel_elem, 'relationLabel') ? $rel_elem->relationLabel() : (is_array($labelData) ? $labelData['header'] : $labelData) !!}
                             </a>
                         </div>
                     </td>
