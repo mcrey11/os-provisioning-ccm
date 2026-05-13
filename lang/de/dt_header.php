@@ -157,6 +157,7 @@ return [
         'inverted_product_color_boxes' => 'Invertierte Produktfarbboxen',
         'show_header' => 'Kopfzeile anzeigen',
         'enable_business_customers' => 'Geschäftskunden aktivieren',
+        'allow_plan_selection_none' => '„Keine Auswahl“ bei Tarifwahl erlauben',
         'payment_methods_heading' => 'Zahlungsmethoden',
         'payment_method_sepa' => 'SEPA',
         'payment_method_rechnung' => 'Rechnung',

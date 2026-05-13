@@ -155,6 +155,7 @@ return [
         'inverted_product_color_boxes' => 'Inverted Product Color Boxes',
         'show_header' => 'Show Header',
         'enable_business_customers' => 'Enable Business Customers',
+        'allow_plan_selection_none' => 'Allow "None" in plan selection',
         'payment_methods_heading' => 'Payment Methods',
         'payment_method_sepa' => 'SEPA',
         'payment_method_rechnung' => 'Invoice Payment',

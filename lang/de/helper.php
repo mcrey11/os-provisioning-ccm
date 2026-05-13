@@ -89,6 +89,7 @@ return [
         'inverted_product_color_boxes' => 'Wenn aktiviert, verwenden Produktboxen im Bestellprozess (CCC und WebOrder) invertierte Farben: Sekundärfarbe für ausgewählte Produkte und Primärfarbe für sekundäre Elemente.',
         'show_header' => 'Zeigt die Kopfzeile/Navigationsleiste im Kunden-Bestellportal an. Deaktivieren Sie diese Option, um die Kopfzeile für eingebettete/iframe-Szenarien auszublenden.',
         'enable_business_customers' => 'Wenn aktiviert, können Kunden bei der Bestellung zwischen Privat- und Geschäftskunde wählen. Wenn deaktiviert, wird diese Option ausgeblendet.',
+        'allow_plan_selection_none' => 'Wenn aktiviert, kann in der Tarifwahl pro Produktebene explizit „Keine Auswahl“ gewählt werden (kein Produkt in dieser Ebene). Wenn deaktiviert, muss für jede Ebene mit Angeboten ein echtes Produkt gewählt werden.',
         'payment_method_sepa' => 'Aktivieren Sie SEPA-Lastschrift als verfügbare Zahlungsmethode für Kunden.',
         'payment_method_rechnung' => 'Aktivieren Sie Rechnung (Überweisung) als verfügbare Zahlungsmethode für Kunden.',
         'payment_method_acs' => 'Aktivieren Sie ACS (Automated Clearing Service) als verfügbare Zahlungsmethode für Kunden.',

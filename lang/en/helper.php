@@ -89,6 +89,7 @@ return [
         'inverted_product_color_boxes' => 'When enabled, product boxes in the order process (CCC and WebOrder) will use inverted colors: secondary color for selected products and primary color for secondary elements.',
         'show_header' => 'Display the header/navigation bar in the customer web order portal. Uncheck to hide the header for embedded/iframe scenarios.',
         'enable_business_customers' => 'When enabled, customers can choose between residential and business customer types during the order process. When disabled, this option is hidden.',
+        'allow_plan_selection_none' => 'When enabled, each product layer in plan selection can include an explicit "None" choice (no product in that layer). When disabled, customers must pick a real product for every layer that offers products.',
         'payment_method_sepa' => 'Enable SEPA direct debit as an available payment method for customers.',
         'payment_method_rechnung' => 'Enable invoice (bank transfer) as an available payment method for customers.',
         'payment_method_acs' => 'Enable ACS (Automated Clearing Service) as an available payment method for customers.',
