@@ -2,7 +2,7 @@
     @if ($configfile && data_get($configfile, 'text', null))
         @include('Generic.above_infos')
 
-        <form v-if="taskOptions.length" v-on:submit.prevent="updateTasks" class="mb-3">
+        <form v-if="taskOptions?.length" v-on:submit.prevent="updateTasks" class="mb-3">
             <div class="flex">
                 <div style="flex: 1;">
                     <select2 v-model="selectedTask" v-on:input="setTask" :as-array="true">
