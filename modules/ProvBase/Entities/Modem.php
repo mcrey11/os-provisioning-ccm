@@ -29,7 +29,6 @@ use Illuminate\Support\Facades\Log;
 use Module;
 use Modules\ProvBase\Http\Controllers\ModemController;
 use Modules\ProvBase\Traits\HasConfigfile;
-use Modules\ProvMon\Entities\DataModel;
 use Request;
 use Session;
 use Storage;
@@ -2331,7 +2330,9 @@ class Modem extends \BaseModel
      */
     public function dataModel()
     {
-        return (new DataModel($this))->getDataModel();
+        if (Module::collections()->has('ProvMon')) {
+            return (new \Modules\ProvMon\Entities\DataModel($this))->getDataModel();
+        }
     }
 
     /**
