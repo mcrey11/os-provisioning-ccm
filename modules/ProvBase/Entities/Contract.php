@@ -240,6 +240,7 @@ class Contract extends \BaseModel
 
         if (Module::collections()->has('BillingBase')) {
             $ret[] = 'costcenter.name';
+            $ret[] = $this->table.'.create_invoice';
         }
 
         $ret[] = 'created_at';
@@ -266,6 +267,7 @@ class Contract extends \BaseModel
         if (Module::collections()->has('BillingBase')) {
             $ret['eager_loading'] = ['costcenter'];
             $ret['edit']['costcenter.name'] = 'get_costcenter_name';
+            $ret['translateBooleanColumns'] = ['create_invoice'];
         }
 
         if (Module::collections()->has('PropertyManagement')) {

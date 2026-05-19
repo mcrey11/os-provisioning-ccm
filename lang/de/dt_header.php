@@ -97,6 +97,7 @@ return [
         'contact' => 'Ansprechpartner',
         'contract_end' => 'Vertrags- Ende',
         'contract_start' => 'Vertrags- Beginn',
+        'create_invoice' => 'Rechnung erstellen',
         'debtor' => 'Debitornr',
         'district' => 'Ortsteil',
         'firstname' => 'Vorname',
