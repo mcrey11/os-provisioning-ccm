@@ -1097,8 +1097,9 @@ return [
     'ticket' => [
         'comment' => [
             'send' => 'Kommentar senden',
-            'sendInternal' => 'Internen Kommentar senden',
-            'internalBadge' => 'Intern',
+            'sendPublic' => 'Kommentar mit Kunde teilen',
+            'publicBadge' => 'Öffentlich',
+            'publicBadgeTitle' => 'Auch für den Kunde im Kundenportal zum Ticket zu sehen.',
             'writeComment' => 'Kommentar verfassen ...',
         ],
         'priority' => [

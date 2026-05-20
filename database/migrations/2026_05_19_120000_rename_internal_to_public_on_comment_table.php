@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
+ * and others – powered by CableLabs. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+use Database\Migrations\BaseMigration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends BaseMigration
+{
+    public $migrationScope = 'database';
+
+    protected $tableName = 'comment';
+
+    public function up(): void
+    {
+        if (! Schema::hasColumn($this->tableName, 'internal')) {
+            return;
+        }
+
+        Schema::table($this->tableName, function (Blueprint $table) {
+            $table->boolean('public')->default(false);
+        });
+
+        DB::table($this->tableName)->update([
+            'public' => DB::raw('NOT internal'),
+        ]);
+
+        Schema::table($this->tableName, function (Blueprint $table) {
+            $table->dropColumn('internal');
+        });
+    }
+
+    public function down(): void
+    {
+        if (! Schema::hasColumn($this->tableName, 'public')) {
+            return;
+        }
+
+        Schema::table($this->tableName, function (Blueprint $table) {
+            $table->boolean('internal')->default(false);
+        });
+
+        DB::table($this->tableName)->update([
+            'internal' => DB::raw('NOT public'),
+        ]);
+
+        Schema::table($this->tableName, function (Blueprint $table) {
+            $table->dropColumn('public');
+        });
+    }
+};

@@ -1098,8 +1098,9 @@ return [
     'ticket' => [
         'comment' => [
             'send' => 'Send Comment',
-            'sendInternal' => 'Send internal Comment',
-            'internalBadge' => 'Internal',
+            'sendPublic' => 'Share comment with customer',
+            'publicBadge' => 'Public',
+            'publicBadgeTitle' => 'Also visible for customer in customer portal.',
             'writeComment' => 'write a comment ...',
         ],
         'priority' => [
