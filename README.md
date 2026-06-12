@@ -17,24 +17,24 @@ The **Community Edition** in this repository delivers the complete **OSS Provisi
 <div align="center"><a href="https://nmsprime.com"><img src="https://github.com/cablelabs/os-provisioning/raw/dev/public/images/apps_row.png" alt="NMS Prime Application Marketplace" title="NMS Prime — One Platform. Every Core Function."/></a></div><br>
 
 ## 📱 Community Edition — OSS Provisioning
-📡 **Provisioning** — full OSS layer for any access technology
-📞 **VoIP Provisioning**
-🎛️ **Control & SNMP** — network element management
+📡 **Provisioning** — full OSS layer for any access technology<br>
+📞 **VoIP Provisioning**<br>
+🎛️ **Control & SNMP** — network element management<br>
 🏢 **Enterprise modules** — CRM, BSS, billing, workforce & more → [nmsprime.com](https://www.nmsprime.com)
 
 ## ⚡ OSS Provisioning Capabilities
-**Access-Agnostic Activation**
-📶 **DOCSIS** 1.0, 1.1, 2.0, **3.0, 3.1**
-🏠 **FTTH**, **DSL**, and WiFi via **TR-069** and **RADIUS**
+**Access-Agnostic Activation**<br>
+📶 **DOCSIS** 1.0, 1.1, 2.0, **3.0, 3.1**<br>
+🏠 **FTTH**, **DSL**, and WiFi via **TR-069** and **RADIUS**<br>
 🌐 Dual-stack **IPv4 / IPv6**<br>
 
-**Network & Service Operations**
-🖧 **CMTS**, Router, **OLT**, and Switch Management via SNMP or TR-069
-📡 **Cable ingress detection**
-🗺️ Real-time **topographic maps** and entity relation diagrams
-⚙️ Integrated **Icinga2**, **Prometheus**, **Grafana**, and **Cacti**
-🎫 **Ticket System**
-🛠️ Generic **SNMP GUI** creator
+**Network & Service Operations**<br>
+🖧 **CMTS**, Router, **OLT**, and Switch Management via SNMP or TR-069<br>
+📡 **Cable ingress detection**<br>
+🗺️ Real-time **topographic maps** and entity relation diagrams<br>
+⚙️ Integrated **Icinga2**, **Prometheus**, **Grafana**, and **Cacti**<br>
+🎫 **Ticket System**<br>
+🛠️ Generic **SNMP GUI** creator<br>
 📚 [Full documentation](https://nmsprime.atlassian.net/wiki/spaces/NMS/overview)
 
 📖 Explore the complete platform — CRM, billing, provisioning, monitoring, and more — at [nmsprime.com](https://nmsprime.com) and in the [Official Documentation](https://nmsprime.atlassian.net/wiki/spaces/NMS/overview).
@@ -48,16 +48,16 @@ It is tested and developed under Rocky 9 (RHEL 9).
 
 NMS Prime is built with standard Linux tools, like
 
-🔌 [ISC DHCP](https://www.isc.org/downloads/dhcp/) for IPv4
-🌍 [Kea](https://www.isc.org/kea/) for IPv6
-📇 [BIND](https://linux.die.net/man/8/named)
-🐘 [PostgreSQL](https://www.postgresql.org/)
-🔔 [Icinga2](https://icinga.com/)
-🔍 [Prometheus](https://prometheus.io/)
-📊 [Grafana](https://grafana.com/)
+🔌 [ISC DHCP](https://www.isc.org/downloads/dhcp/) for IPv4<br>
+🌍 [Kea](https://www.isc.org/kea/) for IPv6<br>
+📇 [BIND](https://linux.die.net/man/8/named)<br>
+🐘 [PostgreSQL](https://www.postgresql.org/)<br>
+🔔 [Icinga2](https://icinga.com/)<br>
+🔍 [Prometheus](https://prometheus.io/)<br>
+📊 [Grafana](https://grafana.com/)<br>
 📈 [Cacti](https://www.cacti.net/)
 
-These tools are actively developed, approved and used. See [Design Architecture](https://nmsprime.atlassian.net/wiki/spaces/NMS/overview) for more information.
+These tools are actively developed, approved and used. See [Design Architecture](https://nmsprime.atlassian.net/wiki/x/YgWC) for more information.
 
 
 ## 📦 Installation
@@ -72,7 +72,7 @@ yum install nmsprime-*
 ```
 ### 🏢 Enterprise Platform
 
-The full NMS Prime platform adds **CRM**, **BSS**, **billing**, **dunning**, **workforce management**, and further modules on top of the OSS core. Select your applications and run them in the **Cloud** or **On-Prem**: [Enterprise Installation](https://www.nmsprime.com/trial/?m=osprov--)
+The full NMS Prime platform adds **CRM**, **BSS**, **billing**, **dunning**, **workforce management**, and further modules on top of the OSS core. Select your applications and run them in the **Cloud** or **On-Prem**: [Enterprise Installation](https://contact.nmsprime.com)
 
 ### 👨‍💻 Developers only (source-code installation)
 
@@ -126,7 +126,7 @@ Please read [CONTRIBUTING](https://github.com/cablelabs/os-provisioning/blob/dev
 
 🧩 **Write your own Application**
 
-If you want to develop your own open-source or proprietary application(s), please refer to [Write your own Application](https://nmsprime.atlassian.net/wiki/spaces/NMS/overview)
+If you want to develop your own open-source or proprietary application(s), please refer to [Write your own Application](https://nmsprime.atlassian.net/wiki/x/fQKC)
 
 📖 **History & Motivation**
 
@@ -134,8 +134,8 @@ NMS Prime started as a German ISP initiative with a clear goal: a technology- an
 
 🗺️ **Roadmap**
 
-See [Upcoming Developments](https://github.com/cablelabs/os-provisioning/wiki)
+See [Upcoming Developments](https://nmsprime.atlassian.net/wiki/spaces/NMS/pages/8522020/Roadmap)
 
 ⚖️ **License**
 
-This project is licensed under the [Apache-2.0](https://github.com/cablelabs/os-provisioning/blob/dev/LICENSE) file for details. For more information: [License Article](https://nmsprime.atlassian.net/wiki/spaces/NMS/overview)
+This project is licensed under the [Apache-2.0](https://github.com/cablelabs/os-provisioning/blob/dev/LICENSE) file for details. For more information: [License Article](https://nmsprime.atlassian.net/wiki/spaces/NMS/pages/8533119/EULA)
