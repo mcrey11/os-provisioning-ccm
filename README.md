@@ -39,6 +39,12 @@ The **Community Edition** in this repository delivers the complete **OSS Provisi
 
 📖 Explore the complete platform — CRM, billing, provisioning, monitoring, and more — at [nmsprime.com](https://nmsprime.com) and in the [Official Documentation](https://nmsprime.atlassian.net/wiki/spaces/NMS/overview).
 
+## 📺 YouTube Channel
+
+🎬 **Tutorials & demos** — provisioning, OSS workflows, and platform walkthroughs<br>
+🚀 **Feature deep dives** — DOCSIS, FTTH, SNMP, billing, and more<br>
+📡 **Subscribe** — [NMS Prime on YouTube](https://www.youtube.com/@nmsprime)
+
 
 ## 🏗️ Architectural Concepts
 
