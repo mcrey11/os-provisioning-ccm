@@ -258,6 +258,7 @@ return [
     */
     'adminPort' => env('HTTPS_ADMIN_PORT', 8080),
     'cccPort' => env('HTTPS_CCC_PORT', 443),
+    'domain' => env('DOMAIN', 'localhost'),
     'googleApiKey' => env('GOOGLE_API_KEY'),
     'hereApiKey' => env('HERE_GEOCODE_API_KEY'),
     'hereMapApiKey' => env('HERE_JS_API_KEY'),

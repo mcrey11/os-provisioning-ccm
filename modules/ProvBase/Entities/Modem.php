@@ -36,8 +36,7 @@ use Str;
 
 class Modem extends \BaseModel
 {
-    // get functions for some address select options
-    use \App\AddressFunctionsTrait;
+    use \App\AddressFunctionsTrait; // get functions for some address select options
     use \App\extensions\geocoding\GeoReferencable;
     use \App\Traits\HasTickets;
     use HasConfigfile;

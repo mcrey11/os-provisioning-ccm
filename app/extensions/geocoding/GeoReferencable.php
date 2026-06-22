@@ -280,7 +280,7 @@ trait GeoReferencable
             $className = (new \ReflectionClass($this))->getShortName();
             Log::info("Trying to geocode {$className} {$this->id} against $url");
 
-            $geojson = file_get_contents($url, false, stream_context_create(['http'=> ['timeout' => 3, 'user_agent' => 'php']]));
+            $geojson = file_get_contents($url, false, stream_context_create(['http' => ['timeout' => 3, 'user_agent' => 'php']]));
             $geodata_raw = json_decode($geojson, true);
 
             $matches = ['building', 'house', 'amenity', 'shop', 'tourism'];

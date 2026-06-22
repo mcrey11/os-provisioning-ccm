@@ -160,7 +160,7 @@ class BaseViewController extends Controller
     public static function generateLanguageArray($languageArray)
     {
         return collect($languageArray)->mapWithKeys(function ($langShortcut) {
-            return [$langShortcut  => config('language.'.$langShortcut)];
+            return [$langShortcut => config('language.'.$langShortcut)];
         });
     }
 

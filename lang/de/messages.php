@@ -1035,7 +1035,7 @@ return [
         ],
     ],
     'routeNotFoundError' => 'FEHLER: Kann die Seite „:url" nicht laden (die Route „:route" existiert nicht)',
-    'productChangeNotAllowedExternalStatus' => 'Ändern des Produktes ist nicht erlaubt („Externer Status" ist nicht leer).',
+    'productChangeNotAllowedExternalStatus' => 'Ändern des Produktes ist nicht erlaubt („Externer Status“ ist nicht leer).',
     'Please_select_pipeline_first' => 'Bitte wählen Sie zuerst eine Pipeline aus',
     'log_out' => 'Abmelden',
     'validation_failed' => 'Bitte korrigieren Sie die folgenden Fehler',

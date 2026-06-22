@@ -579,6 +579,22 @@ class Contract extends \BaseModel
             $ret['Documents']['icon'] = 'clock-o';
         }
 
+        if (Module::collections()->has('Crm')) {
+            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['class'] = 'CrmOpportunity';
+            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['relation'] = collect([$this->createdFromOpportunity]);
+            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['options']['hide_create_button'] = 1;
+            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['options']['hide_delete_button'] = 1;
+            $ret[trans('view.Menu_Crm')]['icon'] = 'exchange';
+        }
+
+        if (Module::collections()->has('CustomerInteraction')) {
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['class'] = 'CiCustomerInteraction';
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['relation'] = $this->customerInteractions()->orderBy('created_at', 'desc')->limit($relationThreshold)->get();
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['options']['hide_create_button'] = 1;
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['options']['hide_delete_button'] = 1;
+            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['icon'] = 'exchange';
+        }
+
         if (Module::collections()->has('ConsentMgmt') && \Bouncer::can('view', \Modules\ConsentMgmt\Entities\ContractConsent::class)) {
             $i18nConsentMgmt = trans('consentmgmt::view.consents');
             $ret[$i18nConsentMgmt]['Consents']['html'] = \Livewire\Livewire::mount(
@@ -595,22 +611,6 @@ class Contract extends \BaseModel
                 ],
             ];
             $ret[$i18nConsentMgmt]['icon'] = 'check-square-o';
-        }
-
-        if (Module::collections()->has('Crm')) {
-            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['class'] = 'CrmOpportunity';
-            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['relation'] = collect([$this->createdFromOpportunity]);
-            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['options']['hide_create_button'] = 1;
-            $ret[trans('view.Menu_Crm')][trans('view.Menu_CrmOpportunities')]['options']['hide_delete_button'] = 1;
-            $ret[trans('view.Menu_Crm')]['icon'] = 'exchange';
-        }
-
-        if (Module::collections()->has('CustomerInteraction')) {
-            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['class'] = 'CiCustomerInteraction';
-            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['relation'] = $this->customerInteractions()->orderBy('created_at', 'desc')->limit($relationThreshold)->get();
-            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['options']['hide_create_button'] = 1;
-            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['options']['hide_delete_button'] = 1;
-            $ret[trans('view.Menu_CustomerInteraction')][trans('view.Menu_CustomerInteraction')]['icon'] = 'exchange';
         }
 
         return $ret;
@@ -1497,9 +1497,9 @@ class Contract extends \BaseModel
             // instantiate Product (or WaipuTVProduct) instead of Item.
             $tariffs = $this->items()
                 ->join('product as p', 'item.product_id', '=', 'p.id')
-                ->select('item.*', 'p.*', 'item.id as id')
-                ->where('type', '=', $type)->where('valid_from', '<=', date('Y-m-d'))
-                ->where(whereLaterOrEqual('valid_to', date('Y-m-d')));
+                ->select('item.*', 'p.type as product_type')
+                ->where('p.type', '=', $type)->where('item.valid_from', '<=', date('Y-m-d'))
+                ->where(whereLaterOrEqual('item.valid_to', date('Y-m-d')));
 
             if (strtolower($type) == 'voip') {
                 $tariffs->with('product.salestariff');
