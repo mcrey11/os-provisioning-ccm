@@ -31,6 +31,7 @@ return [
     'Motorola'  => ['BSR2000', 'BSR64000'],
     'NSN'       => ['hiX5608'],
     'Ubiquiti'  => ['EdgeRouter'],
+    'VSOL'      => ['V1600GS-F', 'V1601E04'],
     'ZTE'       => ['C320'],
     'ZyXEL'     => [
         'IES4204',
