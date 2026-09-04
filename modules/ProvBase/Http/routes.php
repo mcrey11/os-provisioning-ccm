@@ -228,6 +228,7 @@ BaseRoute::group([], function () {
         BaseRoute::resource('Salesman', 'Modules\ProvBase\Http\Controllers\SalesmanController');
         BaseRoute::resource('Debt', 'Modules\ProvBase\Http\Controllers\DebtController');
         BaseRoute::resource('DunningRun', 'Modules\ProvBase\Http\Controllers\DunningRunController');
+        BaseRoute::resource('Item', 'Modules\ProvBase\Http\Controllers\ItemController');
         BaseRoute::resource('BillingBase', 'Modules\ProvBase\Http\Controllers\BillingBaseController');
     }
 

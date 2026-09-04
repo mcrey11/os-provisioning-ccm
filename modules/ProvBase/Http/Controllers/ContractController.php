@@ -409,8 +409,11 @@ class ContractController extends \BaseController
         // 'create' makes this field a hidden input field in Modem create form - so the company, etc. will be already set from contract when the user wants to create a new modem
         $a[] = ['form_type' => 'text', 'name' => 'company', 'description' => 'Company', 'create' => ['Modem'], 'init_value' => $model->company ?? null];
         $a[] = ['form_type' => 'text', 'name' => 'department', 'description' => 'Department', 'create' => ['Modem'], 'init_value' => $model->department ?? null];
-        $a[] = ['form_type' => 'select', 'name' => 'salutation', 'description' => 'Salutation', 'value' => $model->getSalutationOptions(), 'create' => ['Modem'], 'help' => trans('helper.contract.salutation'), 'init_value' => $model->salutation ?? null];
-        $a[] = ['form_type' => 'select', 'name' => 'academic_degree', 'description' => 'Academic Degree', 'value' => $model->getAcademicDegreeOptions(), 'init_value' => $model->academic_degree ?? null];
+        $salutationOptions = $model->getSalutationOptions();
+        if (empty($salutationOptions) || count($salutationOptions) <= 1) {
+            $salutationOptions = ['' => '', 'Mr' => 'Mr', 'Mrs' => 'Mrs', 'Company' => 'Company'];
+        }
+        $a[] = ['form_type' => 'select', 'name' => 'salutation', 'description' => 'Salutation', 'value' => $salutationOptions, 'create' => ['Modem'], 'help' => trans('helper.contract.salutation'), 'init_value' => $model->salutation ?? null];
         $a[] = ['form_type' => 'text', 'name' => 'firstname', 'description' => 'Firstname', 'create' => ['Modem'], 'init_value' => $model->firstname ?? null];
         $a[] = ['form_type' => 'text', 'name' => 'lastname', 'description' => 'Lastname', 'create' => ['Modem'], 'space' => '1', 'init_value' => $model->lastname ?? null];
 
@@ -420,6 +423,11 @@ class ContractController extends \BaseController
         $a[] = array_merge(['form_type' => 'text', 'name' => 'city', 'description' => 'City', 'create' => ['Modem'], 'autocomplete' => [], 'init_value' => $model->city ?? null], $selectPropertyMgmt);
         $a[] = array_merge(['form_type' => 'text', 'name' => 'district', 'description' => 'District', 'create' => ['Modem'], 'autocomplete' => [], 'init_value' => $model->district ?? null], $selectPropertyMgmt);
         $a[] = array_merge(['form_type' => 'text', 'name' => 'country_code', 'description' => 'Country code', 'create' => ['Modem'], 'autocomplete' => [], 'init_value' => $model->country_code ?? null], $selectPropertyMgmt);
+        $geoLocation = null;
+        if ($model->lat !== null && $model->lng !== null) {
+            $geoLocation = $model->lat . ', ' . $model->lng;
+        }
+        $a[] = ['form_type' => 'text', 'name' => 'geo_location', 'description' => 'Geo-Location (lat, lng)', 'init_value' => $geoLocation];
 
         if (! Module::collections()->has('Ccc')) {
             // Find the number field and unset its help
@@ -429,16 +437,6 @@ class ContractController extends \BaseController
                     break;
                 }
             }
-        }
-
-        if (Module::collections()->has('PropertyManagement')) {
-            $a[] = ['form_type' => 'select', 'name' => 'apartment_id', 'description' => 'Apartment', 'hidden' => 0,
-                'value' => $this->setupSelect2Field($model, 'Apartment'),
-                'options' => ['class' => 'select2-ajax', 'data-allow-clear' => 'true',
-                    'ajax-route' => route('Apartment.select2', ['relation' => 'apartments']), ],
-            ];
-        } else {
-            $a[] = ['form_type' => 'text', 'name' => 'apartment_nr', 'description' => 'Apartment number'];
         }
 
         $a[] = ['form_type' => 'text', 'name' => 'additional', 'description' => 'Additional info', 'create' => ['Contract'], 'autocomplete' => [], 'space' => 1, 'init_value' => $model->additional ?? null];
@@ -454,7 +452,6 @@ class ContractController extends \BaseController
         }
 
         $b2 = [
-            ['form_type' => 'text', 'name' => 'fax', 'description' => 'Fax'],
             ['form_type' => 'text', 'name' => 'email', 'description' => 'E-Mail Address', 'init_value' => $model->email ?? null],
         ];
 
@@ -586,6 +583,15 @@ class ContractController extends \BaseController
      */
     public function prepare_input($data)
     {
+        if (!empty($data['geo_location'])) {
+            $parts = array_map('trim', explode(',', $data['geo_location']));
+            if (count($parts) === 2 && is_numeric($parts[0]) && is_numeric($parts[1])) {
+                $data['lat'] = (float) $parts[0];
+                $data['lng'] = (float) $parts[1];
+            }
+            unset($data['geo_location']);
+        }
+
         if (empty($data['country_code'] ?? null)) {
             $config = cache('GlobalConfig', function () {
                 return GlobalConfig::first();

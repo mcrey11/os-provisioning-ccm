@@ -53,7 +53,8 @@ trait AddressFunctionsTrait
         } else {
             $persons = [];
             // do not “explode” at “\n” here – there is a real danger of files edited in Windows environments
-            $tmp = preg_split('/\r\n|\r|\n/', Storage::get($person_file));
+            $personContent = Storage::get($person_file);
+            $tmp = $personContent ? preg_split('/\r\n|\r|\n/', $personContent) : [];
             foreach ($tmp as $person) {
                 $person = trim($person);
                 if ($person) {
@@ -61,13 +62,19 @@ trait AddressFunctionsTrait
                 }
             }
             $institutions = [];
-            // do not “explode” at “\n” here – there is a real danger of files edited in Windows environments
-            $tmp = preg_split('/\r\n|\r|\n/', Storage::get($institution_file));
+            $institutionContent = Storage::get($institution_file);
+            $tmp = $institutionContent ? preg_split('/\r\n|\r|\n/', $institutionContent) : [];
             foreach ($tmp as $institution) {
                 $institution = trim($institution);
                 if ($institution) {
                     $institutions[] = $institution;
                 }
+            }
+            if (empty($persons)) {
+                $persons = ['Mr', 'Mrs'];
+            }
+            if (empty($institutions)) {
+                $institutions = ['Company'];
             }
         }
 
