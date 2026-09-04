@@ -196,6 +196,16 @@
                                 <i class="fa fa-plus"></i>
                             </a>
                         </li>
+                        <!-- Dashboard -->
+                        <li id="dashboard_menu" class="has-sub position-relative" style="z-index:10000;">
+                            <div class="flex recolor sidebar-element">
+                                <a class="flex caret-link items-center no-underline"
+                                    href="{{ route('Dashboard.index') }}">
+                                    <i class="fa fa-fw fa-lg fa-tachometer mr-2 self-baseline"></i>
+                                    <span class="text-ellipsis hover:underline">Dashboard</span>
+                                </a>
+                            </div>
+                        </li>
                         <!-- Main Menu -->
                         @foreach ($view_header_links as $module_name => $typearray)
                             @php

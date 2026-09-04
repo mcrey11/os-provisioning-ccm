@@ -21,9 +21,6 @@ namespace Modules\ProvBase\Entities;
 
 use Nwidart\Modules\Facades\Module;
 
-// this file seems to be included multiple times (e.g. in “php artisan route:cache”
-// or “php artisan config:cache”)
-// to avoid redeclaration of this function check if already defined
 if (! function_exists('Modules\ProvBase\Entities\convertThresholdStrings')) {
     function convertThresholdStrings($valueIn)
     {
@@ -31,7 +28,7 @@ if (! function_exists('Modules\ProvBase\Entities\convertThresholdStrings')) {
         $valueTmp = explode(',', $valueTmp);
         $valueOut = [];
         if (! in_array(count($valueTmp), [2, 4])) {
-            throw new \Exception('Expecting 2 or 4 values for thresholds. String “'.$valueIn.'” is not valid.');
+            throw new \Exception('Expecting 2 or 4 values for thresholds. String "'.$valueIn.'" is not valid.');
         }
         foreach ($valueTmp as $key => $value) {
             $valueOut[$key] = (float) $value;
@@ -72,11 +69,6 @@ return [
             'icon'	=> 'fa-address-book-o',
             'class' => Contract::class,
         ],
-        // 'Domains' => [
-        //     'link' 	=> 'Domain.index',
-        //     'icon'	=> 'fa-tag',
-        //     'class' => Domain::class,
-        // ],
         'Modems' => [
             'link'	=> 'Modem.index',
             'icon'	=> 'fa-hdd-o',
@@ -111,6 +103,61 @@ return [
             'link'	=> 'IpPool.index',
             'icon'	=> 'fa-tags',
             'class' => IpPool::class,
+        ],
+        'RADIUS' => [
+            'link' => 'Radius.index',
+            'icon' => 'fa-shield',
+            'class' => \Modules\ProvBase\Entities\RadAcct::class,
+            'submenu' => [
+                'Overview'    => ['link' => 'Radius.index',     'icon' => 'fa-dashboard',  'class' => \Modules\ProvBase\Entities\RadAcct::class],
+                'Sessions'    => ['link' => 'RadAcct.index',    'icon' => 'fa-exchange',    'class' => \Modules\ProvBase\Entities\RadAcct::class],
+                'Auth Log'    => ['link' => 'RadPostAuth.index', 'icon' => 'fa-key',        'class' => \Modules\ProvBase\Entities\RadPostAuth::class],
+                'Check'       => ['link' => 'RadCheck.index',   'icon' => 'fa-check-circle','class' => \Modules\ProvBase\Entities\RadCheck::class],
+                'Reply'       => ['link' => 'RadReply.index',   'icon' => 'fa-reply',       'class' => \Modules\ProvBase\Entities\RadReply::class],
+                'User Groups' => ['link' => 'RadUserGroup.index', 'icon' => 'fa-users',     'class' => \Modules\ProvBase\Entities\RadUserGroup::class],
+                'Groups'      => ['link' => 'RadGroupReply.index', 'icon' => 'fa-list',     'class' => \Modules\ProvBase\Entities\RadGroupReply::class],
+                'IP Pool'     => ['link' => 'RadIpPool.index',  'icon' => 'fa-map-marker',  'class' => \Modules\ProvBase\Entities\RadIpPool::class],
+                'NAS'         => ['link' => 'Nas.index',        'icon' => 'fa-server',      'class' => \Modules\ProvBase\Entities\Nas::class],
+            ],
+        ],
+        'Subscriber' => [
+            'link' => 'Subscriber.index',
+            'icon' => 'fa-users',
+            'class' => \Modules\ProvBase\Entities\Contract::class,
+            'submenu' => [
+                'Overview'  => ['link' => 'Subscriber.index',          'icon' => 'fa-dashboard', 'class' => \Modules\ProvBase\Entities\Contract::class],
+                'Sessions'  => ['link' => 'Subscriber.Session.index',  'icon' => 'fa-exchange',   'class' => \Modules\ProvBase\Entities\Contract::class],
+                'Usage'     => ['link' => 'Subscriber.Usage.index',    'icon' => 'fa-tachometer', 'class' => \Modules\ProvBase\Entities\Contract::class],
+            ],
+        ],
+        'Billing' => [
+            'link' => 'Product.index',
+            'icon' => 'fa-money',
+            'class' => \Modules\BillingBase\Entities\Product::class,
+            'submenu' => [
+                'Products'      => ['link' => 'Product.index',        'icon' => 'fa-cube',            'class' => \Modules\BillingBase\Entities\Product::class],
+                'Invoices'      => ['link' => 'Invoice.index',        'icon' => 'fa-file-text',       'class' => \Modules\BillingBase\Entities\Invoice::class],
+                'Accounting'    => ['link' => 'AccountingRecord.index', 'icon' => 'fa-calculator',     'class' => \Modules\BillingBase\Entities\AccountingRecord::class],
+                'Settlements'   => ['link' => 'SettlementRun.index',  'icon' => 'fa-clipboard',       'class' => \Modules\BillingBase\Entities\SettlementRun::class],
+                'Debts'         => ['link' => 'Debt.index',           'icon' => 'fa-exclamation-triangle', 'class' => \Modules\BillingBase\Entities\Debt::class],
+                'SEPA Accounts' => ['link' => 'SepaAccount.index',    'icon' => 'fa-university',      'class' => \Modules\BillingBase\Entities\SepaAccount::class],
+                'SEPA Mandates' => ['link' => 'SepaMandate.index',    'icon' => 'fa-file-signature',  'class' => \Modules\BillingBase\Entities\SepaMandate::class],
+                'Cost Centers'  => ['link' => 'CostCenter.index',     'icon' => 'fa-briefcase',       'class' => \Modules\BillingBase\Entities\CostCenter::class],
+                'Salesmen'      => ['link' => 'Salesman.index',       'icon' => 'fa-user',            'class' => \Modules\BillingBase\Entities\Salesman::class],
+                'Billing Config'=> ['link' => 'BillingBase.index',    'icon' => 'fa-cogs',            'class' => \Modules\BillingBase\Entities\BillingBase::class],
+            ],
+        ],
+        'Monitoring' => [
+            'link' => 'Monitoring.index',
+            'icon' => 'fa-heartbeat',
+            'class' => \Modules\HfcReq\Entities\NetElement::class,
+            'submenu' => [
+                'Overview'      => ['link' => 'Monitoring.index',        'icon' => 'fa-dashboard',  'class' => \Modules\HfcReq\Entities\NetElement::class],
+                'Device Health' => ['link' => 'Monitoring.DeviceHealth', 'icon' => 'fa-stethoscope', 'class' => \Modules\HfcReq\Entities\NetElement::class],
+                'Bandwidth'     => ['link' => 'Monitoring.Bandwidth',    'icon' => 'fa-tachometer',  'class' => \Modules\HfcReq\Entities\NetElement::class],
+                'Topology'      => ['link' => 'Monitoring.Topology',     'icon' => 'fa-sitemap',     'class' => \Modules\HfcReq\Entities\NetElement::class],
+                'Alerts'        => ['link' => 'Monitoring.Alerts',       'icon' => 'fa-bell',        'class' => \Modules\HfcReq\Entities\NetElement::class],
+            ],
         ],
     ],
     'cwmpConnectionRequest' => env('CWMP_CONNECTION_REQUEST', 1),

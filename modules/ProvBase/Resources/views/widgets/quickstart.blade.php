@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c) NMS PRIME GmbH ("NMS PRIME Community Version")
- * and others – powered by CableLabs. All rights reserved.
+ * and others â€“ powered by CableLabs. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
         @if (isset($view_header_links['ProvBase']))
             <?php $typearray = $view_header_links['ProvBase']; ?>
             @foreach ($typearray['submenu'] as $type => $valuearray)
-                @if(in_array(str_replace(".index","",$valuearray['link']), ['IpPool', 'Endpoint', 'Domain']))
+                @if(in_array(str_replace(".index","",$valuearray['link']), ['IpPool', 'Endpoint', 'Domain', 'RadAcct', 'RadCheck', 'RadReply', 'RadPostAuth', 'RadUserGroup', 'RadGroupReply', 'RadIpPool', 'Nas', 'Radius', 'Subscriber', 'Monitoring']))
                     @continue
                 @endif
                 <a href="{{ route(str_replace("index","create",$valuearray['link'])) }}">

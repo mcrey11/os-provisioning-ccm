@@ -107,7 +107,7 @@ class ContractObserver
         if (array_key_exists('contract_start', $changed_fields) && Module::collections()->has('BillingBase')) {
             $conf = cache('billingBase');
 
-            if ($conf->adapt_item_start) {
+            if ($conf && $conf->adapt_item_start) {
                 // Note: Calling item->save() is not necessary as contract->daily_conversion is called after and manages everything that is to do
                 \Modules\BillingBase\Entities\Item::where('contract_id', $contract->id)->update(['valid_from' => $contract->contract_start]);
             }

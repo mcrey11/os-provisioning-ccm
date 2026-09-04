@@ -55,6 +55,27 @@ Broadcast::routes();
 
 // Core Admin API
 BaseRoute::group([], function () {
+    BaseRoute::get('Dashboard', [
+        'as' => 'Dashboard.index',
+        'uses' => 'DashboardController@index',
+    ]);
+
+    // RADIUS Management
+    BaseRoute::get('Radius', ['as' => 'Radius.index', 'uses' => '\Modules\ProvBase\Http\Controllers\RadiusController@index']);
+    BaseRoute::get('Radius/Acct', ['as' => 'RadAcct.index', 'uses' => '\Modules\ProvBase\Http\Controllers\RadAcctController@index']);
+    BaseRoute::get('Radius/Acct/active', ['as' => 'RadAcct.active', 'uses' => '\Modules\ProvBase\Http\Controllers\RadAcctController@active']);
+    BaseRoute::get('Radius/Acct/{id}', ['as' => 'RadAcct.show', 'uses' => '\Modules\ProvBase\Http\Controllers\RadAcctController@show']);
+    BaseRoute::get('Radius/Check', ['as' => 'RadCheck.index', 'uses' => '\Modules\ProvBase\Http\Controllers\RadCheckController@index']);
+    BaseRoute::get('Radius/Check/{id}', ['as' => 'RadCheck.show', 'uses' => '\Modules\ProvBase\Http\Controllers\RadCheckController@show']);
+    BaseRoute::get('Radius/Reply', ['as' => 'RadReply.index', 'uses' => '\Modules\ProvBase\Http\Controllers\RadReplyController@index']);
+    BaseRoute::get('Radius/Reply/{id}', ['as' => 'RadReply.show', 'uses' => '\Modules\ProvBase\Http\Controllers\RadReplyController@show']);
+    BaseRoute::get('Radius/PostAuth', ['as' => 'RadPostAuth.index', 'uses' => '\Modules\ProvBase\Http\Controllers\RadPostAuthController@index']);
+    BaseRoute::get('Radius/UserGroup', ['as' => 'RadUserGroup.index', 'uses' => '\Modules\ProvBase\Http\Controllers\RadUserGroupController@index']);
+    BaseRoute::get('Radius/GroupReply', ['as' => 'RadGroupReply.index', 'uses' => '\Modules\ProvBase\Http\Controllers\RadGroupReplyController@index']);
+    BaseRoute::get('Radius/IpPool', ['as' => 'RadIpPool.index', 'uses' => '\Modules\ProvBase\Http\Controllers\RadIpPoolController@index']);
+    BaseRoute::get('Radius/Nas', ['as' => 'Nas.index', 'uses' => '\Modules\ProvBase\Http\Controllers\NasController@index']);
+    BaseRoute::get('Radius/Nas/{id}', ['as' => 'Nas.show', 'uses' => '\Modules\ProvBase\Http\Controllers\NasController@show']);
+
     BaseRoute::resource('GlobalConfig', 'GlobalConfigController');
     BaseRoute::resource('GuiLog', 'GuiLogController');
     BaseRoute::resource('User', 'Auth\UserController');

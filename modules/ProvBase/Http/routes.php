@@ -204,4 +204,38 @@ BaseRoute::group([], function () {
         'uses' => 'Modules\ProvBase\Http\Controllers\ModemController@arrisModem',
         'middleware' => ['can:view_analysis_pages_of,Modules\ProvBase\Entities\Modem'],
     ]);
+
+    
+    // Monitoring Routes - only if HfcReq module is enabled
+    if (\Module::collections()->has('HfcReq')) {
+        BaseRoute::get('Monitoring', ['as' => 'Monitoring.index', 'uses' => '\Modules\ProvBase\Http\Controllers\Monitoring\MonitoringController@index']);
+        BaseRoute::get('Monitoring/DeviceHealth', ['as' => 'Monitoring.DeviceHealth', 'uses' => '\Modules\ProvBase\Http\Controllers\Monitoring\DeviceHealthController@index']);
+        BaseRoute::get('Monitoring/DeviceHealth/{id}', ['as' => 'Monitoring.DeviceHealth.show', 'uses' => '\Modules\ProvBase\Http\Controllers\Monitoring\DeviceHealthController@show']);
+        BaseRoute::get('Monitoring/Bandwidth', ['as' => 'Monitoring.Bandwidth', 'uses' => '\Modules\ProvBase\Http\Controllers\Monitoring\BandwidthController@index']);
+        BaseRoute::get('Monitoring/Topology', ['as' => 'Monitoring.Topology', 'uses' => '\Modules\ProvBase\Http\Controllers\Monitoring\TopologyController@index']);
+        BaseRoute::get('Monitoring/Alerts', ['as' => 'Monitoring.Alerts', 'uses' => '\Modules\ProvBase\Http\Controllers\Monitoring\AlertController@index']);
+    }
+
+    // Billing Routes - only if BillingBase module is enabled
+    if (\Module::collections()->has('BillingBase')) {
+        BaseRoute::resource('Product', 'Modules\ProvBase\Http\Controllers\ProductController');
+        BaseRoute::resource('Invoice', 'Modules\ProvBase\Http\Controllers\InvoiceController');
+        BaseRoute::resource('AccountingRecord', 'Modules\ProvBase\Http\Controllers\AccountingRecordController');
+        BaseRoute::resource('SettlementRun', 'Modules\ProvBase\Http\Controllers\SettlementRunController');
+        BaseRoute::resource('SepaAccount', 'Modules\ProvBase\Http\Controllers\SepaAccountController');
+        BaseRoute::resource('SepaMandate', 'Modules\ProvBase\Http\Controllers\SepaMandateController');
+        BaseRoute::resource('CostCenter', 'Modules\ProvBase\Http\Controllers\CostCenterController');
+        BaseRoute::resource('Salesman', 'Modules\ProvBase\Http\Controllers\SalesmanController');
+        BaseRoute::resource('Debt', 'Modules\ProvBase\Http\Controllers\DebtController');
+        BaseRoute::resource('DunningRun', 'Modules\ProvBase\Http\Controllers\DunningRunController');
+        BaseRoute::resource('BillingBase', 'Modules\ProvBase\Http\Controllers\BillingBaseController');
+    }
+
+    // Subscriber Routes
+    BaseRoute::get('Subscriber', ['as' => 'Subscriber.index', 'uses' => '\Modules\ProvBase\Http\Controllers\SubscriberController@index']);
+    BaseRoute::get('Subscriber/{id}', ['as' => 'Subscriber.show', 'uses' => '\Modules\ProvBase\Http\Controllers\SubscriberController@show']);
+    BaseRoute::get('Subscriber/Session', ['as' => 'Subscriber.Session.index', 'uses' => '\Modules\ProvBase\Http\Controllers\SubscriberSessionController@index']);
+    BaseRoute::get('Subscriber/Session/Contract/{id}', ['as' => 'Subscriber.Session.history', 'uses' => '\Modules\ProvBase\Http\Controllers\SubscriberSessionController@history']);
+    BaseRoute::get('Subscriber/Usage', ['as' => 'Subscriber.Usage.index', 'uses' => '\Modules\ProvBase\Http\Controllers\SubscriberUsageController@index']);
+    BaseRoute::get('Subscriber/Usage/Modem/{id}', ['as' => 'Subscriber.Usage.modem', 'uses' => '\Modules\ProvBase\Http\Controllers\SubscriberUsageController@modem']);
 });

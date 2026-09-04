@@ -1,0 +1,14 @@
+{
+    "name": "BillingBase",
+    "alias": "Billing",
+    "description": "apps.BillingBase",
+    "active": 1,
+    "order": 20,
+    "icon": "fa-money",
+    "category": "Billing",
+    "providers": [
+        "Modules\\BillingBase\\Providers\\BillingBaseServiceProvider"
+    ],
+    "files": [],
+    "requires": []
+}
